@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.DS_Store
+.sudo_as_admin_successful
+p57-data/*.db*
+p57-data/uploads/
+/uploads/
+/p57-data/
+.env
+*.log
+*.tsbuildinfo
+.cache/
+test-results/
+playwright-report/
+artifacts/
