@@ -206,6 +206,20 @@ export function initSchema() {
     name TEXT NOT NULL, report_id TEXT NOT NULL, studio_id INTEGER REFERENCES studios(id), config TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
+  CREATE TABLE IF NOT EXISTS monthly_plans (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, studio_id INTEGER NOT NULL REFERENCES studios(id) ON DELETE CASCADE,
+    year INTEGER NOT NULL, month INTEGER NOT NULL, theme TEXT, objective TEXT, strategy TEXT,
+    actions TEXT NOT NULL DEFAULT '[]', notes TEXT, status TEXT NOT NULL DEFAULT 'draft',
+    updated_by INTEGER REFERENCES users(id), updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(studio_id, year, month)
+  );
+  CREATE TABLE IF NOT EXISTS studio_playbook_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, studio_id INTEGER NOT NULL REFERENCES studios(id) ON DELETE CASCADE,
+    year INTEGER NOT NULL, section TEXT NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL DEFAULT '',
+    enabled INTEGER NOT NULL DEFAULT 1, sort INTEGER NOT NULL DEFAULT 0, source TEXT,
+    updated_by INTEGER REFERENCES users(id), updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );
+  CREATE INDEX IF NOT EXISTS idx_playbook_items ON studio_playbook_items(studio_id, year, section, sort);
   CREATE INDEX IF NOT EXISTS idx_saved_reports_user ON saved_reports(user_id,updated_at);
   CREATE INDEX IF NOT EXISTS idx_experiments_studio ON offer_experiments(studio_id,status);
   CREATE INDEX IF NOT EXISTS idx_copilot_user ON copilot_conversations(user_id,updated_at);
@@ -226,6 +240,9 @@ export function initSchema() {
   INSERT OR IGNORE INTO settings(key, value) VALUES ('planning_year', '2027');
   `);
   const offerColumns = db.pragma('table_info(offers)') as any[];
+  const planColumns = db.pragma('table_info(monthly_plans)') as any[];
+  // NULL offer_ids = not curated yet: the plan shows that month's imported plan offers.
+  if (!planColumns.some(column => column.name === 'offer_ids')) db.exec('ALTER TABLE monthly_plans ADD COLUMN offer_ids TEXT');
   if (!offerColumns.some(column => column.name === 'provenance')) db.exec("ALTER TABLE offers ADD COLUMN provenance TEXT NOT NULL DEFAULT '{}'");
 }
 initSchema();

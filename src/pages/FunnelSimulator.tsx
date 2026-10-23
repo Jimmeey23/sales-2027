@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowDown, ArrowRight, Calculator, Save } from 'lucide-react';
 import { api, patch, post } from '../api';
 import { useApp } from '../App';
-import { useDebouncedEffect, useLoad } from '../hooks';
+import { useDebouncedEffect, useLoad, useOnChange } from '../hooks';
 import { MONTHS, money, number, percent } from '../types';
 import { Badge, Button, Callout, Card, CardHeader, Field, Input, Loading, Metric, Select } from '../components/ui';
 import PageHeader from '../components/PageHeader';
@@ -11,6 +11,7 @@ const initial={revenueTarget:1800000,revenueAchieved:1200000,existingClientReven
 export default function FunnelSimulator(){
   const {boot,studioId,year,toast,can}=useApp();
   const [studio,setStudio]=useState(studioId||boot.studios[0]?.id),[month,setMonth]=useState(1),[input,setInput]=useState<any>(initial),[result,setResult]=useState<any>(null),[targetId,setTargetId]=useState<number|null>(null),[sources,setSources]=useState<any>({}),[loadingCalc,setLoadingCalc]=useState(false);
+  useOnChange(studioId,()=>{if(studioId)setStudio(studioId);});
   const {data,loading}=useLoad<any>(async()=>{const [targets,dash,profile]=await Promise.all([api(`/targets?year=${year}&studio=${studio}`),api(`/dashboard?year=${year}&month=${month}&studio=${studio}`),api(`/studios/${studio}?year=${Math.min(year,2026)}`)]);return {targets,dash,profile};},[studio,month,year]);
   useEffect(()=>{if(!data)return;const t=data.targets.rows.find((r:any)=>r.month===month),a=data.dash.rows[0]?.actual;if(t){setTargetId(t.id);setInput((current:any)=>({...current,revenueTarget:t.approved_target??t.proposed_target,revenueAchieved:a?.revenue||0,existingClientRevenue:t.repeat_target,renewalRevenue:t.renewal_target,reactivationRevenue:t.reactivation_target,averageFirstPurchase:t.assumptions.averageFirstPurchase||t.expected_aov||current.averageFirstPurchase}));}const f=data.profile.funnel;setSources(f.sources);setInput((current:any)=>({...current,trialToPurchaseRate:f.trialToPurchaseRate,bookingToAttendanceRate:f.bookingToAttendanceRate,leadToBookingRate:f.leadToBookingRate}));},[data]);
   useDebouncedEffect(()=>{setLoadingCalc(true);post('/funnel/calculate',input).then(setResult).catch(()=>{}).finally(()=>setLoadingCalc(false));},[input],180);

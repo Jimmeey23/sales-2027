@@ -4,14 +4,16 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Too
 import { ArrowLeft, ArrowRight, CheckCircle2, CircleAlert, Lightbulb, MapPin, Target, TrendingUp } from 'lucide-react';
 import { api } from '../api';
 import { useApp } from '../App';
-import { useLoad } from '../hooks';
+import { useLoad, useOnChange } from '../hooks';
 import { MONTHS_SHORT, money, number, percent } from '../types';
 import { Badge, Button, Callout, Card, CardHeader, ErrorState, Loading, Metric, Select, TableScroll, Tabs } from '../components/ui';
 import PageHeader from '../components/PageHeader';
 
 export default function StudioIntelligence(){
-  const {id}=useParams(),navigate=useNavigate(),{year:globalYear}=useApp();
+  const {id}=useParams(),navigate=useNavigate(),{year:globalYear,studioId}=useApp();
   const [year,setYear]=useState(2026),[tab,setTab]=useState('performance');
+  useOnChange(studioId,()=>{if(studioId&&String(studioId)!==id)navigate(`/studios/${studioId}`);});
+  useOnChange(globalYear,()=>setYear(globalYear));
   const {data,loading,error,reload}=useLoad<any>(()=>api(`/studios/${id}?year=${year}`),[id,year]);
   if(loading&&!data)return <Loading label="Building studio intelligence profile…"/>;
   if(error&&!data)return <ErrorState message={error} retry={()=>reload().catch(()=>{})}/>;

@@ -20,3 +20,9 @@ export function useLoad<T = any>(loader: () => Promise<T>, dependencies: any[] =
 export function useDebouncedEffect(effect: () => void, dependencies: any[], delay = 300) {
   useEffect(() => { const timer = setTimeout(effect, delay); return () => clearTimeout(timer); }, dependencies);
 }
+
+// Runs `effect` when `value` changes after the first render; used to follow the global studio/year filters.
+export function useOnChange(value: any, effect: () => void) {
+  const previous = useRef(value);
+  useEffect(() => { if (Object.is(previous.current, value)) return; previous.current = value; effect(); }, [value]);
+}

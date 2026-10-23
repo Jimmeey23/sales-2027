@@ -67,14 +67,14 @@ describe('Checkins provenance, privacy and behavioural metrics', () => {
 });
 
 describe('Kemps Corner January 2027 rent-aware planning', () => {
-  it('retains monthly seasonality inside the directed ₹30–40L guardrail with a preserved baseline and rationale', () => {
+  it('retains monthly seasonality around a ₹35L average inside the directed ₹20–60L guardrail with a preserved baseline and rationale', () => {
     const rows = db.prepare(`SELECT * FROM monthly_targets WHERE studio_id=? AND year=2027 ORDER BY month`).all(kemps.id) as any[];
     expect(rows).toHaveLength(12);
-    expect(rows.reduce((sum, row) => sum + row.proposed_target, 0)).toBe(38900000);
+    expect(rows.reduce((sum, row) => sum + row.proposed_target, 0)).toBe(42000000);
     expect(new Set(rows.map(row => row.proposed_target)).size).toBeGreaterThan(4);
     for (const row of rows) {
-      expect(row.proposed_target).toBeGreaterThanOrEqual(3000000);
-      expect(row.proposed_target).toBeLessThanOrEqual(4000000);
+      expect(row.proposed_target).toBeGreaterThanOrEqual(2000000);
+      expect(row.proposed_target).toBeLessThanOrEqual(6000000);
       const assumptions = JSON.parse(row.assumptions);
       expect(assumptions.rentAdjustment.effectiveMonth).toBe('2027-01');
       expect(assumptions.rentAdjustment.source).toBe('user_directed_planning_assumption');
@@ -84,15 +84,15 @@ describe('Kemps Corner January 2027 rent-aware planning', () => {
     }
     const april = rows.find(row => row.month === 4);
     expect(april.baseline_forecast).toBeGreaterThan(5000000);
-    expect(april.proposed_target).toBe(4000000);
+    expect(april.proposed_target).toBe(6000000);
   });
 
   it('reapplies the rent constraint on regeneration without rewriting the baseline forecast', () => {
     for (const month of [1, 4, 9]) {
       const recommendation = recommendTarget(kemps.id, 2027, month, 'base');
       const assumptions = JSON.parse(recommendation.assumptions);
-      expect(recommendation.proposed_target).toBeGreaterThanOrEqual(3000000);
-      expect(recommendation.proposed_target).toBeLessThanOrEqual(4000000);
+      expect(recommendation.proposed_target).toBeGreaterThanOrEqual(2000000);
+      expect(recommendation.proposed_target).toBeLessThanOrEqual(6000000);
       expect(recommendation.baseline_forecast).toBe(assumptions.rentAdjustment.preAdjustmentTarget);
       expect(JSON.parse(recommendation.funnel).requiredTrialBookings).toBeGreaterThan(0);
     }

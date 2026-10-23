@@ -57,7 +57,7 @@ describe('executive report calculations', () => {
     const standard = runReport(options('target-scenarios',{ from: '2027-01', to: '2027-12', studio: 1, scenario: 'standard' }));
     const aggressive = runReport(options('target-scenarios',{ from: '2027-01', to: '2027-12', studio: 1, scenario: 'aggressive' }));
     expect(aggressive.summary[0].value).toBeGreaterThanOrEqual(standard.summary[0].value);
-    for (const row of [...standard.rows,...aggressive.rows]) { expect(row.proposed_target).toBeGreaterThanOrEqual(3000000); expect(row.proposed_target).toBeLessThanOrEqual(4000000); }
+    for (const row of [...standard.rows,...aggressive.rows]) { expect(row.proposed_target).toBeGreaterThanOrEqual(2000000); expect(row.proposed_target).toBeLessThanOrEqual(6000000); }
     expect(JSON.stringify(db.prepare('SELECT id,version,proposed_target,approved_target FROM monthly_targets ORDER BY id').all())).toBe(before);
   });
 });

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useOnChange } from '../hooks';
 import { useLocation } from 'react-router-dom';
 import { Bot, Building2, Calculator, History, Info, Sparkles, WandSparkles } from 'lucide-react';
 import { post } from '../api';
@@ -12,6 +13,7 @@ export default function AIOfferGenerator(){
   const {boot,studioId,year,aiConfigured}=useApp() as any;const location=useLocation();const prefill=(location.state as any)?.prefill;
   const defaultStudio=studioId||prefill?.studio_id||boot.studios.find((s:any)=>boot.products.some((p:any)=>p.studio_id===s.id))?.id||boot.studios[0]?.id;
   const [form,setForm]=useState<any>({studioId:String(defaultStudio),year,month:prefill?.month||3,objective:prefill?.objective||'reactivation',segment:'recently_lapsed',productId:'',mechanism:'',maxDiscountPercent:15,minSellingPrice:'',targetRevenue:300000,targetPurchases:'',durationDays:14,tone:'witty',eligibleAudience:'',budget:0,instructions:'Create three funny but commercially sensible offers to reactivate lapsed clients, generate ₹3 lakh in sales, and keep the effective discount below 15%. Recommend the strongest option.'});
+  useOnChange(`${studioId}-${year}`,()=>setForm((f:any)=>({...f,year,...(studioId?{studioId:String(studioId)}:{})})));
   const [result,setResult]=useState<any>(null),[loading,setLoading]=useState(false),[error,setError]=useState('');
   const set=(key:string,value:any)=>setForm((current:any)=>({...current,[key]:value}));
   const studio=boot.studios.find((s:any)=>s.id===Number(form.studioId));

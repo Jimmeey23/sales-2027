@@ -1,0 +1,250 @@
+{
+ "STU_KEN": {
+  "1": {
+   "net": 1110874.07,
+   "partial": 0,
+   "clients": 95,
+   "new": 31
+  },
+  "2": {
+   "net": 833988.33,
+   "partial": 0,
+   "clients": 113,
+   "new": 46
+  },
+  "3": {
+   "net": 621186.8,
+   "partial": 0,
+   "clients": 130,
+   "new": 51
+  },
+  "4": {
+   "net": 1216947.21,
+   "partial": 0,
+   "clients": 142,
+   "new": 46
+  },
+  "5": {
+   "net": 988517.91,
+   "partial": 0,
+   "clients": 154,
+   "new": 57
+  },
+  "6": {
+   "net": 917709.97,
+   "partial": 0,
+   "clients": 160,
+   "new": 66
+  },
+  "7": {
+   "net": 1088188.74,
+   "partial": 0,
+   "clients": 161,
+   "new": 45
+  },
+  "8": {
+   "net": 959985.21,
+   "partial": 0,
+   "clients": 152,
+   "new": 53
+  },
+  "9": {
+   "net": 1028435.01,
+   "partial": 0,
+   "clients": 128,
+   "new": 43
+  },
+  "10": {
+   "net": 534745.88,
+   "partial": 1,
+   "clients": 113,
+   "new": 35
+  }
+ },
+ "STU_KH": {
+  "1": {
+   "net": 2744704.66,
+   "partial": 0,
+   "clients": 190,
+   "new": 44
+  },
+  "2": {
+   "net": 1921109.61,
+   "partial": 0,
+   "clients": 190,
+   "new": 50
+  },
+  "3": {
+   "net": 2018320.61,
+   "partial": 0,
+   "clients": 182,
+   "new": 47
+  },
+  "4": {
+   "net": 5001387.71,
+   "partial": 0,
+   "clients": 223,
+   "new": 56
+  },
+  "5": {
+   "net": 2428385.71,
+   "partial": 0,
+   "clients": 193,
+   "new": 58
+  },
+  "6": {
+   "net": 2180716,
+   "partial": 0,
+   "clients": 217,
+   "new": 72
+  },
+  "7": {
+   "net": 2580029.78,
+   "partial": 0,
+   "clients": 232,
+   "new": 77
+  },
+  "8": {
+   "net": 3000656.47,
+   "partial": 0,
+   "clients": 251,
+   "new": 72
+  },
+  "9": {
+   "net": 3206430.87,
+   "partial": 0,
+   "clients": 179,
+   "new": 33
+  },
+  "10": {
+   "net": 2232796.45,
+   "partial": 1,
+   "clients": 140,
+   "new": 38
+  }
+ },
+ "STU_POP": {
+  "1": {
+   "net": 134662.5,
+   "partial": 0,
+   "clients": 67,
+   "new": 33
+  },
+  "2": {
+   "net": 127682.5,
+   "partial": 0,
+   "clients": 55,
+   "new": 21
+  },
+  "3": {
+   "net": 120960,
+   "partial": 0,
+   "clients": 68,
+   "new": 29
+  },
+  "4": {
+   "net": 105839.97,
+   "partial": 0,
+   "clients": 71,
+   "new": 36
+  },
+  "5": {
+   "net": 107730.14,
+   "partial": 0,
+   "clients": 64,
+   "new": 31
+  },
+  "6": {
+   "net": 156528.88,
+   "partial": 0,
+   "clients": 88,
+   "new": 41
+  },
+  "7": {
+   "net": 145925,
+   "partial": 0,
+   "clients": 85,
+   "new": 34
+  },
+  "8": {
+   "net": 142852.47,
+   "partial": 0,
+   "clients": 82,
+   "new": 36
+  },
+  "9": {
+   "net": 189908.88,
+   "partial": 0,
+   "clients": 94,
+   "new": 42
+  },
+  "10": {
+   "net": 110118.75,
+   "partial": 1,
+   "clients": 79,
+   "new": 29
+  }
+ },
+ "STU_SHQ": {
+  "1": {
+   "net": 2003539.19,
+   "partial": 0,
+   "clients": 166,
+   "new": 69
+  },
+  "2": {
+   "net": 1539479.05,
+   "partial": 0,
+   "clients": 140,
+   "new": 46
+  },
+  "3": {
+   "net": 1128943.75,
+   "partial": 0,
+   "clients": 152,
+   "new": 62
+  },
+  "4": {
+   "net": 2744837.35,
+   "partial": 0,
+   "clients": 172,
+   "new": 63
+  },
+  "5": {
+   "net": 1501789.55,
+   "partial": 0,
+   "clients": 140,
+   "new": 43
+  },
+  "6": {
+   "net": 1439262,
+   "partial": 0,
+   "clients": 136,
+   "new": 55
+  },
+  "7": {
+   "net": 1889427.06,
+   "partial": 0,
+   "clients": 168,
+   "new": 69
+  },
+  "8": {
+   "net": 2280684.59,
+   "partial": 0,
+   "clients": 166,
+   "new": 46
+  },
+  "9": {
+   "net": 1529410.18,
+   "partial": 0,
+   "clients": 139,
+   "new": 42
+  },
+  "10": {
+   "net": 979326.54,
+   "partial": 1,
+   "clients": 114,
+   "new": 27
+  }
+ }
+}

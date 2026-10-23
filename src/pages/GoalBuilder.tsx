@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useOnChange } from '../hooks';
 import { useLocation } from 'react-router-dom';
 import { ArrowRight, Goal, Layers3, ShieldCheck } from 'lucide-react';
 import { api, post } from '../api';
@@ -19,6 +20,7 @@ const GOALS=[
 export default function GoalBuilder(){
   const {boot,studioId,year}=useApp();const location=useLocation();const preset=(location.state as any)||{};
   const [studio,setStudio]=useState(preset.studioId||studioId||boot.studios[0]?.id),[month,setMonth]=useState(preset.month||1),[goal,setGoal]=useState('close_gap');
+  useOnChange(studioId,()=>{if(studioId)setStudio(studioId);});
   const [target,setTarget]=useState(1800000),[actual,setActual]=useState(1200000),[productId,setProductId]=useState(''),[discount,setDiscount]=useState(15),[budget,setBudget]=useState(0),[style,setStyle]=useState('balanced');
   const [streams,setStreams]=useState<any[]>([
     {key:'renewal',label:'Renewals due',audience:100,conversionRate:.12,averageSpend:14000},

@@ -8,31 +8,34 @@ import { IconButton, Select } from './ui';
 
 const NAV: Array<{ group: string; items: any[] }> = [
   { group: 'Overview', items: [
-    { to: '/', label: 'Executive Dashboard', icon: LayoutDashboard, end: true },
+    { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
     { to: '/studios/1', label: 'Studio Intelligence', icon: BarChart3, studio: true },
   ]},
-  { group: 'Commercial planning', items: [
-    { to: '/planner', label: 'Annual Sales Planner', icon: Target },
-    { to: '/calendar', label: 'Monthly Campaign Calendar', icon: CalendarDays },
-    { to: '/anniversary', label: 'April Anniversary Studio', icon: Gift, april: true },
-    { to: '/funnel', label: 'Revenue & Funnel Simulator', icon: SlidersHorizontal },
-    { to: '/retention', label: 'Retention & Reactivation', icon: UsersRound },
+  { group: 'Sales plans', items: [
+    { to: '/plan', label: 'Studio Sales Plans', icon: Building2 },
+    { to: '/calendar', label: 'Campaign Calendar', icon: CalendarDays },
+    { to: '/anniversary', label: 'April Anniversary', icon: Gift, april: true },
   ]},
-  { group: 'Offer lab', items: [
-    { to: '/ai-offers', label: 'AI Offer Generator', icon: WandSparkles },
-    { to: '/goal-builder', label: 'Goal-Based Offer Builder', icon: Goal },
-    { to: '/random-offers', label: 'Random Offer Generator', icon: Shuffle },
+  { group: 'Offers', items: [
     { to: '/offers', label: 'Offer Bank', icon: Archive },
-    { to: '/offer-builder', label: 'Offer Builder & Editor', icon: CircleDollarSign },
+    { to: '/ai-offers', label: 'AI Offer Generator', icon: WandSparkles },
+    { to: '/offer-builder', label: 'Offer Builder', icon: CircleDollarSign },
   ]},
-  { group: 'Learning & administration', items: [
+  { group: 'Advanced tools', items: [
+    { to: '/planner', label: 'Target Matrix', icon: Target },
+    { to: '/funnel', label: 'Funnel Simulator', icon: SlidersHorizontal },
+    { to: '/retention', label: 'Retention & Reactivation', icon: UsersRound },
+    { to: '/goal-builder', label: 'Goal-Based Offers', icon: Goal },
+    { to: '/random-offers', label: 'Random Offers', icon: Shuffle },
     { to: '/performance', label: 'Campaign Performance', icon: Activity },
-    { to: '/imports', label: 'Data Import & Management', icon: Database, permission: 'import' },
+  ]},
+  { group: 'Admin', items: [
+    { to: '/imports', label: 'Data Import', icon: Database, permission: 'import' },
     { to: '/reports', label: 'Reports & Exports', icon: FileBarChart, permission: 'export' },
-    { to: '/settings', label: 'Settings & Permissions', icon: Settings, permission: 'settings' },
+    { to: '/settings', label: 'Settings', icon: Settings, permission: 'settings' },
   ]},
 ];
-const TITLES: Record<string,string> = {'/':'Executive Dashboard','/planner':'Annual Sales Planner','/calendar':'Monthly Campaign Calendar','/anniversary':'April Anniversary Studio','/ai-offers':'AI Offer Generator','/goal-builder':'Goal-Based Offer Builder','/random-offers':'Random Offer Generator','/offers':'Offer Bank','/offer-builder':'Offer Builder & Editor','/funnel':'Revenue & Funnel Simulator','/retention':'Retention & Reactivation','/performance':'Campaign Performance','/imports':'Data Import & Management','/reports':'Reports & Exports','/settings':'Settings & Permissions'};
+const TITLES: Record<string,string> = {'/':'Executive Dashboard','/plan':'Studio Sales Plans','/planner':'Target Matrix','/calendar':'Monthly Campaign Calendar','/anniversary':'April Anniversary Studio','/ai-offers':'AI Offer Generator','/goal-builder':'Goal-Based Offer Builder','/random-offers':'Random Offer Generator','/offers':'Offer Bank','/offer-builder':'Offer Builder & Editor','/funnel':'Revenue & Funnel Simulator','/retention':'Retention & Reactivation','/performance':'Campaign Performance','/imports':'Data Import & Management','/reports':'Reports & Exports','/settings':'Settings & Permissions'};
 
 export default function Layout() {
   const { boot, studioId, setStudioId, year, setYear, can } = useApp();
@@ -41,7 +44,7 @@ export default function Layout() {
   const location = useLocation(), navigate = useNavigate(); const searchRef = useRef<HTMLInputElement>(null);
   useEffect(()=>{setOpen(false);},[location.pathname]);
   useEffect(()=>{const handler=(e:KeyboardEvent)=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();searchRef.current?.focus();}};document.addEventListener('keydown',handler);return()=>document.removeEventListener('keydown',handler);},[]);
-  const title = location.pathname.startsWith('/studios/') ? 'Studio Intelligence' : location.pathname.startsWith('/offers/') ? 'Offer Builder & Editor' : TITLES[location.pathname] || 'P57';
+  const title = location.pathname.startsWith('/plan/') ? 'Studio Sales Plan' : location.pathname.startsWith('/studios/') ? 'Studio Intelligence' : location.pathname.startsWith('/offers/') ? 'Offer Builder & Editor' : TITLES[location.pathname] || 'P57';
   const scoped = ['studio_manager','sales_associate'].includes(boot.user.role);
   const submitSearch = (e:React.FormEvent)=>{e.preventDefault();if(search.trim())navigate(`/offers?q=${encodeURIComponent(search.trim())}`);};
   return <div className={`app-shell ${collapsed?'sidebar-collapsed':''}`}>

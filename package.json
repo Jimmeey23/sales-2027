@@ -10,6 +10,7 @@
     "seed": "tsx server/seed.ts",
     "import:checkins": "tsx scripts/import-checkins.ts",
     "targets:regenerate": "tsx scripts/regenerate-targets.ts",
+    "plan:import": "tsx scripts/import-2027-plan.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "smoke": "tsx scripts/smoke.ts",

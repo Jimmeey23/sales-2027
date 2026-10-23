@@ -9,6 +9,8 @@ import BrandMark from './components/BrandMark';
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const StudioIntelligence = lazy(() => import('./pages/StudioIntelligence'));
 const AnnualPlanner = lazy(() => import('./pages/AnnualPlanner'));
+const StudioPlan = lazy(() => import('./pages/StudioPlans'));
+const StudioPlansHub = lazy(() => import('./pages/StudioPlans').then(m => ({ default: m.StudioPlansHub })));
 const CampaignCalendar = lazy(() => import('./pages/CampaignCalendar'));
 const AIOfferGenerator = lazy(() => import('./pages/AIOfferGenerator'));
 const GoalBuilder = lazy(() => import('./pages/GoalBuilder'));
@@ -54,7 +56,7 @@ export default function App() {
   return <AppContext.Provider value={{boot,studioId,setStudioId,year,setYear,toast,refreshBoot:loadBoot,can}}>
     <Suspense fallback={<Loading label="Loading workspace module…"/>}><Routes><Route element={<Layout/>}>
       <Route index element={<Dashboard/>}/><Route path="studios/:id" element={<StudioIntelligence/>}/>
-      <Route path="planner" element={<AnnualPlanner/>}/><Route path="calendar" element={<CampaignCalendar/>}/>
+      <Route path="plan" element={<StudioPlansHub/>}/><Route path="plan/:id" element={<StudioPlan/>}/><Route path="planner" element={<AnnualPlanner/>}/><Route path="calendar" element={<CampaignCalendar/>}/>
       <Route path="anniversary" element={<Anniversary/>}/><Route path="ai-offers" element={<AIOfferGenerator/>}/>
       <Route path="goal-builder" element={<GoalBuilder/>}/><Route path="random-offers" element={<RandomOfferGenerator/>}/>
       <Route path="offers" element={<OfferBank/>}/><Route path="offer-builder" element={<OfferBuilder/>}/><Route path="offers/:id/edit" element={<OfferBuilder/>}/>

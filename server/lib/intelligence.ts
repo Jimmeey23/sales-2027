@@ -222,9 +222,9 @@ export function recommendTarget(studioId: number, year: number, month: number, s
   const scenarioTarget = scenario === 'nominal' ? comparable : scenario === 'conservative' ? conservative : scenario === 'stretch' ? stretch : scenario === 'aggressive' ? aggressive : base;
   const studioName = String(scalar('SELECT name value FROM studios WHERE id=?', studioId) || '');
   const rentAdjustment = studioName === 'Kemps Corner' && year === 2027 ? {
-    effectiveMonth: '2027-01', minimumTarget: 3000000, maximumTarget: 4000000, preAdjustmentTarget: round(scenarioTarget),
+    effectiveMonth: '2027-01', minimumTarget: 2000000, maximumTarget: 6000000, averageTarget: 3500000, preAdjustmentTarget: round(scenarioTarget),
     source: 'user_directed_planning_assumption',
-    reason: 'Kwality House rent increases from January 2027. Proposed targets retain comparable-month seasonality and scenario differences within a user-directed ₹30–40L monthly guardrail; ₹35–40L was a rough range, not a flat monthly floor. Baselines remain unadjusted and no rent amount has been invented.',
+    reason: 'Kwality House rent increases from January 2027. User-directed guardrail: monthly targets average about ₹35L and may range from ₹20L to ₹60L, keeping seasonality. Baselines remain unadjusted.',
   } : null;
   const target = rentAdjustment ? Math.min(rentAdjustment.maximumTarget, Math.max(rentAdjustment.minimumTarget, Math.ceil(scenarioTarget / 100000) * 100000)) : scenarioTarget;
   const mix = actualMetrics(studioId, comparableMonth);

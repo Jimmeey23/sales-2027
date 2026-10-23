@@ -3,7 +3,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { CalendarHeart, Gift, MessageCircle, Save, Sparkles } from 'lucide-react';
 import { api, patch, post } from '../api';
 import { useApp } from '../App';
-import { useLoad } from '../hooks';
+import { useLoad, useOnChange } from '../hooks';
 import { MONTHS_SHORT, money, number, percent } from '../types';
 import { Badge, Button, Callout, Card, CardHeader, Field, Input, Metric, Select } from '../components/ui';
 import PageHeader from '../components/PageHeader';
@@ -12,6 +12,7 @@ import OfferConceptBoard from '../components/OfferConceptBoard';
 const AUDIENCES=[['new_leads','New clients'],['unconverted_trials','Trial attendees yet to purchase'],['active_customers','Existing members'],['approaching_expiry','Due for renewal'],['recently_lapsed','Lapsed customers'],['active_customers','Referrals'],['high_value','Higher-value packages'],['frequent_purchasers','Private / specialised sessions']];
 export default function Anniversary(){
   const {boot,studioId,year,toast,can}=useApp();const [studio,setStudio]=useState(studioId||boot.studios[0]?.id),[audienceIndex,setAudienceIndex]=useState(0),[target,setTarget]=useState(300000),[discount,setDiscount]=useState(20),[repeatRate,setRepeatRate]=useState(.25);
+  useOnChange(studioId,()=>{if(studioId)setStudio(studioId);});
   const [offers,setOffers]=useState<any[]>([]),[loading,setLoading]=useState(false),[selectedCampaign,setSelectedCampaign]=useState('');
   const {data,reload}=useLoad<any>(()=>api(`/anniversary?year=${year}&studio=${studio}`),[studio,year]);
   useEffect(()=>{if(!data)return;const latest=data.baseline.filter((b:any)=>b.studio_id===studio).sort((a:any,b:any)=>b.month.localeCompare(a.month))[0];if(latest)setTarget(Math.round(latest.revenue*.1));},[data]);

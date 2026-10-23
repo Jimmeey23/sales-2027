@@ -106,7 +106,7 @@ describe('renewals, historic findings and target scenarios', () => {
     for (let month = 1; month <= 12; month++) {
       const n = recommendTarget(1,2027,month,'nominal'), s = recommendTarget(1,2027,month,'standard'), a = recommendTarget(1,2027,month,'aggressive');
       nominal += n.proposed_target; standard += s.proposed_target; aggressive += a.proposed_target; monthlyStandard.push(s.proposed_target);
-      for (const target of [n,s,a]) { expect(target.proposed_target).toBeGreaterThanOrEqual(3000000); expect(target.proposed_target).toBeLessThanOrEqual(4000000); }
+      for (const target of [n,s,a]) { expect(target.proposed_target).toBeGreaterThanOrEqual(2000000); expect(target.proposed_target).toBeLessThanOrEqual(6000000); }
     }
     expect(new Set(monthlyStandard).size).toBeGreaterThan(4);
     expect(aggressive).toBeGreaterThanOrEqual(standard); expect(aggressive).toBeGreaterThanOrEqual(nominal);

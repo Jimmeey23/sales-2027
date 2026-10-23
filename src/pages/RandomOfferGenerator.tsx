@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useOnChange } from '../hooks';
 import { Dices, Flame, Gem, Laugh, RefreshCw, Shuffle, TrendingUp, UserRoundCheck } from 'lucide-react';
 import { post } from '../api';
 import { useApp } from '../App';
@@ -11,6 +12,7 @@ export default function RandomOfferGenerator(){
   const {boot,studioId,year,toast}=useApp();
   const defaultStudio=studioId||boot.studios.find(s=>boot.products.some(p=>p.studio_id===s.id))?.id||boot.studios[0]?.id;
   const [form,setForm]=useState<any>({studioId:defaultStudio,year,month:1,objective:'reactivation',segment:'recently_lapsed',productId:'',mechanism:'',tone:'witty',maxDiscountPercent:15,durationDays:14,theme:'surprise'});
+  useOnChange(`${studioId}-${year}`,()=>setForm((f:any)=>({...f,year,...(studioId?{studioId}:{})})));
   const [offers,setOffers]=useState<any[]>([]),[loading,setLoading]=useState(false),[error,setError]=useState('');
   const set=(key:string,value:any)=>setForm((current:any)=>({...current,[key]:value}));
   const generate=async(count=1,overrides:any={})=>{setLoading(true);setError('');try{const generated=[];for(let i=0;i<count;i++){const current=offers[0];generated.push(await post('/offers/random',{...form,...overrides,studioId:Number((overrides.studioId??form.studioId)),productId:form.productId?Number(form.productId):undefined,mechanism:(overrides.mechanism??form.mechanism)||undefined,targetRevenue:overrides.refine&&current?current.revenueTarget:undefined,count:1}));}setOffers(generated);}catch(error:any){setError(error.message);}finally{setLoading(false);}};
