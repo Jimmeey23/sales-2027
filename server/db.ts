@@ -243,19 +243,40 @@ export function initSchema() {
   const offerColumns = db.pragma('table_info(offers)') as any[];
   const planColumns = db.pragma('table_info(monthly_plans)') as any[];
   // NULL offer_ids = not curated yet: the plan shows that month's imported plan offers.
-  if (!planColumns.some(column => column.name === 'offer_ids')) db.exec('ALTER TABLE monthly_plans ADD COLUMN offer_ids TEXT');
+  if (!planColumns.some(column => column.name === 'offer_ids'))
+    db.exec('ALTER TABLE monthly_plans ADD COLUMN offer_ids TEXT');
   // slots = {"newcomer": offerId, "lapsed": offerId, "renewal": offerId}; NULL = use the month's primary slot offers.
   if (!planColumns.some(column => column.name === 'slots')) db.exec('ALTER TABLE monthly_plans ADD COLUMN slots TEXT');
   const offerCols = db.pragma('table_info(offers)') as any[];
   // plan_slot marks an offer as a month's newcomer / lapsed / renewal option; plan_rank 1 = primary, 2+ = alternates.
   if (!offerCols.some(column => column.name === 'plan_slot')) db.exec('ALTER TABLE offers ADD COLUMN plan_slot TEXT');
-  if (!offerCols.some(column => column.name === 'plan_rank')) db.exec('ALTER TABLE offers ADD COLUMN plan_rank INTEGER');
-  if (!offerColumns.some(column => column.name === 'provenance')) db.exec("ALTER TABLE offers ADD COLUMN provenance TEXT NOT NULL DEFAULT '{}'");
+  if (!offerCols.some(column => column.name === 'plan_rank'))
+    db.exec('ALTER TABLE offers ADD COLUMN plan_rank INTEGER');
+  if (!offerColumns.some(column => column.name === 'provenance'))
+    db.exec("ALTER TABLE offers ADD COLUMN provenance TEXT NOT NULL DEFAULT '{}'");
 }
 initSchema();
 
-export function audit(entry: { userId?: number | null; action: string; entityType: string; entityId?: unknown; studioId?: number | null; before?: unknown; after?: unknown; reason?: string | null }) {
-  db.prepare(`INSERT INTO audit_logs(user_id, action, entity_type, entity_id, studio_id, before, after, reason) VALUES (?,?,?,?,?,?,?,?)`)
-    .run(entry.userId || null, entry.action, entry.entityType, entry.entityId === undefined ? null : String(entry.entityId), entry.studioId || null,
-      entry.before === undefined ? null : JSON.stringify(entry.before), entry.after === undefined ? null : JSON.stringify(entry.after), entry.reason || null);
+export function audit(entry: {
+  userId?: number | null;
+  action: string;
+  entityType: string;
+  entityId?: unknown;
+  studioId?: number | null;
+  before?: unknown;
+  after?: unknown;
+  reason?: string | null;
+}) {
+  db.prepare(
+    `INSERT INTO audit_logs(user_id, action, entity_type, entity_id, studio_id, before, after, reason) VALUES (?,?,?,?,?,?,?,?)`,
+  ).run(
+    entry.userId || null,
+    entry.action,
+    entry.entityType,
+    entry.entityId === undefined ? null : String(entry.entityId),
+    entry.studioId || null,
+    entry.before === undefined ? null : JSON.stringify(entry.before),
+    entry.after === undefined ? null : JSON.stringify(entry.after),
+    entry.reason || null,
+  );
 }

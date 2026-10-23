@@ -23,7 +23,7 @@ For an HTTPS production deployment:
 ```dotenv
 NODE_ENV=production
 COOKIE_SECURE=true
-DIRECT_WORKSPACE=true
+DIRECT_WORKSPACE=false
 DATABASE_PATH=./p57-data/studio.db
 MEMBER_HASH_SALT=<long-random-secret>
 PORT=3001
@@ -31,7 +31,7 @@ PORT=3001
 
 `COOKIE_SECURE=true` requires HTTPS. For local HTTP development, use `COOKIE_SECURE=false`.
 
-This version intentionally has no login page. With `DIRECT_WORKSPACE=true`, it opens a persistent administrator demonstration session automatically. Only expose this mode behind a trusted network or identity-aware proxy. Setting `DIRECT_WORKSPACE=false` disables automatic entry; the UI then shows an unavailable state rather than a login form.
+Users sign in with email and password. `DIRECT_WORKSPACE=true` opens an administrator session automatically for every visitor; only use it behind a trusted network or identity-aware proxy.
 
 Optional real AI configuration:
 

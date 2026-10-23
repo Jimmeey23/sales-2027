@@ -2,13 +2,19 @@ import { test, expect } from '@playwright/test';
 
 const savedName = 'Browser reporting verification';
 
-test('advanced reporting catalogue, configuration, saved views, exports and responsive print layouts work', async ({ page }) => {
+test('advanced reporting catalogue, configuration, saved views, exports and responsive print layouts work', async ({
+  page,
+}) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(`page: ${error.message}`));
-  page.on('console', message => { if (message.type() === 'error') errors.push(`console: ${message.text()}`); });
+  page.on('console', message => {
+    if (message.type() === 'error') errors.push(`console: ${message.text()}`);
+  });
 
   await page.goto('/reports');
-  await expect(page.getByRole('heading', { name: 'Monthly studio performance', exact: true })).toBeVisible({ timeout: 20000 });
+  await expect(page.getByRole('heading', { name: 'Monthly studio performance', exact: true })).toBeVisible({
+    timeout: 20000,
+  });
   await expect(page.locator('.report-catalogue-item')).toHaveCount(21);
   await expect(page.locator('.report-kpi')).toHaveCount(4);
   await expect(page.locator('.report-chart')).toBeVisible();
@@ -40,11 +46,15 @@ test('advanced reporting catalogue, configuration, saved views, exports and resp
   await expect(page.getByText(`Saved view “${savedName}” created.`, { exact: true })).toBeVisible();
 
   await page.locator('.report-catalogue-item').filter({ hasText: 'Discount exposure & revenue quality' }).click();
-  await expect(page.getByRole('heading', { name: 'Discount exposure & revenue quality', exact: true })).toBeVisible({ timeout: 20000 });
+  await expect(page.getByRole('heading', { name: 'Discount exposure & revenue quality', exact: true })).toBeVisible({
+    timeout: 20000,
+  });
   await page.getByRole('button', { name: /Saved views/ }).click();
   const savedDialog = page.getByRole('dialog');
   await savedDialog.locator('.saved-report-open').filter({ hasText: savedName }).click();
-  await expect(page.getByRole('heading', { name: 'Monthly studio performance', exact: true })).toBeVisible({ timeout: 20000 });
+  await expect(page.getByRole('heading', { name: 'Monthly studio performance', exact: true })).toBeVisible({
+    timeout: 20000,
+  });
   await page.getByRole('tab', { name: /^Data table/ }).click();
   await expect(page.locator('.report-data-table thead')).not.toContainText('City');
 
@@ -87,9 +97,14 @@ test('advanced reporting catalogue, configuration, saved views, exports and resp
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/reports');
-  await expect(page.getByRole('heading', { name: 'Monthly studio performance', exact: true })).toBeVisible({ timeout: 20000 });
+  await expect(page.getByRole('heading', { name: 'Monthly studio performance', exact: true })).toBeVisible({
+    timeout: 20000,
+  });
   await expect(page.locator('.report-result.is-refreshing')).toHaveCount(0, { timeout: 20000 });
-  const dimensions = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, width: window.innerWidth }));
+  const dimensions = await page.evaluate(() => ({
+    scroll: document.documentElement.scrollWidth,
+    width: window.innerWidth,
+  }));
   expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.width + 2);
   await page.screenshot({ path: 'artifacts/reporting-mobile.png', fullPage: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -100,7 +115,9 @@ test('advanced reporting catalogue, configuration, saved views, exports and resp
 test('identical reruns, reset and consolidated studio changes never clear a valid report', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  page.on('console', message => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
   await page.goto('/reports');
   await expect(page.locator('.report-kpi')).toHaveCount(4, { timeout: 20000 });
   await page.getByRole('button', { name: 'Run report', exact: true }).click();
@@ -109,7 +126,9 @@ test('identical reruns, reset and consolidated studio changes never clear a vali
   await expect(page.locator('.report-kpi')).toHaveCount(4, { timeout: 20000 });
   await expect(page.locator('.report-chart')).toBeVisible();
   await page.locator('.report-catalogue-item').filter({ hasText: 'Import lineage & reconciliation' }).click();
-  await expect(page.getByRole('heading', { name: 'Import lineage & reconciliation', exact: true })).toBeVisible({ timeout: 20000 });
+  await expect(page.getByRole('heading', { name: 'Import lineage & reconciliation', exact: true })).toBeVisible({
+    timeout: 20000,
+  });
   await expect(page.locator('.report-kpi')).toHaveCount(4, { timeout: 20000 });
   await expect(page.locator('input[value="Consolidated business"]')).toBeDisabled();
   await page.getByLabel('Global studio', { exact: true }).selectOption('1');

@@ -3,8 +3,22 @@ export const STUDIO_DEFINITIONS = [
   { name: 'Bandra', code: 'BA', city: 'Mumbai', aliases: ['Supreme HQ, Bandra'] },
   { name: 'Kenkere House', code: 'KH', city: 'Bengaluru', aliases: ['Kenkere House', 'Kenkere House, Bengaluru'] },
   { name: 'Pop-up', code: 'POP', city: 'Bengaluru', aliases: ['Pop-up', 'Pop up', 'pop up plash', 'Pop-up '] },
-  { name: 'Copper + Cloves', code: 'CC', city: 'Bengaluru', aliases: ['the Studio By Copper + Cloves', 'The Studio by Copper + Cloves', 'the Studio by Copper + Cloves, Indiranagar'] },
-  { name: 'Plash Pilates', code: 'PP', city: 'Bengaluru', aliases: ['Plash Pilates', 'Plash pilates studios', 'Plash Pilates '] },
+  {
+    name: 'Copper + Cloves',
+    code: 'CC',
+    city: 'Bengaluru',
+    aliases: [
+      'the Studio By Copper + Cloves',
+      'The Studio by Copper + Cloves',
+      'the Studio by Copper + Cloves, Indiranagar',
+    ],
+  },
+  {
+    name: 'Plash Pilates',
+    code: 'PP',
+    city: 'Bengaluru',
+    aliases: ['Plash Pilates', 'Plash pilates studios', 'Plash Pilates '],
+  },
   { name: 'Taj Wellington Mews', code: 'TWM', city: 'Mumbai', aliases: ['Taj Wellington Mews, Colaba, Mumbai'] },
   { name: 'South United FC', code: 'SUFC', city: 'Bengaluru', aliases: ['South United Football Club'] },
   { name: 'WeWork Prestige Central', code: 'WPC', city: 'Bengaluru', aliases: ['WeWork Prestige Central'] },
@@ -13,10 +27,14 @@ export const STUDIO_DEFINITIONS = [
 ];
 
 export function canonicalStudio(value: unknown): string | null {
-  const text = String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+  const text = String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ');
   if (!text || text === '-') return null;
   for (const studio of STUDIO_DEFINITIONS) {
-    if (studio.name.toLowerCase() === text || studio.aliases.some(alias => alias.trim().toLowerCase() === text)) return studio.name;
+    if (studio.name.toLowerCase() === text || studio.aliases.some(alias => alias.trim().toLowerCase() === text))
+      return studio.name;
   }
   if (text.includes('kemps') || text.includes('kwality')) return 'Kemps Corner';
   if (text.includes('bandra') || text.includes('supreme hq')) return 'Bandra';

@@ -27,28 +27,43 @@ export async function publishHistory(sourcePath: string) {
   copy.close();
   const gz = zlib.gzipSync(fs.readFileSync(tmp), { level: 9 });
   fs.rmSync(tmp, { force: true });
-  const client = connect(); await client.connect();
+  const client = connect();
+  await client.connect();
   try {
-    await client.query('CREATE TABLE IF NOT EXISTS "_history_snapshot" (part int PRIMARY KEY, data bytea NOT NULL, published_at timestamptz NOT NULL DEFAULT now())');
+    await client.query(
+      'CREATE TABLE IF NOT EXISTS "_history_snapshot" (part int PRIMARY KEY, data bytea NOT NULL, published_at timestamptz NOT NULL DEFAULT now())',
+    );
     await client.query('BEGIN');
     await client.query('DELETE FROM "_history_snapshot"');
-    for (let i = 0; i * CHUNK < gz.length; i++) await client.query('INSERT INTO "_history_snapshot"(part, data) VALUES ($1, $2)', [i, gz.subarray(i * CHUNK, (i + 1) * CHUNK)]);
+    for (let i = 0; i * CHUNK < gz.length; i++)
+      await client.query('INSERT INTO "_history_snapshot"(part, data) VALUES ($1, $2)', [
+        i,
+        gz.subarray(i * CHUNK, (i + 1) * CHUNK),
+      ]);
     await client.query('COMMIT');
-  } catch (error) { await client.query('ROLLBACK').catch(() => {}); throw error; }
-  finally { await client.end(); }
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => {});
+    throw error;
+  } finally {
+    await client.end();
+  }
   return { compressedBytes: gz.length, parts: Math.ceil(gz.length / CHUNK) };
 }
 
 export async function hydrateHistory(targetPath: string) {
   if (fs.existsSync(targetPath)) return false;
-  const client = connect(); await client.connect();
+  const client = connect();
+  await client.connect();
   try {
     const t0 = Date.now();
     const { rows } = await client.query('SELECT data FROM "_history_snapshot" ORDER BY part');
     console.log(`History snapshot downloaded in ${Date.now() - t0} ms`);
-    if (!rows.length) throw new Error('No history snapshot in Supabase. Run `npm run history:publish` from a machine with the data.');
+    if (!rows.length)
+      throw new Error('No history snapshot in Supabase. Run `npm run history:publish` from a machine with the data.');
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
     fs.writeFileSync(targetPath, zlib.gunzipSync(Buffer.concat(rows.map(r => r.data))));
     return true;
-  } finally { await client.end(); }
+  } finally {
+    await client.end();
+  }
 }

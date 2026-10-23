@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useOnChange } from '../hooks';
 import { useLocation } from 'react-router-dom';
 import { ArrowRight, Goal, Layers3, ShieldCheck } from 'lucide-react';
@@ -9,40 +9,404 @@ import { Badge, Button, Callout, Card, CardHeader, Field, Input, Metric, Select 
 import PageHeader from '../components/PageHeader';
 import OfferConceptBoard from '../components/OfferConceptBoard';
 
-const GOALS=[
-  ['monthly_revenue','Achieve a monthly revenue target','revenue','revenue_gap'],['close_gap','Close a revenue shortfall','revenue','revenue_gap'],['acquire_customers','Acquire new customers','customers','acquisition'],
-  ['trial_conversion','Improve trial conversion','revenue','trial_conversion'],['increase_aov','Increase average transaction value','revenue','aov'],['annual_membership','Increase annual membership sales','customers','annual_membership'],
-  ['renewals','Improve renewal rates','revenue','retention'],['reactivate','Reactivate lapsed customers','customers','reactivation'],['unused_credits','Reduce unused package credits','customers','unused_credits'],
-  ['weak_month','Increase sales during a weak month','revenue','weak_month'],['anniversary','Maximise anniversary revenue','revenue','anniversary'],['referrals','Generate referral purchases','customers','referral'],
-  ['reduce_discount','Reduce discount dependency','revenue','reduce_discount'],['lead_source','Improve sales from a lead source','revenue','lead_source'],['product_sales','Sell a specific product or package','customers','product_sales'],
-  ['repeat','Increase repeat purchases','customers','additional_purchase'],['segment_revenue','Improve revenue from a customer segment','revenue','additional_purchase'],
+const GOALS = [
+  ['monthly_revenue', 'Achieve a monthly revenue target', 'revenue', 'revenue_gap'],
+  ['close_gap', 'Close a revenue shortfall', 'revenue', 'revenue_gap'],
+  ['acquire_customers', 'Acquire new customers', 'customers', 'acquisition'],
+  ['trial_conversion', 'Improve trial conversion', 'revenue', 'trial_conversion'],
+  ['increase_aov', 'Increase average transaction value', 'revenue', 'aov'],
+  ['annual_membership', 'Increase annual membership sales', 'customers', 'annual_membership'],
+  ['renewals', 'Improve renewal rates', 'revenue', 'retention'],
+  ['reactivate', 'Reactivate lapsed customers', 'customers', 'reactivation'],
+  ['unused_credits', 'Reduce unused package credits', 'customers', 'unused_credits'],
+  ['weak_month', 'Increase sales during a weak month', 'revenue', 'weak_month'],
+  ['anniversary', 'Maximise anniversary revenue', 'revenue', 'anniversary'],
+  ['referrals', 'Generate referral purchases', 'customers', 'referral'],
+  ['reduce_discount', 'Reduce discount dependency', 'revenue', 'reduce_discount'],
+  ['lead_source', 'Improve sales from a lead source', 'revenue', 'lead_source'],
+  ['product_sales', 'Sell a specific product or package', 'customers', 'product_sales'],
+  ['repeat', 'Increase repeat purchases', 'customers', 'additional_purchase'],
+  ['segment_revenue', 'Improve revenue from a customer segment', 'revenue', 'additional_purchase'],
 ];
-export default function GoalBuilder(){
-  const {boot,studioId,year}=useApp();const location=useLocation();const preset=(location.state as any)||{};
-  const [studio,setStudio]=useState(preset.studioId||studioId||boot.studios[0]?.id),[month,setMonth]=useState(preset.month||1),[goal,setGoal]=useState('close_gap');
-  useOnChange(studioId,()=>{if(studioId)setStudio(studioId);});
-  const [target,setTarget]=useState(1800000),[actual,setActual]=useState(1200000),[productId,setProductId]=useState(''),[discount,setDiscount]=useState(15),[budget,setBudget]=useState(0),[style,setStyle]=useState('balanced');
-  const [streams,setStreams]=useState<any[]>([
-    {key:'renewal',label:'Renewals due',audience:100,conversionRate:.12,averageSpend:14000},
-    {key:'reactivation',label:'Recently lapsed',audience:250,conversionRate:.04,averageSpend:9000},
-    {key:'new_client',label:'New-client opportunities',audience:400,conversionRate:.08,averageSpend:10000},
-    {key:'additional',label:'Active-client additional purchases',audience:300,conversionRate:.05,averageSpend:7000},
+export default function GoalBuilder() {
+  const { boot, studioId, year } = useApp();
+  const location = useLocation();
+  const preset = (location.state as any) || {};
+  const [studio, setStudio] = useState(preset.studioId || studioId || boot.studios[0]?.id),
+    [month, setMonth] = useState(preset.month || 1),
+    [goal, setGoal] = useState('close_gap');
+  useOnChange(studioId, () => {
+    if (studioId) setStudio(studioId);
+  });
+  const [target, setTarget] = useState(0),
+    [actual, setActual] = useState(0),
+    [productId, setProductId] = useState(''),
+    [discount, setDiscount] = useState(15),
+    [budget, setBudget] = useState(0),
+    [style, setStyle] = useState('balanced');
+  const [streams, setStreams] = useState<any[]>([
+    { key: 'renewal', label: 'Renewals due', audience: 0, conversionRate: 0.12, averageSpend: 0 },
+    { key: 'reactivation', label: 'Recently lapsed', audience: 0, conversionRate: 0.04, averageSpend: 0 },
+    { key: 'new_client', label: 'New-client opportunities', audience: 0, conversionRate: 0.08, averageSpend: 0 },
+    {
+      key: 'additional',
+      label: 'Active-client additional purchases',
+      audience: 0,
+      conversionRate: 0.05,
+      averageSpend: 0,
+    },
   ]);
-  const [result,setResult]=useState<any>(null),[loading,setLoading]=useState(false),[error,setError]=useState('');
-  const {data}=useLoadSegments(studio,year,month);
-  useEffect(()=>{if(!data)return;const segment=(key:string)=>data.segments.rows.find((r:any)=>r.studio_id===studio&&r.segment_key===key);const a=data.dashboard.rows[0]?.actual;const t=data.targets.rows.find((r:any)=>r.month===month);if(t){setTarget(t.approved_target??t.proposed_target??target);setActual(year<=2026?(a?.revenue||0):0);}setStreams(current=>current.map(s=>{const seg=segment(s.key==='renewal'?'approaching_expiry':s.key==='reactivation'?'recently_lapsed':s.key==='new_client'?'unconverted_trials':'active_customers');return {...s,audience:seg?.audience_size??s.audience,averageSpend:seg?.average_spend||s.averageSpend};}));},[data]);
-  const config=GOALS.find(g=>g[0]===goal)!;const isCount=config[2]==='customers';
-  const unitValue=streams.find(s=>s.key===(config[3]==='retention'?'renewal':config[3]==='reactivation'?'reactivation':config[3]==='additional_purchase'?'additional':'new_client'))?.averageSpend||10000;
-  const revenueTarget=isCount?target*unitValue:target,revenueActual=isCount?actual*unitValue:actual;
-  const gap=Math.max(0,revenueTarget-revenueActual);
-  const setStream=(index:number,key:string,value:any)=>setStreams(current=>current.map((s,i)=>i===index?{...s,[key]:Number(value)}:s));
-  const solve=async()=>{setLoading(true);setError('');try{setResult(await post('/goals/solve',{studioId:studio,year,month,objective:config[3],segment:preset.segment||(config[3]==='reactivation'?'recently_lapsed':config[3]==='retention'?'approaching_expiry':config[3]==='trial_conversion'?'unconverted_trials':'active_customers'),target:revenueTarget,actual:revenueActual,targetRevenue:gap,productId:productId?Number(productId):undefined,streams:streams.map(({key,audience,conversionRate,averageSpend})=>({key,audience,conversionRate,averageSpend})),maxDiscountPercent:discount,budget,tone:style==='premium'?'premium':'witty',count:3}));}catch(error:any){setError(error.message);}finally{setLoading(false);}};
-  const products=boot.products.filter(p=>p.studio_id===studio);
-  return <div>
-    <PageHeader eyebrow="REVERSE-ENGINEER THE COMMERCIAL OUTCOME" title="Start with the gap, not the discount" description="Allocate recovery across feasible customer streams before evaluating an offer. The solver will not pretend one campaign can cover an impossible gap."/>
-    <Card><CardHeader title="Business goal" subtitle="Targets, current performance and conversion assumptions recalculate the recommended plan"/><div className="form-grid three"><Field label="Studio"><Select value={studio} onChange={e=>setStudio(Number(e.target.value))}>{boot.studios.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</Select></Field><Field label="Month"><Select value={month} onChange={e=>setMonth(Number(e.target.value))}>{MONTHS.map((m,i)=><option key={m} value={i+1}>{m} {year}</option>)}</Select></Field><Field label="Goal type"><Select value={goal} onChange={e=>{setGoal(e.target.value);setResult(null);}}>{GOALS.map(g=><option key={g[0]} value={g[0]}>{g[1]}</option>)}</Select></Field><Field label={isCount?'Target customer count':'Target revenue (₹)'}><Input type="number" min="0" value={target} onChange={e=>setTarget(Number(e.target.value))}/></Field><Field label={isCount?'Customers achieved to date':'Actual revenue to date (₹)'}><Input type="number" min="0" value={actual} onChange={e=>setActual(Number(e.target.value))}/></Field><Field label="Remaining gap"><div className="calculated-input">{isCount?`${number(Math.max(0,target-actual))} customers · `:''}<strong>{money(gap,true)}</strong></div></Field></div><div className="form-grid three"><Field label="Eligible product"><Select value={productId} onChange={e=>setProductId(e.target.value)}><option value="">Recommend suitable product</option>{products.map(p=><option key={p.id} value={p.id}>{p.name} · {money(p.list_price)}</option>)}</Select></Field><Field label="Discount ceiling (%)"><Input type="number" min="0" max="100" value={discount} onChange={e=>setDiscount(Number(e.target.value))}/></Field><Field label="Campaign budget (₹)"><Input type="number" min="0" value={budget} onChange={e=>setBudget(Number(e.target.value))}/></Field><Field label="Preferred campaign style"><Select value={style} onChange={e=>setStyle(e.target.value)}><option value="balanced">Balanced</option><option value="high_conversion">Higher conversion</option><option value="premium">Premium / low discount</option><option value="creative">Creative & novelty-led</option></Select></Field></div></Card>
-    <Card><CardHeader title="Addressable streams and feasibility" subtitle="Audience × conversion × average spend determines each stream’s maximum feasible contribution" action={<Badge tone="amber">Editable assumptions</Badge>}/><div className="stream-input-table"><div className="stream-head"><span>Revenue stream</span><span>Eligible audience</span><span>Conversion assumption</span><span>Average spend (₹)</span><span>Feasible potential</span></div>{streams.map((s,i)=><div className="stream-row" key={s.key}><strong>{s.label}</strong><Input type="number" min="0" value={s.audience} onChange={e=>setStream(i,'audience',e.target.value)}/><div className="percent-input"><Input type="number" min="0" max="100" step="0.5" value={s.conversionRate*100} onChange={e=>setStream(i,'conversionRate',Number(e.target.value)/100)}/><span>%</span></div><Input type="number" min="0" value={s.averageSpend} onChange={e=>setStream(i,'averageSpend',e.target.value)}/><span>{money(Math.floor(s.audience*s.conversionRate)*s.averageSpend,true)}</span></div>)}</div>{error&&<Callout tone="danger">{error}</Callout>}<Button size="lg" icon={<Goal size={18}/>} onClick={solve} disabled={loading}>{loading?'Solving goal…':'Solve goal & compare interventions'}</Button></Card>
-    {result&&<><div className="planning-summary"><Metric label="Revenue gap" value={money(result.gap,true)} detail={isCount?`${number(Math.max(0,target-actual))} customers remaining`:'Target less current actual'}/><Metric label="Feasible stream coverage" value={percent(result.coveragePercent)} detail={money(result.gap-result.uncoveredGap,true)+' allocated'}/><Metric label="Uncovered gap" value={money(result.uncoveredGap,true)} tone={result.uncoveredGap>0?'negative':'positive'} detail={result.uncoveredGap>0?'Needs non-offer intervention or plan revision':'Covered by modelled streams'}/></div>{result.uncoveredGap>0&&<Callout tone="warning" title="One offer is not the whole answer">The feasible audience and spend assumptions leave {money(result.uncoveredGap)} uncovered. Review pipeline, follow-up, renewal operations and the management forecast rather than simply increasing the discount.</Callout>}<Card><CardHeader title="Recommended contribution mix" subtitle="Each stream is capped by its own feasible potential"/><div className="allocation-bar">{result.allocations.map((a:any,i:number)=><span key={a.key} style={{width:`${result.gap?a.contribution/result.gap*100:0}%`}} className={`allocation-${i}`} title={`${a.key}: ${money(a.contribution)}`}/>)}</div><table className="data-table"><thead><tr><th>Stream</th><th className="num">Required buyers</th><th className="num">Required outreach</th><th className="num">Feasible buyers</th><th className="num">Potential</th><th className="num">Allocated contribution</th></tr></thead><tbody>{result.allocations.map((a:any)=><tr key={a.key}><td><strong>{a.key.replaceAll('_',' ')}</strong></td><td className="num">{number(a.buyers)}</td><td className="num">{number(a.requiredOutreach)}</td><td className="num">{number(a.feasibleBuyers)}</td><td className="num">{money(a.potentialRevenue,true)}</td><td className="num"><strong>{money(a.contribution,true)}</strong></td></tr>)}</tbody></table><p className="data-note">{result.assumptions}</p></Card><OfferConceptBoard offers={[result.primary,result.fallback].filter(Boolean)} source="rules_engine"/></>}
-  </div>;
+  const [result, setResult] = useState<any>(null),
+    [loading, setLoading] = useState(false),
+    [error, setError] = useState('');
+  const { data, dataLoading, dataError } = useLoadSegments(studio, year, month);
+  const [targetAvailable, setTargetAvailable] = useState(false);
+  useEffect(() => {
+    if (!data) return;
+    const segment = (key: string) =>
+      data.segments.rows.find((r: any) => r.studio_id === studio && r.segment_key === key);
+    const a = data.dashboard.rows[0]?.actual;
+    const t = data.targets.rows.find((r: any) => r.month === month);
+    setTargetAvailable(Boolean(t));
+    setTarget(t?.approved_target ?? t?.proposed_target ?? 0);
+    setActual(year <= 2026 ? a?.revenue || 0 : 0);
+    setStreams(current =>
+      current.map(s => {
+        const seg = segment(
+          s.key === 'renewal'
+            ? 'approaching_expiry'
+            : s.key === 'reactivation'
+              ? 'recently_lapsed'
+              : s.key === 'new_client'
+                ? 'unconverted_trials'
+                : 'active_customers',
+        );
+        return { ...s, audience: Number(seg?.audience_size) || 0, averageSpend: Number(seg?.average_spend) || 0 };
+      }),
+    );
+  }, [data, month, studio, year]);
+  const config = GOALS.find(g => g[0] === goal)!;
+  const isCount = config[2] === 'customers';
+  const unitValue =
+    streams.find(
+      s =>
+        s.key ===
+        (config[3] === 'retention'
+          ? 'renewal'
+          : config[3] === 'reactivation'
+            ? 'reactivation'
+            : config[3] === 'additional_purchase'
+              ? 'additional'
+              : 'new_client'),
+    )?.averageSpend || 10000;
+  const revenueTarget = isCount ? target * unitValue : target,
+    revenueActual = isCount ? actual * unitValue : actual;
+  const gap = Math.max(0, revenueTarget - revenueActual);
+  const setStream = (index: number, key: string, value: any) =>
+    setStreams(current => current.map((s, i) => (i === index ? { ...s, [key]: Number(value) } : s)));
+  const solve = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      setResult(
+        await post('/goals/solve', {
+          studioId: studio,
+          year,
+          month,
+          objective: config[3],
+          segment:
+            preset.segment ||
+            (config[3] === 'reactivation'
+              ? 'recently_lapsed'
+              : config[3] === 'retention'
+                ? 'approaching_expiry'
+                : config[3] === 'trial_conversion'
+                  ? 'unconverted_trials'
+                  : 'active_customers'),
+          target: revenueTarget,
+          actual: revenueActual,
+          targetRevenue: gap,
+          productId: productId ? Number(productId) : undefined,
+          streams: streams.map(({ key, audience, conversionRate, averageSpend }) => ({
+            key,
+            audience,
+            conversionRate,
+            averageSpend,
+          })),
+          maxDiscountPercent: discount,
+          budget,
+          tone: style === 'premium' ? 'premium' : 'witty',
+          count: 3,
+        }),
+      );
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const products = boot.products.filter(p => p.studio_id === studio);
+  return (
+    <div>
+      <PageHeader
+        eyebrow="REVERSE-ENGINEER THE COMMERCIAL OUTCOME"
+        title="Start with the gap, not the discount"
+        description="Allocate recovery across feasible customer streams before evaluating an offer. The solver will not pretend one campaign can cover an impossible gap."
+      />
+      <Card>
+        <CardHeader
+          title="Business goal"
+          subtitle="Targets, current performance and conversion assumptions recalculate the recommended plan"
+        />
+        {dataError && (
+          <Callout tone="danger">
+            Could not load planning data. Check the connection; values below are zero until entered manually.
+          </Callout>
+        )}
+        {!dataLoading && !dataError && !targetAvailable && (
+          <Callout tone="warning">
+            No saved target exists for this studio and month. Enter a target manually; actuals and segment data are
+            loaded separately.
+          </Callout>
+        )}
+        <div className="form-grid three">
+          <Field label="Studio">
+            <Select value={studio} onChange={e => setStudio(Number(e.target.value))}>
+              {boot.studios.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <Field label="Month">
+            <Select value={month} onChange={e => setMonth(Number(e.target.value))}>
+              {MONTHS.map((m, i) => (
+                <option key={m} value={i + 1}>
+                  {m} {year}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <Field label="Goal type">
+            <Select
+              value={goal}
+              onChange={e => {
+                setGoal(e.target.value);
+                setResult(null);
+              }}
+            >
+              {GOALS.map(g => (
+                <option key={g[0]} value={g[0]}>
+                  {g[1]}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <Field label={isCount ? 'Target customer count' : 'Target revenue (₹)'}>
+            <Input type="number" min="0" value={target} onChange={e => setTarget(Number(e.target.value))} />
+          </Field>
+          <Field label={isCount ? 'Customers achieved to date' : 'Actual revenue to date (₹)'}>
+            <Input type="number" min="0" value={actual} onChange={e => setActual(Number(e.target.value))} />
+          </Field>
+          <Field label="Remaining gap">
+            <div className="calculated-input">
+              {isCount ? `${number(Math.max(0, target - actual))} customers · ` : ''}
+              <strong>{money(gap, true)}</strong>
+            </div>
+          </Field>
+        </div>
+        <div className="form-grid three">
+          <Field label="Eligible product">
+            <Select value={productId} onChange={e => setProductId(e.target.value)}>
+              <option value="">Recommend suitable product</option>
+              {products.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.name} · {money(p.list_price)}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <Field label="Discount ceiling (%)">
+            <Input
+              type="number"
+              min="0"
+              max="100"
+              value={discount}
+              onChange={e => setDiscount(Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Campaign budget (₹)">
+            <Input type="number" min="0" value={budget} onChange={e => setBudget(Number(e.target.value))} />
+          </Field>
+          <Field label="Preferred campaign style">
+            <Select value={style} onChange={e => setStyle(e.target.value)}>
+              <option value="balanced">Balanced</option>
+              <option value="high_conversion">Higher conversion</option>
+              <option value="premium">Premium / low discount</option>
+              <option value="creative">Creative & novelty-led</option>
+            </Select>
+          </Field>
+        </div>
+      </Card>
+      <Card>
+        <CardHeader
+          title="Addressable streams and feasibility"
+          subtitle="Audience × conversion × average spend determines each stream’s maximum feasible contribution"
+          action={<Badge tone="amber">Editable assumptions</Badge>}
+        />
+        <div className="stream-input-table">
+          <div className="stream-head">
+            <span>Revenue stream</span>
+            <span>Eligible audience</span>
+            <span>Conversion assumption</span>
+            <span>Average spend (₹)</span>
+            <span>Feasible potential</span>
+          </div>
+          {streams.map((s, i) => (
+            <div className="stream-row" key={s.key}>
+              <strong>{s.label}</strong>
+              <Input
+                type="number"
+                min="0"
+                value={s.audience}
+                onChange={e => setStream(i, 'audience', e.target.value)}
+              />
+              <div className="percent-input">
+                <Input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.5"
+                  value={s.conversionRate * 100}
+                  onChange={e => setStream(i, 'conversionRate', Number(e.target.value) / 100)}
+                />
+                <span>%</span>
+              </div>
+              <Input
+                type="number"
+                min="0"
+                value={s.averageSpend}
+                onChange={e => setStream(i, 'averageSpend', e.target.value)}
+              />
+              <span>{money(Math.floor(s.audience * s.conversionRate) * s.averageSpend, true)}</span>
+            </div>
+          ))}
+        </div>
+        {error && <Callout tone="danger">{error}</Callout>}
+        <Button size="lg" icon={<Goal size={18} />} onClick={solve} disabled={loading}>
+          {loading ? 'Solving goal…' : 'Solve goal & compare interventions'}
+        </Button>
+      </Card>
+      {result && (
+        <>
+          <div className="planning-summary">
+            <Metric
+              label="Revenue gap"
+              value={money(result.gap, true)}
+              detail={
+                isCount ? `${number(Math.max(0, target - actual))} customers remaining` : 'Target less current actual'
+              }
+            />
+            <Metric
+              label="Feasible stream coverage"
+              value={percent(result.coveragePercent)}
+              detail={money(result.gap - result.uncoveredGap, true) + ' allocated'}
+            />
+            <Metric
+              label="Uncovered gap"
+              value={money(result.uncoveredGap, true)}
+              tone={result.uncoveredGap > 0 ? 'negative' : 'positive'}
+              detail={
+                result.uncoveredGap > 0
+                  ? 'Needs non-offer intervention or plan revision'
+                  : 'Covered by modelled streams'
+              }
+            />
+          </div>
+          {result.uncoveredGap > 0 && (
+            <Callout tone="warning" title="One offer is not the whole answer">
+              The feasible audience and spend assumptions leave {money(result.uncoveredGap)} uncovered. Review pipeline,
+              follow-up, renewal operations and the management forecast rather than simply increasing the discount.
+            </Callout>
+          )}
+          <Card>
+            <CardHeader
+              title="Recommended contribution mix"
+              subtitle="Each stream is capped by its own feasible potential"
+            />
+            <div className="allocation-bar">
+              {result.allocations.map((a: any, i: number) => (
+                <span
+                  key={a.key}
+                  style={{ width: `${result.gap ? (a.contribution / result.gap) * 100 : 0}%` }}
+                  className={`allocation-${i}`}
+                  title={`${a.key}: ${money(a.contribution)}`}
+                />
+              ))}
+            </div>
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Stream</th>
+                  <th className="num">Required buyers</th>
+                  <th className="num">Required outreach</th>
+                  <th className="num">Feasible buyers</th>
+                  <th className="num">Potential</th>
+                  <th className="num">Allocated contribution</th>
+                </tr>
+              </thead>
+              <tbody>
+                {result.allocations.map((a: any) => (
+                  <tr key={a.key}>
+                    <td>
+                      <strong>{a.key.replaceAll('_', ' ')}</strong>
+                    </td>
+                    <td className="num">{number(a.buyers)}</td>
+                    <td className="num">{number(a.requiredOutreach)}</td>
+                    <td className="num">{number(a.feasibleBuyers)}</td>
+                    <td className="num">{money(a.potentialRevenue, true)}</td>
+                    <td className="num">
+                      <strong>{money(a.contribution, true)}</strong>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="data-note">{result.assumptions}</p>
+          </Card>
+          <OfferConceptBoard offers={[result.primary, result.fallback].filter(Boolean)} source="rules_engine" />
+        </>
+      )}
+    </div>
+  );
 }
-function useLoadSegments(studio:number,year:number,month:number){const [data,setData]=useState<any>(null);useEffect(()=>{Promise.all([api(`/segments?studio=${studio}`),api(`/targets?year=${year}&studio=${studio}`),api(`/dashboard?year=${Math.min(year,2026)}&month=${month}&studio=${studio}`)]).then(([segments,targets,dashboard])=>setData({segments,targets,dashboard})).catch(()=>{});},[studio,year,month]);return {data};}
+function useLoadSegments(studio: number, year: number, month: number) {
+  const [data, setData] = useState<any>(null),
+    [dataLoading, setLoading] = useState(true),
+    [dataError, setError] = useState('');
+  useEffect(() => {
+    let active = true;
+    setData(null);
+    setLoading(true);
+    setError('');
+    Promise.all([
+      api(`/segments?studio=${studio}`),
+      api(`/targets?year=${year}&studio=${studio}`),
+      api(`/dashboard?year=${Math.min(year, 2026)}&month=${month}&studio=${studio}`),
+    ])
+      .then(([segments, targets, dashboard]) => {
+        if (active) setData({ segments, targets, dashboard });
+      })
+      .catch((e: any) => {
+        if (active) setError(e.message || 'Unable to load planning data.');
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [studio, year, month]);
+  return { data, dataLoading, dataError };
+}

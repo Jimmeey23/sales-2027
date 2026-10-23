@@ -44,7 +44,7 @@ For an existing populated workspace, use `npm install && npm run dev` without re
 
 ### Direct workspace access
 
-There is no login page. The application opens directly into an administrator demonstration session, while the API retains persistent sessions, role permissions, studio scope, and audit attribution. Set `DIRECT_WORKSPACE=false` only if you intend to place a separate identity gateway in front of the app; the current UI is intentionally login-free.
+Sign-in is required by default. Set `DIRECT_WORKSPACE=true` only on a local or trusted network: it opens directly into an administrator session for every visitor. Set passwords with `npm run user -- password you@example.com "long-password"`.
 
 The seeded API accounts remain available for automated role/RBAC verification. Rotate or disable their shared demonstration passwords before any real deployment, and protect the login-free workspace with trusted network or identity-aware access control. See [Deployment](docs/DEPLOYMENT.md).
 

@@ -1,6 +1,10 @@
 export function money(value: unknown): number {
   if (value === null || value === undefined || value === '' || value === '-') return 0;
-  const parsed = Number(String(value).replace(/[₹,\s]/g, '').replace(/%$/, ''));
+  const parsed = Number(
+    String(value)
+      .replace(/[₹,\s]/g, '')
+      .replace(/%$/, ''),
+  );
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
@@ -24,7 +28,9 @@ export function parseMonth(value: unknown): string | null {
   if (direct) return direct.slice(0, 7);
   const text = String(value ?? '').trim();
   const parsed = new Date(`1 ${text}`);
-  return Number.isNaN(parsed.getTime()) ? null : `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}`;
+  return Number.isNaN(parsed.getTime())
+    ? null
+    : `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}`;
 }
 
 export function daysBetween(from: string | null, to: string | null): number | null {
@@ -33,7 +39,13 @@ export function daysBetween(from: string | null, to: string | null): number | nu
   return Number.isFinite(ms) ? Math.round(ms / 86400000) : null;
 }
 
-export function json<T>(value: T): string { return JSON.stringify(value); }
+export function json<T>(value: T): string {
+  return JSON.stringify(value);
+}
 export function fromJson<T>(value: unknown, fallback: T): T {
-  try { return JSON.parse(String(value)) as T; } catch { return fallback; }
+  try {
+    return JSON.parse(String(value)) as T;
+  } catch {
+    return fallback;
+  }
 }

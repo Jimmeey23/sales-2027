@@ -6,15 +6,34 @@ const scalar = (sql: string, ...params: unknown[]) => (db.prepare(sql).get(...pa
 const monthKey = (year: number, month: number) => `${year}-${String(month).padStart(2, '0')}`;
 
 export function dataCoverage() {
-  const sales = db.prepare('SELECT MIN(purchased_at) first, MAX(purchased_at) last, COUNT(*) rows, COUNT(DISTINCT studio_id) studios FROM transactions').get() as any;
+  const sales = db
+    .prepare(
+      'SELECT MIN(purchased_at) first, MAX(purchased_at) last, COUNT(*) rows, COUNT(DISTINCT studio_id) studios FROM transactions',
+    )
+    .get() as any;
   const leads = db.prepare('SELECT MIN(created_at) first, MAX(created_at) last, COUNT(*) rows FROM leads').get() as any;
-  const trials = db.prepare('SELECT MIN(first_visit_at) first, MAX(first_visit_at) last, COUNT(*) rows FROM member_visits').get() as any;
-  const sessions = db.prepare('SELECT MIN(session_date) first, MAX(session_date) last, COUNT(*) rows FROM class_sessions').get() as any;
-  const payroll = db.prepare('SELECT MIN(month) first, MAX(month) last, COUNT(*) rows FROM trainer_performance').get() as any;
-  const checkins = db.prepare(`SELECT date(MIN(session_at),'unixepoch') first, date(MAX(session_at),'unixepoch') last, COUNT(*) rows,
-    SUM(CASE WHEN session_at>=strftime('%s','now','start of day') THEN 1 ELSE 0 END) future_or_current_day_rows FROM checkins`).get() as any;
+  const trials = db
+    .prepare('SELECT MIN(first_visit_at) first, MAX(first_visit_at) last, COUNT(*) rows FROM member_visits')
+    .get() as any;
+  const sessions = db
+    .prepare('SELECT MIN(session_date) first, MAX(session_date) last, COUNT(*) rows FROM class_sessions')
+    .get() as any;
+  const payroll = db
+    .prepare('SELECT MIN(month) first, MAX(month) last, COUNT(*) rows FROM trainer_performance')
+    .get() as any;
+  const checkins = db
+    .prepare(
+      `SELECT date(MIN(session_at),'unixepoch') first, date(MAX(session_at),'unixepoch') last, COUNT(*) rows,
+    SUM(CASE WHEN session_at>=strftime('%s','now','start of day') THEN 1 ELSE 0 END) future_or_current_day_rows FROM checkins`,
+    )
+    .get() as any;
   return {
-    sales, leads, trials, sessions, payroll, checkins,
+    sales,
+    leads,
+    trials,
+    sessions,
+    payroll,
+    checkins,
     limitations: [
       'Sales revenue uses Payment Value (gross collected value); voided or unsuccessful rows are excluded and reported during import.',
       'New-client revenue means first observed service purchase inside the imported sales history, not guaranteed lifetime acquisition.',
@@ -28,7 +47,9 @@ export function dataCoverage() {
 }
 
 export function actualMetrics(studioId: number, month: string) {
-  const revenue = db.prepare(`SELECT COUNT(*) transactions, COALESCE(SUM(amount),0) revenue, AVG(amount) aov,
+  const revenue = db
+    .prepare(
+      `SELECT COUNT(*) transactions, COALESCE(SUM(amount),0) revenue, AVG(amount) aov,
     COALESCE(SUM(CASE WHEN revenue_stream='new_client' THEN amount ELSE 0 END),0) new_client,
     COALESCE(SUM(CASE WHEN revenue_stream='renewal' THEN amount ELSE 0 END),0) renewal,
     COALESCE(SUM(CASE WHEN revenue_stream='reactivation' THEN amount ELSE 0 END),0) reactivation,
@@ -37,35 +58,71 @@ export function actualMetrics(studioId: number, month: string) {
     SUM(CASE WHEN is_first_observed=1 THEN 1 ELSE 0 END) first_purchases,
     AVG(CASE WHEN is_first_observed=1 THEN amount END) first_purchase_value,
     SUM(CASE WHEN discount_amount>0 THEN 1 ELSE 0 END) discounted_transactions
-    FROM transactions WHERE studio_id=? AND month=?`).get(studioId, month) as any;
+    FROM transactions WHERE studio_id=? AND month=?`,
+    )
+    .get(studioId, month) as any;
   const leads = scalar('SELECT COUNT(*) value FROM leads WHERE studio_id=? AND month=?', studioId, month) || 0;
-  const completedTrials = scalar('SELECT COUNT(*) value FROM member_visits WHERE studio_id=? AND month=?', studioId, month) || 0;
+  const completedTrials =
+    scalar('SELECT COUNT(*) value FROM member_visits WHERE studio_id=? AND month=?', studioId, month) || 0;
   const mature = new Date(`${month}-01T00:00:00Z`).getTime() + 90 * 86400000 < Date.now();
   let trialConversion: number | null = null;
   if (mature) {
-    const cohort = db.prepare(`SELECT COUNT(*) total, SUM(CASE WHEN first_purchase_at IS NOT NULL AND julianday(first_purchase_at)-julianday(first_visit_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) converted
-      FROM member_visits WHERE studio_id=? AND month=?`).get(studioId, month) as any;
+    const cohort = db
+      .prepare(
+        `SELECT COUNT(*) total, SUM(CASE WHEN first_purchase_at IS NOT NULL AND julianday(first_purchase_at)-julianday(first_visit_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) converted
+      FROM member_visits WHERE studio_id=? AND month=?`,
+      )
+      .get(studioId, month) as any;
     trialConversion = cohort.total > 0 ? (cohort.converted || 0) / cohort.total : null;
   }
-  const attendance = db.prepare(`SELECT COUNT(*) bookings,COALESCE(SUM(checked_in),0) checkins,COALESCE(SUM(late_cancelled),0) late_cancellations,
+  const attendance = db
+    .prepare(
+      `SELECT COUNT(*) bookings,COALESCE(SUM(checked_in),0) checkins,COALESCE(SUM(late_cancelled),0) late_cancellations,
     COALESCE(SUM(CASE WHEN checked_in=0 AND late_cancelled=0 THEN 1 ELSE 0 END),0) other_not_checked
-    FROM checkins WHERE studio_id=? AND month=? AND session_at<strftime('%s','now','start of day')`).get(studioId, month) as any;
-  return { ...revenue, leads, completed_trials: completedTrials, trial_conversion: trialConversion,
-    booking_count: attendance.bookings, checkin_count: attendance.checkins, late_cancellation_count: attendance.late_cancellations,
+    FROM checkins WHERE studio_id=? AND month=? AND session_at<strftime('%s','now','start of day')`,
+    )
+    .get(studioId, month) as any;
+  return {
+    ...revenue,
+    leads,
+    completed_trials: completedTrials,
+    trial_conversion: trialConversion,
+    booking_count: attendance.bookings,
+    checkin_count: attendance.checkins,
+    late_cancellation_count: attendance.late_cancellations,
     other_not_checked_count: attendance.other_not_checked,
     checkin_rate: attendance.bookings ? attendance.checkins / attendance.bookings : null,
     late_cancellation_rate: attendance.bookings ? attendance.late_cancellations / attendance.bookings : null,
-    lead_to_purchase: leads ? (scalar(`SELECT COUNT(*) value FROM leads WHERE studio_id=? AND month=? AND converted_at IS NOT NULL AND julianday(converted_at)-julianday(created_at) BETWEEN 0 AND 90`, studioId, month) || 0) / leads : null };
+    lead_to_purchase: leads
+      ? (scalar(
+          `SELECT COUNT(*) value FROM leads WHERE studio_id=? AND month=? AND converted_at IS NOT NULL AND julianday(converted_at)-julianday(created_at) BETWEEN 0 AND 90`,
+          studioId,
+          month,
+        ) || 0) / leads
+      : null,
+  };
 }
 
 export function observedFunnel(studioId: number) {
-  const trial = db.prepare(`SELECT COUNT(*) total, SUM(CASE WHEN first_purchase_at IS NOT NULL AND julianday(first_purchase_at)-julianday(first_visit_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) converted
-    FROM member_visits WHERE studio_id=? AND first_visit_at<=date('now','-90 days')`).get(studioId) as any;
-  const lead = db.prepare(`SELECT COUNT(*) total, SUM(CASE WHEN converted_at IS NOT NULL AND julianday(converted_at)-julianday(created_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) converted
-    FROM leads WHERE studio_id=? AND created_at<=date('now','-90 days')`).get(studioId) as any;
-  const attendance = db.prepare(`SELECT COUNT(*) total,COALESCE(SUM(checked_in),0) attended,COALESCE(SUM(late_cancelled),0) late_cancelled
+  const trial = db
+    .prepare(
+      `SELECT COUNT(*) total, SUM(CASE WHEN first_purchase_at IS NOT NULL AND julianday(first_purchase_at)-julianday(first_visit_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) converted
+    FROM member_visits WHERE studio_id=? AND first_visit_at<=date('now','-90 days')`,
+    )
+    .get(studioId) as any;
+  const lead = db
+    .prepare(
+      `SELECT COUNT(*) total, SUM(CASE WHEN converted_at IS NOT NULL AND julianday(converted_at)-julianday(created_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) converted
+    FROM leads WHERE studio_id=? AND created_at<=date('now','-90 days')`,
+    )
+    .get(studioId) as any;
+  const attendance = db
+    .prepare(
+      `SELECT COUNT(*) total,COALESCE(SUM(checked_in),0) attended,COALESCE(SUM(late_cancelled),0) late_cancelled
     FROM checkins WHERE studio_id=? AND session_at<strftime('%s','now','start of day')
-      AND session_at>=strftime('%s','now','start of day','-12 months')`).get(studioId) as any;
+      AND session_at>=strftime('%s','now','start of day','-12 months')`,
+    )
+    .get(studioId) as any;
   return {
     trialToPurchaseRate: trial.total ? (trial.converted || 0) / trial.total : 0,
     bookingToAttendanceRate: attendance.total ? attendance.attended / attendance.total : 0.7,
@@ -76,16 +133,21 @@ export function observedFunnel(studioId: number) {
       leadToBookingRate: 'manual_assumption',
     },
     sampleSizes: { trialCohort: trial.total || 0, leadCohort: lead.total || 0, bookingCohort: attendance.total || 0 },
-    bookingRateScope: attendance.total ? 'Observed across all Checkins bookings in the trailing 12 months; not trial-specific.' : 'No Checkins history; fallback assumption.',
+    bookingRateScope: attendance.total
+      ? 'Observed across all Checkins bookings in the trailing 12 months; not trial-specific.'
+      : 'No Checkins history; fallback assumption.',
     lateCancellationRate: attendance.total ? attendance.late_cancelled / attendance.total : null,
     leadToPurchaseObserved: lead.total ? (lead.converted || 0) / lead.total : null,
   };
 }
 
 export function attendanceProfile(studioId: number, year: number) {
-  const firstMonth = `${year}-01`, lastMonth = `${year}-12`;
+  const firstMonth = `${year}-01`,
+    lastMonth = `${year}-12`;
   const observed = `session_at<strftime('%s','now','start of day')`;
-  const summary = db.prepare(`SELECT COUNT(*) bookings,COALESCE(SUM(checked_in),0) checkins,COALESCE(SUM(late_cancelled),0) late_cancellations,
+  const summary = db
+    .prepare(
+      `SELECT COUNT(*) bookings,COALESCE(SUM(checked_in),0) checkins,COALESCE(SUM(late_cancelled),0) late_cancellations,
     COALESCE(SUM(CASE WHEN checked_in=0 AND late_cancelled=0 THEN 1 ELSE 0 END),0) other_not_checked,
     COALESCE(SUM(complimentary),0) complimentary,
     COUNT(DISTINCT CASE WHEN checked_in=1 THEN member_ref END) active_members,
@@ -93,85 +155,156 @@ export function attendanceProfile(studioId: number, year: number) {
     COALESCE(SUM(CASE WHEN checked_in=1 AND visit_type LIKE 'New -%' THEN 1 ELSE 0 END),0) new_attendee_visits,
     AVG(CASE WHEN checked_in=1 AND order_at IS NOT NULL AND session_at>=order_at THEN (session_at-order_at)/3600.0 END) attended_lead_hours,
     AVG(CASE WHEN late_cancelled=1 AND order_at IS NOT NULL AND session_at>=order_at THEN (session_at-order_at)/3600.0 END) cancelled_lead_hours
-    FROM checkins WHERE studio_id=? AND month BETWEEN ? AND ? AND ${observed}`).get(studioId, firstMonth, lastMonth) as any;
-  const monthly = (db.prepare(`SELECT month,COUNT(*) bookings,SUM(checked_in) checkins,SUM(late_cancelled) late_cancellations,
+    FROM checkins WHERE studio_id=? AND month BETWEEN ? AND ? AND ${observed}`,
+    )
+    .get(studioId, firstMonth, lastMonth) as any;
+  const monthly = (
+    db
+      .prepare(
+        `SELECT month,COUNT(*) bookings,SUM(checked_in) checkins,SUM(late_cancelled) late_cancellations,
     SUM(CASE WHEN checked_in=0 AND late_cancelled=0 THEN 1 ELSE 0 END) other_not_checked,
     COUNT(DISTINCT CASE WHEN checked_in=1 THEN member_ref END) active_members,
     SUM(CASE WHEN checked_in=1 AND visit_type LIKE 'New -%' THEN 1 ELSE 0 END) new_attendee_visits
     FROM checkins WHERE studio_id=? AND month BETWEEN ? AND ? AND ${observed}
-    GROUP BY month ORDER BY month`).all(studioId, firstMonth, lastMonth) as any[]).map(row => ({
-      ...row, checkin_rate: row.bookings ? row.checkins / row.bookings : null,
-      late_cancellation_rate: row.bookings ? row.late_cancellations / row.bookings : null,
-      visits_per_member: row.active_members ? row.checkins / row.active_members : null,
-      partial: row.month === new Date().toISOString().slice(0, 7),
-    }));
-  const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const weekdays = (db.prepare(`SELECT CAST(strftime('%w',session_at,'unixepoch') AS INTEGER) day_index,COUNT(*) bookings,
+    GROUP BY month ORDER BY month`,
+      )
+      .all(studioId, firstMonth, lastMonth) as any[]
+  ).map(row => ({
+    ...row,
+    checkin_rate: row.bookings ? row.checkins / row.bookings : null,
+    late_cancellation_rate: row.bookings ? row.late_cancellations / row.bookings : null,
+    visits_per_member: row.active_members ? row.checkins / row.active_members : null,
+    partial: row.month === new Date().toISOString().slice(0, 7),
+  }));
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekdays = (
+    db
+      .prepare(
+        `SELECT CAST(strftime('%w',session_at,'unixepoch') AS INTEGER) day_index,COUNT(*) bookings,
     SUM(checked_in) checkins,SUM(late_cancelled) late_cancellations
     FROM checkins WHERE studio_id=? AND month BETWEEN ? AND ? AND ${observed}
-    GROUP BY day_index ORDER BY day_index`).all(studioId, firstMonth, lastMonth) as any[]).map(row => ({
-      day: dayNames[row.day_index], bookings: row.bookings, checkins: row.checkins, late_cancellations: row.late_cancellations,
-      checkin_rate: row.bookings ? row.checkins / row.bookings : null,
-      late_cancellation_rate: row.bookings ? row.late_cancellations / row.bookings : null,
-    }));
-  const timeBands = (db.prepare(`SELECT CASE WHEN CAST(strftime('%H',session_at,'unixepoch') AS INTEGER)<10 THEN 'Before 10:00'
+    GROUP BY day_index ORDER BY day_index`,
+      )
+      .all(studioId, firstMonth, lastMonth) as any[]
+  ).map(row => ({
+    day: dayNames[row.day_index],
+    bookings: row.bookings,
+    checkins: row.checkins,
+    late_cancellations: row.late_cancellations,
+    checkin_rate: row.bookings ? row.checkins / row.bookings : null,
+    late_cancellation_rate: row.bookings ? row.late_cancellations / row.bookings : null,
+  }));
+  const timeBands = (
+    db
+      .prepare(
+        `SELECT CASE WHEN CAST(strftime('%H',session_at,'unixepoch') AS INTEGER)<10 THEN 'Before 10:00'
       WHEN CAST(strftime('%H',session_at,'unixepoch') AS INTEGER)<14 THEN '10:00–13:59'
       WHEN CAST(strftime('%H',session_at,'unixepoch') AS INTEGER)<17 THEN '14:00–16:59' ELSE '17:00 onwards' END band,
     MIN(CAST(strftime('%H',session_at,'unixepoch') AS INTEGER)) sort_hour,COUNT(*) bookings,SUM(checked_in) checkins,SUM(late_cancelled) late_cancellations
     FROM checkins WHERE studio_id=? AND month BETWEEN ? AND ? AND ${observed}
-    GROUP BY band ORDER BY sort_hour`).all(studioId, firstMonth, lastMonth) as any[]).map(row => ({
-      band: row.band, bookings: row.bookings, checkin_rate: row.bookings ? row.checkins / row.bookings : null,
-      late_cancellation_rate: row.bookings ? row.late_cancellations / row.bookings : null,
-    }));
-  const classes = (db.prepare(`SELECT class_name,COUNT(*) bookings,SUM(checked_in) checkins,SUM(late_cancelled) late_cancellations
+    GROUP BY band ORDER BY sort_hour`,
+      )
+      .all(studioId, firstMonth, lastMonth) as any[]
+  ).map(row => ({
+    band: row.band,
+    bookings: row.bookings,
+    checkin_rate: row.bookings ? row.checkins / row.bookings : null,
+    late_cancellation_rate: row.bookings ? row.late_cancellations / row.bookings : null,
+  }));
+  const classes = (
+    db
+      .prepare(
+        `SELECT class_name,COUNT(*) bookings,SUM(checked_in) checkins,SUM(late_cancelled) late_cancellations
     FROM checkins WHERE studio_id=? AND month BETWEEN ? AND ? AND ${observed} AND class_name IS NOT NULL
-    GROUP BY class_name HAVING COUNT(*)>=30 ORDER BY (1.0*SUM(late_cancelled)/COUNT(*)) DESC,bookings DESC LIMIT 8`).all(studioId, firstMonth, lastMonth) as any[]).map(row => ({
-      ...row, checkin_rate: row.checkins / row.bookings, late_cancellation_rate: row.late_cancellations / row.bookings,
-    }));
+    GROUP BY class_name HAVING COUNT(*)>=30 ORDER BY (1.0*SUM(late_cancelled)/COUNT(*)) DESC,bookings DESC LIMIT 8`,
+      )
+      .all(studioId, firstMonth, lastMonth) as any[]
+  ).map(row => ({
+    ...row,
+    checkin_rate: row.checkins / row.bookings,
+    late_cancellation_rate: row.late_cancellations / row.bookings,
+  }));
   const matureThrough = latestCompleteMonth();
-  const retention = db.prepare(`WITH member_month AS (
+  const retention = db
+    .prepare(
+      `WITH member_month AS (
       SELECT member_ref,month,COUNT(*) visits FROM checkins
       WHERE studio_id=? AND checked_in=1 AND month BETWEEN ? AND ? AND ${observed} GROUP BY member_ref,month
     ) SELECT COUNT(*) eligible_member_months,
       COALESCE(SUM(CASE WHEN EXISTS(SELECT 1 FROM checkins b WHERE b.member_ref=a.member_ref AND b.studio_id=? AND b.checked_in=1
         AND b.month=strftime('%Y-%m',date(a.month||'-01','+1 month')) AND b.${observed}) THEN 1 ELSE 0 END),0) returned,
       AVG(a.visits) average_visits
-    FROM member_month a WHERE a.month<?`).get(studioId, firstMonth, lastMonth, studioId, matureThrough) as any;
-  const recent = (db.prepare(`SELECT month,COUNT(*) bookings,SUM(checked_in) checkins,SUM(late_cancelled) late_cancellations
-    FROM checkins WHERE studio_id=? AND month<strftime('%Y-%m','now','start of month') GROUP BY month ORDER BY month DESC LIMIT 12`)
-    .all(studioId) as any[]).reverse();
-  const recent6 = recent.slice(-6), previous6 = recent.slice(-12, -6);
+    FROM member_month a WHERE a.month<?`,
+    )
+    .get(studioId, firstMonth, lastMonth, studioId, matureThrough) as any;
+  const recent = (
+    db
+      .prepare(
+        `SELECT month,COUNT(*) bookings,SUM(checked_in) checkins,SUM(late_cancelled) late_cancellations
+    FROM checkins WHERE studio_id=? AND month<strftime('%Y-%m','now','start of month') GROUP BY month ORDER BY month DESC LIMIT 12`,
+      )
+      .all(studioId) as any[]
+  ).reverse();
+  const recent6 = recent.slice(-6),
+    previous6 = recent.slice(-12, -6);
   const sum = (rows: any[], key: string) => rows.reduce((total, row) => total + Number(row[key] || 0), 0);
-  const recentAttended = sum(recent6, 'checkins'), previousAttended = sum(previous6, 'checkins');
+  const recentAttended = sum(recent6, 'checkins'),
+    previousAttended = sum(previous6, 'checkins');
   const rawTrend = previousAttended > 0 ? recentAttended / previousAttended - 1 : null;
   const mean = recent6.length ? recentAttended / recent6.length : 0;
-  const variance = recent6.length ? recent6.reduce((total, row) => total + Math.pow(row.checkins - mean, 2), 0) / recent6.length : 0;
+  const variance = recent6.length
+    ? recent6.reduce((total, row) => total + Math.pow(row.checkins - mean, 2), 0) / recent6.length
+    : 0;
   const volatility = mean > 0 ? Math.sqrt(variance) / mean : null;
-  const nextMonthRow = db.prepare(`SELECT strftime('%Y-%m','now','start of month','+1 month') next_month,
-    strftime('%Y-%m','now','start of month','+1 month','-1 year') comparable_month`).get() as any;
-  const comparableAttended = Number(scalar('SELECT COALESCE(SUM(checked_in),0) value FROM checkins WHERE studio_id=? AND month=?', studioId, nextMonthRow.comparable_month) || 0);
+  const nextMonthRow = db
+    .prepare(
+      `SELECT strftime('%Y-%m','now','start of month','+1 month') next_month,
+    strftime('%Y-%m','now','start of month','+1 month','-1 year') comparable_month`,
+    )
+    .get() as any;
+  const comparableAttended = Number(
+    scalar(
+      'SELECT COALESCE(SUM(checked_in),0) value FROM checkins WHERE studio_id=? AND month=?',
+      studioId,
+      nextMonthRow.comparable_month,
+    ) || 0,
+  );
   const appliedTrend = rawTrend === null ? 0 : Math.max(-0.15, Math.min(0.2, rawTrend));
   const baseline = comparableAttended > 0 ? comparableAttended * (1 + appliedTrend) : mean > 0 ? mean : null;
   const spread = Math.sqrt(variance);
   return {
-    year, summary: {
-      ...summary, checkin_rate: summary.bookings ? summary.checkins / summary.bookings : null,
+    year,
+    summary: {
+      ...summary,
+      checkin_rate: summary.bookings ? summary.checkins / summary.bookings : null,
       late_cancellation_rate: summary.bookings ? summary.late_cancellations / summary.bookings : null,
       visits_per_member: summary.active_members ? summary.checkins / summary.active_members : null,
-      next_month_return_rate: retention.eligible_member_months ? retention.returned / retention.eligible_member_months : null,
+      next_month_return_rate: retention.eligible_member_months
+        ? retention.returned / retention.eligible_member_months
+        : null,
       eligible_return_member_months: retention.eligible_member_months || 0,
     },
-    monthly, weekdays, timeBands, classes,
+    monthly,
+    weekdays,
+    timeBands,
+    classes,
     outlook: {
-      recent6, raw_attendance_trend: rawTrend, applied_trend: rawTrend === null ? null : appliedTrend,
-      attendance_volatility: volatility, next_month: nextMonthRow.next_month, comparable_month: nextMonthRow.comparable_month,
-      comparable_attended: comparableAttended, baseline_attended: baseline === null ? null : Math.round(baseline),
+      recent6,
+      raw_attendance_trend: rawTrend,
+      applied_trend: rawTrend === null ? null : appliedTrend,
+      attendance_volatility: volatility,
+      next_month: nextMonthRow.next_month,
+      comparable_month: nextMonthRow.comparable_month,
+      comparable_attended: comparableAttended,
+      baseline_attended: baseline === null ? null : Math.round(baseline),
       planning_low: baseline === null ? null : Math.max(0, Math.round(baseline - spread)),
       planning_high: baseline === null ? null : Math.round(baseline + spread),
-      method: 'Seasonal-naive operational outlook: comparable prior-year attendance adjusted by a capped six-month trend. Range is ± one recent six-month standard deviation, not a confidence interval or revenue forecast.',
+      method:
+        'Seasonal-naive operational outlook: comparable prior-year attendance adjusted by a capped six-month trend. Range is ± one recent six-month standard deviation, not a confidence interval or revenue forecast.',
     },
     provenance: {
-      source: 'Day End Report - Part 4 / Checkins', observationCutoff: 'Current-day and future sessions excluded',
+      source: 'Day End Report - Part 4 / Checkins',
+      observationCutoff: 'Current-day and future sessions excluded',
       privacy: 'Aggregated output; source names and email addresses are not persisted.',
       limitations: [
         'Booking attendance is observed across all visits, not specifically trial bookings.',
@@ -191,17 +324,29 @@ export function latestCompleteMonth() {
 }
 
 function revenueFor(studioId: number, month: string) {
-  return Number(scalar('SELECT COALESCE(SUM(amount),0) value FROM transactions WHERE studio_id=? AND month=?', studioId, month) || 0);
+  return Number(
+    scalar('SELECT COALESCE(SUM(amount),0) value FROM transactions WHERE studio_id=? AND month=?', studioId, month) ||
+      0,
+  );
 }
 function periodRevenue(studioId: number, start: string, end: string) {
-  return Number(scalar('SELECT COALESCE(SUM(amount),0) value FROM transactions WHERE studio_id=? AND month BETWEEN ? AND ?', studioId, start, end) || 0);
+  return Number(
+    scalar(
+      'SELECT COALESCE(SUM(amount),0) value FROM transactions WHERE studio_id=? AND month BETWEEN ? AND ?',
+      studioId,
+      start,
+      end,
+    ) || 0,
+  );
 }
 
 export type TargetScenario = 'nominal' | 'standard' | 'aggressive' | 'conservative' | 'base' | 'stretch';
 export function recommendTarget(studioId: number, year: number, month: number, scenario: TargetScenario = 'standard') {
-  const previous = monthKey(year - 1, month), prior = monthKey(year - 2, month);
+  const previous = monthKey(year - 1, month),
+    prior = monthKey(year - 2, month);
   const latestComplete = latestCompleteMonth();
-  const previousValue = revenueFor(studioId, previous), priorValue = revenueFor(studioId, prior);
+  const previousValue = revenueFor(studioId, previous),
+    priorValue = revenueFor(studioId, prior);
   const previousComplete = previous <= latestComplete;
   const comparable = previousComplete && previousValue > 0 ? previousValue : priorValue;
   const comparableMonth = previousComplete && previousValue > 0 ? previous : prior;
@@ -214,57 +359,162 @@ export function recommendTarget(studioId: number, year: number, month: number, s
   const trend = Math.max(-0.15, Math.min(0.2, rawTrend));
   const conservative = Math.max(0, comparable * (1 + Math.min(0, trend)));
   const base = Math.max(0, comparable * (1 + trend));
-  const lapsed = Number(scalar(`SELECT COUNT(DISTINCT member_ref) value FROM customer_packages WHERE studio_id=? AND status='Lapsed'`, studioId) || 0);
-  const avgSpend = Number(scalar(`SELECT AVG(amount) value FROM transactions WHERE studio_id=? AND revenue_stream!='new_client' AND amount>0`, studioId) || 0);
+  const lapsed = Number(
+    scalar(
+      `SELECT COUNT(DISTINCT member_ref) value FROM customer_packages WHERE studio_id=? AND status='Lapsed'`,
+      studioId,
+    ) || 0,
+  );
+  const avgSpend = Number(
+    scalar(
+      `SELECT AVG(amount) value FROM transactions WHERE studio_id=? AND revenue_stream!='new_client' AND amount>0`,
+      studioId,
+    ) || 0,
+  );
   const reactivationUplift = Math.min(base * 0.05, lapsed * avgSpend * 0.02);
   const stretch = Math.max(base, previousValue, priorValue) + reactivationUplift;
   const aggressive = base > 0 ? Math.max(stretch, base * 1.1) : 0;
-  const scenarioTarget = scenario === 'nominal' ? comparable : scenario === 'conservative' ? conservative : scenario === 'stretch' ? stretch : scenario === 'aggressive' ? aggressive : base;
+  const scenarioTarget =
+    scenario === 'nominal'
+      ? comparable
+      : scenario === 'conservative'
+        ? conservative
+        : scenario === 'stretch'
+          ? stretch
+          : scenario === 'aggressive'
+            ? aggressive
+            : base;
   const studioName = String(scalar('SELECT name value FROM studios WHERE id=?', studioId) || '');
-  const rentAdjustment = studioName === 'Kemps Corner' && year === 2027 ? {
-    effectiveMonth: '2027-01', minimumTarget: 2000000, maximumTarget: 6000000, averageTarget: 3500000, preAdjustmentTarget: round(scenarioTarget),
-    source: 'user_directed_planning_assumption',
-    reason: 'Kwality House rent increases from January 2027. User-directed guardrail: monthly targets average about ₹35L and may range from ₹20L to ₹60L, keeping seasonality. Baselines remain unadjusted.',
-  } : null;
-  const target = rentAdjustment ? Math.min(rentAdjustment.maximumTarget, Math.max(rentAdjustment.minimumTarget, Math.ceil(scenarioTarget / 100000) * 100000)) : scenarioTarget;
+  const rentAdjustment =
+    studioName === 'Kemps Corner' && year === 2027
+      ? {
+          effectiveMonth: '2027-01',
+          minimumTarget: 2000000,
+          maximumTarget: 6000000,
+          averageTarget: 3500000,
+          preAdjustmentTarget: round(scenarioTarget),
+          source: 'user_directed_planning_assumption',
+          reason:
+            'Kwality House rent increases from January 2027. User-directed guardrail: monthly targets average about ₹35L and may range from ₹20L to ₹60L, keeping seasonality. Baselines remain unadjusted.',
+        }
+      : null;
+  const target = rentAdjustment
+    ? Math.min(
+        rentAdjustment.maximumTarget,
+        Math.max(rentAdjustment.minimumTarget, Math.ceil(scenarioTarget / 100000) * 100000),
+      )
+    : scenarioTarget;
   const mix = actualMetrics(studioId, comparableMonth);
   const totalMix = mix.new_client + mix.renewal + mix.reactivation + mix.additional;
-  const shares = totalMix > 0 ? {
-    new_client: mix.new_client / totalMix, renewal: mix.renewal / totalMix,
-    reactivation: mix.reactivation / totalMix, additional: mix.additional / totalMix,
-  } : { new_client: 0.4, renewal: 0.25, reactivation: 0.1, additional: 0.25 };
-  const aov = mix.aov || Number(scalar('SELECT AVG(amount) value FROM transactions WHERE studio_id=? AND amount>0', studioId) || 0);
-  const firstPurchase = mix.first_purchase_value || Number(scalar('SELECT AVG(amount) value FROM transactions WHERE studio_id=? AND is_first_observed=1 AND amount>0', studioId) || aov);
+  const shares =
+    totalMix > 0
+      ? {
+          new_client: mix.new_client / totalMix,
+          renewal: mix.renewal / totalMix,
+          reactivation: mix.reactivation / totalMix,
+          additional: mix.additional / totalMix,
+        }
+      : { new_client: 0.4, renewal: 0.25, reactivation: 0.1, additional: 0.25 };
+  const aov =
+    mix.aov ||
+    Number(scalar('SELECT AVG(amount) value FROM transactions WHERE studio_id=? AND amount>0', studioId) || 0);
+  const firstPurchase =
+    mix.first_purchase_value ||
+    Number(
+      scalar(
+        'SELECT AVG(amount) value FROM transactions WHERE studio_id=? AND is_first_observed=1 AND amount>0',
+        studioId,
+      ) || aov,
+    );
   const rates = observedFunnel(studioId);
-  const funnel = calculateFunnel({ revenueTarget: target, revenueAchieved: 0,
-    existingClientRevenue: target * shares.additional, renewalRevenue: target * shares.renewal,
-    reactivationRevenue: target * shares.reactivation, averageFirstPurchase: firstPurchase,
-    trialToPurchaseRate: rates.trialToPurchaseRate, bookingToAttendanceRate: rates.bookingToAttendanceRate,
-    leadToBookingRate: rates.leadToBookingRate });
+  const funnel = calculateFunnel({
+    revenueTarget: target,
+    revenueAchieved: 0,
+    existingClientRevenue: target * shares.additional,
+    renewalRevenue: target * shares.renewal,
+    reactivationRevenue: target * shares.reactivation,
+    averageFirstPurchase: firstPurchase,
+    trialToPurchaseRate: rates.trialToPurchaseRate,
+    bookingToAttendanceRate: rates.bookingToAttendanceRate,
+    leadToBookingRate: rates.leadToBookingRate,
+  });
   const capacity = Number(scalar('SELECT monthly_capacity value FROM studios WHERE id=?', studioId) || 0);
-  if (capacity && funnel.requiredCompletedTrials !== null && funnel.requiredCompletedTrials > capacity) funnel.warnings.push(`Required completed trials exceed observed monthly class capacity (${Math.round(capacity)}); target requires a capacity review.`);
+  if (capacity && funnel.requiredCompletedTrials !== null && funnel.requiredCompletedTrials > capacity)
+    funnel.warnings.push(
+      `Required completed trials exceed observed monthly class capacity (${Math.round(capacity)}); target requires a capacity review.`,
+    );
   return {
-    studio_id: studioId, year, month, scenario,
-    historical_revenue: round(comparable), baseline_forecast: round(base), proposed_target: round(target),
+    studio_id: studioId,
+    year,
+    month,
+    scenario,
+    historical_revenue: round(comparable),
+    baseline_forecast: round(base),
+    proposed_target: round(target),
     target_growth: comparable > 0 ? round((target / comparable - 1) * 100) : null,
-    new_client_target: round(target * shares.new_client), renewal_target: round(target * shares.renewal),
-    repeat_target: round(target * shares.additional), reactivation_target: round(target * shares.reactivation), other_target: 0,
-    target_transactions: aov > 0 ? Math.ceil(target / aov) : null, expected_aov: round(aov), funnel: JSON.stringify(funnel),
-    assumptions: JSON.stringify({ comparableMonth, previousComplete, rawObservedTrend: rawTrend, appliedTrend: trend,
-      scenario, scenarioExplanation: scenario === 'nominal' ? 'Comparable-month revenue with no growth or decline adjustment.' : scenario === 'conservative' ? 'Comparable-month revenue with no positive growth uplift; observed decline is retained.' : scenario === 'stretch' ? 'Best observed comparable month plus a capped reactivation scenario (2% response, maximum 5% revenue uplift).' : scenario === 'aggressive' ? 'The higher of the legacy stretch case or standard target plus a 10% planning premium; this is an ambitious scenario, not an observed forecast.' : 'Comparable-month revenue adjusted by capped observed year-to-date trend.',
-      aggressivePlanningPremium: scenario === 'aggressive' ? 0.10 : null,
-      reactivationAudience: lapsed, averageRepeatSpend: avgSpend, reactivationResponseAssumption: 0.02,
-      averageFirstPurchase: firstPurchase, conversionRates: { trialToPurchaseRate: rates.trialToPurchaseRate, bookingToAttendanceRate: rates.bookingToAttendanceRate, leadToBookingRate: rates.leadToBookingRate }, conversionSources: rates.sources, conversionSampleSizes: rates.sampleSizes,
-      attendanceContext: { scope: rates.bookingRateScope, lateCancellationRate: rates.lateCancellationRate, source: 'Day End Report - Part 4 / Checkins' },
+    new_client_target: round(target * shares.new_client),
+    renewal_target: round(target * shares.renewal),
+    repeat_target: round(target * shares.additional),
+    reactivation_target: round(target * shares.reactivation),
+    other_target: 0,
+    target_transactions: aov > 0 ? Math.ceil(target / aov) : null,
+    expected_aov: round(aov),
+    funnel: JSON.stringify(funnel),
+    assumptions: JSON.stringify({
+      comparableMonth,
+      previousComplete,
+      rawObservedTrend: rawTrend,
+      appliedTrend: trend,
+      scenario,
+      scenarioExplanation:
+        scenario === 'nominal'
+          ? 'Comparable-month revenue with no growth or decline adjustment.'
+          : scenario === 'conservative'
+            ? 'Comparable-month revenue with no positive growth uplift; observed decline is retained.'
+            : scenario === 'stretch'
+              ? 'Best observed comparable month plus a capped reactivation scenario (2% response, maximum 5% revenue uplift).'
+              : scenario === 'aggressive'
+                ? 'The higher of the legacy stretch case or standard target plus a 10% planning premium; this is an ambitious scenario, not an observed forecast.'
+                : 'Comparable-month revenue adjusted by capped observed year-to-date trend.',
+      aggressivePlanningPremium: scenario === 'aggressive' ? 0.1 : null,
+      reactivationAudience: lapsed,
+      averageRepeatSpend: avgSpend,
+      reactivationResponseAssumption: 0.02,
+      averageFirstPurchase: firstPurchase,
+      conversionRates: {
+        trialToPurchaseRate: rates.trialToPurchaseRate,
+        bookingToAttendanceRate: rates.bookingToAttendanceRate,
+        leadToBookingRate: rates.leadToBookingRate,
+      },
+      conversionSources: rates.sources,
+      conversionSampleSizes: rates.sampleSizes,
+      attendanceContext: {
+        scope: rates.bookingRateScope,
+        lateCancellationRate: rates.lateCancellationRate,
+        source: 'Day End Report - Part 4 / Checkins',
+      },
       rentAdjustment,
-      streamMixSource: comparableMonth, limitations: comparable ? [] : ['No comparable imported revenue; target cannot be recommended reliably.'] }),
-    source: 'recommendation', data_mode: 'derived', version: 1,
+      streamMixSource: comparableMonth,
+      limitations: comparable ? [] : ['No comparable imported revenue; target cannot be recommended reliably.'],
+    }),
+    source: 'recommendation',
+    data_mode: 'derived',
+    version: 1,
   };
 }
 
-export function generateYearTargets(year: number, userId?: number, overwrite = false, scenario?: TargetScenario, studioId?: number) {
-  const studios = db.prepare(`SELECT id FROM studios WHERE active=1 ${studioId ? 'AND id=?' : ''} ORDER BY id`).all(...(studioId ? [studioId] : [])) as any[];
-  const insert = db.prepare(`INSERT INTO monthly_targets(studio_id,year,month,scenario,historical_revenue,baseline_forecast,proposed_target,target_growth,
+export function generateYearTargets(
+  year: number,
+  userId?: number,
+  overwrite = false,
+  scenario?: TargetScenario,
+  studioId?: number,
+) {
+  const studios = db
+    .prepare(`SELECT id FROM studios WHERE active=1 ${studioId ? 'AND id=?' : ''} ORDER BY id`)
+    .all(...(studioId ? [studioId] : [])) as any[];
+  const insert =
+    db.prepare(`INSERT INTO monthly_targets(studio_id,year,month,scenario,historical_revenue,baseline_forecast,proposed_target,target_growth,
     new_client_target,renewal_target,repeat_target,reactivation_target,other_target,target_transactions,expected_aov,funnel,assumptions,source,data_mode,version,updated_by)
     VALUES (@studio_id,@year,@month,@scenario,@historical_revenue,@baseline_forecast,@proposed_target,@target_growth,@new_client_target,@renewal_target,@repeat_target,
     @reactivation_target,@other_target,@target_transactions,@expected_aov,@funnel,@assumptions,@source,@data_mode,@version,@updated_by)
@@ -272,171 +522,548 @@ export function generateYearTargets(year: number, userId?: number, overwrite = f
     proposed_target=excluded.proposed_target,target_growth=excluded.target_growth,new_client_target=excluded.new_client_target,renewal_target=excluded.renewal_target,
     repeat_target=excluded.repeat_target,reactivation_target=excluded.reactivation_target,other_target=excluded.other_target,target_transactions=excluded.target_transactions,
     expected_aov=excluded.expected_aov,funnel=excluded.funnel,assumptions=excluded.assumptions,version=monthly_targets.version+1,updated_by=excluded.updated_by,updated_at=CURRENT_TIMESTAMP`);
-  const versionInsert = db.prepare('INSERT INTO target_versions(target_id,version,snapshot,change_reason,changed_by) VALUES (?,?,?,?,?)');
+  const versionInsert = db.prepare(
+    'INSERT INTO target_versions(target_id,version,snapshot,change_reason,changed_by) VALUES (?,?,?,?,?)',
+  );
   const transaction = db.transaction(() => {
-    for (const studio of studios) for (let month = 1; month <= 12; month++) {
-      const existing = db.prepare('SELECT id,version,approved_target FROM monthly_targets WHERE studio_id=? AND year=? AND month=?').get(studio.id, year, month) as any;
-      if (existing && !overwrite) continue;
-      const rec = recommendTarget(studio.id, year, month, scenario || (existing ? db.prepare('SELECT scenario FROM monthly_targets WHERE id=?').get(existing.id) as any : { scenario: 'standard' }).scenario || 'standard');
-      insert.run({ ...rec, updated_by: userId || null });
-      const saved = db.prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? AND month=?').get(studio.id, year, month) as any;
-      versionInsert.run(saved.id, saved.version, JSON.stringify(saved), existing ? 'Regenerated recommendation; approved target preserved.' : 'Initial evidence-based recommendation.', userId || null);
-    }
+    for (const studio of studios)
+      for (let month = 1; month <= 12; month++) {
+        const existing = db
+          .prepare('SELECT id,version,approved_target FROM monthly_targets WHERE studio_id=? AND year=? AND month=?')
+          .get(studio.id, year, month) as any;
+        if (existing && !overwrite) continue;
+        const rec = recommendTarget(
+          studio.id,
+          year,
+          month,
+          scenario ||
+            (existing
+              ? (db.prepare('SELECT scenario FROM monthly_targets WHERE id=?').get(existing.id) as any)
+              : { scenario: 'standard' }
+            ).scenario ||
+            'standard',
+        );
+        insert.run({ ...rec, updated_by: userId || null });
+        const saved = db
+          .prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? AND month=?')
+          .get(studio.id, year, month) as any;
+        versionInsert.run(
+          saved.id,
+          saved.version,
+          JSON.stringify(saved),
+          existing
+            ? 'Regenerated recommendation; approved target preserved.'
+            : 'Initial evidence-based recommendation.',
+          userId || null,
+        );
+      }
   });
   transaction();
 }
 
 export function dashboard(year: number, month: number | null, studioId?: number) {
-  const studios = db.prepare(`SELECT * FROM studios WHERE active=1 ${studioId ? 'AND id=?' : ''} ORDER BY city,name`).all(...(studioId ? [studioId] : [])) as any[];
-  const selectedMonth = month || Number(String(scalar('SELECT MAX(month) value FROM transactions WHERE month LIKE ?', `${year}-%`) || `${year}-01`).slice(5, 7));
+  const studios = db
+    .prepare(`SELECT * FROM studios WHERE active=1 ${studioId ? 'AND id=?' : ''} ORDER BY city,name`)
+    .all(...(studioId ? [studioId] : [])) as any[];
+  const selectedMonth =
+    month ||
+    Number(
+      String(scalar('SELECT MAX(month) value FROM transactions WHERE month LIKE ?', `${year}-%`) || `${year}-01`).slice(
+        5,
+        7,
+      ),
+    );
   const selectedKey = monthKey(year, selectedMonth);
   const rows = studios.map(studio => {
     const actual = actualMetrics(studio.id, selectedKey);
-    const target = db.prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? AND month=?').get(studio.id, year, selectedMonth) as any;
+    const target = db
+      .prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? AND month=?')
+      .get(studio.id, year, selectedMonth) as any;
     const priorRevenue = revenueFor(studio.id, monthKey(year - 1, selectedMonth));
     const targetValue = target?.approved_target ?? target?.proposed_target ?? null;
-    const achievement = targetValue && targetValue > 0 ? actual.revenue / targetValue * 100 : null;
-    const status = achievement === null ? 'unplanned' : achievement >= 95 ? 'on_track' : achievement >= 80 ? 'at_risk' : 'below_target';
+    const achievement = targetValue && targetValue > 0 ? (actual.revenue / targetValue) * 100 : null;
+    const status =
+      achievement === null
+        ? 'unplanned'
+        : achievement >= 95
+          ? 'on_track'
+          : achievement >= 80
+            ? 'at_risk'
+            : 'below_target';
     let action = 'Maintain current plan and monitor revenue quality.';
     if (status === 'below_target') action = 'Review the revenue gap and build a segmented recovery plan.';
-    if (actual.trial_conversion !== null && actual.trial_conversion < 0.2 && actual.completed_trials >= 10) action = 'Prioritise trial follow-up before increasing lead spend.';
-    if (actual.discount_cost > 0 && actual.revenue > 0 && actual.discount_cost / (actual.revenue + actual.discount_cost) > 0.12) action = 'Audit discount exposure and test a value-added alternative.';
-    if (actual.booking_count >= 100 && actual.late_cancellation_rate > 0.15) action = 'Review class, day and time-band cancellation patterns before adding capacity.';
-    return { studio, actual, target, target_value: targetValue, target_basis: target?.approved_target !== null && target?.approved_target !== undefined ? 'approved' : target ? 'proposed' : 'missing',
-      achievement, yoy: priorRevenue > 0 ? (actual.revenue / priorRevenue - 1) * 100 : null, status, revenue_gap: targetValue ? Math.max(0, targetValue - actual.revenue) : null, recommended_action: action };
+    if (actual.trial_conversion !== null && actual.trial_conversion < 0.2 && actual.completed_trials >= 10)
+      action = 'Prioritise trial follow-up before increasing lead spend.';
+    if (
+      actual.discount_cost > 0 &&
+      actual.revenue > 0 &&
+      actual.discount_cost / (actual.revenue + actual.discount_cost) > 0.12
+    )
+      action = 'Audit discount exposure and test a value-added alternative.';
+    if (actual.booking_count >= 100 && actual.late_cancellation_rate > 0.15)
+      action = 'Review class, day and time-band cancellation patterns before adding capacity.';
+    return {
+      studio,
+      actual,
+      target,
+      target_value: targetValue,
+      prior_revenue: priorRevenue,
+      target_basis:
+        target?.approved_target !== null && target?.approved_target !== undefined
+          ? 'approved'
+          : target
+            ? 'proposed'
+            : 'missing',
+      achievement,
+      yoy: priorRevenue > 0 ? (actual.revenue / priorRevenue - 1) * 100 : null,
+      status,
+      revenue_gap: targetValue ? Math.max(0, targetValue - actual.revenue) : null,
+      recommended_action: action,
+    };
   });
-  const annualTargetRow = db.prepare(`SELECT COALESCE(SUM(COALESCE(approved_target,proposed_target)),0) target,
-    COALESCE(SUM(approved_target),0) approved, COUNT(*) months FROM monthly_targets WHERE year=? ${studioId ? 'AND studio_id=?' : ''}`).get(...(studioId ? [year, studioId] : [year])) as any;
-  const ytd = db.prepare(`SELECT COALESCE(SUM(amount),0) revenue,
+  const annualTargetRow = db
+    .prepare(
+      `SELECT COALESCE(SUM(COALESCE(approved_target,proposed_target)),0) target,
+    COALESCE(SUM(approved_target),0) approved, COUNT(*) months,
+    SUM(CASE WHEN approved_target IS NOT NULL THEN 1 ELSE 0 END) approved_months
+    FROM monthly_targets WHERE year=? ${studioId ? 'AND studio_id=?' : ''}`,
+    )
+    .get(...(studioId ? [year, studioId] : [year])) as any;
+  const ytd = db
+    .prepare(
+      `SELECT COALESCE(SUM(amount),0) revenue,
     COALESCE(SUM(CASE WHEN revenue_stream='new_client' THEN amount ELSE 0 END),0) new_client,
     COALESCE(SUM(CASE WHEN revenue_stream='renewal' THEN amount ELSE 0 END),0) renewal,
     COALESCE(SUM(CASE WHEN revenue_stream='reactivation' THEN amount ELSE 0 END),0) reactivation,
     COALESCE(SUM(CASE WHEN revenue_stream='additional' THEN amount ELSE 0 END),0) additional,
     AVG(amount) aov, AVG(CASE WHEN is_first_observed=1 THEN amount END) first_aov, COUNT(*) transactions
-    FROM transactions WHERE month LIKE ? ${studioId ? 'AND studio_id=?' : ''}`).get(...(studioId ? [`${year}-%`, studioId] : [`${year}-%`])) as any;
-  const totalLeads = Number(scalar(`SELECT COUNT(*) value FROM leads WHERE month LIKE ? ${studioId ? 'AND studio_id=?' : ''}`, ...(studioId ? [`${year}-%`, studioId] : [`${year}-%`])) || 0);
-  const totalTrials = Number(scalar(`SELECT COUNT(*) value FROM member_visits WHERE month LIKE ? ${studioId ? 'AND studio_id=?' : ''}`, ...(studioId ? [`${year}-%`, studioId] : [`${year}-%`])) || 0);
-  const latestActualMonth = Number(String(scalar(`SELECT MAX(month) value FROM transactions WHERE month LIKE ? ${studioId ? 'AND studio_id=?' : ''}`, ...(studioId ? [`${year}-%`, studioId] : [`${year}-%`])) || `${year}-00`).slice(5, 7));
-  const futureForecast = Number(scalar(`SELECT COALESCE(SUM(baseline_forecast),0) value FROM monthly_targets WHERE year=? AND month>? ${studioId ? 'AND studio_id=?' : ''}`, ...(studioId ? [year, latestActualMonth, studioId] : [year, latestActualMonth])) || 0);
+    FROM transactions WHERE month LIKE ? ${studioId ? 'AND studio_id=?' : ''}`,
+    )
+    .get(...(studioId ? [`${year}-%`, studioId] : [`${year}-%`])) as any;
+  const totalLeads = Number(
+    scalar(
+      `SELECT COUNT(*) value FROM leads WHERE month LIKE ? ${studioId ? 'AND studio_id=?' : ''}`,
+      ...(studioId ? [`${year}-%`, studioId] : [`${year}-%`]),
+    ) || 0,
+  );
+  const totalTrials = Number(
+    scalar(
+      `SELECT COUNT(*) value FROM member_visits WHERE month LIKE ? ${studioId ? 'AND studio_id=?' : ''}`,
+      ...(studioId ? [`${year}-%`, studioId] : [`${year}-%`]),
+    ) || 0,
+  );
+  const latestActualMonth = Number(
+    String(
+      scalar(
+        `SELECT MAX(month) value FROM transactions WHERE month LIKE ? ${studioId ? 'AND studio_id=?' : ''}`,
+        ...(studioId ? [`${year}-%`, studioId] : [`${year}-%`]),
+      ) || `${year}-00`,
+    ).slice(5, 7),
+  );
+  const futureForecast = Number(
+    scalar(
+      `SELECT COALESCE(SUM(baseline_forecast),0) value FROM monthly_targets WHERE year=? AND month>? ${studioId ? 'AND studio_id=?' : ''}`,
+      ...(studioId ? [year, latestActualMonth, studioId] : [year, latestActualMonth]),
+    ) || 0,
+  );
   const annualTarget = annualTargetRow.target || 0;
   const forecast = (ytd.revenue || 0) + futureForecast;
-  const topOffers = db.prepare(`SELECT o.id,o.name,o.actual_revenue,o.actual_redemptions,o.effective_discount,s.name studio FROM offers o LEFT JOIN studios s ON s.id=o.studio_id
-    WHERE o.actual_revenue IS NOT NULL ${studioId ? 'AND o.studio_id=?' : ''} ORDER BY o.actual_revenue DESC LIMIT 5`).all(...(studioId ? [studioId] : []));
-  const poorOffers = db.prepare(`SELECT o.id,o.name,o.actual_revenue,o.actual_redemptions,o.effective_discount,s.name studio FROM offers o LEFT JOIN studios s ON s.id=o.studio_id
-    WHERE o.actual_redemptions>=5 AND o.effective_discount>15 ${studioId ? 'AND o.studio_id=?' : ''} ORDER BY o.effective_discount DESC LIMIT 5`).all(...(studioId ? [studioId] : []));
+  const topOffers = db
+    .prepare(
+      `SELECT o.id,o.name,o.actual_revenue,o.actual_redemptions,o.effective_discount,s.name studio FROM offers o LEFT JOIN studios s ON s.id=o.studio_id
+    WHERE o.actual_revenue IS NOT NULL ${studioId ? 'AND o.studio_id=?' : ''} ORDER BY o.actual_revenue DESC LIMIT 5`,
+    )
+    .all(...(studioId ? [studioId] : []));
+  const poorOffers = db
+    .prepare(
+      `SELECT o.id,o.name,o.actual_revenue,o.actual_redemptions,o.effective_discount,s.name studio FROM offers o LEFT JOIN studios s ON s.id=o.studio_id
+    WHERE o.actual_redemptions>=5 AND o.effective_discount>15 ${studioId ? 'AND o.studio_id=?' : ''} ORDER BY o.effective_discount DESC LIMIT 5`,
+    )
+    .all(...(studioId ? [studioId] : []));
   const trend = Array.from({ length: 12 }, (_, i) => {
     const key = monthKey(year, i + 1);
-    const revenue = studioId ? revenueFor(studioId, key) : Number(scalar('SELECT COALESCE(SUM(amount),0) value FROM transactions WHERE month=?', key) || 0);
-    const target = Number(scalar(`SELECT COALESCE(SUM(COALESCE(approved_target,proposed_target)),0) value FROM monthly_targets WHERE year=? AND month=? ${studioId ? 'AND studio_id=?' : ''}`, ...(studioId ? [year, i + 1, studioId] : [year, i + 1])) || 0);
+    const revenue = studioId
+      ? revenueFor(studioId, key)
+      : Number(scalar('SELECT COALESCE(SUM(amount),0) value FROM transactions WHERE month=?', key) || 0);
+    const target = Number(
+      scalar(
+        `SELECT COALESCE(SUM(COALESCE(approved_target,proposed_target)),0) value FROM monthly_targets WHERE year=? AND month=? ${studioId ? 'AND studio_id=?' : ''}`,
+        ...(studioId ? [year, i + 1, studioId] : [year, i + 1]),
+      ) || 0,
+    );
     return { month: i + 1, key, revenue, target };
   });
   const actions = buildActions(rows, selectedKey);
-  return { rows, actions, trend, topOffers, poorOffers, kpis: {
-    annualTarget, approvedAnnualTarget: annualTargetRow.approved || 0, targetBasis: annualTargetRow.approved > 0 ? 'mixed/approved' : 'proposed',
-    achieved: ytd.revenue || 0, remaining: Math.max(0, annualTarget - (ytd.revenue || 0)), achievement: annualTarget ? (ytd.revenue || 0) / annualTarget * 100 : null,
-    forecast, forecastGap: annualTarget - forecast, onTrack: rows.filter(r => r.status === 'on_track').length,
-    atRisk: rows.filter(r => r.status === 'at_risk').length, belowTarget: rows.filter(r => r.status === 'below_target').length,
-    newClient: ytd.new_client || 0, renewal: ytd.renewal || 0, reactivation: ytd.reactivation || 0, additional: ytd.additional || 0,
-    aov: ytd.aov, firstAov: ytd.first_aov, leads: totalLeads, trials: totalTrials, trialBookings: null,
-    trialConversion: weightedConversion(studioId), leadConversion: totalLeads ? Number(scalar(`SELECT COUNT(*) value FROM leads WHERE month LIKE ? AND converted_at IS NOT NULL AND julianday(converted_at)-julianday(created_at) BETWEEN 0 AND 90 ${studioId ? 'AND studio_id=?' : ''}`, ...(studioId ? [`${year}-%`, studioId] : [`${year}-%`])) || 0) / totalLeads : null,
-    activeOffers: Number(scalar(`SELECT COUNT(*) value FROM offers WHERE status='active' ${studioId ? 'AND studio_id=?' : ''}`, ...(studioId ? [studioId] : [])) || 0),
-    runningCampaigns: Number(scalar(`SELECT COUNT(*) value FROM campaigns WHERE status='active' AND date('now') BETWEEN start_date AND end_date ${studioId ? 'AND studio_id=?' : ''}`, ...(studioId ? [studioId] : [])) || 0),
-  }, selectedMonth, coverage: dataCoverage() };
+  return {
+    rows,
+    actions,
+    trend,
+    topOffers,
+    poorOffers,
+    kpis: {
+      annualTarget,
+      approvedAnnualTarget: annualTargetRow.approved || 0,
+      approvedMonths: annualTargetRow.approved_months || 0,
+      totalTargetMonths: studios.length * 12,
+      targetBasis: annualTargetRow.approved_months > 0 ? 'mixed/approved' : 'proposed',
+      achieved: ytd.revenue || 0,
+      remaining: Math.max(0, annualTarget - (ytd.revenue || 0)),
+      achievement: annualTarget ? ((ytd.revenue || 0) / annualTarget) * 100 : null,
+      forecast,
+      forecastGap: annualTarget - forecast,
+      onTrack: rows.filter(r => r.status === 'on_track').length,
+      atRisk: rows.filter(r => r.status === 'at_risk').length,
+      belowTarget: rows.filter(r => r.status === 'below_target').length,
+      newClient: ytd.new_client || 0,
+      renewal: ytd.renewal || 0,
+      reactivation: ytd.reactivation || 0,
+      additional: ytd.additional || 0,
+      aov: ytd.aov,
+      firstAov: ytd.first_aov,
+      leads: totalLeads,
+      trials: totalTrials,
+      trialBookings: null,
+      trialConversion: weightedConversion(studioId, year),
+      leadConversion: totalLeads
+        ? Number(
+            scalar(
+              `SELECT COUNT(*) value FROM leads WHERE month LIKE ? AND converted_at IS NOT NULL AND julianday(converted_at)-julianday(created_at) BETWEEN 0 AND 90 ${studioId ? 'AND studio_id=?' : ''}`,
+              ...(studioId ? [`${year}-%`, studioId] : [`${year}-%`]),
+            ) || 0,
+          ) / totalLeads
+        : null,
+      activeOffers: Number(
+        scalar(
+          `SELECT COUNT(*) value FROM offers WHERE status='active' ${studioId ? 'AND studio_id=?' : ''}`,
+          ...(studioId ? [studioId] : []),
+        ) || 0,
+      ),
+      runningCampaigns: Number(
+        scalar(
+          `SELECT COUNT(*) value FROM campaigns WHERE status='active' AND date('now') BETWEEN start_date AND end_date ${studioId ? 'AND studio_id=?' : ''}`,
+          ...(studioId ? [studioId] : []),
+        ) || 0,
+      ),
+    },
+    selectedMonth,
+    coverage: dataCoverage(),
+  };
 }
 
-function weightedConversion(studioId?: number) {
-  const row = db.prepare(`SELECT COUNT(*) total, SUM(CASE WHEN first_purchase_at IS NOT NULL AND julianday(first_purchase_at)-julianday(first_visit_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) converted
-    FROM member_visits WHERE first_visit_at<=date('now','-90 days') ${studioId ? 'AND studio_id=?' : ''}`).get(...(studioId ? [studioId] : [])) as any;
+function weightedConversion(studioId: number | undefined, year: number) {
+  const row = db
+    .prepare(
+      `SELECT COUNT(*) total, SUM(CASE WHEN first_purchase_at IS NOT NULL AND julianday(first_purchase_at)-julianday(first_visit_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) converted
+    FROM member_visits WHERE first_visit_at>=? AND first_visit_at<? AND first_visit_at<=date('now','-90 days') ${studioId ? 'AND studio_id=?' : ''}`,
+    )
+    .get(`${year}-01-01`, `${year + 1}-01-01`, ...(studioId ? [studioId] : [])) as any;
   return row.total ? (row.converted || 0) / row.total : null;
 }
 
 function buildActions(rows: any[], period: string) {
   const actions: any[] = [];
   for (const row of rows) {
-    const a = row.actual, name = row.studio.name;
-    if (row.revenue_gap > 0 && row.status === 'below_target') actions.push({ priority: 'high', type: 'revenue_gap', studio_id: row.studio.id, studio: name, period,
-      title: `${name} has a ₹${Math.round(row.revenue_gap).toLocaleString('en-IN')} monthly revenue gap`,
-      evidence: `Observed revenue is ₹${Math.round(a.revenue).toLocaleString('en-IN')} against a ${row.target_basis} target of ₹${Math.round(row.target_value).toLocaleString('en-IN')}.`,
-      impact: 'The month is currently below 80% of the selected target.', action: 'Open Goal-Based Offer Builder and split recovery across renewals, reactivation and new-client conversion.',
-      expected_contribution: row.revenue_gap });
-    if (a.trial_conversion !== null && a.trial_conversion < 0.2 && a.completed_trials >= 10) actions.push({ priority: 'high', type: 'trial_conversion', studio_id: row.studio.id, studio: name, period,
-      title: `${name} trial conversion is below 20%`, evidence: `${a.completed_trials} observed first visits; matured 90-day cohort conversion is ${(a.trial_conversion * 100).toFixed(1)}%.`,
-      impact: 'More lead volume alone is unlikely to fix the conversion bottleneck.', action: 'Audit 48-hour trial follow-up and use a low-discount trial conversion offer.', expected_contribution: null });
-    if (a.revenue > 0 && a.discount_cost / (a.revenue + a.discount_cost) > 0.12) actions.push({ priority: 'medium', type: 'discount', studio_id: row.studio.id, studio: name, period,
-      title: `${name} has elevated discount exposure`, evidence: `Imported discounts equal ${(a.discount_cost / (a.revenue + a.discount_cost) * 100).toFixed(1)}% of gross value before discount.`,
-      impact: 'Revenue quality may be weakening even when transaction volume holds.', action: 'Compare a bonus-class or validity-extension scenario before increasing percentage discounts.', expected_contribution: a.discount_cost });
-    if (a.booking_count >= 100 && a.late_cancellation_rate > 0.15) actions.push({ priority: 'medium', type: 'late_cancellation', studio_id: row.studio.id, studio: name, period,
-      title: `${name} has elevated late cancellations`, evidence: `${a.late_cancellation_count} of ${a.booking_count} observed bookings were late cancellations (${(a.late_cancellation_rate * 100).toFixed(1)}%).`,
-      impact: 'Late-cancelled capacity may be harder to reuse; this is an operational signal, not a revenue attribution.', action: 'Review Attendance & Cancellations by class, day and time band before changing the schedule or adding capacity.', expected_contribution: null });
+    const a = row.actual,
+      name = row.studio.name;
+    if (row.revenue_gap > 0 && row.status === 'below_target')
+      actions.push({
+        priority: 'high',
+        type: 'revenue_gap',
+        studio_id: row.studio.id,
+        studio: name,
+        period,
+        title: `${name} has a ₹${Math.round(row.revenue_gap).toLocaleString('en-IN')} monthly revenue gap`,
+        evidence: `Observed revenue is ₹${Math.round(a.revenue).toLocaleString('en-IN')} against a ${row.target_basis} target of ₹${Math.round(row.target_value).toLocaleString('en-IN')}.`,
+        impact: 'The month is currently below 80% of the selected target.',
+        action:
+          'Open Goal-Based Offer Builder and split recovery across renewals, reactivation and new-client conversion.',
+        expected_contribution: row.revenue_gap,
+      });
+    if (a.trial_conversion !== null && a.trial_conversion < 0.2 && a.completed_trials >= 10)
+      actions.push({
+        priority: 'high',
+        type: 'trial_conversion',
+        studio_id: row.studio.id,
+        studio: name,
+        period,
+        title: `${name} trial conversion is below 20%`,
+        evidence: `${a.completed_trials} observed first visits; matured 90-day cohort conversion is ${(a.trial_conversion * 100).toFixed(1)}%.`,
+        impact: 'More lead volume alone is unlikely to fix the conversion bottleneck.',
+        action: 'Audit 48-hour trial follow-up and use a low-discount trial conversion offer.',
+        expected_contribution: null,
+      });
+    if (a.revenue > 0 && a.discount_cost / (a.revenue + a.discount_cost) > 0.12)
+      actions.push({
+        priority: 'medium',
+        type: 'discount',
+        studio_id: row.studio.id,
+        studio: name,
+        period,
+        title: `${name} has elevated discount exposure`,
+        evidence: `Imported discounts equal ${((a.discount_cost / (a.revenue + a.discount_cost)) * 100).toFixed(1)}% of gross value before discount.`,
+        impact: 'Revenue quality may be weakening even when transaction volume holds.',
+        action: 'Compare a bonus-class or validity-extension scenario before increasing percentage discounts.',
+        expected_contribution: a.discount_cost,
+      });
+    if (a.booking_count >= 100 && a.late_cancellation_rate > 0.15)
+      actions.push({
+        priority: 'medium',
+        type: 'late_cancellation',
+        studio_id: row.studio.id,
+        studio: name,
+        period,
+        title: `${name} has elevated late cancellations`,
+        evidence: `${a.late_cancellation_count} of ${a.booking_count} observed bookings were late cancellations (${(a.late_cancellation_rate * 100).toFixed(1)}%).`,
+        impact:
+          'Late-cancelled capacity may be harder to reuse; this is an operational signal, not a revenue attribution.',
+        action:
+          'Review Attendance & Cancellations by class, day and time band before changing the schedule or adding capacity.',
+        expected_contribution: null,
+      });
   }
   const order = { high: 0, medium: 1, low: 2 };
-  return actions.sort((a, b) => order[a.priority as keyof typeof order] - order[b.priority as keyof typeof order]).slice(0, 12);
+  return actions
+    .sort((a, b) => order[a.priority as keyof typeof order] - order[b.priority as keyof typeof order])
+    .slice(0, 12);
 }
 
-const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-function historicFindings(studioId: number, year: number, monthly: any[], products: any[], sources: any[], offers: any[], attendance: any) {
+const MONTH_NAMES = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+function historicFindings(
+  studioId: number,
+  year: number,
+  monthly: any[],
+  products: any[],
+  sources: any[],
+  offers: any[],
+  attendance: any,
+) {
   const through = latestCompleteMonth();
-  const comparisons = monthly.filter(row => monthKey(year,row.month) <= through).map(row => ({ month: row.month, revenue: row.revenue, prior_revenue: row.prior_revenue,
-    yoy_percent: row.prior_revenue > 0 ? (row.revenue / row.prior_revenue - 1) * 100 : null, transactions: row.transactions, discount_cost: row.discount_cost,
-    checkin_rate: row.checkin_rate, late_cancellation_rate: row.late_cancellation_rate }));
+  const comparisons = monthly
+    .filter(row => monthKey(year, row.month) <= through)
+    .map(row => ({
+      month: row.month,
+      revenue: row.revenue,
+      prior_revenue: row.prior_revenue,
+      yoy_percent: row.prior_revenue > 0 ? (row.revenue / row.prior_revenue - 1) * 100 : null,
+      transactions: row.transactions,
+      discount_cost: row.discount_cost,
+      checkin_rate: row.checkin_rate,
+      late_cancellation_rate: row.late_cancellation_rate,
+    }));
   const findings: any[] = [];
-  const strongest = comparisons.filter(row => row.revenue > 0).sort((a,b) => b.revenue - a.revenue)[0];
-  if (strongest) findings.push({ type: 'revenue', title: 'Strongest complete month', finding: `${MONTH_NAMES[strongest.month-1]} generated ₹${Math.round(strongest.revenue).toLocaleString('en-IN')} across ${strongest.transactions} transactions.`,
-    evidence: { month: monthKey(year,strongest.month), revenue: strongest.revenue, transactions: strongest.transactions }, action: 'Compare its product mix and lead context with weaker complete months before copying a campaign.' });
+  const strongest = comparisons.filter(row => row.revenue > 0).sort((a, b) => b.revenue - a.revenue)[0];
+  if (strongest)
+    findings.push({
+      type: 'revenue',
+      title: 'Strongest complete month',
+      finding: `${MONTH_NAMES[strongest.month - 1]} generated ₹${Math.round(strongest.revenue).toLocaleString('en-IN')} across ${strongest.transactions} transactions.`,
+      evidence: {
+        month: monthKey(year, strongest.month),
+        revenue: strongest.revenue,
+        transactions: strongest.transactions,
+      },
+      action: 'Compare its product mix and lead context with weaker complete months before copying a campaign.',
+    });
   const movements = comparisons.filter(row => row.prior_revenue > 0);
-  const growth = [...movements].sort((a,b) => Number(b.yoy_percent) - Number(a.yoy_percent))[0], decline = [...movements].sort((a,b) => Number(a.yoy_percent) - Number(b.yoy_percent))[0];
-  if (growth) findings.push({ type: 'yoy', title: 'Largest complete-month YoY increase', finding: `${MONTH_NAMES[growth.month-1]} was ${Number(growth.yoy_percent).toFixed(1)}% above the prior-year month.`, evidence: growth, action: 'Treat this as descriptive change, not proof that a promotion caused the increase.' });
-  if (decline && Number(decline.yoy_percent) < 0) findings.push({ type: 'yoy', title: 'Largest complete-month YoY decline', finding: `${MONTH_NAMES[decline.month-1]} was ${Math.abs(Number(decline.yoy_percent)).toFixed(1)}% below the prior-year month.`, evidence: decline, action: 'Review acquisition, renewal and attendance contributions separately before increasing discount.' });
-  const completeRevenue = comparisons.reduce((sum,row) => sum + row.revenue,0);
-  const completeProducts = db.prepare(`SELECT product_name name,category,COUNT(*) transactions,SUM(amount) revenue,SUM(discount_amount) discount FROM transactions
-    WHERE studio_id=? AND month LIKE ? AND month<=? GROUP BY product_name,category ORDER BY revenue DESC LIMIT 5`).all(studioId,`${year}-%`,through) as any[];
-  if (completeProducts[0] && completeRevenue > 0) findings.push({ type: 'product', title: 'Product concentration', finding: `${completeProducts[0].name} contributed ${(completeProducts[0].revenue / completeRevenue * 100).toFixed(1)}% of complete-period revenue.`,
-    evidence: { ...completeProducts[0], periodRevenue: completeRevenue }, action: 'Protect the strongest product journey while testing whether concentration creates capacity or mix risk.' });
-  const discount = comparisons.reduce((sum,row) => sum + row.discount_cost,0);
-  if (completeRevenue + discount > 0) findings.push({ type: 'revenue_quality', title: 'Complete-period discount exposure', finding: `Recorded discounts equal ${(discount / (completeRevenue + discount) * 100).toFixed(1)}% of net revenue plus discounts.`,
-    evidence: { revenue: completeRevenue, discount_cost: discount }, action: 'Compare revenue quality and subsequent purchases, not redemption volume alone.' });
-  const eligibleSources = sources.filter(source => source.leads >= 20).sort((a,b) => (b.conversions || 0) / b.leads - (a.conversions || 0) / a.leads);
-  if (eligibleSources[0]) { const source = eligibleSources[0]; findings.push({ type: 'acquisition', title: 'Highest observed source conversion · minimum 20 leads', finding: `${source.source} shows ${source.conversions || 0} conversions from ${source.leads} imported leads.`,
-    evidence: source, action: 'Lead status is a current snapshot; validate attribution and cohort maturity before shifting spend.' }); }
-  const cancellationBand = attendance.timeBands?.filter((band: any) => band.bookings >= 30).sort((a: any,b: any) => b.late_cancellation_rate - a.late_cancellation_rate)[0];
-  if (cancellationBand) findings.push({ type: 'attendance', title: 'Time-band cancellation review', finding: `${cancellationBand.band} has the highest late-cancellation rate among bands with at least 30 bookings (${(cancellationBand.late_cancellation_rate * 100).toFixed(1)}%).`,
-    evidence: cancellationBand, action: 'Review scheduling and reminder operations; do not label other non-check-ins as late cancellations.' });
+  const growth = [...movements].sort((a, b) => Number(b.yoy_percent) - Number(a.yoy_percent))[0],
+    decline = [...movements].sort((a, b) => Number(a.yoy_percent) - Number(b.yoy_percent))[0];
+  if (growth)
+    findings.push({
+      type: 'yoy',
+      title: 'Largest complete-month YoY increase',
+      finding: `${MONTH_NAMES[growth.month - 1]} was ${Number(growth.yoy_percent).toFixed(1)}% above the prior-year month.`,
+      evidence: growth,
+      action: 'Treat this as descriptive change, not proof that a promotion caused the increase.',
+    });
+  if (decline && Number(decline.yoy_percent) < 0)
+    findings.push({
+      type: 'yoy',
+      title: 'Largest complete-month YoY decline',
+      finding: `${MONTH_NAMES[decline.month - 1]} was ${Math.abs(Number(decline.yoy_percent)).toFixed(1)}% below the prior-year month.`,
+      evidence: decline,
+      action: 'Review acquisition, renewal and attendance contributions separately before increasing discount.',
+    });
+  const completeRevenue = comparisons.reduce((sum, row) => sum + row.revenue, 0);
+  const completeProducts = db
+    .prepare(
+      `SELECT product_name name,category,COUNT(*) transactions,SUM(amount) revenue,SUM(discount_amount) discount FROM transactions
+    WHERE studio_id=? AND month LIKE ? AND month<=? GROUP BY product_name,category ORDER BY revenue DESC LIMIT 5`,
+    )
+    .all(studioId, `${year}-%`, through) as any[];
+  if (completeProducts[0] && completeRevenue > 0)
+    findings.push({
+      type: 'product',
+      title: 'Product concentration',
+      finding: `${completeProducts[0].name} contributed ${((completeProducts[0].revenue / completeRevenue) * 100).toFixed(1)}% of complete-period revenue.`,
+      evidence: { ...completeProducts[0], periodRevenue: completeRevenue },
+      action: 'Protect the strongest product journey while testing whether concentration creates capacity or mix risk.',
+    });
+  const discount = comparisons.reduce((sum, row) => sum + row.discount_cost, 0);
+  if (completeRevenue + discount > 0)
+    findings.push({
+      type: 'revenue_quality',
+      title: 'Complete-period discount exposure',
+      finding: `Recorded discounts equal ${((discount / (completeRevenue + discount)) * 100).toFixed(1)}% of net revenue plus discounts.`,
+      evidence: { revenue: completeRevenue, discount_cost: discount },
+      action: 'Compare revenue quality and subsequent purchases, not redemption volume alone.',
+    });
+  const eligibleSources = sources
+    .filter(source => source.leads >= 20)
+    .sort((a, b) => (b.conversions || 0) / b.leads - (a.conversions || 0) / a.leads);
+  if (eligibleSources[0]) {
+    const source = eligibleSources[0];
+    findings.push({
+      type: 'acquisition',
+      title: 'Highest observed source conversion · minimum 20 leads',
+      finding: `${source.source} shows ${source.conversions || 0} conversions from ${source.leads} imported leads.`,
+      evidence: source,
+      action: 'Lead status is a current snapshot; validate attribution and cohort maturity before shifting spend.',
+    });
+  }
+  const cancellationBand = attendance.timeBands
+    ?.filter((band: any) => band.bookings >= 30)
+    .sort((a: any, b: any) => b.late_cancellation_rate - a.late_cancellation_rate)[0];
+  if (cancellationBand)
+    findings.push({
+      type: 'attendance',
+      title: 'Time-band cancellation review',
+      finding: `${cancellationBand.band} has the highest late-cancellation rate among bands with at least 30 bookings (${(cancellationBand.late_cancellation_rate * 100).toFixed(1)}%).`,
+      evidence: cancellationBand,
+      action: 'Review scheduling and reminder operations; do not label other non-check-ins as late cancellations.',
+    });
   const observedOffer = offers.find(offer => offer.actual_revenue > 0);
-  if (observedOffer) findings.push({ type: 'offer', title: 'Largest attributed historical promotion in profile', finding: `${observedOffer.name} has ₹${Math.round(observedOffer.actual_revenue).toLocaleString('en-IN')} in attributed revenue.`,
-    evidence: observedOffer, action: 'Attributed revenue is not incremental lift; use a controlled newcomer experiment for causal questions.' });
-  return { through, comparisons, completeProducts, findings, excludedPartialOrFutureMonths: 12 - comparisons.length,
-    methodology: 'Only months at or before the latest complete business sales month are used for historic findings. Current-state lead conversion, attributed promotion revenue and operational attendance remain different evidence types.' };
+  if (observedOffer)
+    findings.push({
+      type: 'offer',
+      title: 'Largest attributed historical promotion in profile',
+      finding: `${observedOffer.name} has ₹${Math.round(observedOffer.actual_revenue).toLocaleString('en-IN')} in attributed revenue.`,
+      evidence: observedOffer,
+      action: 'Attributed revenue is not incremental lift; use a controlled newcomer experiment for causal questions.',
+    });
+  return {
+    through,
+    comparisons,
+    completeProducts,
+    findings,
+    excludedPartialOrFutureMonths: 12 - comparisons.length,
+    methodology:
+      'Only months at or before the latest complete business sales month are used for historic findings. Current-state lead conversion, attributed promotion revenue and operational attendance remain different evidence types.',
+  };
 }
 
 export function studioProfile(studioId: number, year: number) {
   const studio = db.prepare('SELECT * FROM studios WHERE id=?').get(studioId) as any;
   if (!studio) return null;
-  const monthly = Array.from({ length: 12 }, (_, i) => ({ month: i + 1, ...actualMetrics(studioId, monthKey(year, i + 1)), prior_revenue: revenueFor(studioId, monthKey(year - 1, i + 1)) }));
-  const products = db.prepare(`SELECT product_name name, category, COUNT(*) transactions, SUM(amount) revenue, AVG(amount) aov, SUM(discount_amount) discount
-    FROM transactions WHERE studio_id=? AND month LIKE ? GROUP BY product_name,category ORDER BY revenue DESC LIMIT 12`).all(studioId, `${year}-%`);
-  const sources = db.prepare(`SELECT COALESCE(source_name,'Unknown') source, COUNT(*) leads, SUM(CASE WHEN converted_at IS NOT NULL THEN 1 ELSE 0 END) conversions, SUM(ltv) attributed_ltv
-    FROM leads WHERE studio_id=? AND month LIKE ? GROUP BY source_name ORDER BY leads DESC LIMIT 10`).all(studioId, `${year}-%`);
-  const seasonality = db.prepare(`SELECT CAST(substr(month,6,2) AS INTEGER) month, AVG(revenue) average_revenue, COUNT(*) observations FROM (
-    SELECT month,SUM(amount) revenue FROM transactions WHERE studio_id=? GROUP BY month) GROUP BY month ORDER BY month`).all(studioId);
-  const trainers = db.prepare(`SELECT trainer_name,trainer_ref,SUM(total_sessions) sessions,SUM(customers) customers,SUM(paid_revenue) paid_revenue,
+  const monthly = Array.from({ length: 12 }, (_, i) => ({
+    month: i + 1,
+    ...actualMetrics(studioId, monthKey(year, i + 1)),
+    prior_revenue: revenueFor(studioId, monthKey(year - 1, i + 1)),
+  }));
+  const products = db
+    .prepare(
+      `SELECT product_name name, category, COUNT(*) transactions, SUM(amount) revenue, AVG(amount) aov, SUM(discount_amount) discount
+    FROM transactions WHERE studio_id=? AND month LIKE ? GROUP BY product_name,category ORDER BY revenue DESC LIMIT 12`,
+    )
+    .all(studioId, `${year}-%`);
+  const sources = db
+    .prepare(
+      `SELECT COALESCE(source_name,'Unknown') source, COUNT(*) leads, SUM(CASE WHEN converted_at IS NOT NULL THEN 1 ELSE 0 END) conversions, SUM(ltv) attributed_ltv
+    FROM leads WHERE studio_id=? AND month LIKE ? GROUP BY source_name ORDER BY leads DESC LIMIT 10`,
+    )
+    .all(studioId, `${year}-%`);
+  const seasonality = db
+    .prepare(
+      `SELECT CAST(substr(month,6,2) AS INTEGER) month, AVG(revenue) average_revenue, COUNT(*) observations FROM (
+    SELECT month,SUM(amount) revenue FROM transactions WHERE studio_id=? GROUP BY month) GROUP BY month ORDER BY month`,
+    )
+    .all(studioId);
+  const trainers = db
+    .prepare(
+      `SELECT trainer_name,trainer_ref,SUM(total_sessions) sessions,SUM(customers) customers,SUM(paid_revenue) paid_revenue,
     AVG(conversion_rate) conversion_rate,AVG(retention_rate) retention_rate,SUM(new_clients) new_clients FROM trainer_performance
-    WHERE studio_id=? AND month LIKE ? GROUP BY trainer_ref,trainer_name ORDER BY sessions DESC LIMIT 10`).all(studioId, `${year}-%`);
+    WHERE studio_id=? AND month LIKE ? GROUP BY trainer_ref,trainer_name ORDER BY sessions DESC LIMIT 10`,
+    )
+    .all(studioId, `${year}-%`);
   const funnel = observedFunnel(studioId);
   const attendance = attendanceProfile(studioId, year);
-  const segments = db.prepare('SELECT * FROM segment_snapshots WHERE studio_id=? ORDER BY audience_size DESC').all(studioId);
-  const offers = db.prepare(`SELECT id,name,objective,status,actual_revenue,actual_redemptions,effective_discount,expected_revenue FROM offers
-    WHERE studio_id=? OR studio_id IS NULL ORDER BY COALESCE(actual_revenue,expected_revenue,0) DESC LIMIT 8`).all(studioId);
-  const strengths: string[] = [], weaknesses: string[] = [];
+  const segments = db
+    .prepare('SELECT * FROM segment_snapshots WHERE studio_id=? ORDER BY audience_size DESC')
+    .all(studioId);
+  const offers = db
+    .prepare(
+      `SELECT id,name,objective,status,actual_revenue,actual_redemptions,effective_discount,expected_revenue FROM offers
+    WHERE studio_id=? OR studio_id IS NULL ORDER BY COALESCE(actual_revenue,expected_revenue,0) DESC LIMIT 8`,
+    )
+    .all(studioId);
+  const strengths: string[] = [],
+    weaknesses: string[] = [];
   const totalRevenue = monthly.reduce((s, m) => s + m.revenue, 0);
   const totalDiscount = monthly.reduce((s, m) => s + m.discount_cost, 0);
-  if (products[0]) strengths.push(`${(products[0] as any).name} is the largest observed product contributor in ${year}.`);
-  if (sources[0]) strengths.push(`${(sources[0] as any).source} is the largest imported lead source; conversion is shown separately.`);
-  if (funnel.trialToPurchaseRate > 0 && funnel.trialToPurchaseRate < 0.25) weaknesses.push(`Matured trial cohorts convert at ${(funnel.trialToPurchaseRate * 100).toFixed(1)}%; follow-up is a priority.`);
-  if (attendance.summary.late_cancellation_rate !== null && attendance.summary.late_cancellation_rate > 0.12) weaknesses.push(`Late cancellations represent ${(attendance.summary.late_cancellation_rate * 100).toFixed(1)}% of observed bookings in ${year}.`);
-  if (attendance.outlook.raw_attendance_trend !== null && attendance.outlook.raw_attendance_trend > 0.05) strengths.push(`Checked-in visits increased ${(attendance.outlook.raw_attendance_trend * 100).toFixed(1)}% across the latest six complete months versus the prior six months.`);
-  if (totalRevenue > 0 && totalDiscount / (totalRevenue + totalDiscount) > 0.1) weaknesses.push('Observed discount exposure exceeds 10% of gross value.');
-  if (!weaknesses.length) weaknesses.push('No material weakness is asserted automatically; review the funnel and product mix for data-supported opportunities.');
-  const historic = historicFindings(studioId,year,monthly,products as any[],sources as any[],offers as any[],attendance);
-  return { studio, monthly, products, sources, trainers, seasonality, funnel, attendance, segments, offers, strengths, weaknesses, historic,
-    recommendations: { targetMethod: 'Comparable-month actuals adjusted by observed capped trend; approved targets remain separate.', totalRevenue, totalDiscount }, coverage: dataCoverage() };
+  if (products[0])
+    strengths.push(`${(products[0] as any).name} is the largest observed product contributor in ${year}.`);
+  if (sources[0])
+    strengths.push(
+      `${(sources[0] as any).source} is the largest imported lead source; conversion is shown separately.`,
+    );
+  if (funnel.trialToPurchaseRate > 0 && funnel.trialToPurchaseRate < 0.25)
+    weaknesses.push(
+      `Matured trial cohorts convert at ${(funnel.trialToPurchaseRate * 100).toFixed(1)}%; follow-up is a priority.`,
+    );
+  if (attendance.summary.late_cancellation_rate !== null && attendance.summary.late_cancellation_rate > 0.12)
+    weaknesses.push(
+      `Late cancellations represent ${(attendance.summary.late_cancellation_rate * 100).toFixed(1)}% of observed bookings in ${year}.`,
+    );
+  if (attendance.outlook.raw_attendance_trend !== null && attendance.outlook.raw_attendance_trend > 0.05)
+    strengths.push(
+      `Checked-in visits increased ${(attendance.outlook.raw_attendance_trend * 100).toFixed(1)}% across the latest six complete months versus the prior six months.`,
+    );
+  if (totalRevenue > 0 && totalDiscount / (totalRevenue + totalDiscount) > 0.1)
+    weaknesses.push('Observed discount exposure exceeds 10% of gross value.');
+  if (!weaknesses.length)
+    weaknesses.push(
+      'No material weakness is asserted automatically; review the funnel and product mix for data-supported opportunities.',
+    );
+  const historic = historicFindings(
+    studioId,
+    year,
+    monthly,
+    products as any[],
+    sources as any[],
+    offers as any[],
+    attendance,
+  );
+  return {
+    studio,
+    monthly,
+    products,
+    sources,
+    trainers,
+    seasonality,
+    funnel,
+    attendance,
+    segments,
+    offers,
+    strengths,
+    weaknesses,
+    historic,
+    recommendations: {
+      targetMethod: 'Comparable-month actuals adjusted by observed capped trend; approved targets remain separate.',
+      totalRevenue,
+      totalDiscount,
+    },
+    coverage: dataCoverage(),
+  };
 }
