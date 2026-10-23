@@ -139,3 +139,15 @@ Keep audit history with the database. Import deletion or reseeding is not a back
 Google Sheets is an import source, not a live synchronisation service. Refreshes require an authorised export/import and produce a new provenance record. The application does not claim continuous sync.
 
 The application is fully usable for internal planning, approvals, imports, calculations, and exports without external credentials. Real AI generation additionally requires the configured model provider. Momence, WhatsApp, CRM, and ad-platform publishing integrations are not present and must not be represented as completed actions.
+
+## Vercel (current production: https://sales-2027.vercel.app)
+
+- `api/index.ts` runs the Express API as one Vercel function in `syd1`, next to Supabase.
+- Planning data (targets, plans, offers, campaigns, settings, users, sessions) lives in Supabase.
+  Each instance loads it on a cold start and applies other instances' edits from the `_changes`
+  log on every request; a write responds only after it is saved to Supabase.
+- Sales history (sales lines, check-ins, leads, packages) is a compressed SQLite snapshot in the
+  `_history_snapshot` table. After importing new Momence exports **locally**, run
+  `npm run history:publish` so Vercel sees them. Imports made on the Vercel site itself are not kept.
+- Required env var: `DATABASE_URL` (Supabase pooler URI, password URL-encoded). The function switches
+  to the transaction pooler (port 6543) automatically. `DATABASE_PATH` is ignored on Vercel.

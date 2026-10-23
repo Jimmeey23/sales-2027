@@ -13,3 +13,5 @@ p57-data/uploads/
 test-results/
 playwright-report/
 artifacts/
+.vercel
+.env*.local

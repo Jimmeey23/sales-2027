@@ -21,13 +21,25 @@ import { renewalReport } from './lib/renewals.js';
 import { copilotCapability, deterministicCopilot, providerNarrative } from './lib/copilot.js';
 import { parseReportOptions, reportCatalog, reportDefaults, reportSupportsStudio, runReport } from './lib/reporting.js';
 import { sendReportExport } from './lib/reportExport.js';
+import { flushOutbox, pullRemoteChanges, startSupabaseSync } from './lib/supabaseSync.js';
+import { applyTargetScenario, currentScenario, rebaseTarget, TARGET_SCENARIOS } from './lib/targetScenarios.js';
 import { bengaluruReference, ensurePlaybookItems, PLAYBOOK_SECTIONS, POPUP_CHILDREN, POPUP_PARENT, rollUpPopup } from './lib/plan2027.js';
 
 initSchema();
 ensureCommercialSeed();
+// Load planning data from Supabase (or migrate it there on first run) before serving requests.
+// Called once per process: by server/main.ts locally and by api/index.ts on Vercel.
+let initialising: Promise<void> | null = null;
+export function initApp() {
+  return initialising ||= startSupabaseSync().then(counts => {
+    if (counts) console.log('Supabase sync ready:', Object.entries(counts).map(([t, c]) => `${t} ${c.action} ${c.local}`).join(' · '));
+  });
+}
 const app = express();
 const port = Number(process.env.PORT || 3001);
-fs.mkdirSync(path.resolve('p57-data/uploads'), { recursive: true });
+// Vercel can only write to /tmp; locally uploads stay under p57-data.
+const uploadDir = process.env.UPLOAD_DIR || (process.env.VERCEL ? '/tmp/uploads' : path.resolve('p57-data/uploads'));
+fs.mkdirSync(uploadDir, { recursive: true });
 app.disable('x-powered-by');
 app.use((_req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -37,6 +49,16 @@ app.use((_req, res, next) => {
 });
 app.use(express.json({ limit: '3mb' }));
 app.use(cookieParser());
+// Serverless (Vercel): several short-lived instances share Supabase. Each request first applies
+// changes made elsewhere, and a write only answers once its changes are safely in Supabase.
+// Locally the same pull keeps a running dev server in step with edits made on Vercel.
+if (process.env.DATABASE_URL) app.use((req, res, next) => {
+  if (process.env.VERCEL && req.method !== 'GET') {
+    const end = res.end.bind(res);
+    (res as any).end = (...args: any[]) => { flushOutbox().finally(() => end(...args)); return res; };
+  }
+  pullRemoteChanges().then(() => next(), next);
+});
 app.use(authenticate);
 
 const asyncRoute = (handler: any) => (req: any, res: any, next: any) => Promise.resolve(handler(req, res, next)).catch(next);
@@ -48,7 +70,7 @@ const studioFilter = (req: any, requested?: number) => {
   return requested;
 };
 const upload = multer({ storage: multer.diskStorage({
-  destination: path.resolve('p57-data/uploads'),
+  destination: uploadDir,
   filename: (_req, file, cb) => cb(null, `${Date.now()}-${crypto.randomBytes(6).toString('hex')}${path.extname(file.originalname).toLowerCase()}`),
 }), limits: { fileSize: 60 * 1024 * 1024 }, fileFilter: (_req, file, cb) => {
   if (!/\.(csv|xlsx|xlsm)$/i.test(file.originalname)) cb(new Error('Supported formats: CSV, XLSX and XLSM. Convert legacy XLS files to XLSX first.')); else cb(null, true);
@@ -93,7 +115,7 @@ app.get('/api/bootstrap', (req, res) => {
   const years = (db.prepare(`SELECT DISTINCT CAST(substr(month,1,4) AS INTEGER) year FROM transactions UNION SELECT DISTINCT year FROM monthly_targets ORDER BY year`).all() as any[]).map(r => r.year);
   res.json({ user: req.user, studios, products, years, planningYear: 2027, aiConfigured: Boolean(process.env.OPENAI_API_KEY),
     aiModel: process.env.OPENAI_API_KEY ? process.env.OPENAI_MODEL || 'gpt-4.1-mini' : null, coverage: dataCoverage(),
-    permissions: ROLE_PERMISSIONS, demo: { enabled: true, label: 'Real imported actuals · demonstration draft plans' } });
+    permissions: ROLE_PERMISSIONS, targetScenario: currentScenario(), demo: { enabled: true, label: 'Real imported actuals · demonstration draft plans' } });
 });
 app.get('/api/dashboard', (req, res) => {
   const year = Number(req.query.year || 2026), month = req.query.month ? Number(req.query.month) : null;
@@ -126,6 +148,11 @@ app.patch('/api/studios/:id', permission('settings'), (req, res) => {
   res.json(after);
 });
 
+app.get('/api/targets/scenario', (_req, res) => res.json({ scenario: currentScenario(), options: TARGET_SCENARIOS }));
+app.post('/api/targets/scenario', permission('target_edit'), (req, res) => {
+  const scenario = z.enum(TARGET_SCENARIOS).parse(req.body.scenario), year = Number(req.body.year || 2027);
+  res.json(applyTargetScenario(year, scenario, req.user!.id));
+});
 app.get('/api/targets', (req, res) => {
   const year = Number(req.query.year || 2027), studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
   const rows = db.prepare(`SELECT t.*,s.name studio,s.city,s.max_discount_percent FROM monthly_targets t JOIN studios s ON s.id=t.studio_id
@@ -207,6 +234,7 @@ app.patch('/api/targets/:id', permission('target_edit'), (req, res) => {
   const after = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(targetId) as any;
   db.prepare('INSERT INTO target_versions(target_id,version,snapshot,change_reason,changed_by) VALUES (?,?,?,?,?)').run(targetId, nextVersion, JSON.stringify(after), reason || 'Target or scenario updated.', req.user!.id);
   audit({ userId: req.user!.id, action: approved !== before.approved_target ? 'approve_target' : 'update_target', entityType: 'monthly_target', entityId: targetId, studioId: before.studio_id, before, after, reason });
+  rebaseTarget(targetId);
   const studioName = (db.prepare('SELECT name FROM studios WHERE id=?').get(before.studio_id) as any)?.name;
   if (POPUP_CHILDREN.includes(studioName)) rollUpPopup(before.year, req.user!.id);
   res.json({ ...after, funnel: JSON.parse(after.funnel), assumptions: JSON.parse(after.assumptions || '{}') });
@@ -469,7 +497,8 @@ app.post('/api/copilot/conversations/:id/messages', asyncRoute(async (req: any, 
   audit({ userId: req.user!.id, action: 'message', entityType: 'copilot_conversation', entityId: conversation.id, studioId: resolvedStudioId, after: { mode: answer.mode, savedOfferId: savedOffer?.id || null, assistantMessageId: assistantId } });
   res.status(201).json({ conversationId: conversation.id, message: { id: assistantId, role: 'assistant', content: answer.content, attachments: answer.attachments, mode: answer.mode }, savedOffer });
 }));
-const planRow = (p: any) => p ? { ...p, actions: JSON.parse(p.actions || '[]'), offer_ids: p.offer_ids === null || p.offer_ids === undefined ? null : JSON.parse(p.offer_ids) } : null;
+const planRow = (p: any) => p ? { ...p, actions: JSON.parse(p.actions || '[]'), offer_ids: p.offer_ids === null || p.offer_ids === undefined ? null : JSON.parse(p.offer_ids),
+  slots: p.slots ? JSON.parse(p.slots) : null } : null;
 const studioIdByName = (name: string) => (db.prepare('SELECT id FROM studios WHERE name=?').get(name) as any)?.id as number | undefined;
 app.get('/api/studio-plans', (req, res) => {
   const year = Number(req.query.year || 2027), scoped = studioFilter(req);
@@ -501,18 +530,19 @@ app.get('/api/studio-plans/:studioId', (req, res) => {
 const planSchema = z.object({ theme: z.string().max(200).nullable().optional(), objective: z.string().max(300).nullable().optional(),
   strategy: z.string().max(5000).nullable().optional(), notes: z.string().max(5000).nullable().optional(), status: z.enum(['draft','final']).optional(),
   offer_ids: z.array(z.number().int().positive()).max(200).nullable().optional(),
+  slots: z.object({ newcomer: z.number().int().positive().nullable(), lapsed: z.number().int().positive().nullable(), renewal: z.number().int().positive().nullable() }).nullable().optional(),
   actions: z.array(z.object({ text: z.string().trim().min(1).max(500), owner: z.string().max(80).optional().default(''), week: z.number().int().min(1).max(5).optional().default(1), done: z.boolean().optional().default(false) })).max(60).optional() });
 app.put('/api/studio-plans/:studioId/:year/:month', permission('target_edit'), (req, res) => {
   const studioId = studioFilter(req, id(req.params.studioId)), year = id(req.params.year), month = id(req.params.month);
   if (month > 12) throw bodyError('Month must be between 1 and 12.');
   const input = planSchema.parse(req.body);
   const before = planRow(db.prepare('SELECT * FROM monthly_plans WHERE studio_id=? AND year=? AND month=?').get(studioId, year, month));
-  const merged = { theme: null, objective: null, strategy: null, notes: null, status: 'draft', actions: [], offer_ids: null, ...before, ...input };
-  db.prepare(`INSERT INTO monthly_plans(studio_id,year,month,theme,objective,strategy,actions,notes,status,offer_ids,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?,?)
+  const merged = { theme: null, objective: null, strategy: null, notes: null, status: 'draft', actions: [], offer_ids: null, slots: null, ...before, ...input };
+  db.prepare(`INSERT INTO monthly_plans(studio_id,year,month,theme,objective,strategy,actions,notes,status,offer_ids,slots,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
     ON CONFLICT(studio_id,year,month) DO UPDATE SET theme=excluded.theme,objective=excluded.objective,strategy=excluded.strategy,actions=excluded.actions,
-    notes=excluded.notes,status=excluded.status,offer_ids=excluded.offer_ids,updated_by=excluded.updated_by,updated_at=CURRENT_TIMESTAMP`)
+    notes=excluded.notes,status=excluded.status,offer_ids=excluded.offer_ids,slots=excluded.slots,updated_by=excluded.updated_by,updated_at=CURRENT_TIMESTAMP`)
     .run(studioId, year, month, merged.theme, merged.objective, merged.strategy, JSON.stringify(merged.actions), merged.notes, merged.status,
-      merged.offer_ids === null ? null : JSON.stringify(merged.offer_ids), req.user!.id);
+      merged.offer_ids === null ? null : JSON.stringify(merged.offer_ids), merged.slots ? JSON.stringify(merged.slots) : null, req.user!.id);
   const after = planRow(db.prepare('SELECT * FROM monthly_plans WHERE studio_id=? AND year=? AND month=?').get(studioId, year, month));
   audit({ userId: req.user!.id, action: before ? 'update' : 'create', entityType: 'monthly_plan', entityId: after.id, studioId, before, after });
   res.json(after);
@@ -954,4 +984,5 @@ if (process.env.NODE_ENV === 'production') {
   const dist = path.resolve('dist'); app.use(express.static(dist));
   app.use((req, res, next) => req.method === 'GET' && !req.path.startsWith('/api') ? res.sendFile(path.join(dist, 'index.html')) : next());
 }
-app.listen(port, '0.0.0.0', () => console.log(`P57 API listening on http://0.0.0.0:${port}`));
+export { app, port };
+export default app;

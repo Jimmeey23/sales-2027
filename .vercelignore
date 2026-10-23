@@ -1,0 +1,4 @@
+p57-data
+.env
+node_modules
+.playwright-mcp

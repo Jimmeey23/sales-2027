@@ -15,6 +15,8 @@ const lakh = (v: number | null | undefined) => v === null || v === undefined || 
 const targetOf = (t: any) => t ? (t.approved_target ?? t.proposed_target ?? 0) : 0;
 const pad = (n: number) => String(n).padStart(2, '0');
 const lastDay = (year: number, month: number) => new Date(Date.UTC(year, month, 0)).getUTCDate();
+const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
+const SLOT_LABELS: Record<string, string> = { newcomer: 'Newcomer', lapsed: 'Lapsed member', renewal: 'Renewal' };
 const SECTION_LABELS: Record<string, string> = { studio_actions: 'Studio-specific actions & insights', always_on: 'Always-on programmes', recovery: 'Recovery rules (if the month falls behind)' };
 
 export function StudioPlansHub() {
@@ -52,32 +54,46 @@ export default function StudioPlan() {
   const [view, setView] = useState(params.get('view') || 'board'), [tab, setTab] = useState(params.get('tab') || 'target'), [editing, setEditing] = useState<any>(null);
   const { data, setData, loading, error, reload } = useLoad<any>(() => api(`/studio-plans/${studioId}?year=${year}`), [studioId, year]);
   const parentId = data?.parent?.id;
+  const city = boot.studios.find(s => s.id === studioId)?.city;
+  // Every offer in the studio's city, so the library can offer options from sister studios too.
   const { data: offerData, setData: setOfferData, reload: reloadOffers } = useLoad<any>(async () => {
-    const own = await api(`/offers?studio=${studioId}&year=${year}&limit=100`);
-    const shared = parentId ? await api(`/offers?studio=${parentId}&year=${year}&limit=100`) : { rows: [] };
-    return { rows: [...own.rows.filter((o: any) => o.studio_id === studioId), ...shared.rows.filter((o: any) => o.studio_id === parentId)] };
-  }, [studioId, year, parentId]);
+    const rows: any[] = [];
+    for (let page = 1; page < 20; page++) {
+      const result = await api(`/offers?${city ? `city=${encodeURIComponent(city)}` : `studio=${studioId}`}&year=${year}&limit=100&page=${page}`);
+      rows.push(...result.rows); if (rows.length >= result.total || !result.rows.length) break;
+    }
+    return { rows };
+  }, [studioId, year, city]);
   const setMonth = (m: number) => setParams(p => { p.set('month', String(m)); return p; }, { replace: true });
   useEffect(() => { setParams(p => { p.set('tab', tab); p.set('view', view); return p; }, { replace: true }); }, [tab, view]);
   // The topbar studio filter drives this page: opening a plan selects its studio, and changing the filter switches plans.
   useEffect(() => { if (globalStudio !== studioId) setStudioId(studioId); }, []);
   useOnChange(globalStudio, () => { if (!globalStudio) navigate('/plan'); else if (globalStudio !== studioId) navigate(`/plan/${globalStudio}?month=${month}&tab=${tab}&view=${view}`); });
   const offers: any[] = (offerData?.rows || []).filter((o: any) => !['archived', 'rejected'].includes(o.status));
+  const isOwn = (o: any) => o.studio_id === studioId || (parentId && o.studio_id === parentId);
   const planFor = (m: number) => data?.plans.find((p: any) => p.month === m);
-  // A month with no saved selection shows the offers imported from the plan for that month.
-  const selectedIds = (m: number): number[] => {
-    const saved = planFor(m)?.offer_ids;
-    if (Array.isArray(saved)) return saved.filter((x: number) => offers.some(o => o.id === x));
-    return offers.filter(o => o.month === m && o.generation_source === 'plan_2027').map(o => o.id);
+  const exists = (oid: any) => oid && offers.some(o => o.id === oid);
+  // Months without a saved choice use the plan's primary newcomer / lapsed / renewal offers and its other imported offers.
+  const slotsFor = (m: number): Record<string, number | null> => {
+    const saved = planFor(m)?.slots;
+    return Object.fromEntries(SLOT_KEYS.map(slot => [slot, saved ? (exists(saved[slot]) ? saved[slot] : null)
+      : offers.find(o => isOwn(o) && o.month === m && o.plan_slot === slot && o.plan_rank === 1)?.id ?? null]));
   };
+  const extrasFor = (m: number): number[] => {
+    const saved = planFor(m)?.offer_ids;
+    if (Array.isArray(saved)) return saved.filter(exists);
+    return offers.filter(o => isOwn(o) && o.month === m && o.generation_source === 'plan_2027' && !o.plan_slot).map(o => o.id);
+  };
+  const selectedIds = (m: number): number[] => [...Object.values(slotsFor(m)).filter(Boolean) as number[], ...extrasFor(m)];
   const savePlan = async (m: number, body: any) => {
     const result = await api(`/studio-plans/${studioId}/${year}/${m}`, { method: 'PUT', body: JSON.stringify(body) });
     setData((d: any) => ({ ...d, plans: [...d.plans.filter((p: any) => p.month !== m), result] }));
     return result;
   };
-  const setSelection = async (m: number, ids: number[]) => {
-    try { await savePlan(m, { offer_ids: [...new Set(ids)] }); } catch (e: any) { toast(e.message, 'error'); }
+  const savePicks = async (m: number, slots: Record<string, number | null>, extras: number[]) => {
+    try { await savePlan(m, { slots, offer_ids: [...new Set(extras)].filter(id => !Object.values(slots).includes(id)) }); } catch (e: any) { toast(e.message, 'error'); }
   };
+  const setSelection = (m: number, ids: number[]) => { const slots = slotsFor(m); return savePicks(m, Object.fromEntries(Object.entries(slots).map(([k, v]) => [k, v && ids.includes(v) ? v : null])), ids); };
   const updateOffer = (saved: any) => setOfferData((d: any) => ({ ...d, rows: d.rows.map((o: any) => o.id === saved.id ? { ...o, ...saved } : o) }));
   if (loading && !data) return <Loading label="Loading studio plan…"/>;
   if (error && !data) return <ErrorState message={error} retry={() => reload().catch(() => {})}/>;
@@ -86,7 +102,7 @@ export default function StudioPlan() {
   const annual = data.targets.reduce((s: number, t: any) => s + targetOf(t), 0);
   const plannedRevenue = MONTHS.reduce((s, _, i) => s + selectedIds(i + 1).reduce((x, oid) => x + (offers.find(o => o.id === oid)?.expected_revenue || 0), 0), 0);
   const isRollup = data.children?.length > 0;
-  const ctx = { studio, year, offers, selectedIds, setSelection, updateOffer, reloadOffers: () => reloadOffers().catch(() => {}), targets: data.targets, plans: data.plans, isRollup,
+  const ctx = { studio, year, offers, selectedIds, setSelection, slotsFor, extrasFor, savePicks, isOwn, parentId, updateOffer, reloadOffers: () => reloadOffers().catch(() => {}), targets: data.targets, plans: data.plans, isRollup,
     onEditTarget: (t: any) => setEditing(t), canEditTarget: can('target_edit') && !isRollup };
   return <div>
     <div className="sp-head">
@@ -143,126 +159,154 @@ function MonthStrip({ targets, month, setMonth, selectedIds, planFor }: any) {
   <p className="sp-legend"><i className="flag ok"/> done <i className="flag"/> to do — dots: target approved · plan written · offers in plan</p></>;
 }
 
-// ---------- Year board: drag offers between months, curate, suggest with AI ----------
-function AnnualBoard({ studio, year, offers, selectedIds, setSelection, updateOffer, reloadOffers, targets, onEditTarget, canEditTarget, onOpenMonth }: any) {
+// ---------- Year plan: one row per month; fixed newcomer / lapsed / renewal slots plus other offers ----------
+type DropTarget = { month: number; slot: string } | 'library';
+function AnnualBoard({ studio, year, offers, slotsFor, extrasFor, savePicks, isOwn, updateOffer, reloadOffers, targets, onEditTarget, canEditTarget, onOpenMonth }: any) {
   const { boot, can, toast } = useApp();
   const [editingOffer, setEditingOffer] = useState<any>(null), [suggestions, setSuggestions] = useState<Record<number, any[]>>({}), [busy, setBusy] = useState<Record<number, boolean>>({});
-  const [engine, setEngine] = useState(boot.aiConfigured ? 'ai' : 'engine'), [dragOver, setDragOver] = useState<number | 'library' | null>(null), [libraryQuery, setLibraryQuery] = useState('');
-  const inPlan = new Set(MONTHS.flatMap((_, i) => selectedIds(i + 1)));
-  const library = offers.filter((o: any) => !inPlan.has(o.id) && (!libraryQuery || `${o.name} ${o.benefit} ${o.audience}`.toLowerCase().includes(libraryQuery.toLowerCase())));
+  const [engine, setEngine] = useState(boot.aiConfigured ? 'ai' : 'engine'), [over, setOver] = useState<string | null>(null);
+  const [libOpen, setLibOpen] = useState(true), [libMonth, setLibMonth] = useState<number | 0>(0), [libType, setLibType] = useState('all'), [libScope, setLibScope] = useState('city'), [libQuery, setLibQuery] = useState('');
   const canCurate = can('target_edit');
+  const inPlan = new Set(MONTHS.flatMap((_, i) => [...Object.values(slotsFor(i + 1)), ...extrasFor(i + 1)].filter(Boolean)));
+  const library = offers.filter((o: any) => (libScope === 'city' || isOwn(o)) && (!libMonth || o.month === libMonth)
+    && (libType === 'all' || (libType === 'other' ? !o.plan_slot : o.plan_slot === libType))
+    && (!libQuery || `${o.name} ${o.benefit} ${o.audience} ${o.studio}`.toLowerCase().includes(libQuery.toLowerCase())))
+    .sort((a: any, b: any) => (a.month || 13) - (b.month || 13) || (a.plan_rank || 9) - (b.plan_rank || 9));
 
-  const moveOffer = async (offer: any, toMonth: number) => {
-    // Own offers move to the new month (dates keep their day numbers); shared pop-up offers are only selected.
-    if (offer.studio_id !== studio.id || offer.month === toMonth) return;
-    const shift = (d: string | null, fallbackDay: number) => `${year}-${pad(toMonth)}-${pad(Math.min(Number(d?.slice(8, 10)) || fallbackDay, lastDay(year, toMonth)))}`;
-    try { updateOffer(await patch(`/offers/${offer.id}`, { month: toMonth, year, validityStart: shift(offer.validity_start, 1), validityEnd: shift(offer.validity_end, lastDay(year, toMonth)), reason: 'Moved on the annual plan board.' })); }
-    catch (e: any) { toast(e.message, 'error'); throw e; }
+  // Offers from another studio in the city are copied into this studio; own offers move to the target month.
+  const bringIn = async (offer: any, month: number) => {
+    const days = (d: string | null, fallback: number) => `${year}-${pad(month)}-${pad(Math.min(Number(d?.slice(8, 10)) || fallback, lastDay(year, month)))}`;
+    if (!isOwn(offer)) {
+      const copy = await post('/offers', { name: offer.name, headline: offer.headline, customerCopy: offer.customer_copy, benefit: offer.benefit, audience: offer.audience, rationale: offer.rationale,
+        objective: offer.objective, offerType: offer.offer_type, studioId: studio.id, year, month, validityStart: days(offer.validity_start, 1), validityEnd: days(offer.validity_end, lastDay(year, month)),
+        redemptionConditions: offer.redemption_conditions, targetPurchases: offer.target_purchases, expectedAsp: offer.expected_asp, expectedRevenue: offer.expected_revenue, revenueTarget: offer.revenue_target,
+        effectiveDiscount: offer.effective_discount, generationSource: 'manual', dataMode: 'user', status: 'draft', provenance: { copiedFrom: offer.id, studio: offer.studio } });
+      await reloadOffers(); return copy.id;
+    }
+    if (offer.studio_id === studio.id && offer.month !== month) updateOffer(await patch(`/offers/${offer.id}`, { month, year, validityStart: days(offer.validity_start, 1), validityEnd: days(offer.validity_end, lastDay(year, month)), reason: 'Moved on the year plan.' }));
+    return offer.id;
   };
-  const onDrop = async (e: React.DragEvent, toMonth: number | 'library') => {
-    e.preventDefault(); setDragOver(null);
-    const payload = JSON.parse(e.dataTransfer.getData('text/plain') || '{}'); const offer = offers.find((o: any) => o.id === payload.offerId);
-    if (!offer || payload.fromMonth === toMonth) return;
+  const place = async (offer: any, from: { month: number; slot: string } | null, to: DropTarget) => {
     try {
-      if (payload.fromMonth) await setSelection(payload.fromMonth, selectedIds(payload.fromMonth).filter((x: number) => x !== offer.id));
-      if (toMonth !== 'library') { await moveOffer(offer, toMonth); await setSelection(toMonth, [...selectedIds(toMonth), offer.id]); }
-    } catch { /* toast already shown */ }
+      if (from) {
+        const s = slotsFor(from.month), x = extrasFor(from.month);
+        await savePicks(from.month, from.slot === 'extra' ? s : { ...s, [from.slot]: null }, from.slot === 'extra' ? x.filter((id: number) => id !== offer.id) : x);
+      }
+      if (to === 'library') return;
+      const id = await bringIn(offer, to.month), s = slotsFor(to.month), x = extrasFor(to.month);
+      if (to.slot === 'extra') await savePicks(to.month, s, [...x, id]);
+      else await savePicks(to.month, { ...s, [to.slot]: id }, x.filter((v: number) => v !== id));
+    } catch (e: any) { toast(e.message, 'error'); }
   };
+  const dropProps = (key: string, to: DropTarget) => ({
+    className: over === key ? 'drop' : '',
+    onDragOver: (e: React.DragEvent) => { e.preventDefault(); setOver(key); }, onDragLeave: () => setOver(null),
+    onDrop: (e: React.DragEvent) => { e.preventDefault(); setOver(null); const p = JSON.parse(e.dataTransfer.getData('text/plain') || '{}'); const o = offers.find((x: any) => x.id === p.offerId); if (o) place(o, p.from, to); },
+  });
+  const drag = (offer: any, from: { month: number; slot: string } | null) => canCurate ? { draggable: true, onDragStart: (e: React.DragEvent) => { e.dataTransfer.setData('text/plain', JSON.stringify({ offerId: offer.id, from })); e.dataTransfer.effectAllowed = 'move'; } } : {};
   const suggest = async (m: number) => {
     setBusy(b => ({ ...b, [m]: true }));
     try {
-      const t = targets.find((x: any) => x.month === m);
+      const t = targets.find((x: any) => x.month === m), picked = [...Object.values(slotsFor(m)), ...extrasFor(m)].map(id => offers.find((o: any) => o.id === id)?.name).filter(Boolean);
       const result = await post('/offers/generate', { studioId: studio.id, year, month: m, objective: MONTH_OBJECTIVES[m - 1], source: engine, count: 3, tone: 'witty',
         targetRevenue: Math.round((targetOf(t) || 1000000) * 0.1), maxDiscountPercent: studio.max_discount_percent,
-        instructions: `Suggest offers for ${studio.name} in ${MONTHS[m - 1]} that complement: ${selectedIds(m).map((oid: number) => offers.find((o: any) => o.id === oid)?.name).filter(Boolean).join(', ') || 'no existing offers'}.` });
+        instructions: `Suggest offers for ${studio.name} (${studio.city}) in ${MONTHS[m - 1]} that complement: ${picked.join(', ') || 'no existing offers'}. Use ${studio.city} prices.` });
       setSuggestions(s => ({ ...s, [m]: result.offers.map((o: any) => ({ ...o, source: result.source })) }));
     } catch (e: any) { toast(e.message, 'error'); } finally { setBusy(b => ({ ...b, [m]: false })); }
   };
-  const suggestAll = async () => { for (let m = 1; m <= 12; m++) await suggest(m); };
-  const acceptSuggestion = async (m: number, s: any) => {
+  const accept = async (m: number, s: any) => {
     try {
       const saved = await post('/offers', { ...s, studioId: studio.id, year, month: m, generationSource: s.source === 'openai' ? 'openai' : 'rules_engine', dataMode: 'user', status: 'draft' });
-      await reloadOffers(); await setSelection(m, [...selectedIds(m), saved.id]);
+      await reloadOffers(); await savePicks(m, slotsFor(m), [...extrasFor(m), saved.id]);
       setSuggestions(x => ({ ...x, [m]: x[m].filter(o => o !== s) })); toast(`“${saved.name}” added to ${MONTHS[m - 1]}.`);
     } catch (e: any) { toast(e.message, 'error'); }
   };
-  const dragProps = (offer: any, fromMonth: number | null) => canCurate ? { draggable: true, onDragStart: (e: React.DragEvent) => { e.dataTransfer.setData('text/plain', JSON.stringify({ offerId: offer.id, fromMonth })); e.dataTransfer.effectAllowed = 'move'; } } : {};
+  const optionsFor = (m: number, slot: string) => offers.filter((o: any) => o.month === m && (slot === 'extra' ? !o.plan_slot : o.plan_slot === slot))
+    .sort((a: any, b: any) => Number(!isOwn(a)) - Number(!isOwn(b)) || (a.plan_rank || 9) - (b.plan_rank || 9));
 
-  return <div className="sp-board-wrap">
-    <div className="sp-board-toolbar">
-      <span className="muted">Drag offers between months or from the library. Click a card to edit it. Only offers in a month's plan count toward it.</span>
+  return <div className="yp">
+    <div className="yp-toolbar">
+      <span className="muted">Each month needs a newcomer, lapsed-member and renewal offer. Pick from the dropdowns, drag from the library, or click any offer to edit it.</span>
       <div className="button-row tight">
         <Select aria-label="Suggestion engine" value={engine} onChange={e => setEngine(e.target.value)}><option value="ai" disabled={!boot.aiConfigured}>AI suggestions{boot.aiConfigured ? '' : ' (not configured)'}</option><option value="engine">Rules engine</option></Select>
-        {can('offer_create') && <Button size="sm" variant="secondary" icon={<WandSparkles size={14}/>} onClick={suggestAll}>Suggest for all months</Button>}
+        {can('offer_create') && <Button size="sm" variant="secondary" icon={<WandSparkles size={14}/>} onClick={async () => { for (let m = 1; m <= 12; m++) await suggest(m); }}>Suggest for all months</Button>}
+        <Button size="sm" variant={libOpen ? 'dark' : 'secondary'} onClick={() => setLibOpen(o => !o)}>{libOpen ? 'Hide' : 'Show'} offer library</Button>
       </div>
     </div>
-    <div className="sp-board-layout">
-      <aside className={`sp-library ${dragOver === 'library' ? 'drop' : ''}`} onDragOver={e => { e.preventDefault(); setDragOver('library'); }} onDragLeave={() => setDragOver(null)} onDrop={e => onDrop(e, 'library')}>
+    <div className={`yp-layout ${libOpen ? 'with-library' : ''}`}>
+      <div className="yp-table-wrap">
+        <div className="yp-table" role="table" aria-label="Year plan">
+          <div className="yp-row yp-head" role="row"><div>Month</div><div>Target</div>{SLOT_KEYS.map(s => <div key={s}>{SLOT_LABELS[s]} offer</div>)}<div>Other offers</div></div>
+          {MONTHS_SHORT.map((label, i) => {
+            const m = i + 1, t = targets.find((x: any) => x.month === m), total = targetOf(t), slots = slotsFor(m), extras = extrasFor(m);
+            const chosen = [...Object.values(slots), ...extras].filter(Boolean).map(id => offers.find((o: any) => o.id === id)).filter(Boolean);
+            const planned = chosen.reduce((s: number, o: any) => s + (o.expected_revenue || 0), 0), cover = total ? planned / total : 0;
+            return <div key={label} className="yp-row" role="row">
+              <div className="yp-month"><button onClick={() => onOpenMonth(m)} title="Open month detail">{MONTHS[i]} <ChevronRight size={13}/></button>
+                {SLOT_KEYS.filter(s => !slots[s]).length > 0 && <span className="yp-gap">{SLOT_KEYS.filter(s => !slots[s]).length} slot{SLOT_KEYS.filter(s => !slots[s]).length > 1 ? 's' : ''} empty</span>}</div>
+              <div className="yp-target">
+                <button disabled={!canEditTarget || !t} onClick={() => onEditTarget(t)} title={canEditTarget ? 'Edit target' : undefined}>{lakh(total)}</button>
+                <Progress value={planned} max={total || 1} tone={cover >= 0.5 ? 'green' : 'purple'}/>
+                <small>{lakh(planned)} planned · {percent(cover, 0, true)}</small>
+              </div>
+              {SLOT_KEYS.map(slot => {
+                const offer = offers.find((o: any) => o.id === slots[slot]), key = `${m}-${slot}`, d = dropProps(key, { month: m, slot });
+                return <div key={slot} className={`yp-slot ${d.className}`} onDragOver={d.onDragOver} onDragLeave={d.onDragLeave} onDrop={d.onDrop}>
+                  {offer ? <OfferChip offer={offer} studioId={studio.id} {...drag(offer, { month: m, slot })} onEdit={() => setEditingOffer(offer)}
+                    onRemove={canCurate ? () => savePicks(m, { ...slots, [slot]: null }, extras) : undefined}/> : <span className="yp-empty">Drop or pick a {SLOT_LABELS[slot].toLowerCase()} offer</span>}
+                  {canCurate && <select className="yp-pick" aria-label={`${MONTHS[i]} ${slot} offer`} value="" onChange={async e => { const o = offers.find((x: any) => x.id === Number(e.target.value)); if (o) await place(o, null, { month: m, slot }); }}>
+                    <option value="">{offer ? 'Swap…' : 'Choose…'}</option>
+                    {optionsFor(m, slot).map((o: any) => <option key={o.id} value={o.id}>{o.name} · {o.expected_asp ? money(o.expected_asp) : '—'}{isOwn(o) ? '' : ` (${o.studio})`}</option>)}
+                  </select>}
+                </div>;
+              })}
+              {(() => { const d = dropProps(`${m}-extra`, { month: m, slot: 'extra' }); return <div className={`yp-extras ${d.className}`} onDragOver={d.onDragOver} onDragLeave={d.onDragLeave} onDrop={d.onDrop}>
+                {extras.map((id: number) => { const o = offers.find((x: any) => x.id === id); return o ? <OfferChip key={id} offer={o} studioId={studio.id} compact {...drag(o, { month: m, slot: 'extra' })} onEdit={() => setEditingOffer(o)}
+                  onRemove={canCurate ? () => savePicks(m, slots, extras.filter((x: number) => x !== id)) : undefined}/> : null; })}
+                {suggestions[m]?.map((s, k) => <div key={k} className="yp-suggest"><Sparkles size={12}/><span><b>{s.name}</b> {lakh(s.expectedRevenue)}</span>
+                  <button onClick={() => accept(m, s)}>Add</button><button aria-label="Dismiss" onClick={() => setSuggestions(x => ({ ...x, [m]: x[m].filter(o => o !== s) }))}><X size={12}/></button></div>)}
+                {canCurate && <div className="yp-extra-actions">
+                  <select className="yp-pick" aria-label={`Add an offer to ${MONTHS[i]}`} value="" onChange={async e => { const o = offers.find((x: any) => x.id === Number(e.target.value)); if (o) await place(o, null, { month: m, slot: 'extra' }); }}>
+                    <option value="">+ Add offer…</option>
+                    {offers.filter((o: any) => (o.month === m || !inPlan.has(o.id)) && !chosen.includes(o)).sort((a: any, b: any) => Number(!isOwn(a)) - Number(!isOwn(b))).map((o: any) => <option key={o.id} value={o.id}>{o.name}{o.month && o.month !== m ? ` · ${MONTHS_SHORT[o.month - 1]}` : ''}{isOwn(o) ? '' : ` (${o.studio})`}</option>)}
+                  </select>
+                  {can('offer_create') && <button className="yp-ai" disabled={busy[m]} onClick={() => suggest(m)}><Sparkles size={12}/> {busy[m] ? '…' : 'Suggest'}</button>}
+                </div>}
+              </div>; })()}
+            </div>;
+          })}
+        </div>
+      </div>
+      {libOpen && (() => { const d = dropProps('library', 'library'); return <aside className={`yp-library ${d.className}`} onDragOver={d.onDragOver} onDragLeave={d.onDragLeave} onDrop={d.onDrop}>
         <h4>Offer library <span>{library.length}</span></h4>
-        <p className="muted">Not in any month. Drop a card here to take it out of the plan.</p>
-        <Input value={libraryQuery} onChange={e => setLibraryQuery(e.target.value)} placeholder="Search offers"/>
-        <div className="sp-library-list">{library.map((o: any) => <OfferCard key={o.id} offer={o} studioId={studio.id} compact {...dragProps(o, null)} onEdit={() => setEditingOffer(o)}/>)}</div>
-      </aside>
-      <div className="sp-board">{MONTHS_SHORT.map((label, i) => {
-        const m = i + 1, t = targets.find((x: any) => x.month === m), total = targetOf(t);
-        const chosen = selectedIds(m).map((oid: number) => offers.find((o: any) => o.id === oid)).filter(Boolean);
-        const planned = chosen.reduce((s: number, o: any) => s + (o.expected_revenue || 0), 0);
-        const candidates = offers.filter((o: any) => !selectedIds(m).includes(o.id) && (o.month === m || !inPlan.has(o.id)));
-        return <section key={label} className={`sp-col ${dragOver === m ? 'drop' : ''}`} onDragOver={e => { e.preventDefault(); setDragOver(m); }} onDragLeave={() => setDragOver(null)} onDrop={e => onDrop(e, m)}>
-          <header>
-            <button className="sp-col-month" onClick={() => onOpenMonth(m)} title="Open month detail">{label} <ChevronRight size={13}/></button>
-            <button className="sp-col-target" disabled={!canEditTarget || !t} onClick={() => onEditTarget(t)} title={canEditTarget ? 'Edit target' : undefined}>{lakh(total)}</button>
-            <Progress value={planned} max={total || 1} tone={planned >= total * 0.5 ? 'green' : 'purple'}/>
-            <small>{lakh(planned)} from {chosen.length} offer{chosen.length === 1 ? '' : 's'}</small>
-          </header>
-          <div className="sp-col-body">
-            {chosen.map((o: any) => <OfferCard key={o.id} offer={o} studioId={studio.id} {...dragProps(o, m)} onEdit={() => setEditingOffer(o)}
-              onRemove={canCurate ? () => setSelection(m, selectedIds(m).filter((x: number) => x !== o.id)) : undefined}/>)}
-            {suggestions[m]?.map((s, k) => <div key={k} className="sp-card suggestion">
-              <div className="sp-card-top"><Badge tone="purple"><Sparkles size={11}/> {s.source === 'openai' ? 'AI' : 'Suggested'}</Badge><button className="sp-icon" aria-label="Dismiss suggestion" onClick={() => setSuggestions(x => ({ ...x, [m]: x[m].filter(o => o !== s) }))}><X size={13}/></button></div>
-              <strong>{s.name}</strong><p>{s.benefit}</p><small>{lakh(s.expectedRevenue)} · {percent(s.effectiveDiscount)} discount</small>
-              <Button size="sm" variant="secondary" icon={<Plus size={13}/>} onClick={() => acceptSuggestion(m, s)}>Add to {label}</Button>
-            </div>)}
-          </div>
-          {canCurate && <footer>
-            <OfferPicker options={candidates} onAdd={(ids: number[]) => Promise.all(ids.map(oid => { const o = offers.find((x: any) => x.id === oid); return o.month !== m ? moveOffer(o, m).catch(() => {}) : null; })).then(() => setSelection(m, [...selectedIds(m), ...ids]))}/>
-            {can('offer_create') && <Button size="sm" variant="ghost" icon={<Sparkles size={13}/>} disabled={busy[m]} onClick={() => suggest(m)}>{busy[m] ? 'Thinking…' : 'Suggest'}</Button>}
-          </footer>}
-        </section>;
-      })}</div>
+        <div className="yp-lib-filters">
+          <Select aria-label="Library month" value={libMonth} onChange={e => setLibMonth(Number(e.target.value))}><option value={0}>All months</option>{MONTHS.map((n, i) => <option key={n} value={i + 1}>{n}</option>)}</Select>
+          <Select aria-label="Offer type" value={libType} onChange={e => setLibType(e.target.value)}><option value="all">All types</option>{SLOT_KEYS.map(s => <option key={s} value={s}>{SLOT_LABELS[s]}</option>)}<option value="other">Other</option></Select>
+          <Select aria-label="Studios" value={libScope} onChange={e => setLibScope(e.target.value)}><option value="city">All {studio.city} studios</option><option value="own">This studio only</option></Select>
+          <Input value={libQuery} onChange={e => setLibQuery(e.target.value)} placeholder="Search offers"/>
+        </div>
+        <p className="muted">Drag into a month. Offers from other studios are copied in. Drop here to take an offer out of the plan.</p>
+        <div className="yp-lib-list">{library.map((o: any) => <OfferChip key={o.id} offer={o} studioId={studio.id} showMonth inPlan={inPlan.has(o.id)} {...drag(o, null)} onEdit={() => setEditingOffer(o)}/>)}
+          {!library.length && <p className="muted">No offers match these filters.</p>}</div>
+      </aside>; })()}
     </div>
     {editingOffer && <OfferEditor offer={editingOffer} onClose={() => setEditingOffer(null)} onSaved={(o: any) => { updateOffer(o); setEditingOffer(null); }}/>}
   </div>;
 }
 
-function OfferCard({ offer, studioId, compact, onEdit, onRemove, ...drag }: any) {
-  const shared = offer.studio_id !== studioId;
-  return <div className={`sp-card ${compact ? 'compact' : ''}`} {...drag} onClick={onEdit} role="button" tabIndex={0} onKeyDown={(e: React.KeyboardEvent) => e.key === 'Enter' && onEdit()}>
-    <div className="sp-card-top"><GripVertical size={13} className="sp-grip"/>
-      <span className="sp-card-type">{titleCase(offer.offer_type)}{shared ? ' · shared pop-up' : ''}{offer.month && compact ? ` · ${MONTHS_SHORT[offer.month - 1]}` : ''}</span>
-      {onRemove && <button className="sp-icon" aria-label="Remove from this month" onClick={e => { e.stopPropagation(); onRemove(); }}><X size={13}/></button>}</div>
-    <strong>{offer.name}</strong>
-    {!compact && <p>{offer.benefit || offer.customer_copy || offer.headline}</p>}
-    <small>{offer.expected_revenue ? lakh(offer.expected_revenue) : 'Revenue —'}{offer.target_purchases ? ` · ${number(offer.target_purchases)} units` : ''}{offer.effective_discount !== null && offer.effective_discount !== undefined ? ` · ${percent(offer.effective_discount, 0)}` : ''}</small>
-    {!compact && <StatusBadge status={offer.approval_status === 'approved' ? 'approved' : offer.status}/>}
+function OfferChip({ offer, studioId, compact, showMonth, inPlan, onEdit, onRemove, ...drag }: any) {
+  const other = offer.studio_id !== studioId;
+  return <div className={`yp-chip ${compact ? 'compact' : ''} ${inPlan ? 'in-plan' : ''}`} {...drag} onClick={onEdit} role="button" tabIndex={0} onKeyDown={(e: React.KeyboardEvent) => e.key === 'Enter' && onEdit()} title={offer.benefit || offer.name}>
+    <div className="yp-chip-top">
+      <strong>{offer.name}</strong>
+      {onRemove && <button className="sp-icon" aria-label="Remove from plan" onClick={e => { e.stopPropagation(); onRemove(); }}><X size={12}/></button>}
+    </div>
+    <small>{[showMonth && offer.month ? MONTHS_SHORT[offer.month - 1] : null, offer.plan_slot ? SLOT_LABELS[offer.plan_slot] : null, offer.expected_asp ? money(offer.expected_asp) : null,
+      offer.target_purchases ? `${number(offer.target_purchases)} units` : null, offer.expected_revenue ? lakh(offer.expected_revenue) : null].filter(Boolean).join(' · ')}</small>
+    {(other || inPlan) && <small className="yp-tag">{other ? offer.studio : ''}{other && inPlan ? ' · ' : ''}{inPlan ? 'in plan' : ''}</small>}
   </div>;
 }
 
-// Multi-select dropdown of offers that can be added to a month.
-function OfferPicker({ options, onAdd }: { options: any[]; onAdd: (ids: number[]) => Promise<any> }) {
-  const [open, setOpen] = useState(false), [picked, setPicked] = useState<number[]>([]), [q, setQ] = useState(''), ref = useRef<HTMLDivElement>(null);
-  useEffect(() => { if (!open) return; const close = (e: MouseEvent) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); }; document.addEventListener('mousedown', close); return () => document.removeEventListener('mousedown', close); }, [open]);
-  const shown = options.filter(o => !q || o.name.toLowerCase().includes(q.toLowerCase()));
-  return <div className="sp-picker" ref={ref}>
-    <Button size="sm" variant="secondary" icon={<Plus size={13}/>} onClick={() => setOpen(o => !o)}>Add offers <ChevronDown size={12}/></Button>
-    {open && <div className="sp-picker-menu">
-      <Input autoFocus value={q} onChange={e => setQ(e.target.value)} placeholder="Search"/>
-      <div className="sp-picker-list">{shown.length ? shown.map(o => <label key={o.id}><input type="checkbox" checked={picked.includes(o.id)} onChange={() => setPicked(p => p.includes(o.id) ? p.filter(x => x !== o.id) : [...p, o.id])}/>
-        <span><b>{o.name}</b><small>{o.month ? MONTHS_SHORT[o.month - 1] : 'No month'} · {o.expected_revenue ? lakh(o.expected_revenue) : '—'}</small></span></label>) : <p className="muted">No other offers. Use Suggest or create one.</p>}</div>
-      <Button size="sm" disabled={!picked.length} onClick={async () => { await onAdd(picked); setPicked([]); setOpen(false); }}>Add {picked.length || ''} selected</Button>
-    </div>}
-  </div>;
-}
 
 function OfferEditor({ offer, onClose, onSaved }: { offer: any; onClose: () => void; onSaved: (o: any) => void }) {
   const { can, toast } = useApp(), navigate = useNavigate();

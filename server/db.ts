@@ -6,7 +6,8 @@ import path from 'node:path';
 const databasePath = process.env.DATABASE_PATH || path.resolve('p57-data/studio.db');
 fs.mkdirSync(path.dirname(databasePath), { recursive: true });
 export const db = new Database(databasePath);
-db.pragma('journal_mode = WAL');
+// WAL needs shared memory that Vercel's /tmp doesn't reliably provide; each instance owns its copy anyway.
+db.pragma(process.env.VERCEL ? 'journal_mode = DELETE' : 'journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 db.pragma('busy_timeout = 5000');
 
@@ -243,6 +244,12 @@ export function initSchema() {
   const planColumns = db.pragma('table_info(monthly_plans)') as any[];
   // NULL offer_ids = not curated yet: the plan shows that month's imported plan offers.
   if (!planColumns.some(column => column.name === 'offer_ids')) db.exec('ALTER TABLE monthly_plans ADD COLUMN offer_ids TEXT');
+  // slots = {"newcomer": offerId, "lapsed": offerId, "renewal": offerId}; NULL = use the month's primary slot offers.
+  if (!planColumns.some(column => column.name === 'slots')) db.exec('ALTER TABLE monthly_plans ADD COLUMN slots TEXT');
+  const offerCols = db.pragma('table_info(offers)') as any[];
+  // plan_slot marks an offer as a month's newcomer / lapsed / renewal option; plan_rank 1 = primary, 2+ = alternates.
+  if (!offerCols.some(column => column.name === 'plan_slot')) db.exec('ALTER TABLE offers ADD COLUMN plan_slot TEXT');
+  if (!offerCols.some(column => column.name === 'plan_rank')) db.exec('ALTER TABLE offers ADD COLUMN plan_rank INTEGER');
   if (!offerColumns.some(column => column.name === 'provenance')) db.exec("ALTER TABLE offers ADD COLUMN provenance TEXT NOT NULL DEFAULT '{}'");
 }
 initSchema();

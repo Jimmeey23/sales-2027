@@ -257,9 +257,9 @@ export function applyPlanOffers(year: number, userId: number | null) {
         name: o.name, headline: o.theme, customer_copy: o.gets, internal_description: `${o.type} · ${o.product} · ${o.window}`, rationale: o.why,
         objective: objectiveFor(o.month, o), offer_type: offerTypeFor(o.type), studio_id: sid, month: o.month, year, audience: o.audience, benefit: o.gets,
         validity_start: start, validity_end: end, redemption_conditions: `Window: ${o.window}. Replaces the standing 15% newcomer/lapsed and 10% pack perks — never stacks.`,
-        target_purchases: o.units, expected_asp: o.offerPrice, expected_revenue: o.revenue, revenue_target: o.revenue, effective_discount: o.valuePct !== null ? Math.round(o.valuePct * 1000) / 10 : null,
+        target_purchases: o.units, expected_asp: o.offerPrice, expected_revenue: o.revenue, revenue_target: o.revenue, effective_discount: o.discount ? Math.round(o.discount * 1000) / 10 : o.fixedPrice && o.listPrice ? Math.round((1 - o.fixedPrice / o.listPrice) * 1000) / 10 : 0,
         status: 'draft', approval_status: 'pending', generation_source: 'plan_2027', data_mode: 'plan',
-        provenance: JSON.stringify({ source: 'Bengaluru_Sales_Plan_2027.xlsx · 2027 Offer Calendar', listPrice: o.listPrice, discount: o.discount, fixedPrice: o.fixedPrice, bonusValue: o.bonusValue, product: o.product }),
+        provenance: JSON.stringify({ source: 'Bengaluru_Sales_Plan_2027.xlsx · 2027 Offer Calendar', valueToClientPct: o.valuePct, listPrice: o.listPrice, discount: o.discount, fixedPrice: o.fixedPrice, bonusValue: o.bonusValue, product: o.product }),
         success_metrics: JSON.stringify(['Units vs target', 'Revenue vs expected', 'Effective discount', '90-day repeat purchase']) }, userId));
     }
     for (const studio of ['Kemps Corner', 'Bandra']) {

@@ -29,6 +29,7 @@ interface AppContextValue {
   boot: Bootstrap; studioId: number | null; setStudioId: (id: number | null) => void;
   year: number; setYear: (year: number) => void; toast: (message: string, type?: ToastMessage['type']) => void;
   refreshBoot: () => Promise<void>; can: (permission: string) => boolean;
+  scenario: string; setScenario: (scenario: string) => Promise<void>; dataVersion: number;
 }
 const AppContext = createContext<AppContextValue | null>(null);
 export function useApp() { const value = useContext(AppContext); if (!value) throw new Error('App context unavailable'); return value; }
@@ -38,6 +39,7 @@ export default function App() {
   const [checking, setChecking] = useState(true); const [studioId, setStudioId] = useState<number | null>(null); const [year, setYear] = useState(2027);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [startupError, setStartupError] = useState('');
+  const [dataVersion, setDataVersion] = useState(0);
   const toast = useCallback((message: string, type: ToastMessage['type'] = 'success') => {
     const item = { id: Date.now() + Math.random(), message, type }; setToasts(current => [...current, item]);
     setTimeout(() => setToasts(current => current.filter(t => t.id !== item.id)), 4500);
@@ -53,7 +55,12 @@ export default function App() {
   if (checking) return <main className="app-loading"><div className="loading-brand"><BrandMark large/><span>COMMERCIAL OS</span></div><Loading label="Opening your studio workspace…"/></main>;
   if (!user || !boot) return <main className="workspace-error"><BrandMark large/><p className="eyebrow">DIRECT WORKSPACE</p><h1>We couldn’t open the studio.</h1><p>{startupError || 'Your session is no longer available. Reconnect to continue.'}</p><Button onClick={()=>window.location.reload()}>Reconnect to the workspace</Button></main>;
   const can = (permission: string) => boot.user.permissions.includes(permission);
-  return <AppContext.Provider value={{boot,studioId,setStudioId,year,setYear,toast,refreshBoot:loadBoot,can}}>
+  // Switching the target scenario rescales every studio-month on the server; pages remount to reload.
+  const setScenario = async (scenario: string) => {
+    try { await post('/targets/scenario', { scenario, year }); await loadBoot(); setDataVersion(v => v + 1); toast(`Targets switched to ${scenario}.`); }
+    catch (error: any) { toast(error.message, 'error'); }
+  };
+  return <AppContext.Provider value={{boot,studioId,setStudioId,year,setYear,toast,refreshBoot:loadBoot,can,scenario:boot.targetScenario||'standard',setScenario,dataVersion}}>
     <Suspense fallback={<Loading label="Loading workspace module…"/>}><Routes><Route element={<Layout/>}>
       <Route index element={<Dashboard/>}/><Route path="studios/:id" element={<StudioIntelligence/>}/>
       <Route path="plan" element={<StudioPlansHub/>}/><Route path="plan/:id" element={<StudioPlan/>}/><Route path="planner" element={<AnnualPlanner/>}/><Route path="calendar" element={<CampaignCalendar/>}/>

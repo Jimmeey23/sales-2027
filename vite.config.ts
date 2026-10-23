@@ -6,6 +6,8 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
+    // If 5173 is still taken, Vite moves to the next free port.
+    strictPort: false,
     allowedHosts: true,
     proxy: { '/api': 'http://127.0.0.1:3001' },
   },

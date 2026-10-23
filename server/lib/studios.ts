@@ -2,7 +2,7 @@ export const STUDIO_DEFINITIONS = [
   { name: 'Kemps Corner', code: 'KC', city: 'Mumbai', aliases: ['Kwality House, Kemps Corner'] },
   { name: 'Bandra', code: 'BA', city: 'Mumbai', aliases: ['Supreme HQ, Bandra'] },
   { name: 'Kenkere House', code: 'KH', city: 'Bengaluru', aliases: ['Kenkere House', 'Kenkere House, Bengaluru'] },
-  { name: 'Pop-up', code: 'POP', city: 'Multi-city', aliases: ['Pop-up', 'Pop up', 'pop up plash', 'Pop-up '] },
+  { name: 'Pop-up', code: 'POP', city: 'Bengaluru', aliases: ['Pop-up', 'Pop up', 'pop up plash', 'Pop-up '] },
   { name: 'Copper + Cloves', code: 'CC', city: 'Bengaluru', aliases: ['the Studio By Copper + Cloves', 'The Studio by Copper + Cloves', 'the Studio by Copper + Cloves, Indiranagar'] },
   { name: 'Plash Pilates', code: 'PP', city: 'Bengaluru', aliases: ['Plash Pilates', 'Plash pilates studios', 'Plash Pilates '] },
   { name: 'Taj Wellington Mews', code: 'TWM', city: 'Mumbai', aliases: ['Taj Wellington Mews, Colaba, Mumbai'] },

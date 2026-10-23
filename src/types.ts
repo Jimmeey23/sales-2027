@@ -1,7 +1,7 @@
 export interface User { id: number; name: string; email: string; role: string; assigned_studio_id: number | null; permissions: string[] }
 export interface Studio { id: number; name: string; code: string; city: string; active: number; max_discount_percent: number; monthly_capacity: number | null }
 export interface Product { id: number; studio_id: number; name: string; category: string; list_price: number | null; variable_cost: number | null; sessions_included: number; validity_days: number | null }
-export interface Bootstrap { user: User; studios: Studio[]; products: Product[]; years: number[]; planningYear: number; aiConfigured: boolean; aiModel: string | null; coverage: any; permissions: Record<string, string[]>; demo: { enabled: boolean; label: string } }
+export interface Bootstrap { user: User; studios: Studio[]; products: Product[]; years: number[]; planningYear: number; aiConfigured: boolean; aiModel: string | null; coverage: any; permissions: Record<string, string[]>; targetScenario: 'standard' | 'aggressive' | 'aspirational'; demo: { enabled: boolean; label: string } }
 export interface ToastMessage { id: number; type: 'success' | 'error' | 'info'; message: string }
 
 export const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];

@@ -55,7 +55,13 @@ function studioContext(studioId: number, year: number, month: number) {
   const target = db.prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? AND month=?').get(studioId, year, month) as any;
   const recent = db.prepare(`SELECT month,SUM(amount) revenue,COUNT(*) transactions,AVG(amount) aov,SUM(discount_amount) discount
     FROM transactions WHERE studio_id=? GROUP BY month ORDER BY month DESC LIMIT 6`).all(studioId);
-  const products = db.prepare(`SELECT * FROM products WHERE studio_id=? AND active=1 AND list_price>0 AND category NOT IN ('Retail','Money Credits','Gift Cards','Others') ORDER BY list_price`).all(studioId) as any[];
+  const productsOf = (id: number) => db.prepare(`SELECT * FROM products WHERE studio_id=? AND active=1 AND list_price>0 AND category NOT IN ('Retail','Money Credits','Gift Cards','Others') ORDER BY list_price`).all(id) as any[];
+  let products = productsOf(studioId);
+  // Venues without their own catalogue (e.g. Copper + Cloves, Plash Pilates) price from the same city's studio products.
+  if (!products.length) {
+    const sibling = db.prepare(`SELECT s.id FROM studios s WHERE s.city=? AND s.id!=? AND EXISTS (SELECT 1 FROM products p WHERE p.studio_id=s.id AND p.list_price>0) ORDER BY s.name='Pop-up' DESC, s.id LIMIT 1`).get(studio.city, studioId) as any;
+    if (sibling) products = productsOf(sibling.id);
+  }
   const historicalOffers = db.prepare(`SELECT name,objective,actual_revenue,actual_redemptions,effective_discount FROM offers
     WHERE studio_id=? AND generation_source='historical_import' ORDER BY actual_revenue DESC LIMIT 12`).all(studioId);
   return { studio, target, recent, products, historicalOffers, funnel: observedFunnel(studioId) };
