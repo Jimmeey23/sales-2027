@@ -5,13 +5,14 @@ import { ErrorState, Loading } from '../components/ui';
 import PageHeader from '../components/PageHeader';
 import { usePlanData } from './plan/usePlanData';
 import OffersTab from './plan/OffersTab';
+import '../styles/offer-studio.css';
 
 export default function OfferStudio() {
   const { boot, studioId, year } = useApp();
   const { data, loading, error, reload } = usePlanData();
   const studio = boot.studios.find(s => s.id === studioId);
   return (
-    <div className="ws-page">
+    <div className="ws-page offer-studio">
       <PageHeader
         eyebrow={`${studio ? studio.name.toUpperCase() : 'ALL LOCATIONS'} · OFFERS ${year}`}
         title="Offer studio"

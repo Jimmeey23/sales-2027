@@ -18,7 +18,8 @@
     "smoke": "tsx scripts/smoke.ts",
     "test:e2e": "playwright test",
     "user": "tsx scripts/user.ts",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"server/**/*.ts\" \"api/**/*.ts\" \"e2e/**/*.ts\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"server/**/*.ts\" \"api/**/*.ts\" \"e2e/**/*.ts\"",
+    "plan:january": "tsx scripts/import-january-offers.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.7.0",

@@ -26,11 +26,59 @@ export interface MonthRow {
   objective: string;
   leadOffer: string;
   theme: string;
+  renewalTarget: number;
+  expectedRenewal: number;
+  renewalGap: number;
+  projectedExpiries: number;
+  bookedExpiries: number;
   byStudio: Array<{ id: number; name: string; target: number; leadOffer: string; objective: string }>;
+}
+export interface MonthEconomics {
+  month: number;
+  newClient: {
+    target: number;
+    firstSpend: number;
+    trialSpend: number;
+    trialRevenue: number;
+    trialToMember: number;
+    leadToTrial: number;
+    buyers: number;
+    trials: number;
+    leads: number;
+    samples: {
+      firstSpendBuyers: number;
+      trialCohort: number;
+      leadCohort: number;
+      seasonalMonth: string;
+      seasonalFirstSpend: number | null;
+      seasonalTrialToMember: number | null;
+    };
+  };
+  renewal: {
+    target: number;
+    bookedExpiries: number;
+    bookedValue: number;
+    baselineExpiries: number;
+    projectedExpiries: number;
+    renewalRate: number;
+    ticket: number;
+    expectedRenewers: number;
+    expected: number;
+    renewersNeeded: number;
+    gap: number;
+    coverage: number | null;
+  };
+  reactivation: { target: number; ticket: number; needed: number; lapsedPool: number };
+  alternates: Array<{ key: string; name: string; logic: string; units: number; revenue: number }>;
+}
+export interface Economics {
+  window: { from: string; to: string; trialFrom: string; trialTo: string };
+  months: MonthEconomics[];
 }
 export interface StudioPlan {
   studio: Studio;
   detail: any;
+  economics: Economics;
   months: MonthRow[];
   annual: number;
   lastYear: number;
@@ -53,7 +101,7 @@ export const lakh = (v: number | null | undefined, digits = 1) =>
     ? '—'
     : `₹${(v / 100000).toLocaleString('en-IN', { maximumFractionDigits: digits })}L`;
 
-function monthRows(studio: Studio, detail: any): MonthRow[] {
+function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[] {
   const playbook = studioPlaybook(studio.name);
   return Array.from({ length: 12 }, (_, i) => {
     const month = i + 1,
@@ -68,6 +116,8 @@ function monthRows(studio: Studio, detail: any): MonthRow[] {
       scale = t && num(t.proposed_target) ? target / num(t.proposed_target) : 1;
     const leadOffer = pb.leadOffer || src?.offer || plan?.theme || detail.themes?.[month] || MONTH_ACTIVATIONS[i];
     const objective = pb.objective || src?.objective || plan?.objective || MONTH_THEMES[i];
+    // Volumes come from the bottom-up economics (history-based spend and conversion), not the imported playbook.
+    const e = economics.months[i];
     return {
       month,
       target,
@@ -78,17 +128,24 @@ function monthRows(studio: Studio, detail: any): MonthRow[] {
       renewal: num(t?.renewal_target) * scale,
       reactivation: num(t?.reactivation_target) * scale,
       other: (num(t?.other_target) + num(t?.repeat_target)) * scale,
-      leads: num(f.requiredLeads ?? wb.leads),
-      trials: num(f.requiredCompletedTrials ?? wb.trials),
-      buyers: num(f.requiredNewBuyers ?? wb.newPaying),
+      leads: e ? e.newClient.leads : num(f.requiredLeads ?? wb.leads),
+      trials: e ? e.newClient.trials : num(f.requiredCompletedTrials ?? wb.trials),
+      buyers: e ? e.newClient.buyers : num(f.requiredNewBuyers ?? wb.newPaying),
       transactions: num(t?.target_transactions),
-      renewalsDue: num(pb.renewalsDue ?? src?.renewalsDue),
-      renewalPurchases: num(pb.renewalPurchases ?? src?.renewalPurchases ?? wb.existingPaying),
-      reactivated: num(pb.reactivated ?? src?.reactivated),
+      renewalsDue: e ? e.renewal.projectedExpiries : num(pb.renewalsDue ?? src?.renewalsDue),
+      renewalPurchases: e
+        ? e.renewal.renewersNeeded
+        : num(pb.renewalPurchases ?? src?.renewalPurchases ?? wb.existingPaying),
+      reactivated: e ? e.reactivation.needed : num(pb.reactivated ?? src?.reactivated),
       lapsedTouches: num(pb.lapsedTouches ?? src?.lapsedTouches),
       objective,
       leadOffer,
       theme: plan?.theme || detail.themes?.[month] || MONTH_THEMES[i],
+      renewalTarget: e?.renewal.target || 0,
+      expectedRenewal: e?.renewal.expected || 0,
+      renewalGap: e?.renewal.gap || 0,
+      projectedExpiries: e?.renewal.projectedExpiries || 0,
+      bookedExpiries: e?.renewal.bookedExpiries || 0,
       byStudio: [{ id: studio.id, name: studio.name, target, leadOffer, objective }],
     };
   });
@@ -116,13 +173,29 @@ function combine(rows: MonthRow[][]): MonthRow[] {
         renewalPurchases: sum.renewalPurchases + r.renewalPurchases,
         reactivated: sum.reactivated + r.reactivated,
         lapsedTouches: sum.lapsedTouches + r.lapsedTouches,
+        renewalTarget: sum.renewalTarget + r.renewalTarget,
+        expectedRenewal: sum.expectedRenewal + r.expectedRenewal,
+        renewalGap: sum.renewalGap + r.renewalGap,
+        projectedExpiries: sum.projectedExpiries + r.projectedExpiries,
+        bookedExpiries: sum.bookedExpiries + r.bookedExpiries,
         byStudio: [...sum.byStudio, ...r.byStudio],
       })),
   );
 }
 
+// The offers API pages at 100 rows; busy studios have more than that in a year.
+async function allOffers(id: number, year: number) {
+  const first = await api<any>(`/offers?studio=${id}&year=${year}&limit=100`);
+  const more = await Promise.all(
+    Array.from({ length: Math.ceil(first.total / 100) - 1 }, (_, i) =>
+      api<any>(`/offers?studio=${id}&year=${year}&limit=100&page=${i + 2}`),
+    ),
+  );
+  return { rows: [first, ...more].flatMap(p => p.rows) };
+}
+
 async function offersFor(ids: number[], year: number) {
-  const pages = await Promise.all(ids.map(id => api<any>(`/offers?studio=${id}&year=${year}&limit=100`)));
+  const pages = await Promise.all(ids.map(id => allOffers(id, year)));
   const seen = new Set<number>();
   return pages.flatMap(p => p.rows).filter((o: any) => o.studio_id && !seen.has(o.id) && seen.add(o.id));
 }
@@ -132,12 +205,16 @@ export function usePlanData() {
   const locations = planningLocations(boot.studios);
   const scope = studioId ? boot.studios.filter(s => s.id === studioId) : locations;
   return useLoad<PlanData>(async () => {
-    const details = await Promise.all(scope.map(s => api<any>(`/studio-plans/${s.id}?year=${year}`)));
+    const [details, economics] = await Promise.all([
+      Promise.all(scope.map(s => api<any>(`/studio-plans/${s.id}?year=${year}`))),
+      Promise.all(scope.map(s => api<Economics>(`/studio-plans/${s.id}/economics?year=${year}`))),
+    ]);
     const plans = scope.map((studio, i) => {
-      const months = monthRows(studio, details[i]);
+      const months = monthRows(studio, details[i], economics[i]);
       return {
         studio,
         detail: details[i],
+        economics: economics[i],
         months,
         annual: months.reduce((n, m) => n + m.target, 0),
         lastYear: months.reduce((n, m) => n + m.lastYear, 0),

@@ -1,22 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Bot, LogOut, Menu, Plus, X } from 'lucide-react';
+import { Bot, ChevronDown, LogOut, Menu, PanelLeftClose, PanelLeftOpen, Plus, X } from 'lucide-react';
 import BrandMark from './BrandMark';
 import CopilotDrawer from './CopilotDrawer';
 import { useApp } from '../App';
 import { Select } from './ui';
-import { LOCATION_COLORS, planningLocations } from '../data/locations';
+import { ALL_LOCATIONS_COLOR, LOCATION_COLORS, accentFor, planningLocations } from '../data/locations';
 import { NAV, linkMatches, locate } from '../app/navigation';
 import { post } from '../api';
 
 export default function Layout() {
   const { boot, studioId, setStudioId, year, setYear, can, dataVersion } = useApp();
   const [copilotOpen, setCopilotOpen] = useState(false),
-    [sidebarOpen, setSidebarOpen] = useState(false);
+    [sidebarOpen, setSidebarOpen] = useState(false),
+    [collapsed, setCollapsed] = useState(() => {
+      try {
+        return localStorage.getItem('p57-sidebar') === 'collapsed';
+      } catch {
+        return false;
+      }
+    });
+  const toggleCollapsed = () =>
+    setCollapsed(c => {
+      try {
+        localStorage.setItem('p57-sidebar', c ? 'open' : 'collapsed');
+      } catch {
+        /* storage unavailable — keep the in-memory choice */
+      }
+      return !c;
+    });
   const location = useLocation(),
     navigate = useNavigate();
   useEffect(() => setSidebarOpen(false), [location.pathname]);
   const { section, link: current } = locate(location.pathname);
+  // The current section opens with the route; clicking an open section's header folds it away.
+  const [openId, setOpenId] = useState<string | null>(section?.id ?? null);
+  useEffect(() => setOpenId(section?.id ?? null), [section?.id]);
   const sections = NAV.map(item => ({
     ...item,
     links: item.links.filter(l => !l.permission || can(l.permission)),
@@ -33,53 +52,115 @@ export default function Layout() {
     ...locations
       .filter(s => !scoped || s.id === boot.user.assigned_studio_id)
       .map(s => ({ id: s.id as number | null, label: s.name, sub: s.city, color: LOCATION_COLORS[s.name] })),
-    ...(scoped ? [] : [{ id: null, label: 'All locations', sub: 'Combined', color: '#211e2b' }]),
+    ...(scoped ? [] : [{ id: null, label: 'All locations', sub: 'Combined', color: ALL_LOCATIONS_COLOR }]),
   ];
   return (
-    <div className="ws-shell">
+    <div
+      className={`ws-shell accented ${collapsed ? 'sidebar-collapsed' : ''}`}
+      style={{ '--a1': accentFor(boot.studios.find(s => s.id === studioId)?.name) } as React.CSSProperties}
+    >
       {sidebarOpen && (
         <button className="ws-sidebar-overlay" aria-label="Close navigation" onClick={() => setSidebarOpen(false)} />
       )}
       <aside className={`ws-sidebar ${sidebarOpen ? 'mobile-open' : ''}`}>
         <div className="ws-sidebar-brand">
           <BrandMark />
-          <div>
+          <div className="ws-brand-text">
             <strong>Sales Intelligence</strong>
             <span>COMMERCIAL OS</span>
           </div>
+          <button
+            className="ws-collapse"
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            onClick={toggleCollapsed}
+          >
+            {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
+          </button>
           <button className="ws-sidebar-close" aria-label="Close navigation" onClick={() => setSidebarOpen(false)}>
             <X size={18} />
           </button>
         </div>
-        <div className="ws-sidebar-context">
-          <span>WORKSPACE</span>
-          <strong>P57 Sales Plan {year}</strong>
-          <small>{active ? `${active.name} · ${active.city}` : 'All locations combined'}</small>
+        <div
+          className="ws-sidebar-context"
+          style={{ '--loc': active ? LOCATION_COLORS[active.name] || '#c7e17c' : '#c7e17c' } as React.CSSProperties}
+        >
+          <span>
+            Workspace <em>{year}</em>
+          </span>
+          <strong>P57 Sales Plan</strong>
+          <small>
+            <i />
+            {active ? `${active.name} · ${active.city}` : 'All locations combined'}
+          </small>
         </div>
+        <span className="ws-sidebar-label">Menu</span>
         <nav className="ws-sections" aria-label="Workspace navigation">
           {sections.map(item => {
             const Icon = item.icon;
-            const expanded = section?.id === item.id;
+            const isCurrent = section?.id === item.id,
+              open = openId === item.id && item.links.length > 0;
             return (
-              <div className="ws-section-group" key={item.id}>
-                <NavLink to={item.to} end className={expanded ? 'active' : ''}>
-                  <Icon size={17} />
-                  {item.label}
+              <div className={`ws-section-group ${open ? 'open' : ''}`} key={item.id}>
+                <NavLink
+                  to={item.to}
+                  end
+                  className={isCurrent ? 'active' : ''}
+                  title={collapsed ? item.label : undefined}
+                  aria-expanded={item.links.length ? open : undefined}
+                  onClick={e => {
+                    if (collapsed) return;
+                    if (isCurrent && item.links.length) {
+                      e.preventDefault();
+                      setOpenId(open ? null : item.id);
+                    } else setOpenId(item.id);
+                  }}
+                >
+                  <span className="ws-nav-icon">
+                    <Icon size={16} />
+                  </span>
+                  <span className="ws-nav-label">{item.label}</span>
+                  {item.links.length > 0 && <ChevronDown size={15} className="ws-nav-caret" />}
                 </NavLink>
-                {expanded && item.links.length > 0 && (
-                  <div className="ws-subnav" aria-label={item.label}>
-                    {item.links.map(l => (
-                      <NavLink key={l.to} to={l.to} end className={linkMatches(location.pathname, l) ? 'active' : ''}>
-                        {l.label}
-                      </NavLink>
-                    ))}
+                {item.links.length > 0 && (
+                  <div className="ws-subnav-wrap" aria-hidden={!open}>
+                    <div className="ws-subnav" aria-label={item.label}>
+                      {item.links.map(l => (
+                        <NavLink
+                          key={l.to}
+                          to={l.to}
+                          end
+                          tabIndex={open ? 0 : -1}
+                          className={linkMatches(location.pathname, l) ? 'active' : ''}
+                        >
+                          {l.label}
+                        </NavLink>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
             );
           })}
         </nav>
-        <div className="ws-sidebar-foot">Actuals through {boot.coverage.sales.last || '—'}</div>
+        <div className="ws-sidebar-foot">
+          <span className="ws-sidebar-sync">
+            <i /> Actuals through {boot.coverage.sales.last || '—'}
+          </span>
+          <div className="ws-sidebar-user">
+            <span className="ws-avatar">
+              {boot.user.name
+                .split(' ')
+                .map((w: string) => w[0])
+                .join('')
+                .slice(0, 2)}
+            </span>
+            <div>
+              <strong>{boot.user.name}</strong>
+              <small>{boot.user.role.replaceAll('_', ' ')}</small>
+            </div>
+          </div>
+        </div>
       </aside>
       <header className="ws-header">
         <div className="ws-topline">
@@ -87,8 +168,16 @@ export default function Layout() {
             <Menu size={20} />
           </button>
           <div className="ws-topbar-title">
-            <strong>P57 Sales Plan {year}</strong>
-            <span>{active ? `${active.name} · ${active.city}` : 'All locations combined'}</span>
+            <span>
+              {section?.label || 'Overview'}
+              {active && (
+                <em style={{ '--loc': LOCATION_COLORS[active.name] } as React.CSSProperties}>
+                  <i />
+                  {active.name}
+                </em>
+              )}
+            </span>
+            <strong>{current?.label || section?.label || `P57 Sales Plan ${year}`}</strong>
           </div>
           <div className="ws-controls">
             <label className="ws-control">
@@ -135,7 +224,16 @@ export default function Layout() {
                   style={{ '--loc': tab.color } as React.CSSProperties}
                   onClick={() => setStudioId(tab.id)}
                 >
-                  <i />
+                  <i>
+                    {tab.id === null
+                      ? 'ALL'
+                      : tab.label
+                          .split(/[\s-]+/)
+                          .map(w => w[0])
+                          .join('')
+                          .slice(0, 2)
+                          .toUpperCase()}
+                  </i>
                   <span>
                     <strong>{tab.label}</strong>
                     <small>{tab.sub}</small>
@@ -147,21 +245,6 @@ export default function Layout() {
         )}
       </header>
       <main className="ws-content" key={dataVersion}>
-        <nav className="ws-breadcrumb" aria-label="Breadcrumb">
-          <Link to="/">Overview</Link>
-          {section && section.id !== 'overview' && (
-            <>
-              <span>/</span>
-              <Link to={section.to}>{section.label}</Link>
-              {current && (
-                <>
-                  <span>/</span>
-                  <strong>{current.label}</strong>
-                </>
-              )}
-            </>
-          )}
-        </nav>
         <Outlet />
       </main>
       {copilotOpen && <CopilotDrawer onClose={() => setCopilotOpen(false)} />}

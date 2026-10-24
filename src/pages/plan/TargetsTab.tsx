@@ -1,9 +1,25 @@
 import React, { useMemo, useState } from 'react';
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { CheckCircle2, Gift, LayoutGrid, LineChart, Rows3, Sparkles, SquareStack, Users } from 'lucide-react';
-import { MONTHS, MONTHS_SHORT, money, number, titleCase } from '../../types';
-import { Badge, Drawer, TableScroll } from '../../components/ui';
-import { LOCATION_COLORS } from '../../data/locations';
+import {
+  CalendarHeart,
+  CheckCircle2,
+  ChevronRight,
+  GanttChart,
+  Gift,
+  LayoutGrid,
+  LineChart,
+  Rows3,
+  Sparkles,
+  SquareStack,
+  Trophy,
+  Users,
+} from 'lucide-react';
+import { MONTHS, MONTHS_SHORT, money, number } from '../../types';
+import { Badge, TableScroll } from '../../components/ui';
+import { formatKeyDate, keyDatesFor, type KeyDate } from '../../data/keyDates';
+import { monthActivations } from './CampaignsTab';
+import MonthWorkspace from './MonthWorkspace';
+import { LOCATION_COLORS, accentFor, tint } from '../../data/locations';
 import { lakh, type MonthRow, type PlanData } from './usePlanData';
 import { useApp } from '../../App';
 
@@ -56,11 +72,17 @@ function ScenarioControl() {
 }
 
 export const SOURCES = [
-  { key: 'newClient', label: 'New clients', color: '#6857e5' },
-  { key: 'renewal', label: 'Renewals / existing', color: '#237a67' },
-  { key: 'reactivation', label: 'Reactivation', color: '#f27d5b' },
-  { key: 'other', label: 'Other (gifts, privates, retail)', color: '#c2932b' },
+  { key: 'newClient', label: 'New clients', color: '#4b3fc4' },
+  { key: 'renewal', label: 'Renewals / existing', color: '#7d72e6' },
+  { key: 'reactivation', label: 'Reactivation', color: '#b3acf2' },
+  { key: 'other', label: 'Other (gifts, privates, retail)', color: '#dcd8f7' },
 ] as const;
+// Revenue streams as shades of the selected location's accent.
+export function useSources() {
+  const { boot, studioId } = useApp();
+  const accent = accentFor(boot.studios.find(s => s.id === studioId)?.name);
+  return SOURCES.map((s, i) => ({ ...s, color: tint(accent, [0, 0.35, 0.62, 0.84][i]) }));
+}
 const LIVE = (o: any) => !['archived', 'rejected'].includes(o.status);
 export const offersInMonth = (data: PlanData, month: number) =>
   data.offers
@@ -68,9 +90,94 @@ export const offersInMonth = (data: PlanData, month: number) =>
     .sort(
       (a, b) => (a.plan_slot ? 0 : 1) - (b.plan_slot ? 0 : 1) || (b.expected_revenue || 0) - (a.expected_revenue || 0),
     );
+// The offers actually picked on each location's month plan (or its first four planned offers if never saved).
+export const selectedInMonth = (data: PlanData, month: number) =>
+  data.plans.flatMap(p => {
+    const saved = p.detail.plans.find((x: any) => x.month === month);
+    const ids = new Set<number>(
+      saved && (saved.slots || Array.isArray(saved.offer_ids))
+        ? [...Object.values(saved.slots || {}), ...(saved.offer_ids || [])].filter(Boolean)
+        : [],
+    );
+    const own = offersInMonth(data, month).filter(o => o.studio_id === p.studio.id);
+    return ids.size ? data.offers.filter(o => ids.has(o.id)) : own.slice(0, 4);
+  });
+const METRIC_LABELS: Record<string, string> = {
+  leads: 'Leads needed',
+  trials: 'Completed trials',
+  buyers: 'Paying members',
+  renewalPurchases: 'Renewal purchases',
+  reactivated: 'Reactivations',
+  approved: 'Approval',
+};
+const METRIC_HINTS: Record<string, string> = {
+  leads: 'Trials needed ÷ historic lead → trial conversion for each studio.',
+  trials: 'Paying members needed ÷ historic trial → member conversion (90-day window).',
+  buyers: 'New-client revenue ÷ (average first membership spend + trial fee ÷ conversion).',
+  renewalPurchases: 'Renewal target ÷ revenue per renewed membership.',
+  reactivated: 'Reactivation target ÷ average comeback ticket.',
+  approved: 'Months whose target has been approved for every location in view.',
+};
+
+// A metric opened up month by month; clicking a month opens its full plan.
+function MetricFocus({
+  data,
+  metric,
+  label,
+  money: isMoney,
+  onMonth,
+  onClose,
+}: {
+  data: PlanData;
+  metric: string;
+  label: string;
+  money: boolean;
+  onMonth: (m: number) => void;
+  onClose: () => void;
+}) {
+  const value = (m: MonthRow) => (metric === 'approved' ? (m.approved ? 1 : 0) : Number((m as any)[metric]) || 0);
+  const values = data.months.map(value),
+    max = Math.max(...values, 1),
+    total = values.reduce((a, b) => a + b, 0),
+    peak = values.indexOf(Math.max(...values));
+  const fmt = (v: number) => (metric === 'approved' ? (v ? 'Approved' : 'Proposed') : isMoney ? lakh(v) : number(v));
+  return (
+    <section className="mx-focus" aria-label={`${label} by month`}>
+      <header>
+        <div>
+          <span className="mx-group-label">{label} · month by month</span>
+          <p>
+            {METRIC_HINTS[metric] || 'Share of the annual target carried by this revenue stream.'}{' '}
+            {metric !== 'approved' && (
+              <>
+                Peak in <b>{MONTHS[peak]}</b> ({fmt(values[peak])}); {fmt(total)} across the year.
+              </>
+            )}
+          </p>
+        </div>
+        <button className="mx-close" aria-label="Close" onClick={onClose}>
+          ×
+        </button>
+      </header>
+      <div className="mx-bars">
+        {data.months.map((m, i) => (
+          <button key={m.month} onClick={() => onMonth(m.month)} title={`${MONTHS[i]}: ${fmt(values[i])}`}>
+            <b>{metric === 'approved' ? (values[i] ? '✓' : '·') : fmt(values[i])}</b>
+            <span className="mx-bar">
+              <i style={{ height: `${Math.max(4, (values[i] / max) * 100)}%` }} />
+            </span>
+            <small>{MONTHS_SHORT[i]}</small>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 const pct = (a: number, b: number) => (b ? `${a >= b ? '+' : ''}${((a / b - 1) * 100).toFixed(0)}%` : '—');
 
 export function SourceBar({ row }: { row: MonthRow }) {
+  const SOURCES = useSources();
   const total = SOURCES.reduce((n, s) => n + (row as any)[s.key], 0) || 1;
   return (
     <div className="ws-mixbar" title={SOURCES.map(s => `${s.label}: ${lakh((row as any)[s.key])}`).join('\n')}>
@@ -81,11 +188,15 @@ export function SourceBar({ row }: { row: MonthRow }) {
   );
 }
 
-export default function TargetsTab({ data }: { data: PlanData }) {
-  const multi = data.plans.length > 1;
-  const [layout, setLayout] = useState('cards'),
-    [open, setOpen] = useState<number | null>(null);
+export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved: () => Promise<unknown> }) {
+  const SOURCES = useSources();
+  const multi = data.plans.length > 1,
+    { year } = useApp();
+  const [layout, setLayout] = useState('timeline'),
+    [open, setOpen] = useState<number | null>(null),
+    [metric, setMetric] = useState<string | null>(null);
   const layouts = [
+    { id: 'timeline', label: 'Timeline', icon: GanttChart },
     { id: 'cards', label: 'Month cards', icon: LayoutGrid },
     { id: 'table', label: 'Table', icon: Rows3 },
     { id: 'chart', label: 'Chart', icon: LineChart },
@@ -103,44 +214,68 @@ export default function TargetsTab({ data }: { data: PlanData }) {
   return (
     <>
       <ScenarioControl />
-      <div className="ws-kpis">
-        {totals.map(t => (
-          <div key={t.key} className="ws-kpi" style={{ '--c': t.color } as React.CSSProperties}>
-            <span>{t.label}</span>
-            <strong>{lakh(t.value)}</strong>
-            <small>{data.annual ? `${((t.value / data.annual) * 100).toFixed(0)}% of target` : '—'}</small>
+      <div className="mx-board">
+        <div className="mx-group">
+          <span className="mx-group-label">Revenue streams</span>
+          <div className="mx-row">
+            {totals.map(t => (
+              <button
+                key={t.key}
+                className={`mx ${metric === t.key ? 'active' : ''}`}
+                aria-pressed={metric === t.key}
+                onClick={() => setMetric(metric === t.key ? null : t.key)}
+              >
+                <span>
+                  <i style={{ background: t.color }} />
+                  {t.label}
+                </span>
+                <strong>{lakh(t.value)}</strong>
+                <small>{data.annual ? `${((t.value / data.annual) * 100).toFixed(0)}% of target` : '—'}</small>
+              </button>
+            ))}
+            <button
+              className={`mx ${metric === 'approved' ? 'active' : ''}`}
+              aria-pressed={metric === 'approved'}
+              onClick={() => setMetric(metric === 'approved' ? null : 'approved')}
+            >
+              <span>Approval</span>
+              <strong>{approvedMonths}/12</strong>
+              <small>months approved</small>
+            </button>
           </div>
-        ))}
-        <div className="ws-kpi" style={{ '--c': '#211e2b' } as React.CSSProperties}>
-          <span>Approval</span>
-          <strong>{approvedMonths}/12</strong>
-          <small>months approved</small>
         </div>
-      </div>
-      <div className="ws-funnel-strip">
-        {funnel.map(([k, v]) => (
-          <div key={k}>
-            <strong>{number(v)}</strong>
-            <span>
-              {
-                (
-                  {
-                    leads: 'Leads needed',
-                    trials: 'Completed trials',
-                    buyers: 'New buyers',
-                    renewalPurchases: 'Renewal purchases',
-                    reactivated: 'Reactivations',
-                  } as any
-                )[k]
-              }
-            </span>
+        <div className="mx-group">
+          <span className="mx-group-label">Volumes needed</span>
+          <div className="mx-row">
+            {funnel.map(([k, v]) => (
+              <button
+                key={k}
+                className={`mx ${metric === k ? 'active' : ''}`}
+                aria-pressed={metric === k}
+                onClick={() => setMetric(metric === k ? null : k)}
+              >
+                <span>{METRIC_LABELS[k]}</span>
+                <strong>{number(v)}</strong>
+                <small>{number(Math.round(v / 12))} a month</small>
+              </button>
+            ))}
           </div>
-        ))}
+        </div>
+        {metric && (
+          <MetricFocus
+            data={data}
+            metric={metric}
+            label={METRIC_LABELS[metric] || totals.find(t => t.key === metric)?.label || ''}
+            money={totals.some(t => t.key === metric)}
+            onMonth={m => setOpen(m)}
+            onClose={() => setMetric(null)}
+          />
+        )}
       </div>
       <div className="ws-toolbar">
         <div>
           <h2>Year plan</h2>
-          <p>Click any month for its full breakdown and planned offers.</p>
+          <p>Click any month to open and edit its full plan — offers, activations, revenue split and targets.</p>
         </div>
         <div className="ws-segmented">
           {layouts.map(l => {
@@ -155,14 +290,110 @@ export default function TargetsTab({ data }: { data: PlanData }) {
         </div>
       </div>
 
+      {layout === 'timeline' && (
+        <ol className="ws-year-timeline">
+          {data.months.map(m => {
+            const offers = selectedInMonth(data, m.month),
+              names = [...new Set(offers.map(o => o.name))],
+              dates = keyDatesFor(year, m.month),
+              { base } = monthActivations(data, m.month),
+              cover = m.renewalTarget ? m.expectedRenewal / m.renewalTarget : 0;
+            return (
+              <li
+                key={m.month}
+                className={m.approved ? 'approved' : ''}
+                style={{ '--i': m.month } as React.CSSProperties}
+              >
+                <div className="yt-rail">
+                  <span>{MONTHS_SHORT[m.month - 1]}</span>
+                </div>
+                <button className="yt-card" onClick={() => setOpen(m.month)}>
+                  <div className="yt-main">
+                    <div className="yt-title">
+                      <em>{m.theme}</em>
+                      <h3>{MONTHS[m.month - 1]}</h3>
+                      <p>{m.objective}</p>
+                    </div>
+                    <div className="yt-target">
+                      <strong>{lakh(m.target)}</strong>
+                      <small className={m.target >= m.lastYear ? 'pos' : 'neg'}>
+                        {pct(m.target, m.lastYear)} vs LY
+                      </small>
+                      {m.approved ? (
+                        <Badge tone="green">
+                          <CheckCircle2 size={11} /> Approved
+                        </Badge>
+                      ) : (
+                        <Badge tone="amber">Proposed</Badge>
+                      )}
+                    </div>
+                  </div>
+                  <SourceBar row={m} />
+                  <span
+                    className="yt-renew"
+                    style={
+                      {
+                        '--w': `${Math.min(100, cover * 100)}%`,
+                        '--c': cover >= 1 ? '#5b4fd6' : '#e8704f',
+                      } as React.CSSProperties
+                    }
+                  >
+                    <i /> Renewals {(cover * 100).toFixed(0)}% covered by expiring memberships
+                    {m.renewalGap > 0 ? ` · ${lakh(m.renewalGap)} to find elsewhere` : ''}
+                  </span>
+                  <KeyDateChips dates={dates} />
+                  <div className="yt-grid">
+                    <div>
+                      <small>
+                        <Sparkles size={12} /> Lead offer
+                      </small>
+                      <b>{m.leadOffer}</b>
+                    </div>
+                    <div>
+                      <small>
+                        <Trophy size={12} /> Activation
+                      </small>
+                      <b>{base.challenge[0]}</b>
+                    </div>
+                    <div>
+                      <small>
+                        <Gift size={12} /> Promotions
+                      </small>
+                      <b>
+                        {offers.length
+                          ? offers
+                              .slice(0, 2)
+                              .map(o => o.name)
+                              .join(', ')
+                          : '—'}
+                      </b>
+                      {offers.length > 2 && <i>+{offers.length - 2} more</i>}
+                    </div>
+                    <div>
+                      <small>
+                        <Users size={12} /> Funnel
+                      </small>
+                      <b>
+                        {number(m.leads)} leads · {number(m.trials)} trials · {number(m.buyers)} buyers
+                      </b>
+                    </div>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+
       {layout === 'cards' && (
         <div className="ws-month-grid">
           {data.months.map(m => {
-            const offers = offersInMonth(data, m.month);
+            const offers = [...new Map(selectedInMonth(data, m.month).map(o => [o.name, o])).values()],
+              dates = keyDatesFor(year, m.month);
             return (
               <button key={m.month} className="ws-month-card" onClick={() => setOpen(m.month)}>
                 <header>
-                  <span>{MONTHS_SHORT[m.month - 1]}</span>
+                  <span>{MONTHS[m.month - 1]}</span>
                   {m.approved ? (
                     <Badge tone="green">
                       <CheckCircle2 size={11} /> Approved
@@ -171,11 +402,15 @@ export default function TargetsTab({ data }: { data: PlanData }) {
                     <Badge tone="amber">Proposed</Badge>
                   )}
                 </header>
-                <strong className="ws-month-target">{lakh(m.target)}</strong>
-                <small className={m.target >= m.lastYear ? 'pos' : 'neg'}>
-                  {pct(m.target, m.lastYear)} vs {lakh(m.lastYear)} last year
-                </small>
+                <em className="ws-month-theme">{m.theme}</em>
+                <div className="ws-month-figure">
+                  <strong className="ws-month-target">{lakh(m.target)}</strong>
+                  <small className={m.target >= m.lastYear ? 'pos' : 'neg'}>
+                    {pct(m.target, m.lastYear)} vs {lakh(m.lastYear)} LY
+                  </small>
+                </div>
                 <SourceBar row={m} />
+                <KeyDateChips dates={dates} limit={3} />
                 <div className="ws-month-offer">
                   <Sparkles size={13} />
                   <span>
@@ -203,6 +438,9 @@ export default function TargetsTab({ data }: { data: PlanData }) {
                     {offers.length > 2 && <span>+{offers.length - 2}</span>}
                   </div>
                 )}
+                <footer>
+                  Open month plan <ChevronRight size={14} />
+                </footer>
               </button>
             );
           })}
@@ -429,84 +667,24 @@ export default function TargetsTab({ data }: { data: PlanData }) {
         </div>
       )}
 
-      {open !== null && <MonthDrawer data={data} row={data.months[open - 1]} onClose={() => setOpen(null)} />}
+      {open !== null && (
+        <MonthWorkspace data={data} month={open} setMonth={setOpen} onClose={() => setOpen(null)} onSaved={onSaved} />
+      )}
     </>
   );
 }
 
-function MonthDrawer({ data, row, onClose }: { data: PlanData; row: MonthRow; onClose: () => void }) {
-  const offers = offersInMonth(data, row.month),
-    total = SOURCES.reduce((n, s) => n + (row as any)[s.key], 0) || 1;
+function KeyDateChips({ dates, limit }: { dates: KeyDate[]; limit?: number }) {
+  const shown = limit ? dates.slice(0, limit) : dates;
   return (
-    <Drawer
-      title={`${MONTHS[row.month - 1]} plan`}
-      subtitle={`${lakh(row.target)} target · ${row.approved ? 'approved' : 'proposed'}`}
-      onClose={onClose}
-    >
-      <div className="ws-drawer-hero">
-        <span>Lead offer</span>
-        <strong>{row.leadOffer}</strong>
-        <p>{row.objective}</p>
-      </div>
-      <h4 className="ws-h4">Revenue by source</h4>
-      {SOURCES.map(s => (
-        <div key={s.key} className="ws-source-row">
-          <i style={{ background: s.color }} />
-          <span>{s.label}</span>
-          <b>{lakh((row as any)[s.key])}</b>
-          <small>{(((row as any)[s.key] / total) * 100).toFixed(0)}%</small>
-        </div>
+    <div className="ws-keydates">
+      <CalendarHeart size={13} />
+      {shown.map(d => (
+        <span key={d.name} className={`kd-${d.kind}`} title={d.approx ? 'Date to confirm' : undefined}>
+          <b>{formatKeyDate(d)}</b> {d.name}
+        </span>
       ))}
-      <h4 className="ws-h4">Volume needed</h4>
-      <div className="ws-mini-grid">
-        {[
-          ['Leads', row.leads],
-          ['Trials', row.trials],
-          ['New buyers', row.buyers],
-          ['Renewals due', row.renewalsDue],
-          ['Renewal purchases', row.renewalPurchases],
-          ['Reactivations', row.reactivated],
-        ].map(([l, v]) => (
-          <div key={l as string}>
-            <strong>{number(v as number)}</strong>
-            <span>{l}</span>
-          </div>
-        ))}
-      </div>
-      {row.byStudio.length > 1 && (
-        <>
-          <h4 className="ws-h4">By location</h4>
-          {row.byStudio.map(s => (
-            <div key={s.id} className="ws-source-row">
-              <i style={{ background: LOCATION_COLORS[s.name] }} />
-              <span>
-                {s.name}
-                <small> · {s.leadOffer}</small>
-              </span>
-              <b>{lakh(s.target)}</b>
-            </div>
-          ))}
-        </>
-      )}
-      <h4 className="ws-h4">Offers & promotions planned ({offers.length})</h4>
-      {offers.length ? (
-        offers.map(o => (
-          <div key={o.id} className="ws-offer-line">
-            <div>
-              <strong>{o.name}</strong>
-              <span>
-                {o.studio} · {titleCase(o.offer_type)} · {o.benefit || o.headline}
-              </span>
-            </div>
-            <div>
-              <b>{money(o.expected_revenue, true)}</b>
-              {o.plan_slot && <Badge tone="green">{titleCase(o.plan_slot)} slot</Badge>}
-            </div>
-          </div>
-        ))
-      ) : (
-        <p className="muted">No offers attached to this month yet — use the Offer studio tab to add some.</p>
-      )}
-    </Drawer>
+      {limit && dates.length > limit && <span className="kd-more">+{dates.length - limit}</span>}
+    </div>
   );
 }

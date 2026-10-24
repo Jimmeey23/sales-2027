@@ -249,7 +249,7 @@ export default function Dashboard() {
             />
             <Metric
               label="Year over year"
-              value={percent(monthTotals.yoy, 1, true)}
+              value={percent(monthTotals.yoy)}
               detail={
                 monthTotals.prior
                   ? `vs ${money(monthTotals.prior, true)} last year`

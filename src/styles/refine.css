@@ -1,0 +1,139 @@
+/* Final design-consistency pass. Loaded last: shared shell, hero, marquee, tabs, cards and tables. */
+:root {
+  --rf-radius: 14px;
+  --rf-line: #e4e8e2;
+  --rf-surface: #fff;
+  --rf-canvas: #f5f6f3;
+  --rf-shadow: 0 1px 2px rgba(22, 32, 26, .04), 0 8px 24px rgba(22, 32, 26, .05);
+  --rf-shadow-hover: 0 2px 4px rgba(22, 32, 26, .05), 0 14px 32px rgba(22, 32, 26, .09);
+  --rf-focus: 0 0 0 3px color-mix(in srgb, var(--a1, #4f46e5) 28%, transparent);
+}
+
+/* ---- Global rhythm ---- */
+.ws-page { max-width: 1480px; margin-inline: auto; padding-bottom: 64px; }
+.ws-page > * + * { margin-top: 0; }
+:where(.ws-page) h1 { text-wrap: balance; }
+:where(.ws-page) p { text-wrap: pretty; }
+.ws-page :focus-visible { outline: none; box-shadow: var(--rf-focus); }
+.ws-page button, .ws-page a { -webkit-tap-highlight-color: transparent; }
+
+/* ---- Location strip: no clipping, even columns, scrolls on narrow screens ---- */
+.ws-header > .ws-locations {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(150px, 1fr);
+  gap: 8px;
+  padding: 10px 28px 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+.ws-header > .ws-locations button {
+  position: relative;
+  min-height: 52px;
+  justify-content: flex-start;
+  padding: 8px 12px;
+  text-align: left;
+  scroll-snap-align: start;
+  border: 1px solid var(--rf-line);
+  background: var(--rf-surface);
+  box-shadow: none;
+}
+.ws-header > .ws-locations button:hover:not(:disabled) { transform: none; border-color: color-mix(in srgb, var(--loc) 45%, white); background: color-mix(in srgb, var(--loc) 6%, white); }
+.ws-header > .ws-locations button.active { transform: none; border-color: color-mix(in srgb, var(--loc) 55%, white); background: color-mix(in srgb, var(--loc) 11%, white); box-shadow: 0 0 0 1px color-mix(in srgb, var(--loc) 30%, transparent); }
+.ws-header > .ws-locations button.active::after { content: none; }
+.ws-header > .ws-locations button:last-child { margin-left: 0; }
+.ws-header > .ws-locations button strong { font-size: 13px; }
+.ws-header > .ws-locations button small { font-size: 11px; }
+
+/* ---- Hero + ticker: one rounded unit, ticker as its own strip ---- */
+.ws-hero-wrap { margin-bottom: 24px; }
+.ws-hero-wrap .ws-hero { border-radius: var(--rf-radius); }
+.ws-hero-wrap .mq {
+  margin-top: 10px;
+  padding: 9px 0;
+  border: 1px solid var(--rf-line);
+  border-radius: 12px;
+  background: var(--rf-surface);
+  box-shadow: none;
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+.ws-hero-wrap .mq li:last-child { border-right: 0; }
+
+/* ---- Sub-navigation tabs: one pill-style across pages ---- */
+.offer-studio .os-nav { display: flex; flex-wrap: wrap; gap: 4px; }
+.offer-studio .os-nav button { display: inline-flex; align-items: center; gap: 8px; color: #5d665f; font-weight: 600; transition: background .15s, color .15s; }
+.offer-studio .os-nav button:hover:not(.active) { background: var(--rf-canvas); color: var(--ink, #20231f); }
+.offer-studio .os-nav button.active, .offer-studio .os-nav button.active svg { color: #fff !important; }
+.offer-studio .os-nav button.active svg { stroke: #fff !important; opacity: 1; }
+
+/* ---- Cards: shared border/shadow/radius ---- */
+.ws-page .card, .ws-card { border: 1px solid var(--rf-line); border-radius: var(--rf-radius); box-shadow: var(--rf-shadow); background: var(--rf-surface); }
+.ws-page .card + .card, .ws-page .card + .ws-card { margin-top: 16px; }
+
+/* ---- Tables: sticky tinted header, numeric alignment, calm hover ---- */
+.ws-page table { border-collapse: separate; border-spacing: 0; width: 100%; }
+.ws-page table th { position: relative; background: #f6f8f5; color: #5d665f; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; border-bottom: 1px solid var(--rf-line); white-space: nowrap; }
+.ws-page table td { border-bottom: 1px solid #eef1ec; vertical-align: middle; }
+.ws-page table tbody tr:last-child td { border-bottom: 0; }
+.ws-page table tbody tr:hover td { background: #fafbf9; }
+.ws-page table .num, .ws-page table td.num, .ws-page table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.table-wrap, .ws-page .table-scroll { border-radius: 10px; }
+
+/* ---- Studio hub: bordered, equal-height cards sorted visually by weight ---- */
+.spv2.spv2-hub .sp-hub-grid { gap: 16px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); border-top: 0; align-items: stretch; }
+.spv2.spv2-hub .sp-hub-card {
+  display: flex; flex-direction: column;
+  padding: 20px 22px;
+  border: 1px solid var(--rf-line); border-radius: var(--rf-radius);
+  background: var(--rf-surface); box-shadow: var(--rf-shadow);
+  cursor: pointer; transition: transform .16s, box-shadow .16s, border-color .16s;
+}
+.spv2.spv2-hub .sp-hub-card:hover { background: var(--rf-surface); transform: translateY(-2px); box-shadow: var(--rf-shadow-hover); border-color: color-mix(in srgb, var(--a1, #4f46e5) 35%, white); }
+.spv2.spv2-hub .sp-hub-stats { margin-top: auto; flex-wrap: wrap; row-gap: 4px; padding-top: 4px; }
+.spv2.spv2-hub .sp-hub-children { margin-top: 14px; }
+.spv2.spv2-hub .sp-hub-children button { display: flex; width: 100%; padding: 9px 4px; }
+.spv2.spv2-hub .sp-hub-children button:hover { background: var(--rf-canvas); border-radius: 8px; }
+.spv2.spv2-hub .sp-hub-card.is-empty { background: #fafbf9; }
+.spv2.spv2-hub .sp-hub-card.is-empty .sp-hub-target { color: #9aa29b; }
+
+/* ---- Campaign calendar cards: tighter, readable ---- */
+.cal-month, .ws-month-card { min-height: 0; }
+.ws-month-card small, .ws-month-card .subtle { font-size: 12px; }
+
+/* ---- Pills / chips legibility ---- */
+.pill, .badge, .chip, .tag { font-size: 11px; line-height: 1.4; letter-spacing: .02em; }
+
+/* ---- Empty states ---- */
+.empty-state { padding: 48px 24px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 1100px) {
+  .ws-header > .ws-locations { padding-inline: 20px; }
+}
+@media (max-width: 760px) {
+  .ws-page { padding-bottom: 48px; }
+  .ws-page { overflow-x: clip; }
+  .ws-header > .ws-locations { padding-inline: 14px; grid-auto-columns: minmax(138px, 1fr); }
+  .ws-page .card { border-radius: 12px; }
+  .ws-hero-wrap .ws-hero { border-radius: 12px; }
+  .spv2.spv2-hub .sp-hub-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- Month detail modal: one scrolling page of sections, zoomed out, offer bank grouped by membership ---- */
+.mw-backdrop { padding: 16px; }
+.mw { zoom: .86; max-height: calc((100vh - 32px) / .86); width: min(1400px, 100%); }
+.mw .mw-body, .mw .mw-body.pane-offers { grid-template-columns: minmax(0, 1fr) 360px; align-items: start; overflow-y: auto; }
+.mw .mw-main { max-width: none; margin: 0; gap: 16px; padding: 20px 28px 40px; background: var(--n-50, #f7f7f4); }
+.mw .mw-main > .mw-section, .mw .mw-main > .mw-dates { padding: 22px 24px; border: 1px solid var(--rf-line); border-radius: 14px; background: #fff; box-shadow: none; }
+.mw .mw-main > .mw-section, .mw .mw-main > .mw-dates, .mw .mw-main > div { scroll-margin-top: 12px; }
+.mw .mw-side { position: sticky; top: 0; align-self: start; max-height: calc((100vh - 32px) / .86 - 180px); overflow-y: auto; }
+.mw-alt-group { margin-bottom: 14px; }
+.mw-alt-group > h5 { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 6px; padding: 6px 2px; position: sticky; top: -1px; z-index: 1; background: var(--n-50, #f7f7f4); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #5d665f; border-bottom: 1px solid var(--rf-line); }
+.mw-alt-group > h5 em { font-style: normal; padding: 1px 7px; border-radius: 99px; background: #e9ece6; font-size: 10.5px; }
+@media (max-width: 1000px) {
+  .mw { zoom: 1; max-height: 100%; }
+  .mw .mw-body, .mw .mw-body.pane-offers { grid-template-columns: 1fr; }
+  .mw .mw-side { position: static; max-height: none; }
+}

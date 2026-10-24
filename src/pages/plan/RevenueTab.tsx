@@ -7,12 +7,13 @@ import { EXECUTION_RHYTHM } from '../../data/2027Playbooks';
 import { studioPlaybook } from '../../data/planDefaults';
 import { LOCATION_COLORS } from '../../data/locations';
 import { lakh, type PlanData } from './usePlanData';
-import { SOURCES } from './TargetsTab';
+import { useSources } from './TargetsTab';
 
 const sum = (rows: any[], key: string) => rows.reduce((n, r) => n + (Number(r[key]) || 0), 0);
 const rate = (a: number, b: number) => (b ? `${((a / b) * 100).toFixed(1)}%` : '—');
 
 export default function RevenueTab({ data }: { data: PlanData }) {
+  const SOURCES = useSources();
   const m = data.months;
   const t = useMemo(
     () =>

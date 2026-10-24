@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import '../styles/studio-plans-v2.css';
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   Archive,
@@ -67,10 +68,10 @@ export function StudioPlansHub() {
   if (studioId) return <Navigate to={`/plan/${studioId}`} replace />;
   if (loading && !data) return <Loading label="Loading studio plans…" />;
   if (error && !data) return <ErrorState message={error} retry={() => reload().catch(() => {})} />;
-  const rows = data?.rows || [];
+  const rows = [...(data?.rows || [])].sort((a: any, b: any) => (b.approved || b.proposed) - (a.approved || a.proposed));
   const total = rows.reduce((s: number, r: any) => s + (r.approved || r.proposed), 0);
   return (
-    <div>
+    <div className="spv2 spv2-hub">
       <PageHeader
         eyebrow={`${year} SALES PLANS`}
         title="Pick a studio"
@@ -82,7 +83,7 @@ export function StudioPlansHub() {
           return (
             <div
               key={r.id}
-              className="sp-hub-card"
+              className={`sp-hub-card${target ? '' : ' is-empty'}`}
               role="button"
               tabIndex={0}
               onClick={() => navigate(`/plan/${r.id}`)}
@@ -280,7 +281,7 @@ export default function StudioPlan() {
     canEditTarget: can('target_edit') && !isRollup,
   };
   return (
-    <div>
+    <div className="spv2 spv2-plan">
       <div className="sp-head">
         <button
           className="sp-back"

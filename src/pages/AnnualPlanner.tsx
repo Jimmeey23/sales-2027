@@ -1,3 +1,4 @@
+import '../styles/target-matrix.css';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Check, ChevronRight, History, RefreshCw, Save, ShieldCheck, Sparkles } from 'lucide-react';
@@ -17,7 +18,6 @@ import {
   Field,
   Input,
   Loading,
-  Metric,
   Modal,
   Select,
   TableScroll,
@@ -54,6 +54,16 @@ function TargetCell({
     </div>
   );
 }
+const growth = (value: number | null | undefined, ly: number | null | undefined) =>
+  value === null || value === undefined || !ly ? null : (value - ly) / ly;
+const growthLabel = (value: number | null | undefined, ly: number | null | undefined) => {
+  const g = growth(value, ly);
+  return g === null ? '—' : `${g >= 0 ? '+' : '−'}${percent(Math.abs(g), 0, true)}`;
+};
+const growthTone = (value: number | null | undefined, ly: number | null | undefined) => {
+  const g = growth(value, ly);
+  return `tm-growth${g === null ? ' muted' : g < 0 ? ' down' : ''}`;
+};
 export default function AnnualPlanner() {
   const { studioId, year, toast, can } = useApp();
   const [view, setView] = useState('matrix'),
@@ -76,6 +86,8 @@ export default function AnnualPlanner() {
       ...g,
       proposed: g.months.reduce((s: number, r: any) => s + (r?.proposed_target || 0), 0),
       approved: g.months.reduce((s: number, r: any) => s + (r?.approved_target || 0), 0),
+      ly: g.months.reduce((s: number, r: any) => s + (r?.historical_revenue || 0), 0),
+      approvedCount: g.months.filter((r: any) => r && r.approved_target !== null).length,
     }));
   }, [data]);
   const reconciliation = useMemo(
@@ -86,6 +98,19 @@ export default function AnnualPlanner() {
     }),
     [data],
   );
+  const monthTotals = useMemo(
+    () =>
+      MONTHS_SHORT.map((_, i) => {
+        const rows = data?.rows.filter((r: any) => r.month === i + 1) || [];
+        return {
+          proposed: rows.reduce((s: number, r: any) => s + r.proposed_target, 0),
+          approved: rows.reduce((s: number, r: any) => s + (r.approved_target || 0), 0),
+          ly: rows.reduce((s: number, r: any) => s + (r.historical_revenue || 0), 0),
+        };
+      }),
+    [data],
+  );
+  const lyTotal = monthTotals.reduce((s, t) => s + t.ly, 0);
   const updateRow = (saved: any) =>
     setData((current: any) => ({ ...current, rows: current.rows.map((r: any) => (r.id === saved.id ? saved : r)) }));
   const saveInline = async (row: any, value: number) => {
@@ -103,6 +128,14 @@ export default function AnnualPlanner() {
       reload().catch(() => {});
     }
   };
+  const openVersions = async (row: any) => {
+    try {
+      const rows = await api(`/targets/${row.id}/versions`);
+      setVersions({ target: row, rows });
+    } catch (error: any) {
+      toast(error.message, 'error');
+    }
+  };
   const regenerate = async () => {
     try {
       await post('/targets/generate', { year, scenario, studioId, overwrite: true });
@@ -117,7 +150,7 @@ export default function AnnualPlanner() {
   if (error && !data) return <ErrorState message={error} retry={() => reload().catch(() => {})} />;
   if (!data) return null;
   return (
-    <div>
+    <div className="tm">
       <PageHeader
         eyebrow="ALL STUDIOS"
         title={`${year} target matrix`}
@@ -136,24 +169,39 @@ export default function AnnualPlanner() {
           model.
         </Callout>
       )}
-      <div className="planning-summary">
-        <Metric
-          label="Annual proposed plan"
-          value={money(reconciliation.proposed, true)}
-          detail={`${groups.length} studios · 12 months`}
-        />
-        <Metric
-          label="Annual approved target"
-          value={money(reconciliation.approved, true)}
-          detail={`${reconciliation.approvedMonths} of ${data.rows.length} studio-months approved`}
-        />
-        <Metric
-          label="Unapproved plan"
-          value={money(reconciliation.proposed - reconciliation.approved, true)}
-          detail="Recommendation, not a final decision"
-        />
-        <div className="scenario-control">
-          <span>Recommendation scenario</span>
+      <section className="tm-summary" aria-label="Annual target summary">
+        <div className="tm-stat">
+          <span className="tm-label">Proposed plan</span>
+          <strong>{money(reconciliation.proposed, true)}</strong>
+          <small>
+            {groups.length} {groups.length === 1 ? 'studio' : 'studios'} · 12 months
+            {lyTotal > 0 && <> · {growthLabel(reconciliation.proposed, lyTotal)} vs LY</>}
+          </small>
+        </div>
+        <div className="tm-stat">
+          <span className="tm-label">Approved</span>
+          <strong>{money(reconciliation.approved, true)}</strong>
+          <small>
+            {reconciliation.approvedMonths} of {data.rows.length} studio-months
+          </small>
+          <div className="tm-progress" aria-hidden>
+            <i
+              style={{ width: `${data.rows.length ? (reconciliation.approvedMonths / data.rows.length) * 100 : 0}%` }}
+            />
+          </div>
+        </div>
+        <div className="tm-stat">
+          <span className="tm-label">Awaiting approval</span>
+          <strong>{money(reconciliation.proposed - reconciliation.approved, true)}</strong>
+          <small>Recommendation, not a final decision</small>
+        </div>
+        <div className="tm-stat">
+          <span className="tm-label">Last year actual</span>
+          <strong>{lyTotal > 0 ? money(lyTotal, true) : '—'}</strong>
+          <small>Historical revenue, same months</small>
+        </div>
+        <div className="tm-stat tm-scenario">
+          <span className="tm-label">Recommendation scenario</span>
           <Select aria-label="Recommendation scenario" value={scenario} onChange={e => setScenario(e.target.value)}>
             <option value="nominal">Nominal</option>
             <option value="standard">Standard</option>
@@ -161,11 +209,11 @@ export default function AnnualPlanner() {
           </Select>
           <small>Apply via Regenerate recommendations</small>
         </div>
-      </div>
-      <Callout tone="info" title="Looking for a studio's monthly plan?">
+      </section>
+      <p className="tm-hint">
         This page is the all-studio number grid. Each studio's month-by-month target, action plan and offers live in{' '}
         <Link to="/plan">Studio Sales Plans</Link>.
-      </Callout>
+      </p>
       <Tabs
         value={view}
         onChange={setView}
@@ -188,12 +236,25 @@ export default function AnnualPlanner() {
         />
       )}
       {view === 'matrix' && (
-        <Card className="matrix-card">
-          <CardHeader
-            title="Studio × month target matrix"
-            subtitle="Click a value and move away to save. Approved edits open an audit-reason dialog."
-            action={
-              <div className="segmented">
+        <section className="tm-section">
+          <header className="tm-section-head">
+            <div>
+              <h2>Studio × month targets</h2>
+              <p>
+                Edit a value and move away to save. Approved edits open an audit-reason dialog. Each cell shows last
+                year&apos;s revenue and growth.
+              </p>
+            </div>
+            <div className="tm-toolbar">
+              <div className="tm-legend" aria-hidden>
+                <span>
+                  <i className="dot approved" /> Approved
+                </span>
+                <span>
+                  <i className="dot" /> Proposed
+                </span>
+              </div>
+              <div className="tm-segmented" role="group" aria-label="Values shown">
                 <button className={basis === 'proposed' ? 'active' : ''} onClick={() => setBasis('proposed')}>
                   Proposed
                 </button>
@@ -201,75 +262,133 @@ export default function AnnualPlanner() {
                   Approved
                 </button>
               </div>
-            }
-          />
-          <TableScroll>
-            <table className="data-table target-matrix">
+            </div>
+          </header>
+          <div className="tm-scroll">
+            <table className="tm-table">
               <thead>
                 <tr>
-                  <th className="sticky-col">Studio</th>
+                  <th className="tm-sticky">Studio</th>
                   {MONTHS_SHORT.map(m => (
                     <th key={m}>{m}</th>
                   ))}
-                  <th>Annual</th>
+                  <th className="tm-total">Annual</th>
                 </tr>
               </thead>
               <tbody>
-                {groups.map((g: any) => (
-                  <tr key={g.studio}>
-                    <td className="sticky-col">
-                      <strong>{g.studio}</strong>
-                      <span>{g.city}</span>
-                    </td>
-                    {g.months.map((r: any) => (
-                      <td key={r.id}>
-                        <TargetCell
-                          basis={basis}
-                          value={basis === 'approved' ? r.approved_target : r.proposed_target}
-                          onSave={value =>
-                            basis === 'approved' ? setEditing({ ...r, approvedTarget: value }) : saveInline(r, value)
-                          }
-                        />
-                        <button className="cell-meta" onClick={() => setEditing(r)} title="Open monthly detail">
-                          {r.approved_target !== null && <ShieldCheck size={11} />} {r.scenario}
-                        </button>
+                {groups.map((g: any) => {
+                  const annual = basis === 'approved' ? g.approved : g.proposed;
+                  return (
+                    <tr key={g.studio}>
+                      <th scope="row" className="tm-sticky">
+                        <strong>{g.studio}</strong>
+                        <span>
+                          {g.city} · {g.approvedCount}/12 approved
+                        </span>
+                      </th>
+                      {g.months.map((r: any, i: number) =>
+                        r ? (
+                          <td key={r.id} className={r.approved_target !== null ? 'is-approved' : ''}>
+                            <TargetCell
+                              basis={basis}
+                              value={basis === 'approved' ? r.approved_target : r.proposed_target}
+                              onSave={value =>
+                                basis === 'approved'
+                                  ? setEditing({ ...r, approvedTarget: value })
+                                  : saveInline(r, value)
+                              }
+                            />
+                            <div className="tm-cell-meta">
+                              <span
+                                className={growthTone(
+                                  basis === 'approved' ? r.approved_target : r.proposed_target,
+                                  r.historical_revenue,
+                                )}
+                                title={`Last year ${money(r.historical_revenue)}`}
+                              >
+                                {growthLabel(
+                                  basis === 'approved' ? r.approved_target : r.proposed_target,
+                                  r.historical_revenue,
+                                )}
+                              </span>
+                              <button
+                                onClick={() => setEditing(r)}
+                                title={`Open detail · ${titleCase(r.scenario)} · v${r.version}${
+                                  r.override_reason ? ` · ${r.override_reason}` : ''
+                                }`}
+                              >
+                                {r.approved_target !== null && <ShieldCheck size={11} />}
+                                {r.scenario}
+                              </button>
+                              {r.version > 1 && (
+                                <button
+                                  className="tm-version"
+                                  onClick={() => openVersions(r)}
+                                  title="Version history"
+                                  aria-label={`Version history, version ${r.version}`}
+                                >
+                                  v{r.version}
+                                </button>
+                              )}
+                            </div>
+                            <div className="tm-cell-ly">LY {money(r.historical_revenue, true)}</div>
+                          </td>
+                        ) : (
+                          <td key={i} className="tm-empty">
+                            —
+                          </td>
+                        ),
+                      )}
+                      <td className="tm-total">
+                        <strong>{money(annual, true)}</strong>
+                        <span className={growthTone(annual, g.ly)}>{growthLabel(annual, g.ly)} vs LY</span>
+                        <div className="tm-cell-ly">LY {money(g.ly, true)}</div>
                       </td>
-                    ))}
-                    <td className="num annual-cell">
-                      <strong>{money(basis === 'approved' ? g.approved : g.proposed, true)}</strong>
-                    </td>
-                  </tr>
-                ))}
+                    </tr>
+                  );
+                })}
               </tbody>
               <tfoot>
                 <tr>
-                  <td className="sticky-col">Business plan</td>
-                  {MONTHS_SHORT.map((_, i) => (
-                    <td key={i} className="num">
-                      {money(
-                        data.rows
-                          .filter((r: any) => r.month === i + 1)
-                          .reduce(
-                            (s: number, r: any) =>
-                              s + (basis === 'approved' ? r.approved_target || 0 : r.proposed_target),
-                            0,
-                          ),
-                        true,
+                  <th scope="row" className="tm-sticky">
+                    <strong>Business plan</strong>
+                    <span>All studios</span>
+                  </th>
+                  {monthTotals.map((t, i) => {
+                    const v = basis === 'approved' ? t.approved : t.proposed;
+                    return (
+                      <td key={i}>
+                        <strong>{money(v, true)}</strong>
+                        <span className={growthTone(v, t.ly)}>{growthLabel(v, t.ly)}</span>
+                        <div className="tm-cell-ly">LY {money(t.ly, true)}</div>
+                      </td>
+                    );
+                  })}
+                  <td className="tm-total">
+                    <strong>
+                      {money(basis === 'approved' ? reconciliation.approved : reconciliation.proposed, true)}
+                    </strong>
+                    <span
+                      className={growthTone(
+                        basis === 'approved' ? reconciliation.approved : reconciliation.proposed,
+                        lyTotal,
                       )}
-                    </td>
-                  ))}
-                  <td className="num">
-                    {money(basis === 'approved' ? reconciliation.approved : reconciliation.proposed, true)}
+                    >
+                      {growthLabel(basis === 'approved' ? reconciliation.approved : reconciliation.proposed, lyTotal)}{' '}
+                      vs LY
+                    </span>
+                    <div className="tm-cell-ly">LY {money(lyTotal, true)}</div>
                   </td>
                 </tr>
               </tfoot>
             </table>
-          </TableScroll>
-          <p className="data-note">
+          </div>
+          <p className="tm-note">
             Blank/zero approved cells are intentional until management approves a target. Regenerating scenarios changes
-            recommendations only.
+            recommendations only. Growth compares the shown value with last year&apos;s historical revenue for the same
+            month.
           </p>
-        </Card>
+        </section>
       )}
       {view === 'streams' && (
         <Card>

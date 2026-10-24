@@ -264,8 +264,11 @@ export function Drawer({
 }
 export function Loading({ label = 'Loading intelligence…' }: { label?: string }) {
   return (
-    <div className="loading">
-      <LoaderCircle className="spin" size={22} />
+    <div className="loading p57-loader" role="status">
+      <svg viewBox="0 0 120 40" aria-hidden="true">
+        <path className="p57-loader-track" d="M2 20h34l6-10 10 22 10-30 10 26 8-8h38" pathLength={100} />
+        <path className="p57-loader-line" d="M2 20h34l6-10 10 22 10-30 10 26 8-8h38" pathLength={100} />
+      </svg>
       <span>{label}</span>
     </div>
   );

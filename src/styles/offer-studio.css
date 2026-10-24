@@ -1,0 +1,474 @@
+/* Offer studio — scoped under .offer-studio so nothing leaks. */
+.offer-studio {
+  --os-line: 1px solid var(--n-200);
+  color: var(--ink-900);
+  font-size: 14px;
+}
+.offer-studio .os-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--n-500);
+}
+
+/* View switcher: slim underline nav */
+.offer-studio .os-nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  border-bottom: var(--os-line);
+  margin: 4px 0 24px;
+  scrollbar-width: none;
+}
+.offer-studio .os-nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  margin-bottom: -1px;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--n-500);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 550;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+.offer-studio .os-nav button:hover {
+  color: var(--ink-900);
+}
+.offer-studio .os-nav button.active {
+  color: var(--ink-900);
+  border-bottom-color: var(--a1);
+}
+.offer-studio .os-nav button.active svg {
+  color: var(--a1);
+}
+
+/* Toolbar */
+.offer-studio .os-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  margin-bottom: 8px;
+  background: var(--n-50, #faf9f7);
+  border-bottom: var(--os-line);
+}
+.offer-studio .os-months {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--n-100);
+  border-radius: 10px;
+  overflow-x: auto;
+}
+.offer-studio .os-months button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--n-700);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 550;
+  cursor: pointer;
+}
+.offer-studio .os-months button i {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--n-500);
+}
+.offer-studio .os-months button.active {
+  background: #fff;
+  color: var(--ink-900);
+  box-shadow: 0 1px 2px rgba(27, 24, 36, 0.08);
+}
+.offer-studio .os-months button.active i {
+  color: var(--a1);
+}
+.offer-studio .os-toolbar-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.offer-studio .os-toolbar-right select {
+  height: 34px;
+  font-size: 12.5px;
+}
+.offer-studio .os-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 10px;
+  border: var(--os-line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--n-500);
+}
+.offer-studio .os-search input {
+  border: 0;
+  outline: 0;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  width: 160px;
+  color: var(--ink-900);
+}
+.offer-studio .os-search:focus-within {
+  border-color: var(--a1-line);
+  box-shadow: 0 0 0 3px var(--a1-glow);
+}
+
+/* Month sections: hairlines, not cards */
+.offer-studio .os-month {
+  padding: 28px 0;
+  border-bottom: var(--os-line);
+}
+.offer-studio .os-month:last-child {
+  border-bottom: 0;
+}
+.offer-studio .os-month-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px 32px;
+  margin-bottom: 16px;
+}
+.offer-studio .os-month-head h3 {
+  margin: 4px 0 2px;
+  font-size: 16px;
+  font-weight: 650;
+}
+.offer-studio .os-month-head em {
+  font-style: normal;
+  font-size: 12.5px;
+  color: var(--n-500);
+}
+.offer-studio .os-month-nums {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  column-gap: 28px;
+  row-gap: 8px;
+  text-align: right;
+}
+.offer-studio .os-month-nums b {
+  font-size: 22px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+.offer-studio .os-cover {
+  grid-column: 1 / -1;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--n-200);
+  overflow: hidden;
+}
+.offer-studio .os-cover span {
+  display: block;
+  height: 100%;
+  background: var(--a1);
+  border-radius: inherit;
+}
+.offer-studio .os-empty {
+  margin: 0;
+  padding: 14px 0;
+  font-size: 12.5px;
+  color: var(--n-500);
+}
+
+/* Offer rows */
+.offer-studio .os-offer-list {
+  display: grid;
+  gap: 8px;
+}
+.offer-studio .os-offer {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.3fr) minmax(0, 2.4fr) 120px;
+  gap: 24px;
+  align-items: center;
+  width: 100%;
+  padding: 16px 20px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: #fff;
+  border: var(--os-line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s,
+    transform 0.15s;
+}
+.offer-studio .os-offer:hover {
+  border-color: var(--a1-line);
+  box-shadow: 0 6px 18px -10px var(--a1-glow);
+}
+.offer-studio .os-offer:focus-visible {
+  outline: 2px solid var(--a1);
+  outline-offset: 2px;
+}
+.offer-studio .os-offer-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--n-500);
+}
+.offer-studio .os-offer-kicker span:first-child {
+  color: var(--a1-dark);
+}
+.offer-studio .os-offer-name {
+  display: block;
+  margin: 6px 0 4px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.offer-studio .os-offer-main p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--n-700);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.offer-studio .os-offer-facts {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding-left: 24px;
+  border-left: var(--os-line);
+}
+.offer-studio .os-offer-facts dt {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--n-500);
+  margin-bottom: 4px;
+}
+.offer-studio .os-offer-facts dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12.5px;
+  color: var(--n-700);
+  font-variant-numeric: tabular-nums;
+}
+.offer-studio .os-offer-facts b {
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--ink-900);
+}
+.offer-studio .os-offer-facts s,
+.offer-studio .os-offer-facts small {
+  font-size: 12.5px;
+  color: var(--n-500);
+}
+.offer-studio .os-offer-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  text-align: right;
+}
+.offer-studio .os-offer-status small {
+  font-size: 12.5px;
+  color: var(--n-500);
+}
+
+/* Badges: two-accent palette */
+.offer-studio .badge {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+}
+.offer-studio .badge-purple,
+.offer-studio .badge-blue,
+.offer-studio .badge-green,
+.offer-studio .badge-teal {
+  background: var(--a1-soft);
+  color: var(--a1-dark);
+  border-color: var(--a1-line);
+}
+.offer-studio .badge-amber,
+.offer-studio .badge-red,
+.offer-studio .badge-orange,
+.offer-studio .badge-pink {
+  background: var(--a2-soft);
+  color: var(--a2);
+  border-color: transparent;
+}
+.offer-studio .badge-neutral,
+.offer-studio .badge-gray {
+  background: var(--n-100);
+  color: var(--n-700);
+}
+
+/* Embedded tools (library, gap, manual builder, playbook, generator): flatten nested cards */
+.offer-studio .ws-embedded .card,
+.offer-studio .ws-embedded .ws-card {
+  box-shadow: none;
+  border: 0;
+  border-bottom: var(--os-line);
+  border-radius: 0;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+.offer-studio .ws-embedded .card .card,
+.offer-studio .ws-embedded .sticky-card,
+.offer-studio .ws-embedded .financial-panel {
+  border: var(--os-line);
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px 20px;
+}
+.offer-studio .card-header h2,
+.offer-studio .card-header h3 {
+  font-size: 16px;
+  font-weight: 650;
+}
+.offer-studio .card-header p {
+  font-size: 12.5px;
+  color: var(--n-500);
+}
+.offer-studio .data-table th {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--n-500);
+  background: transparent;
+  border-bottom: var(--os-line);
+}
+.offer-studio .data-table td {
+  font-size: 13px;
+  border-bottom: var(--os-line);
+}
+.offer-studio .data-table tbody tr:hover td {
+  background: var(--n-50);
+}
+.offer-studio .offer-name-link {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  color: var(--ink-900);
+}
+.offer-studio .offer-name-link:hover {
+  color: var(--a1-dark);
+}
+
+/* Playbook + generator grids */
+.offer-studio .ws-chipset button.active {
+  background: var(--a1-soft);
+  color: var(--a1-dark);
+  border-color: var(--a1-line);
+}
+.offer-studio .ws-template,
+.offer-studio .ws-concept {
+  border: var(--os-line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: none;
+}
+.offer-studio .ws-template > strong,
+.offer-studio .ws-concept > strong {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+}
+.offer-studio .ws-concept.rec {
+  border-color: var(--a1-line);
+  box-shadow: 0 0 0 3px var(--a1-glow);
+}
+.offer-studio .ws-template dt,
+.offer-studio .ws-concept-nums small {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--n-500);
+}
+.offer-studio .ws-brief {
+  border: 0;
+  border-right: var(--os-line);
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  padding: 0 24px 0 0;
+}
+.offer-studio .ws-brief h3,
+.offer-studio .ws-gen-empty h3 {
+  font-size: 16px;
+  font-weight: 650;
+}
+.offer-studio .ws-gen-empty,
+.offer-studio .ws-gen-loading {
+  border: 1px dashed var(--n-200);
+  box-shadow: none;
+  background: transparent;
+  color: var(--n-700);
+}
+.offer-studio .ws-gen-empty svg,
+.offer-studio .ws-gen-loading svg {
+  color: var(--a1);
+}
+
+@media (max-width: 1100px) {
+  .offer-studio .os-offer {
+    grid-template-columns: 1fr auto;
+  }
+  .offer-studio .os-offer-facts {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    padding: 12px 0 0;
+    border-left: 0;
+    border-top: var(--os-line);
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .offer-studio .os-toolbar-right,
+  .offer-studio .os-search {
+    width: 100%;
+  }
+  .offer-studio .os-search input {
+    width: 100%;
+  }
+  .offer-studio .ws-brief {
+    border-right: 0;
+    padding: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .offer-studio * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -47,14 +47,15 @@ export default function OffersTab({ data, reload }: { data: PlanData; reload: ()
   const [params, setParams] = useSearchParams();
   const view = params.get('view') || 'planned';
   return (
-    <>
-      <div className="ws-segmented ws-offer-views">
+    <div className="os-root">
+      <nav className="os-nav" aria-label="Offer studio views">
         {OFFER_VIEWS.map(v => {
           const Icon = v.icon;
           return (
             <button
               key={v.id}
               className={view === v.id ? 'active' : ''}
+              aria-current={view === v.id ? 'page' : undefined}
               onClick={() => setParams({ view: v.id }, { replace: true })}
             >
               <Icon size={15} />
@@ -62,84 +63,178 @@ export default function OffersTab({ data, reload }: { data: PlanData; reload: ()
             </button>
           );
         })}
-      </div>
+      </nav>
       {view === 'planned' && <Planned data={data} />}
       {view === 'library' && embed(<OfferBank />)}
       {view === 'playbook' && <Playbook />}
       {view === 'generate' && <Generator data={data} onSaved={() => reload().catch(() => {})} />}
       {view === 'gap' && embed(<GoalBuilder />)}
       {view === 'manual' && embed(<OfferBuilder />)}
-    </>
+    </div>
   );
 }
 
-function OfferCard({ o, onOpen }: { o: any; onOpen: () => void }) {
+const parseJson = (v: any) => {
+  if (!v) return {};
+  if (typeof v === 'object') return v;
+  try {
+    return JSON.parse(v);
+  } catch {
+    return {};
+  }
+};
+const shortDate = (d?: string | null) =>
+  d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
+
+function OfferRow({ o, onOpen }: { o: any; onOpen: () => void }) {
+  const pricing = parseJson(o.provenance).pricing || {};
+  const asp = Number(o.expected_asp) || 0,
+    disc = Number(o.effective_discount) || 0;
+  const original = asp && disc > 0 && disc < 100 ? asp / (1 - disc / 100) : null;
+  const when =
+    o.validity_start || o.validity_end
+      ? `${shortDate(o.validity_start)} – ${shortDate(o.validity_end)}`
+      : o.month
+        ? `${MONTHS_SHORT[o.month - 1]} ${o.year}`
+        : '—';
   return (
-    <button className="ws-offer-card" onClick={onOpen}>
-      <header>
-        <Badge tone="purple">{titleCase(o.offer_type)}</Badge>
-        <StatusBadge status={o.status} />
-      </header>
-      <strong>{o.name}</strong>
-      <p>{o.headline || o.benefit || o.customer_copy}</p>
-      <div className="ws-offer-meta">
-        <span>{o.studio}</span>
-        <span>
-          {o.month ? MONTHS_SHORT[o.month - 1] : '—'} {o.year}
-        </span>
-        <span>{OBJ[o.objective] || titleCase(o.objective)}</span>
+    <button className="os-offer" onClick={onOpen}>
+      <div className="os-offer-main">
+        <div className="os-offer-kicker">
+          <span>{titleCase(o.offer_type)}</span>
+          {pricing.product && <span>{pricing.product}</span>}
+          <span>{o.studio}</span>
+        </div>
+        <strong className="os-offer-name">{o.name}</strong>
+        <p>{o.benefit || o.headline || o.customer_copy}</p>
       </div>
-      <footer>
+      <dl className="os-offer-facts">
         <div>
-          <small>Expected</small>
-          <b>{money(o.expected_revenue, true)}</b>
+          <dt>Price</dt>
+          <dd>
+            {original && <s>{money(original)}</s>}
+            <b>{money(asp || null)}</b>
+          </dd>
         </div>
         <div>
-          <small>Actual</small>
-          <b>{money(o.actual_revenue, true)}</b>
+          <dt>Discount</dt>
+          <dd>
+            <b>{disc ? percent(disc, 0) : '—'}</b>
+            {original && <small>{money(original - asp)} off</small>}
+          </dd>
         </div>
         <div>
-          <small>Benefit</small>
-          <b>{percent(o.effective_discount)}</b>
+          <dt>Cohort</dt>
+          <dd>{titleCase(o.audience) || '—'}</dd>
         </div>
-      </footer>
+        <div>
+          <dt>Window</dt>
+          <dd>{when}</dd>
+        </div>
+        <div>
+          <dt>Expected</dt>
+          <dd>
+            <b>{money(o.expected_revenue, true)}</b>
+            {o.target_purchases ? <small>{o.target_purchases} sales</small> : null}
+          </dd>
+        </div>
+      </dl>
+      <div className="os-offer-status">
+        <StatusBadge status={o.status} />
+        <small>{OBJ[o.objective] || titleCase(o.objective)}</small>
+      </div>
     </button>
   );
 }
 
 function Planned({ data }: { data: PlanData }) {
   const navigate = useNavigate();
+  const [month, setMonth] = useState(0),
+    [status, setStatus] = useState(''),
+    [q, setQ] = useState('');
+  const all = data.months.flatMap(m => offersInMonth(data, m.month));
+  const statuses = [...new Set(all.map(o => o.status).filter(Boolean))] as string[];
+  const match = (o: any) =>
+    (!status || o.status === status) &&
+    (!q || `${o.name} ${o.headline} ${o.benefit} ${o.audience}`.toLowerCase().includes(q.toLowerCase()));
+  const months = data.months.filter(m => !month || m.month === month);
   return (
-    <div className="ws-planned">
-      {data.months.map(m => {
-        const offers = offersInMonth(data, m.month),
-          expected = offers.reduce((n, o) => n + (o.expected_revenue || 0), 0);
+    <div className="os-planned">
+      <div className="os-toolbar">
+        <div className="os-months" role="tablist">
+          <button className={!month ? 'active' : ''} onClick={() => setMonth(0)}>
+            All
+          </button>
+          {data.months.map(m => {
+            const n = offersInMonth(data, m.month).length;
+            return (
+              <button
+                key={m.month}
+                className={month === m.month ? 'active' : ''}
+                onClick={() => setMonth(m.month)}
+                title={`${n} offers`}
+              >
+                {MONTHS_SHORT[m.month - 1]}
+                {n > 0 && <i>{n}</i>}
+              </button>
+            );
+          })}
+        </div>
+        <div className="os-toolbar-right">
+          <label className="os-search">
+            <Search size={14} />
+            <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search offers" />
+          </label>
+          <Select value={status} onChange={e => setStatus(e.target.value)}>
+            <option value="">All statuses</option>
+            {statuses.map(s => (
+              <option key={s} value={s}>
+                {titleCase(s)}
+              </option>
+            ))}
+          </Select>
+        </div>
+      </div>
+      {months.map(m => {
+        const offers = offersInMonth(data, m.month).filter(match),
+          expected = offersInMonth(data, m.month).reduce((n, o) => n + (o.expected_revenue || 0), 0),
+          cover = m.target ? Math.min(100, (expected / m.target) * 100) : 0;
         return (
-          <section key={m.month}>
-            <header>
+          <section key={m.month} className="os-month">
+            <header className="os-month-head">
               <div>
-                <span>{MONTHS[m.month - 1]}</span>
-                <strong>{m.leadOffer}</strong>
+                <span className="os-label">{MONTHS[m.month - 1]}</span>
+                <h3>{m.leadOffer}</h3>
                 <em>{m.objective}</em>
               </div>
-              <div className="ws-planned-nums">
-                <span>
-                  Target <b>{lakh(m.target)}</b>
-                </span>
-                <span>
-                  Offers cover <b>{lakh(expected)}</b>
-                </span>
-                <span>{offers.length} offers</span>
+              <div className="os-month-nums">
+                <div>
+                  <span className="os-label">Target</span>
+                  <b>{lakh(m.target)}</b>
+                </div>
+                <div>
+                  <span className="os-label">Offers cover</span>
+                  <b>{lakh(expected)}</b>
+                </div>
+                <div>
+                  <span className="os-label">Offers</span>
+                  <b>{offersInMonth(data, m.month).length}</b>
+                </div>
+                <div className="os-cover" aria-hidden>
+                  <span style={{ width: `${cover}%` }} />
+                </div>
               </div>
             </header>
             {offers.length ? (
-              <div className="ws-offer-row">
+              <div className="os-offer-list">
                 {offers.map(o => (
-                  <OfferCard key={o.id} o={o} onOpen={() => navigate(`/offers/${o.id}/edit`)} />
+                  <OfferRow key={o.id} o={o} onOpen={() => navigate(`/offers/${o.id}/edit`)} />
                 ))}
               </div>
             ) : (
-              <p className="muted">No promotions planned yet.</p>
+              <p className="os-empty">
+                {q || status ? 'No offers match these filters.' : 'No promotions planned yet.'}
+              </p>
             )}
           </section>
         );

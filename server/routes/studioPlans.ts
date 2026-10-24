@@ -11,6 +11,8 @@ import {
 } from '../lib/plan2027.js';
 import { bodyError, id, studioFilter } from '../http.js';
 import type { Express } from 'express';
+import { planEconomics } from '../lib/planEconomics.js';
+import { PRODUCT_KEYS, linkedOfferChange, listPrice, planningStudios } from '../lib/linkedOffers.js';
 
 export default function registerStudioPlansRoutes(app: Express) {
   const planRow = (p: any) =>
@@ -114,6 +116,67 @@ export default function registerStudioPlansRoutes(app: Express) {
       )
       .max(60)
       .optional(),
+  });
+  app.get('/api/studio-plans/:studioId/economics', (req, res) => {
+    const studioId = studioFilter(req, id(req.params.studioId));
+    res.json(planEconomics(studioId, id(req.query.year) || new Date().getFullYear() + 1));
+  });
+  app.get('/api/studio-plans/products/prices', (_req, res) => {
+    const studios = planningStudios();
+    res.json({
+      keys: Object.fromEntries(Object.entries(PRODUCT_KEYS).map(([k, v]) => [k, v.label])),
+      prices: Object.fromEntries(
+        studios.map(s => [s.id, Object.fromEntries(Object.keys(PRODUCT_KEYS).map(k => [k, listPrice(s.id, k)]))]),
+      ),
+    });
+  });
+  const editSchema = z.object({
+    name: z.string().trim().min(3).max(200).optional(),
+    headline: z.string().max(500).nullable().optional(),
+    benefit: z.string().max(1000).nullable().optional(),
+    rationale: z.string().max(5000).nullable().optional(),
+    customer_copy: z.string().max(3000).nullable().optional(),
+    audience: z.string().max(200).nullable().optional(),
+    redemption_conditions: z.string().max(2000).nullable().optional(),
+    validity_start: z.string().max(10).nullable().optional(),
+    validity_end: z.string().max(10).nullable().optional(),
+    target_purchases: z.number().min(0).max(10000).optional(),
+    expected_asp: z.number().min(0).max(10000000).optional(),
+    pricing: z
+      .object({
+        product: z.string().max(20).nullable().optional(),
+        discount: z.number().min(0).max(0.5).optional(),
+        mechanic: z.string().max(500).optional(),
+      })
+      .optional(),
+  });
+  const linkedSchema = z.discriminatedUnion('op', [
+    z.object({ op: z.literal('add'), offerId: z.number().int().positive(), solo: z.boolean().default(false) }),
+    z.object({ op: z.literal('remove'), offerId: z.number().int().positive(), solo: z.boolean().default(false) }),
+    z.object({
+      op: z.literal('update'),
+      offerId: z.number().int().positive(),
+      solo: z.boolean().default(false),
+      edit: editSchema,
+    }),
+  ]);
+  // Add, remove or edit a planned offer; mirrored to every planning location unless `solo` is set.
+  app.post('/api/studio-plans/:studioId/:year/:month/offers', permission('target_edit'), (req, res) => {
+    const studioId = studioFilter(req, id(req.params.studioId)),
+      year = id(req.params.year),
+      month = id(req.params.month);
+    if (month > 12) throw bodyError('Month must be between 1 and 12.');
+    const change = linkedSchema.parse(req.body);
+    const result = linkedOfferChange(studioId, year, month, change as any, req.user!.id);
+    audit({
+      userId: req.user!.id,
+      action: `plan_offer_${change.op}`,
+      entityType: 'monthly_plan',
+      entityId: `${studioId}-${year}-${month}`,
+      studioId,
+      after: { ...change, mirroredTo: result.studios },
+    });
+    res.json(result);
   });
   app.put('/api/studio-plans/:studioId/:year/:month', permission('target_edit'), (req, res) => {
     const studioId = studioFilter(req, id(req.params.studioId)),
