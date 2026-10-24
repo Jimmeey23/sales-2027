@@ -10,7 +10,7 @@ export default function registerCampaignsRoutes(app: Express) {
     return db
       .prepare(
         `SELECT c.id,c.name,c.start_date,c.end_date,c.audience,o.name offer_name,o.benefit FROM campaigns c LEFT JOIN offers o ON o.id=c.offer_id
-    WHERE c.studio_id=? AND c.status NOT IN ('archived','rejected') AND c.start_date<=? AND c.end_date>=? ${excludeId ? 'AND c.id!=?' : ''}
+    WHERE c.studio_id=? AND c.data_mode!='demo' AND c.status NOT IN ('archived','rejected') AND c.start_date<=? AND c.end_date>=? ${excludeId ? 'AND c.id!=?' : ''}
     AND (LOWER(COALESCE(c.audience,''))=LOWER(COALESCE(?,'')) OR COALESCE(c.audience,'')='' OR COALESCE(?,'')='')`,
       )
       .all(
@@ -32,7 +32,7 @@ export default function registerCampaignsRoutes(app: Express) {
         `SELECT c.*,s.name studio,o.name offer_name,o.benefit,o.approval_status offer_approval,u.name owner,
     p.revenue actual_revenue,p.redemptions,p.buyers,p.customers_reached,p.effective_discount FROM campaigns c JOIN studios s ON s.id=c.studio_id
     LEFT JOIN offers o ON o.id=c.offer_id LEFT JOIN users u ON u.id=c.owner_id LEFT JOIN campaign_performance p ON p.campaign_id=c.id
-    WHERE c.year=? ${studioId ? 'AND c.studio_id=?' : ''} ${req.query.month ? 'AND CAST(substr(c.start_date,6,2) AS INTEGER)=?' : ''} ORDER BY c.start_date`,
+    WHERE c.year=? AND c.data_mode!='demo' ${studioId ? 'AND c.studio_id=?' : ''} ${req.query.month ? 'AND CAST(substr(c.start_date,6,2) AS INTEGER)=?' : ''} ORDER BY c.start_date`,
       )
       .all(...[year, ...(studioId ? [studioId] : []), ...(req.query.month ? [Number(req.query.month)] : [])]) as any[];
     const withWarnings = rows.map(c => ({

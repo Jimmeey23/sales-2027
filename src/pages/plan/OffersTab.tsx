@@ -3,26 +3,32 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   BookOpen,
   CalendarRange,
+  Check,
   Dices,
   Edit3,
   ExternalLink,
+  Gift,
+  GripVertical,
   Library,
+  Package,
   PenLine,
   Save,
   Search,
   Sparkles,
   Target,
+  Users,
   WandSparkles,
 } from 'lucide-react';
-import { post } from '../../api';
+import { api, post } from '../../api';
 import { useApp } from '../../App';
 import { MONTHS, MONTHS_SHORT, OBJECTIVES, SEGMENTS, money, percent, titleCase } from '../../types';
 import { Badge, Button, Callout, Field, Input, Loading, Select, StatusBadge, Textarea } from '../../components/ui';
 import { FAMILY_TONES, OFFER_LIBRARY, type OfferTemplate } from '../../data/offerLibrary';
 import { planningLocations } from '../../data/locations';
 import { MONTH_OBJECTIVES } from '../../data/planDefaults';
+import { useLoad } from '../../hooks';
 import { lakh, type PlanData } from './usePlanData';
-import { offersInMonth } from './TargetsTab';
+import { offersInMonth, selectedInMonth } from './TargetsTab';
 
 const OfferBuilder = lazy(() => import('../OfferBuilder'));
 const OfferBank = lazy(() => import('../OfferBank'));
@@ -42,6 +48,16 @@ const embed = (node: React.ReactNode) => (
   </div>
 );
 const OBJ = Object.fromEntries(OBJECTIVES);
+const BENEFIT_OPTIONS = [
+  { id: 'bonus_class', label: 'Bonus class', note: 'Add one class credit', icon: Gift },
+  { id: 'guest_pass', label: 'Guest pass', note: 'Bring a friend', icon: Users },
+  { id: 'private_session', label: 'Private session', note: 'Add a 1:1 session', icon: Target },
+  { id: 'freeze_extension', label: 'Freeze extension', note: 'Extra membership pause', icon: CalendarRange },
+  { id: 'trainer_consult', label: 'Trainer consult', note: 'Personal check-in', icon: Sparkles },
+  { id: 'hosted_class', label: 'Hosted class', note: 'Add a hosted session', icon: BookOpen },
+  { id: 'virtual_private', label: 'Virtual private', note: 'Remote 1:1 session', icon: ExternalLink },
+  { id: 'retail_addon', label: 'Retail add-on', note: 'Add a retail gift', icon: Package },
+] as const;
 
 export default function OffersTab({ data, reload }: { data: PlanData; reload: () => Promise<any> }) {
   const [params, setParams] = useSearchParams();
@@ -86,10 +102,15 @@ const parseJson = (v: any) => {
 const shortDate = (d?: string | null) =>
   d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
 
-function OfferRow({ o, onOpen }: { o: any; onOpen: () => void }) {
+function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selected: boolean }) {
   const pricing = parseJson(o.provenance).pricing || {};
+  const financials = parseJson(o.financials);
   const asp = Number(o.expected_asp) || 0,
     disc = Number(o.effective_discount) || 0;
+  const completeForecast = o.expected_revenue !== null && o.expected_revenue !== undefined && Number.isFinite(Number(o.expected_revenue));
+  const modeledRevenue = financials.expectedRevenue;
+  const forecastConsistent = completeForecast && (modeledRevenue == null || Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <= Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
+  const expectedSales = financials.expectedBuyers ?? (asp ? Math.round(Number(o.expected_revenue) / asp) : null);
   const original = asp && disc > 0 && disc < 100 ? asp / (1 - disc / 100) : null;
   const when =
     o.validity_start || o.validity_end
@@ -102,6 +123,7 @@ function OfferRow({ o, onOpen }: { o: any; onOpen: () => void }) {
       <div className="os-offer-main">
         <div className="os-offer-kicker">
           <span>{titleCase(o.offer_type)}</span>
+          <span className={selected ? 'os-selection selected' : 'os-selection'}>{selected ? 'On plan' : 'Candidate'}</span>
           {pricing.product && <span>{pricing.product}</span>}
           <span>{o.studio}</span>
         </div>
@@ -134,14 +156,15 @@ function OfferRow({ o, onOpen }: { o: any; onOpen: () => void }) {
         <div>
           <dt>Expected</dt>
           <dd>
-            <b>{money(o.expected_revenue, true)}</b>
-            {o.target_purchases ? <small>{o.target_purchases} sales</small> : null}
+            <b>{!completeForecast ? 'Incomplete' : forecastConsistent ? money(o.expected_revenue, true) : 'Needs review'}</b>
+            {completeForecast && forecastConsistent ? <small>{expectedSales == null ? '' : `${number(expectedSales)} expected · `}{o.target_purchases == null ? 'target not set' : `${number(o.target_purchases)} target sales`}</small> : null}
           </dd>
         </div>
       </dl>
       <div className="os-offer-status">
         <StatusBadge status={o.status} />
         <small>{OBJ[o.objective] || titleCase(o.objective)}</small>
+        {o.margin_impact == null && <small className="os-cost-warning">Costs needed</small>}
       </div>
     </button>
   );
@@ -151,7 +174,8 @@ function Planned({ data }: { data: PlanData }) {
   const navigate = useNavigate();
   const [month, setMonth] = useState(0),
     [status, setStatus] = useState(''),
-    [q, setQ] = useState('');
+    [q, setQ] = useState(''),
+    [showAlternatives, setShowAlternatives] = useState(false);
   const all = data.months.flatMap(m => offersInMonth(data, m.month));
   const statuses = [...new Set(all.map(o => o.status).filter(Boolean))] as string[];
   const match = (o: any) =>
@@ -181,6 +205,9 @@ function Planned({ data }: { data: PlanData }) {
           })}
         </div>
         <div className="os-toolbar-right">
+          <button className="os-view-toggle" aria-pressed={showAlternatives} onClick={() => setShowAlternatives(v => !v)}>
+            {showAlternatives ? 'Showing candidates' : 'Show candidates'}
+          </button>
           <label className="os-search">
             <Search size={14} />
             <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search offers" />
@@ -196,9 +223,18 @@ function Planned({ data }: { data: PlanData }) {
         </div>
       </div>
       {months.map(m => {
-        const offers = offersInMonth(data, m.month).filter(match),
-          expected = offersInMonth(data, m.month).reduce((n, o) => n + (o.expected_revenue || 0), 0),
-          cover = m.target ? Math.min(100, (expected / m.target) * 100) : 0;
+        const selected = selectedInMonth(data, m.month).filter(o => o.data_mode !== 'demo' && o.generation_source !== 'demo_seed'),
+          selectedIds = new Set(selected.map(o => Number(o.id))),
+          allOffers = offersInMonth(data, m.month).filter(match),
+          offers = allOffers.filter(o => showAlternatives || selectedIds.has(Number(o.id))),
+          expected = selected.reduce((sum, o) => {
+            const financials = parseJson(o.financials);
+            const modeledRevenue = financials.expectedRevenue;
+            const valid = o.expected_revenue !== null && o.expected_revenue !== undefined && Number.isFinite(Number(o.expected_revenue)) &&
+              (modeledRevenue == null || Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <= Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
+            return sum + (valid ? Number(o.expected_revenue) : 0);
+          }, 0),
+          cover = m.target ? Math.min(100, Math.max(0, (expected / m.target) * 100)) : 0;
         return (
           <section key={m.month} className="os-month">
             <header className="os-month-head">
@@ -213,12 +249,12 @@ function Planned({ data }: { data: PlanData }) {
                   <b>{lakh(m.target)}</b>
                 </div>
                 <div>
-                  <span className="os-label">Offers cover</span>
+                  <span className="os-label">Selected forecast</span>
                   <b>{lakh(expected)}</b>
                 </div>
                 <div>
-                  <span className="os-label">Offers</span>
-                  <b>{offersInMonth(data, m.month).length}</b>
+                  <span className="os-label">Selected / candidates</span>
+                  <b>{selected.length} / {allOffers.length}</b>
                 </div>
                 <div className="os-cover" aria-hidden>
                   <span style={{ width: `${cover}%` }} />
@@ -228,12 +264,12 @@ function Planned({ data }: { data: PlanData }) {
             {offers.length ? (
               <div className="os-offer-list">
                 {offers.map(o => (
-                  <OfferRow key={o.id} o={o} onOpen={() => navigate(`/offers/${o.id}/edit`)} />
+                  <OfferRow key={o.id} o={o} selected={selectedIds.has(Number(o.id))} onOpen={() => navigate(`/offers/${o.id}/edit`)} />
                 ))}
               </div>
             ) : (
               <p className="os-empty">
-                {q || status ? 'No offers match these filters.' : 'No promotions planned yet.'}
+                {q || status ? 'No offers match these filters.' : showAlternatives ? 'No candidate offers for this month.' : 'No offers selected on this month plan yet.'}
               </p>
             )}
           </section>
@@ -349,12 +385,38 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
     targetRevenue: 300000,
     tone: 'witty',
     instructions: '',
+    productId: null,
+    benefitPicks: [],
   });
   const [result, setResult] = useState<any>(null),
     [loading, setLoading] = useState(''),
     [error, setError] = useState(''),
     [saved, setSaved] = useState<Record<number, number>>({});
+  const { data: catalog, loading: catalogLoading } = useLoad<any>(
+    () => api(`/commercial/catalog?studioId=${form.studioId}`),
+    [form.studioId],
+  );
   const set = (k: string, v: any) => setForm((f: any) => ({ ...f, [k]: v }));
+  const memberships = (catalog?.products || []).filter((p: any) =>
+    p.source === 'membership_catalogue' || /membership|unlimited|class\s*pack|package|annual|six\s*month/i.test(`${p.category} ${p.name}`),
+  );
+  const selectedMembership = memberships.find((p: any) => p.id === Number(form.productId)) || memberships[0];
+  const toggleBenefit = (id: string) => set('benefitPicks',
+    form.benefitPicks.includes(id) ? form.benefitPicks.filter((item: string) => item !== id) : [...form.benefitPicks, id],
+  );
+  const dragItem = (e: React.DragEvent, kind: string, value: string | number) => {
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('text/plain', JSON.stringify({ kind, value }));
+  };
+  const dropItem = (e: React.DragEvent, expected: 'membership' | 'benefit') => {
+    e.preventDefault();
+    try {
+      const item = JSON.parse(e.dataTransfer.getData('text/plain'));
+      if (item.kind !== expected) return;
+      if (expected === 'membership') set('productId', Number(item.value));
+      else if (!form.benefitPicks.includes(item.value)) set('benefitPicks', [...form.benefitPicks, item.value]);
+    } catch { /* Ignore unrelated drops. */ }
+  };
   const monthRow = data.plans.find(p => p.studio.id === Number(form.studioId))?.months[form.month - 1];
   const run = async (source: 'ai' | 'engine' | 'random') => {
     setLoading(source);
@@ -364,6 +426,8 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
       ...form,
       studioId: Number(form.studioId),
       year,
+      productId: selectedMembership?.id,
+      benefitPicks: form.benefitPicks,
       targetRevenue: Number(form.targetRevenue) || undefined,
       count: 4,
       theme: monthRow?.leadOffer,
@@ -397,6 +461,35 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
   };
   return (
     <div className="ws-gen">
+      <aside className="ws-gen-sidebar ws-gen-benefits">
+        <header>
+          <span className="ws-gen-side-icon"><Gift size={15} /></span>
+          <div><strong>Benefits</strong><small>Drag into the offer or tap to add</small></div>
+        </header>
+        <div className="ws-gen-side-list">
+          {BENEFIT_OPTIONS.map(item => {
+            const Icon = item.icon;
+            const active = form.benefitPicks.includes(item.id);
+            return (
+              <button
+                key={item.id}
+                type="button"
+                draggable
+                aria-pressed={active}
+                className={`ws-gen-item ${active ? 'active' : ''}`}
+                onClick={() => toggleBenefit(item.id)}
+                onDragStart={e => dragItem(e, 'benefit', item.id)}
+              >
+                <GripVertical size={13} className="ws-gen-grip" />
+                <Icon size={16} />
+                <span><b>{item.label}</b><small>{item.note}</small></span>
+                {active && <Check size={15} />}
+              </button>
+            );
+          })}
+        </div>
+      </aside>
+      <div className="ws-gen-main">
       <aside className="ws-card ws-brief">
         <h3>
           <Sparkles size={16} /> Offer brief
@@ -500,6 +593,33 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
           <p className="muted">AI is not configured on the server; rules engine and Surprise me still work.</p>
         )}
       </aside>
+      <div className="ws-gen-recipe">
+        <div className="ws-gen-recipe-head">
+          <div><span className="ws-label">Offer recipe</span><strong>Build from a membership and benefits</strong></div>
+          <small>Drag items from either side</small>
+        </div>
+        <div className="ws-gen-recipe-slots">
+          <div
+            className="ws-gen-drop membership"
+            onDragOver={e => e.preventDefault()}
+            onDrop={e => dropItem(e, 'membership')}
+          >
+            <Package size={16} />
+            <span><small>Membership</small><b>{selectedMembership?.name || (catalogLoading ? 'Loading memberships…' : 'Choose a membership')}</b></span>
+            {selectedMembership && <em>{money(selectedMembership.list_price)}</em>}
+          </div>
+          <div
+            className="ws-gen-drop benefits"
+            onDragOver={e => e.preventDefault()}
+            onDrop={e => dropItem(e, 'benefit')}
+          >
+            <Gift size={16} />
+            <span><small>Added benefits</small><b>{form.benefitPicks.length ? form.benefitPicks.map((id: string) => BENEFIT_OPTIONS.find(x => x.id === id)?.label).filter(Boolean).join(' · ') : 'Drop benefits here or choose from the left'}</b></span>
+            {form.benefitPicks.length > 0 && <button type="button" onClick={() => set('benefitPicks', [])}>Clear</button>}
+          </div>
+        </div>
+        {(form.benefitPicks.length > 0) && <small className="ws-gen-cost-note">Benefit delivery costs are unconfirmed. Generated offers stay blocked from approval until costs are entered.</small>}
+      </div>
       <section>
         {error && <Callout tone="danger">{error}</Callout>}
         {loading && (
@@ -536,6 +656,15 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
                     <strong>{o.name}</strong>
                     <em>{o.headline}</em>
                     <p>{o.customerCopy || o.benefit}</p>
+                    <dl className="ws-concept-details">
+                      <div><dt>Membership</dt><dd>{o.productName || selectedMembership?.name || '—'}</dd></div>
+                      <div><dt>Location · month</dt><dd>{boot.studios.find(s => s.id === Number(form.studioId))?.name || '—'} · {MONTHS[o.month - 1]}</dd></div>
+                      <div><dt>Audience</dt><dd>{titleCase(o.audience || form.segment)}</dd></div>
+                      <div><dt>Objective</dt><dd>{OBJ[o.objective] || titleCase(o.objective)}</dd></div>
+                      <div><dt>Offer terms</dt><dd>{o.redemptionConditions || 'One redemption per eligible customer; cannot be stacked with another promotion.'}</dd></div>
+                      <div><dt>Valid</dt><dd>{o.validityStart || `${year}-${String(form.month).padStart(2, '0')}-01`} – {o.validityEnd || 'End of month'}</dd></div>
+                      <div><dt>Call to action</dt><dd>{o.cta || 'Reserve your spot'}</dd></div>
+                    </dl>
                     <div className="ws-concept-nums">
                       <div>
                         <small>Price</small>
@@ -549,6 +678,10 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
                         <small>Benefit</small>
                         <b>{percent(o.effectiveDiscount)}</b>
                       </div>
+                      <div>
+                        <small>Target buyers</small>
+                        <b>{number(o.targetPurchases)}</b>
+                      </div>
                     </div>
                     {o.rationale && (
                       <p className="ws-logic">
@@ -556,7 +689,10 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
                         {o.rationale}
                       </p>
                     )}
+                    {o.successMetrics?.length > 0 && <details className="ws-concept-details-list"><summary>Success metrics</summary><ul>{o.successMetrics.map((item: string) => <li key={item}>{item}</li>)}</ul></details>}
+                    {o.risks?.length > 0 && <details className="ws-concept-details-list"><summary>Risks and assumptions</summary><ul>{o.risks.map((item: string, idx: number) => <li key={`${idx}-${item}`}>{item}</li>)}</ul></details>}
                     {f.errors?.length > 0 && <Callout tone="warning">{f.errors.join(' ')}</Callout>}
+                    {!f.economicsComplete && <Callout tone="warning">Complete cost data before approving this offer.</Callout>}
                     <footer>
                       <Button
                         size="sm"
@@ -582,6 +718,35 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
           </>
         )}
       </section>
+      </div>
+      <aside className="ws-gen-sidebar ws-gen-memberships">
+        <header>
+          <span className="ws-gen-side-icon"><Package size={15} /></span>
+          <div><strong>Memberships</strong><small>{catalogLoading ? 'Loading catalogue…' : `${memberships.length} at this location`}</small></div>
+        </header>
+        <div className="ws-gen-side-list">
+          {memberships.map((product: any) => {
+            const active = selectedMembership?.id === product.id;
+            return (
+              <button
+                key={product.id}
+                type="button"
+                draggable
+                aria-pressed={active}
+                className={`ws-gen-item ${active ? 'active' : ''}`}
+                onClick={() => set('productId', product.id)}
+                onDragStart={e => dragItem(e, 'membership', product.id)}
+              >
+                <GripVertical size={13} className="ws-gen-grip" />
+                <Package size={16} />
+                <span><b>{product.name}</b><small>{product.validity_days ? `${product.validity_days} days` : product.category}</small></span>
+                <em>{money(product.list_price)}</em>
+              </button>
+            );
+          })}
+          {!catalogLoading && !memberships.length && <p className="ws-gen-side-empty">No priced membership products are available at this location.</p>}
+        </div>
+      </aside>
     </div>
   );
 }

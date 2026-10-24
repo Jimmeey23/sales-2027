@@ -204,6 +204,7 @@ export interface OfferInput {
   retailProductCost?: number | null;
   customBenefitValue?: number;
   customBenefitCost?: number | null;
+  benefitCostUnconfirmed?: boolean;
   conditionType?: 'none' | 'student' | 'minimum_spend' | 'newcomer' | 'lapsed_return' | 'specific_format' | 'custom';
   conditionValue?: string;
   minimumSpend?: number;
@@ -476,6 +477,7 @@ export function calculateOffer(input: OfferInput): OfferResult {
     (input.customBenefitCost !== undefined && input.customBenefitCost !== null)
   )
     benefit(1, input.customBenefitValue, input.customBenefitCost, 'Custom benefit');
+  if (input.benefitCostUnconfirmed) missingCost = true;
   if (missingCost) economicsComplete = false;
   if (missingCost)
     warnings.push('One or more complimentary benefit costs are missing; contribution economics remain incomplete.');

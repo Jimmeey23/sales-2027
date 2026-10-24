@@ -2,8 +2,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import path from 'node:path';
-import { initSchema } from './db.js';
-import { authenticate, requireAuth } from './lib/auth.js';
+import { db, initSchema } from './db.js';
+import { authenticate, requireAuth, verifyPassword } from './lib/auth.js';
 import { ensureCommercialSeed } from './lib/commercialSeed.js';
 import { flushOutbox, pullRemoteChanges, startSupabaseSync } from './lib/supabaseSync.js';
 import registerAuthRoutes from './routes/auth.js';
@@ -17,6 +17,14 @@ import registerImportsRoutes from './routes/imports.js';
 import registerReportsRoutes from './routes/reports.js';
 import registerAdminRoutes from './routes/admin.js';
 initSchema();
+if (process.env.NODE_ENV === 'production') {
+  if (process.env.DIRECT_WORKSPACE === 'true')
+    throw new Error('Refusing production startup with DIRECT_WORKSPACE=true; this grants every visitor administrator access.');
+  const demoAccounts = db.prepare('SELECT email,password_hash FROM users WHERE active=1').all() as Array<{ email: string; password_hash: string }>;
+  const sharedDemoAccounts = demoAccounts.filter(account => verifyPassword('P57demo!', account.password_hash));
+  if (sharedDemoAccounts.length)
+    throw new Error(`Refusing production startup while ${sharedDemoAccounts.length} active seeded account(s) still use the shared demonstration password. Rotate or disable them first.`);
+}
 ensureCommercialSeed();
 // Load planning data from Supabase (or migrate it there on first run) before serving requests.
 // Called once per process: by server/main.ts locally and by api/index.ts on Vercel.

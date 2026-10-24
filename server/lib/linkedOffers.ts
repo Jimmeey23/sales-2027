@@ -71,22 +71,22 @@ export function selection(studioId: number, year: number, month: number) {
     .get(studioId, year, month) as any;
   const live = db
     .prepare(
-      `SELECT id, plan_slot, plan_rank, generation_source FROM offers WHERE studio_id=? AND year=? AND month=?
+      `SELECT id, plan_slot, plan_rank, generation_source, data_mode FROM offers WHERE studio_id=? AND year=? AND month=?
        AND status NOT IN ('archived','rejected')`,
     )
     .all(studioId, year, month) as any[];
   const savedSlots = json(plan?.slots, null),
     savedIds = json(plan?.offer_ids, null);
   const slots: Record<string, number | null> = Object.fromEntries(
-    SLOT_KEYS.map(slot => [
+      SLOT_KEYS.map(slot => [
       slot,
-      savedSlots ? (savedSlots[slot] ?? null) : (live.find(o => o.plan_slot === slot && o.plan_rank === 1)?.id ?? null),
+      savedSlots ? (savedSlots[slot] ?? null) : (live.find(o => o.generation_source === 'plan_2027' && o.data_mode !== 'demo' && o.plan_slot === slot && o.plan_rank === 1)?.id ?? null),
     ]),
   );
   const offerIds: number[] = Array.isArray(savedIds)
     ? savedIds
     : live
-        .filter(o => o.generation_source === 'plan_2027' && !o.plan_slot)
+        .filter(o => o.generation_source === 'plan_2027' && o.data_mode !== 'demo' && !o.plan_slot)
         .map(o => o.id)
         .slice(0, Math.max(0, DEFAULT_PICKS - Object.values(slots).filter(Boolean).length));
   return { slots, offerIds };
@@ -154,12 +154,21 @@ function cloneTo(offer: any, studioId: number, group: string, userId: number | n
   const prov = json(offer.provenance, {});
   const asp = priceFor(studioId, prov.pricing, { asp: Number(offer.expected_asp) || 0, fromStudio: offer.studio_id });
   const units = Number(offer.target_purchases) || 0;
+  const financials = json(offer.financials, {});
+  financials.sellingPrice = asp;
+  financials.expectedBuyers = units;
+  financials.expectedRevenue = asp * units;
+  financials.contributionMargin = null;
+  financials.economicsComplete = false;
+  financials.warnings = [...new Set([...(financials.warnings || []), 'Destination pricing changed; refresh product and benefit costs before approval.'])];
   const skip = new Set(['id', 'offer_uid', 'studio_id', 'created_at', 'updated_at', 'version', 'created_by']);
   const row: Record<string, any> = Object.fromEntries(Object.entries(offer).filter(([k]) => !skip.has(k)));
   Object.assign(row, {
     expected_asp: asp,
     expected_revenue: asp * units,
     revenue_target: asp * units,
+    margin_impact: null,
+    financials: JSON.stringify(financials),
     provenance: JSON.stringify({ ...prov, linkGroup: group, copiedFrom: offer.id }),
   });
   const cols = Object.keys(row);
@@ -215,6 +224,17 @@ function applyEdit(offer: any, edit: OfferEdit, ownFields: boolean, sourceStudio
   if (edit.expected_asp !== undefined && !pricing?.product)
     asp = ownFields ? edit.expected_asp : Math.round(edit.expected_asp * priceRatio(offer.studio_id, sourceStudio));
   if (edit.pricing?.discount !== undefined) next.effective_discount = Number(edit.pricing.discount) * 100;
+  if (edit.pricing || edit.expected_asp !== undefined || edit.target_purchases !== undefined || edit.benefit !== undefined) {
+    const financials = json(offer.financials, {});
+    financials.sellingPrice = asp;
+    financials.expectedBuyers = units;
+    financials.expectedRevenue = asp * units;
+    financials.contributionMargin = null;
+    financials.economicsComplete = false;
+    financials.warnings = [...new Set([...(financials.warnings || []), 'Offer economics changed; refresh product and benefit costs before approval.'])];
+    next.financials = JSON.stringify(financials);
+    next.margin_impact = null;
+  }
   Object.assign(next, {
     target_purchases: units,
     expected_asp: asp,
@@ -297,4 +317,82 @@ export function linkedOfferChange(
     }
   })();
   return { studios: [...touched] };
+}
+
+const STREAM_OF: Record<string, 'newClient' | 'renewal' | 'reactivation'> = {
+  acquisition: 'newClient',
+  trial_conversion: 'newClient',
+  referral: 'newClient',
+  new_client: 'newClient',
+  retention: 'renewal',
+  annual_membership: 'renewal',
+  additional_purchase: 'renewal',
+  aov: 'renewal',
+  reactivation: 'reactivation',
+};
+const revenueOf = (o: any) => {
+  if (!o || o.data_mode === 'demo' || o.generation_source === 'demo_seed') return 0;
+  const v = Number(o.expected_revenue);
+  return Number.isFinite(v) ? v : 0;
+};
+
+// Makes a studio-month's offers carry its revenue target: first adds unpicked offers for the short
+// stream, then raises planned purchases on the largest unapproved offer until nothing is short.
+export function coverPlan(studioId: number, year: number, month: number, userId: number | null) {
+  const t = db
+    .prepare('SELECT proposed_target, approved_target, renewal_target, reactivation_target FROM monthly_targets WHERE studio_id=? AND year=? AND month=?')
+    .get(studioId, year, month) as any;
+  const total = Number(t?.approved_target ?? t?.proposed_target) || 0;
+  if (!total) return { added: [] as number[], raised: [] as number[], short: 0 };
+  const scale = Number(t.proposed_target) ? total / Number(t.proposed_target) : 1;
+  const renewal = Math.min(total, (Number(t.renewal_target) || 0) * scale);
+  const reactivation = Math.min(total - renewal, (Number(t.reactivation_target) || 0) * scale);
+  const targets = { newClient: total - renewal - reactivation, renewal, reactivation };
+
+  const added: number[] = [], raised: number[] = [];
+  db.transaction(() => {
+    const pool = db
+      .prepare(`SELECT * FROM offers WHERE studio_id=? AND year=? AND month=? AND status NOT IN ('archived','rejected')`)
+      .all(studioId, year, month) as any[];
+    const picked = () => {
+      const { slots, offerIds } = selection(studioId, year, month);
+      const ids = [...Object.values(slots), ...offerIds].filter(Boolean) as number[];
+      return ids.map(id => getOffer(id)).filter(Boolean);
+    };
+    const streamSum = (list: any[], key: string) =>
+      list.filter(o => STREAM_OF[o.objective] === key).reduce((s, o) => s + revenueOf(o), 0);
+
+    for (const key of Object.keys(targets) as (keyof typeof targets)[]) {
+      if (targets[key] <= 0) continue;
+      let left = targets[key] - streamSum(picked(), key);
+      const chosen = new Set(picked().map(o => o.id));
+      for (const o of pool
+        .filter(o => !chosen.has(o.id) && STREAM_OF[o.objective] === key && revenueOf(o) > 0)
+        .sort((a, b) => revenueOf(b) - revenueOf(a))) {
+        if (left <= 0) break;
+        addToPlan(studioId, year, month, o, userId);
+        added.push(o.id);
+        left -= revenueOf(o);
+      }
+      if (left > 0) raise(picked().filter(o => STREAM_OF[o.objective] === key), left);
+    }
+    // Anything still short overall (e.g. a stream with no offers at all) goes on the biggest offer.
+    const gap = total - picked().reduce((s, o) => s + revenueOf(o), 0);
+    if (gap > 0) raise(picked(), gap);
+
+    function raise(list: any[], left: number) {
+      const lead = list
+        .filter(o => o.approval_status !== 'approved' && Number(o.expected_asp) > 0 && revenueOf(o) >= 0)
+        .sort((a, b) => revenueOf(b) - revenueOf(a))[0];
+      if (!lead) return;
+      const units = (Number(lead.target_purchases) || 0) + Math.ceil(left / Number(lead.expected_asp));
+      applyEdit(lead, { target_purchases: units }, true, studioId);
+      raised.push(lead.id);
+    }
+  })();
+  const after = (() => {
+    const { slots, offerIds } = selection(studioId, year, month);
+    return [...Object.values(slots), ...offerIds].filter(Boolean).reduce((s: number, id: any) => s + revenueOf(getOffer(id)), 0);
+  })();
+  return { added, raised: [...new Set(raised)], short: Math.max(0, Math.round(total - after)) };
 }

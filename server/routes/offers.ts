@@ -93,9 +93,31 @@ function validateOfferForSave(body: any, user: any) {
     if (result.errors.length && !['draft', 'rejected'].includes(row.status))
       throw bodyError(`Offer guardrails failed: ${result.errors.join(' ')}`, 422);
   }
+  const financials = typeof row.financials === 'string' ? JSON.parse(row.financials || '{}') : row.financials || {};
+  if (
+    financials.expectedRevenue != null && row.expected_revenue != null &&
+    Math.abs(Number(row.expected_revenue) - Number(financials.expectedRevenue)) >
+      Math.max(2, Math.abs(Number(financials.expectedRevenue)) * 0.0001)
+  )
+    throw bodyError('Expected revenue does not match the saved offer financial model.', 422);
+  if (
+    ['approved', 'active', 'completed'].includes(row.status) ||
+    row.approval_status === 'approved'
+  ) {
+    if (!user.permissions.includes('offer_approve')) throw bodyError('Offer approval permission required.', 403);
+    if (row.expected_asp == null || row.expected_revenue == null)
+      throw bodyError('A price and expected revenue forecast are required before approval.', 422);
+    if (row.margin_impact === null || row.margin_impact === undefined || financials.economicsComplete !== true)
+      throw bodyError('Add product and benefit costs so contribution margin is complete before approval.', 422);
+  }
   return row;
 }
 export function persistOffer(body: any, user: any) {
+  if (
+    ['approved', 'active', 'completed'].includes(body.status) ||
+    body.approvalStatus === 'approved' || body.approval_status === 'approved'
+  )
+    throw bodyError('New offers must be saved as drafts; use the approval action after review.', 422);
   const row = validateOfferForSave(body, user);
   const uid = `P57-${new Date().getFullYear()}-${crypto.randomBytes(5).toString('hex').toUpperCase()}`;
   const columns = Object.keys(row),
@@ -457,6 +479,7 @@ export default function registerOffersRoutes(app: Express) {
   app.get('/api/offers', (req, res) => {
     const clauses = ['1=1'],
       params: any[] = [];
+    if (req.query.includeDemo !== 'true') clauses.push("COALESCE(o.data_mode,'')!='demo' AND COALESCE(o.generation_source,'')!='demo_seed'");
     const studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
     if (studioId) {
       clauses.push('(o.studio_id=? OR o.studio_id IS NULL)');
@@ -589,6 +612,14 @@ export default function registerOffersRoutes(app: Express) {
         .json({
           error: 'Approved offer mechanics are locked for your role. Duplicate the offer to create a variation.',
         });
+    if (
+      ['approved', 'active', 'completed'].includes(req.body.status) &&
+      req.body.status !== before.status
+    )
+      throw bodyError('Use the offer approval action to approve or activate an offer.', 422);
+    const requestedApproval = req.body.approvalStatus ?? req.body.approval_status;
+    if (requestedApproval !== undefined && requestedApproval !== before.approval_status)
+      throw bodyError('Use the offer approval action to change approval status.', 422);
     const merged = {
       ...before,
       ...req.body,
@@ -636,11 +667,25 @@ export default function registerOffersRoutes(app: Express) {
       const financials = JSON.parse(before.financials || '{}');
       if (action === 'approve' && financials.errors?.length)
         return res.status(422).json({ error: 'Resolve financial guardrail errors before approval.' });
+      if (action === 'approve' && (before.margin_impact === null || before.margin_impact === undefined || !Number.isFinite(Number(before.margin_impact)) || financials.economicsComplete !== true))
+        return res.status(422).json({ error: 'Add product and benefit costs so contribution margin is complete before approval.' });
+      if (action === 'approve' && (before.expected_asp == null || before.expected_revenue == null))
+        return res.status(422).json({ error: 'A price and expected revenue forecast are required before approval.' });
+      if (
+        action === 'approve' && financials.expectedRevenue != null &&
+        Math.abs(Number(before.expected_revenue) - Number(financials.expectedRevenue)) >
+          Math.max(2, Math.abs(Number(financials.expectedRevenue)) * 0.0001)
+      )
+        return res.status(422).json({ error: 'Reconcile the stored revenue forecast with its financial model before approval.' });
       db.prepare('UPDATE offers SET status=?,approval_status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(
         action === 'approve' ? 'approved' : 'rejected',
         action === 'approve' ? 'approved' : 'rejected',
         offerId,
       );
+    } else if (action === 'unapprove') {
+      if (!req.user!.permissions.includes('offer_approve'))
+        return res.status(403).json({ error: 'Offer approval permission required.' });
+      db.prepare("UPDATE offers SET status='draft',approval_status='pending',updated_at=CURRENT_TIMESTAMP WHERE id=?").run(offerId);
     } else if (['archive', 'pause', 'activate', 'schedule', 'under_review'].includes(action)) {
       if (['archive', 'pause', 'schedule'].includes(action) && !req.user!.permissions.includes('offer_edit'))
         return res.status(403).json({ error: 'Offer edit permission required.' });
@@ -766,14 +811,20 @@ export default function registerOffersRoutes(app: Express) {
     permission('offer_create'),
     asyncRoute(async (req: any, res: any) => {
       const studioId = studioFilter(req, id(req.body.studioId));
-      const request = { ...req.body, studioId };
+      const benefitPicks = z.array(z.enum([
+        'bonus_class','guest_pass','private_session','freeze_extension','trainer_consult','hosted_class','virtual_private','retail_addon',
+      ])).max(8).parse(req.body.benefitPicks ?? []);
+      const request = { ...req.body, studioId, benefitPicks };
       const result = request.source === 'ai' ? await generateWithAI(request) : generateConcepts(request);
       res.json(result);
     }),
   );
   app.post('/api/offers/random', permission('offer_create'), (req, res) => {
     const studioId = studioFilter(req, id(req.body.studioId));
-    const concept = randomConcept({ ...req.body, studioId });
+    const benefitPicks = z.array(z.enum([
+      'bonus_class','guest_pass','private_session','freeze_extension','trainer_consult','hosted_class','virtual_private','retail_addon',
+    ])).max(8).parse(req.body.benefitPicks ?? []);
+    const concept = randomConcept({ ...req.body, studioId, benefitPicks });
     db.prepare('INSERT INTO generation_history(fingerprint,offer_payload,user_id) VALUES (?,?,?)').run(
       concept.fingerprint,
       JSON.stringify(concept),

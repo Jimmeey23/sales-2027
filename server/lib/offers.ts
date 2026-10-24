@@ -100,7 +100,20 @@ export interface GenerationRequest {
   source?: 'engine' | 'ai';
   refine?: string;
   excludeMechanism?: string;
+  benefitPicks?: string[];
 }
+
+const BENEFIT_PICK_LABELS: Record<string, string> = {
+  bonus_class: 'one bonus class',
+  guest_pass: 'one guest pass',
+  private_session: 'one private session',
+  freeze_extension: 'one additional freeze attempt',
+  trainer_consult: 'a trainer consultation',
+  hosted_class: 'one hosted class',
+  virtual_private: 'one virtual private session',
+  retail_addon: 'a complimentary retail add-on',
+};
+const benefitPickLabel = (key: string) => BENEFIT_PICK_LABELS[key] || key.replaceAll('_', ' ');
 
 function parseInstruction(request: GenerationRequest) {
   const text = request.instructions || '';
@@ -286,13 +299,37 @@ function buildConcept(request: GenerationRequest, index: number, variant?: strin
     fixedDiscount = 0;
   }
   const bonusClassValue = bonusClasses ? product.list_price / Math.max(1, product.sessions_included) : 0;
+  const benefitPicks = [...new Set(request.benefitPicks || [])].filter(key => key in BENEFIT_PICK_LABELS);
+  const hasPick = (key: string) => benefitPicks.includes(key);
   const baseInput = {
     listedPrice: product.list_price,
     mechanism,
     discountPercent: discount,
     fixedDiscount,
-    bonusClasses,
+    bonusClasses: bonusClasses + (hasPick('bonus_class') ? 1 : 0),
     bonusClassValue,
+    bonusClassCost: hasPick('bonus_class') ? null : undefined,
+    guestPasses: hasPick('guest_pass') ? 1 : 0,
+    guestPassValue: 0,
+    guestPassCost: hasPick('guest_pass') ? null : undefined,
+    privateSessions: hasPick('private_session') ? 1 : 0,
+    privateSessionValue: 0,
+    privateSessionCost: hasPick('private_session') ? null : undefined,
+    freezeAttempts: hasPick('freeze_extension') ? 1 : 0,
+    freezeAttemptValue: 0,
+    freezeAttemptCost: hasPick('freeze_extension') ? null : undefined,
+    trainerConsultations: hasPick('trainer_consult') ? 1 : 0,
+    trainerConsultationValue: 0,
+    trainerConsultationCost: hasPick('trainer_consult') ? null : undefined,
+    hostedClasses: hasPick('hosted_class') ? 1 : 0,
+    hostedClassValue: 0,
+    hostedClassCost: hasPick('hosted_class') ? null : undefined,
+    virtualPrivates: hasPick('virtual_private') ? 1 : 0,
+    virtualPrivateValue: 0,
+    virtualPrivateCost: hasPick('virtual_private') ? null : undefined,
+    retailProductValue: hasPick('retail_addon') ? 0 : undefined,
+    retailProductCost: hasPick('retail_addon') ? null : undefined,
+    benefitCostUnconfirmed: (request.benefitPicks || []).length > 0,
     targetRevenue: target,
     eligibleAudience: audience,
     redemptionRate: 0.1,
@@ -307,6 +344,11 @@ function buildConcept(request: GenerationRequest, index: number, variant?: strin
   const desiredBuyers = request.targetPurchases || financials.requiredBuyers || 0;
   const calibratedRate = audience > 0 ? Math.min(0.5, Math.max(0.02, desiredBuyers / audience)) : 0;
   financials = calculateOffer({ ...baseInput, redemptionRate: calibratedRate });
+  if (hasPick('retail_addon')) {
+    financials.economicsComplete = false;
+    financials.contributionMargin = null;
+    financials.warnings.push('Retail add-on cost is unknown; margin remains incomplete until its unit cost is entered.');
+  }
   const start = validDate(request.year, request.month, 1),
     end = validDate(request.year, request.month, duration);
   const themeOffset =
@@ -315,7 +357,7 @@ function buildConcept(request: GenerationRequest, index: number, variant?: strin
       : 0;
   const name = nameFor(request.objective, index + themeOffset, request.refine === 'funnier' ? 'witty' : request.tone);
   const objectiveLabel = OBJECTIVE_LABELS[request.objective] || request.objective.replaceAll('_', ' ');
-  const benefit =
+  const coreBenefit =
     mechanism === 'percentage'
       ? `${discount}% off ${product.name}`
       : mechanism === 'fixed' || mechanism === 'threshold'
@@ -327,6 +369,7 @@ function buildConcept(request: GenerationRequest, index: number, variant?: strin
             : mechanism === 'referral'
               ? `A referral benefit with ${product.name}; exact reward requires approval`
               : `A complimentary studio experience with ${product.name}; no price discount`;
+  const benefit = [coreBenefit, ...benefitPicks.map(benefitPickLabel)].join(' + ');
   const coverage =
     financials.expectedRevenue !== null && target > 0 ? Math.min(1, financials.expectedRevenue / target) : 0;
   const score = Math.round(
@@ -406,6 +449,7 @@ function buildConcept(request: GenerationRequest, index: number, variant?: strin
       targetId: context.target?.id || null,
       audienceSource,
       historicalOffersChecked: context.historicalOffers.length,
+      benefitPicks,
     },
   };
 }
@@ -584,20 +628,25 @@ export async function generateWithAI(raw: GenerationRequest) {
       mechanism: concept.mechanism,
       discountPercent: concept.discountPercent,
       fixedDiscount: concept.fixedDiscount,
-      bonusClasses: concept.bonusClasses,
+      bonusClasses: concept.bonusClasses + ((request.benefitPicks || []).includes('bonus_class') ? 1 : 0),
       maxDiscountPercent: Math.min(
         request.maxDiscountPercent ?? context.studio.max_discount_percent,
         context.studio.max_discount_percent,
       ),
     };
     const financials = calculateOffer(mechanics);
+    if ((request.benefitPicks || []).includes('retail_addon')) {
+      financials.economicsComplete = false;
+      financials.contributionMargin = null;
+      financials.warnings.push('Retail add-on cost is unknown; margin remains incomplete until its unit cost is entered.');
+    }
     return {
       ...base,
       name: concept.name,
       headline: concept.headline,
-      customerCopy: concept.customerCopy,
       rationale: concept.rationale,
-      benefit: concept.benefit,
+      benefit: base.benefit,
+      customerCopy: `${concept.customerCopy} Selected extras: ${(request.benefitPicks || []).map(benefitPickLabel).join(', ') || 'none'}.`,
       cta: concept.cta,
       mechanics,
       financials,

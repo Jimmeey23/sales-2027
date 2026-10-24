@@ -34,6 +34,9 @@ export default function TargetScenarioPanel({
   });
   return (
     <div>
+      <Callout tone="info" title="Recommendation posture">
+        These are read-only target-generation previews. Selecting one prepares a regeneration; it does not change the shared target scaling scenario.
+      </Callout>
       <div className="scenario-card-grid">
         {data.totals.map((total: any) => (
           <Card key={total.scenario} className={`scenario-card ${total.scenario}`}>

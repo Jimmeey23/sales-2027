@@ -4,6 +4,7 @@ import {
   CalendarHeart,
   CheckCircle2,
   ChevronRight,
+  CalendarRange,
   GanttChart,
   Gift,
   LayoutGrid,
@@ -19,6 +20,7 @@ import { Badge, TableScroll } from '../../components/ui';
 import { formatKeyDate, keyDatesFor, type KeyDate } from '../../data/keyDates';
 import { monthActivations } from './CampaignsTab';
 import MonthWorkspace from './MonthWorkspace';
+import YearCalendar from './YearCalendar';
 import { LOCATION_COLORS, accentFor, tint } from '../../data/locations';
 import { lakh, type MonthRow, type PlanData } from './usePlanData';
 import { useApp } from '../../App';
@@ -47,9 +49,9 @@ function ScenarioControl() {
   return (
     <div className="ws-toolbar">
       <div>
-        <h2>Target scenario · {SCENARIO_LABELS[scenario]}</h2>
+        <h2>Shared target scaling · {SCENARIO_LABELS[scenario]}</h2>
         <p>
-          Shared across all studios and reports.{' '}
+          This scales proposed targets across all studios and reports. Regeneration posture is selected separately in the annual target matrix.{' '}
           {can('target_approve')
             ? 'Changing it rescales every proposed monthly target.'
             : 'Only approvers can change it.'}
@@ -84,24 +86,34 @@ export function useSources() {
   return SOURCES.map((s, i) => ({ ...s, color: tint(accent, [0, 0.35, 0.62, 0.84][i]) }));
 }
 const LIVE = (o: any) => !['archived', 'rejected'].includes(o.status);
+const PLANNABLE = (o: any) => LIVE(o) && o.data_mode !== 'demo' && o.generation_source !== 'demo_seed';
 export const offersInMonth = (data: PlanData, month: number) =>
   data.offers
-    .filter(o => o.month === month && LIVE(o))
+    .filter(o => o.month === month && PLANNABLE(o))
     .sort(
       (a, b) => (a.plan_slot ? 0 : 1) - (b.plan_slot ? 0 : 1) || (b.expected_revenue || 0) - (a.expected_revenue || 0),
     );
-// The offers actually picked on each location's month plan (or its first four planned offers if never saved).
+// Match MonthWorkspace's saved selections and curated defaults. Scenario/demo offers are never defaults.
+export const selectedForPlan = (data: PlanData, p: PlanData['plans'][number], month: number) => {
+  const saved = p.detail.plans.find((x: any) => x.month === month);
+  const studioIds = new Set<number>([p.studio.id, ...(p.detail.children || []).map((s: any) => s.id)]);
+  const own = offersInMonth(data, month).filter(o => studioIds.has(Number(o.studio_id)));
+  const hasSavedSelection = Boolean(saved && (saved.slots !== null && saved.slots !== undefined || Array.isArray(saved.offer_ids)));
+  if (hasSavedSelection) {
+    const ids = new Set<number>([...Object.values(saved.slots || {}), ...(saved.offer_ids || [])].map(Number).filter(Boolean));
+    return own.filter(o => ids.has(Number(o.id)));
+  }
+  const slots = ['newcomer', 'lapsed', 'renewal']
+    .map(slot => own.find(o => o.plan_slot === slot && Number(o.plan_rank) === 1))
+    .filter(Boolean) as any[];
+  const extras = own
+    .filter(o => o.generation_source === 'plan_2027' && !o.plan_slot)
+    .sort((a, b) => Number(a.plan_rank || 999) - Number(b.plan_rank || 999) || Number(b.expected_revenue || 0) - Number(a.expected_revenue || 0))
+    .slice(0, Math.max(0, 4 - slots.length));
+  return [...slots, ...extras];
+};
 export const selectedInMonth = (data: PlanData, month: number) =>
-  data.plans.flatMap(p => {
-    const saved = p.detail.plans.find((x: any) => x.month === month);
-    const ids = new Set<number>(
-      saved && (saved.slots || Array.isArray(saved.offer_ids))
-        ? [...Object.values(saved.slots || {}), ...(saved.offer_ids || [])].filter(Boolean)
-        : [],
-    );
-    const own = offersInMonth(data, month).filter(o => o.studio_id === p.studio.id);
-    return ids.size ? data.offers.filter(o => ids.has(o.id)) : own.slice(0, 4);
-  });
+  data.plans.flatMap(p => selectedForPlan(data, p, month));
 const METRIC_LABELS: Record<string, string> = {
   leads: 'Leads needed',
   trials: 'Completed trials',
@@ -197,6 +209,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
     [metric, setMetric] = useState<string | null>(null);
   const layouts = [
     { id: 'timeline', label: 'Timeline', icon: GanttChart },
+    { id: 'calendar', label: 'Year calendar', icon: CalendarRange },
     { id: 'cards', label: 'Month cards', icon: LayoutGrid },
     { id: 'table', label: 'Table', icon: Rows3 },
     { id: 'chart', label: 'Chart', icon: LineChart },
@@ -290,6 +303,8 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
         </div>
       </div>
 
+      {layout === 'calendar' && <YearCalendar data={data} onOpen={setOpen} />}
+
       {layout === 'timeline' && (
         <ol className="ws-year-timeline">
           {data.months.map(m => {
@@ -301,7 +316,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
             return (
               <li
                 key={m.month}
-                className={m.approved ? 'approved' : ''}
+                className={`${m.approved ? 'approved' : ''} ${m.planApproved ? 'plan-approved' : ''}`}
                 style={{ '--i': m.month } as React.CSSProperties}
               >
                 <div className="yt-rail">
@@ -319,7 +334,11 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
                       <small className={m.target >= m.lastYear ? 'pos' : 'neg'}>
                         {pct(m.target, m.lastYear)} vs LY
                       </small>
-                      {m.approved ? (
+                      {m.planApproved ? (
+                        <Badge tone="green">
+                          <CheckCircle2 size={11} /> Month approved
+                        </Badge>
+                      ) : m.approved ? (
                         <Badge tone="green">
                           <CheckCircle2 size={11} /> Approved
                         </Badge>
@@ -391,7 +410,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
             const offers = [...new Map(selectedInMonth(data, m.month).map(o => [o.name, o])).values()],
               dates = keyDatesFor(year, m.month);
             return (
-              <button key={m.month} className="ws-month-card" onClick={() => setOpen(m.month)}>
+              <button key={m.month} className={`ws-month-card ${m.planApproved ? 'plan-approved' : ''}`} onClick={() => setOpen(m.month)}>
                 <header>
                   <span>{MONTHS[m.month - 1]}</span>
                   {m.approved ? (

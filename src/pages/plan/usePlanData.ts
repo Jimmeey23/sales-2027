@@ -9,6 +9,7 @@ export interface MonthRow {
   month: number;
   target: number;
   approved: boolean;
+  planApproved: boolean;
   lastYear: number;
   actual: number;
   newClient: number;
@@ -74,6 +75,7 @@ export interface MonthEconomics {
 export interface Economics {
   window: { from: string; to: string; trialFrom: string; trialTo: string };
   months: MonthEconomics[];
+  assumptions: Record<string, { auto: number | null; override: number | null }>;
 }
 export interface StudioPlan {
   studio: Studio;
@@ -114,6 +116,14 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
     const plan = detail.plans.find((p: any) => p.month === month);
     const target = targetOf(t),
       scale = t && num(t.proposed_target) ? target / num(t.proposed_target) : 1;
+    let renewal = num(t?.renewal_target) * scale,
+      reactivation = num(t?.reactivation_target) * scale;
+    const nonNew = renewal + reactivation;
+    if (nonNew > target && nonNew > 0) {
+      const factor = target / nonNew;
+      renewal *= factor;
+      reactivation *= factor;
+    }
     const leadOffer = pb.leadOffer || src?.offer || plan?.theme || detail.themes?.[month] || MONTH_ACTIVATIONS[i];
     const objective = pb.objective || src?.objective || plan?.objective || MONTH_THEMES[i];
     // Volumes come from the bottom-up economics (history-based spend and conversion), not the imported playbook.
@@ -122,12 +132,13 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
       month,
       target,
       approved: t?.approved_target !== null && t?.approved_target !== undefined,
+      planApproved: plan?.status === 'approved',
       lastYear: num(t?.historical_revenue),
       actual: num(detail.actuals.find((x: any) => x.month === month)?.revenue),
-      newClient: num(t?.new_client_target) * scale,
-      renewal: num(t?.renewal_target) * scale,
-      reactivation: num(t?.reactivation_target) * scale,
-      other: (num(t?.other_target) + num(t?.repeat_target)) * scale,
+      newClient: Math.max(0, target - renewal - reactivation),
+      renewal,
+      reactivation,
+      other: 0,
       leads: e ? e.newClient.leads : num(f.requiredLeads ?? wb.leads),
       trials: e ? e.newClient.trials : num(f.requiredCompletedTrials ?? wb.trials),
       buyers: e ? e.newClient.buyers : num(f.requiredNewBuyers ?? wb.newPaying),
@@ -159,6 +170,7 @@ function combine(rows: MonthRow[][]): MonthRow[] {
         ...sum,
         target: sum.target + r.target,
         approved: sum.approved && r.approved,
+        planApproved: sum.planApproved && r.planApproved,
         lastYear: sum.lastYear + r.lastYear,
         actual: sum.actual + r.actual,
         newClient: sum.newClient + r.newClient,

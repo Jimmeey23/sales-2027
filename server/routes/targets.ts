@@ -107,6 +107,29 @@ export default function registerTargetsRoutes(app: Express) {
       before = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(targetId) as any;
     if (!before) return res.status(404).json({ error: 'Target not found.' });
     if (!canAccessStudio(req.user!, before.studio_id)) return res.status(403).json({ error: 'Studio access denied.' });
+    const monthlyPlan =
+      req.body.monthlyPlan === undefined
+        ? undefined
+        : z
+            .object({
+              theme: z.string().max(200).nullable(),
+              objective: z.string().max(300).nullable(),
+              strategy: z.string().max(5000).nullable(),
+              notes: z.string().max(5000).nullable(),
+              content: z.record(z.string(), z.unknown()).optional(),
+              status: z.enum(['draft', 'final']),
+              actions: z
+                .array(
+                  z.object({
+                    text: z.string().trim().min(1).max(500),
+                    owner: z.string().max(80).default(''),
+                    week: z.number().int().min(1).max(5).default(1),
+                    done: z.boolean().default(false),
+                  }),
+                )
+                .max(60),
+            })
+            .parse(req.body.monthlyPlan);
     if (req.body.approvedTarget !== undefined && !req.user!.permissions.includes('target_approve'))
       return res.status(403).json({ error: 'Target approval permission required.' });
     const proposed = req.body.proposedTarget !== undefined ? Number(req.body.proposedTarget) : before.proposed_target;
@@ -127,12 +150,18 @@ export default function registerTargetsRoutes(app: Express) {
     if (before.approved_target !== approved && !reason)
       throw bodyError('A reason is required when changing an approved target.');
     const selected = approved ?? proposed;
-    const streams = {
-      newClient: Math.max(0, Number(req.body.newClientTarget ?? before.new_client_target)),
-      renewal: Math.max(0, Number(req.body.renewalTarget ?? before.renewal_target)),
-      repeat: Math.max(0, Number(req.body.repeatTarget ?? before.repeat_target)),
-      reactivation: Math.max(0, Number(req.body.reactivationTarget ?? before.reactivation_target)),
+    const rawStreams = {
+      newClient: Number(req.body.newClientTarget ?? before.new_client_target),
+      renewal: Number(req.body.renewalTarget ?? before.renewal_target),
+      repeat: Number(req.body.repeatTarget ?? before.repeat_target),
+      reactivation: Number(req.body.reactivationTarget ?? before.reactivation_target),
     };
+    if (!Object.values(rawStreams).every(value => Number.isFinite(value) && value >= 0))
+      throw bodyError('Revenue stream allocations must be finite, non-negative amounts.');
+    const streams = rawStreams;
+    const rawOther = Number(req.body.otherTarget ?? before.other_target);
+    if (!Number.isFinite(rawOther) || rawOther < 0) throw bodyError('Other revenue must be a finite, non-negative amount.');
+    const other = req.body.requireFullCoverage ? 0 : rawOther;
     const assumptions = JSON.parse(before.assumptions || '{}');
     const observedRates = observedFunnel(before.studio_id);
     const rates = { ...observedRates, ...(assumptions.conversionRates || {}) };
@@ -185,31 +214,59 @@ export default function registerTargetsRoutes(app: Express) {
     }
     if (totalStreams > selected * 1.001)
       throw bodyError('Revenue stream allocations exceed the selected target. Adjust allocations before saving.');
+    if (req.body.requireFullCoverage && Math.abs(streams.newClient + streams.renewal + streams.reactivation - selected) > 1)
+      throw bodyError('New-client, renewal, and comeback revenue must add up to the selected monthly target.');
     const nextVersion = before.version + 1;
-    db.prepare(
-      `UPDATE monthly_targets SET proposed_target=?,approved_target=?,scenario=?,new_client_target=?,renewal_target=?,repeat_target=?,reactivation_target=?,
-    target_growth=?,funnel=?,assumptions=?,source=?,version=?,override_reason=?,updated_by=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`,
-    ).run(
-      proposed,
-      approved,
-      scenario,
-      streams.newClient,
-      streams.renewal,
-      streams.repeat,
-      streams.reactivation,
-      before.historical_revenue > 0 ? (proposed / before.historical_revenue - 1) * 100 : null,
-      JSON.stringify(funnel),
-      JSON.stringify(assumptions),
-      approved !== before.approved_target ? 'approved_decision' : 'user_recommendation',
-      nextVersion,
-      reason || before.override_reason,
-      req.user!.id,
-      targetId,
-    );
-    const after = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(targetId) as any;
-    db.prepare(
-      'INSERT INTO target_versions(target_id,version,snapshot,change_reason,changed_by) VALUES (?,?,?,?,?)',
-    ).run(targetId, nextVersion, JSON.stringify(after), reason || 'Target or scenario updated.', req.user!.id);
+    const saveTogether = db.transaction(() => {
+      db.prepare(
+        `UPDATE monthly_targets SET proposed_target=?,approved_target=?,scenario=?,new_client_target=?,renewal_target=?,repeat_target=?,reactivation_target=?,other_target=?,
+        target_growth=?,funnel=?,assumptions=?,source=?,version=?,override_reason=?,updated_by=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`,
+      ).run(
+        proposed,
+        approved,
+        scenario,
+        streams.newClient,
+        streams.renewal,
+        streams.repeat,
+        streams.reactivation,
+        other,
+        before.historical_revenue > 0 ? (proposed / before.historical_revenue - 1) * 100 : null,
+        JSON.stringify(funnel),
+        JSON.stringify(assumptions),
+        approved !== before.approved_target ? 'approved_decision' : 'user_recommendation',
+        nextVersion,
+        reason || before.override_reason,
+        req.user!.id,
+        targetId,
+      );
+      const after = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(targetId) as any;
+      db.prepare(
+        'INSERT INTO target_versions(target_id,version,snapshot,change_reason,changed_by) VALUES (?,?,?,?,?)',
+      ).run(targetId, nextVersion, JSON.stringify(after), reason || 'Target or scenario updated.', req.user!.id);
+      if (monthlyPlan)
+        db.prepare(
+          `INSERT INTO monthly_plans(studio_id,year,month,theme,objective,strategy,actions,notes,status,content,updated_by)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?)
+           ON CONFLICT(studio_id,year,month) DO UPDATE SET theme=excluded.theme,objective=excluded.objective,
+             strategy=excluded.strategy,actions=excluded.actions,notes=excluded.notes,status=excluded.status,
+             content=COALESCE(excluded.content,monthly_plans.content),
+             updated_by=excluded.updated_by,updated_at=CURRENT_TIMESTAMP`,
+        ).run(
+          before.studio_id,
+          before.year,
+          before.month,
+          monthlyPlan.theme,
+          monthlyPlan.objective,
+          monthlyPlan.strategy,
+          JSON.stringify(monthlyPlan.actions),
+          monthlyPlan.notes,
+          monthlyPlan.status,
+          monthlyPlan.content === undefined ? null : JSON.stringify(monthlyPlan.content),
+          req.user!.id,
+        );
+      return after;
+    });
+    const after = saveTogether();
     audit({
       userId: req.user!.id,
       action: approved !== before.approved_target ? 'approve_target' : 'update_target',

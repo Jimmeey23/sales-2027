@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
   CalendarHeart,
+  Check,
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Flag,
@@ -11,14 +13,18 @@ import {
   HeartHandshake,
   Lightbulb,
   Link2,
+  LockKeyhole,
   ListChecks,
   Minus,
   PartyPopper,
   Pencil,
   Plus,
   RefreshCcw,
+  RotateCcw,
   Save,
   Sigma,
+  SlidersHorizontal,
+  Sparkles,
   Target,
   Trash2,
   Trophy,
@@ -30,6 +36,7 @@ import { useApp } from '../../App';
 import { Badge, Button } from '../../components/ui';
 import { LOCATION_COLORS, accentFor, locationStudioIds } from '../../data/locations';
 import Marquee from '../../components/Marquee';
+import FestivalArt from '../../components/FestivalArt';
 import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor } from '../../data/keyDates';
 import { OFFER_LIBRARY } from '../../data/offerLibrary';
 import { MONTHS, money, number, titleCase } from '../../types';
@@ -52,17 +59,17 @@ const STREAMS = [
     key: 'reactivation',
     field: 'reactivation_target',
     body: 'reactivationTarget',
-    label: 'Reactivation',
+    label: 'Comeback / reactivation',
     color: 'color-mix(in srgb, var(--a1) 36%, #fff)',
   },
-  {
-    key: 'repeat',
-    field: 'repeat_target',
-    body: 'repeatTarget',
-    label: 'Existing / repeat',
-    color: 'color-mix(in srgb, var(--a1) 16%, #fff)',
-  },
 ] as const;
+const fullCoverageStreams = (target: number, renewal: number, reactivation: number) => {
+  const nonNew = Math.max(0, renewal) + Math.max(0, reactivation);
+  const factor = nonNew > target && nonNew > 0 ? Math.max(0, target) / nonNew : 1;
+  const adjustedRenewal = Math.round(Math.max(0, renewal) * factor);
+  const adjustedReactivation = Math.max(0, Math.round(Math.max(0, reactivation) * factor));
+  return { newClient: Math.max(0, Math.round(target) - adjustedRenewal - adjustedReactivation), renewal: adjustedRenewal, reactivation: adjustedReactivation };
+};
 // Which revenue stream an offer mainly serves, for grouping the month's offers.
 const STREAM_OF: Record<string, string> = {
   acquisition: 'New clients',
@@ -73,9 +80,31 @@ const STREAM_OF: Record<string, string> = {
   annual_membership: 'Ticket & renewal',
   additional_purchase: 'Ticket & renewal',
   aov: 'Ticket & renewal',
-  reactivation: 'Reactivation',
+  reactivation: 'Comeback / reactivation',
 };
 const n = (v: any) => (Number.isFinite(Number(v)) ? Number(v) : 0);
+const MASTER_EDIT_CODE = '9818';
+const MASTER_EDIT_SESSION_KEY = 'sales-plan.master-edit-unlocked';
+const hasValidForecast = (o: any) => {
+  if (!o || o.data_mode === 'demo' || o.generation_source === 'demo_seed' || o.expected_revenue == null || !Number.isFinite(Number(o.expected_revenue))) return false;
+  let financials = o.financials || {};
+  if (typeof financials === 'string') {
+    try { financials = JSON.parse(financials); } catch { financials = {}; }
+  }
+  const modeledRevenue = financials.expectedRevenue;
+  return modeledRevenue == null || Math.abs(n(o.expected_revenue) - n(modeledRevenue)) <= Math.max(2, Math.abs(n(modeledRevenue)) * 0.0001);
+};
+const forecastRevenue = (o: any) => hasValidForecast(o) ? n(o.expected_revenue) : 0;
+const monthContentWithCalendar = (content: any, year: number, month: number) => {
+  const curated = keyDatesFor(year, month);
+  const keyDates = Array.isArray(content?.keyDates) ? [...content.keyDates] : [];
+  for (const date of curated) {
+    const match = keyDates.findIndex((saved: any) => saved.name === date.name || (saved.day === date.day && saved.kind === date.kind));
+    if (match < 0) keyDates.push(date);
+    else if (keyDates[match].name === date.name) keyDates[match] = { ...keyDates[match], kind: date.kind };
+  }
+  return { ...(content || {}), keyDates, activations: content?.activations || {} };
+};
 const pct = (v: number | null | undefined, d = 0) => (v === null || v === undefined ? '—' : `${(v * 100).toFixed(d)}%`);
 
 type Prices = { keys: Record<string, string>; prices: Record<string, Record<string, number | null>> };
@@ -98,15 +127,28 @@ export default function MonthWorkspace({
     navigate = useNavigate();
   const [studioIdx, setStudioIdx] = useState(0),
     [solo, setSolo] = useState(false),
-    [prices, setPrices] = useState<Prices | null>(null);
+    [mathsOpen, setMathsOpen] = useState(false),
+    [prices, setPrices] = useState<Prices | null>(null),
+    [masterUnlocked, setMasterUnlocked] = useState(() => {
+      try { return typeof window !== 'undefined' && window.sessionStorage.getItem(MASTER_EDIT_SESSION_KEY) === 'yes'; }
+      catch { return false; }
+    }),
+    [masterCode, setMasterCode] = useState(''),
+    [masterCodeError, setMasterCodeError] = useState('');
   const plan = data.plans[studioIdx],
     studio = plan.studio,
     row = plan.months[month - 1],
     econ = plan.economics.months[month - 1],
     combinedRow = data.months[month - 1];
-  const editable = can('target_edit');
+  const canEditPlan = can('target_edit');
+  const canApprovePlan = can('target_approve');
+  const canApproveOffers = can('offer_approve');
   const targetRow = plan.detail.targets.find((t: any) => t.month === month);
   const saved = plan.detail.plans.find((p: any) => p.month === month);
+  const locked = saved?.status === 'approved';
+  const editable = canEditPlan && masterUnlocked && !locked;
+  // Adding, removing and swapping offers needs no passcode.
+  const offersEditable = (canEditPlan || can('offer_edit')) && !locked;
   const others = 3;
 
   useEffect(() => {
@@ -118,7 +160,7 @@ export default function MonthWorkspace({
   // Offers this studio can pick from (Pop-up includes its venues).
   const ownIds = useMemo(() => locationStudioIds(studio, boot.studios), [studio, boot.studios]);
   const ownOffers = useMemo(
-    () => data.offers.filter(o => LIVE(o) && ownIds.includes(o.studio_id)),
+    () => data.offers.filter(o => LIVE(o) && o.data_mode !== 'demo' && o.generation_source !== 'demo_seed' && ownIds.includes(o.studio_id)),
     [data.offers, ownIds],
   );
   const exists = (id: any) => id && ownOffers.some(o => o.id === id);
@@ -129,7 +171,7 @@ export default function MonthWorkspace({
         ? exists(saved.slots[slot])
           ? saved.slots[slot]
           : null
-        : (ownOffers.find(o => o.month === month && o.plan_slot === slot && o.plan_rank === 1)?.id ?? null),
+        : (ownOffers.find(o => o.month === month && o.generation_source === 'plan_2027' && o.plan_slot === slot && o.plan_rank === 1)?.id ?? null),
     ]),
   );
   const extras: number[] = Array.isArray(saved?.offer_ids)
@@ -183,12 +225,19 @@ export default function MonthWorkspace({
     });
   }, [alternates, prices]);
   const ideas = OFFER_LIBRARY.filter(t => t.months.includes(month));
-  const offerRevenue = selected.reduce((s, o) => s + n(o.expected_revenue), 0);
-  const groups = ['New clients', 'Ticket & renewal', 'Reactivation', 'Other'].map(g => ({
+  const offerRevenue = selected.reduce((s, o) => s + forecastRevenue(o), 0);
+  const groups = ['New clients', 'Ticket & renewal', 'Comeback / reactivation', 'Other'].map(g => ({
     label: g,
     offers: selected.filter(o => (STREAM_OF[o.objective] || 'Other') === g),
   }));
 
+  const initialEffectiveTarget = targetRow?.approved_target ?? targetRow?.proposed_target;
+  const initialScale = targetRow && n(targetRow.proposed_target) ? n(initialEffectiveTarget) / n(targetRow.proposed_target) : 1;
+  const initialStreams = fullCoverageStreams(
+    n(initialEffectiveTarget),
+    n(targetRow?.renewal_target) * initialScale,
+    n(targetRow?.reactivation_target) * initialScale,
+  );
   const initialForm = () => ({
     theme: saved?.theme ?? row.theme ?? '',
     objective: saved?.objective ?? row.objective ?? '',
@@ -196,11 +245,9 @@ export default function MonthWorkspace({
     notes: saved?.notes ?? '',
     status: saved?.status ?? 'draft',
     actions: (saved?.actions as ActionItem[]) || [],
-    target: n(targetRow?.proposed_target),
-    streams: Object.fromEntries(STREAMS.map(s => [s.key, Math.round(n(targetRow?.[s.field]))])) as Record<
-      string,
-      number
-    >,
+    content: monthContentWithCalendar(saved?.content, year, month),
+    target: Math.round(n(targetRow?.proposed_target)),
+    streams: initialStreams,
   });
   const [form, setForm] = useState(initialForm),
     [busy, setBusy] = useState(false),
@@ -208,16 +255,63 @@ export default function MonthWorkspace({
   // Reset whenever the month or studio changes, or fresh data arrives after a save.
   useEffect(() => setForm(initialForm()), [month, studioIdx, data]);
   useEffect(() => setEditing(null), [month, studioIdx]);
+  useEffect(() => setMathsOpen(false), [month, studioIdx]);
   const set = (patch: Partial<ReturnType<typeof initialForm>>) => setForm(f => ({ ...f, ...patch }));
+  const updateContent = (patch: Record<string, unknown>) => setForm(f => ({ ...f, content: { ...(f.content || {}), ...patch } }));
+  const changeTarget = (target: number) => {
+    const amount = approved ? n(targetRow?.approved_target) : target;
+    setForm(f => ({
+      ...f,
+      target,
+      streams: { ...f.streams, newClient: Math.max(0, amount - n(f.streams.renewal) - n(f.streams.reactivation)) },
+    }));
+  };
+  const changeStream = (key: string, value: number) => {
+    setForm(f => {
+      const streams = { ...f.streams, [key]: value };
+      if (key !== 'newClient') {
+        const amount = approved ? n(targetRow?.approved_target) : f.target;
+        streams.newClient = Math.max(0, amount - n(streams.renewal) - n(streams.reactivation));
+      }
+      return { ...f, streams };
+    });
+  };
 
   const approved = targetRow?.approved_target !== null && targetRow?.approved_target !== undefined;
   const effective = approved ? n(targetRow.approved_target) : form.target;
   const streamTotal = STREAMS.reduce((s, x) => s + n(form.streams[x.key]), 0);
-  const streamsOver = streamTotal > effective * 1.001;
+  const streamsMismatch = Math.abs(streamTotal - effective) > 1;
+  const gapRows = (
+    [
+      ['New clients', 'newClient'],
+      ['Ticket & renewal', 'renewal'],
+      ['Comeback / reactivation', 'reactivation'],
+    ] as const
+  )
+    .map(([label, key]) => {
+      const target = n(form.streams[key]);
+      const mine = selected.filter(o => (STREAM_OF[o.objective] || 'Other') === label);
+      const offer = mine.reduce((sum, o) => sum + forecastRevenue(o), 0);
+      const gap = Math.max(0, target - offer);
+      let left = gap;
+      const picks: any[] = [];
+      for (const o of alternates
+        .filter(a => (STREAM_OF[a.objective] || 'Other') === label)
+        .filter(a => forecastRevenue(a) > 0)
+        .sort((a, b) => forecastRevenue(b) - forecastRevenue(a))) {
+        if (left <= 0) break;
+        picks.push(o);
+        left -= forecastRevenue(o);
+      }
+      const lead = [...mine].filter(o => forecastRevenue(o) > 0).sort((a, b) => forecastRevenue(b) - forecastRevenue(a))[0];
+      const asp = n(lead?.expected_asp);
+      return { label, target, offer, gap, picks, left: Math.max(0, left), lead, extra: asp && left > 0 ? Math.ceil(left / asp) : 0 };
+    })
+    .filter(r => r.target > 0);
   const targetDirty =
     !!targetRow &&
-    (form.target !== n(targetRow.proposed_target) ||
-      STREAMS.some(s => form.streams[s.key] !== Math.round(n(targetRow[s.field]))));
+    (form.target !== Math.round(n(targetRow.proposed_target)) ||
+      STREAMS.some(s => form.streams[s.key] !== Math.round(n(approved ? initialStreams[s.key] : targetRow[s.field]))));
 
   // Offer changes save immediately and, unless solo mode is on, mirror to every other location.
   const offerChange = async (body: any, done: string) => {
@@ -238,29 +332,253 @@ export default function MonthWorkspace({
     }
   };
 
-  const save = async () => {
-    if (streamsOver) return toast('Revenue split is larger than the target — trim a stream first.', 'error');
+  const coverTarget = async () => {
+    setBusy(true);
+    try {
+      const r = await api<{ added: number[]; raised: number[]; short: number }>(`/studio-plans/${studio.id}/${year}/${month}/cover`, { method: 'POST' });
+      await onSaved();
+      toast(
+        r.short > 0
+          ? `Added ${r.added.length}, raised ${r.raised.length} — still ${lakh(r.short)} short. Build a new offer for the rest.`
+          : `Target covered: ${r.added.length} offer${r.added.length === 1 ? '' : 's'} added, ${r.raised.length} raised.`,
+        r.short > 0 ? 'error' : undefined,
+      );
+    } catch (e: any) {
+      toast(e.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  };
+  const replaceOffer = async (outId: number, incoming: any) => {
+    const out = selected.find(x => x.id === outId);
+    if (!out) return;
+    if (await offerChange({ op: 'add', offerId: incoming.id }, `“${incoming.name}” added`))
+      await offerChange({ op: 'remove', offerId: outId }, `“${incoming.name}” replaced “${out.name}”`);
+  };
+
+  const planBody = (over: Record<string, unknown> = {}) => ({
+    theme: form.theme || null,
+    objective: form.objective || null,
+    strategy: form.strategy || null,
+    notes: form.notes || null,
+    status: form.status,
+    actions: form.actions.filter(a => a.text.trim()),
+    content: form.content || {},
+    ...over,
+  });
+  const [generating, setGenerating] = useState(false);
+  const generateFocus = async () => {
+    setGenerating(true);
+    try {
+      const ideas = await api<{ theme: string; objective: string; strategy: string }>(
+        `/studio-plans/${studio.id}/${year}/${month}/focus/generate`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            studioName: studio.name,
+            monthName: MONTHS[month - 1],
+            year,
+            currentTheme: form.theme,
+            target: effective,
+            lastYear: row.lastYear,
+            offerGap: Math.max(0, effective - offerRevenue),
+            keyDates: dates.map(d => `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)} · ${d.name}`),
+            offers: selected.map(o => o.name),
+          }),
+        },
+      );
+      setForm(f => ({ ...f, ...ideas }));
+      await api(`/studio-plans/${studio.id}/${year}/${month}`, {
+        method: 'PUT',
+        body: JSON.stringify(planBody(ideas)),
+      });
+      await onSaved();
+      toast(`${MONTHS[month - 1]} focus written and saved.`);
+    } catch (e: any) {
+      toast(e.message || 'Could not generate the focus.', 'error');
+    } finally {
+      setGenerating(false);
+    }
+  };
+  const setApproval = async (approve: boolean) => {
+    if (approve) {
+      const missing = [
+        !form.theme.trim() && 'monthly theme',
+        !form.objective.trim() && 'commercial objective',
+        !form.strategy.trim() && 'execution strategy',
+        !form.actions.some(action => action.text.trim() && String(action.owner || '').trim()) && 'an action with a named owner',
+      ].filter(Boolean);
+      if (missing.length) return toast(`Complete the ${missing.join(', ')} before approving this month.`, 'error');
+      const uncovered = gapRows.filter(g => g.gap > 1);
+      if (uncovered.length)
+        return toast(`Selected offers leave revenue gaps: ${uncovered.map(g => `${g.label} ${lakh(g.gap)} short`).join('; ')}.`, 'error');
+    }
     setBusy(true);
     try {
       await api(`/studio-plans/${studio.id}/${year}/${month}`, {
         method: 'PUT',
-        body: JSON.stringify({
-          theme: form.theme || null,
-          objective: form.objective || null,
-          strategy: form.strategy || null,
-          notes: form.notes || null,
-          status: form.status,
-          actions: form.actions.filter(a => a.text.trim()),
-        }),
+        body: JSON.stringify(planBody({ status: approve ? 'approved' : 'draft' })),
       });
-      if (targetDirty)
+      await onSaved();
+      toast(approve ? `${MONTHS[month - 1]} approved for ${studio.name}.` : `${MONTHS[month - 1]} reopened.`);
+    } catch (e: any) {
+      toast(e.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  };
+  const offerApproval = async (offer: any, approve: boolean) => {
+    setBusy(true);
+    try {
+      await api(`/offers/${offer.id}/action`, { method: 'POST', body: JSON.stringify({ action: approve ? 'approve' : 'unapprove' }) });
+      await onSaved();
+      toast(approve ? `“${offer.name}” approved.` : `“${offer.name}” reopened.`);
+    } catch (e: any) {
+      toast(e.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  };
+  const addOffers = async (ids: number[]) => {
+    setBusy(true);
+    try {
+      for (const offerId of ids)
+        await api(`/studio-plans/${studio.id}/${year}/${month}/offers`, {
+          method: 'POST',
+          body: JSON.stringify({ op: 'add', offerId, solo }),
+        });
+      await onSaved();
+      toast(`${ids.length} offer${ids.length > 1 ? 's' : ''} added to ${MONTHS[month - 1]}.`);
+    } catch (e: any) {
+      toast(e.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  type Proposal = {
+    action: 'add' | 'replace' | 'optimise';
+    targetOfferId: number | null;
+    replaces: string | null;
+    name: string;
+    headline: string;
+    benefit: string;
+    audience: string;
+    objective: string;
+    offerType: string;
+    productKey: string;
+    discountPct: number;
+    targetPurchases: number;
+    rationale: string;
+    price: number;
+    listPrice: number | null;
+    revenue: number;
+  };
+  const [copilot, setCopilot] = useState<{
+    mode: 'suggest' | 'replace' | 'optimise';
+    replaceOfferId?: number;
+    loading: boolean;
+    summary?: string;
+    proposals: Proposal[];
+    created?: Array<{ proposal: Proposal; offerId: number; offer: any }>;
+    creating?: boolean;
+  } | null>(null);
+  const [steer, setSteer] = useState('');
+  const askCopilot = async (mode: 'suggest' | 'replace' | 'optimise', replaceOfferId?: number) => {
+    setCopilot({ mode, replaceOfferId, loading: true, proposals: [] });
+    try {
+      const r = await api<{ summary: string; proposals: Proposal[] }>(
+        `/studio-plans/${studio.id}/${year}/${month}/offers/ai`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            mode,
+            replaceOfferId,
+            studioName: studio.name,
+            monthName: MONTHS[month - 1],
+            theme: form.theme,
+            target: effective,
+            steer,
+            streams: gapRows.map(g => ({ label: g.label, target: Math.round(g.target), offerLed: Math.round(g.offer) })),
+            keyDates: dates.map(d => `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)} · ${d.name}`),
+            offers: selected.map(o => ({
+              id: o.id,
+              name: o.name,
+              stream: STREAM_OF[o.objective] || 'Other',
+              product: prices?.keys[o.provenance?.pricing?.product] || '',
+              price: Math.round(n(o.expected_asp)),
+              units: Math.round(n(o.target_purchases)),
+              revenue: Math.round(n(o.expected_revenue)),
+              approved: o.approval_status === 'approved',
+            })),
+          }),
+        },
+      );
+      setCopilot({ mode, replaceOfferId, loading: false, ...r, created: [] });
+      if (mode === 'suggest' && r.proposals.length) {
+        setCopilot({ mode, replaceOfferId, loading: false, creating: true, summary: r.summary, proposals: r.proposals, created: [] });
+        await applyProposals(r.proposals);
+      }
+      if (!r.proposals.length) toast('The copilot found nothing worth changing.', 'success');
+    } catch (e: any) {
+      setCopilot(null);
+      toast(e.message || 'Could not reach the copilot.', 'error');
+    }
+  };
+  const applyProposals = async (list: Proposal[]) => {
+    setBusy(true);
+    let done = 0;
+    const created: Array<{ proposal: Proposal; offerId: number; offer: any }> = [];
+    try {
+      for (const proposal of list) {
+        const result = await api<{ offerId: number; offer: any }>(`/studio-plans/${studio.id}/${year}/${month}/offers/ai/apply`, {
+          method: 'POST',
+          body: JSON.stringify({ proposal, solo }),
+        });
+        done++;
+        created.push({ proposal, offerId: result.offerId, offer: result.offer });
+        setCopilot(c => c && { ...c, proposals: c.proposals.filter(p => p !== proposal) });
+      }
+      await onSaved();
+      setCopilot(c => c && ({
+        ...c,
+        creating: false,
+        proposals: c.proposals.filter(p => !list.includes(p)),
+        created: [...(c.created || []), ...created],
+        summary: `${created.length} complete draft offer${created.length === 1 ? '' : 's'} created and added to ${MONTHS[month - 1]} for ${studio.name}.`,
+      }));
+      toast(`${done} offer change${done > 1 ? 's' : ''} applied to ${MONTHS[month - 1]}.`);
+    } catch (e: any) {
+      if (done) await onSaved();
+      if (done) setCopilot(c => c && ({ ...c, creating: false, created: [...(c.created || []), ...created] }));
+      toast(e.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const save = async () => {
+    if (streamsMismatch) return toast('New-client, renewal, and comeback revenue must add up to the monthly target.', 'error');
+    setBusy(true);
+    try {
+      if (targetDirty) {
         await api(`/targets/${targetRow.id}`, {
           method: 'PATCH',
           body: JSON.stringify({
             proposedTarget: form.target,
             ...Object.fromEntries(STREAMS.map(s => [s.body, n(form.streams[s.key])])),
+            repeatTarget: 0,
+            otherTarget: 0,
+            requireFullCoverage: true,
+            monthlyPlan: planBody(),
           }),
         });
+      } else {
+        await api(`/studio-plans/${studio.id}/${year}/${month}`, {
+          method: 'PUT',
+          body: JSON.stringify(planBody()),
+        });
+      }
       await onSaved();
       toast(`${MONTHS[month - 1]} plan saved for ${studio.name}.`);
     } catch (e: any) {
@@ -277,21 +595,43 @@ export default function MonthWorkspace({
   }, [onClose]);
 
   const { base, local } = monthActivations(data, month);
-  const dates = keyDatesFor(year, month);
+  const dates = (form.content?.keyDates || keyDatesFor(year, month)) as ReturnType<typeof keyDatesFor>;
+  const activationEdits = form.content?.activations || {};
+  const activation = (key: string, title: string, text: string) => activationEdits[key] || { title, text };
   const challenge = local.find(a => a.Format?.toLowerCase().includes('challenge'));
   const event = local.find(a => !a.Format?.toLowerCase().includes('challenge'));
   const fieldProps = { disabled: !editable };
   const coverage = econ?.renewal.coverage ?? null;
+  const unlockEditing = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (masterCode !== MASTER_EDIT_CODE) {
+      setMasterCodeError('That passcode is incorrect.');
+      setMasterCode('');
+      return;
+    }
+    try { window.sessionStorage.setItem(MASTER_EDIT_SESSION_KEY, 'yes'); } catch { /* Keep the unlock active for this modal session. */ }
+    setMasterUnlocked(true);
+    setMasterCode('');
+    setMasterCodeError('');
+  };
+  const lockEditing = () => {
+    try { window.sessionStorage.removeItem(MASTER_EDIT_SESSION_KEY); } catch { /* State still locks the current modal. */ }
+    setMasterUnlocked(false);
+  };
 
   return (
     <div className="mw-backdrop" onMouseDown={e => e.target === e.currentTarget && onClose()}>
       <section
-        className="mw accented"
+        className={`mw accented ${editable ? 'is-editable' : 'is-readonly'}`}
         role="dialog"
         aria-label={`${MONTHS[month - 1]} plan`}
         style={{ '--a1': accentFor(studio.name) } as React.CSSProperties}
       >
         <header className="mw-hero">
+          <div className="mw-hero-fx" aria-hidden="true">
+            <i className="o1" /><i className="o2" /><i className="o3" />
+            <i className="beam" />
+          </div>
           <div className="mw-hero-top">
             <div className="mw-nav">
               <button aria-label="Previous month" disabled={month === 1} onClick={() => setMonth(month - 1)}>
@@ -308,6 +648,41 @@ export default function MonthWorkspace({
               </button>
             </div>
             <div className="mw-head-actions">
+              {econ && (
+                <button
+                  type="button"
+                  className={`mw-maths-launch ${mathsOpen ? 'active' : ''}`}
+                  aria-expanded={mathsOpen}
+                  aria-controls="mw-maths-panel"
+                  aria-label={mathsOpen ? 'Hide monthly maths' : 'Show monthly maths'}
+                  title={mathsOpen ? 'Hide monthly maths' : 'Show monthly maths and assumptions'}
+                  onClick={() => setMathsOpen(open => !open)}
+                >
+                  <Sigma size={17} />
+                  <span>Maths</span>
+                </button>
+              )}
+              {canEditPlan && (
+                masterUnlocked ? (
+                  <div className="mw-edit-status"><span><Pencil size={12} /> Edit mode</span><Button variant="secondary" icon={<LockKeyhole size={14} />} onClick={lockEditing}>Lock</Button></div>
+                ) : (
+                  <form className="mw-hero-gate" onSubmit={unlockEditing}>
+                    <LockKeyhole size={14} />
+                    <input
+                      aria-label="Master passcode"
+                      type="password"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      maxLength={4}
+                      value={masterCode}
+                      onChange={e => { setMasterCode(e.target.value.replace(/\D/g, '').slice(0, 4)); setMasterCodeError(''); }}
+                      placeholder="Passcode"
+                    />
+                    <button type="submit" disabled={masterCode.length !== 4}>Unlock</button>
+                    {masterCodeError && <span className="mw-hero-gate-error" role="alert">{masterCodeError}</span>}
+                  </form>
+                )
+              )}
               {editable && (
                 <label className={`mw-solo ${solo ? 'on' : ''}`} title="When off, offer changes copy to every location">
                   <input type="checkbox" checked={solo} onChange={e => setSolo(e.target.checked)} />
@@ -315,6 +690,16 @@ export default function MonthWorkspace({
                   {solo ? <Unlink size={14} /> : <Link2 size={14} />}
                   {solo ? `Solo: ${studio.name} only` : 'Synced to all locations'}
                 </label>
+              )}
+              {canApprovePlan && masterUnlocked && (
+                <Button
+                  variant={locked ? 'secondary' : 'dark'}
+                  icon={locked ? <RotateCcw size={15} /> : <CheckCircle2 size={15} />}
+                  disabled={busy}
+                  onClick={() => setApproval(!locked)}
+                >
+                  {locked ? 'Reopen month' : 'Approve month'}
+                </Button>
               )}
               {editable && (
                 <Button icon={<Save size={15} />} disabled={busy} onClick={save}>
@@ -326,34 +711,40 @@ export default function MonthWorkspace({
               </button>
             </div>
           </div>
-          <div className="mw-stats">
-            <div>
-              <span>Target</span>
+          <div className="mw-kpis">
+            <div className="mw-kpi">
+              <span className="mw-kpi-label"><Target size={13} /> Target</span>
               <strong>{lakh(effective)}</strong>
+              <i className="mw-kpi-bar" style={{ '--p': row.lastYear ? Math.min(effective / row.lastYear / 2, 1) : 0 } as React.CSSProperties} />
               <small>
                 {approved ? 'approved' : 'proposed'} · LY {lakh(row.lastYear)}
               </small>
             </div>
-            <div>
-              <span>Offers carry</span>
+            <div className="mw-kpi">
+              <span className="mw-kpi-label"><Trophy size={13} /> Offers carry</span>
               <strong>{lakh(offerRevenue)}</strong>
+              <i className="mw-kpi-bar" style={{ '--p': effective ? Math.min(offerRevenue / effective, 1) : 0 } as React.CSSProperties} />
               <small>
                 {selected.length} offers · {effective ? pct(offerRevenue / effective) : '—'} of target
               </small>
             </div>
-            <div>
-              <span>Renewals covered</span>
-              <strong className={coverage !== null && coverage < 1 ? 'warn' : ''}>{pct(coverage)}</strong>
+            <div className={`mw-kpi ${coverage !== null && coverage < 1 ? 'warn' : ''}`}>
+              <span className="mw-kpi-label"><RefreshCcw size={13} /> Renewals covered</span>
+              <strong>{pct(coverage)}</strong>
+              <i className="mw-kpi-bar" style={{ '--p': Math.min(coverage ?? 0, 1) } as React.CSSProperties} />
               <small>
                 {lakh(econ?.renewal.expected)} expected of {lakh(econ?.renewal.target)}
               </small>
             </div>
-            <div>
-              <span>Funnel</span>
-              <strong>{number(row.leads)} leads</strong>
-              <small>
-                → {number(row.trials)} trials → {number(row.buyers)} members
-              </small>
+            <div className="mw-kpi">
+              <span className="mw-kpi-label"><SlidersHorizontal size={13} /> Funnel</span>
+              <div className="mw-kpi-funnel">
+                <b>{number(row.leads)}<em>leads</em></b>
+                <ChevronRight size={12} />
+                <b>{number(row.trials)}<em>trials</em></b>
+                <ChevronRight size={12} />
+                <b>{number(row.buyers)}<em>members</em></b>
+              </div>
             </div>
           </div>
           {data.plans.length > 1 && (
@@ -400,78 +791,137 @@ export default function MonthWorkspace({
         </header>
 
         <div className="mw-body pane-offers">
-          <main className="mw-main">
+          <main className={`mw-main ${locked ? 'is-locked' : ''}`}>
+            {locked && (
+              <div className="mw-approved-banner">
+                <CheckCircle2 size={16} />
+                <span>
+                  <b>{MONTHS[month - 1]} is approved for {studio.name}.</b> Fields are locked — reopen the month to make changes.
+                </span>
+              </div>
+            )}
             {(
               <>
-                <div className="mw-dates">
+                <div className="mw-section mw-days">
                   <SectionHead
                     icon={CalendarHeart}
                     title="Important days"
                     hint="Festivals, holidays and moments that shape demand."
                   />
-                  <div className="mw-date-list">
+                  <div className="mw-days-grid">
                     {dates.map(d => (
-                      <div key={d.name} className={`mw-date kd-${d.kind}`}>
-                        <b>
-                          {formatKeyDate(d)}
-                          <small>{MONTHS[month - 1].slice(0, 3)}</small>
-                        </b>
-                        <span>
-                          {d.name}
-                          <small>
-                            {KEY_DATE_LABELS[d.kind]}
-                            {d.approx ? ' · date to confirm' : ''}
-                          </small>
-                        </span>
-                      </div>
+                      <article key={`${d.name}${d.day}`} className={`mw-day kd-${d.kind}`}>
+                        <div className="mw-day-art">
+                          <FestivalArt name={d.name} kind={d.kind} />
+                          <span className="mw-day-date">
+                            <b>{formatKeyDate(d)}</b>
+                            <small>{MONTHS[month - 1].slice(0, 3)}</small>
+                          </span>
+                        </div>
+                        <div className="mw-day-body">
+                          {editable ? (
+                            <div className="mw-inline-edit">
+                              <input aria-label="Important day name" value={d.name} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === dates.indexOf(d) ? { ...x, name: e.target.value } : x) })} />
+                              <div>
+                                <select aria-label="Important day type" value={d.kind} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === dates.indexOf(d) ? { ...x, kind: e.target.value } : x) })}>
+                                  {Object.entries(KEY_DATE_LABELS).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
+                                </select>
+                                <input aria-label="Day of month" type="number" min={1} max={31} value={d.day} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === dates.indexOf(d) ? { ...x, day: Math.min(31, Math.max(1, Number(e.target.value) || 1)) } : x) })} />
+                                <label><input type="checkbox" checked={!!d.approx} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === dates.indexOf(d) ? { ...x, approx: e.target.checked } : x) })} /> Approx.</label>
+                                <button type="button" aria-label={`Remove ${d.name}`} onClick={() => updateContent({ keyDates: dates.filter((_, i) => i !== dates.indexOf(d)) })}><Trash2 size={13} /></button>
+                              </div>
+                            </div>
+                          ) : <><strong>{d.name}</strong><span>{KEY_DATE_LABELS[d.kind]}{d.approx ? ' · date to confirm' : ''}</span></>}
+                        </div>
+                      </article>
                     ))}
                   </div>
+                  {editable && <Button size="sm" variant="ghost" icon={<Plus size={14} />} onClick={() => updateContent({ keyDates: [...dates, { day: 1, name: '', kind: 'awareness', approx: false }] })}>Add important day</Button>}
                 </div>
 
-                <div className="mw-section">
-                  <SectionHead icon={Flag} title="Focus" hint="The story the team sells all month." />
-                  <div className="mw-fields">
-                    <label>
-                      <span>Theme</span>
-                      <input value={form.theme} onChange={e => set({ theme: e.target.value })} {...fieldProps} />
-                    </label>
-                    <label>
-                      <span>Objective</span>
+                <div className="mw-section mw-planning-section">
+                  <SectionHead icon={Flag} title="Monthly focus & target" hint="Set the month’s commercial story, then map the revenue needed to deliver it." />
+                  <div className="mw-focus-target-grid">
+                    <section className="mw-focus-pane" aria-labelledby="mw-focus-title">
+                      <div className="mw-subsection-head">
+                        <div><span>01</span><h3 id="mw-focus-title">Focus</h3></div>
+                        <p>Give the team a clear story to sell all month.</p>
+                      </div>
+                      <div className="mw-focus-card">
+                    <div className="mw-focus-top">
+                      <label className="mw-focus-theme">
+                        <span>Theme</span>
+                        <input
+                          value={form.theme}
+                          placeholder="Name the month"
+                          onChange={e => set({ theme: e.target.value })}
+                          {...fieldProps}
+                        />
+                      </label>
+                      {editable && (
+                        <button
+                          type="button"
+                          className="mw-ai"
+                          disabled={generating || busy}
+                          onClick={generateFocus}
+                          title="Draft the theme, objective and strategy from this month's dates, offers and target, then save"
+                        >
+                          <Sparkles size={15} />
+                          {generating ? 'Writing…' : form.strategy ? 'Regenerate with AI' : 'Generate with AI'}
+                        </button>
+                      )}
+                    </div>
+                    <label className="mw-focus-field">
+                      <span>
+                        <Target size={13} /> Objective
+                      </span>
                       <input
                         value={form.objective}
+                        placeholder="The commercial job this month does"
                         onChange={e => set({ objective: e.target.value })}
                         {...fieldProps}
                       />
                     </label>
-                    <label className="wide">
-                      <span>Strategy — how we hit the number</span>
+                    <label className="mw-focus-field">
+                      <span>
+                        <ListChecks size={13} /> Strategy — how we hit the number
+                      </span>
                       <textarea
-                        rows={3}
+                        rows={5}
                         value={form.strategy}
                         placeholder="e.g. Lead with the festive gifting pack, push renewals in week 2…"
                         onChange={e => set({ strategy: e.target.value })}
                         {...fieldProps}
                       />
                     </label>
+                    {editable && (
+                      <small className="mw-focus-note">
+                        <Sparkles size={12} /> AI writes from the month’s key dates, offers and target, then saves automatically. Edit anything,
+                        then press Save month.
+                      </small>
+                    )}
                   </div>
-                </div>
+                    </section>
 
-                <div className="mw-section">
-                  <SectionHead
-                    icon={Target}
-                    title="Target & split"
-                    hint="What we need, and which stream brings it in."
-                  />
+                    <section className="mw-target-pane" aria-labelledby="mw-target-title">
+                      <div className="mw-subsection-head">
+                        <div><span>02</span><h3 id="mw-target-title">Target &amp; split</h3></div>
+                        <p>Balance the goal across the three revenue streams.</p>
+                      </div>
                   <div className="mw-target">
                     <label>
-                      <span>Proposed target (₹)</span>
-                      <input
-                        type="number"
-                        min={0}
-                        value={form.target}
-                        onChange={e => set({ target: n(e.target.value) })}
-                        disabled={!editable || !targetRow}
-                      />
+                      <span>Proposed target</span>
+                      <div className="mw-money big">
+                        <em className="cur">₹</em>
+                        <input
+                          type="number"
+                          min={0}
+                          step={1000}
+                          value={form.target}
+                          onChange={e => changeTarget(Math.round(n(e.target.value)))}
+                          disabled={!editable || !targetRow}
+                        />
+                      </div>
                       <small>
                         {approved
                           ? `Approved at ${lakh(n(targetRow.approved_target))} — approval governs the plan.`
@@ -496,13 +946,17 @@ export default function MonthWorkspace({
                         <span>
                           <i /> {s.label}
                         </span>
-                        <input
-                          type="number"
-                          min={0}
-                          value={form.streams[s.key]}
-                          onChange={e => set({ streams: { ...form.streams, [s.key]: n(e.target.value) } })}
-                          disabled={!editable || !targetRow}
-                        />
+                        <div className="mw-money">
+                          <em className="cur">₹</em>
+                          <input
+                            type="number"
+                            min={0}
+                            step={1000}
+                            value={form.streams[s.key]}
+                            onChange={e => changeStream(s.key, Math.round(n(e.target.value)))}
+                            disabled={!editable || !targetRow}
+                          />
+                        </div>
                         <small>
                           {lakh(n(form.streams[s.key]))} ·{' '}
                           {effective ? ((n(form.streams[s.key]) / effective) * 100).toFixed(0) : 0}%
@@ -510,18 +964,31 @@ export default function MonthWorkspace({
                       </label>
                     ))}
                   </div>
-                  <p className={`mw-split-note ${streamsOver ? 'neg' : ''}`}>
+                  <p className={`mw-split-note ${streamsMismatch ? 'neg' : ''}`}>
                     Allocated {lakh(streamTotal)} of {lakh(effective)}
-                    {streamsOver
-                      ? ' — over target, trim a stream.'
-                      : effective - streamTotal > 1
-                        ? ` · ${lakh(effective - streamTotal)} unallocated (other / retail)`
-                        : ''}
+                    {streamsMismatch
+                      ? ` — ${lakh(Math.abs(effective - streamTotal))} ${streamTotal > effective ? 'over' : 'short'}; balance the three revenue streams.`
+                      : ' · fully allocated across new clients, renewals, and comeback revenue.'}
                   </p>
+                    </section>
+                  </div>
                 </div>
               </>
             )}
-            {econ && <Economics econ={econ} window={plan.economics.window} />}
+            {econ && mathsOpen && (
+              <MathsPanel
+                id="mw-maths-panel"
+                econ={econ}
+                window={plan.economics.window}
+                studioId={studio.id}
+                studioName={studio.name}
+                year={year}
+                editable={editable}
+                assumptions={plan.economics.assumptions}
+                onSaved={onSaved}
+                onClose={() => setMathsOpen(false)}
+              />
+            )}
 
             {(
               <>
@@ -531,6 +998,18 @@ export default function MonthWorkspace({
                     title={`Offers · ${selected.length}`}
                     hint={`${lakh(offerRevenue)} expected. Edit here, or swap in an alternate from the right.`}
                   />
+                  {offersEditable && (
+                    <OfferCopilot
+                      state={copilot}
+                      steer={steer}
+                      setSteer={setSteer}
+                      busy={busy}
+                      onAsk={askCopilot}
+                      onApply={applyProposals}
+                      onClose={() => setCopilot(null)}
+                      current={selected}
+                    />
+                  )}
                   {selected.length ? (
                     groups
                       .filter(g => g.offers.length)
@@ -538,7 +1017,7 @@ export default function MonthWorkspace({
                         <div key={g.label} className="mw-offer-group">
                           <h5>
                             {g.label}
-                            <span>{lakh(g.offers.reduce((s, o) => s + n(o.expected_revenue), 0))}</span>
+                            <span>{lakh(g.offers.reduce((s, o) => s + forecastRevenue(o), 0))}</span>
                           </h5>
                           {g.offers.map(o =>
                             editing === o.id ? (
@@ -566,8 +1045,14 @@ export default function MonthWorkspace({
                                 productLabel={prices?.keys[o.provenance?.pricing?.product]}
                                 slot={slotOf(o.id)}
                                 editable={editable}
+                                canSwap={offersEditable}
+                                approved={o.approval_status === 'approved'}
+                                canApprove={canApproveOffers && masterUnlocked && !locked}
+                                busy={busy}
+                                onApprove={() => offerApproval(o, o.approval_status !== 'approved')}
                                 onEdit={() => setEditing(o.id)}
                                 onRemove={() => offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed`)}
+                                onSwap={() => askCopilot('replace', o.id)}
                               />
                             ),
                           )}
@@ -578,6 +1063,64 @@ export default function MonthWorkspace({
                   )}
                 </div>
               </>
+            )}
+            {gapRows.length > 0 && (
+              <div className="mw-section mw-gapplan">
+                <SectionHead
+                  icon={Target}
+                  title="Offer coverage by revenue stream"
+                  hint="Compares selected offer forecasts with each allocated target. Approval requires every stream to be covered."
+                />
+                <div className="mw-gp-rows">
+                  {gapRows.map(r => (
+                    <div key={r.label} className={`mw-gp-row ${r.gap > 0 ? 'short' : 'ok'}`}>
+                      <div className="mw-gp-head">
+                        <strong>{r.label}</strong>
+                        <span>
+                          {lakh(r.offer)} of {lakh(r.target)} offer-led
+                        </span>
+                        <em>{r.gap > 0 ? `${lakh(r.gap)} short` : 'Covered'}</em>
+                      </div>
+                      <div className="mw-gp-bar">
+                        <i style={{ width: `${Math.min(100, (r.offer / r.target) * 100)}%` }} />
+                      </div>
+                      {r.gap > 0 && (
+                        <div className="mw-gp-plan">
+                          {r.picks.map(o => (
+                            <div key={o.id} className="mw-gp-pick">
+                              <span>{o.name}</span>
+                              <b>+{lakh(forecastRevenue(o))}</b>
+                            </div>
+                          ))}
+                          {r.left > 0 && (
+                            <p>
+                              {r.picks.length ? 'Still ' : ''}
+                              <b>{lakh(r.left)}</b> to find.{' '}
+                              {r.lead && r.extra
+                                ? `Sell ${number(r.extra)} more of “${r.lead.name}” (${money(n(r.lead.expected_asp), true)} each), or build a new ${r.label.toLowerCase()} offer in Offer studio.`
+                                : 'No offer carries this stream yet — build one in Offer studio.'}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {offersEditable && (gapRows.some(r => r.gap > 0) || offerRevenue < effective) && (
+                  <Button icon={<Target size={15} />} variant="dark" disabled={busy} onClick={coverTarget}>
+                    Cover full target
+                  </Button>
+                )}
+                {offersEditable && gapRows.some(r => r.picks.length) && (
+                  <Button
+                    icon={<Plus size={15} />}
+                    disabled={busy}
+                    onClick={() => addOffers(gapRows.flatMap(r => r.picks.map((o: any) => o.id)))}
+                  >
+                    Add {gapRows.reduce((sum, r) => sum + r.picks.length, 0)} suggested offers
+                  </Button>
+                )}
+              </div>
             )}
             {(
               <>
@@ -592,26 +1135,31 @@ export default function MonthWorkspace({
                       icon={Trophy}
                       label="Challenge"
                       tone="purple"
-                      title={challenge?.Activation || base.challenge[0]}
-                      text={challenge?.Mechanics || base.challenge[1]}
+                      {...activation('challenge', challenge?.Activation || base.challenge[0], challenge?.Mechanics || base.challenge[1])}
+                      editable={editable}
+                      onChange={(value: any) => updateContent({ activations: { ...activationEdits, challenge: value } })}
                     />
                     <Act
                       icon={PartyPopper}
                       label="Event"
                       tone="coral"
-                      title={event?.Activation || base.event[0]}
-                      text={event?.Mechanics || base.event[1]}
+                      {...activation('event', event?.Activation || base.event[0], event?.Mechanics || base.event[1])}
+                      editable={editable}
+                      onChange={(value: any) => updateContent({ activations: { ...activationEdits, event: value } })}
                     />
                     <Act
                       icon={Handshake}
                       label="Partnership"
                       tone="gold"
-                      title={base.partner[0]}
-                      text={base.partner[1]}
+                      {...activation('partner', base.partner[0], base.partner[1])}
+                      editable={editable}
+                      onChange={(value: any) => updateContent({ activations: { ...activationEdits, partner: value } })}
                     />
-                    <Act icon={HeartHandshake} label="Retention" tone="green" title="Members" text={base.retention} />
+                    <Act icon={HeartHandshake} label="Retention" tone="green" {...activation('retention', 'Members', base.retention)} editable={editable} onChange={(value: any) => updateContent({ activations: { ...activationEdits, retention: value } })} />
                   </div>
-                  <p className="mw-kpi">KPI: {local[0]?.['Primary KPI'] || base.kpi}</p>
+                  <label className="mw-kpi">KPI
+                    {editable ? <input value={form.content?.kpi ?? local[0]?.['Primary KPI'] ?? base.kpi} onChange={e => updateContent({ kpi: e.target.value })} aria-label="Primary activation KPI" /> : <span>{form.content?.kpi ?? local[0]?.['Primary KPI'] ?? base.kpi}</span>}
+                  </label>
                 </div>
               </>
             )}
@@ -697,13 +1245,16 @@ export default function MonthWorkspace({
 
           {(
             <aside className="mw-side">
-              <h4>
-                <RefreshCcw size={15} /> Alternate offers
-              </h4>
-              <p className="muted">
-                {studio.name}’s other offers — this month’s first.{' '}
-                {solo ? 'Adds apply to this location only.' : 'Adding copies it to every location at local prices.'}
-              </p>
+              <div className="mw-side-head">
+                <div className="mw-side-title">
+                  <span><RefreshCcw size={15} /></span>
+                  <div><h4>Offer library</h4><small>{alternates.length} available to add</small></div>
+                </div>
+                <p className="muted">
+                  {studio.name}’s other offers, with this month’s first.{' '}
+                  {solo ? 'Adds apply to this location only.' : 'Adding copies to every location at local prices.'}
+                </p>
+              </div>
               {alternates.length ? (
                 altGroups.map(([group, list]) => (
                   <section key={group} className="mw-alt-group">
@@ -722,14 +1273,35 @@ export default function MonthWorkspace({
                         </div>
                         <div>
                           <b>{money(o.expected_revenue, true)}</b>
-                          {editable && (
-                            <button
-                              aria-label={`Add ${o.name}`}
-                              disabled={busy}
-                              onClick={() => offerChange({ op: 'add', offerId: o.id }, `“${o.name}” added`)}
-                            >
-                              <Plus size={14} />
-                            </button>
+                          {offersEditable && (
+                            <span className="mw-alt-actions">
+                              <button
+                                aria-label={`Add ${o.name}`}
+                                title="Add to month"
+                                disabled={busy}
+                                onClick={() => offerChange({ op: 'add', offerId: o.id }, `“${o.name}” added`)}
+                              >
+                                <Plus size={14} />
+                              </button>
+                              {selected.length > 0 && (
+                                <label className="mw-alt-replace" title="Replace a current offer">
+                                  <RefreshCcw size={13} />
+                                  <select
+                                    aria-label={`Replace an offer with ${o.name}`}
+                                    disabled={busy}
+                                    value=""
+                                    onChange={e => replaceOffer(Number(e.target.value), o)}
+                                  >
+                                    <option value="" disabled>Replace…</option>
+                                    {selected.map(cur => (
+                                      <option key={cur.id} value={cur.id} disabled={cur.approval_status === 'approved'}>
+                                        {cur.name}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </label>
+                              )}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -762,6 +1334,179 @@ export default function MonthWorkspace({
   );
 }
 
+// Detailed monthly maths, opened from the month hero on request.
+function MathsPanel({
+  id,
+  econ,
+  window,
+  studioId,
+  studioName,
+  year,
+  editable,
+  assumptions,
+  onSaved,
+  onClose,
+}: {
+  id: string;
+  econ: MonthEconomics;
+  window: { from: string; to: string };
+  studioId: number;
+  studioName: string;
+  year: number;
+  editable: boolean;
+  assumptions: Record<string, { auto: number | null; override: number | null }>;
+  onSaved: () => Promise<unknown>;
+  onClose: () => void;
+}) {
+  const custom = Object.values(assumptions || {}).filter(a => a.override !== null && a.override !== undefined).length;
+  return (
+    <div id={id} className="mw-section mw-maths is-open">
+      <header className="mw-sh">
+        <span className="mw-sh-icon">
+          <Sigma size={16} />
+        </span>
+        <h4>The maths &amp; assumptions</h4>
+        <p>Built bottom-up from history, {window.from} → {window.to}.</p>
+        <span className="mw-maths-custom" title={`${custom} customised assumptions`}>
+          <SlidersHorizontal size={13} /> {custom ? `${custom} customised` : 'History based'}
+        </span>
+        <button type="button" className="mw-maths-close" onClick={onClose} aria-label="Close monthly maths"><X size={16} /></button>
+      </header>
+      <div className="mw-assume-wrap">
+        <h5>
+          <SlidersHorizontal size={14} /> Assumptions · {studioName}
+        </h5>
+        <AssumptionsEditor
+          studioId={studioId}
+          studioName={studioName}
+          year={year}
+          editable={editable}
+          assumptions={assumptions}
+          onSaved={onSaved}
+        />
+      </div>
+      <Economics econ={econ} window={window} />
+    </div>
+  );
+}
+
+const ASSUMPTION_FIELDS: Array<{ key: string; label: string; hint: string; kind: 'money' | 'rate' }> = [
+  { key: 'firstSpend', label: 'Average first spend', hint: 'Per new paying member', kind: 'money' },
+  { key: 'trialSpend', label: 'Trial fee', hint: 'Per completed trial', kind: 'money' },
+  { key: 'trialToMember', label: 'Trial → member', hint: 'Trials that become paying members', kind: 'rate' },
+  { key: 'leadToTrial', label: 'Lead → trial', hint: 'Leads that complete a trial', kind: 'rate' },
+  { key: 'renewalRate', label: 'Renewal rate', hint: 'Expiring memberships that renew', kind: 'rate' },
+  { key: 'renewalTicket', label: 'Renewal ticket', hint: 'Revenue per renewal', kind: 'money' },
+  { key: 'reactivationTicket', label: 'Reactivation ticket', hint: 'Revenue per returning member', kind: 'money' },
+];
+
+// Studio-specific spends and conversion rates. A value typed here replaces the history-based one in every month
+// of this studio's plan; clearing a field returns it to history.
+function AssumptionsEditor({
+  studioId,
+  studioName,
+  year,
+  editable,
+  assumptions,
+  onSaved,
+}: {
+  studioId: number;
+  studioName: string;
+  year: number;
+  editable: boolean;
+  assumptions: Record<string, { auto: number | null; override: number | null }>;
+  onSaved: () => Promise<unknown>;
+}) {
+  const { toast } = useApp();
+  const show = (kind: 'money' | 'rate', v: number | null) =>
+    v === null || v === undefined ? '' : String(kind === 'rate' ? Math.round(v * 100) : Math.round(v));
+  const initial = () =>
+    Object.fromEntries(ASSUMPTION_FIELDS.map(f => [f.key, show(f.kind, assumptions?.[f.key]?.override ?? null)]));
+  const [draft, setDraft] = useState<Record<string, string>>(initial),
+    [busy, setBusy] = useState(false);
+  const signature = JSON.stringify(initial());
+  useEffect(() => setDraft(initial()), [signature, studioId]); // eslint-disable-line react-hooks/exhaustive-deps
+  const dirty = JSON.stringify(draft) !== signature;
+  const customised = ASSUMPTION_FIELDS.filter(f => assumptions?.[f.key]?.override !== null && assumptions?.[f.key]?.override !== undefined).length;
+  const save = async (values: Record<string, number | null>, done: string) => {
+    setBusy(true);
+    try {
+      await api(`/studio-assumptions/${studioId}/${year}`, { method: 'PUT', body: JSON.stringify({ values }) });
+      await onSaved();
+      toast(done);
+    } catch (e: any) {
+      toast(e.message || 'Could not save assumptions.', 'error');
+    } finally {
+      setBusy(false);
+    }
+  };
+  const apply = () => {
+    const values: Record<string, number | null> = {};
+    for (const f of ASSUMPTION_FIELDS) {
+      const raw = draft[f.key].trim();
+      if (raw === '') values[f.key] = null;
+      else {
+        const num = Number(raw);
+        if (!Number.isFinite(num) || num < 0) return toast(`${f.label} must be a positive number.`, 'error');
+        values[f.key] = f.kind === 'rate' ? num / 100 : num;
+      }
+    }
+    return save(values, `${studioName} assumptions applied to all months`);
+  };
+  return (
+    <div className="mw-assume">
+      <div className="mw-assume-grid">
+        {ASSUMPTION_FIELDS.map(f => {
+          const a = assumptions?.[f.key],
+            custom = a?.override !== null && a?.override !== undefined;
+          return (
+            <label key={f.key} className={custom ? 'custom' : ''}>
+              <span>
+                {f.label}
+                {custom && <em>edited</em>}
+              </span>
+              <div className="mw-assume-input">
+                {f.kind === 'money' && <i>₹</i>}
+                <input
+                  type="number"
+                  min={0}
+                  step={f.kind === 'rate' ? 1 : 100}
+                  inputMode="decimal"
+                  disabled={!editable || busy}
+                  value={draft[f.key] ?? ''}
+                  placeholder={show(f.kind, a?.auto ?? null) || 'auto'}
+                  onChange={e => setDraft(d => ({ ...d, [f.key]: e.target.value }))}
+                />
+                {f.kind === 'rate' && <i>%</i>}
+              </div>
+              <small>
+                History: {a?.auto === null || a?.auto === undefined ? '—' : f.kind === 'rate' ? pct(a.auto, 0) : money(a.auto, true)} · {f.hint}
+              </small>
+            </label>
+          );
+        })}
+      </div>
+      {editable && (
+        <div className="mw-assume-actions">
+          <Button variant="primary" disabled={!dirty || busy} onClick={apply}>
+            {busy ? 'Recalculating…' : 'Apply to all months'}
+          </Button>
+          {customised > 0 && (
+            <Button
+              variant="secondary"
+              disabled={busy}
+              onClick={() => save(Object.fromEntries(ASSUMPTION_FIELDS.map(f => [f.key, null])), 'Back to history-based assumptions')}
+            >
+              Reset to history
+            </Button>
+          )}
+          <small>{customised ? `${customised} assumption${customised > 1 ? 's' : ''} customised for ${studioName}.` : 'Using history for every assumption.'}</small>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // The month's volumes, built bottom-up from history, with every step shown so the numbers can be challenged.
 function Economics({ econ, window }: { econ: MonthEconomics; window: { from: string; to: string } }) {
   const nc = econ.newClient,
@@ -778,12 +1523,9 @@ function Economics({ econ, window }: { econ: MonthEconomics; window: { from: str
     { label: 'Leads', value: number(nc.leads), note: `÷ ${pct(nc.leadToTrial)} lead → trial` },
   ];
   return (
-    <div className="mw-section mw-econ">
-      <SectionHead
-        icon={Sigma}
-        title="The maths"
-        hint={`Built bottom-up from history, ${window.from} → ${window.to}.`}
-      />
+    <div className="mw-econ-body">
+     <section className="mw-econ-card nc">
+      <h5><i>1</i> New clients <em>{lakh(nc.target)} to find</em></h5>
       <div className="mw-chain">
         {steps.map((s, i) => (
           <React.Fragment key={s.label}>
@@ -808,7 +1550,10 @@ function Economics({ econ, window }: { econ: MonthEconomics; window: { from: str
           : ''}
         . Trial fees bring in {lakh(nc.trialRevenue)} of the new-client number on their own.
       </p>
+     </section>
 
+     <section className="mw-econ-card rn">
+      <h5><i>2</i> Renewals <em>{lakh(r.target)} target</em></h5>
       <div className="mw-renewal">
         <div className="mw-renewal-head">
           <div>
@@ -860,17 +1605,27 @@ function Economics({ econ, window }: { econ: MonthEconomics; window: { from: str
           </div>
         )}
       </div>
+     </section>
+
+     <section className="mw-econ-card re">
+      <h5><i>3</i> Comeback / reactivation <em>{lakh(re.target)} target</em></h5>
       <p className="mw-reason">
-        Reactivation: {lakh(re.target)} ÷ {money(re.ticket, true)} average comeback ticket ={' '}
+        {lakh(re.target)} ÷ {money(re.ticket, true)} average comeback ticket ={' '}
         <b>{number(re.needed)} returning members</b>, from {number(re.lapsedPool)} members lapsed 61–365 days (
         {re.lapsedPool ? pct(re.needed / re.lapsedPool, 1) : '—'} response needed).
       </p>
+     </section>
     </div>
   );
 }
 
-function OfferCard({ offer: o, slot, list, productLabel, editable, onEdit, onRemove }: any) {
+function OfferCard({ offer: o, slot, list, productLabel, editable, canSwap = editable, approved, canApprove, busy, onApprove, onEdit, onRemove, onSwap }: any) {
   const linked = !!o.provenance?.linkGroup;
+  const parseList = (value: any) => {
+    if (Array.isArray(value)) return value;
+    try { return value ? JSON.parse(value) : []; } catch { return []; }
+  };
+  const metrics = parseList(o.success_metrics), risks = parseList(o.risks);
   const offerPrice = n(o.expected_asp),
     pctOff = list ? Math.max(0, 1 - offerPrice / list) : n(o.effective_discount) / 100,
     original = list || (pctOff > 0 && pctOff < 1 ? offerPrice / (1 - pctOff) : null),
@@ -882,12 +1637,13 @@ function OfferCard({ offer: o, slot, list, productLabel, editable, onEdit, onRem
     .map(line => line.match(/^(Why|Logic|KPI):\s*(.*)$/))
     .filter(Boolean) as RegExpMatchArray[];
   return (
-    <article className="oc">
+    <article className={`oc ${approved ? 'is-approved' : ''}`}>
       <header className="oc-head">
         <div>
           <div className="oc-tags">
             {slot && <span className="oc-tag must">{titleCase(slot)} must-have</span>}
             <span className="oc-tag">{membership}</span>
+            <span className="oc-tag">{titleCase(o.objective)}</span>
             <span className={`oc-tag ${linked ? 'linked' : 'solo'}`}>
               {linked ? <Link2 size={11} /> : <Unlink size={11} />}
               {linked ? 'All locations' : 'This location'}
@@ -896,16 +1652,40 @@ function OfferCard({ offer: o, slot, list, productLabel, editable, onEdit, onRem
           <h3>{o.name}</h3>
           {o.headline && <p className="oc-job">{o.headline}</p>}
         </div>
-        {editable && (
-          <div className="oc-actions">
-            <button aria-label={`Edit ${o.name}`} onClick={onEdit}>
-              <Pencil size={14} />
+        <div className="oc-actions">
+          {approved && (
+            <span className="oc-approved-tag">
+              <CheckCircle2 size={12} /> Approved
+            </span>
+          )}
+          {o.margin_impact == null && <span className="oc-cost-warning">Costs needed before approval</span>}
+          {canApprove && (
+            <button
+              className={`oc-approve ${approved ? 'on' : ''}`}
+              disabled={busy}
+              aria-label={approved ? `Reopen ${o.name}` : `Approve ${o.name}`}
+              title={approved ? 'Reopen this offer' : 'Approve this offer'}
+              onClick={onApprove}
+            >
+              {approved ? <RotateCcw size={14} /> : <Check size={14} />}
             </button>
-            <button aria-label={`Remove ${o.name}`} className="danger" onClick={onRemove}>
-              <Minus size={14} />
-            </button>
-          </div>
-        )}
+          )}
+          {canSwap && !approved && (
+            <>
+              <button aria-label={`Replace ${o.name} with AI`} title="Replace with AI" className="ai" onClick={onSwap} disabled={busy}>
+                <Sparkles size={14} />
+              </button>
+              {editable && (
+                <button aria-label={`Edit ${o.name}`} onClick={onEdit}>
+                  <Pencil size={14} />
+                </button>
+              )}
+              <button aria-label={`Remove ${o.name}`} className="danger" onClick={onRemove} disabled={busy}>
+                <Minus size={14} />
+              </button>
+            </>
+          )}
+        </div>
       </header>
 
       <div className="oc-benefit">
@@ -930,7 +1710,7 @@ function OfferCard({ offer: o, slot, list, productLabel, editable, onEdit, onRem
         </div>
         <div className="oc-revenue">
           <span>Plan</span>
-          <strong>{lakh(n(o.expected_revenue))}</strong>
+          <strong>{hasValidForecast(o) ? lakh(n(o.expected_revenue)) : 'Needs review'}</strong>
           <small>
             {number(o.target_purchases)} × {money(offerPrice, true)}
           </small>
@@ -958,7 +1738,16 @@ function OfferCard({ offer: o, slot, list, productLabel, editable, onEdit, onRem
           <dt>Terms</dt>
           <dd>{o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}</dd>
         </div>
+        {o.excluded_audience && <div className="wide"><dt>Exclusions</dt><dd>{o.excluded_audience}</dd></div>}
+        {o.cta && <div><dt>Call to action</dt><dd>{o.cta}</dd></div>}
       </dl>
+
+      {(metrics.length > 0 || risks.length > 0) && (
+        <div className="oc-review-details">
+          {metrics.length > 0 && <details><summary>Success metrics</summary><ul>{metrics.map((item: string) => <li key={item}>{item}</li>)}</ul></details>}
+          {risks.length > 0 && <details><summary>Risks and assumptions</summary><ul>{risks.map((item: string, index: number) => <li key={`${index}-${item}`}>{item}</li>)}</ul></details>}
+        </div>
+      )}
 
       {(reasons.length > 0 || o.rationale) && (
         <details className="oc-why">
@@ -1113,6 +1902,127 @@ function OfferEditor({
   );
 }
 
+const ACTION_LABEL = { add: 'New offer', replace: 'Replaces', optimise: 'Sharpens' } as const;
+
+// AI offer copilot: asks for proposals, shows each with its priced effect, and saves only what the planner applies.
+function OfferCopilot({ state, steer, setSteer, busy, onAsk, onApply, onClose, current }: any) {
+  const loading = !!state?.loading || !!state?.creating;
+  const unlocked = current.filter((o: any) => o.approval_status !== 'approved');
+  const list = (value: any) => {
+    if (Array.isArray(value)) return value;
+    try { return value ? JSON.parse(value) : []; } catch { return []; }
+  };
+  return (
+    <div className={`mw-copilot ${state ? 'open' : ''}`}>
+      <div className="mw-cp-bar">
+        <span className="mw-cp-badge">
+          <Sparkles size={14} /> Offer copilot
+        </span>
+        <input
+          value={steer}
+          maxLength={400}
+          placeholder="Optional steer — e.g. “push 3-month memberships, keep discounts under 15%”"
+          onChange={e => setSteer(e.target.value)}
+        />
+        <Button size="sm" variant="primary" disabled={loading || busy || !unlocked.length} onClick={() => onAsk('optimise')}>
+          Optimise this set
+        </Button>
+        <Button size="sm" variant="ghost" disabled={loading || busy} onClick={() => onAsk('suggest')}>
+          Suggest new offers
+        </Button>
+      </div>
+      {loading && (
+        <p className="mw-cp-loading">
+          <Sparkles size={14} /> {state?.creating ? 'Creating complete draft offers and adding them to this month…' : 'Working through the numbers…'}
+        </p>
+      )}
+      {state && !loading && (
+        <div className="mw-cp-results">
+          <div className="mw-cp-head">
+            <p>{state.summary || 'Nothing to change.'}</p>
+            <div>
+              {state.proposals.length > 1 && (
+                <Button size="sm" variant="primary" disabled={busy} onClick={() => onApply(state.proposals)}>
+                  Apply all {state.proposals.length}
+                </Button>
+              )}
+              <button className="mw-cp-x" aria-label="Dismiss suggestions" onClick={onClose}>
+                <X size={15} />
+              </button>
+            </div>
+          </div>
+          {state.proposals.map((p: any, i: number) => (
+            <article key={`${p.name}-${i}`} className={`mw-cp-card ${p.action}`}>
+              <header>
+                <span className="mw-cp-tag">
+                  {ACTION_LABEL[p.action as keyof typeof ACTION_LABEL]}
+                  {p.replaces ? ` · ${p.replaces}` : ''}
+                </span>
+                <h5>{p.name}</h5>
+                {p.headline && <p className="mw-cp-job">{p.headline}</p>}
+              </header>
+              <p className="mw-cp-benefit">{p.benefit}</p>
+              <dl>
+                <div>
+                  <dt>Price</dt>
+                  <dd>
+                    {p.price ? money(p.price) : '—'}
+                    {p.discountPct > 0 && <small> · {Math.round(p.discountPct)}% off</small>}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Units</dt>
+                  <dd>{number(p.targetPurchases)}</dd>
+                </div>
+                <div>
+                  <dt>Plan</dt>
+                  <dd>{lakh(p.revenue)}</dd>
+                </div>
+                <div>
+                  <dt>For</dt>
+                  <dd>{p.audience || '—'}</dd>
+                </div>
+              </dl>
+              <p className="mw-cp-why">{p.rationale}</p>
+              <footer>
+                <Button size="sm" variant="primary" disabled={busy} icon={<Check size={14} />} onClick={() => onApply([p])}>
+                  Apply
+                </Button>
+              </footer>
+            </article>
+          ))}
+          {(state.created || []).map(({ proposal: p, offerId, offer }: any) => (
+            <article key={`created-${offerId}`} className="mw-cp-card created">
+              <header>
+                <span className="mw-cp-tag"><CheckCircle2 size={12} /> Draft offer created · #{offerId}</span>
+                <h5>{offer.name}</h5>
+                {offer.headline && <p className="mw-cp-job">{offer.headline}</p>}
+              </header>
+              <p className="mw-cp-benefit">{offer.benefit}</p>
+              <dl>
+                <div><dt>Membership</dt><dd>{p.productKey}</dd></div>
+                <div><dt>Type · objective</dt><dd>{titleCase(p.offerType)} · {titleCase(p.objective)}</dd></div>
+                <div><dt>Audience</dt><dd>{offer.audience}</dd></div>
+                <div><dt>Price · discount</dt><dd>{money(offer.expected_asp)} · {p.discountPct}% off</dd></div>
+                <div><dt>Target buyers</dt><dd>{number(offer.target_purchases)}</dd></div>
+                <div><dt>Expected revenue</dt><dd>{lakh(offer.expected_revenue)}</dd></div>
+                <div><dt>Validity</dt><dd>{offer.validity_start} – {offer.validity_end}</dd></div>
+                <div><dt>Call to action</dt><dd>{offer.cta}</dd></div>
+                <div className="wide"><dt>Redemption terms</dt><dd>{offer.redemption_conditions}</dd></div>
+                <div className="wide"><dt>Exclusions</dt><dd>{offer.excluded_audience}</dd></div>
+              </dl>
+              <p className="mw-cp-why">{offer.rationale}</p>
+              {list(offer.success_metrics).length > 0 && <details><summary>Success metrics</summary><ul>{list(offer.success_metrics).map((item: string) => <li key={item}>{item}</li>)}</ul></details>}
+              {list(offer.risks).length > 0 && <details><summary>Risks and assumptions</summary><ul>{list(offer.risks).map((item: string, index: number) => <li key={`${index}-${item}`}>{item}</li>)}</ul></details>}
+              <footer><span>Saved as a draft in the selected month plan. Costs are needed before approval.</span></footer>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SectionHead({ icon: Icon, title, hint }: { icon: any; title: React.ReactNode; hint?: React.ReactNode }) {
   return (
     <header className="mw-sh">
@@ -1125,14 +2035,18 @@ function SectionHead({ icon: Icon, title, hint }: { icon: any; title: React.Reac
   );
 }
 
-function Act({ icon: Icon, label, title, text, tone }: any) {
+function Act({ icon: Icon, label, title, text, tone, editable = false, onChange }: any) {
   return (
     <div className={`mw-act mw-act-${tone}`}>
       <Icon size={15} />
       <div>
         <small>{label}</small>
-        <strong>{title}</strong>
-        <p>{text}</p>
+        {editable ? (
+          <div className="mw-act-edit">
+            <input aria-label={`${label} title`} value={title} onChange={e => onChange({ title: e.target.value, text })} />
+            <textarea aria-label={`${label} details`} rows={3} value={text} onChange={e => onChange({ title, text: e.target.value })} />
+          </div>
+        ) : <><strong>{title}</strong><p>{text}</p></>}
       </div>
     </div>
   );

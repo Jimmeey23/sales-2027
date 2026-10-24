@@ -52,7 +52,7 @@ export default function registerWorkspaceRoutes(app: Express) {
         `SELECT o.id,o.name,o.headline,o.customer_copy,o.objective,o.offer_type,o.studio_id,s.name studio,
     o.eligible_products,o.benefit,o.validity_start,o.validity_end,o.redemption_conditions,o.status,o.approval_status,
     o.generation_source,o.data_mode,o.performance_notes,o.year,o.month
-    FROM offers o LEFT JOIN studios s ON s.id=o.studio_id WHERE o.year=? AND o.status NOT IN ('archived','rejected') ${offerStudioClause}
+    FROM offers o LEFT JOIN studios s ON s.id=o.studio_id WHERE o.year=? AND o.data_mode!='demo' AND o.generation_source!='demo_seed' AND o.status NOT IN ('archived','rejected') ${offerStudioClause}
     ORDER BY CASE WHEN o.status='active' THEN 0 WHEN o.status='approved' THEN 1 ELSE 2 END,o.name`,
       )
       .all(...(studioId ? [year, studioId] : [year])) as any[];

@@ -2718,6 +2718,11 @@
   border-color: #cfe3da !important;
   color: var(--green);
 }
+.kd-global {
+  background: #e7f4f1 !important;
+  border-color: #c7e4dd !important;
+  color: #176b60;
+}
 .kd-retail {
   background: var(--purple-soft) !important;
   border-color: #e2d3e5 !important;
@@ -4733,6 +4738,7 @@
 .kd-festival,
 .kd-holiday,
 .kd-awareness,
+.kd-global,
 .kd-retail,
 .kd-brand {
   background: var(--n-100) !important;

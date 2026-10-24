@@ -48,6 +48,8 @@ Sign-in is required by default. Set `DIRECT_WORKSPACE=true` only on a local or t
 
 The seeded API accounts remain available for automated role/RBAC verification. Rotate or disable their shared demonstration passwords before any real deployment, and protect the login-free workspace with trusted network or identity-aware access control. See [Deployment](docs/DEPLOYMENT.md).
 
+Production startup now refuses `DIRECT_WORKSPACE=true` and refuses to start while an active account still uses the shared seeded demonstration password.
+
 ## Current imported data
 
 The rebuilt database contains:

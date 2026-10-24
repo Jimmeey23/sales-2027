@@ -145,6 +145,18 @@ function price(studioId: number, names: string[]) {
   return null;
 }
 
+// Rates and spends a planner can overwrite per studio and year; an override replaces the history-based value in every month.
+export const ASSUMPTION_KEYS = {
+  firstSpend: { min: 1, max: 10_000_000 },
+  trialSpend: { min: 0, max: 1_000_000 },
+  renewalTicket: { min: 1, max: 10_000_000 },
+  reactivationTicket: { min: 1, max: 10_000_000 },
+  trialToMember: { min: 0.001, max: 1 },
+  leadToTrial: { min: 0.001, max: 1 },
+  renewalRate: { min: 0.001, max: 1 },
+} as const;
+export type AssumptionKey = keyof typeof ASSUMPTION_KEYS;
+
 export function planEconomics(studioId: number, year: number) {
   const ids = studioIds(studioId),
     to = latestComplete(),
@@ -172,6 +184,17 @@ export function planEconomics(studioId: number, year: number) {
     .prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? ORDER BY month')
     .all(studioId, year) as any[];
 
+  const overrides: Partial<Record<AssumptionKey, number>> = Object.fromEntries(
+    (
+      db.prepare('SELECT key, value FROM studio_assumptions WHERE studio_id=? AND year=?').all(studioId, year) as any[]
+    ).map(r => [r.key, r.value]),
+  );
+  const autoSeries: Record<string, number[]> = {};
+  const pick = (key: AssumptionKey, auto: number) => {
+    (autoSeries[key] ||= []).push(auto);
+    return overrides[key] ?? auto;
+  };
+
   const months = Array.from({ length: 12 }, (_, i) => {
     const month = i + 1,
       key = `${year}-${String(month).padStart(2, '0')}`,
@@ -185,23 +208,33 @@ export function planEconomics(studioId: number, year: number) {
       leadToTrial: leadToTrial(ids, season, season),
       renewalRate: renewalRate(ids, season, season),
     };
-    const firstSpend = blend(trailing.firstSpend.value, s.firstSpend.value, s.firstSpend.buyers) || 0,
-      renewalTicket = blend(trailing.renewalTicket.value, s.renewalTicket.value, s.renewalTicket.buyers) || 0,
-      reactivationTicket = trailing.reactivationTicket.value || firstSpend,
-      t2m = blend(trailing.trialToMember.value, s.trialToMember.value, s.trialToMember.n) || 0.25,
-      l2t = blend(trailing.leadToTrial.value, s.leadToTrial.value, s.leadToTrial.n) ?? 0.35,
-      rRate = blend(trailing.renewalRate.value, s.renewalRate.value, s.renewalRate.n) || 0.6;
+    const autoFirstSpend = blend(trailing.firstSpend.value, s.firstSpend.value, s.firstSpend.buyers) || 0;
+    const firstSpend = pick('firstSpend', autoFirstSpend),
+      renewalTicket = pick(
+        'renewalTicket',
+        blend(trailing.renewalTicket.value, s.renewalTicket.value, s.renewalTicket.buyers) || 0,
+      ),
+      reactivationTicket = pick('reactivationTicket', trailing.reactivationTicket.value || autoFirstSpend),
+      t2m = pick('trialToMember', blend(trailing.trialToMember.value, s.trialToMember.value, s.trialToMember.n) || 0.25),
+      l2t = pick('leadToTrial', blend(trailing.leadToTrial.value, s.leadToTrial.value, s.leadToTrial.n) ?? 0.35),
+      rRate = pick('renewalRate', blend(trailing.renewalRate.value, s.renewalRate.value, s.renewalRate.n) || 0.6);
 
     const t = targets.find(x => x.month === month);
     const selected = t ? Number(t.approved_target ?? t.proposed_target) || 0 : 0,
       scale = t && Number(t.proposed_target) ? selected / Number(t.proposed_target) : 1;
-    const newTarget = (Number(t?.new_client_target) || 0) * scale,
-      renewalTarget = (Number(t?.renewal_target) || 0) * scale,
+    let renewalTarget = (Number(t?.renewal_target) || 0) * scale,
       reactivationTarget = (Number(t?.reactivation_target) || 0) * scale;
+    const nonNewTarget = renewalTarget + reactivationTarget;
+    if (nonNewTarget > selected && nonNewTarget > 0) {
+      const factor = selected / nonNewTarget;
+      renewalTarget *= factor;
+      reactivationTarget *= factor;
+    }
+    const newTarget = Math.max(0, selected - renewalTarget - reactivationTarget);
 
     // New-client revenue = members × first membership spend + trials × trial spend, and trials = members ÷ t2m,
     // so members = target ÷ (first spend + trial spend ÷ t2m).
-    const trialSpend = trailing.trialSpend.value || 0,
+    const trialSpend = pick('trialSpend', trailing.trialSpend.value || 0),
       perMember = firstSpend + (t2m ? trialSpend / t2m : 0);
     const buyers = perMember ? ceil(newTarget / perMember) : 0,
       trials = t2m ? ceil(buyers / t2m) : 0,
@@ -263,6 +296,12 @@ export function planEconomics(studioId: number, year: number) {
     window: { from, to, trialFrom, trialTo },
     trailing: Object.fromEntries(Object.entries(trailing).map(([k, v]) => [k, v.value])),
     prices,
+    assumptions: Object.fromEntries(
+      (Object.keys(ASSUMPTION_KEYS) as AssumptionKey[]).map(key => {
+        const series = autoSeries[key] || [];
+        return [key, { auto: series.length ? series.reduce((a, b) => a + b, 0) / series.length : null, override: overrides[key] ?? null }];
+      }),
+    ),
     months,
   };
 }

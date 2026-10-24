@@ -214,6 +214,11 @@ export function initSchema() {
     updated_by INTEGER REFERENCES users(id), updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(studio_id, year, month)
   );
+  CREATE TABLE IF NOT EXISTS studio_assumptions (
+    studio_id INTEGER NOT NULL REFERENCES studios(id) ON DELETE CASCADE, year INTEGER NOT NULL,
+    key TEXT NOT NULL, value REAL NOT NULL, updated_by INTEGER REFERENCES users(id),
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (studio_id, year, key)
+  );
   CREATE TABLE IF NOT EXISTS studio_playbook_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT, studio_id INTEGER NOT NULL REFERENCES studios(id) ON DELETE CASCADE,
     year INTEGER NOT NULL, section TEXT NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL DEFAULT '',
@@ -247,6 +252,7 @@ export function initSchema() {
     db.exec('ALTER TABLE monthly_plans ADD COLUMN offer_ids TEXT');
   // slots = {"newcomer": offerId, "lapsed": offerId, "renewal": offerId}; NULL = use the month's primary slot offers.
   if (!planColumns.some(column => column.name === 'slots')) db.exec('ALTER TABLE monthly_plans ADD COLUMN slots TEXT');
+  if (!planColumns.some(column => column.name === 'content')) db.exec('ALTER TABLE monthly_plans ADD COLUMN content TEXT');
   const offerCols = db.pragma('table_info(offers)') as any[];
   // plan_slot marks an offer as a month's newcomer / lapsed / renewal option; plan_rank 1 = primary, 2+ = alternates.
   if (!offerCols.some(column => column.name === 'plan_slot')) db.exec('ALTER TABLE offers ADD COLUMN plan_slot TEXT');
