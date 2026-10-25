@@ -9,7 +9,8 @@ export default defineConfig({
     // If 5173 is still taken, Vite moves to the next free port.
     strictPort: false,
     allowedHosts: true,
-    proxy: { '/api': 'http://127.0.0.1:3001' },
+    // scripts/dev.mjs sets API_PORT to whichever port the API server got.
+    proxy: { '/api': `http://127.0.0.1:${process.env.API_PORT || 3001}` },
   },
   build: { outDir: 'dist', sourcemap: false },
 });

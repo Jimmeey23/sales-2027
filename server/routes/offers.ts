@@ -107,8 +107,6 @@ function validateOfferForSave(body: any, user: any) {
     if (!user.permissions.includes('offer_approve')) throw bodyError('Offer approval permission required.', 403);
     if (row.expected_asp == null || row.expected_revenue == null)
       throw bodyError('A price and expected revenue forecast are required before approval.', 422);
-    if (row.margin_impact === null || row.margin_impact === undefined || financials.economicsComplete !== true)
-      throw bodyError('Add product and benefit costs so contribution margin is complete before approval.', 422);
   }
   return row;
 }
@@ -667,8 +665,6 @@ export default function registerOffersRoutes(app: Express) {
       const financials = JSON.parse(before.financials || '{}');
       if (action === 'approve' && financials.errors?.length)
         return res.status(422).json({ error: 'Resolve financial guardrail errors before approval.' });
-      if (action === 'approve' && (before.margin_impact === null || before.margin_impact === undefined || !Number.isFinite(Number(before.margin_impact)) || financials.economicsComplete !== true))
-        return res.status(422).json({ error: 'Add product and benefit costs so contribution margin is complete before approval.' });
       if (action === 'approve' && (before.expected_asp == null || before.expected_revenue == null))
         return res.status(422).json({ error: 'A price and expected revenue forecast are required before approval.' });
       if (

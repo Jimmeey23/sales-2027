@@ -37,6 +37,7 @@ import { Badge, Button } from '../../components/ui';
 import { LOCATION_COLORS, accentFor, locationStudioIds } from '../../data/locations';
 import Marquee from '../../components/Marquee';
 import FestivalArt from '../../components/FestivalArt';
+import MarketingCollaterals from '../../components/MarketingCollaterals';
 import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor } from '../../data/keyDates';
 import { OFFER_LIBRARY } from '../../data/offerLibrary';
 import { MONTHS, money, number, titleCase } from '../../types';
@@ -106,6 +107,38 @@ const monthContentWithCalendar = (content: any, year: number, month: number) => 
   return { ...(content || {}), keyDates, activations: content?.activations || {} };
 };
 const pct = (v: number | null | undefined, d = 0) => (v === null || v === undefined ? '—' : `${(v * 100).toFixed(d)}%`);
+
+// What the team should focus on each month (from the 2027 Annual Sales and Offer Plan).
+const FOCUS_POINTS: Record<number, string[]> = {
+  1: ['Convert January trials within 72 hours', 'Re-up the Jan-2026 annuals in Annual Re-Up week (1–10 Jan)', 'Push first buyers onto 3M, not packs', 'Open limited-run format #1 to renewed members'],
+  2: ['Duo and referral acquisition instead of BOGO', 'Both buyers must be new — check in Momence', 'Galentine’s hosted class with a door offer (Sat 13 Feb)', 'Ask for a referral at every renewal'],
+  3: ['Stop March trials waiting for April', 'Start Bandra reactivation: Class of 2024 Reunion', 'Lock in Mar–Apr renewals at list with bonus time', 'Build the April pre-game list (25–31 Mar)'],
+  4: ['Founding 57: sell numbered annuals at full price', 'Value scales with commitment — no deep codes', 'Anniversary hosted classes in week 2 with a named associate', 'Hard close 30 Apr 23:59'],
+  5: ['Retain the April cohort: 8 classes in May', 'Week-1 call for every April buyer', 'Mother’s Day duo acquisition (Sun 9 May)', 'Target ≥55% renewal at next expiry'],
+  6: ['Freeze, don’t leave: stop summer lapses', 'Launch Golden Hours for students in low-fill slots', 'Capture visiting students and NRIs', 'Father’s Day duo (Sun 20 Jun)'],
+  7: ['Cut late cancels (Kenkere target <15%)', 'Monsoon Streak leaderboard by studio', 'Usage-led monsoon renewals', 'Open limited-run format #2'],
+  8: ['Move 1M renewers with 8+ visits to 3M', 'Friendship Day squad classes (Sun 1 Aug)', 'Friend-led acquisition, both buyers new', 'Work the high-value lapsed list in Mumbai’s second peak'],
+  9: ['Start the 57 Days to Diwali cohort (2 Sep)', 'Reactivate before the festive season', 'Lock 3M renewals through Oct–Dec', 'Repeat the Bandra reunion'],
+  10: ['Gift a Shake cards on sale from 1 Oct', 'Protect Kenkere’s Dasara trough with freezes', 'Capture Kwality’s late-October surge without codes', 'Candle-lit evening classes in Diwali week'],
+  11: ['Lock long commitments in the softest month', 'Founding 57 second wave — remaining seats only', 'Black Friday → Cyber Monday window (26–29 Nov)', 'Manager calls to high-value lapsers'],
+  12: ['Pre-sell January with flexible start dates', 'Send every client their 2027 Wrapped', 'Renew on the usage-based prescription', 'Second gifting window: Gift the Habit'],
+};
+
+// Days from today to a day in the plan month (negative once it has passed).
+const daysUntil = (year: number, month: number, day: number) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.round((new Date(year, month - 1, day).getTime() - today.getTime()) / 86400000);
+};
+// How each kind of important day is usually worked, shown when a day card is opened.
+const DAY_PLAYS: Record<string, { play: string; lead: number; channel: string; pairs: string[] }> = {
+  festival: { play: 'Gift-led message and a themed hosted class in the festival week; keep the offer as a bonus, not a deeper code.', lead: 10, channel: 'WhatsApp broadcast + in-studio tent cards', pairs: ['newcomer', 'lapsed'] },
+  holiday: { play: 'Expect lighter attendance: push freezes and pre-booking, and open a holiday-morning class for regulars.', lead: 7, channel: 'Email to members + WhatsApp reminder', pairs: ['renewal'] },
+  awareness: { play: 'Purpose-led story with a community class; invite members to bring a friend for their first class.', lead: 7, channel: 'Instagram + WhatsApp', pairs: ['newcomer'] },
+  global: { play: 'Tie the day to a squad or cohort class and use it as the hook for the month’s newcomer offer.', lead: 10, channel: 'Instagram + email', pairs: ['newcomer'] },
+  retail: { play: 'Short, named window (48–96 hours) on commitment products, with a hard close.', lead: 5, channel: 'Email + WhatsApp countdown', pairs: ['newcomer', 'renewal'] },
+  brand: { play: 'Members-first moment: early access for renewers, then open to new clients with a public counter.', lead: 14, channel: 'All channels + studio takeover', pairs: ['renewal'] },
+};
 
 type Prices = { keys: Record<string, string>; prices: Record<string, Record<string, number | null>> };
 
@@ -192,8 +225,8 @@ export default function MonthWorkspace({
         (a.month === month ? 0 : 1) - (b.month === month ? 0 : 1) ||
         Math.abs((a.month || 13) - month) - Math.abs((b.month || 13) - month) ||
         n(b.expected_revenue) - n(a.expected_revenue),
-    )
-    .slice(0, 16);
+    );
+  const [flippedAlt, setFlippedAlt] = useState<number | null>(null);
   const altGroups = useMemo(() => {
     const labels = prices?.keys || {};
     // Offers without a recorded pricing product are matched to a membership from their wording.
@@ -215,7 +248,9 @@ export default function MonthWorkspace({
     for (const o of alternates) {
       const key = o.provenance?.pricing?.product || guess(o);
       const label = key ? labels[key] || key : 'Other offers';
-      groups.set(label, [...(groups.get(label) || []), o]);
+      const list = groups.get(label) || [];
+      // Each membership shows its best 10–15 options (alternates are already sorted month-first).
+      if (list.length < 15) groups.set(label, [...list, o]);
     }
     const order = Object.values(labels);
     return [...groups.entries()].sort((a, b) => {
@@ -251,10 +286,12 @@ export default function MonthWorkspace({
   });
   const [form, setForm] = useState(initialForm),
     [busy, setBusy] = useState(false),
-    [editing, setEditing] = useState<number | null>(null);
+    [editing, setEditing] = useState<number | null>(null),
+    [activeDay, setActiveDay] = useState<number | null>(null);
   // Reset whenever the month or studio changes, or fresh data arrives after a save.
   useEffect(() => setForm(initialForm()), [month, studioIdx, data]);
   useEffect(() => setEditing(null), [month, studioIdx]);
+  useEffect(() => setActiveDay(null), [month, studioIdx]);
   useEffect(() => setMathsOpen(false), [month, studioIdx]);
   const set = (patch: Partial<ReturnType<typeof initialForm>>) => setForm(f => ({ ...f, ...patch }));
   const updateContent = (patch: Record<string, unknown>) => setForm(f => ({ ...f, content: { ...(f.content || {}), ...patch } }));
@@ -433,8 +470,10 @@ export default function MonthWorkspace({
       await api(`/offers/${offer.id}/action`, { method: 'POST', body: JSON.stringify({ action: approve ? 'approve' : 'unapprove' }) });
       await onSaved();
       toast(approve ? `“${offer.name}” approved.` : `“${offer.name}” reopened.`);
+      return true;
     } catch (e: any) {
       toast(e.message, 'error');
+      return false;
     } finally {
       setBusy(false);
     }
@@ -809,33 +848,75 @@ export default function MonthWorkspace({
                     hint="Festivals, holidays and moments that shape demand."
                   />
                   <div className="mw-days-grid">
-                    {dates.map(d => (
-                      <article key={`${d.name}${d.day}`} className={`mw-day kd-${d.kind}`}>
-                        <div className="mw-day-art">
-                          <FestivalArt name={d.name} kind={d.kind} />
-                          <span className="mw-day-date">
-                            <b>{formatKeyDate(d)}</b>
-                            <small>{MONTHS[month - 1].slice(0, 3)}</small>
-                          </span>
-                        </div>
-                        <div className="mw-day-body">
-                          {editable ? (
-                            <div className="mw-inline-edit">
-                              <input aria-label="Important day name" value={d.name} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === dates.indexOf(d) ? { ...x, name: e.target.value } : x) })} />
-                              <div>
-                                <select aria-label="Important day type" value={d.kind} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === dates.indexOf(d) ? { ...x, kind: e.target.value } : x) })}>
-                                  {Object.entries(KEY_DATE_LABELS).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
-                                </select>
-                                <input aria-label="Day of month" type="number" min={1} max={31} value={d.day} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === dates.indexOf(d) ? { ...x, day: Math.min(31, Math.max(1, Number(e.target.value) || 1)) } : x) })} />
-                                <label><input type="checkbox" checked={!!d.approx} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === dates.indexOf(d) ? { ...x, approx: e.target.checked } : x) })} /> Approx.</label>
-                                <button type="button" aria-label={`Remove ${d.name}`} onClick={() => updateContent({ keyDates: dates.filter((_, i) => i !== dates.indexOf(d)) })}><Trash2 size={13} /></button>
+                    {dates.map((d, di) => {
+                      const left = daysUntil(year, month, d.day);
+                      const open = activeDay === di;
+                      return (
+                        <article
+                          key={`${d.name}${d.day}`}
+                          className={`mw-day kd-${d.kind}${open ? ' is-open' : ''}`}
+                          role={editable ? undefined : 'button'}
+                          tabIndex={editable ? undefined : 0}
+                          aria-expanded={editable ? undefined : open}
+                          onClick={editable ? undefined : () => setActiveDay(open ? null : di)}
+                          onKeyDown={editable ? undefined : e => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setActiveDay(open ? null : di))}
+                        >
+                          <div className="mw-day-art">
+                            <FestivalArt name={d.name} kind={d.kind} />
+                            <span className="mw-day-date">
+                              <b>{formatKeyDate(d)}</b>
+                              <small>{MONTHS[month - 1].slice(0, 3)}</small>
+                            </span>
+                          </div>
+                          <div className="mw-day-body">
+                            {editable ? (
+                              <div className="mw-inline-edit">
+                                <input aria-label="Important day name" value={d.name} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === di ? { ...x, name: e.target.value } : x) })} />
+                                <div>
+                                  <select aria-label="Important day type" value={d.kind} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === di ? { ...x, kind: e.target.value } : x) })}>
+                                    {Object.entries(KEY_DATE_LABELS).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
+                                  </select>
+                                  <input aria-label="Day of month" type="number" min={1} max={31} value={d.day} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === di ? { ...x, day: Math.min(31, Math.max(1, Number(e.target.value) || 1)) } : x) })} />
+                                  <label><input type="checkbox" checked={!!d.approx} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === di ? { ...x, approx: e.target.checked } : x) })} /> Approx.</label>
+                                  <button type="button" aria-label={`Remove ${d.name}`} onClick={() => updateContent({ keyDates: dates.filter((_, i) => i !== di) })}><Trash2 size={13} /></button>
+                                </div>
                               </div>
-                            </div>
-                          ) : <><strong>{d.name}</strong><span>{KEY_DATE_LABELS[d.kind]}{d.approx ? ' · date to confirm' : ''}</span></>}
-                        </div>
-                      </article>
-                    ))}
+                            ) : (
+                              <>
+                                <strong>{d.name}</strong>
+                                <span className="mw-day-meta">
+                                  <em>{KEY_DATE_LABELS[d.kind]}</em>
+                                  <i className={left < 0 ? 'is-past' : left <= 14 ? 'is-soon' : ''}>
+                                    {left < 0 ? 'Passed' : left === 0 ? 'Today' : `in ${left}d`}
+                                  </i>
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </article>
+                      );
+                    })}
                   </div>
+                  {!editable && activeDay !== null && dates[activeDay] && (() => {
+                    const d = dates[activeDay];
+                    const tip = DAY_PLAYS[d.kind] || DAY_PLAYS.awareness;
+                    const pair = selected.find(o => tip.pairs.includes(o.plan_slot)) || selected[0];
+                    return (
+                      <div className={`mw-day-detail kd-${d.kind}`}>
+                        <div>
+                          <small>{formatKeyDate(d)} {MONTHS[month - 1]} · {KEY_DATE_LABELS[d.kind]}{d.approx ? ' · date to confirm' : ''}</small>
+                          <h5>{d.name}</h5>
+                          <p>{tip.play}</p>
+                        </div>
+                        <ul>
+                          <li><b>Go live</b> {tip.lead} days before</li>
+                          <li><b>Channel</b> {tip.channel}</li>
+                          {pair && <li><b>Pair with</b> {pair.name}</li>}
+                        </ul>
+                        <button type="button" aria-label="Close" onClick={() => setActiveDay(null)}><X size={14} /></button>
+                      </div>
+                    );
+                  })()}
                   {editable && <Button size="sm" variant="ghost" icon={<Plus size={14} />} onClick={() => updateContent({ keyDates: [...dates, { day: 1, name: '', kind: 'awareness', approx: false }] })}>Add important day</Button>}
                 </div>
 
@@ -894,6 +975,14 @@ export default function MonthWorkspace({
                         {...fieldProps}
                       />
                     </label>
+                    <div className="mw-focus-points">
+                      <span><Flag size={13} /> Focus points</span>
+                      <ol>
+                        {(FOCUS_POINTS[month] || []).map((t, i) => (
+                          <li key={t}><b>{i + 1}</b>{t}</li>
+                        ))}
+                      </ol>
+                    </div>
                     {editable && (
                       <small className="mw-focus-note">
                         <Sparkles size={12} /> AI writes from the month’s key dates, offers and target, then saves automatically. Edit anything,
@@ -970,6 +1059,27 @@ export default function MonthWorkspace({
                       ? ` — ${lakh(Math.abs(effective - streamTotal))} ${streamTotal > effective ? 'over' : 'short'}; balance the three revenue streams.`
                       : ' · fully allocated across new clients, renewals, and comeback revenue.'}
                   </p>
+                  {econ && (
+                    <div className="mw-funnel-targets">
+                      <h4>Funnel &amp; conversion targets</h4>
+                      <div>
+                        {[
+                          { label: 'Leads', value: number(econ.newClient.leads), hint: 'to generate' },
+                          { label: 'Trials', value: number(econ.newClient.trials), hint: `${pct(econ.newClient.leadToTrial)} lead → trial` },
+                          { label: 'New members', value: number(econ.newClient.buyers), hint: `${pct(econ.newClient.trialToMember)} trial → member` },
+                          { label: 'Lead → member', value: pct(econ.newClient.leads ? econ.newClient.buyers / econ.newClient.leads : 0, 1), hint: 'end to end' },
+                          { label: 'Renewals needed', value: number(econ.renewal.renewersNeeded), hint: `of ${number(econ.renewal.projectedExpiries)} due · ${pct(econ.renewal.renewalRate)}` },
+                          { label: 'Reactivations', value: number(econ.reactivation.needed), hint: `from ${number(econ.reactivation.lapsedPool)} lapsed` },
+                        ].map(k => (
+                          <div key={k.label} title={`${k.label}: ${k.value} · ${k.hint}`}>
+                            <small>{k.label}</small>
+                            <b>{k.value}</b>
+                            <em>{k.hint}</em>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                     </section>
                   </div>
                 </div>
@@ -1040,6 +1150,7 @@ export default function MonthWorkspace({
                             ) : (
                               <OfferCard
                                 key={o.id}
+                                no={groups.flatMap(x => x.offers).findIndex(x => x.id === o.id) + 1}
                                 offer={o}
                                 list={prices?.prices[studio.id]?.[o.provenance?.pricing?.product]}
                                 productLabel={prices?.keys[o.provenance?.pricing?.product]}
@@ -1047,9 +1158,9 @@ export default function MonthWorkspace({
                                 editable={editable}
                                 canSwap={offersEditable}
                                 approved={o.approval_status === 'approved'}
-                                canApprove={canApproveOffers && masterUnlocked && !locked}
+                                canApprove={canApproveOffers}
                                 busy={busy}
-                                onApprove={() => offerApproval(o, o.approval_status !== 'approved')}
+                                onApprove={(next: boolean) => offerApproval(o, next)}
                                 onEdit={() => setEditing(o.id)}
                                 onRemove={() => offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed`)}
                                 onSwap={() => askCopilot('replace', o.id)}
@@ -1165,13 +1276,23 @@ export default function MonthWorkspace({
             )}
             {(
               <>
-                <div className="mw-section">
+                <div className="mw-section mw-actions">
                   <SectionHead icon={ListChecks} title="Action plan" hint="Who does what, week by week." />
+                  {form.actions.length > 0 && (
+                    <div className="mw-action-head">
+                      <span>{form.actions.filter(a => a.done).length} of {form.actions.length} done</span>
+                      <i style={{ '--p': `${(form.actions.filter(a => a.done).length / form.actions.length) * 100}%` } as React.CSSProperties} />
+                    </div>
+                  )}
+                  {!form.actions.length && (
+                    <p className="mw-action-empty">No actions yet. Add the launch tasks for this month: creatives briefed, WhatsApp template approved, emails scheduled, tent cards placed, and the week-2 and week-4 performance checks.</p>
+                  )}
                   {form.actions.map((a, i) => {
                     const patchAction = (p: Partial<ActionItem>) =>
                       set({ actions: form.actions.map((x, j) => (j === i ? { ...x, ...p } : x)) });
                     return (
-                      <div key={i} className="mw-action">
+                      <div key={i} className={`mw-action${a.done ? ' is-done' : ''}`}>
+                        <b className="mw-action-no">{i + 1}</b>
                         <input
                           type="checkbox"
                           checked={a.done}
@@ -1241,6 +1362,15 @@ export default function MonthWorkspace({
                 </div>
               </>
             )}
+            <MarketingCollaterals
+              offers={selected}
+              studioName={studio.name}
+              city={studio.city || (['Kenkere House', 'Pop-up'].includes(studio.name) ? 'Bengaluru' : 'Mumbai')}
+              year={year}
+              month={month}
+              theme={form.theme}
+              hook={(form.strategy || '').split('\n').find((l: string) => l.startsWith('Moment:'))?.slice(8)}
+            />
           </main>
 
           {(
@@ -1248,7 +1378,7 @@ export default function MonthWorkspace({
               <div className="mw-side-head">
                 <div className="mw-side-title">
                   <span><RefreshCcw size={15} /></span>
-                  <div><h4>Offer library</h4><small>{alternates.length} available to add</small></div>
+                  <div><h4>Offer library</h4><small>{altGroups.reduce((t, [, l]) => t + l.length, 0)} available to add · up to 15 per membership</small></div>
                 </div>
                 <p className="muted">
                   {studio.name}’s other offers, with this month’s first.{' '}
@@ -1261,51 +1391,71 @@ export default function MonthWorkspace({
                     <h5>
                       {group} <em>{list.length}</em>
                     </h5>
-                    {list.map(o => (
-                      <div key={o.id} className="mw-alt">
-                        <div>
-                          <strong>{o.name}</strong>
-                          <span>
-                            {o.month ? MONTHS[o.month - 1].slice(0, 3) : 'Any month'} · {titleCase(o.offer_type)}
-                            {o.plan_slot ? ` · ${titleCase(o.plan_slot)}` : ''}
-                          </span>
-                          {(o.benefit || o.headline) && <p>{o.benefit || o.headline}</p>}
+                    {list.map(o => {
+                      const approved = o.approval_status === 'approved';
+                      const flipped = flippedAlt === o.id;
+                      const stop = (e: React.SyntheticEvent) => e.stopPropagation();
+                      return (
+                        <div
+                          key={o.id}
+                          role="button"
+                          tabIndex={0}
+                          aria-pressed={flipped}
+                          className={`mw-alt mw-flip${flipped ? ' is-flipped' : ''}${approved ? ' is-approved' : ''}`}
+                          onClick={() => setFlippedAlt(f => (f === o.id ? null : o.id))}
+                          onKeyDown={e => {
+                            if (e.target !== e.currentTarget || (e.key !== 'Enter' && e.key !== ' ')) return;
+                            e.preventDefault();
+                            setFlippedAlt(f => (f === o.id ? null : o.id));
+                          }}
+                        >
+                          <div className="mw-flip-inner">
+                            <div className={`mw-flip-face mw-flip-front slot-${o.plan_slot || 'any'}`}>
+                              <div className="mw-lc-top">
+                                <em>{o.plan_slot ? (o.plan_slot === 'lapsed' ? 'Winback' : titleCase(o.plan_slot)) : 'Any audience'}</em>
+                                <span>{o.month ? MONTHS[o.month - 1].slice(0, 3) : 'Always on'}</span>
+                              </div>
+                              <strong>{o.name}</strong>
+                              {(o.benefit || o.headline) && <p>{o.benefit || o.headline}</p>}
+                              <div className="mw-lc-foot">
+                                <span className="mw-lc-type">{titleCase(o.offer_type)}</span>
+                                <b>{money(o.expected_revenue, true)}</b>
+                                {offersEditable && !approved && (
+                                  <span className="mw-alt-actions" onClick={stop} onKeyDown={stop}>
+                                    <button aria-label={`Add ${o.name}`} title="Add to month" disabled={busy} onClick={() => offerChange({ op: 'add', offerId: o.id }, `“${o.name}” added`)}>
+                                      <Plus size={14} />
+                                    </button>
+                                    {selected.length > 0 && (
+                                      <label className="mw-alt-replace" title="Replace a current offer">
+                                        <RefreshCcw size={13} />
+                                        <select aria-label={`Replace an offer with ${o.name}`} disabled={busy} value="" onChange={e => replaceOffer(Number(e.target.value), o)}>
+                                          <option value="" disabled>Replace…</option>
+                                          {selected.map(cur => (
+                                            <option key={cur.id} value={cur.id} disabled={cur.approval_status === 'approved'}>{cur.name}</option>
+                                          ))}
+                                        </select>
+                                      </label>
+                                    )}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <div className="mw-flip-face mw-flip-back" aria-hidden={!flipped}>
+                              <small>{o.headline || 'Offer details'}</small>
+                              {o.customer_copy && <em>“{o.customer_copy}”</em>}
+                              <dl>
+                                <div><dt>Audience</dt><dd>{o.audience || '—'}</dd></div>
+                                <div><dt>Value</dt><dd>{Number(o.effective_discount) ? `${Number(o.effective_discount).toFixed(0)}% effective` : 'At list'}</dd></div>
+                                <div><dt>Avg ticket</dt><dd>{o.expected_asp ? money(o.expected_asp) : '—'}</dd></div>
+                                <div><dt>Buyers</dt><dd>{o.target_purchases || '—'}</dd></div>
+                              </dl>
+                              {o.rationale && <p>{String(o.rationale).split('\n')[0].replace(/^Why: /, '')}</p>}
+                              {o.redemption_conditions && <p className="mw-flip-fine">{o.redemption_conditions}</p>}
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <b>{money(o.expected_revenue, true)}</b>
-                          {offersEditable && (
-                            <span className="mw-alt-actions">
-                              <button
-                                aria-label={`Add ${o.name}`}
-                                title="Add to month"
-                                disabled={busy}
-                                onClick={() => offerChange({ op: 'add', offerId: o.id }, `“${o.name}” added`)}
-                              >
-                                <Plus size={14} />
-                              </button>
-                              {selected.length > 0 && (
-                                <label className="mw-alt-replace" title="Replace a current offer">
-                                  <RefreshCcw size={13} />
-                                  <select
-                                    aria-label={`Replace an offer with ${o.name}`}
-                                    disabled={busy}
-                                    value=""
-                                    onChange={e => replaceOffer(Number(e.target.value), o)}
-                                  >
-                                    <option value="" disabled>Replace…</option>
-                                    {selected.map(cur => (
-                                      <option key={cur.id} value={cur.id} disabled={cur.approval_status === 'approved'}>
-                                        {cur.name}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </label>
-                              )}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </section>
                 ))
               ) : (
@@ -1619,7 +1769,7 @@ function Economics({ econ, window }: { econ: MonthEconomics; window: { from: str
   );
 }
 
-function OfferCard({ offer: o, slot, list, productLabel, editable, canSwap = editable, approved, canApprove, busy, onApprove, onEdit, onRemove, onSwap }: any) {
+function OfferCard({ offer: o, no, slot, list, productLabel, editable, canSwap = editable, approved, canApprove, busy, onApprove, onEdit, onRemove, onSwap }: any) {
   const linked = !!o.provenance?.linkGroup;
   const parseList = (value: any) => {
     if (Array.isArray(value)) return value;
@@ -1636,8 +1786,30 @@ function OfferCard({ offer: o, slot, list, productLabel, editable, canSwap = edi
     .split('\n')
     .map(line => line.match(/^(Why|Logic|KPI):\s*(.*)$/))
     .filter(Boolean) as RegExpMatchArray[];
+  // Optimistic approval: the tick flips immediately and settles once the month reloads.
+  const [pending, setPending] = useState<boolean | null>(null);
+  useEffect(() => setPending(null), [approved]);
+  const shown = pending ?? !!approved;
   return (
-    <article className={`oc ${approved ? 'is-approved' : ''}`}>
+    <article className={`oc ${shown ? 'is-approved' : ''}`}>
+      {no ? <span className="oc-no" aria-label={`Offer ${no}`}>{no}</span> : null}
+      {canApprove && (
+        <button
+          type="button"
+          role="checkbox"
+          aria-checked={shown}
+          className={`oc-check${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
+          title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
+          disabled={pending !== null}
+          onClick={() => {
+            setPending(!shown);
+            Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
+          }}
+        >
+          <i><Check size={13} strokeWidth={3} /></i>
+          <span>{shown ? 'Approved' : 'Approve'}</span>
+        </button>
+      )}
       <header className="oc-head">
         <div>
           <div className="oc-tags">
@@ -1657,18 +1829,6 @@ function OfferCard({ offer: o, slot, list, productLabel, editable, canSwap = edi
             <span className="oc-approved-tag">
               <CheckCircle2 size={12} /> Approved
             </span>
-          )}
-          {o.margin_impact == null && <span className="oc-cost-warning">Costs needed before approval</span>}
-          {canApprove && (
-            <button
-              className={`oc-approve ${approved ? 'on' : ''}`}
-              disabled={busy}
-              aria-label={approved ? `Reopen ${o.name}` : `Approve ${o.name}`}
-              title={approved ? 'Reopen this offer' : 'Approve this offer'}
-              onClick={onApprove}
-            >
-              {approved ? <RotateCcw size={14} /> : <Check size={14} />}
-            </button>
           )}
           {canSwap && !approved && (
             <>

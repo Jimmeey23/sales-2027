@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "predev": "node scripts/dev-clean.mjs",
-    "dev": "concurrently -k \"tsx watch server/main.ts\" \"vite --host 0.0.0.0 --open\"",
+    "dev": "node scripts/dev.mjs",
     "build": "tsc -b && vite build",
     "start": "NODE_ENV=production tsx server/main.ts",
     "seed": "tsx server/seed.ts",
@@ -19,7 +19,9 @@
     "test:e2e": "playwright test",
     "user": "tsx scripts/user.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"server/**/*.ts\" \"api/**/*.ts\" \"e2e/**/*.ts\"",
-    "plan:january": "tsx scripts/import-january-offers.ts"
+    "plan:january": "tsx scripts/import-january-offers.ts",
+    "plan:offers": "tsx scripts/import-sales-offer-plan.ts",
+    "plan:library": "tsx scripts/import-membership-library.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.7.0",
