@@ -25,7 +25,8 @@ export default function Settings() {
   const [tab, setTab] = useState('studios'),
     [editing, setEditing] = useState<any>(null),
     [adding, setAdding] = useState(false),
-    [auditDetail, setAuditDetail] = useState<any>(null);
+    [auditDetail, setAuditDetail] = useState<any>(null),
+    [userForm, setUserForm] = useState<{ mode: 'create' | 'password'; user?: any } | null>(null);
   const { data: users, reload: reloadUsers } = useLoad<any[]>(() => api('/users'), []);
   const { data: settings } = useLoad<any>(() => api('/settings'), []);
   const { data: audit } = useLoad<any[]>(() => api('/audit'), []);
@@ -40,6 +41,21 @@ export default function Settings() {
   };
   return (
     <div>
+      {userForm && (
+        <UserModal
+          mode={userForm.mode}
+          user={userForm.user}
+          roles={Object.keys(boot.permissions)}
+          studios={boot.studios}
+          onClose={() => setUserForm(null)}
+          onDone={async (msg: string) => {
+            setUserForm(null);
+            await reloadUsers();
+            toast(msg);
+          }}
+          onError={(msg: string) => toast(msg, 'error')}
+        />
+      )}
       <PageHeader
         eyebrow="ADMINISTRATION & CONTROL"
         title="Commercial rules with an audit trail"
@@ -115,7 +131,12 @@ export default function Settings() {
           <Card>
             <CardHeader
               title="User access"
-              subtitle="Demonstration identities use one shared password; replace with managed credentials before production use"
+              subtitle="Add team members, set their passwords and control what each role can do"
+              action={
+                <Button icon={<Plus size={15} />} onClick={() => setUserForm({ mode: 'create' })}>
+                  Add user
+                </Button>
+              }
             />
             <TableScroll>
               <table className="data-table">
@@ -125,6 +146,7 @@ export default function Settings() {
                     <th>Role</th>
                     <th>Assigned studio</th>
                     <th>Status</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -154,7 +176,12 @@ export default function Settings() {
                           : 'All studios'}
                       </td>
                       <td>
-                        <Badge tone="green">Active</Badge>
+                        {u.active ? <Badge tone="green">Active</Badge> : <Badge>Inactive</Badge>}
+                      </td>
+                      <td>
+                        <Button variant="secondary" size="sm" icon={<KeyRound size={14} />} onClick={() => setUserForm({ mode: 'password', user: u })}>
+                          Set password
+                        </Button>
                       </td>
                     </tr>
                   ))}
@@ -466,6 +493,82 @@ function StudioEditor({ studio, onClose, onSaved }: { studio?: any; onClose: () 
       <Callout tone="info">
         Studio rules affect independent product eligibility, generation, cloning and financial validation.
       </Callout>
+    </Modal>
+  );
+}
+
+function UserModal({ mode, user, roles, studios, onClose, onDone, onError }: any) {
+  const [form, setForm] = useState({ name: '', email: '', role: roles.includes('sales_manager') ? 'sales_manager' : roles[0], studio: '', password: '', confirm: '' });
+  const [saving, setSaving] = useState(false);
+  const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
+  const tooShort = form.password.length > 0 && form.password.length < 12;
+  const mismatch = form.confirm.length > 0 && form.confirm !== form.password;
+  const valid =
+    form.password.length >= 12 && form.password === form.confirm && (mode === 'password' || (form.name.trim().length >= 2 && /\S+@\S+\.\S+/.test(form.email)));
+  const save = async () => {
+    setSaving(true);
+    try {
+      if (mode === 'create') {
+        await post('/users', {
+          name: form.name.trim(),
+          email: form.email.trim(),
+          role: form.role,
+          assignedStudioId: form.studio ? Number(form.studio) : null,
+          password: form.password,
+        });
+        await onDone(`${form.name.trim()} added. Share the password with them securely.`);
+      } else {
+        await post(`/users/${user.id}/password`, { password: form.password });
+        await onDone(`Password updated for ${user.name}; their other sessions were signed out.`);
+      }
+    } catch (error: any) {
+      onError(error.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+  return (
+    <Modal
+      title={mode === 'create' ? 'Add a user' : `Set password · ${user.name}`}
+      subtitle={mode === 'password' ? user.email : 'They sign in with this email and password.'}
+      width="560px"
+      onClose={onClose}
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button onClick={save} disabled={!valid || saving}>{saving ? 'Saving…' : mode === 'create' ? 'Create user' : 'Set password'}</Button>
+        </>
+      }
+    >
+      <div className="form-grid two">
+        {mode === 'create' && (
+          <>
+            <Field label="Full name" required>
+              <Input value={form.name} onChange={e => set('name', e.target.value)} autoFocus />
+            </Field>
+            <Field label="Email" required>
+              <Input type="email" value={form.email} onChange={e => set('email', e.target.value)} autoComplete="off" />
+            </Field>
+            <Field label="Role">
+              <Select value={form.role} onChange={e => set('role', e.target.value)}>
+                {roles.map((r: string) => <option key={r} value={r}>{titleCase(r)}</option>)}
+              </Select>
+            </Field>
+            <Field label="Assigned studio">
+              <Select value={form.studio} onChange={e => set('studio', e.target.value)}>
+                <option value="">All studios</option>
+                {studios.map((s: any) => <option key={s.id} value={s.id}>{s.name}</option>)}
+              </Select>
+            </Field>
+          </>
+        )}
+        <Field label="Password" hint="At least 12 characters" error={tooShort ? 'Too short' : undefined} required>
+          <Input type="password" value={form.password} onChange={e => set('password', e.target.value)} autoComplete="new-password" />
+        </Field>
+        <Field label="Confirm password" error={mismatch ? 'Passwords do not match' : undefined} required>
+          <Input type="password" value={form.confirm} onChange={e => set('confirm', e.target.value)} autoComplete="new-password" />
+        </Field>
+      </div>
     </Modal>
   );
 }

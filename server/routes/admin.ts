@@ -1,5 +1,6 @@
 import { db, audit } from '../db.js';
-import { permission, ROLE_PERMISSIONS } from '../lib/auth.js';
+import { z } from 'zod';
+import { hashPassword, permission, ROLE_PERMISSIONS } from '../lib/auth.js';
 import { bodyError, id } from '../http.js';
 import type { Express } from 'express';
 
@@ -9,6 +10,38 @@ export default function registerAdminRoutes(app: Express) {
       db.prepare('SELECT id,email,name,role,assigned_studio_id,active,created_at FROM users ORDER BY name').all(),
     ),
   );
+  app.post('/api/users', permission('users'), (req, res) => {
+    const body = z
+      .object({
+        email: z.string().trim().toLowerCase().email().max(200),
+        name: z.string().trim().min(2).max(120),
+        role: z.string(),
+        assignedStudioId: z.number().int().positive().nullable().optional(),
+        password: z.string().min(12, 'Password must be at least 12 characters.').max(200),
+      })
+      .parse(req.body);
+    if (!ROLE_PERMISSIONS[body.role]) throw bodyError('Unknown role.');
+    if (db.prepare('SELECT 1 FROM users WHERE email=?').get(body.email)) throw bodyError('A user with that email already exists.');
+    const userId = Number(
+      db
+        .prepare('INSERT INTO users(email,name,password_hash,role,assigned_studio_id) VALUES (?,?,?,?,?)')
+        .run(body.email, body.name, hashPassword(body.password), body.role, body.assignedStudioId ?? null).lastInsertRowid,
+    );
+    const after = db.prepare('SELECT id,email,name,role,assigned_studio_id,active,created_at FROM users WHERE id=?').get(userId);
+    audit({ userId: req.user!.id, action: 'create_user', entityType: 'user', entityId: userId, after });
+    res.status(201).json(after);
+  });
+  app.post('/api/users/:id/password', permission('users'), (req, res) => {
+    const userId = id(req.params.id);
+    const { password } = z.object({ password: z.string().min(12, 'Password must be at least 12 characters.').max(200) }).parse(req.body);
+    if (!db.prepare('SELECT 1 FROM users WHERE id=?').get(userId)) return res.status(404).json({ error: 'User not found.' });
+    db.transaction(() => {
+      db.prepare('UPDATE users SET password_hash=? WHERE id=?').run(hashPassword(password), userId);
+      if (userId !== req.user!.id) db.prepare('DELETE FROM auth_sessions WHERE user_id=?').run(userId);
+      audit({ userId: req.user!.id, action: 'reset_user_password', entityType: 'user', entityId: userId, reason: 'Password set by administrator.' });
+    })();
+    res.json({ ok: true });
+  });
   app.patch('/api/users/:id', permission('users'), (req, res) => {
     const userId = id(req.params.id),
       before = db
