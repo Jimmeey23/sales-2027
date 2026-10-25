@@ -2,15 +2,22 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
+  BadgePercent,
+  Calendar,
+  CalendarCheck2,
   CalendarHeart,
   Check,
   CheckCircle2,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Clock,
+  FileText,
   Flag,
   Gift,
   Handshake,
   HeartHandshake,
+  LayoutGrid,
   Lightbulb,
   Link2,
   LockKeyhole,
@@ -25,6 +32,7 @@ import {
   Sigma,
   SlidersHorizontal,
   Sparkles,
+  Tag,
   Target,
   Trash2,
   Trophy,
@@ -1145,52 +1153,58 @@ export default function MonthWorkspace({
                       .filter(g => g.offers.length)
                       .map(g => (
                         <div key={g.label} className="mw-offer-group">
-                          <h5>
-                            {g.label}
-                            <span>{lakh(g.offers.reduce((s, o) => s + forecastRevenue(o), 0))}</span>
-                          </h5>
-                          {g.offers.map(o =>
-                            editing === o.id ? (
-                              <OfferEditor
-                                key={o.id}
-                                offer={o}
-                                studioId={studio.id}
-                                prices={prices}
-                                solo={solo}
-                                others={others}
-                                busy={busy}
-                                onCancel={() => setEditing(null)}
-                                onSave={async edit => {
-                                  if (
-                                    await offerChange({ op: 'update', offerId: o.id, edit }, `“${edit.name}” updated`)
-                                  )
-                                    setEditing(null);
-                                }}
-                              />
-                            ) : (
-                              <OfferCard
-                                key={o.id}
-                                no={groups.flatMap(x => x.offers).findIndex(x => x.id === o.id) + 1}
-                                offer={o}
-                                list={prices?.prices[studio.id]?.[o.provenance?.pricing?.product]}
-                                productLabel={prices?.keys[o.provenance?.pricing?.product]}
-                                slot={slotOf(o.id)}
-                                editable={editable}
-                                canSwap={offersEditable}
-                                approved={o.approval_status === 'approved'}
-                                canApprove={canApproveOffers}
-                                busy={busy}
-                                onApprove={(next: boolean) => offerApproval(o, next)}
-                                onEdit={() => setEditing(o.id)}
-                                onRemove={() => offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed`)}
-                                onSwap={() => askCopilot('replace', o.id)}
-                              />
-                            ),
-                          )}
+                          <div className="mw-offer-group-head">
+                            <span className="mw-offer-group-title">{g.label}</span>
+                            <span className="mw-offer-group-count">{g.offers.length}</span>
+                            <i aria-hidden="true" />
+                            <strong className="mw-offer-group-sum">
+                              {lakh(g.offers.reduce((s, o) => s + forecastRevenue(o), 0))}
+                            </strong>
+                          </div>
+                          <div className="mw-offer-list">
+                            {g.offers.map(o =>
+                              editing === o.id ? (
+                                <OfferEditor
+                                  key={o.id}
+                                  offer={o}
+                                  studioId={studio.id}
+                                  prices={prices}
+                                  solo={solo}
+                                  others={others}
+                                  busy={busy}
+                                  onCancel={() => setEditing(null)}
+                                  onSave={async edit => {
+                                    if (
+                                      await offerChange({ op: 'update', offerId: o.id, edit }, `“${edit.name}” updated`)
+                                    )
+                                      setEditing(null);
+                                  }}
+                                />
+                              ) : (
+                                <OfferCard
+                                  key={o.id}
+                                  no={groups.flatMap(x => x.offers).findIndex(x => x.id === o.id) + 1}
+                                  offer={o}
+                                  list={prices?.prices[studio.id]?.[o.provenance?.pricing?.product]}
+                                  productLabel={prices?.keys[o.provenance?.pricing?.product]}
+                                  slot={slotOf(o.id)}
+                                  editable={editable}
+                                  canSwap={offersEditable}
+                                  approved={o.approval_status === 'approved'}
+                                  canApprove={canApproveOffers}
+                                  busy={busy}
+                                  onApprove={(next: boolean) => offerApproval(o, next)}
+                                  onEdit={() => setEditing(o.id)}
+                                  onRemove={() => offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed`)}
+                                  onSwap={() => askCopilot('replace', o.id)}
+                                />
+                              ),
+                            )}
+                          </div>
                         </div>
                       ))
                   ) : (
-                    <p className="muted">No offers picked yet — add one from the alternates on the right.</p>
+                    <p className="mw-offer-empty">No offers picked yet — select an option from the offer library on the right.</p>
                   )}
                 </div>
               </>
@@ -1815,161 +1829,473 @@ function Economics({ econ, window }: { econ: MonthEconomics; window: { from: str
   );
 }
 
-function OfferCard({ offer: o, no, slot, list, productLabel, editable, canSwap = editable, approved, canApprove, busy, onApprove, onEdit, onRemove, onSwap }: any) {
+type CardPhoto = { url: string; pos: string; tags: string[] };
+const OFFER_CARD_PHOTOS: CardPhoto[] = [
+  // Duo, referral, partner & bring-a-friend energy
+  { url: '/p57/pro/n23.jpg', pos: '54% 30%', tags: ['duo', 'newcomer', 'lapsed'] },
+  { url: '/p57/pro/n03.jpg', pos: '58% 24%', tags: ['duo', 'barre', 'newcomer'] },
+  { url: '/p57/pro/n25.jpg', pos: '54% 40%', tags: ['duo', 'strength', 'renewal'] },
+  // Community, party, founding & She Moves moments
+  { url: '/p57/pro/n20.jpg', pos: '56% 24%', tags: ['community', 'duo', 'newcomer', 'renewal'] },
+  { url: '/p57/class-1.jpg', pos: '58% 24%', tags: ['community', 'barre', 'newcomer'] },
+  // 1-on-1 coaching, privates & trainer consultations
+  { url: '/p57/pro/n13.jpg', pos: '64% 24%', tags: ['coaching', 'newcomer', 'renewal'] },
+  { url: '/p57/pro/n12.jpg', pos: '62% 22%', tags: ['coaching', 'duo', 'newcomer'] },
+  { url: '/p57/pro/n02.jpg', pos: '54% 32%', tags: ['coaching', 'strength', 'lapsed'] },
+  // Indoor cycle, flash & high-tempo challenges
+  { url: '/p57/pro/n01.jpg', pos: '54% 24%', tags: ['cycle', 'flash', 'renewal'] },
+  { url: '/p57/pro/n08.jpg', pos: '52% 24%', tags: ['cycle', 'flash', 'newcomer'] },
+  // Strength, class packs, trade-ups & boxes
+  { url: '/p57/pro/p34.jpg', pos: '58% 26%', tags: ['strength', 'community', 'renewal'] },
+  { url: '/p57/pro/n24.jpg', pos: '62% 26%', tags: ['strength', 'barre', 'newcomer'] },
+  { url: '/p57/pro/n10.jpg', pos: '62% 28%', tags: ['strength', 'lapsed', 'renewal'] },
+  { url: '/p57/pro/p38.jpg', pos: '54% 26%', tags: ['strength', 'flash', 'renewal'] },
+  // Signature barre, stretch, newcomers & welcome offers
+  { url: '/p57/pro/n18.jpg', pos: '56% 36%', tags: ['barre', 'calm', 'renewal'] },
+  { url: '/p57/barre-solo.jpg', pos: '68% 20%', tags: ['barre', 'newcomer', 'renewal'] },
+  // Comeback, travel-proof, freeze & reactivation
+  { url: '/p57/class-2.jpg', pos: '54% 32%', tags: ['calm', 'lapsed', 'renewal'] },
+  { url: '/p57/pro/n16.jpg', pos: '54% 28%', tags: ['calm', 'lapsed'] },
+  { url: '/p57/pro/n26.jpg', pos: '58% 26%', tags: ['calm', 'strength', 'lapsed'] },
+];
+
+const CARD_PHOTO_THEMES: [RegExp, string][] = [
+  [/private|consult|1-on-1|trainer|personal|coach/i, 'coaching'],
+  [/friend|duo|pair|squad|refer|bring|together|reunion|couple/i, 'duo'],
+  [/cycle|ride|spin|c\+c|flash|72-hour|earn it back/i, 'cycle'],
+  [/she moves|women|party|founding|passport|festival/i, 'community'],
+  [/travel|freeze|comeback|missed|return|lapsed|reset|stretch|calm/i, 'calm'],
+  [/strength|lift|box|trade-up|upgrade|level up|20-class|10-pack|pack/i, 'strength'],
+  [/barre|welcome|first|trial|intro|golden|bonus|punch/i, 'barre'],
+];
+
+function pickOfferCardPhoto(o: any, slot?: string, no?: number): CardPhoto {
+  const text = `${o.name || ''} ${o.benefit || ''} ${o.headline || ''} ${o.objective || ''}`;
+  const theme = CARD_PHOTO_THEMES.find(([re]) => re.test(text))?.[1];
+  const byTheme = theme ? OFFER_CARD_PHOTOS.filter(p => p.tags.includes(theme)) : [];
+  const bySlot = slot ? OFFER_CARD_PHOTOS.filter(p => p.tags.includes(slot)) : [];
+  const merged = [...new Map([...byTheme, ...bySlot].map(p => [p.url, p])).values()];
+  const pool = merged.length >= 2 ? merged : OFFER_CARD_PHOTOS;
+  const seed = [...String(o.name || o.id || '')].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 13);
+  const idx = (seed + (o.month || 1) * 3 + (no || 1) * 5) % pool.length;
+  return pool[idx];
+}
+
+function splitOfferTitle(rawName: string): [string, string] {
+  const words = String(rawName || '').trim().split(/\s+/).filter(Boolean);
+  if (words.length <= 1) return [words[0] || '', ''];
+  if (words.length === 2) return [words[0], words[1]];
+  const w0 = words[0].toLowerCase();
+  const w1 = words[1].toLowerCase();
+  const leadPair =
+    w0.length <= 3 ||
+    ['the', 'one', 'two', 'six', 'ten', 'new', 'all', 'get', 'try', 'win'].includes(w0) ||
+    ['up', 'in', 'on', 'to', 'by', 'of', 'or', 'your', 'the', 'out', 'back', 'more', 'where', '+'].includes(w1) ||
+    words.length >= 4;
+  const splitAt = leadPair ? 2 : 1;
+  return [words.slice(0, splitAt).join(' '), words.slice(splitAt).join(' ')];
+}
+
+function OfferCard({
+  offer: o,
+  no,
+  slot,
+  list,
+  productLabel,
+  editable,
+  canSwap = editable,
+  approved,
+  canApprove,
+  busy,
+  onApprove,
+  onEdit,
+  onRemove,
+  onSwap,
+}: any) {
   const linked = !!o.provenance?.linkGroup;
   const parseList = (value: any) => {
     if (Array.isArray(value)) return value;
-    try { return value ? JSON.parse(value) : []; } catch { return []; }
+    try {
+      return value ? JSON.parse(value) : [];
+    } catch {
+      return [];
+    }
   };
-  const metrics = parseList(o.success_metrics), risks = parseList(o.risks);
-  const offerPrice = n(o.expected_asp),
-    pctOff = list ? Math.max(0, 1 - offerPrice / list) : n(o.effective_discount) / 100,
-    original = list || (pctOff > 0 && pctOff < 1 ? offerPrice / (1 - pctOff) : null),
-    saving = original ? Math.max(0, original - offerPrice) : 0;
+  const metrics = parseList(o.success_metrics),
+    risks = parseList(o.risks);
+
+  const offerPrice = n(o.expected_asp);
+  const rawDisc = o.provenance?.pricing?.discount;
+  const cashDisc = rawDisc !== undefined && rawDisc !== null ? n(rawDisc) : null;
+  const effPct = n(o.effective_discount);
+  const featuredSell = list ? Math.round(list * (1 - (cashDisc ?? 0))) : null;
+  const isBlendedTicket = Boolean(
+    list &&
+      featuredSell &&
+      offerPrice > 0 &&
+      Math.abs(offerPrice - featuredSell) > Math.max(100, list * 0.03) &&
+      offerPrice < featuredSell * 0.9,
+  );
+  const isDirectCashCut =
+    !isBlendedTicket &&
+    ((list && offerPrice > 0 && list - offerPrice > 1) ||
+      (!list && cashDisc !== null && cashDisc > 0 && cashDisc < 1) ||
+      (!list && cashDisc === null && o.offer_type === 'percentage' && effPct > 0 && effPct < 100));
+  const strikePrice = isDirectCashCut
+    ? list && list > offerPrice + 1
+      ? list
+      : offerPrice > 0
+        ? Math.round(offerPrice / (1 - (cashDisc ?? effPct / 100)))
+        : null
+    : null;
+  const directSaving = strikePrice && offerPrice ? Math.max(0, strikePrice - offerPrice) : 0;
+  const directPct = strikePrice && strikePrice > 0 ? directSaving / strikePrice : 0;
+
+  const fmtPct = (v: number) => `${Number(v.toFixed(1))}%`;
+  const hasCashDiscount = (cashDisc !== null && cashDisc > 0) || isDirectCashCut;
+
+  // Column 1: List price / Featured MRP (only crossed out when there is a real direct price cut)
+  const listColLabel = isBlendedTicket ? 'Featured MRP' : 'List price';
+  const listColValue = strikePrice ? strikePrice : list ? list : offerPrice || null;
+  const listColSub = isBlendedTicket && productLabel ? productLabel : !list && !strikePrice ? 'Standard tariff' : null;
+
+  // Column 2: Offer price / Blended cohort avg ticket
+  const offerColLabel = isBlendedTicket ? 'Avg ticket' : 'Offer price';
+  const offerColSub = isBlendedTicket
+    ? cashDisc && cashDisc > 0
+      ? `Featured: ${money(featuredSell, true)} (${Math.round(cashDisc * 100)}% off)`
+      : 'Blended across tiers'
+    : null;
+
+  // Column 3: Client saves / Value-add structured display
+  const savesPrimary =
+    directSaving > 0
+      ? money(directSaving)
+      : hasCashDiscount
+        ? `${fmtPct((cashDisc ?? 0) * 100)} off`
+        : null;
+  const savesPillText =
+    directSaving > 0
+      ? `${fmtPct(directPct * 100)} off list`
+      : hasCashDiscount
+        ? effPct > (cashDisc ?? 0) * 100 + 0.2
+          ? `${fmtPct(effPct)} total value`
+          : 'Campaign rate'
+        : effPct > 0
+          ? `+${fmtPct(effPct)} perk value`
+          : 'Value-add, no price cut';
+
+  const slotLabel = slot === 'lapsed' ? 'Winback' : slot ? titleCase(slot) : null;
   const membership = productLabel || o.provenance?.pricing?.product || titleCase(o.offer_type);
-  // Imported rationale is written as "Why: … / Logic: … / KPI: …" lines.
+  const objectiveLabel = o.objective ? titleCase(o.objective) : null;
+  const showObjective = objectiveLabel && (!membership || objectiveLabel.toLowerCase() !== membership.toLowerCase());
+
+  const monthEndDay = o.month ? new Date(o.year || 2027, o.month, 0).getDate() : 30;
+  const windowText = o.validity_start
+    ? `${new Date(o.validity_start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}${
+        o.validity_end
+          ? ` – ${new Date(o.validity_end).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}`
+          : ''
+      }`
+    : o.month
+      ? `1 – ${monthEndDay} ${MONTHS[o.month - 1].slice(0, 3)}${o.year ? ` ${o.year}` : ''}`
+      : 'Full month';
+
+  const [leadTitle, restTitle] = splitOfferTitle(o.name);
+  const heroPhoto = pickOfferCardPhoto(o, slot, no);
+  const offerNum = no ? String(no).padStart(2, '0') : '01';
+
+  // Imported rationale uses "Why: … / Watch: … / Model: … / Logic: … / KPI: …" lines.
   const reasons = String(o.rationale || '')
     .split('\n')
-    .map(line => line.match(/^(Why|Logic|KPI):\s*(.*)$/))
+    .map(line => line.match(/^(Why|Watch|Model|Logic|KPI):\s*(.*)$/i))
     .filter(Boolean) as RegExpMatchArray[];
+
   // Optimistic approval: the tick flips immediately and settles once the month reloads.
   const [pending, setPending] = useState<boolean | null>(null);
+  const [whyOpen, setWhyOpen] = useState(false);
   useEffect(() => setPending(null), [approved]);
   const shown = pending ?? !!approved;
+  const hasDrawerContent = Boolean(
+    reasons.length > 0 ||
+      o.rationale ||
+      (o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline) ||
+      o.excluded_audience ||
+      o.cta ||
+      metrics.length > 0 ||
+      risks.length > 0,
+  );
+
   return (
-    <article className={`oc ${shown ? 'is-approved' : ''}`}>
-      {no ? <span className="oc-no" aria-label={`Offer ${no}`}>{no}</span> : null}
-      <header className="oc-head">
-        <div>
-          <div className="oc-tags">
-            {slot && <span className="oc-tag must">{titleCase(slot)} must-have</span>}
-            <span className="oc-tag">{membership}</span>
-            <span className="oc-tag">{titleCase(o.objective)}</span>
-            <span className={`oc-tag ${linked ? 'linked' : 'solo'}`}>
-              {linked ? <Link2 size={11} /> : <Unlink size={11} />}
-              {linked ? 'All locations' : 'This location'}
-            </span>
-          </div>
-          <h3>{o.name}</h3>
-          {o.headline && <p className="oc-job">{o.headline}</p>}
+    <article className={`oc${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}>
+      <div className="oc-hero">
+        <div className="oc-hero-art" aria-hidden="true">
+          <div
+            className="oc-hero-photo"
+            style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }}
+          />
+          <div className="oc-hero-vignette" />
         </div>
-        <div className="oc-actions">
-          {approved && (
-            <span className="oc-approved-tag">
-              <CheckCircle2 size={12} /> Approved
-            </span>
-          )}
-          {canApprove && (
+
+        <div className="oc-hero-body">
+          <div className="oc-num-badge" aria-label={no ? `Offer ${offerNum}` : 'Offer'}>
+            <span>{offerNum}</span>
+          </div>
+
+          <div className="oc-hero-copy">
+            <div className="oc-chips">
+              {slotLabel && (
+                <span className={`oc-chip is-slot slot-${slot}`}>
+                  <Sparkles size={11} />
+                  {slotLabel}
+                </span>
+              )}
+              {membership && (
+                <span className="oc-chip">
+                  <Calendar size={11} />
+                  {membership}
+                </span>
+              )}
+              {showObjective && (
+                <span className="oc-chip">
+                  <Clock size={11} />
+                  {objectiveLabel}
+                </span>
+              )}
+              <span className={`oc-chip ${linked ? 'is-linked' : 'is-solo'}`}>
+                {linked ? <Link2 size={11} /> : <Unlink size={11} />}
+                {linked ? 'All locations' : 'This location'}
+              </span>
+            </div>
+
+            <h3 className="oc-title">
+              {restTitle ? (
+                <>
+                  <span className="oc-title-accent">{leadTitle}</span> {restTitle}
+                </>
+              ) : (
+                <span className="oc-title-accent">{leadTitle}</span>
+              )}
+            </h3>
+
+            {o.headline && <p className="oc-job">{o.headline}</p>}
+            {o.benefit && o.benefit !== o.headline && <p className="oc-benefit-inline">{o.benefit}</p>}
+          </div>
+        </div>
+      </div>
+
+      <div className="oc-sheet">
+        <div className="oc-metrics-grid">
+          <div className="oc-metric-card">
+            <div className="oc-metric-head">
+              <span className="oc-metric-label">{listColLabel}</span>
+              <Tag size={13.5} strokeWidth={1.75} className="oc-metric-glyph" aria-hidden="true" />
+            </div>
+            {strikePrice ? (
+              <s className="oc-strike">{money(strikePrice)}</s>
+            ) : (
+              <strong className="oc-list-val">{listColValue ? money(listColValue) : '—'}</strong>
+            )}
+            <small className="oc-metric-sub">{listColSub || (strikePrice ? 'Before discount' : 'Standard MRP')}</small>
+          </div>
+
+          <div className="oc-metric-card">
+            <div className="oc-metric-head">
+              <span className="oc-metric-label">{offerColLabel}</span>
+              <Gift size={13.5} strokeWidth={1.75} className="oc-metric-glyph" aria-hidden="true" />
+            </div>
+            <strong className="oc-offer-val">{offerPrice ? money(offerPrice) : '—'}</strong>
+            <small className="oc-metric-sub">{offerColSub || membership || 'Member tariff'}</small>
+          </div>
+
+          <div className="oc-metric-card">
+            <div className="oc-metric-head">
+              <span className="oc-metric-label">Client saves</span>
+              <BadgePercent size={13.5} strokeWidth={1.75} className="oc-metric-glyph" aria-hidden="true" />
+            </div>
+            <strong className={`oc-save-val ${savesPrimary ? 'is-cut' : 'is-perk'}`}>
+              {savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}
+            </strong>
+            <small className="oc-metric-sub">
+              {savesPrimary ? savesPillText : effPct > 0 ? 'Added perk · MRP intact' : 'No price cut'}
+            </small>
+          </div>
+
+          <div className="oc-metric-card is-plan">
+            <div className="oc-metric-head">
+              <span className="oc-metric-label">Plan</span>
+              <CalendarCheck2 size={13.5} strokeWidth={1.75} className="oc-metric-glyph" aria-hidden="true" />
+            </div>
+            <strong className="oc-plan-val">
+              {hasValidForecast(o) ? lakh(n(o.expected_revenue)) : 'Needs review'}
+            </strong>
+            <small className="oc-metric-sub">
+              {number(o.target_purchases)} units × {money(offerPrice, true)}
+            </small>
+          </div>
+        </div>
+
+        <div className="oc-details-strip">
+          <div className="oc-fact">
+            <span className="oc-fact-label">Target cohort</span>
+            <p>{o.audience || 'All clients'}</p>
+          </div>
+
+          <div className="oc-fact">
+            <span className="oc-fact-label">Window</span>
+            <p>{windowText}</p>
+          </div>
+
+          <div className="oc-fact oc-fact-terms">
+            <span className="oc-fact-label">Terms &amp; guardrails</span>
+            <p>{o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}</p>
+          </div>
+        </div>
+
+        <footer className="oc-footer">
+        <div className="oc-footer-bar">
+          {hasDrawerContent ? (
             <button
               type="button"
-              role="checkbox"
-              aria-checked={shown}
-              className={`oc-check${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
-              title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
-              disabled={pending !== null}
-              onClick={() => {
-                setPending(!shown);
-                Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
-              }}
+              className={`oc-why-btn${whyOpen ? ' is-open' : ''}`}
+              aria-expanded={whyOpen}
+              onClick={() => setWhyOpen(v => !v)}
             >
-              <i><Check size={13} strokeWidth={3} /></i>
-              <span>{shown ? 'Approved' : 'Approve'}</span>
-            </button>
-          )}
-          {canSwap && !approved && (
-            <>
-              <button aria-label={`Replace ${o.name} with AI`} title="Replace with AI" className="ai" onClick={onSwap} disabled={busy}>
-                <Sparkles size={14} />
-              </button>
-              {editable && (
-                <button aria-label={`Edit ${o.name}`} onClick={onEdit}>
-                  <Pencil size={14} />
-                </button>
+              <span>Why this offer works</span>
+              <ChevronDown size={14} className="oc-chevron" />
+              {reasons.length > 0 && (
+                <em className="oc-why-tags">{reasons.map(([, k]) => titleCase(k)).join(' · ')}</em>
               )}
-              <button aria-label={`Remove ${o.name}`} className="danger" onClick={onRemove} disabled={busy}>
-                <Minus size={14} />
-              </button>
-            </>
-          )}
-        </div>
-      </header>
-
-      <div className="oc-benefit">
-        <Gift size={14} />
-        <span>{o.benefit || '—'}</span>
-      </div>
-
-      <div className="oc-price">
-        <div>
-          <span>List price</span>
-          <s>{original ? money(original) : '—'}</s>
-        </div>
-        <div>
-          <span>Offer price</span>
-          <strong>{offerPrice ? money(offerPrice) : '—'}</strong>
-        </div>
-        <div>
-          <span>Client saves</span>
-          <b className={saving ? '' : 'none'}>
-            {saving ? `${money(saving)} · ${pct(pctOff, 1)}` : 'Value-add, no price cut'}
-          </b>
-        </div>
-        <div className="oc-revenue">
-          <span>Plan</span>
-          <strong>{hasValidForecast(o) ? lakh(n(o.expected_revenue)) : 'Needs review'}</strong>
-          <small>
-            {number(o.target_purchases)} × {money(offerPrice, true)}
-          </small>
-        </div>
-      </div>
-
-      <dl className="oc-facts">
-        <div>
-          <dt>Target cohort</dt>
-          <dd>{o.audience || '—'}</dd>
-        </div>
-        <div>
-          <dt>Window</dt>
-          <dd>
-            {o.validity_start
-              ? `${new Date(o.validity_start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} – ${
-                  o.validity_end
-                    ? new Date(o.validity_end).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
-                    : '—'
-                }`
-              : '—'}
-          </dd>
-        </div>
-        <div className="wide">
-          <dt>Terms</dt>
-          <dd>{o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}</dd>
-        </div>
-        {o.excluded_audience && <div className="wide"><dt>Exclusions</dt><dd>{o.excluded_audience}</dd></div>}
-        {o.cta && <div><dt>Call to action</dt><dd>{o.cta}</dd></div>}
-      </dl>
-
-      {(metrics.length > 0 || risks.length > 0) && (
-        <div className="oc-review-details">
-          {metrics.length > 0 && <details><summary>Success metrics</summary><ul>{metrics.map((item: string) => <li key={item}>{item}</li>)}</ul></details>}
-          {risks.length > 0 && <details><summary>Risks and assumptions</summary><ul>{risks.map((item: string, index: number) => <li key={`${index}-${item}`}>{item}</li>)}</ul></details>}
-        </div>
-      )}
-
-      {(reasons.length > 0 || o.rationale) && (
-        <details className="oc-why">
-          <summary>Why this offer works</summary>
-          {reasons.length ? (
-            reasons.map(([, k, v]) => (
-              <p key={k}>
-                <b>{k}</b>
-                {v}
-              </p>
-            ))
+            </button>
           ) : (
-            <p>{o.rationale}</p>
+            <span />
           )}
-        </details>
-      )}
+
+          <div className="oc-actions">
+            {canSwap && !shown && (
+              <div className="oc-icon-group">
+                <button
+                  type="button"
+                  aria-label={`Replace ${o.name} with AI`}
+                  title="Replace with AI"
+                  className="oc-icon-btn ai"
+                  onClick={onSwap}
+                  disabled={busy}
+                >
+                  <Sparkles size={13.5} />
+                </button>
+                {editable && (
+                  <button
+                    type="button"
+                    aria-label={`Edit ${o.name}`}
+                    title="Edit offer"
+                    className="oc-icon-btn"
+                    onClick={onEdit}
+                  >
+                    <Pencil size={13.5} />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  aria-label={`Remove ${o.name}`}
+                  title="Remove from month"
+                  className="oc-icon-btn danger"
+                  onClick={onRemove}
+                  disabled={busy}
+                >
+                  <Minus size={14} />
+                </button>
+              </div>
+            )}
+            {canApprove ? (
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked={shown}
+                className={`oc-check${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
+                title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
+                disabled={pending !== null}
+                onClick={() => {
+                  setPending(!shown);
+                  Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
+                }}
+              >
+                <i>
+                  <Check size={10.5} strokeWidth={2.75} />
+                </i>
+                <span>{shown ? 'Approved' : 'Approve'}</span>
+              </button>
+            ) : shown ? (
+              <span className="oc-status-approved">
+                <Check size={11} strokeWidth={2.75} /> Approved
+              </span>
+            ) : null}
+          </div>
+        </div>
+
+        {whyOpen && hasDrawerContent && (
+          <div className="oc-details-body">
+            {o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline && (
+              <p className="oc-quote">“{o.customer_copy}”</p>
+            )}
+            {(reasons.length > 0 || o.rationale) && (
+              <div className="oc-rationale">
+                {reasons.length ? (
+                  reasons.map(([, k, v], idx) => (
+                    <div key={`${k}-${idx}`} className="oc-rationale-row">
+                      <span>{k}</span>
+                      <p>{v}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="oc-rationale-plain">{o.rationale}</p>
+                )}
+              </div>
+            )}
+            {(o.excluded_audience || o.cta || metrics.length > 0 || risks.length > 0) && (
+              <dl className="oc-terms-grid">
+                {o.excluded_audience && (
+                  <div className="wide">
+                    <dt>Exclusions</dt>
+                    <dd>{o.excluded_audience}</dd>
+                  </div>
+                )}
+                {o.cta && (
+                  <div>
+                    <dt>Call to action</dt>
+                    <dd>{o.cta}</dd>
+                  </div>
+                )}
+                {metrics.length > 0 && (
+                  <div className="wide">
+                    <dt>Success metrics</dt>
+                    <dd>
+                      <ul>
+                        {metrics.map((item: string) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                )}
+                {risks.length > 0 && (
+                  <div className="wide">
+                    <dt>Risks &amp; assumptions</dt>
+                    <dd>
+                      <ul>
+                        {risks.map((item: string, index: number) => (
+                          <li key={`${index}-${item}`}>{item}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            )}
+          </div>
+        )}
+        </footer>
+      </div>
     </article>
   );
 }

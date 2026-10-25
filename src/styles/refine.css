@@ -157,15 +157,7 @@
 .mw-approved-banner b { font-weight: 700; }
 .mw .mw-main.is-locked > .mw-section { filter: grayscale(.85); opacity: .62; }
 .mw .mw-main.is-locked input, .mw .mw-main.is-locked textarea, .mw .mw-main.is-locked select { background: #f1f2ef; }
-.oc.is-approved { filter: grayscale(.9); opacity: .6; transition: opacity .2s, filter .2s; }
-.oc.is-approved:hover { opacity: .85; }
 .oc .oc-actions { display: flex; align-items: center; gap: 6px; }
-.oc-approved-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 99px; background: #e2f2e7; color: #1f6b3b; font-size: 11px; font-weight: 700; }
-.oc .oc-approve { color: #1f6b3b; border-color: #bfdcc8; }
-.oc .oc-approve:hover:not(:disabled) { background: #e2f2e7; }
-.oc .oc-approve.on { color: #5d665f; border-color: var(--rf-line); }
-.oc-cost-warning { display: inline-flex; align-items: center; padding: 3px 7px; border-radius: 99px; background: #fff1d9; color: #8a5707; font-size: 10px; font-weight: 700; }
-.oc.is-approved .oc-actions { filter: none; }
 /* Month cards/rows once the month is approved */
 .yt-card, .ws-month-card { transition: opacity .2s, filter .2s, transform .16s; }
 li.plan-approved .yt-card, .ws-month-card.plan-approved { filter: grayscale(.9); opacity: .55; background: #f1f2ef; }
