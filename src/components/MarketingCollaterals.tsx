@@ -143,6 +143,7 @@ const noPrice = (s: string) =>
     .replace(/\b\d+(\.\d+)?%\s*of\b/gi, 'part of')
     .replace(/\b(the )?standing \d+(\.\d+)?%/gi, 'the standing perk')
     .replace(/\s*\d+(\.\d+)?%/g, '')
+    .replace(/\s+\b(at|for|from|of|worth)\s*(?=[+·,.;:—–-]|$)/gi, ' ')
     .replace(/\s{2,}/g, ' ')
     .trim();
 const clip = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
@@ -171,6 +172,7 @@ function pickPhotos(offer: any, slot: string, month: number, studio: string): Ph
 }
 
 export default function MarketingCollaterals({
+  id,
   offers,
   studioName,
   city,
@@ -179,6 +181,7 @@ export default function MarketingCollaterals({
   theme,
   hook,
 }: {
+  id?: string;
   offers: any[];
   studioName: string;
   city: string;
@@ -195,7 +198,7 @@ export default function MarketingCollaterals({
 
   if (!offer)
     return (
-      <div className="mw-section col-section">
+      <div id={id} className="mw-section col-section">
         <div className="col-head">
           <div><h4>Marketing &amp; collaterals needed</h4></div>
         </div>
@@ -229,7 +232,10 @@ export default function MarketingCollaterals({
   const bg = (p: Photo) => ({ backgroundImage: `url(/p57/pro/${p.id}.jpg)`, backgroundPosition: p.pos });
   const Photo = ({ p }: { p: Photo }) => <div className="cr-photo" style={bg(p)} />;
   const layout = (piece: Piece) =>
-    layoutPick[`${offer.id}:${piece}`] ?? LAYOUTS[piece][(seed + month + Object.keys(LAYOUTS).indexOf(piece)) % LAYOUTS[piece].length][0];
+    layoutPick[`${offer.id}:${piece}`] ??
+    (piece === 'email'
+      ? 'arch'
+      : LAYOUTS[piece][(seed + month + Object.keys(LAYOUTS).indexOf(piece)) % LAYOUTS[piece].length][0]);
   waSends[0].layout = layout('square');
   waSends[1].layout = sqLayouts[(sqLayouts.indexOf(layout('square') as any) + 1) % sqLayouts.length];
   const Layouts = ({ piece }: { piece: Piece }) => (
@@ -257,7 +263,7 @@ export default function MarketingCollaterals({
   );
 
   return (
-    <div className="mw-section col-section">
+    <div id={id} className="mw-section col-section">
       <div className="col-head">
         <div>
           <small>{theme || monthName} · {studioName}</small>

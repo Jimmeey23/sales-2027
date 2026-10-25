@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Bot, ChevronDown, LogOut, Menu, PanelLeftClose, PanelLeftOpen, Plus, X } from 'lucide-react';
+import { Bot, ChevronDown, LogOut, Menu, PanelLeftClose, PanelLeftOpen, Plus, Search, X } from 'lucide-react';
 import BrandMark from './BrandMark';
+import CommandPalette from './CommandPalette';
 import CopilotDrawer from './CopilotDrawer';
 import { useApp } from '../App';
 import { Select } from './ui';
@@ -12,6 +13,7 @@ import { post } from '../api';
 export default function Layout() {
   const { boot, studioId, setStudioId, year, setYear, can, dataVersion } = useApp();
   const [copilotOpen, setCopilotOpen] = useState(false),
+    [cmdOpen, setCmdOpen] = useState(false),
     [sidebarOpen, setSidebarOpen] = useState(false),
     [collapsed, setCollapsed] = useState(() => {
       try {
@@ -32,6 +34,16 @@ export default function Layout() {
   const location = useLocation(),
     navigate = useNavigate();
   useEffect(() => setSidebarOpen(false), [location.pathname]);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setCmdOpen(v => !v);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const { section, link: current } = locate(location.pathname);
   // The current section opens with the route; clicking an open section's header folds it away.
   const [openId, setOpenId] = useState<string | null>(section?.id ?? null);
@@ -180,6 +192,16 @@ export default function Layout() {
             <strong>{current?.label || section?.label || `P57 Sales Plan ${year}`}</strong>
           </div>
           <div className="ws-controls">
+            <button
+              type="button"
+              className="ws-cmd-trigger"
+              onClick={() => setCmdOpen(true)}
+              title="Quick jump to any month, studio, or page (⌘K)"
+            >
+              <Search size={14} />
+              <span>Jump…</span>
+              <kbd>⌘K</kbd>
+            </button>
             <label className="ws-control">
               <span>Year</span>
               <Select value={year} onChange={e => setYear(Number(e.target.value))}>
@@ -247,6 +269,11 @@ export default function Layout() {
       <main className="ws-content" key={dataVersion}>
         <Outlet />
       </main>
+      <CommandPalette
+        open={cmdOpen}
+        onClose={() => setCmdOpen(false)}
+        onOpenCopilot={() => setCopilotOpen(true)}
+      />
       {copilotOpen && <CopilotDrawer onClose={() => setCopilotOpen(false)} />}
     </div>
   );

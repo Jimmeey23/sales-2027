@@ -262,12 +262,14 @@ export function applyProposal(
     'Enter product and benefit delivery costs before approval.',
     'Confirm audience eligibility, capacity, and redemption terms before launch.',
   ];
+  const listed = listPrice(studioId, p.productKey);
+  const targetRevenue = price * p.targetPurchases;
   const mechanics = {
-    listedPrice: p.listPrice,
+    listedPrice: listed,
     mechanism: p.offerType,
     discountPercent: p.discountPct,
     fixedDiscount: 0,
-    targetRevenue: p.revenue,
+    targetRevenue,
     expectedPurchases: p.targetPurchases,
     eligibleAudience: 0,
     redemptionRate: 0,
@@ -281,9 +283,9 @@ export function applyProposal(
   };
   const financials = {
     sellingPrice: price,
-    listedPrice: p.listPrice,
+    listedPrice: listed,
     expectedBuyers: p.targetPurchases,
-    expectedRevenue: price * p.targetPurchases,
+    expectedRevenue: targetRevenue,
     contributionMargin: null,
     economicsComplete: false,
     effectiveDiscountPercent: p.discountPct,

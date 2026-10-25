@@ -1,19 +1,23 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import {
   CalendarHeart,
   CheckCircle2,
   ChevronRight,
   CalendarRange,
+  Download,
   GanttChart,
   Gift,
   LayoutGrid,
   LineChart,
   Rows3,
+  Search,
   Sparkles,
   SquareStack,
   Trophy,
   Users,
+  X,
 } from 'lucide-react';
 import { MONTHS, MONTHS_SHORT, money, number } from '../../types';
 import { Badge, TableScroll } from '../../components/ui';
@@ -203,10 +207,30 @@ export function SourceBar({ row }: { row: MonthRow }) {
 export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved: () => Promise<unknown> }) {
   const SOURCES = useSources();
   const multi = data.plans.length > 1,
-    { year } = useApp();
+    { year, boot, studioId, toast } = useApp();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [layout, setLayout] = useState('timeline'),
-    [open, setOpen] = useState<number | null>(null),
-    [metric, setMetric] = useState<string | null>(null);
+    [open, setOpenState] = useState<number | null>(() => {
+      const m = Number(searchParams.get('month'));
+      return m >= 1 && m <= 12 ? m : null;
+    }),
+    [metric, setMetric] = useState<string | null>(null),
+    [query, setQuery] = useState(''),
+    [scope, setScope] = useState<'all' | 'q1' | 'q2' | 'q3' | 'q4' | 'gap' | 'pending'>('all');
+
+  useEffect(() => {
+    const m = Number(searchParams.get('month'));
+    if (m >= 1 && m <= 12) setOpenState(m);
+  }, [searchParams]);
+
+  const setOpen = (m: number | null) => {
+    setOpenState(m);
+    const next = new URLSearchParams(searchParams);
+    if (m === null) next.delete('month');
+    else next.set('month', String(m));
+    setSearchParams(next, { replace: true });
+  };
+
   const layouts = [
     { id: 'timeline', label: 'Timeline', icon: GanttChart },
     { id: 'calendar', label: 'Year calendar', icon: CalendarRange },
@@ -224,6 +248,90 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
     k => [k, data.months.reduce((n, m) => n + (m as any)[k], 0)] as const,
   );
   const approvedMonths = data.months.filter(m => m.approved).length;
+  const gapMonthsCount = data.months.filter(m => m.renewalGap > 0).length;
+
+  const visibleMonths = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return data.months.filter(m => {
+      if (scope === 'q1' && m.month > 3) return false;
+      if (scope === 'q2' && (m.month < 4 || m.month > 6)) return false;
+      if (scope === 'q3' && (m.month < 7 || m.month > 9)) return false;
+      if (scope === 'q4' && m.month < 10) return false;
+      if (scope === 'gap' && !(m.renewalGap > 0)) return false;
+      if (scope === 'pending' && m.approved) return false;
+      if (!q) return true;
+      const offers = selectedInMonth(data, m.month);
+      const dates = keyDatesFor(year, m.month);
+      const { base } = monthActivations(data, m.month);
+      const hay = [
+        MONTHS[m.month - 1],
+        MONTHS_SHORT[m.month - 1],
+        m.theme,
+        m.objective,
+        m.leadOffer,
+        base.challenge[0],
+        ...offers.map(o => `${o.name} ${o.benefit || ''} ${o.headline || ''}`),
+        ...dates.map(d => d.name),
+      ]
+        .join(' ')
+        .toLowerCase();
+      return q.split(/\s+/).every(term => hay.includes(term));
+    });
+  }, [data, query, scope, year]);
+
+  const exportCsv = () => {
+    const activeStudio = boot.studios.find(s => s.id === studioId);
+    const scopeName = activeStudio ? activeStudio.name : 'All-Locations';
+    const headers = [
+      'Month',
+      'Theme',
+      'Status',
+      'Target (INR)',
+      'Last Year (INR)',
+      'YoY Growth',
+      'New Clients (INR)',
+      'Renewals (INR)',
+      'Reactivation (INR)',
+      'Other (INR)',
+      'Leads Needed',
+      'Trials Needed',
+      'Buyers Needed',
+      'Lead Offer',
+      'Selected Offers',
+    ];
+    const esc = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const rows = data.months.map(m => {
+      const offerNames = [...new Set(selectedInMonth(data, m.month).map(o => o.name))].join(' | ');
+      return [
+        MONTHS[m.month - 1],
+        m.theme,
+        m.planApproved ? 'Month Approved' : m.approved ? 'Target Approved' : 'Proposed',
+        Math.round(m.target),
+        Math.round(m.lastYear),
+        pct(m.target, m.lastYear),
+        Math.round((m as any).newClient || 0),
+        Math.round((m as any).renewal || 0),
+        Math.round((m as any).reactivation || 0),
+        Math.round((m as any).other || 0),
+        Math.round(m.leads),
+        Math.round(m.trials),
+        Math.round(m.buyers),
+        m.leadOffer,
+        offerNames,
+      ]
+        .map(esc)
+        .join(',');
+    });
+    const csv = `\uFEFF${headers.map(esc).join(',')}\n${rows.join('\n')}`;
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `physique57-sales-plan-${year}-${scopeName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast(`Exported ${year} sales plan CSV for ${activeStudio ? activeStudio.name : 'all locations'}.`);
+  };
   return (
     <>
       <ScenarioControl />
@@ -290,24 +398,100 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
           <h2>Year plan</h2>
           <p>Click any month to open and edit its full plan — offers, activations, revenue split and targets.</p>
         </div>
-        <div className="ws-segmented">
-          {layouts.map(l => {
-            const Icon = l.icon;
-            return (
-              <button key={l.id} className={layout === l.id ? 'active' : ''} onClick={() => setLayout(l.id)}>
-                <Icon size={15} />
-                {l.label}
-              </button>
-            );
-          })}
+        <div className="ws-toolbar-actions">
+          <div className="ws-segmented">
+            {layouts.map(l => {
+              const Icon = l.icon;
+              return (
+                <button key={l.id} className={layout === l.id ? 'active' : ''} onClick={() => setLayout(l.id)}>
+                  <Icon size={15} />
+                  {l.label}
+                </button>
+              );
+            })}
+          </div>
+          <button type="button" className="ws-export-btn" onClick={exportCsv} title="Download 12-month sales plan CSV">
+            <Download size={14} />
+            <span>Export CSV</span>
+          </button>
         </div>
       </div>
 
+      {['timeline', 'cards', 'table'].includes(layout) && (
+        <div className="ws-plan-filterbar" role="region" aria-label="Filter monthly plans">
+          <div className="ws-plan-search">
+            <Search size={14} />
+            <input
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search months by offer, theme, festival, or activation…"
+              aria-label="Search months"
+            />
+            {query && (
+              <button type="button" onClick={() => setQuery('')} aria-label="Clear search">
+                <X size={13} />
+              </button>
+            )}
+          </div>
+          <div className="ws-plan-scopes" role="tablist" aria-label="Quarter and status filters">
+            {(
+              [
+                ['all', 'All 12'],
+                ['q1', 'Q1'],
+                ['q2', 'Q2'],
+                ['q3', 'Q3'],
+                ['q4', 'Q4'],
+                ...(gapMonthsCount > 0 ? [['gap', `Renewal gap (${gapMonthsCount})`]] : []),
+                ...(approvedMonths < 12 ? [['pending', `Pending (${12 - approvedMonths})`]] : []),
+              ] as Array<[typeof scope, string]>
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                className={scope === id ? 'is-on' : ''}
+                onClick={() => setScope(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          {(query || scope !== 'all') && (
+            <span className="ws-plan-count">
+              <b>{visibleMonths.length}</b> of 12 months ·{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery('');
+                  setScope('all');
+                }}
+              >
+                Reset
+              </button>
+            </span>
+          )}
+        </div>
+      )}
+
+      {['timeline', 'cards', 'table'].includes(layout) && visibleMonths.length === 0 && (
+        <div className="ws-card ws-filter-empty">
+          <p>No months match the current search or filter.</p>
+          <button
+            type="button"
+            onClick={() => {
+              setQuery('');
+              setScope('all');
+            }}
+          >
+            Show all 12 months
+          </button>
+        </div>
+      )}
+
       {layout === 'calendar' && <YearCalendar data={data} onOpen={setOpen} />}
 
-      {layout === 'timeline' && (
+      {layout === 'timeline' && visibleMonths.length > 0 && (
         <ol className="ws-year-timeline">
-          {data.months.map(m => {
+          {visibleMonths.map(m => {
             const offers = selectedInMonth(data, m.month),
               names = [...new Set(offers.map(o => o.name))],
               dates = keyDatesFor(year, m.month),
@@ -378,15 +562,8 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
                       <small>
                         <Gift size={12} /> Promotions
                       </small>
-                      <b>
-                        {offers.length
-                          ? offers
-                              .slice(0, 2)
-                              .map(o => o.name)
-                              .join(', ')
-                          : '—'}
-                      </b>
-                      {offers.length > 2 && <i>+{offers.length - 2} more</i>}
+                      <b>{names.length ? names.slice(0, 2).join(', ') : '—'}</b>
+                      {names.length > 2 && <i>+{names.length - 2} more</i>}
                     </div>
                     <div>
                       <small>
@@ -404,9 +581,9 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
         </ol>
       )}
 
-      {layout === 'cards' && (
+      {layout === 'cards' && visibleMonths.length > 0 && (
         <div className="ws-month-grid">
-          {data.months.map(m => {
+          {visibleMonths.map(m => {
             const offers = [...new Map(selectedInMonth(data, m.month).map(o => [o.name, o])).values()],
               dates = keyDatesFor(year, m.month);
             return (
@@ -466,7 +643,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
         </div>
       )}
 
-      {layout === 'table' && (
+      {layout === 'table' && visibleMonths.length > 0 && (
         <div className="ws-card">
           <TableScroll>
             <table className="data-table ws-table">
@@ -489,7 +666,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
                 </tr>
               </thead>
               <tbody>
-                {data.months.map(m => (
+                {visibleMonths.map(m => (
                   <tr key={m.month} className="clickable-row" onClick={() => setOpen(m.month)}>
                     <td>
                       <strong>{MONTHS[m.month - 1]}</strong>

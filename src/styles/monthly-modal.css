@@ -260,12 +260,18 @@
 }
 .mw .mw-studios button.active b { color: #202720; }
 .mw .mw-studios-total { padding-left: 10px; font-size: 11px; }
-.mw .mw-hero .mq {
-  margin-top: 14px;
-  padding-block: 8px;
-  border-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  background: rgba(8, 14, 11, 0.19);
+.mw .mw-hero .mq-strip {
+  margin: 12px 0 0;
+  padding: 0;
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 11px;
+  background:
+    radial-gradient(50% 180% at 50% 0%, rgba(61, 245, 255, 0.06), transparent 72%),
+    linear-gradient(90deg, rgba(5, 8, 13, 0.72) 0%, rgba(10, 15, 23, 0.68) 50%, rgba(5, 8, 13, 0.72) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 8px 20px -10px rgba(0, 0, 0, 0.48);
 }
 
 .mw .mw-body,
@@ -585,7 +591,7 @@
 .mw .mw-hero .mw-kpi-bar { height: 2px; }
 .mw .mw-hero .mw-kpi-funnel b { font-size: clamp(14px, 1.3vw, 17px); }
 .mw .mw-hero .mw-kpi-funnel em { font-size: 8.5px; }
-.mw .mw-hero .mq { margin-top: 10px; padding-block: 6px; }
+.mw .mw-hero .mq-strip { margin: 11px 0 0; }
 
 /* Passcode gate in hero */
 .mw-hero-gate {
@@ -691,6 +697,116 @@
 .mw .mw-offer-list {
   display: grid;
   gap: 16px;
+}
+
+/* Collapsed Right Sidebar: Compact Stream Summary Bar + 2 Offers Per Row */
+.mw .mw-offers-collapsed-wrap {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+.mw .mw-offer-stream-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.mw .mw-offer-stream-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 7px 5px 12px;
+  border: 1px solid #e1edf8;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  box-shadow: 0 1px 3px rgba(12, 36, 68, 0.04);
+}
+.mw .mw-offer-stream-pill .mw-offer-group-sum {
+  padding: 2px 9px;
+  background: #edf5fc;
+  border-color: #d7e8f8;
+}
+.mw .mw-offer-list.is-two-up {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+.mw .mw-offer-list.is-two-up:has(> .oc.is-expanded) {
+  align-items: start;
+}
+.mw .mw-offer-list.is-two-up > .mw-editor {
+  grid-column: 1 / -1;
+}
+.mw .mw-offer-list.is-two-up > .oc {
+  height: 100%;
+}
+.mw .mw-offer-list.is-two-up .oc-hero {
+  min-height: 164px;
+  padding: 18px 18px 28px;
+}
+.mw .mw-offer-list.is-two-up .oc-hero-body {
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 13px;
+  max-width: 72%;
+}
+.mw .mw-offer-list.is-two-up .oc-num-badge {
+  width: 42px;
+  height: 42px;
+}
+.mw .mw-offer-list.is-two-up .oc-num-badge > span {
+  font-size: 16px;
+}
+.mw .mw-offer-list.is-two-up .oc-hero-art {
+  width: 58%;
+  opacity: 0.72;
+}
+.mw .mw-offer-list.is-two-up .oc h3.oc-title {
+  font-size: clamp(18.5px, 3.1cqi, 22px);
+}
+.mw .mw-offer-list.is-two-up .oc .oc-job {
+  font-size: 13px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-benefit-inline {
+  font-size: 12px;
+}
+.mw .mw-offer-list.is-two-up .oc-sheet {
+  flex: 1;
+  padding: 14px 15px 0;
+}
+.mw .mw-offer-list.is-two-up .oc-metrics-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+.mw .mw-offer-list.is-two-up .oc-metric-card {
+  padding: 11px 13px;
+}
+.mw .mw-offer-list.is-two-up .oc-strike,
+.mw .mw-offer-list.is-two-up .oc-list-val,
+.mw .mw-offer-list.is-two-up .oc-save-val {
+  font-size: 18px;
+}
+.mw .mw-offer-list.is-two-up .oc-offer-val,
+.mw .mw-offer-list.is-two-up .oc-plan-val {
+  font-size: 18.5px;
+}
+.mw .mw-offer-list.is-two-up .oc-details-strip {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.mw .mw-offer-list.is-two-up .oc-fact-terms {
+  grid-column: 1 / -1;
+  border-left: 0 !important;
+  border-top: 1px solid #e6eff8;
+}
+.mw .mw-offer-list.is-two-up .oc-footer {
+  margin-top: auto;
+}
+.mw .mw-offer-list.is-two-up .oc-why-tags {
+  display: none;
+}
+@media (max-width: 980px) {
+  .mw .mw-offer-list.is-two-up {
+    grid-template-columns: 1fr;
+  }
 }
 .mw .mw-offer-empty {
   margin: 16px 0 0;
@@ -887,6 +1003,12 @@
   background: rgba(56, 189, 248, 0.16);
   color: #bae6fd;
   font-weight: 680;
+}
+.mw .oc-chip.is-stream {
+  border-color: rgba(147, 197, 253, 0.36);
+  background: rgba(96, 165, 250, 0.14);
+  color: #dbeafe;
+  font-weight: 640;
 }
 .mw .oc-chip.is-solo {
   border-color: rgba(251, 191, 36, 0.35);
@@ -1421,7 +1543,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
-  .mw .oc-details-strip {
+  .mw .oc-details-strip,
+  .mw .mw-offer-list.is-two-up .oc-details-strip {
     grid-template-columns: 1fr;
   }
   .mw .oc-fact + .oc-fact {
@@ -1727,7 +1850,7 @@
   .mw .mw-hero .mw-kpi:nth-child(3) { border-left: 0; }
 }
 
-/* Sidebar add / replace controls */
+/* Sidebar add / replace controls & library search/filter */
 .mw .mw-alt-actions { display: flex; align-items: center; gap: 5px; }
 .mw .mw-alt-replace {
   position: relative;
@@ -1743,3 +1866,158 @@
 }
 .mw .mw-alt-replace:hover { border-color: var(--a1); color: var(--a1); }
 .mw .mw-alt-replace select { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+.mw .mw-quicknav {
+  position: sticky;
+  top: -22px;
+  z-index: 6;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin: -6px 0 2px;
+  padding: 8px 10px;
+  border: 1px solid #e1eaf3;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px -10px rgba(12, 34, 62, 0.12);
+}
+.mw .mw-quicknav-links,
+.mw .mw-quicknav-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+.mw .mw-quicknav-links button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #495a6d;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 620;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+.mw .mw-quicknav-links button:hover {
+  border-color: #d6e5f5;
+  background: #f2f8ff;
+  color: #0d3a61;
+}
+.mw .mw-quicknav-links button em {
+  font-style: normal;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #e6f2fc;
+  color: #0e5a8a;
+  font-size: 10px;
+  font-weight: 740;
+  font-variant-numeric: tabular-nums;
+}
+.mw .mw-qtool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 29px;
+  padding: 0 11px;
+  border: 1px solid #dce7f3;
+  border-radius: 999px;
+  background: #f8fbff;
+  color: #243b53;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+.mw .mw-qtool:hover {
+  border-color: #b7d7f4;
+  background: #eef6ff;
+  color: #0b4a78;
+}
+.mw .mw-qtool.is-active {
+  border-color: #0e2238;
+  background: #0e2238;
+  color: #ffffff;
+}
+
+.mw .mw-side-filters {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+.mw .mw-side-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 33px;
+  padding: 0 10px;
+  border: 1px solid #dce6f1;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #64748b;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.mw .mw-side-search:focus-within {
+  border-color: #169ee2;
+  box-shadow: 0 0 0 3px rgba(22, 158, 226, 0.14);
+}
+.mw .mw-side-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0;
+  font-family: inherit;
+  font-size: 12px;
+  color: #0f172a;
+}
+.mw .mw-side-search button {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #e9eff6;
+  color: #475569;
+  cursor: pointer;
+}
+.mw .mw-side-scopes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.mw .mw-side-scopes button {
+  height: 25px;
+  padding: 0 9px;
+  border: 1px solid #dde7f2;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #4b5e73;
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+.mw .mw-side-scopes button:hover {
+  border-color: #bcd8f2;
+  color: #0d4b76;
+}
+.mw .mw-side-scopes button.is-on {
+  border-color: #0f2942;
+  background: #0f2942;
+  color: #ffffff;
+}

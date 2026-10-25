@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  Copy,
   FileText,
   Flag,
   Gift,
@@ -29,6 +30,7 @@ import {
   RefreshCcw,
   RotateCcw,
   Save,
+  Search,
   Sigma,
   SlidersHorizontal,
   Sparkles,
@@ -255,6 +257,22 @@ export default function MonthWorkspace({
         n(b.expected_revenue) - n(a.expected_revenue),
     );
   const [flippedAlt, setFlippedAlt] = useState<number | null>(null);
+  const [altQuery, setAltQuery] = useState('');
+  const [altScope, setAltScope] = useState<'all' | 'month' | 'newcomer' | 'lapsed' | 'renewal'>('all');
+  const filteredAlternates = useMemo(() => {
+    const q = altQuery.trim().toLowerCase();
+    return alternates.filter(o => {
+      if (altScope === 'month' && o.month !== month) return false;
+      if (altScope === 'newcomer' && o.plan_slot !== 'newcomer' && !['acquisition', 'trial_conversion', 'new_client', 'referral'].includes(o.objective))
+        return false;
+      if (altScope === 'lapsed' && o.plan_slot !== 'lapsed' && o.objective !== 'reactivation') return false;
+      if (altScope === 'renewal' && o.plan_slot !== 'renewal' && !['retention', 'annual_membership', 'additional_purchase', 'aov'].includes(o.objective))
+        return false;
+      if (!q) return true;
+      const hay = `${o.name || ''} ${o.benefit || ''} ${o.headline || ''} ${o.audience || ''} ${o.offer_type || ''}`.toLowerCase();
+      return q.split(/\s+/).every(t => hay.includes(t));
+    });
+  }, [altQuery, altScope, alternates, month]);
   const altGroups = useMemo(() => {
     const labels = prices?.keys || {};
     // Offers without a recorded pricing product are matched to a membership from their wording.
@@ -273,7 +291,7 @@ export default function MonthWorkspace({
       return null;
     };
     const groups = new Map<string, any[]>();
-    for (const o of alternates) {
+    for (const o of filteredAlternates) {
       const key = o.provenance?.pricing?.product || guess(o);
       const label = key ? labels[key] || key : 'Other offers';
       const list = groups.get(label) || [];
@@ -286,7 +304,7 @@ export default function MonthWorkspace({
         ib = order.indexOf(b[0]);
       return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
     });
-  }, [alternates, prices]);
+  }, [filteredAlternates, prices]);
   const ideas = OFFER_LIBRARY.filter(t => t.months.includes(month));
   const offerRevenue = selected.reduce((s, o) => s + forecastRevenue(o), 0);
   const groups = ['New clients', 'Ticket & renewal', 'Comeback / reactivation', 'Other'].map(g => ({
@@ -656,10 +674,60 @@ export default function MonthWorkspace({
   };
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      const el = e.target as HTMLElement | null;
+      if (
+        !el ||
+        ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName) ||
+        el.isContentEditable ||
+        e.metaKey ||
+        e.ctrlKey
+      )
+        return;
+      if (e.key === '[' && month > 1) {
+        e.preventDefault();
+        setMonth(month - 1);
+      } else if (e.key === ']' && month < 12) {
+        e.preventDefault();
+        setMonth(month + 1);
+      } else if (e.key === '\\') {
+        e.preventDefault();
+        setSideOpen(o => !o);
+      }
+    };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [onClose]);
+  }, [month, onClose, setMonth]);
+
+  const jumpToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const copyMonthBrief = async () => {
+    const lines = [
+      `PHYSIQUE 57 · ${MONTHS[month - 1].toUpperCase()} ${year} COMMERCIAL BRIEF — ${studio.name.toUpperCase()}`,
+      `Theme: ${form.theme || row.theme || '—'}`,
+      `Monthly Target: ${lakh(effective)} (New clients ${lakh(form.streams.newClient)} · Renewals ${lakh(form.streams.renewal)} · Comeback ${lakh(form.streams.reactivation)})`,
+      form.objective ? `Objective: ${form.objective}` : '',
+      dates.length ? `Key Moments: ${dates.map(d => `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)} (${d.name})`).join(', ')}` : '',
+      '',
+      `SELECTED OFFERS (${selected.length} · ${lakh(offerRevenue)} forecast):`,
+      ...selected.map(
+        (o, idx) =>
+          `${idx + 1}. ${o.name} — ${o.expected_asp ? money(o.expected_asp, true) : 'MRP'} × ${number(o.target_purchases)} units = ${lakh(forecastRevenue(o))}`,
+      ),
+    ].filter(Boolean);
+    try {
+      await navigator.clipboard.writeText(lines.join('\n'));
+      toast(`${MONTHS[month - 1]} brief copied to clipboard.`);
+    } catch {
+      toast('Could not copy brief in this browser.', 'error');
+    }
+  };
 
   const { base, local } = monthActivations(data, month);
   const dates = (form.content?.keyDates || keyDatesFor(year, month)) as ReturnType<typeof keyDatesFor>;
@@ -837,9 +905,14 @@ export default function MonthWorkspace({
           )}
           <Marquee
             variant="dark"
+            tag="MONTH PULSE"
             items={[
-              ...dates.map(d => ({ label: d.name, value: `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)}` })),
-              { label: 'Theme', value: form.theme || row.theme, tone: 'accent' as const },
+              ...dates.map(d => ({
+                label: d.name,
+                value: `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)}`,
+                onClick: () => jumpToSection('mw-sec-days'),
+              })),
+              { label: 'Theme', value: form.theme || row.theme, tone: 'accent' as const, onClick: () => jumpToSection('mw-sec-focus') },
               ...(econ
                 ? [
                     { label: 'Avg first spend', value: money(econ.newClient.firstSpend, true) },
@@ -848,17 +921,58 @@ export default function MonthWorkspace({
                     { label: 'Memberships expiring', value: number(econ.renewal.projectedExpiries) },
                     { label: 'Renewal rate', value: pct(econ.renewal.renewalRate) },
                     ...(econ.renewal.gap > 0
-                      ? [{ label: 'Renewal gap', value: lakh(econ.renewal.gap), tone: 'warn' as const }]
+                      ? [{ label: 'Renewal gap', value: lakh(econ.renewal.gap), tone: 'warn' as const, onClick: () => jumpToSection('mw-sec-coverage') }]
                       : []),
                   ]
                 : []),
-              ...selected.map(o => ({ label: o.name, value: money(o.expected_revenue, true) })),
+              ...selected.map(o => ({
+                label: o.name,
+                value: money(o.expected_revenue, true),
+                onClick: () => jumpToSection('mw-sec-offers'),
+              })),
             ]}
           />
         </header>
 
-        <div className="mw-body pane-offers" style={{ gridTemplateColumns: `minmax(0, 1fr) ${sideOpen ? sideW : 48}px` }}>
+        <div
+          className={`mw-body pane-offers ${sideOpen ? 'is-side-open' : 'is-side-collapsed'}`}
+          style={{ gridTemplateColumns: `minmax(0, 1fr) ${sideOpen ? sideW : 48}px` }}
+        >
           <main className={`mw-main ${locked ? 'is-locked' : ''}`}>
+            <nav className="mw-quicknav" aria-label="Jump to section">
+              <div className="mw-quicknav-links">
+                <button type="button" onClick={() => jumpToSection('mw-sec-days')}>Important days</button>
+                <button type="button" onClick={() => jumpToSection('mw-sec-focus')}>Focus &amp; target</button>
+                <button type="button" onClick={() => jumpToSection('mw-sec-offers')}>
+                  Offers <em>{selected.length}</em>
+                </button>
+                {gapRows.length > 0 && (
+                  <button type="button" onClick={() => jumpToSection('mw-sec-coverage')}>Coverage</button>
+                )}
+                <button type="button" onClick={() => jumpToSection('mw-sec-acts')}>Activations</button>
+                <button type="button" onClick={() => jumpToSection('mw-sec-collaterals')}>Collaterals</button>
+              </div>
+              <div className="mw-quicknav-tools">
+                <button
+                  type="button"
+                  className={`mw-qtool${!sideOpen ? ' is-active' : ''}`}
+                  onClick={() => setSideOpen(o => !o)}
+                  title="Toggle right Offer Library sidebar (shortcut: \)"
+                >
+                  <LayoutGrid size={13} />
+                  <span>{sideOpen ? '2-up offers' : 'Show library'}</span>
+                </button>
+                <button
+                  type="button"
+                  className="mw-qtool"
+                  onClick={copyMonthBrief}
+                  title="Copy formatted executive summary to clipboard"
+                >
+                  <Copy size={13} />
+                  <span>Copy brief</span>
+                </button>
+              </div>
+            </nav>
             {locked && (
               <div className="mw-approved-banner">
                 <CheckCircle2 size={16} />
@@ -869,7 +983,7 @@ export default function MonthWorkspace({
             )}
             {(
               <>
-                <div className="mw-section mw-days">
+                <div id="mw-sec-days" className="mw-section mw-days">
                   <SectionHead
                     icon={CalendarHeart}
                     title="Important days"
@@ -948,7 +1062,7 @@ export default function MonthWorkspace({
                   {editable && <Button size="sm" variant="ghost" icon={<Plus size={14} />} onClick={() => updateContent({ keyDates: [...dates, { day: 1, name: '', kind: 'awareness', approx: false }] })}>Add important day</Button>}
                 </div>
 
-                <div className="mw-section mw-planning-section">
+                <div id="mw-sec-focus" className="mw-section mw-planning-section">
                   <SectionHead icon={Flag} title="Monthly focus & target" hint="Set the month’s commercial story, then map the revenue needed to deliver it." />
                   <div className="mw-focus-target-grid">
                     <section className="mw-focus-pane" aria-labelledby="mw-focus-title">
@@ -1130,7 +1244,7 @@ export default function MonthWorkspace({
 
             {(
               <>
-                <div className="mw-section">
+                <div id="mw-sec-offers" className="mw-section">
                   <SectionHead
                     icon={Gift}
                     title={`Offers · ${selected.length}`}
@@ -1149,9 +1263,70 @@ export default function MonthWorkspace({
                     />
                   )}
                   {selected.length ? (
-                    groups
-                      .filter(g => g.offers.length)
-                      .map(g => (
+                    (() => {
+                      const activeGroups = groups.filter(g => g.offers.length);
+                      const orderedOffers = activeGroups.flatMap(g => g.offers.map(o => ({ offer: o, stream: g.label })));
+                      const renderItem = (o: any, no: number, stream?: string) =>
+                        editing === o.id ? (
+                          <OfferEditor
+                            key={o.id}
+                            offer={o}
+                            studioId={studio.id}
+                            prices={prices}
+                            solo={solo}
+                            others={others}
+                            busy={busy}
+                            onCancel={() => setEditing(null)}
+                            onSave={async edit => {
+                              if (
+                                await offerChange({ op: 'update', offerId: o.id, edit }, `“${edit.name}” updated`)
+                              )
+                                setEditing(null);
+                            }}
+                          />
+                        ) : (
+                          <OfferCard
+                            key={o.id}
+                            no={no}
+                            offer={o}
+                            streamLabel={!sideOpen ? stream : undefined}
+                            list={prices?.prices[studio.id]?.[o.provenance?.pricing?.product]}
+                            productLabel={prices?.keys[o.provenance?.pricing?.product]}
+                            slot={slotOf(o.id)}
+                            editable={editable}
+                            canSwap={offersEditable}
+                            approved={o.approval_status === 'approved'}
+                            canApprove={canApproveOffers}
+                            busy={busy}
+                            onApprove={(next: boolean) => offerApproval(o, next)}
+                            onEdit={() => setEditing(o.id)}
+                            onRemove={() => offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed`)}
+                            onSwap={() => askCopilot('replace', o.id)}
+                          />
+                        );
+
+                      if (!sideOpen) {
+                        return (
+                          <div className="mw-offers-collapsed-wrap">
+                            <div className="mw-offer-stream-strip" aria-label="Revenue stream breakdown">
+                              {activeGroups.map(g => (
+                                <div key={g.label} className="mw-offer-stream-pill">
+                                  <span className="mw-offer-group-title">{g.label}</span>
+                                  <span className="mw-offer-group-count">{g.offers.length}</span>
+                                  <strong className="mw-offer-group-sum">
+                                    {lakh(g.offers.reduce((s, o) => s + forecastRevenue(o), 0))}
+                                  </strong>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="mw-offer-list is-two-up">
+                              {orderedOffers.map(({ offer: o, stream }, idx) => renderItem(o, idx + 1, stream))}
+                            </div>
+                          </div>
+                        );
+                      }
+
+                      return activeGroups.map(g => (
                         <div key={g.label} className="mw-offer-group">
                           <div className="mw-offer-group-head">
                             <span className="mw-offer-group-title">{g.label}</span>
@@ -1163,46 +1338,15 @@ export default function MonthWorkspace({
                           </div>
                           <div className="mw-offer-list">
                             {g.offers.map(o =>
-                              editing === o.id ? (
-                                <OfferEditor
-                                  key={o.id}
-                                  offer={o}
-                                  studioId={studio.id}
-                                  prices={prices}
-                                  solo={solo}
-                                  others={others}
-                                  busy={busy}
-                                  onCancel={() => setEditing(null)}
-                                  onSave={async edit => {
-                                    if (
-                                      await offerChange({ op: 'update', offerId: o.id, edit }, `“${edit.name}” updated`)
-                                    )
-                                      setEditing(null);
-                                  }}
-                                />
-                              ) : (
-                                <OfferCard
-                                  key={o.id}
-                                  no={groups.flatMap(x => x.offers).findIndex(x => x.id === o.id) + 1}
-                                  offer={o}
-                                  list={prices?.prices[studio.id]?.[o.provenance?.pricing?.product]}
-                                  productLabel={prices?.keys[o.provenance?.pricing?.product]}
-                                  slot={slotOf(o.id)}
-                                  editable={editable}
-                                  canSwap={offersEditable}
-                                  approved={o.approval_status === 'approved'}
-                                  canApprove={canApproveOffers}
-                                  busy={busy}
-                                  onApprove={(next: boolean) => offerApproval(o, next)}
-                                  onEdit={() => setEditing(o.id)}
-                                  onRemove={() => offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed`)}
-                                  onSwap={() => askCopilot('replace', o.id)}
-                                />
+                              renderItem(
+                                o,
+                                orderedOffers.findIndex(x => x.offer.id === o.id) + 1,
                               ),
                             )}
                           </div>
                         </div>
-                      ))
+                      ));
+                    })()
                   ) : (
                     <p className="mw-offer-empty">No offers picked yet — select an option from the offer library on the right.</p>
                   )}
@@ -1210,7 +1354,7 @@ export default function MonthWorkspace({
               </>
             )}
             {gapRows.length > 0 && (
-              <div className="mw-section mw-gapplan">
+              <div id="mw-sec-coverage" className="mw-section mw-gapplan">
                 <SectionHead
                   icon={Target}
                   title="Offer coverage by revenue stream"
@@ -1269,7 +1413,7 @@ export default function MonthWorkspace({
             )}
             {(
               <>
-                <div className="mw-section">
+                <div id="mw-sec-acts" className="mw-section">
                   <SectionHead
                     icon={PartyPopper}
                     title="Activations"
@@ -1397,6 +1541,7 @@ export default function MonthWorkspace({
               </>
             )}
             <MarketingCollaterals
+              id="mw-sec-collaterals"
               offers={selected}
               studioName={studio.name}
               city={studio.city || (['Kenkere House', 'Pop-up'].includes(studio.name) ? 'Bengaluru' : 'Mumbai')}
@@ -1436,9 +1581,48 @@ export default function MonthWorkspace({
                   {studio.name}’s other offers, with this month’s first.{' '}
                   {solo ? 'Adds apply to this location only.' : 'Adding copies to every location at local prices.'}
                 </p>
+                {alternates.length > 0 && (
+                  <div className="mw-side-filters">
+                    <div className="mw-side-search">
+                      <Search size={13} />
+                      <input
+                        value={altQuery}
+                        onChange={e => setAltQuery(e.target.value)}
+                        placeholder="Search library offers…"
+                        aria-label="Search offer library"
+                      />
+                      {altQuery && (
+                        <button type="button" onClick={() => setAltQuery('')} aria-label="Clear library search">
+                          <X size={12} />
+                        </button>
+                      )}
+                    </div>
+                    <div className="mw-side-scopes">
+                      {(
+                        [
+                          ['all', 'All'],
+                          ['month', MONTHS[month - 1].slice(0, 3)],
+                          ['newcomer', 'Newcomer'],
+                          ['lapsed', 'Winback'],
+                          ['renewal', 'Renewal'],
+                        ] as Array<[typeof altScope, string]>
+                      ).map(([id, label]) => (
+                        <button
+                          key={id}
+                          type="button"
+                          className={altScope === id ? 'is-on' : ''}
+                          onClick={() => setAltScope(id)}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               {alternates.length ? (
-                altGroups.map(([group, list]) => (
+                altGroups.length ? (
+                  altGroups.map(([group, list]) => (
                   <section key={group} className="mw-alt-group">
                     <h5>
                       {group} <em>{list.length}</em>
@@ -1509,7 +1693,10 @@ export default function MonthWorkspace({
                       );
                     })}
                   </section>
-                ))
+                  ))
+                ) : (
+                  <p className="muted">No library offers match “{altQuery || altScope}”.</p>
+                )
               ) : (
                 <p className="muted">No other offers for this studio yet.</p>
               )}
@@ -1900,6 +2087,7 @@ function OfferCard({
   offer: o,
   no,
   slot,
+  streamLabel,
   list,
   productLabel,
   editable,
@@ -2027,7 +2215,7 @@ function OfferCard({
   );
 
   return (
-    <article className={`oc${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}>
+    <article className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${slot ? ` slot-${slot}` : ''}`}>
       <div className="oc-hero">
         <div className="oc-hero-art" aria-hidden="true">
           <div
@@ -2048,6 +2236,12 @@ function OfferCard({
                 <span className={`oc-chip is-slot slot-${slot}`}>
                   <Sparkles size={11} />
                   {slotLabel}
+                </span>
+              )}
+              {!slotLabel && streamLabel && (
+                <span className="oc-chip is-stream">
+                  <Target size={11} />
+                  {streamLabel}
                 </span>
               )}
               {membership && (

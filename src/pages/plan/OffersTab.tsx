@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { api, post } from '../../api';
 import { useApp } from '../../App';
-import { MONTHS, MONTHS_SHORT, OBJECTIVES, SEGMENTS, money, percent, titleCase } from '../../types';
+import { MONTHS, MONTHS_SHORT, OBJECTIVES, SEGMENTS, money, number, percent, titleCase } from '../../types';
 import { Badge, Button, Callout, Field, Input, Loading, Select, StatusBadge, Textarea } from '../../components/ui';
 import { FAMILY_TONES, OFFER_LIBRARY, type OfferTemplate } from '../../data/offerLibrary';
 import { planningLocations } from '../../data/locations';
