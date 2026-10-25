@@ -62,12 +62,13 @@ export default function SalesPlan() {
         </section>
         {data && (
           <Marquee
+            tag="PLAN PULSE"
             items={[
               { label: 'Annual target', value: lakh(data.annual), tone: 'accent', onClick: () => navigate('/sales-plan/targets') },
               ...data.months.map(m => ({
                 label: `${new Date(year, m.month - 1).toLocaleString('en-IN', { month: 'short' })} · ${m.theme}`,
                 value: lakh(m.target),
-                onClick: () => navigate('/sales-plan/targets'),
+                onClick: () => navigate(`/sales-plan/targets?month=${m.month}`),
               })),
               { label: 'Leads needed', value: data.months.reduce((n, m) => n + m.leads, 0).toLocaleString('en-IN'), tone: 'accent', onClick: () => navigate('/sales-plan/targets') },
               {
@@ -93,6 +94,7 @@ export default function SalesPlan() {
                   label: `${new Date(year, m.month - 1).toLocaleString('en-IN', { month: 'short' })} renewal gap`,
                   value: lakh(m.renewalGap),
                   tone: 'warn' as const,
+                  onClick: () => navigate(`/sales-plan/targets?month=${m.month}`),
                 })),
               ...Array.from({ length: 12 }, (_, i) =>
                 keyDatesFor(year, i + 1)
@@ -100,6 +102,7 @@ export default function SalesPlan() {
                   .map(d => ({
                     label: d.name,
                     value: `${d.day} ${new Date(year, i).toLocaleString('en-IN', { month: 'short' })}`,
+                    onClick: () => navigate(`/sales-plan/targets?month=${i + 1}`),
                   })),
               ).flat(),
             ]}

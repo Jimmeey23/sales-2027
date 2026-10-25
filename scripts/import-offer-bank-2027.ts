@@ -14,7 +14,7 @@ const monthNumber = (value: unknown) => {
   if (i < 0) throw new Error(`Unknown month: ${value}`);
   return i + 1;
 };
-const cellText = (value: ExcelJS.CellValue) => value == null ? '' : String(value).trim();
+const cellText = (value: unknown) => value == null ? '' : String(value).trim();
 const studioAliases: Record<string, string[]> = {
   'Kwality House & Supreme HQ': ['Kemps Corner', 'Bandra'],
   'Kwality House': ['Kemps Corner'],
