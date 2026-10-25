@@ -66,14 +66,14 @@ const STREAMS = [
     field: 'renewal_target',
     body: 'renewalTarget',
     label: 'Renewals',
-    color: 'color-mix(in srgb, var(--a1) 62%, #fff)',
+    color: 'color-mix(in srgb, var(--a1) 66%, #0284c7)',
   },
   {
     key: 'reactivation',
     field: 'reactivation_target',
     body: 'reactivationTarget',
     label: 'Comeback / reactivation',
-    color: 'color-mix(in srgb, var(--a1) 36%, #fff)',
+    color: 'color-mix(in srgb, var(--a1) 46%, #0d9488)',
   },
 ] as const;
 const fullCoverageStreams = (target: number, renewal: number, reactivation: number) => {
@@ -109,6 +109,7 @@ type AiFocus = {
   actionPlan: { week: number; owner: string; text: string }[];
   reasoning: { heading: string; points: string[] }[];
   risks: string[];
+  mode?: 'ai' | 'synthesised';
 };
 const planBodyOf = (f: any, over: Record<string, unknown> = {}) => ({
   theme: f.theme || null,
@@ -120,27 +121,131 @@ const planBodyOf = (f: any, over: Record<string, unknown> = {}) => ({
   content: f.content || {},
   ...over,
 });
-// Renders "- " bullet lines, numbered lines and **bold** from AI or planner text.
-const inline = (t: string) => t.split(/(\*\*[^*]+\*\*)/).map((p, i) => (p.startsWith('**') && p.endsWith('**') ? <b key={i}>{p.slice(2, -2)}</b> : p));
+
+// Highlights **bold** spans as well as ₹ currency & % KPI tokens with crisp tabular styling.
+const renderSegmentTokens = (segment: string, keyPrefix: string) =>
+  segment
+    .split(/(₹[\d,]+(?:\.\d+)?\s*(?:L|Cr|K|lakh|cr)?|[+-]?\d+(?:\.\d+)?%)/gi)
+    .map((tok, j) =>
+      tok && /^(₹[\d,]+|[+-]?\d+(?:\.\d+)?%)/i.test(tok) ? (
+        <span key={`${keyPrefix}-${j}`} className="mw-inline-num">
+          {tok}
+        </span>
+      ) : (
+        tok
+      ),
+    );
+
+const inline = (t: string) =>
+  String(t || '')
+    .split(/(\*\*[^*]+\*\*)/)
+    .map((p, i) =>
+      p.startsWith('**') && p.endsWith('**') ? (
+        <b key={i} className="mw-inline-strong">
+          {p.slice(2, -2)}
+        </b>
+      ) : (
+        <React.Fragment key={i}>{renderSegmentTokens(p, `s${i}`)}</React.Fragment>
+      ),
+    );
+
+// Parses "- **Lead:** Body", "**Lead** — Body", or concise "Lead: Body" into a uniform { lead, body } pair
+// so curated playbooks, manual edits, and AI generations share identical visual layout & typography.
+function parseStructuredLine(raw: string): { lead: string | null; body: string } {
+  const cleaned = String(raw || '')
+    .trim()
+    .replace(/^(?:#{1,6}\s+|[-•*–—]\s+|\d+[.)]\s+)+/, '')
+    .trim();
+  if (!cleaned) return { lead: null, body: '' };
+  const boldLead = cleaned.match(/^\*\*([^*]{2,64}?)(?:\s*[:—–-]\s*\*\*|\*\*\s*[:—–-])\s*(.+)$/);
+  if (boldLead) {
+    return {
+      lead: boldLead[1].trim().replace(/[:—–-]+$/, '').trim(),
+      body: boldLead[2].trim(),
+    };
+  }
+  const plainLead = cleaned.match(/^([A-Za-z0-9₹%+&/()'’ -]{2,44})\s*(?::|—|–)\s+(.+)$/);
+  if (plainLead && plainLead[1].trim().split(/\s+/).length <= 6) {
+    return { lead: plainLead[1].trim(), body: plainLead[2].trim() };
+  }
+  return { lead: null, body: cleaned };
+}
+
+function parseStrategyLines(text: string): string[] {
+  const rawLines = String(text || '')
+    .split(/\r?\n/)
+    .map(l =>
+      l
+        .trim()
+        .replace(/^[-•*]\s+/, '')
+        .replace(/^\d+[.)]\s+/, '')
+        .trim(),
+    )
+    .filter(Boolean);
+  if (rawLines.length === 1 && rawLines[0].includes('; ') && rawLines[0].length > 110) {
+    return rawLines[0]
+      .split(/;\s+/)
+      .map(s => s.trim())
+      .filter(Boolean);
+  }
+  return rawLines;
+}
+
+function serializeStrategyLines(lines: string[]): string {
+  return lines
+    .map(l => l.trim().replace(/^[-•*]\s+/, ''))
+    .filter(l => l.length > 0)
+    .map(l => `- ${l}`)
+    .join('\n');
+}
+
+function StructuredLine({ text, leadTone = 'default' }: { text: string; leadTone?: 'default' | 'risk' | 'stream' }) {
+  const { lead, body } = parseStructuredLine(text);
+  if (!lead) return <span className="mw-struct-body">{inline(body)}</span>;
+  return (
+    <span className={`mw-struct-line is-${leadTone}`}>
+      <strong className="mw-struct-lead">{lead}</strong>
+      <span className="mw-struct-body">{inline(body)}</span>
+    </span>
+  );
+}
+
 function RichText({ text }: { text: string }) {
   const blocks: React.ReactNode[] = [];
   let list: { ordered: boolean; items: string[] } | null = null;
   const close = () => {
     if (!list) return;
     const Tag = list.ordered ? 'ol' : 'ul';
-    blocks.push(<Tag key={blocks.length}>{list.items.map((t, i) => <li key={i}>{inline(t)}</li>)}</Tag>);
+    blocks.push(
+      <Tag key={blocks.length} className="mw-rich-list">
+        {list.items.map((t, i) => (
+          <li key={i}>
+            <StructuredLine text={t} />
+          </li>
+        ))}
+      </Tag>,
+    );
     list = null;
   };
   for (const raw of String(text || '').split('\n')) {
     const line = raw.trim();
-    const bullet = line.match(/^[-•*]\s+(.*)/), num = line.match(/^\d+[.)]\s+(.*)/);
+    const bullet = line.match(/^[-•*]\s+(.*)/),
+      num = line.match(/^\d+[.)]\s+(.*)/);
     if (bullet || num) {
       const ordered = !!num;
-      if (!list || list.ordered !== ordered) { close(); list = { ordered, items: [] }; }
+      if (!list || list.ordered !== ordered) {
+        close();
+        list = { ordered, items: [] };
+      }
       list.items.push((bullet || num)![1]);
     } else {
       close();
-      if (line) blocks.push(<p key={blocks.length}>{inline(line)}</p>);
+      if (line)
+        blocks.push(
+          <p key={blocks.length}>
+            <StructuredLine text={line} />
+          </p>,
+        );
     }
   }
   close();
@@ -176,18 +281,78 @@ const pct = (v: number | null | undefined, d = 0) => (v === null || v === undefi
 
 // What the team should focus on each month (from the 2027 Annual Sales and Offer Plan).
 const FOCUS_POINTS: Record<number, string[]> = {
-  1: ['Convert January trials within 72 hours', 'Re-up the Jan-2026 annuals in Annual Re-Up week (1–10 Jan)', 'Push first buyers onto 3M, not packs', 'Open limited-run format #1 to renewed members'],
-  2: ['Duo and referral acquisition instead of BOGO', 'Both buyers must be new — check in Momence', 'Galentine’s hosted class with a door offer (Sat 13 Feb)', 'Ask for a referral at every renewal'],
-  3: ['Stop March trials waiting for April', 'Start Bandra reactivation: Class of 2024 Reunion', 'Lock in Mar–Apr renewals at list with bonus time', 'Build the April pre-game list (25–31 Mar)'],
-  4: ['Founding 57: sell numbered annuals at full price', 'Value scales with commitment — no deep codes', 'Anniversary hosted classes in week 2 with a named associate', 'Hard close 30 Apr 23:59'],
-  5: ['Retain the April cohort: 8 classes in May', 'Week-1 call for every April buyer', 'Mother’s Day duo acquisition (Sun 9 May)', 'Target ≥55% renewal at next expiry'],
-  6: ['Freeze, don’t leave: stop summer lapses', 'Launch Golden Hours for students in low-fill slots', 'Capture visiting students and NRIs', 'Father’s Day duo (Sun 20 Jun)'],
-  7: ['Cut late cancels (Kenkere target <15%)', 'Monsoon Streak leaderboard by studio', 'Usage-led monsoon renewals', 'Open limited-run format #2'],
-  8: ['Move 1M renewers with 8+ visits to 3M', 'Friendship Day squad classes (Sun 1 Aug)', 'Friend-led acquisition, both buyers new', 'Work the high-value lapsed list in Mumbai’s second peak'],
-  9: ['Start the 57 Days to Diwali cohort (2 Sep)', 'Reactivate before the festive season', 'Lock 3M renewals through Oct–Dec', 'Repeat the Bandra reunion'],
-  10: ['Gift a Shake cards on sale from 1 Oct', 'Protect Kenkere’s Dasara trough with freezes', 'Capture Kwality’s late-October surge without codes', 'Candle-lit evening classes in Diwali week'],
-  11: ['Lock long commitments in the softest month', 'Founding 57 second wave — remaining seats only', 'Black Friday → Cyber Monday window (26–29 Nov)', 'Manager calls to high-value lapsers'],
-  12: ['Pre-sell January with flexible start dates', 'Send every client their 2027 Wrapped', 'Renew on the usage-based prescription', 'Second gifting window: Gift the Habit'],
+  1: [
+    '**72-Hour Trial Close:** Convert January trials within 72 hours',
+    '**Annual Re-Up Week:** Re-up the Jan-2026 annuals in Annual Re-Up week (1–10 Jan)',
+    '**3M First-Buy Mix:** Push first buyers onto 3M, not packs',
+    '**Member Access:** Open limited-run format #1 to renewed members',
+  ],
+  2: [
+    '**Duo Acquisition:** Duo and referral acquisition instead of BOGO',
+    '**Momence Verification:** Both buyers must be new — check in Momence',
+    '**Galentine’s Event:** Galentine’s hosted class with a door offer (Sat 13 Feb)',
+    '**Renewal Referrals:** Ask for a referral at every renewal',
+  ],
+  3: [
+    '**Trial Momentum:** Stop March trials waiting for April',
+    '**Bandra Comeback:** Start Bandra reactivation: Class of 2024 Reunion',
+    '**List-Price Renewals:** Lock in Mar–Apr renewals at list with bonus time',
+    '**April Pre-Game:** Build the April pre-game list (25–31 Mar)',
+  ],
+  4: [
+    '**Founding 57:** Sell numbered annuals at full price',
+    '**Commitment Value:** Value scales with commitment — no deep codes',
+    '**Week-2 Hosted Classes:** Anniversary hosted classes in week 2 with a named associate',
+    '**Window Discipline:** Hard close 30 Apr 23:59',
+  ],
+  5: [
+    '**April Cohort Retention:** Retain the April cohort: 8 classes in May',
+    '**Week-1 Onboarding:** Week-1 call for every April buyer',
+    '**Mother’s Day Duo:** Mother’s Day duo acquisition (Sun 9 May)',
+    '**Expiry Benchmark:** Target ≥55% renewal at next expiry',
+  ],
+  6: [
+    '**Summer Continuity:** Freeze, don’t leave: stop summer lapses',
+    '**Off-Peak Fill:** Launch Golden Hours for students in low-fill slots',
+    '**Summer Visitors:** Capture visiting students and NRIs',
+    '**Father’s Day Hook:** Father’s Day duo (Sun 20 Jun)',
+  ],
+  7: [
+    '**Show-Up Discipline:** Cut late cancels (Kenkere target <15%)',
+    '**Studio Leaderboard:** Monsoon Streak leaderboard by studio',
+    '**Usage Renewals:** Usage-led monsoon renewals',
+    '**Format Launch:** Open limited-run format #2',
+  ],
+  8: [
+    '**3M Upgrade Push:** Move 1M renewers with 8+ visits to 3M',
+    '**Friendship Day:** Friendship Day squad classes (Sun 1 Aug)',
+    '**Squad Acquisition:** Friend-led acquisition, both buyers new',
+    '**Lapsed Outreach:** Work the high-value lapsed list in Mumbai’s second peak',
+  ],
+  9: [
+    '**Diwali Challenge:** Start the 57 Days to Diwali cohort (2 Sep)',
+    '**Pre-Festive Comeback:** Reactivate before the festive season',
+    '**Q4 Renewal Lock:** Lock 3M renewals through Oct–Dec',
+    '**Alumni Reunion:** Repeat the Bandra reunion',
+  ],
+  10: [
+    '**Festive Gifting:** Gift a Shake cards on sale from 1 Oct',
+    '**Dasara Protection:** Protect Kenkere’s Dasara trough with freezes',
+    '**Full-Value Surge:** Capture Kwality’s late-October surge without codes',
+    '**Studio Experience:** Candle-lit evening classes in Diwali week',
+  ],
+  11: [
+    '**Commitment Lock-In:** Lock long commitments in the softest month',
+    '**Founding 57 Wave 2:** Founding 57 second wave — remaining seats only',
+    '**BFCM Window:** Black Friday → Cyber Monday window (26–29 Nov)',
+    '**High-LTV Winback:** Manager calls to high-value lapsers',
+  ],
+  12: [
+    '**January Pre-Sale:** Pre-sell January with flexible start dates',
+    '**2027 Wrapped:** Send every client their 2027 Wrapped',
+    '**Prescription Renewal:** Renew on the usage-based prescription',
+    '**Holiday Gifting:** Second gifting window: Gift the Habit',
+  ],
 };
 
 // Days from today to a day in the plan month (negative once it has passed).
@@ -621,6 +786,10 @@ export default function MonthWorkspace({
   };
 
   const [generating, setGenerating] = useState(false);
+  const [steerOpen, setSteerOpen] = useState(false);
+  const [aiSteer, setAiSteer] = useState('');
+  const [strategyRawMode, setStrategyRawMode] = useState(false);
+
   const generateFocus = async () => {
     setGenerating(true);
     try {
@@ -672,19 +841,29 @@ export default function MonthWorkspace({
                 lapsedPool: n(econ.reactivation.lapsedPool),
               }
             : {},
+          steer: aiSteer.trim(),
         }),
       });
+      const cleanStrategy = serializeStrategyLines(parseStrategyLines(ai.strategy));
+      const cleanFocusPoints = (ai.focusPoints || []).map(p =>
+        String(p || '')
+          .trim()
+          .replace(/^[-•*]\s+/, '')
+          .replace(/^\d+[.)]\s+/, '')
+          .trim(),
+      );
       const next = {
         ...form,
-        theme: ai.theme,
-        objective: ai.objective,
-        strategy: ai.strategy,
+        theme: String(ai.theme || '').trim(),
+        objective: String(ai.objective || '').trim(),
+        strategy: cleanStrategy || ai.strategy,
         streams,
         actions: ai.actionPlan.map(a => ({ ...a, done: false })),
         content: {
           ...(form.content || {}),
-          focusPoints: ai.focusPoints,
+          focusPoints: cleanFocusPoints,
           ai: {
+            mode: ai.mode || 'ai',
             splitRationale: ai.splitRationale,
             reasoning: ai.reasoning,
             risks: ai.risks,
@@ -697,8 +876,13 @@ export default function MonthWorkspace({
         },
       };
       setForm(next);
+      setSteerOpen(false);
       await persistForm(next);
-      toast(`${MONTHS[month - 1]} plan written by AI and saved.`);
+      toast(
+        ai.mode === 'synthesised'
+          ? `${MONTHS[month - 1]} structured brief synthesised from studio data and saved.`
+          : `${MONTHS[month - 1]} commercial brief written by AI and saved.`,
+      );
     } catch (e: any) {
       toast(e.message || 'Could not generate the focus.', 'error');
     } finally {
@@ -1537,6 +1721,16 @@ export default function MonthWorkspace({
                 ? form.content.focusPoints
                 : FOCUS_POINTS[month] || [];
               const setPoints = (next: string[]) => updateContent({ focusPoints: next });
+              const strategyLines = parseStrategyLines(form.strategy);
+              const setStrategyLines = (next: string[]) => set({ strategy: serializeStrategyLines(next) });
+              const aiMeta = form.content?.ai || null;
+              const splitRationaleLines = aiMeta?.splitRationale
+                ? String(aiMeta.splitRationale)
+                    .split(/\r?\n/)
+                    .map((l: string) => l.trim())
+                    .filter(Boolean)
+                : [];
+
               const volOverrides: Record<string, { label?: string; tag?: string; value?: string; hint?: string }> =
                 form.content?.volumeOverrides || {};
               const hiddenVols: string[] = Array.isArray(form.content?.hiddenVolumes) ? form.content.hiddenVolumes : [];
@@ -1573,9 +1767,10 @@ export default function MonthWorkspace({
                 .map(v => ({ ...v, ...(volOverrides[v.id] || {}), isCustom: false }));
               const allVols = [...visibleBaseVols, ...customVols.map(v => ({ ...v, isCustom: true }))];
               const yoyDelta = row.lastYear > 0 ? Math.round(((effective - row.lastYear) / row.lastYear) * 100) : null;
+              const offerDelta = offerRevenue - effective;
 
               return (
-                <div id="mw-sec-focus" className="mw-section mw-planning-section">
+                <div id="mw-sec-focus" className={`mw-section mw-planning-section ${generating ? 'is-generating' : ''}`}>
                   <SectionHead
                     icon={Flag}
                     title={meta.title}
@@ -1585,170 +1780,356 @@ export default function MonthWorkspace({
                     onHintChange={v => patchSectionMeta('focus', { hint: v })}
                     onDelete={() => hideSection('focus')}
                     actions={
-                      editable ? (
-                        <button
-                          type="button"
-                          className="mw-ai"
-                          disabled={generating || busy}
-                          onClick={generateFocus}
-                          title="Write the focus, stream split, action plan and reasoning from this month's dates, offers and target, then save"
-                        >
-                          <Sparkles size={14} />
-                          {generating ? 'Writing plan…' : form.strategy ? 'Regenerate with AI' : 'Enhance with AI'}
-                        </button>
-                      ) : undefined
+                      <div className="mw-focus-head-actions">
+                        {aiMeta?.generatedAt && (
+                          <span className="mw-ai-stamp" title="Formatted to the unified Monthly Focus & Target structure">
+                            <Sparkles size={11} />
+                            {aiMeta.mode === 'synthesised' ? 'Data-synthesised' : 'AI-structured'} ·{' '}
+                            {new Date(aiMeta.generatedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                          </span>
+                        )}
+                        {editable && (
+                          <>
+                            <button
+                              type="button"
+                              className={`mw-mini-btn ${steerOpen ? 'is-active' : ''}`}
+                              disabled={generating || busy}
+                              onClick={() => setSteerOpen(v => !v)}
+                              title="Give optional custom direction before generating"
+                            >
+                              <SlidersHorizontal size={12} /> Steer
+                            </button>
+                            <button
+                              type="button"
+                              className="mw-ai"
+                              disabled={generating || busy}
+                              onClick={generateFocus}
+                              title="Write the focus, stream split, action plan and reasoning from this month's dates, offers and target, then save"
+                            >
+                              <Sparkles size={14} />
+                              {generating ? 'Writing structured brief…' : form.strategy ? 'Regenerate with AI' : 'Enhance with AI'}
+                            </button>
+                          </>
+                        )}
+                      </div>
                     }
                   />
 
+                  {editable && steerOpen && (
+                    <div className="mw-fu-steer-bar">
+                      <Sparkles size={13} className="mw-fu-steer-ic" />
+                      <input
+                        value={aiSteer}
+                        onChange={e => setAiSteer(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter' && !generating && !busy) {
+                            e.preventDefault();
+                            void generateFocus();
+                          }
+                        }}
+                        placeholder="Optional commercial steer — e.g. 'Push 3M commitments, zero % promo codes, anchor Week 2 around festival gifting'…"
+                        aria-label="Commercial steer for AI brief"
+                      />
+                      <button
+                        type="button"
+                        className="mw-mini-btn is-primary"
+                        disabled={generating || busy}
+                        onClick={generateFocus}
+                      >
+                        {generating ? 'Generating…' : 'Generate now'}
+                      </button>
+                      <button
+                        type="button"
+                        className="mw-mini-icon"
+                        aria-label="Close steer bar"
+                        onClick={() => setSteerOpen(false)}
+                      >
+                        <X size={13} />
+                      </button>
+                    </div>
+                  )}
+
                   <div className="mw-focus-unified">
-                    {/* Band 1: Unified Story & Headline Commercial Target Horizon */}
+                    {/* Band 1: Unified Story, Mandate & Headline Commercial Target Scorecard */}
                     <div className="mw-fu-top">
                       <div className="mw-fu-story">
-                        <label className="mw-fu-theme">
-                          <span>Monthly theme</span>
-                          <input
-                            value={form.theme}
-                            placeholder="Name the month’s campaign story"
-                            onChange={e => set({ theme: e.target.value })}
-                            {...fieldProps}
-                          />
-                        </label>
-                        <label className="mw-fu-objective">
-                          <span><Target size={12.5} /> Commercial objective</span>
-                          <input
-                            value={form.objective}
-                            placeholder="The primary commercial job this month delivers"
-                            onChange={e => set({ objective: e.target.value })}
-                            {...fieldProps}
-                          />
-                        </label>
+                        <div className="mw-fu-story-head">
+                          <span className="mw-fu-band-kicker">
+                            <i>01</i> Campaign story &amp; mandate
+                          </span>
+                          <span className="mw-fu-context-chip">
+                            {studio.name} · {MONTHS[month - 1]} {year}
+                          </span>
+                        </div>
+
+                        {editable ? (
+                          <label className="mw-fu-theme">
+                            <span>Monthly theme</span>
+                            <input
+                              value={form.theme}
+                              placeholder="Name the month’s campaign story (e.g. Founding 57 · Full-Value Commitment)"
+                              onChange={e => set({ theme: e.target.value })}
+                              {...fieldProps}
+                            />
+                          </label>
+                        ) : (
+                          <div className="mw-fu-theme is-readonly">
+                            <span>Monthly theme</span>
+                            <h3 className="mw-fu-theme-display">
+                              {form.theme || row.theme || `${MONTHS[month - 1]} Commercial Plan`}
+                            </h3>
+                          </div>
+                        )}
+
+                        <div className="mw-fu-mandate-card">
+                          <span className="mw-fu-label">
+                            <Target size={12.5} /> Commercial objective
+                          </span>
+                          {editable ? (
+                            <textarea
+                              aria-label="Commercial objective"
+                              rows={2}
+                              value={form.objective}
+                              placeholder="One crisp sentence: the primary commercial job this month delivers…"
+                              onChange={e => set({ objective: e.target.value })}
+                            />
+                          ) : form.objective ? (
+                            <p className="mw-fu-objective-display">{inline(form.objective)}</p>
+                          ) : (
+                            <p className="mw-fu-objective-display is-empty">No commercial objective defined yet.</p>
+                          )}
+                        </div>
                       </div>
 
                       <div className="mw-fu-target-box">
                         <div className="mw-fu-target-meta">
-                          <span>{approved ? 'Approved monthly target' : 'Proposed monthly target'}</span>
+                          <span className={`mw-fu-status-pill ${approved ? 'is-approved' : 'is-proposed'}`}>
+                            {approved ? <CheckCircle2 size={11} /> : <Target size={11} />}
+                            {approved ? 'Approved target' : 'Proposed target'}
+                          </span>
                           {yoyDelta !== null && (
                             <em className={yoyDelta >= 0 ? 'is-pos' : 'is-neg'}>
                               {yoyDelta >= 0 ? `+${yoyDelta}%` : `${yoyDelta}%`} vs LY
                             </em>
                           )}
                         </div>
-                        <div className="mw-money big">
-                          <em className="cur">₹</em>
-                          <input
-                            aria-label="Monthly revenue target"
-                            type="number"
-                            min={0}
-                            step={1000}
-                            value={form.target}
-                            onChange={e => changeTarget(Math.round(n(e.target.value)))}
-                            disabled={!editable || !targetRow}
-                          />
+
+                        {editable ? (
+                          <div className="mw-fu-target-input-wrap">
+                            <div className="mw-money big">
+                              <em className="cur">₹</em>
+                              <input
+                                aria-label="Monthly revenue target"
+                                type="number"
+                                min={0}
+                                step={1000}
+                                value={form.target}
+                                onChange={e => changeTarget(Math.round(n(e.target.value)))}
+                                disabled={!targetRow}
+                              />
+                              <span className="mw-money-lakh-pill">{lakh(form.target)}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="mw-fu-target-readout">
+                            <strong>{lakh(effective)}</strong>
+                            <span>₹{Math.round(effective).toLocaleString('en-IN')}</span>
+                          </div>
+                        )}
+
+                        <div className="mw-fu-target-benchmarks">
+                          <div>
+                            <small>Last year actual</small>
+                            <b>{row.lastYear > 0 ? lakh(row.lastYear) : '—'}</b>
+                          </div>
+                          <div>
+                            <small>Offer forecast</small>
+                            <b className={offerDelta >= -1000 ? 'is-ok' : 'is-warn'}>
+                              {lakh(offerRevenue)}{' '}
+                              <em>{offerDelta >= -1000 ? '· Covered' : `· ${lakh(Math.abs(offerDelta))} gap`}</em>
+                            </b>
+                          </div>
                         </div>
-                        <div className="mw-fu-target-foot">
-                          <small>
-                            {approved
-                              ? `Approved at ${lakh(n(targetRow.approved_target))} · LY ${lakh(row.lastYear)}`
-                              : `${lakh(form.target)} planned · last year ${lakh(row.lastYear)}`}
-                          </small>
-                          <small className={streamsMismatch ? 'is-warn' : 'is-ok'}>
-                            {streamsMismatch ? (
-                              <>
-                                {`${lakh(Math.abs(effective - streamTotal))} ${streamTotal > effective ? 'over' : 'unallocated'}`}
-                                {editable && (
-                                  <>
-                                    {' · '}
-                                    <button
-                                      type="button"
-                                      style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        padding: 0,
-                                        color: 'inherit',
-                                        textDecoration: 'underline',
-                                        cursor: 'pointer',
-                                        fontWeight: 600,
-                                      }}
-                                      onClick={() => {
-                                        const ren = Math.round(n(form.streams.renewal));
-                                        const react = Math.round(n(form.streams.reactivation));
-                                        const rest = Math.max(0, Math.round(effective) - ren - react);
-                                        set({
-                                          streams: {
-                                            newClient: rest,
-                                            renewal: rest === 0 ? Math.min(ren, Math.round(effective)) : ren,
-                                            reactivation:
-                                              rest === 0
-                                                ? Math.max(0, Math.round(effective) - Math.min(ren, Math.round(effective)))
-                                                : react,
-                                          },
-                                        });
-                                      }}
-                                    >
-                                      Auto-balance
-                                    </button>
-                                  </>
-                                )}
-                              </>
-                            ) : (
-                              `${lakh(streamTotal)} balanced`
-                            )}
-                          </small>
-                        </div>
-                        <div className="mw-split-bar" aria-hidden="true">
-                          {STREAMS.map(s => (
-                            <span
-                              key={s.key}
-                              style={{
-                                width: `${(n(form.streams[s.key]) / Math.max(streamTotal, effective, 1)) * 100}%`,
-                                background: s.color,
-                              }}
-                            />
-                          ))}
+
+                        <div className="mw-fu-split-wrap">
+                          <div className="mw-split-bar" aria-hidden="true">
+                            {STREAMS.map(s => (
+                              <span
+                                key={s.key}
+                                title={`${s.label}: ${lakh(n(form.streams[s.key]))}`}
+                                style={{
+                                  width: `${(n(form.streams[s.key]) / Math.max(streamTotal, effective, 1)) * 100}%`,
+                                  background: s.color,
+                                }}
+                              />
+                            ))}
+                          </div>
+                          <div className="mw-fu-target-foot">
+                            <small>3-stream allocation</small>
+                            <small className={streamsMismatch ? 'is-warn' : 'is-ok'}>
+                              {streamsMismatch ? (
+                                <>
+                                  {`${lakh(Math.abs(effective - streamTotal))} ${streamTotal > effective ? 'over' : 'unallocated'}`}
+                                  {editable && (
+                                    <>
+                                      {' · '}
+                                      <button
+                                        type="button"
+                                        className="mw-inline-link-btn"
+                                        onClick={() => {
+                                          const ren = Math.round(n(form.streams.renewal));
+                                          const react = Math.round(n(form.streams.reactivation));
+                                          const rest = Math.max(0, Math.round(effective) - ren - react);
+                                          set({
+                                            streams: {
+                                              newClient: rest,
+                                              renewal: rest === 0 ? Math.min(ren, Math.round(effective)) : ren,
+                                              reactivation:
+                                                rest === 0
+                                                  ? Math.max(0, Math.round(effective) - Math.min(ren, Math.round(effective)))
+                                                  : react,
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        Auto-balance
+                                      </button>
+                                    </>
+                                  )}
+                                </>
+                              ) : (
+                                `${lakh(streamTotal)} · 100% balanced`
+                              )}
+                            </small>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* Band 2: Seamless Strategy & Team Playbook */}
+                    {/* Band 2: Structured Execution Strategy & Team Focus Playbook */}
                     <div className="mw-fu-execution">
                       <div className="mw-fu-strategy">
-                        <span className="mw-fu-label">
-                          <ListChecks size={13} /> Execution strategy — how we hit the number
-                        </span>
+                        <div className="mw-fu-pillars-head">
+                          <span className="mw-fu-band-kicker">
+                            <i>02</i> <ListChecks size={12.5} /> Execution strategy
+                          </span>
+                          <div className="mw-subgrid-tools">
+                            <span className="mw-fu-count-pill">
+                              {strategyLines.length} {strategyLines.length === 1 ? 'play' : 'plays'}
+                            </span>
+                            {editable && (
+                              <>
+                                {!strategyRawMode && (
+                                  <button
+                                    type="button"
+                                    className="mw-mini-btn"
+                                    onClick={() =>
+                                      setStrategyLines([
+                                        ...strategyLines,
+                                        '**New Play:** Name the offer, target cohort and commercial target.',
+                                      ])
+                                    }
+                                  >
+                                    <Plus size={11} /> Add play
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  className="mw-mini-btn"
+                                  onClick={() => setStrategyRawMode(v => !v)}
+                                >
+                                  {strategyRawMode ? 'Card view' : 'Bulk text'}
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
                         {editable ? (
-                          <textarea
-                            rows={5}
-                            value={form.strategy}
-                            placeholder={'- Lead with the festive gifting pack\n- Push renewals in week 2…'}
-                            onChange={e => set({ strategy: e.target.value })}
-                          />
-                        ) : form.strategy ? (
-                          <RichText text={form.strategy} />
+                          strategyRawMode ? (
+                            <textarea
+                              className="mw-fu-raw-strategy"
+                              rows={6}
+                              value={form.strategy}
+                              placeholder={'- **Hero Offer:** Lead with the festive gifting pack\n- **Renewal Lock-In:** Push T-14 renewals in Week 2…'}
+                              onChange={e => set({ strategy: e.target.value })}
+                            />
+                          ) : (
+                            <ol className="mw-fu-strategy-cards is-editing">
+                              {(strategyLines.length ? strategyLines : ['']).map((line, idx) => (
+                                <li key={idx}>
+                                  <b>{String(idx + 1).padStart(2, '0')}</b>
+                                  <textarea
+                                    rows={2}
+                                    aria-label={`Strategy play ${idx + 1}`}
+                                    placeholder="**Play Name:** Specific offer, audience, key date and ₹ goal…"
+                                    value={line}
+                                    onChange={e => {
+                                      const base = strategyLines.length ? [...strategyLines] : [''];
+                                      base[idx] = e.target.value;
+                                      set({
+                                        strategy: base
+                                          .map(l => l.replace(/^[-•*]\s+/, ''))
+                                          .map(l => `- ${l}`)
+                                          .join('\n'),
+                                      });
+                                    }}
+                                  />
+                                  <button
+                                    type="button"
+                                    aria-label={`Remove strategy play ${idx + 1}`}
+                                    onClick={() => setStrategyLines(strategyLines.filter((_, j) => j !== idx))}
+                                  >
+                                    <Trash2 size={12} />
+                                  </button>
+                                </li>
+                              ))}
+                            </ol>
+                          )
+                        ) : strategyLines.length > 0 ? (
+                          <ol className="mw-fu-strategy-cards">
+                            {strategyLines.map((line, idx) => (
+                              <li key={idx}>
+                                <b>{String(idx + 1).padStart(2, '0')}</b>
+                                <div className="mw-fu-card-copy">
+                                  <StructuredLine text={line} />
+                                </div>
+                              </li>
+                            ))}
+                          </ol>
                         ) : (
-                          <p className="muted">No execution strategy drafted yet.</p>
+                          <p className="mw-fu-empty">No execution strategy drafted yet.</p>
                         )}
                       </div>
 
                       <div className="mw-fu-pillars">
                         <div className="mw-fu-pillars-head">
-                          <span className="mw-fu-label">
-                            <Flag size={13} /> Team focus points
+                          <span className="mw-fu-band-kicker">
+                            <i>03</i> <Flag size={12.5} /> Team focus points
                           </span>
-                          {editable && (
-                            <button type="button" className="mw-mini-btn" onClick={() => setPoints([...points, ''])}>
-                              <Plus size={12} /> Add point
-                            </button>
-                          )}
+                          <div className="mw-subgrid-tools">
+                            <span className="mw-fu-count-pill">{points.length} priorities</span>
+                            {editable && (
+                              <button
+                                type="button"
+                                className="mw-mini-btn"
+                                onClick={() => setPoints([...points, '**Front Desk:** Crisp team action…'])}
+                              >
+                                <Plus size={11} /> Add point
+                              </button>
+                            )}
+                          </div>
                         </div>
                         <ol className="mw-fu-points-list">
                           {points.map((t, i) => (
-                            <li key={i}>
+                            <li key={i} className={editable ? 'is-editing' : ''}>
                               <b>{i + 1}</b>
                               {editable ? (
                                 <>
-                                  <input
+                                  <textarea
+                                    rows={2}
                                     aria-label={`Focus point ${i + 1}`}
-                                    placeholder="Add team focus point…"
+                                    placeholder="**Owner / Focus:** Actionable priority…"
                                     value={t}
                                     onChange={e => setPoints(points.map((x, j) => (j === i ? e.target.value : x)))}
                                   />
@@ -1761,7 +2142,9 @@ export default function MonthWorkspace({
                                   </button>
                                 </>
                               ) : (
-                                <span>{inline(t)}</span>
+                                <div className="mw-fu-card-copy">
+                                  <StructuredLine text={t} />
+                                </div>
                               )}
                             </li>
                           ))}
@@ -1770,11 +2153,13 @@ export default function MonthWorkspace({
                       </div>
                     </div>
 
-                    {/* Band 3: Full-Width Revenue Streams & Volumes Needed */}
+                    {/* Band 3: Full-Width Revenue Streams, Split Rationale & Volumes Needed */}
                     <div className="mw-fu-commercial">
                       <div className="mw-streams-block">
                         <div className="mw-subgrid-head">
-                          <span>Revenue streams</span>
+                          <span className="mw-fu-band-kicker">
+                            <i>04</i> Revenue streams
+                          </span>
                           <small className={streamsMismatch ? 'neg' : ''}>
                             Allocated {lakh(streamTotal)} of {lakh(effective)}
                             {streamsMismatch
@@ -1786,39 +2171,75 @@ export default function MonthWorkspace({
                           {STREAMS.map(s => {
                             const val = n(form.streams[s.key]);
                             const share = effective ? Math.round((val / effective) * 100) : 0;
+                            const streamOffers = selected.filter(o => STREAM_KEY[STREAM_OF[o.objective] || ''] === s.key);
+                            const streamOfferTotal = streamOffers.reduce((sum, o) => sum + forecastRevenue(o), 0);
+                            const streamCovered = val <= 0 || streamOfferTotal >= val - 500;
                             return (
-                              <label key={s.key} style={{ '--c': s.color } as React.CSSProperties}>
+                              <div key={s.key} className="mw-stream-card" style={{ '--c': s.color } as React.CSSProperties}>
                                 <div className="mw-stream-top">
                                   <span>
                                     <i /> {s.label}
                                   </span>
                                   <em className="mw-stream-pct">{share}%</em>
                                 </div>
-                                <div className="mw-money">
-                                  <em className="cur">₹</em>
-                                  <input
-                                    type="number"
-                                    min={0}
-                                    step={1000}
-                                    value={form.streams[s.key]}
-                                    onChange={e => changeStream(s.key, Math.round(n(e.target.value)))}
-                                    disabled={!editable || !targetRow}
-                                  />
-                                </div>
+                                {editable ? (
+                                  <div className="mw-money">
+                                    <em className="cur">₹</em>
+                                    <input
+                                      aria-label={`${s.label} target`}
+                                      type="number"
+                                      min={0}
+                                      step={1000}
+                                      value={form.streams[s.key]}
+                                      onChange={e => changeStream(s.key, Math.round(n(e.target.value)))}
+                                      disabled={!targetRow}
+                                    />
+                                    <span className="mw-money-lakh-pill is-sm">{lakh(val)}</span>
+                                  </div>
+                                ) : (
+                                  <div className="mw-stream-readout">
+                                    <strong>{lakh(val)}</strong>
+                                    <small>₹{Math.round(val).toLocaleString('en-IN')}</small>
+                                  </div>
+                                )}
                                 <span className="mw-stream-bar" aria-hidden="true">
                                   <b style={{ width: `${Math.min(100, Math.max(0, share))}%` }} />
                                 </span>
-                                <small>{lakh(val)} of {lakh(effective)} target</small>
-                              </label>
+                                <div className="mw-stream-foot">
+                                  <small>{lakh(val)} of {lakh(effective)}</small>
+                                  <small className={streamCovered ? 'is-covered' : 'is-short'}>
+                                    {streamOffers.length > 0
+                                      ? `${streamOffers.length} offer${streamOffers.length === 1 ? '' : 's'} · ${lakh(streamOfferTotal)}`
+                                      : 'No offer assigned'}
+                                  </small>
+                                </div>
+                              </div>
                             );
                           })}
                         </div>
+
+                        {splitRationaleLines.length > 0 && (
+                          <div className="mw-fu-rationale-strip">
+                            <span className="mw-fu-rationale-tag">
+                              <Sparkles size={11} /> Why this split
+                            </span>
+                            <ul className="mw-fu-rationale-list">
+                              {splitRationaleLines.map((line: string, rIdx: number) => (
+                                <li key={rIdx}>
+                                  <StructuredLine text={line} leadTone="stream" />
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
 
                       {(allVols.length > 0 || editable) && (
                         <div className="mw-funnel-targets">
                           <div className="mw-subgrid-head">
-                            <h4>Volumes needed</h4>
+                            <span className="mw-fu-band-kicker">
+                              <i>05</i> Volumes needed
+                            </span>
                             <div className="mw-subgrid-tools">
                               <small>{targetDirty ? 'Live preview from edited split' : 'Funnel & conversion targets'}</small>
                               {econ && (
@@ -1987,7 +2408,7 @@ export default function MonthWorkspace({
               );
             })()}
 
-            {/* ─── Section 3: AI plan & reasoning ─── */}
+            {/* ─── Section 3: AI plan & reasoning (Unified Design System) ─── */}
             {isSectionVisible('ai') && (form.content?.ai || editable) && (() => {
               const ai = form.content?.ai || { splitRationale: '', reasoning: [], risks: [], generatedAt: null };
               const patchAi = (patch: Record<string, any>) =>
@@ -2004,7 +2425,7 @@ export default function MonthWorkspace({
                 'ai',
                 'AI plan & reasoning',
                 ai.generatedAt
-                  ? `How ${MONTHS[month - 1]} reaches ${lakh(effective)} · updated ${new Date(ai.generatedAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`
+                  ? `How ${MONTHS[month - 1]} reaches ${lakh(effective)} · ${ai.mode === 'synthesised' ? 'synthesised' : 'AI-generated'} ${new Date(ai.generatedAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`
                   : `Strategic rationale, stream logic and risk mitigations for ${MONTHS[month - 1]}.`,
               );
               const rows = STREAMS.map(s => ({
@@ -2031,14 +2452,14 @@ export default function MonthWorkspace({
                           <button
                             type="button"
                             className="mw-mini-btn"
-                            onClick={() => patchAi({ reasoning: [...reasoningList, { heading: 'New pillar', points: ['Key commercial point'] }] })}
+                            onClick={() => patchAi({ reasoning: [...reasoningList, { heading: 'New pillar', points: ['**Evidence:** Key commercial point'] }] })}
                           >
                             <Plus size={12} /> Add reasoning block
                           </button>
                           <button
                             type="button"
                             className="mw-mini-btn"
-                            onClick={() => patchAi({ risks: [...risksList, 'New risk & mitigation'] })}
+                            onClick={() => patchAi({ risks: [...risksList, '**Risk Title:** Concrete studio mitigation'] })}
                           >
                             <Plus size={12} /> Add risk
                           </button>
@@ -2046,176 +2467,216 @@ export default function MonthWorkspace({
                       ) : undefined
                     }
                   />
-                  <div className="mw-ai-split">
-                    <div className="mw-ai-chart" role="img" aria-label="Target versus offer forecast by revenue stream">
-                      <div className="mw-ai-legend">
-                        <span><i className="t" /> Target</span>
-                        <span><i className="o" /> Offer forecast</span>
-                      </div>
-                      {rows.map(r => (
-                        <div key={r.key} className="mw-ai-bar-row" style={{ '--c': r.color } as React.CSSProperties}>
-                          <span className="lbl">{r.label}</span>
-                          <div className="bars">
-                            <i className="t" style={{ width: `${(r.target / max) * 100}%` }} />
-                            <i className="o" style={{ width: `${(r.offer / max) * 100}%` }} />
+                  <div className="mw-ai-unified">
+                    <div className="mw-ai-split">
+                      <div className="mw-ai-chart" role="img" aria-label="Target versus offer forecast by revenue stream">
+                        <div className="mw-ai-card-head">
+                          <span className="mw-fu-band-kicker">Stream coverage vs target</span>
+                          <div className="mw-ai-legend">
+                            <span><i className="t" /> Target</span>
+                            <span><i className="o" /> Offer forecast</span>
                           </div>
-                          <span className="val">
-                            <b>{lakh(r.target)}</b>
-                            <em className={r.offer >= r.target ? 'ok' : 'short'}>{lakh(r.offer)}</em>
-                          </span>
                         </div>
-                      ))}
-                      <div className="mw-ai-donut">
                         {rows.map(r => (
-                          <span key={r.key} style={{ flexGrow: Math.max(r.target, 0.0001), background: r.color }} title={`${r.label} ${lakh(r.target)}`}>
-                            {effective ? `${Math.round((r.target / effective) * 100)}%` : ''}
-                          </span>
+                          <div key={r.key} className="mw-ai-bar-row" style={{ '--c': r.color } as React.CSSProperties}>
+                            <span className="lbl">{r.label}</span>
+                            <div className="bars">
+                              <i className="t" style={{ width: `${(r.target / max) * 100}%` }} />
+                              <i className="o" style={{ width: `${(r.offer / max) * 100}%` }} />
+                            </div>
+                            <span className="val">
+                              <b>{lakh(r.target)}</b>
+                              <em className={r.offer >= r.target - 500 ? 'ok' : 'short'}>
+                                {r.offer >= r.target - 500 ? `${lakh(r.offer)} ✓` : `${lakh(r.offer)}`}
+                              </em>
+                            </span>
+                          </div>
                         ))}
+                        <div className="mw-ai-donut">
+                          {rows.map(r => (
+                            <span key={r.key} style={{ flexGrow: Math.max(r.target, 0.0001), background: r.color }} title={`${r.label} ${lakh(r.target)}`}>
+                              {effective ? `${Math.round((r.target / effective) * 100)}%` : ''}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    {(ai.splitRationale || editable) && (
-                      <div className="mw-ai-rationale">
-                        <h5>Why this split</h5>
-                        {editable ? (
-                          <textarea
-                            rows={5}
-                            placeholder="Explain why revenue is weighted across new clients, renewals and reactivation…"
-                            value={ai.splitRationale || ''}
-                            onChange={e => patchAi({ splitRationale: e.target.value })}
-                          />
-                        ) : (
-                          <RichText text={ai.splitRationale} />
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  {(reasoningList.length > 0 || editable) && (
-                    <div className="mw-ai-reasons">
-                      {reasoningList.map((sec, i) => (
-                        <section key={i}>
-                          <h5>
-                            <span>{String(i + 1).padStart(2, '0')}</span>
-                            {editable ? (
-                              <>
-                                <input
-                                  aria-label={`Reasoning heading ${i + 1}`}
-                                  value={sec.heading}
-                                  onChange={e =>
-                                    patchAi({
-                                      reasoning: reasoningList.map((x, idx) => (idx === i ? { ...x, heading: e.target.value } : x)),
-                                    })
-                                  }
-                                />
-                                <button
-                                  type="button"
-                                  className="mw-mini-icon is-danger"
-                                  aria-label="Remove reasoning block"
-                                  onClick={() => patchAi({ reasoning: reasoningList.filter((_, idx) => idx !== i) })}
-                                >
-                                  <Trash2 size={12} />
-                                </button>
-                              </>
-                            ) : (
-                              sec.heading
-                            )}
-                          </h5>
+                      {(ai.splitRationale || editable) && (
+                        <div className="mw-ai-rationale">
+                          <div className="mw-ai-card-head">
+                            <span className="mw-fu-band-kicker">Stream allocation rationale</span>
+                          </div>
                           {editable ? (
-                            <div className="mw-list-editor">
-                              {sec.points.map((p, j) => (
-                                <div key={j} className="mw-list-editor-row">
+                            <textarea
+                              rows={5}
+                              placeholder="- **New clients:** Explain why revenue is weighted across new clients, renewals and reactivation…"
+                              value={ai.splitRationale || ''}
+                              onChange={e => patchAi({ splitRationale: e.target.value })}
+                            />
+                          ) : (
+                            <RichText text={ai.splitRationale} />
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {(reasoningList.length > 0 || editable) && (
+                      <div className="mw-ai-reasons">
+                        {reasoningList.map((sec, i) => (
+                          <section key={i}>
+                            <h5>
+                              <span>{String(i + 1).padStart(2, '0')}</span>
+                              {editable ? (
+                                <>
                                   <input
-                                    value={p}
+                                    aria-label={`Reasoning heading ${i + 1}`}
+                                    value={sec.heading}
                                     onChange={e =>
                                       patchAi({
-                                        reasoning: reasoningList.map((x, idx) =>
-                                          idx === i ? { ...x, points: x.points.map((pt, pj) => (pj === j ? e.target.value : pt)) } : x,
-                                        ),
+                                        reasoning: reasoningList.map((x, idx) => (idx === i ? { ...x, heading: e.target.value } : x)),
                                       })
                                     }
                                   />
                                   <button
                                     type="button"
-                                    aria-label="Remove bullet"
-                                    onClick={() =>
-                                      patchAi({
-                                        reasoning: reasoningList.map((x, idx) =>
-                                          idx === i ? { ...x, points: x.points.filter((_, pj) => pj !== j) } : x,
-                                        ),
-                                      })
-                                    }
+                                    className="mw-mini-icon is-danger"
+                                    aria-label="Remove reasoning block"
+                                    onClick={() => patchAi({ reasoning: reasoningList.filter((_, idx) => idx !== i) })}
                                   >
                                     <Trash2 size={12} />
                                   </button>
+                                </>
+                              ) : (
+                                sec.heading
+                              )}
+                            </h5>
+                            {editable ? (
+                              <div className="mw-list-editor">
+                                {sec.points.map((p, j) => (
+                                  <div key={j} className="mw-list-editor-row">
+                                    <input
+                                      value={p}
+                                      placeholder="**Lead:** Commercial evidence…"
+                                      onChange={e =>
+                                        patchAi({
+                                          reasoning: reasoningList.map((x, idx) =>
+                                            idx === i ? { ...x, points: x.points.map((pt, pj) => (pj === j ? e.target.value : pt)) } : x,
+                                          ),
+                                        })
+                                      }
+                                    />
+                                    <button
+                                      type="button"
+                                      aria-label="Remove bullet"
+                                      onClick={() =>
+                                        patchAi({
+                                          reasoning: reasoningList.map((x, idx) =>
+                                            idx === i ? { ...x, points: x.points.filter((_, pj) => pj !== j) } : x,
+                                          ),
+                                        })
+                                      }
+                                    >
+                                      <Trash2 size={12} />
+                                    </button>
+                                  </div>
+                                ))}
+                                <button
+                                  type="button"
+                                  className="mw-mini-btn"
+                                  onClick={() =>
+                                    patchAi({
+                                      reasoning: reasoningList.map((x, idx) =>
+                                        idx === i ? { ...x, points: [...x.points, '**Point:** Supporting metric'] } : x,
+                                      ),
+                                    })
+                                  }
+                                >
+                                  <Plus size={11} /> Add point
+                                </button>
+                              </div>
+                            ) : (
+                              <ul className="mw-ai-struct-list">
+                                {sec.points.map((p, j) => (
+                                  <li key={j}>
+                                    <StructuredLine text={p} />
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </section>
+                        ))}
+                      </div>
+                    )}
+
+                    {(risksList.length > 0 || editable) && (
+                      <div className="mw-ai-risks">
+                        <div className="mw-ai-card-head">
+                          <span className="mw-fu-band-kicker is-risk">Commercial watchpoints &amp; mitigations</span>
+                        </div>
+                        {editable ? (
+                          <div className="mw-list-editor">
+                            {risksList.map((r, i) => (
+                              <div key={i} className="mw-list-editor-row">
+                                <input
+                                  value={r}
+                                  placeholder="**Risk Title:** Concrete studio mitigation…"
+                                  onChange={e => patchAi({ risks: risksList.map((x, idx) => (idx === i ? e.target.value : x)) })}
+                                />
+                                <button
+                                  type="button"
+                                  aria-label="Remove risk"
+                                  onClick={() => patchAi({ risks: risksList.filter((_, idx) => idx !== i) })}
+                                >
+                                  <Trash2 size={12} />
+                                </button>
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              className="mw-mini-btn"
+                              onClick={() => patchAi({ risks: [...risksList, '**Risk Title:** Mitigation plan'] })}
+                            >
+                              <Plus size={11} /> Add risk
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="mw-ai-risk-grid">
+                            {risksList.map((r, i) => (
+                              <div key={i} className="mw-ai-risk-card">
+                                <span className="mw-ai-risk-idx">R{i + 1}</span>
+                                <div className="mw-fu-card-copy">
+                                  <StructuredLine text={r} leadTone="risk" />
                                 </div>
-                              ))}
-                              <button
-                                type="button"
-                                className="mw-mini-btn"
-                                onClick={() =>
-                                  patchAi({
-                                    reasoning: reasoningList.map((x, idx) =>
-                                      idx === i ? { ...x, points: [...x.points, ''] } : x,
-                                    ),
-                                  })
-                                }
-                              >
-                                <Plus size={11} /> Add point
-                              </button>
-                            </div>
-                          ) : (
-                            <ul>{sec.points.map((p, j) => <li key={j}>{inline(p)}</li>)}</ul>
-                          )}
-                        </section>
-                      ))}
-                    </div>
-                  )}
-                  {(risksList.length > 0 || editable) && (
-                    <div className="mw-ai-risks">
-                      <h5>Risks &amp; mitigations</h5>
-                      {editable ? (
-                        <div className="mw-list-editor">
-                          {risksList.map((r, i) => (
-                            <div key={i} className="mw-list-editor-row">
-                              <input
-                                value={r}
-                                placeholder="Describe risk and studio mitigation…"
-                                onChange={e => patchAi({ risks: risksList.map((x, idx) => (idx === i ? e.target.value : x)) })}
-                              />
-                              <button
-                                type="button"
-                                aria-label="Remove risk"
-                                onClick={() => patchAi({ risks: risksList.filter((_, idx) => idx !== i) })}
-                              >
-                                <Trash2 size={12} />
-                              </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {form.actions.length > 0 && (
+                      <div className="mw-ai-weeks-wrap">
+                        <div className="mw-ai-card-head">
+                          <span className="mw-fu-band-kicker">Weekly execution cadence</span>
+                          <small>{form.actions.length} scheduled actions</small>
+                        </div>
+                        <div className="mw-ai-weeks">
+                          {[1, 2, 3, 4, 5].filter(w => form.actions.some(a => a.week === w)).map(w => (
+                            <div key={w}>
+                              <h6>Week {w}</h6>
+                              <ul>
+                                {form.actions.filter(a => a.week === w).map((a, i) => (
+                                  <li key={i} className={a.done ? 'done' : ''}>
+                                    <span>{inline(a.text)}</span>
+                                    {a.owner && <em>{a.owner}</em>}
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
                           ))}
-                          <button type="button" className="mw-mini-btn" onClick={() => patchAi({ risks: [...risksList, ''] })}>
-                            <Plus size={11} /> Add risk
-                          </button>
                         </div>
-                      ) : (
-                        <ul>{risksList.map((r, i) => <li key={i}>{inline(r)}</li>)}</ul>
-                      )}
-                    </div>
-                  )}
-                  {form.actions.length > 0 && (
-                    <div className="mw-ai-weeks">
-                      {[1, 2, 3, 4, 5].filter(w => form.actions.some(a => a.week === w)).map(w => (
-                        <div key={w}>
-                          <h6>Week {w}</h6>
-                          <ul>
-                            {form.actions.filter(a => a.week === w).map((a, i) => (
-                              <li key={i} className={a.done ? 'done' : ''}>
-                                {a.text}
-                                {a.owner && <em>{a.owner}</em>}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })()}
