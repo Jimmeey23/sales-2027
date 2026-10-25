@@ -2,7 +2,8 @@ import { stringify } from 'csv-stringify/sync';
 import { z } from 'zod';
 import { db, audit } from '../db.js';
 import { permission, ROLE_PERMISSIONS } from '../lib/auth.js';
-import { dashboard, studioProfile, dataCoverage } from '../lib/intelligence.js';
+import { dashboard, studioProfile, studiosOverview, dataCoverage } from '../lib/intelligence.js';
+import { studioScopeIds } from '../lib/studios.js';
 import { currentScenario } from '../lib/targetScenarios.js';
 import { bodyError, id, studioFilter } from '../http.js';
 import type { Express } from 'express';
@@ -71,8 +72,9 @@ export default function registerWorkspaceRoutes(app: Express) {
     if (!product) return res.status(404).json({ error: 'Catalogue item not found.' });
     const studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
     const selectedStudio = studioId ?? product.studio_id ?? null;
-    const scopeClause = selectedStudio ? 'AND studio_id=?' : '';
-    const args = selectedStudio ? [product.name, selectedStudio] : [product.name];
+    const scopeIds = selectedStudio ? studioScopeIds(db, selectedStudio) : [];
+    const scopeClause = scopeIds.length ? `AND studio_id IN (${scopeIds.map(() => '?').join(',')})` : '';
+    const args = scopeIds.length ? [product.name, ...scopeIds] : [product.name];
     const totals = db
       .prepare(
         `SELECT COUNT(*) transactions,COUNT(DISTINCT member_ref) customers,
@@ -89,7 +91,7 @@ export default function registerWorkspaceRoutes(app: Express) {
     COALESCE(SUM(discount_amount),0) discounts,AVG(amount) average_ticket
     FROM transactions WHERE LOWER(TRIM(COALESCE(product_name,'')))=LOWER(TRIM(?)) AND substr(purchased_at,1,4)=? ${scopeClause}`,
       )
-      .get(product.name, String(year), ...(selectedStudio ? [selectedStudio] : [])) as any;
+      .get(product.name, String(year), ...scopeIds) as any;
     const monthly = db
       .prepare(
         `SELECT substr(purchased_at,1,7) month,COUNT(*) transactions,
@@ -98,7 +100,7 @@ export default function registerWorkspaceRoutes(app: Express) {
     FROM transactions WHERE LOWER(TRIM(COALESCE(product_name,'')))=LOWER(TRIM(?)) AND substr(purchased_at,1,4)=? ${scopeClause}
     GROUP BY substr(purchased_at,1,7) ORDER BY month`,
       )
-      .all(product.name, String(year), ...(selectedStudio ? [selectedStudio] : []));
+      .all(product.name, String(year), ...scopeIds);
     res.json({
       productId,
       year,
@@ -161,11 +163,30 @@ export default function registerWorkspaceRoutes(app: Express) {
     const studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
     res.json(dashboard(year, month, studioId));
   });
+  app.get('/api/studios-overview', (req, res) => {
+    const year = Number(req.query.year || 2026);
+    const allowedIds = ['studio_manager', 'sales_associate'].includes(req.user!.role)
+      ? req.user!.assigned_studio_id
+        ? [req.user!.assigned_studio_id]
+        : []
+      : undefined;
+    res.json(studiosOverview(year, allowedIds));
+  });
   app.get('/api/studios/:id', (req, res) => {
     const studioId = studioFilter(req, id(req.params.id));
-    const profile = studioProfile(studioId, Number(req.query.year || 2026));
+    const requestedYear = Number(req.query.year || 2026);
+    // Default historical queries beyond latest actual year to 2026 unless transactions exist for that year
+    const hasYearRows = Boolean(
+      (
+        db
+          .prepare('SELECT 1 ok FROM transactions WHERE substr(month,1,4)=? LIMIT 1')
+          .get(String(requestedYear)) as any
+      )?.ok,
+    );
+    const effectiveYear = hasYearRows ? requestedYear : Math.min(requestedYear, 2026);
+    const profile = studioProfile(studioId, effectiveYear);
     if (!profile) return res.status(404).json({ error: 'Studio not found.' });
-    res.json(profile);
+    res.json({ ...profile, requestedYear, effectiveYear });
   });
   app.post('/api/studios', permission('settings'), (req, res) => {
     const name = String(req.body.name || '').trim();

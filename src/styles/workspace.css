@@ -6404,7 +6404,7 @@
   padding: 10px 14px 12px;
   border-radius: 0;
   background: transparent;
-  box-shadow: none !important;
+  box-shadow: none;
   text-align: left;
   transition: background 0.2s;
 }
@@ -6436,8 +6436,8 @@
   width: 30px;
   height: 30px;
   border-radius: 9px;
-  background: color-mix(in srgb, var(--loc) 12%, #fff) !important;
-  box-shadow: none !important;
+  background: color-mix(in srgb, var(--loc) 12%, #fff);
+  box-shadow: none;
   color: color-mix(in srgb, var(--loc) 85%, #000);
   font-size: 10.5px;
   font-style: normal;
@@ -6448,7 +6448,7 @@
     color 0.2s;
 }
 .ws-locations button.active i {
-  background: var(--loc) !important;
+  background: var(--loc);
   color: #fff;
 }
 .ws-header > .ws-locations button > span {

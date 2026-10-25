@@ -14,6 +14,7 @@ import type { Express } from 'express';
 import { focusRequestSchema, generateMonthFocus } from '../lib/monthFocus.js';
 import { applyProposal, copilotRequestSchema, proposalSchema, proposeOffers } from '../lib/offerCopilot.js';
 import { ASSUMPTION_KEYS, planEconomics } from '../lib/planEconomics.js';
+import { studioScopeIds } from '../lib/studios.js';
 import { coverPlan, PRODUCT_KEYS, linkedOfferChange, listPrice, planningStudios, selection } from '../lib/linkedOffers.js';
 
 export default function registerStudioPlansRoutes(app: Express) {
@@ -44,10 +45,15 @@ export default function registerStudioPlansRoutes(app: Express) {
       )
       .all(...(scoped ? [year, year, year, scoped] : [year, year, year])) as any[];
     // Pop-up venues are listed inside the Pop-up card rather than as separate studios.
-    const children = rows.filter(r => POPUP_CHILDREN.includes(r.name));
+    // Exclude discontinued/legacy historical venues that have neither 2027 targets, plans, nor active offers.
+    const activePlanNames = new Set(['Kemps Corner', 'Bandra', 'Kenkere House', POPUP_PARENT, ...POPUP_CHILDREN]);
+    const relevant = rows.filter(
+      r => activePlanNames.has(r.name) || Number(r.proposed) > 0 || Number(r.approved) > 0 || Number(r.planned_months) > 0,
+    );
+    const children = relevant.filter(r => POPUP_CHILDREN.includes(r.name));
     res.json({
       year,
-      rows: rows
+      rows: relevant
         .filter(r => !POPUP_CHILDREN.includes(r.name))
         .map(r => (r.name === POPUP_PARENT ? { ...r, children } : r)),
     });
@@ -64,11 +70,13 @@ export default function registerStudioPlansRoutes(app: Express) {
     const plans = (
       db.prepare('SELECT * FROM monthly_plans WHERE studio_id=? AND year=?').all(studioId, year) as any[]
     ).map(planRow);
+    const scopeIds = studioScopeIds(db, studioId);
+    const scopeIn = `studio_id IN (${scopeIds.map(() => '?').join(',')})`;
     const actuals = db
       .prepare(
-        `SELECT CAST(substr(month,6,2) AS INTEGER) month,SUM(amount) revenue FROM transactions WHERE studio_id=? AND substr(month,1,4)=? GROUP BY month`,
+        `SELECT CAST(substr(month,6,2) AS INTEGER) month,SUM(amount) revenue FROM transactions WHERE ${scopeIn} AND substr(month,1,4)=? GROUP BY month`,
       )
-      .all(studioId, String(year));
+      .all(...scopeIds, String(year));
     const children =
       studio.name === POPUP_PARENT
         ? POPUP_CHILDREN.map(name => {
@@ -190,36 +198,54 @@ export default function registerStudioPlansRoutes(app: Express) {
     benefit: z.string().max(1000).nullable().optional(),
     rationale: z.string().max(5000).nullable().optional(),
     customer_copy: z.string().max(3000).nullable().optional(),
-    audience: z.string().max(200).nullable().optional(),
-    redemption_conditions: z.string().max(2000).nullable().optional(),
+    internal_description: z.string().max(3000).nullable().optional(),
+    audience: z.string().max(500).nullable().optional(),
+    excluded_audience: z.string().max(500).nullable().optional(),
+    cta: z.string().max(240).nullable().optional(),
+    offer_type: z.string().max(80).optional(),
+    objective: z.string().max(80).optional(),
+    plan_slot: z.string().max(40).nullable().optional(),
+    redemption_conditions: z.string().max(3000).nullable().optional(),
     validity_start: z.string().max(10).nullable().optional(),
     validity_end: z.string().max(10).nullable().optional(),
+    performance_notes: z.string().max(3000).nullable().optional(),
+    success_metrics: z.array(z.string().max(400)).max(30).optional(),
+    risks: z.array(z.string().max(400)).max(30).optional(),
     target_purchases: z.number().min(0).max(10000).optional(),
     expected_asp: z.number().min(0).max(10000000).optional(),
+    photoKey: z.string().max(80).nullable().optional(),
     pricing: z
       .object({
         product: z.string().max(20).nullable().optional(),
         discount: z.number().min(0).max(0.5).optional(),
         mechanic: z.string().max(500).optional(),
+        customListPrice: z.number().min(0).max(10000000).nullable().optional(),
+        customAsp: z.boolean().optional(),
       })
       .optional(),
   });
   const linkedSchema = z.discriminatedUnion('op', [
     z.object({ op: z.literal('add'), offerId: z.number().int().positive(), solo: z.boolean().default(false) }),
     z.object({ op: z.literal('remove'), offerId: z.number().int().positive(), solo: z.boolean().default(false) }),
+    z.object({ op: z.literal('delete'), offerId: z.number().int().positive(), solo: z.boolean().default(false) }),
     z.object({
       op: z.literal('update'),
       offerId: z.number().int().positive(),
       solo: z.boolean().default(false),
       edit: editSchema,
     }),
+    z.object({
+      op: z.literal('create'),
+      solo: z.boolean().default(false),
+      edit: editSchema,
+    }),
   ]);
-  // Add, remove or edit a planned offer; mirrored to every planning location unless `solo` is set.
+  // Add, remove, create, delete or edit a planned offer; mirrored to every planning location unless `solo` is set.
   app.post('/api/studio-plans/:studioId/:year/:month/offers', (req, res) => {
     const perms = req.user?.permissions ?? [];
     if (!req.user) return res.status(401).json({ error: 'Authentication required.' });
-    // Adding or swapping offers is open to anyone who can edit offers; editing an offer's terms needs plan edit rights.
-    const needed = req.body?.op === 'update' ? ['target_edit'] : ['target_edit', 'offer_edit'];
+    // Adding or swapping offers is open to anyone who can edit offers; editing/creating/deleting terms needs plan or offer edit rights.
+    const needed = ['update', 'create', 'delete'].includes(req.body?.op) ? ['target_edit', 'offer_edit'] : ['target_edit', 'offer_edit'];
     if (!needed.some(k => perms.includes(k)))
       return res.status(403).json({ error: 'Your role cannot change this month’s offers.' });
     const studioId = studioFilter(req, id(req.params.studioId)),

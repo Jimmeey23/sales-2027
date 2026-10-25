@@ -161,6 +161,9 @@ const hasValidForecast = (o: any) => {
 const forecastRevenue = (o: any) => hasValidForecast(o) ? n(o.expected_revenue) : 0;
 const monthContentWithCalendar = (content: any, year: number, month: number) => {
   const curated = keyDatesFor(year, month);
+  if (content?.keyDatesCustomized && Array.isArray(content?.keyDates)) {
+    return { ...(content || {}), keyDates: [...content.keyDates], activations: content?.activations || {} };
+  }
   const keyDates = Array.isArray(content?.keyDates) ? [...content.keyDates] : [];
   for (const date of curated) {
     const match = keyDates.findIndex((saved: any) => saved.name === date.name || (saved.day === date.day && saved.kind === date.kind));
@@ -384,6 +387,8 @@ export default function MonthWorkspace({
   const [form, setForm] = useState(initialForm),
     [busy, setBusy] = useState(false),
     [editing, setEditing] = useState<number | null>(null),
+    [creatingOffer, setCreatingOffer] = useState<any | null>(null),
+    [twoUpForce, setTwoUpForce] = useState<boolean | null>(null),
     [activeDay, setActiveDay] = useState<number | null>(null);
   // Reset whenever the month or studio changes, or fresh data arrives — except right after our own autosave.
   const skipReset = useRef(false),
@@ -401,11 +406,56 @@ export default function MonthWorkspace({
     lastSaved.current = JSON.stringify(planBodyOf(f));
     setForm(f);
   }, [month, studioIdx, data]);
-  useEffect(() => setEditing(null), [month, studioIdx]);
+  useEffect(() => {
+    setEditing(null);
+    setCreatingOffer(null);
+  }, [month, studioIdx]);
   useEffect(() => setActiveDay(null), [month, studioIdx]);
   useEffect(() => setMathsOpen(false), [month, studioIdx]);
   const set = (patch: Partial<ReturnType<typeof initialForm>>) => setForm(f => ({ ...f, ...patch }));
   const updateContent = (patch: Record<string, unknown>) => setForm(f => ({ ...f, content: { ...(f.content || {}), ...patch } }));
+  const hiddenSections: string[] = Array.isArray(form.content?.hiddenSections) ? form.content.hiddenSections : [];
+  const isSectionVisible = (secKey: string) => !hiddenSections.includes(secKey);
+  const hideSection = (secKey: string) =>
+    updateContent({ hiddenSections: [...new Set([...hiddenSections, secKey])] });
+  const restoreSection = (secKey: string) =>
+    updateContent({ hiddenSections: hiddenSections.filter(s => s !== secKey) });
+  const sectionMeta = (secKey: string, defaultTitle: string, defaultHint: string) => {
+    const m = form.content?.sectionMeta?.[secKey] || {};
+    return {
+      title: m.title !== undefined ? m.title : defaultTitle,
+      hint: m.hint !== undefined ? m.hint : defaultHint,
+    };
+  };
+  const patchSectionMeta = (secKey: string, patch: { title?: string; hint?: string }) =>
+    updateContent({
+      sectionMeta: {
+        ...(form.content?.sectionMeta || {}),
+        [secKey]: { ...(form.content?.sectionMeta?.[secKey] || {}), ...patch },
+      },
+    });
+  type CustomSectionItem = { id: string; label: string; value: string; detail: string };
+  type CustomSection = { id: string; title: string; hint: string; body: string; items: CustomSectionItem[] };
+  const customSections: CustomSection[] = Array.isArray(form.content?.customSections) ? form.content.customSections : [];
+  const setCustomSections = (next: CustomSection[]) => updateContent({ customSections: next });
+  const addCustomSection = () => {
+    const created: CustomSection = {
+      id: `custom-${Date.now()}`,
+      title: 'Custom section',
+      hint: 'Add notes, milestones or studio-specific playbooks for this month.',
+      body: '',
+      items: [
+        { id: `item-${Date.now()}`, label: 'Priority', value: 'Studio initiative', detail: 'Owner, timeline and expected outcome.' },
+      ],
+    };
+    setCustomSections([...customSections, created]);
+    setTimeout(() => document.getElementById(`mw-sec-${created.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  };
+  const updateCustomSection = (id: string, patch: Partial<CustomSection>) =>
+    setCustomSections(customSections.map(s => (s.id === id ? { ...s, ...patch } : s)));
+  const removeCustomSection = (id: string) =>
+    setCustomSections(customSections.filter(s => s.id !== id));
+
   const changeTarget = (target: number) => {
     const amount = approved ? n(targetRow?.approved_target) : target;
     setForm(f => ({
@@ -415,12 +465,20 @@ export default function MonthWorkspace({
     }));
   };
   const changeStream = (key: string, value: number) => {
+    const clean = Math.max(0, value);
     setForm(f => {
-      const streams = { ...f.streams, [key]: value };
-      if (key !== 'newClient') {
-        const amount = approved ? n(targetRow?.approved_target) : f.target;
-        streams.newClient = Math.max(0, amount - n(streams.renewal) - n(streams.reactivation));
+      const streams = { ...f.streams, [key]: clean };
+      if (key === 'newClient') {
+        if (approved) {
+          const amount = n(targetRow?.approved_target);
+          streams.renewal = Math.max(0, amount - clean - n(streams.reactivation));
+          return { ...f, streams };
+        }
+        const nextTarget = Math.max(0, clean + n(streams.renewal) + n(streams.reactivation));
+        return { ...f, target: nextTarget, streams };
       }
+      const amount = approved ? n(targetRow?.approved_target) : f.target;
+      streams.newClient = Math.max(0, amount - n(streams.renewal) - n(streams.reactivation));
       return { ...f, streams };
     });
   };
@@ -928,22 +986,42 @@ export default function MonthWorkspace({
       >
         <header className="mw-hero">
           <div className="mw-hero-fx" aria-hidden="true">
-            <i className="o1" /><i className="o2" /><i className="o3" />
-            <i className="beam" />
+            <i className="mw-aurora mw-aurora-a" />
+            <i className="mw-aurora mw-aurora-b" />
+            <i className="mw-hairline" />
           </div>
           <div className="mw-hero-top">
             <div className="mw-nav">
               <button aria-label="Previous month" disabled={month === 1} onClick={() => setMonth(month - 1)}>
-                <ChevronLeft size={18} />
+                <ChevronLeft size={16} />
               </button>
-              <div>
-                <span className="mw-eyebrow">
-                  {studio.name} · {year} · {form.theme || row.theme}
-                </span>
-                <h2>{MONTHS[month - 1]}</h2>
+              <div className="mw-title-block" key={`title-${month}-${studio.id}`}>
+                <div className="mw-eyebrow-row">
+                  <span className="mw-month-idx">
+                    {String(month).padStart(2, '0')}
+                    <em>/12</em>
+                  </span>
+                  <span className="mw-eyebrow">
+                    {studio.name} · {year}
+                  </span>
+                  {locked && (
+                    <span className="mw-hero-badge is-approved">
+                      <CheckCircle2 size={10} /> Approved
+                    </span>
+                  )}
+                </div>
+                <div className="mw-title-line">
+                  <h2>{MONTHS[month - 1]}</h2>
+                  {(form.theme || row.theme) && (
+                    <>
+                      <i className="mw-title-sep" aria-hidden="true" />
+                      <span className="mw-theme-sub">{form.theme || row.theme}</span>
+                    </>
+                  )}
+                </div>
               </div>
               <button aria-label="Next month" disabled={month === 12} onClick={() => setMonth(month + 1)}>
-                <ChevronRight size={18} />
+                <ChevronRight size={16} />
               </button>
             </div>
             <div className="mw-head-actions">
@@ -957,16 +1035,16 @@ export default function MonthWorkspace({
                   title={mathsOpen ? 'Hide monthly maths' : 'Show monthly maths and assumptions'}
                   onClick={() => setMathsOpen(open => !open)}
                 >
-                  <Sigma size={17} />
+                  <Sigma size={15} />
                   <span>Maths</span>
                 </button>
               )}
               {canEditPlan && (
                 masterUnlocked ? (
-                  <div className="mw-edit-status"><span><Pencil size={12} /> Edit mode</span><Button variant="secondary" icon={<LockKeyhole size={14} />} onClick={lockEditing}>Lock</Button></div>
+                  <div className="mw-edit-status"><span><Pencil size={11} /> Edit mode</span><Button variant="secondary" icon={<LockKeyhole size={13} />} onClick={lockEditing}>Lock</Button></div>
                 ) : (
                   <form className="mw-hero-gate" onSubmit={unlockEditing}>
-                    <LockKeyhole size={14} />
+                    <LockKeyhole size={13} />
                     <input
                       aria-label="Master passcode"
                       type="password"
@@ -986,14 +1064,14 @@ export default function MonthWorkspace({
                 <label className={`mw-solo ${solo ? 'on' : ''}`} title="When off, offer changes copy to every location">
                   <input type="checkbox" checked={solo} onChange={e => setSolo(e.target.checked)} />
                   <span className="mw-switch" />
-                  {solo ? <Unlink size={14} /> : <Link2 size={14} />}
+                  {solo ? <Unlink size={13} /> : <Link2 size={13} />}
                   {solo ? `Solo: ${studio.name} only` : 'Synced to all locations'}
                 </label>
               )}
               {canApprovePlan && masterUnlocked && (
                 <Button
                   variant={locked ? 'secondary' : 'dark'}
-                  icon={locked ? <RotateCcw size={15} /> : <CheckCircle2 size={15} />}
+                  icon={locked ? <RotateCcw size={14} /> : <CheckCircle2 size={14} />}
                   disabled={busy}
                   onClick={() => setApproval(!locked)}
                 >
@@ -1001,74 +1079,98 @@ export default function MonthWorkspace({
                 </Button>
               )}
               {editable && (
-                <Button icon={<Save size={15} />} disabled={busy} onClick={save}>
+                <Button icon={<Save size={14} />} disabled={busy} onClick={save}>
                   {busy ? 'Saving…' : 'Save month'}
                 </Button>
               )}
               <button className="mw-close" aria-label="Close" onClick={onClose}>
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
           </div>
-          <div className="mw-kpis">
-            <div className="mw-kpi">
-              <span className="mw-kpi-label"><Target size={13} /> Target</span>
-              <strong>{lakh(effective)}</strong>
-              <i className="mw-kpi-bar" style={{ '--p': row.lastYear ? Math.min(effective / row.lastYear / 2, 1) : 0 } as React.CSSProperties} />
-              <small>
-                {approved ? 'approved' : 'proposed'} · LY {lakh(row.lastYear)}
-              </small>
+          <div className="mw-kpis" key={`kpis-${month}-${studio.id}`}>
+            <div className="mw-kpi" style={{ '--kpi-i': 0 } as React.CSSProperties}>
+              <span className="mw-kpi-label"><Target size={12} /> Target</span>
+              <div className="mw-kpi-row">
+                <strong>{lakh(effective)}</strong>
+                <small>
+                  {approved ? 'approved' : 'proposed'} · LY {lakh(row.lastYear)}
+                </small>
+              </div>
+              <i className="mw-kpi-bar" style={{ '--p': row.lastYear ? Math.min(effective / row.lastYear / 2, 1) : 0.62 } as React.CSSProperties} />
             </div>
-            <div className="mw-kpi">
-              <span className="mw-kpi-label"><Trophy size={13} /> Offers carry</span>
-              <strong>{lakh(offerRevenue)}</strong>
+            <div className="mw-kpi" style={{ '--kpi-i': 1 } as React.CSSProperties}>
+              <span className="mw-kpi-label"><Trophy size={12} /> Offers carry</span>
+              <div className="mw-kpi-row">
+                <strong>{lakh(offerRevenue)}</strong>
+                <small>
+                  {selected.length} offers · {effective ? pct(offerRevenue / effective) : '—'}
+                </small>
+              </div>
               <i className="mw-kpi-bar" style={{ '--p': effective ? Math.min(offerRevenue / effective, 1) : 0 } as React.CSSProperties} />
-              <small>
-                {selected.length} offers · {effective ? pct(offerRevenue / effective) : '—'} of target
-              </small>
             </div>
-            <div className={`mw-kpi ${coverage !== null && coverage < 1 ? 'warn' : ''}`}>
-              <span className="mw-kpi-label"><RefreshCcw size={13} /> Renewals covered</span>
-              <strong>{pct(coverage)}</strong>
+            <div className={`mw-kpi ${coverage !== null && coverage < 1 ? 'warn' : ''}`} style={{ '--kpi-i': 2 } as React.CSSProperties}>
+              <span className="mw-kpi-label"><RefreshCcw size={12} /> Renewals covered</span>
+              <div className="mw-kpi-row">
+                <strong>{pct(coverage)}</strong>
+                <small>
+                  {lakh(econ?.renewal.expected)} of {lakh(econ?.renewal.target)}
+                </small>
+              </div>
               <i className="mw-kpi-bar" style={{ '--p': Math.min(coverage ?? 0, 1) } as React.CSSProperties} />
-              <small>
-                {lakh(econ?.renewal.expected)} expected of {lakh(econ?.renewal.target)}
-              </small>
             </div>
-            <div className="mw-kpi">
-              <span className="mw-kpi-label"><SlidersHorizontal size={13} /> Funnel</span>
+            <div className="mw-kpi" style={{ '--kpi-i': 3 } as React.CSSProperties}>
+              <span className="mw-kpi-label"><SlidersHorizontal size={12} /> Funnel</span>
               <div className="mw-kpi-funnel">
                 <b>{number(row.leads)}<em>leads</em></b>
-                <ChevronRight size={12} />
+                <ChevronRight size={11} />
                 <b>{number(row.trials)}<em>trials</em></b>
-                <ChevronRight size={12} />
+                <ChevronRight size={11} />
                 <b>{number(row.buyers)}<em>members</em></b>
               </div>
+              <i className="mw-kpi-bar is-funnel" style={{ '--p': row.leads ? Math.min(row.trials / Math.max(1, row.leads), 1) : 0.45 } as React.CSSProperties} />
             </div>
           </div>
           {data.plans.length > 1 && (
             <div className="mw-studios" role="tablist" aria-label="Location">
-              {data.plans.map((p, i) => (
-                <button
-                  key={p.studio.id}
-                  role="tab"
-                  aria-selected={i === studioIdx}
-                  className={i === studioIdx ? 'active' : ''}
-                  style={{ '--loc': LOCATION_COLORS[p.studio.name] } as React.CSSProperties}
-                  onClick={() => setStudioIdx(i)}
-                >
-                  <i />
-                  {p.studio.name}
-                  <b>{lakh(p.months[month - 1].target)}</b>
-                </button>
-              ))}
+              <span className="mw-studios-eyebrow">Locations</span>
+              <div className="mw-studios-track">
+                {data.plans.map((p, i) => {
+                  const mRow = p.months[month - 1];
+                  const share = combinedRow.target ? Math.round((mRow.target / combinedRow.target) * 100) : 0;
+                  return (
+                    <button
+                      key={p.studio.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === studioIdx}
+                      className={i === studioIdx ? 'active' : ''}
+                      style={{ '--loc': LOCATION_COLORS[p.studio.name] } as React.CSSProperties}
+                      onClick={() => setStudioIdx(i)}
+                    >
+                      <i />
+                      <span className="mw-studio-copy">
+                        <strong>{p.studio.name}</strong>
+                        <small>
+                          {p.studio.city} · {share}%
+                        </small>
+                      </span>
+                      <b>{lakh(mRow.target)}</b>
+                    </button>
+                  );
+                })}
+              </div>
               <span className="mw-studios-total">
-                All locations <b>{lakh(combinedRow.target)}</b>
+                <em>All locations</em>
+                <b>{lakh(combinedRow.target)}</b>
               </span>
             </div>
           )}
+        </header>
+
+        <div className="mw-marquee-dock">
           <Marquee
-            variant="dark"
+            variant="minimal"
             tag="MONTH PULSE"
             items={[
               ...dates.map(d => ({
@@ -1096,7 +1198,7 @@ export default function MonthWorkspace({
               })),
             ]}
           />
-        </header>
+        </div>
 
         <div
           className={`mw-body pane-offers ${sideOpen ? 'is-side-open' : 'is-side-collapsed'}`}
@@ -1105,18 +1207,50 @@ export default function MonthWorkspace({
           <main className={`mw-main ${locked ? 'is-locked' : ''}`}>
             <nav className="mw-quicknav" aria-label="Jump to section">
               <div className="mw-quicknav-links">
-                <button type="button" onClick={() => jumpToSection('mw-sec-days')}>Important days</button>
-                <button type="button" onClick={() => jumpToSection('mw-sec-focus')}>Focus &amp; target</button>
-                <button type="button" onClick={() => jumpToSection('mw-sec-offers')}>
-                  Offers <em>{selected.length}</em>
-                </button>
-                {gapRows.length > 0 && (
+                {isSectionVisible('days') && (
+                  <button type="button" onClick={() => jumpToSection('mw-sec-days')}>Important days</button>
+                )}
+                {isSectionVisible('focus') && (
+                  <button type="button" onClick={() => jumpToSection('mw-sec-focus')}>Focus &amp; target</button>
+                )}
+                {isSectionVisible('ai') && (form.content?.ai || editable) && (
+                  <button type="button" onClick={() => jumpToSection('mw-sec-ai')}>Reasoning</button>
+                )}
+                {isSectionVisible('offers') && (
+                  <button type="button" onClick={() => jumpToSection('mw-sec-offers')}>
+                    Offers <em>{selected.length}</em>
+                  </button>
+                )}
+                {isSectionVisible('coverage') && (gapRows.length > 0 || editable) && (
                   <button type="button" onClick={() => jumpToSection('mw-sec-coverage')}>Coverage</button>
                 )}
-                <button type="button" onClick={() => jumpToSection('mw-sec-acts')}>Activations</button>
-                <button type="button" onClick={() => jumpToSection('mw-sec-collaterals')}>Collaterals</button>
+                {isSectionVisible('acts') && (
+                  <button type="button" onClick={() => jumpToSection('mw-sec-acts')}>Activations</button>
+                )}
+                {isSectionVisible('actions') && (
+                  <button type="button" onClick={() => jumpToSection('mw-sec-actions')}>Actions</button>
+                )}
+                {isSectionVisible('collaterals') && (
+                  <button type="button" onClick={() => jumpToSection('mw-sec-collaterals')}>Collaterals</button>
+                )}
+                {customSections.map(cs => (
+                  <button key={cs.id} type="button" onClick={() => jumpToSection(`mw-sec-${cs.id}`)}>
+                    {cs.title || 'Custom'}
+                  </button>
+                ))}
               </div>
               <div className="mw-quicknav-tools">
+                {editable && (
+                  <button
+                    type="button"
+                    className="mw-qtool"
+                    onClick={addCustomSection}
+                    title="Add a new custom section to this month's plan"
+                  >
+                    <Plus size={13} />
+                    <span>Add section</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   className={`mw-qtool${!sideOpen ? ' is-active' : ''}`}
@@ -1137,6 +1271,35 @@ export default function MonthWorkspace({
                 </button>
               </div>
             </nav>
+
+            {editable && hiddenSections.length > 0 && (() => {
+              const SEC_NAMES: Record<string, string> = {
+                days: 'Important days',
+                focus: 'Monthly focus & target',
+                ai: 'AI plan & reasoning',
+                offers: 'Offers',
+                coverage: 'Offer coverage',
+                acts: 'Activations',
+                actions: 'Action plan',
+                collaterals: 'Marketing & collaterals',
+              };
+              return (
+                <div className="mw-restore-strip" role="region" aria-label="Deleted sections">
+                  <span>Deleted sections:</span>
+                  {hiddenSections.map(sec => (
+                    <button key={sec} type="button" onClick={() => restoreSection(sec)}>
+                      <RotateCcw size={11} /> Restore {SEC_NAMES[sec] || sec}
+                    </button>
+                  ))}
+                  {hiddenSections.length > 1 && (
+                    <button type="button" className="is-all" onClick={() => updateContent({ hiddenSections: [] })}>
+                      Restore all
+                    </button>
+                  )}
+                </div>
+              );
+            })()}
+
             {locked && (
               <div className="mw-approved-banner">
                 <CheckCircle2 size={16} />
@@ -1145,107 +1308,284 @@ export default function MonthWorkspace({
                 </span>
               </div>
             )}
-            {(
-              <>
+
+            {/* ─── Section 1: Important days ─── */}
+            {isSectionVisible('days') && (() => {
+              const meta = sectionMeta('days', 'Important days', 'Festivals, holidays and moments that shape demand.');
+              const setDates = (nextDates: any[]) => updateContent({ keyDates: nextDates, keyDatesCustomized: true });
+              return (
                 <div id="mw-sec-days" className="mw-section mw-days">
                   <SectionHead
                     icon={CalendarHeart}
-                    title="Important days"
-                    hint="Festivals, holidays and moments that shape demand."
+                    title={meta.title}
+                    hint={meta.hint}
+                    editable={editable}
+                    onTitleChange={v => patchSectionMeta('days', { title: v })}
+                    onHintChange={v => patchSectionMeta('days', { hint: v })}
+                    onDelete={() => hideSection('days')}
+                    actions={
+                      editable ? (
+                        <>
+                          <button
+                            type="button"
+                            className="mw-mini-btn"
+                            onClick={() => {
+                              const next = [...dates, { day: 1, name: 'New moment', kind: 'awareness', approx: false }];
+                              setDates(next);
+                              setActiveDay(next.length - 1);
+                            }}
+                          >
+                            <Plus size={12} /> Add day
+                          </button>
+                          {form.content?.keyDatesCustomized && (
+                            <button
+                              type="button"
+                              className="mw-mini-btn"
+                              onClick={() => updateContent({ keyDates: keyDatesFor(year, month), keyDatesCustomized: false })}
+                            >
+                              <RotateCcw size={11} /> Reset calendar
+                            </button>
+                          )}
+                        </>
+                      ) : undefined
+                    }
                   />
-                  <div className="mw-days-grid">
-                    {dates.map((d, di) => {
-                      const left = daysUntil(year, month, d.day);
-                      const open = activeDay === di;
-                      return (
-                        <article
-                          key={`${d.name}${d.day}`}
-                          className={`mw-day kd-${d.kind}${open ? ' is-open' : ''}`}
-                          role={editable ? undefined : 'button'}
-                          tabIndex={editable ? undefined : 0}
-                          aria-expanded={editable ? undefined : open}
-                          onClick={editable ? undefined : () => setActiveDay(open ? null : di)}
-                          onKeyDown={editable ? undefined : e => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setActiveDay(open ? null : di))}
-                        >
-                          <div className="mw-day-art">
-                            <FestivalArt name={d.name} kind={d.kind} />
-                            <span className="mw-day-date">
-                              <b>{formatKeyDate(d)}</b>
-                              <small>{MONTHS[month - 1].slice(0, 3)}</small>
-                            </span>
-                          </div>
-                          <div className="mw-day-body">
-                            {editable ? (
-                              <div className="mw-inline-edit">
-                                <input aria-label="Important day name" value={d.name} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === di ? { ...x, name: e.target.value } : x) })} />
-                                <div>
-                                  <select aria-label="Important day type" value={d.kind} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === di ? { ...x, kind: e.target.value } : x) })}>
-                                    {Object.entries(KEY_DATE_LABELS).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
-                                  </select>
-                                  <input aria-label="Day of month" type="number" min={1} max={31} value={d.day} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === di ? { ...x, day: Math.min(31, Math.max(1, Number(e.target.value) || 1)) } : x) })} />
-                                  <label><input type="checkbox" checked={!!d.approx} onChange={e => updateContent({ keyDates: dates.map((x, i) => i === di ? { ...x, approx: e.target.checked } : x) })} /> Approx.</label>
-                                  <button type="button" aria-label={`Remove ${d.name}`} onClick={() => updateContent({ keyDates: dates.filter((_, i) => i !== di) })}><Trash2 size={13} /></button>
+                  {dates.length > 0 ? (
+                    <div className="mw-days-grid">
+                      {dates.map((d: any, di: number) => {
+                        const left = daysUntil(year, month, d.day);
+                        const open = activeDay === di;
+                        return (
+                          <article
+                            key={`${d.day}-${di}`}
+                            className={`mw-day kd-${d.kind}${open ? ' is-open' : ''}`}
+                            role={editable ? undefined : 'button'}
+                            tabIndex={editable ? undefined : 0}
+                            aria-expanded={editable ? undefined : open}
+                            onClick={editable ? undefined : () => setActiveDay(open ? null : di)}
+                            onKeyDown={editable ? undefined : e => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setActiveDay(open ? null : di))}
+                          >
+                            <div
+                              className="mw-day-art"
+                              onClick={editable ? () => setActiveDay(open ? null : di) : undefined}
+                              style={editable ? { cursor: 'pointer' } : undefined}
+                              title={editable ? 'Click to edit play & channel details' : undefined}
+                            >
+                              <FestivalArt name={d.name} kind={d.kind} />
+                              <span className="mw-day-date">
+                                <b>{formatKeyDate(d)}</b>
+                                <small>{MONTHS[month - 1].slice(0, 3)}</small>
+                              </span>
+                            </div>
+                            <div className="mw-day-body">
+                              {editable ? (
+                                <div className="mw-inline-edit">
+                                  <input
+                                    aria-label="Important day name"
+                                    placeholder="Holiday or moment"
+                                    value={d.name}
+                                    onChange={e => setDates(dates.map((x: any, i: number) => (i === di ? { ...x, name: e.target.value } : x)))}
+                                  />
+                                  <div>
+                                    <select
+                                      aria-label="Important day type"
+                                      value={d.kind}
+                                      onChange={e => setDates(dates.map((x: any, i: number) => (i === di ? { ...x, kind: e.target.value } : x)))}
+                                    >
+                                      {Object.entries(KEY_DATE_LABELS).map(([key, label]) => (
+                                        <option key={key} value={key}>{label}</option>
+                                      ))}
+                                    </select>
+                                    <input
+                                      aria-label="Day of month"
+                                      type="number"
+                                      min={1}
+                                      max={31}
+                                      value={d.day}
+                                      onChange={e =>
+                                        setDates(
+                                          dates.map((x: any, i: number) =>
+                                            i === di ? { ...x, day: Math.min(31, Math.max(1, Number(e.target.value) || 1)) } : x,
+                                          ),
+                                        )
+                                      }
+                                    />
+                                    <label>
+                                      <input
+                                        type="checkbox"
+                                        checked={!!d.approx}
+                                        onChange={e => setDates(dates.map((x: any, i: number) => (i === di ? { ...x, approx: e.target.checked } : x)))}
+                                      />{' '}
+                                      Approx.
+                                    </label>
+                                    <button
+                                      type="button"
+                                      title="Edit play & channels"
+                                      aria-label={`Edit details for ${d.name || 'day'}`}
+                                      onClick={() => setActiveDay(open ? null : di)}
+                                    >
+                                      <Pencil size={12} />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      aria-label={`Remove ${d.name}`}
+                                      onClick={() => {
+                                        if (activeDay === di) setActiveDay(null);
+                                        setDates(dates.filter((_: any, i: number) => i !== di));
+                                      }}
+                                    >
+                                      <Trash2 size={13} />
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                            ) : (
-                              <>
-                                <strong>{d.name}</strong>
-                                <span className="mw-day-meta">
-                                  <em>{KEY_DATE_LABELS[d.kind]}</em>
-                                  <i className={left < 0 ? 'is-past' : left <= 14 ? 'is-soon' : ''}>
-                                    {left < 0 ? 'Passed' : left === 0 ? 'Today' : `in ${left}d`}
-                                  </i>
-                                </span>
-                              </>
-                            )}
-                          </div>
-                        </article>
-                      );
-                    })}
-                  </div>
-                  {!editable && activeDay !== null && dates[activeDay] && (() => {
-                    const d = dates[activeDay];
+                              ) : (
+                                <>
+                                  <strong>{d.name}</strong>
+                                  <span className="mw-day-meta">
+                                    <em>{KEY_DATE_LABELS[d.kind as keyof typeof KEY_DATE_LABELS]}</em>
+                                    <i className={left < 0 ? 'is-past' : left <= 14 ? 'is-soon' : ''}>
+                                      {left < 0 ? 'Passed' : left === 0 ? 'Today' : `in ${left}d`}
+                                    </i>
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="mw-action-empty">No important days listed for {MONTHS[month - 1]}.</p>
+                  )}
+                  {activeDay !== null && dates[activeDay] && (() => {
+                    const d: any = dates[activeDay];
                     const tip = DAY_PLAYS[d.kind] || DAY_PLAYS.awareness;
+                    const playText = d.play ?? tip.play;
+                    const leadDays = d.lead ?? tip.lead;
+                    const channelText = d.channel ?? tip.channel;
                     const pair = selected.find(o => tip.pairs.includes(o.plan_slot)) || selected[0];
+                    const patchDay = (patch: Record<string, any>) =>
+                      setDates(dates.map((x: any, i: number) => (i === activeDay ? { ...x, ...patch } : x)));
                     return (
                       <div className={`mw-day-detail kd-${d.kind}`}>
                         <div>
-                          <small>{formatKeyDate(d)} {MONTHS[month - 1]} · {KEY_DATE_LABELS[d.kind]}{d.approx ? ' · date to confirm' : ''}</small>
-                          <h5>{d.name}</h5>
-                          <p>{tip.play}</p>
+                          <small>
+                            {formatKeyDate(d)} {MONTHS[month - 1]} · {KEY_DATE_LABELS[d.kind as keyof typeof KEY_DATE_LABELS]}
+                            {d.approx ? ' · date to confirm' : ''}
+                          </small>
+                          <h5>{d.name || 'Untitled moment'}</h5>
+                          {editable ? (
+                            <textarea
+                              className="mw-day-detail-input"
+                              rows={2}
+                              aria-label="How we play this moment"
+                              value={playText}
+                              onChange={e => patchDay({ play: e.target.value })}
+                            />
+                          ) : (
+                            <p>{playText}</p>
+                          )}
                         </div>
                         <ul>
-                          <li><b>Go live</b> {tip.lead} days before</li>
-                          <li><b>Channel</b> {tip.channel}</li>
+                          <li>
+                            <b>Go live</b>{' '}
+                            {editable ? (
+                              <span className="mw-day-inline-num">
+                                <input
+                                  type="number"
+                                  min={1}
+                                  max={45}
+                                  value={leadDays}
+                                  onChange={e => patchDay({ lead: Math.max(1, Number(e.target.value) || 1) })}
+                                />{' '}
+                                days before
+                              </span>
+                            ) : (
+                              `${leadDays} days before`
+                            )}
+                          </li>
+                          <li>
+                            <b>Channel</b>{' '}
+                            {editable ? (
+                              <input
+                                className="mw-day-inline-text"
+                                value={channelText}
+                                onChange={e => patchDay({ channel: e.target.value })}
+                              />
+                            ) : (
+                              channelText
+                            )}
+                          </li>
                           {pair && <li><b>Pair with</b> {pair.name}</li>}
                         </ul>
                         <button type="button" aria-label="Close" onClick={() => setActiveDay(null)}><X size={14} /></button>
                       </div>
                     );
                   })()}
-                  {editable && <Button size="sm" variant="ghost" icon={<Plus size={14} />} onClick={() => updateContent({ keyDates: [...dates, { day: 1, name: '', kind: 'awareness', approx: false }] })}>Add important day</Button>}
                 </div>
+              );
+            })()}
 
+            {/* ─── Section 2: Monthly focus & target (ONE Unified Cohesive Canvas) ─── */}
+            {isSectionVisible('focus') && (() => {
+              const meta = sectionMeta(
+                'focus',
+                'Monthly focus & target',
+                'Commercial narrative, monthly revenue goal, stream mix and required funnel volumes in one unified brief.',
+              );
+              const points: string[] = Array.isArray(form.content?.focusPoints)
+                ? form.content.focusPoints
+                : FOCUS_POINTS[month] || [];
+              const setPoints = (next: string[]) => updateContent({ focusPoints: next });
+              const volOverrides: Record<string, { label?: string; tag?: string; value?: string; hint?: string }> =
+                form.content?.volumeOverrides || {};
+              const hiddenVols: string[] = Array.isArray(form.content?.hiddenVolumes) ? form.content.hiddenVolumes : [];
+              const customVols: Array<{ id: string; label: string; tag: string; kind: string; value: string; hint: string }> =
+                Array.isArray(form.content?.customVolumes) ? form.content.customVolumes : [];
+              const baseVols = (() => {
+                if (!econ) return [];
+                const liveNewTarget = editable ? Math.max(0, n(form.streams.newClient)) : n(econ.newClient.target);
+                const liveRenTarget = editable ? Math.max(0, n(form.streams.renewal)) : n(econ.renewal.target);
+                const liveReactTarget = editable ? Math.max(0, n(form.streams.reactivation)) : n(econ.reactivation.target);
+                const t2m = Math.max(0.01, n(econ.newClient.trialToMember) || 0.24);
+                const l2t = Math.max(0.01, n(econ.newClient.leadToTrial) || 0.45);
+                const firstSpend = Math.max(1, n(econ.newClient.firstSpend) || 6000);
+                const trialSpend = Math.max(0, n(econ.newClient.trialSpend));
+                const revPerBuyer = firstSpend + (t2m > 0 ? trialSpend / t2m : 0);
+                const liveBuyers = liveNewTarget > 0 ? Math.ceil(liveNewTarget / revPerBuyer) : 0;
+                const liveTrials = liveBuyers > 0 ? Math.ceil(liveBuyers / t2m) : 0;
+                const liveLeads = liveTrials > 0 ? Math.ceil(liveTrials / l2t) : 0;
+                const renTicket = Math.max(1, n(econ.renewal.ticket) || 14000);
+                const reactTicket = Math.max(1, n(econ.reactivation.ticket) || 10000);
+                const liveRenewals = liveRenTarget > 0 ? Math.ceil(liveRenTarget / renTicket) : 0;
+                const liveReactivations = liveReactTarget > 0 ? Math.ceil(liveReactTarget / reactTicket) : 0;
+                return [
+                  { id: 'leads', label: 'Leads needed', tag: 'Step 1', kind: 'acq', value: number(liveLeads), hint: 'Top-of-funnel leads' },
+                  { id: 'trials', label: 'Completed trials', tag: 'Step 2', kind: 'acq', value: number(liveTrials), hint: `${pct(econ.newClient.leadToTrial)} lead → trial` },
+                  { id: 'buyers', label: 'New members', tag: 'Step 3', kind: 'acq', value: number(liveBuyers), hint: `${pct(econ.newClient.trialToMember)} trial → member` },
+                  { id: 'renewals', label: 'Renewals needed', tag: 'Retention', kind: 'ret', value: number(liveRenewals), hint: `of ${number(econ.renewal.projectedExpiries)} due · ${pct(econ.renewal.renewalRate)}` },
+                  { id: 'reactivations', label: 'Reactivations', tag: 'Comeback', kind: 'ret', value: number(liveReactivations), hint: `from ${number(econ.reactivation.lapsedPool)} lapsed` },
+                  { id: 'conv', label: 'Lead → member', tag: 'Net conv.', kind: 'conv', value: pct(liveLeads ? liveBuyers / liveLeads : 0, 1), hint: 'End-to-end conversion' },
+                ];
+              })();
+              const visibleBaseVols = baseVols
+                .filter(v => !hiddenVols.includes(v.id))
+                .map(v => ({ ...v, ...(volOverrides[v.id] || {}), isCustom: false }));
+              const allVols = [...visibleBaseVols, ...customVols.map(v => ({ ...v, isCustom: true }))];
+              const yoyDelta = row.lastYear > 0 ? Math.round(((effective - row.lastYear) / row.lastYear) * 100) : null;
+
+              return (
                 <div id="mw-sec-focus" className="mw-section mw-planning-section">
-                  <SectionHead icon={Flag} title="Monthly focus & target" hint="Set the month’s commercial story, then map the revenue needed to deliver it." />
-                  <div className="mw-focus-target-grid">
-                    <section className="mw-focus-pane" aria-labelledby="mw-focus-title">
-                      <div className="mw-subsection-head">
-                        <div><span>01</span><h3 id="mw-focus-title">Focus</h3></div>
-                        <p>Give the team a clear story to sell all month.</p>
-                      </div>
-                      <div className="mw-focus-card">
-                    <div className="mw-focus-top">
-                      <label className="mw-focus-theme">
-                        <span>Theme</span>
-                        <input
-                          value={form.theme}
-                          placeholder="Name the month"
-                          onChange={e => set({ theme: e.target.value })}
-                          {...fieldProps}
-                        />
-                      </label>
-                      {editable && (
+                  <SectionHead
+                    icon={Flag}
+                    title={meta.title}
+                    hint={meta.hint}
+                    editable={editable}
+                    onTitleChange={v => patchSectionMeta('focus', { title: v })}
+                    onHintChange={v => patchSectionMeta('focus', { hint: v })}
+                    onDelete={() => hideSection('focus')}
+                    actions={
+                      editable ? (
                         <button
                           type="button"
                           className="mw-ai"
@@ -1253,178 +1593,420 @@ export default function MonthWorkspace({
                           onClick={generateFocus}
                           title="Write the focus, stream split, action plan and reasoning from this month's dates, offers and target, then save"
                         >
-                          <Sparkles size={15} />
+                          <Sparkles size={14} />
                           {generating ? 'Writing plan…' : form.strategy ? 'Regenerate with AI' : 'Enhance with AI'}
                         </button>
-                      )}
-                    </div>
-                    <label className="mw-focus-field">
-                      <span>
-                        <Target size={13} /> Objective
-                      </span>
-                      <input
-                        value={form.objective}
-                        placeholder="The commercial job this month does"
-                        onChange={e => set({ objective: e.target.value })}
-                        {...fieldProps}
-                      />
-                    </label>
-                    <label className="mw-focus-field">
-                      <span>
-                        <ListChecks size={13} /> Strategy — how we hit the number
-                      </span>
-                      {editable ? (
-                        <textarea
-                          rows={6}
-                          value={form.strategy}
-                          placeholder={'- Lead with the festive gifting pack\n- Push renewals in week 2…'}
-                          onChange={e => set({ strategy: e.target.value })}
-                        />
-                      ) : form.strategy ? (
-                        <RichText text={form.strategy} />
-                      ) : (
-                        <p className="muted">No strategy yet.</p>
-                      )}
-                    </label>
-                    {(() => {
-                      const points: string[] = Array.isArray(form.content?.focusPoints) ? form.content.focusPoints : FOCUS_POINTS[month] || [];
-                      const setPoints = (next: string[]) => updateContent({ focusPoints: next });
-                      return (
-                        <div className="mw-focus-points">
-                          <span><Flag size={13} /> Focus points</span>
-                          <ol>
-                            {points.map((t, i) => (
-                              <li key={i}>
-                                <b>{i + 1}</b>
-                                {editable ? (
-                                  <>
-                                    <input
-                                      aria-label={`Focus point ${i + 1}`}
-                                      value={t}
-                                      onChange={e => setPoints(points.map((x, j) => (j === i ? e.target.value : x)))}
-                                    />
-                                    <button type="button" aria-label="Remove focus point" onClick={() => setPoints(points.filter((_, j) => j !== i))}>
-                                      <Trash2 size={12} />
-                                    </button>
-                                  </>
-                                ) : (
-                                  <span>{inline(t)}</span>
-                                )}
-                              </li>
-                            ))}
-                          </ol>
-                          {editable && (
-                            <button type="button" className="mw-focus-add" onClick={() => setPoints([...points, ''])}>
-                              <Plus size={12} /> Add focus point
-                            </button>
+                      ) : undefined
+                    }
+                  />
+
+                  <div className="mw-focus-unified">
+                    {/* Band 1: Unified Story & Headline Commercial Target Horizon */}
+                    <div className="mw-fu-top">
+                      <div className="mw-fu-story">
+                        <label className="mw-fu-theme">
+                          <span>Monthly theme</span>
+                          <input
+                            value={form.theme}
+                            placeholder="Name the month’s campaign story"
+                            onChange={e => set({ theme: e.target.value })}
+                            {...fieldProps}
+                          />
+                        </label>
+                        <label className="mw-fu-objective">
+                          <span><Target size={12.5} /> Commercial objective</span>
+                          <input
+                            value={form.objective}
+                            placeholder="The primary commercial job this month delivers"
+                            onChange={e => set({ objective: e.target.value })}
+                            {...fieldProps}
+                          />
+                        </label>
+                      </div>
+
+                      <div className="mw-fu-target-box">
+                        <div className="mw-fu-target-meta">
+                          <span>{approved ? 'Approved monthly target' : 'Proposed monthly target'}</span>
+                          {yoyDelta !== null && (
+                            <em className={yoyDelta >= 0 ? 'is-pos' : 'is-neg'}>
+                              {yoyDelta >= 0 ? `+${yoyDelta}%` : `${yoyDelta}%`} vs LY
+                            </em>
                           )}
                         </div>
-                      );
-                    })()}
-                    {editable && (
-                      <small className="mw-focus-note">
-                        <Sparkles size={12} /> AI writes the focus, stream split, action plan and reasoning from this month’s dates, offers and
-                        target. Everything autosaves{autoState === 'saving' ? ' — saving…' : autoState === 'saved' ? ' — saved.' : autoState === 'error' ? ' — last save failed.' : '.'}
-                      </small>
-                    )}
-                  </div>
-                    </section>
-
-                    <section className="mw-target-pane" aria-labelledby="mw-target-title">
-                      <div className="mw-subsection-head">
-                        <div><span>02</span><h3 id="mw-target-title">Target &amp; split</h3></div>
-                        <p>Balance the goal across the three revenue streams.</p>
-                      </div>
-                  <div className="mw-target">
-                    <label>
-                      <span>Proposed target</span>
-                      <div className="mw-money big">
-                        <em className="cur">₹</em>
-                        <input
-                          type="number"
-                          min={0}
-                          step={1000}
-                          value={form.target}
-                          onChange={e => changeTarget(Math.round(n(e.target.value)))}
-                          disabled={!editable || !targetRow}
-                        />
-                      </div>
-                      <small>
-                        {approved
-                          ? `Approved at ${lakh(n(targetRow.approved_target))} — approval governs the plan.`
-                          : `${lakh(form.target)} · last year ${lakh(row.lastYear)}`}
-                      </small>
-                    </label>
-                    <div className="mw-split-bar">
-                      {STREAMS.map(s => (
-                        <span
-                          key={s.key}
-                          style={{
-                            width: `${(n(form.streams[s.key]) / Math.max(streamTotal, effective, 1)) * 100}%`,
-                            background: s.color,
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <div className="mw-streams">
-                    {STREAMS.map(s => (
-                      <label key={s.key} style={{ '--c': s.color } as React.CSSProperties}>
-                        <span>
-                          <i /> {s.label}
-                        </span>
-                        <div className="mw-money">
+                        <div className="mw-money big">
                           <em className="cur">₹</em>
                           <input
+                            aria-label="Monthly revenue target"
                             type="number"
                             min={0}
                             step={1000}
-                            value={form.streams[s.key]}
-                            onChange={e => changeStream(s.key, Math.round(n(e.target.value)))}
+                            value={form.target}
+                            onChange={e => changeTarget(Math.round(n(e.target.value)))}
                             disabled={!editable || !targetRow}
                           />
                         </div>
-                        <small>
-                          {lakh(n(form.streams[s.key]))} ·{' '}
-                          {effective ? ((n(form.streams[s.key]) / effective) * 100).toFixed(0) : 0}%
-                        </small>
-                      </label>
-                    ))}
-                  </div>
-                  <p className={`mw-split-note ${streamsMismatch ? 'neg' : ''}`}>
-                    Allocated {lakh(streamTotal)} of {lakh(effective)}
-                    {streamsMismatch
-                      ? ` — ${lakh(Math.abs(effective - streamTotal))} ${streamTotal > effective ? 'over' : 'short'}; balance the three revenue streams.`
-                      : ' · fully allocated across new clients, renewals, and comeback revenue.'}
-                  </p>
-                  {econ && (
-                    <div className="mw-funnel-targets">
-                      <h4>Funnel &amp; conversion targets</h4>
-                      <div>
-                        {[
-                          { label: 'Leads', value: number(econ.newClient.leads), hint: 'to generate' },
-                          { label: 'Trials', value: number(econ.newClient.trials), hint: `${pct(econ.newClient.leadToTrial)} lead → trial` },
-                          { label: 'New members', value: number(econ.newClient.buyers), hint: `${pct(econ.newClient.trialToMember)} trial → member` },
-                          { label: 'Lead → member', value: pct(econ.newClient.leads ? econ.newClient.buyers / econ.newClient.leads : 0, 1), hint: 'end to end' },
-                          { label: 'Renewals needed', value: number(econ.renewal.renewersNeeded), hint: `of ${number(econ.renewal.projectedExpiries)} due · ${pct(econ.renewal.renewalRate)}` },
-                          { label: 'Reactivations', value: number(econ.reactivation.needed), hint: `from ${number(econ.reactivation.lapsedPool)} lapsed` },
-                        ].map(k => (
-                          <div key={k.label} title={`${k.label}: ${k.value} · ${k.hint}`}>
-                            <small>{k.label}</small>
-                            <b>{k.value}</b>
-                            <em>{k.hint}</em>
-                          </div>
-                        ))}
+                        <div className="mw-fu-target-foot">
+                          <small>
+                            {approved
+                              ? `Approved at ${lakh(n(targetRow.approved_target))} · LY ${lakh(row.lastYear)}`
+                              : `${lakh(form.target)} planned · last year ${lakh(row.lastYear)}`}
+                          </small>
+                          <small className={streamsMismatch ? 'is-warn' : 'is-ok'}>
+                            {streamsMismatch ? (
+                              <>
+                                {`${lakh(Math.abs(effective - streamTotal))} ${streamTotal > effective ? 'over' : 'unallocated'}`}
+                                {editable && (
+                                  <>
+                                    {' · '}
+                                    <button
+                                      type="button"
+                                      style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        padding: 0,
+                                        color: 'inherit',
+                                        textDecoration: 'underline',
+                                        cursor: 'pointer',
+                                        fontWeight: 600,
+                                      }}
+                                      onClick={() => {
+                                        const ren = Math.round(n(form.streams.renewal));
+                                        const react = Math.round(n(form.streams.reactivation));
+                                        const rest = Math.max(0, Math.round(effective) - ren - react);
+                                        set({
+                                          streams: {
+                                            newClient: rest,
+                                            renewal: rest === 0 ? Math.min(ren, Math.round(effective)) : ren,
+                                            reactivation:
+                                              rest === 0
+                                                ? Math.max(0, Math.round(effective) - Math.min(ren, Math.round(effective)))
+                                                : react,
+                                          },
+                                        });
+                                      }}
+                                    >
+                                      Auto-balance
+                                    </button>
+                                  </>
+                                )}
+                              </>
+                            ) : (
+                              `${lakh(streamTotal)} balanced`
+                            )}
+                          </small>
+                        </div>
+                        <div className="mw-split-bar" aria-hidden="true">
+                          {STREAMS.map(s => (
+                            <span
+                              key={s.key}
+                              style={{
+                                width: `${(n(form.streams[s.key]) / Math.max(streamTotal, effective, 1)) * 100}%`,
+                                background: s.color,
+                              }}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  )}
-                    </section>
+
+                    {/* Band 2: Seamless Strategy & Team Playbook */}
+                    <div className="mw-fu-execution">
+                      <div className="mw-fu-strategy">
+                        <span className="mw-fu-label">
+                          <ListChecks size={13} /> Execution strategy — how we hit the number
+                        </span>
+                        {editable ? (
+                          <textarea
+                            rows={5}
+                            value={form.strategy}
+                            placeholder={'- Lead with the festive gifting pack\n- Push renewals in week 2…'}
+                            onChange={e => set({ strategy: e.target.value })}
+                          />
+                        ) : form.strategy ? (
+                          <RichText text={form.strategy} />
+                        ) : (
+                          <p className="muted">No execution strategy drafted yet.</p>
+                        )}
+                      </div>
+
+                      <div className="mw-fu-pillars">
+                        <div className="mw-fu-pillars-head">
+                          <span className="mw-fu-label">
+                            <Flag size={13} /> Team focus points
+                          </span>
+                          {editable && (
+                            <button type="button" className="mw-mini-btn" onClick={() => setPoints([...points, ''])}>
+                              <Plus size={12} /> Add point
+                            </button>
+                          )}
+                        </div>
+                        <ol className="mw-fu-points-list">
+                          {points.map((t, i) => (
+                            <li key={i}>
+                              <b>{i + 1}</b>
+                              {editable ? (
+                                <>
+                                  <input
+                                    aria-label={`Focus point ${i + 1}`}
+                                    placeholder="Add team focus point…"
+                                    value={t}
+                                    onChange={e => setPoints(points.map((x, j) => (j === i ? e.target.value : x)))}
+                                  />
+                                  <button
+                                    type="button"
+                                    aria-label="Remove focus point"
+                                    onClick={() => setPoints(points.filter((_, j) => j !== i))}
+                                  >
+                                    <Trash2 size={12} />
+                                  </button>
+                                </>
+                              ) : (
+                                <span>{inline(t)}</span>
+                              )}
+                            </li>
+                          ))}
+                          {points.length === 0 && <li className="is-empty">No focus points listed yet.</li>}
+                        </ol>
+                      </div>
+                    </div>
+
+                    {/* Band 3: Full-Width Revenue Streams & Volumes Needed */}
+                    <div className="mw-fu-commercial">
+                      <div className="mw-streams-block">
+                        <div className="mw-subgrid-head">
+                          <span>Revenue streams</span>
+                          <small className={streamsMismatch ? 'neg' : ''}>
+                            Allocated {lakh(streamTotal)} of {lakh(effective)}
+                            {streamsMismatch
+                              ? ` · ${lakh(Math.abs(effective - streamTotal))} ${streamTotal > effective ? 'over' : 'short'}`
+                              : ' · 100% allocated across 3 streams'}
+                          </small>
+                        </div>
+                        <div className="mw-streams">
+                          {STREAMS.map(s => {
+                            const val = n(form.streams[s.key]);
+                            const share = effective ? Math.round((val / effective) * 100) : 0;
+                            return (
+                              <label key={s.key} style={{ '--c': s.color } as React.CSSProperties}>
+                                <div className="mw-stream-top">
+                                  <span>
+                                    <i /> {s.label}
+                                  </span>
+                                  <em className="mw-stream-pct">{share}%</em>
+                                </div>
+                                <div className="mw-money">
+                                  <em className="cur">₹</em>
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    step={1000}
+                                    value={form.streams[s.key]}
+                                    onChange={e => changeStream(s.key, Math.round(n(e.target.value)))}
+                                    disabled={!editable || !targetRow}
+                                  />
+                                </div>
+                                <span className="mw-stream-bar" aria-hidden="true">
+                                  <b style={{ width: `${Math.min(100, Math.max(0, share))}%` }} />
+                                </span>
+                                <small>{lakh(val)} of {lakh(effective)} target</small>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {(allVols.length > 0 || editable) && (
+                        <div className="mw-funnel-targets">
+                          <div className="mw-subgrid-head">
+                            <h4>Volumes needed</h4>
+                            <div className="mw-subgrid-tools">
+                              <small>{targetDirty ? 'Live preview from edited split' : 'Funnel & conversion targets'}</small>
+                              {econ && (
+                                <button
+                                  type="button"
+                                  className="mw-mini-btn"
+                                  onClick={() => {
+                                    setMathsOpen(true);
+                                    setTimeout(
+                                      () =>
+                                        document
+                                          .getElementById('mw-maths-panel')
+                                          ?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+                                      60,
+                                    );
+                                  }}
+                                  title="Inspect or override unit tickets & conversion rates"
+                                >
+                                  {mathsOpen ? 'Unit math ↓' : 'Unit math ↘'}
+                                </button>
+                              )}
+                              {editable && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="mw-mini-btn"
+                                    onClick={() =>
+                                      updateContent({
+                                        customVolumes: [
+                                          ...customVols,
+                                          {
+                                            id: `vol-${Date.now()}`,
+                                            label: 'Custom target',
+                                            tag: 'KPI',
+                                            kind: 'acq',
+                                            value: '10',
+                                            hint: 'Target volume or conversion benchmark',
+                                          },
+                                        ],
+                                      })
+                                    }
+                                  >
+                                    <Plus size={11} /> Add metric
+                                  </button>
+                                  {(hiddenVols.length > 0 || Object.keys(volOverrides).length > 0) && (
+                                    <button
+                                      type="button"
+                                      className="mw-mini-btn"
+                                      onClick={() => updateContent({ hiddenVolumes: [], volumeOverrides: {} })}
+                                    >
+                                      <RotateCcw size={11} /> Reset defaults
+                                    </button>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          </div>
+                          <div className="mw-volumes-grid is-full">
+                            {allVols.map(k => (
+                              <div key={k.id} className={`mw-vol-card is-${k.kind}`} title={`${k.label}: ${k.value} · ${k.hint}`}>
+                                {editable ? (
+                                  <div className="mw-vol-edit">
+                                    <div className="mw-vol-edit-top">
+                                      <input
+                                        aria-label="Volume metric label"
+                                        value={k.label}
+                                        onChange={e => {
+                                          if (k.isCustom) {
+                                            updateContent({
+                                              customVolumes: customVols.map(c => (c.id === k.id ? { ...c, label: e.target.value } : c)),
+                                            });
+                                          } else {
+                                            updateContent({
+                                              volumeOverrides: {
+                                                ...volOverrides,
+                                                [k.id]: { ...(volOverrides[k.id] || {}), label: e.target.value },
+                                              },
+                                            });
+                                          }
+                                        }}
+                                      />
+                                      <button
+                                        type="button"
+                                        aria-label={`Remove ${k.label}`}
+                                        onClick={() => {
+                                          if (k.isCustom) {
+                                            updateContent({ customVolumes: customVols.filter(c => c.id !== k.id) });
+                                          } else {
+                                            updateContent({ hiddenVolumes: [...hiddenVols, k.id] });
+                                          }
+                                        }}
+                                      >
+                                        <Trash2 size={11} />
+                                      </button>
+                                    </div>
+                                    <input
+                                      className="mw-vol-val-in"
+                                      aria-label={`${k.label} value`}
+                                      value={k.value}
+                                      onChange={e => {
+                                        if (k.isCustom) {
+                                          updateContent({
+                                            customVolumes: customVols.map(c => (c.id === k.id ? { ...c, value: e.target.value } : c)),
+                                          });
+                                        } else {
+                                          updateContent({
+                                            volumeOverrides: {
+                                              ...volOverrides,
+                                              [k.id]: { ...(volOverrides[k.id] || {}), value: e.target.value },
+                                            },
+                                          });
+                                        }
+                                      }}
+                                    />
+                                    <input
+                                      className="mw-vol-hint-in"
+                                      aria-label={`${k.label} note`}
+                                      value={k.hint}
+                                      onChange={e => {
+                                        if (k.isCustom) {
+                                          updateContent({
+                                            customVolumes: customVols.map(c => (c.id === k.id ? { ...c, hint: e.target.value } : c)),
+                                          });
+                                        } else {
+                                          updateContent({
+                                            volumeOverrides: {
+                                              ...volOverrides,
+                                              [k.id]: { ...(volOverrides[k.id] || {}), hint: e.target.value },
+                                            },
+                                          });
+                                        }
+                                      }}
+                                    />
+                                  </div>
+                                ) : (
+                                  <>
+                                    <div className="mw-vol-head">
+                                      <small>{k.label}</small>
+                                      <span>{k.tag}</span>
+                                    </div>
+                                    <b>{k.value}</b>
+                                    <em>{k.hint}</em>
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {editable && (
+                      <small className="mw-focus-note">
+                        <Sparkles size={12} /> Everything in this brief autosaves
+                        {autoState === 'saving'
+                          ? ' — saving…'
+                          : autoState === 'saved'
+                            ? ' — saved.'
+                            : autoState === 'error'
+                              ? ' — last save failed.'
+                              : '.'}
+                      </small>
+                    )}
                   </div>
                 </div>
-              </>
-            )}
-            {form.content?.ai && (() => {
-              const ai = form.content.ai;
+              );
+            })()}
+
+            {/* ─── Section 3: AI plan & reasoning ─── */}
+            {isSectionVisible('ai') && (form.content?.ai || editable) && (() => {
+              const ai = form.content?.ai || { splitRationale: '', reasoning: [], risks: [], generatedAt: null };
+              const patchAi = (patch: Record<string, any>) =>
+                updateContent({
+                  ai: {
+                    ...ai,
+                    ...patch,
+                    generatedAt: ai.generatedAt || new Date().toISOString(),
+                  },
+                });
+              const reasoningList: Array<{ heading: string; points: string[] }> = Array.isArray(ai.reasoning) ? ai.reasoning : [];
+              const risksList: string[] = Array.isArray(ai.risks) ? ai.risks : [];
+              const meta = sectionMeta(
+                'ai',
+                'AI plan & reasoning',
+                ai.generatedAt
+                  ? `How ${MONTHS[month - 1]} reaches ${lakh(effective)} · updated ${new Date(ai.generatedAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`
+                  : `Strategic rationale, stream logic and risk mitigations for ${MONTHS[month - 1]}.`,
+              );
               const rows = STREAMS.map(s => ({
                 ...s,
                 target: n(form.streams[s.key]),
@@ -1437,8 +2019,32 @@ export default function MonthWorkspace({
                 <div id="mw-sec-ai" className="mw-section mw-ai-plan">
                   <SectionHead
                     icon={Sparkles}
-                    title="AI plan & reasoning"
-                    hint={`How ${MONTHS[month - 1]} reaches ${lakh(effective)} · generated ${new Date(ai.generatedAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`}
+                    title={meta.title}
+                    hint={meta.hint}
+                    editable={editable}
+                    onTitleChange={v => patchSectionMeta('ai', { title: v })}
+                    onHintChange={v => patchSectionMeta('ai', { hint: v })}
+                    onDelete={() => hideSection('ai')}
+                    actions={
+                      editable ? (
+                        <>
+                          <button
+                            type="button"
+                            className="mw-mini-btn"
+                            onClick={() => patchAi({ reasoning: [...reasoningList, { heading: 'New pillar', points: ['Key commercial point'] }] })}
+                          >
+                            <Plus size={12} /> Add reasoning block
+                          </button>
+                          <button
+                            type="button"
+                            className="mw-mini-btn"
+                            onClick={() => patchAi({ risks: [...risksList, 'New risk & mitigation'] })}
+                          >
+                            <Plus size={12} /> Add risk
+                          </button>
+                        </>
+                      ) : undefined
+                    }
                   />
                   <div className="mw-ai-split">
                     <div className="mw-ai-chart" role="img" aria-label="Target versus offer forecast by revenue stream">
@@ -1467,27 +2073,130 @@ export default function MonthWorkspace({
                         ))}
                       </div>
                     </div>
-                    {ai.splitRationale && (
+                    {(ai.splitRationale || editable) && (
                       <div className="mw-ai-rationale">
                         <h5>Why this split</h5>
-                        <RichText text={ai.splitRationale} />
+                        {editable ? (
+                          <textarea
+                            rows={5}
+                            placeholder="Explain why revenue is weighted across new clients, renewals and reactivation…"
+                            value={ai.splitRationale || ''}
+                            onChange={e => patchAi({ splitRationale: e.target.value })}
+                          />
+                        ) : (
+                          <RichText text={ai.splitRationale} />
+                        )}
                       </div>
                     )}
                   </div>
-                  {Array.isArray(ai.reasoning) && ai.reasoning.length > 0 && (
+                  {(reasoningList.length > 0 || editable) && (
                     <div className="mw-ai-reasons">
-                      {ai.reasoning.map((sec: { heading: string; points: string[] }, i: number) => (
+                      {reasoningList.map((sec, i) => (
                         <section key={i}>
-                          <h5><span>{String(i + 1).padStart(2, '0')}</span>{sec.heading}</h5>
-                          <ul>{sec.points.map((p, j) => <li key={j}>{inline(p)}</li>)}</ul>
+                          <h5>
+                            <span>{String(i + 1).padStart(2, '0')}</span>
+                            {editable ? (
+                              <>
+                                <input
+                                  aria-label={`Reasoning heading ${i + 1}`}
+                                  value={sec.heading}
+                                  onChange={e =>
+                                    patchAi({
+                                      reasoning: reasoningList.map((x, idx) => (idx === i ? { ...x, heading: e.target.value } : x)),
+                                    })
+                                  }
+                                />
+                                <button
+                                  type="button"
+                                  className="mw-mini-icon is-danger"
+                                  aria-label="Remove reasoning block"
+                                  onClick={() => patchAi({ reasoning: reasoningList.filter((_, idx) => idx !== i) })}
+                                >
+                                  <Trash2 size={12} />
+                                </button>
+                              </>
+                            ) : (
+                              sec.heading
+                            )}
+                          </h5>
+                          {editable ? (
+                            <div className="mw-list-editor">
+                              {sec.points.map((p, j) => (
+                                <div key={j} className="mw-list-editor-row">
+                                  <input
+                                    value={p}
+                                    onChange={e =>
+                                      patchAi({
+                                        reasoning: reasoningList.map((x, idx) =>
+                                          idx === i ? { ...x, points: x.points.map((pt, pj) => (pj === j ? e.target.value : pt)) } : x,
+                                        ),
+                                      })
+                                    }
+                                  />
+                                  <button
+                                    type="button"
+                                    aria-label="Remove bullet"
+                                    onClick={() =>
+                                      patchAi({
+                                        reasoning: reasoningList.map((x, idx) =>
+                                          idx === i ? { ...x, points: x.points.filter((_, pj) => pj !== j) } : x,
+                                        ),
+                                      })
+                                    }
+                                  >
+                                    <Trash2 size={12} />
+                                  </button>
+                                </div>
+                              ))}
+                              <button
+                                type="button"
+                                className="mw-mini-btn"
+                                onClick={() =>
+                                  patchAi({
+                                    reasoning: reasoningList.map((x, idx) =>
+                                      idx === i ? { ...x, points: [...x.points, ''] } : x,
+                                    ),
+                                  })
+                                }
+                              >
+                                <Plus size={11} /> Add point
+                              </button>
+                            </div>
+                          ) : (
+                            <ul>{sec.points.map((p, j) => <li key={j}>{inline(p)}</li>)}</ul>
+                          )}
                         </section>
                       ))}
                     </div>
                   )}
-                  {Array.isArray(ai.risks) && ai.risks.length > 0 && (
+                  {(risksList.length > 0 || editable) && (
                     <div className="mw-ai-risks">
                       <h5>Risks &amp; mitigations</h5>
-                      <ul>{ai.risks.map((r: string, i: number) => <li key={i}>{inline(r)}</li>)}</ul>
+                      {editable ? (
+                        <div className="mw-list-editor">
+                          {risksList.map((r, i) => (
+                            <div key={i} className="mw-list-editor-row">
+                              <input
+                                value={r}
+                                placeholder="Describe risk and studio mitigation…"
+                                onChange={e => patchAi({ risks: risksList.map((x, idx) => (idx === i ? e.target.value : x)) })}
+                              />
+                              <button
+                                type="button"
+                                aria-label="Remove risk"
+                                onClick={() => patchAi({ risks: risksList.filter((_, idx) => idx !== i) })}
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
+                          ))}
+                          <button type="button" className="mw-mini-btn" onClick={() => patchAi({ risks: [...risksList, ''] })}>
+                            <Plus size={11} /> Add risk
+                          </button>
+                        </div>
+                      ) : (
+                        <ul>{risksList.map((r, i) => <li key={i}>{inline(r)}</li>)}</ul>
+                      )}
                     </div>
                   )}
                   {form.actions.length > 0 && (
@@ -1510,6 +2219,7 @@ export default function MonthWorkspace({
                 </div>
               );
             })()}
+
             {econ && mathsOpen && (
               <MathsPanel
                 id="mw-maths-panel"
@@ -1525,14 +2235,95 @@ export default function MonthWorkspace({
               />
             )}
 
-            {(
-              <>
+            {/* ─── Section 4: Offers ─── */}
+            {isSectionVisible('offers') && (() => {
+              const meta = sectionMeta(
+                'offers',
+                `Offers · ${selected.length}`,
+                `${lakh(offerRevenue)} expected. Edit all offer details here, build a new offer, or pick from the library.`,
+              );
+              const twoUp = twoUpForce !== null ? twoUpForce : !sideOpen;
+              const mm = String(month).padStart(2, '0');
+              const lastDay = String(new Date(year, month, 0).getDate()).padStart(2, '0');
+              const openNewOffer = (preset?: Partial<any>) => {
+                setEditing(null);
+                setCreatingOffer({
+                  name: '',
+                  headline: '',
+                  benefit: '',
+                  objective: 'acquisition',
+                  offer_type: 'percentage',
+                  plan_slot: '',
+                  audience: 'New clients & qualified leads',
+                  excluded_audience: 'Active unlimited members',
+                  redemption_conditions: 'One offer per client; non-transferable and not stackable with standing perks.',
+                  customer_copy: '',
+                  cta: 'Book your spot',
+                  rationale: '',
+                  validity_start: `${year}-${mm}-01`,
+                  validity_end: `${year}-${mm}-${lastDay}`,
+                  target_purchases: 12,
+                  expected_asp: prices?.prices[studio.id]?.['1M'] || 15000,
+                  effective_discount: 10,
+                  success_metrics: ['Target unit conversions achieved within window'],
+                  risks: ['Monitor discount realization and front-desk follow-up'],
+                  provenance: { pricing: { product: '1M', discount: 0.1 } },
+                  ...preset,
+                });
+              };
+              return (
                 <div id="mw-sec-offers" className="mw-section">
                   <SectionHead
                     icon={Gift}
-                    title={`Offers · ${selected.length}`}
-                    hint={`${lakh(offerRevenue)} expected. Edit here, or swap in an alternate from the right.`}
+                    title={meta.title}
+                    hint={meta.hint}
+                    editable={editable}
+                    onTitleChange={v => patchSectionMeta('offers', { title: v })}
+                    onHintChange={v => patchSectionMeta('offers', { hint: v })}
+                    onDelete={() => hideSection('offers')}
+                    actions={
+                      <>
+                        {selected.length >= 2 && (
+                          <button
+                            type="button"
+                            className={`mw-mini-btn${twoUp ? ' is-active' : ''}`}
+                            onClick={() => setTwoUpForce(twoUp ? false : true)}
+                            title="Toggle side-by-side 2-up offer card view"
+                          >
+                            <LayoutGrid size={12} /> {twoUp ? '1-up list' : '2-up cards'}
+                          </button>
+                        )}
+                        {(editable || offersEditable) && (
+                          <button
+                            type="button"
+                            className="mw-mini-btn is-primary"
+                            onClick={() => openNewOffer()}
+                          >
+                            <Plus size={12} /> New offer
+                          </button>
+                        )}
+                      </>
+                    }
                   />
+
+                  {creatingOffer && (
+                    <OfferEditor
+                      mode="create"
+                      offer={creatingOffer}
+                      studioId={studio.id}
+                      prices={prices}
+                      solo={solo}
+                      others={others}
+                      busy={busy}
+                      onCancel={() => setCreatingOffer(null)}
+                      onSave={async edit => {
+                        if (await offerChange({ op: 'create', edit }, `“${edit.name}” created and added`)) {
+                          setCreatingOffer(null);
+                        }
+                      }}
+                    />
+                  )}
+
                   {effective > 0 && selected.length > 0 && (() => {
                     const ratio = offerRevenue / effective;
                     const tone = ratio > 1.1 ? 'over' : ratio < 0.9 ? 'under' : 'ok';
@@ -1579,13 +2370,23 @@ export default function MonthWorkspace({
                         editing === o.id ? (
                           <OfferEditor
                             key={o.id}
-                            offer={o}
+                            mode="edit"
+                            offer={{ ...o, plan_slot: slotOf(o.id) ?? o.plan_slot ?? '' }}
                             studioId={studio.id}
                             prices={prices}
                             solo={solo}
                             others={others}
                             busy={busy}
                             onCancel={() => setEditing(null)}
+                            onDelete={
+                              editable
+                                ? async () => {
+                                    if (await offerChange({ op: 'delete', offerId: o.id }, `“${o.name}” deleted`)) {
+                                      setEditing(null);
+                                    }
+                                  }
+                                : undefined
+                            }
                             onSave={async edit => {
                               if (
                                 await offerChange({ op: 'update', offerId: o.id, edit }, `“${edit.name}” updated`)
@@ -1598,8 +2399,11 @@ export default function MonthWorkspace({
                             key={o.id}
                             no={no}
                             offer={o}
-                            streamLabel={!sideOpen ? stream : undefined}
-                            list={prices?.prices[studio.id]?.[o.provenance?.pricing?.product]}
+                            streamLabel={twoUp ? stream : undefined}
+                            list={
+                              prices?.prices[studio.id]?.[o.provenance?.pricing?.product] ??
+                              (o.provenance?.pricing?.customListPrice ? n(o.provenance.pricing.customListPrice) : null)
+                            }
                             productLabel={prices?.keys[o.provenance?.pricing?.product]}
                             slot={slotOf(o.id)}
                             editable={editable}
@@ -1608,13 +2412,24 @@ export default function MonthWorkspace({
                             canApprove={canApproveOffers}
                             busy={busy}
                             onApprove={(next: boolean) => offerApproval(o, next)}
-                            onEdit={() => setEditing(o.id)}
-                            onRemove={() => offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed`)}
+                            onEdit={() => {
+                              setCreatingOffer(null);
+                              setEditing(o.id);
+                            }}
+                            onDuplicate={() =>
+                              openNewOffer({
+                                ...o,
+                                name: `${o.name} (Copy)`,
+                                plan_slot: '',
+                              })
+                            }
+                            onRemove={() => offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed from month`)}
+                            onDelete={() => offerChange({ op: 'delete', offerId: o.id }, `“${o.name}” deleted`)}
                             onSwap={() => askCopilot('replace', o.id)}
                           />
                         );
 
-                      if (!sideOpen) {
+                      if (twoUp) {
                         return (
                           <div className="mw-offers-collapsed-wrap">
                             <div className="mw-offer-stream-strip" aria-label="Revenue stream breakdown">
@@ -1657,159 +2472,265 @@ export default function MonthWorkspace({
                       ));
                     })()
                   ) : (
-                    <p className="mw-offer-empty">No offers picked yet — select an option from the offer library on the right.</p>
+                    <p className="mw-offer-empty">
+                      No offers picked yet — click “New offer” above or select an option from the offer library on the right.
+                    </p>
                   )}
                 </div>
-              </>
-            )}
-            {gapRows.length > 0 && (
-              <div id="mw-sec-coverage" className="mw-section mw-gapplan">
-                <SectionHead
-                  icon={Target}
-                  title="Offer coverage by revenue stream"
-                  hint="Compares selected offer forecasts with each allocated target. Approval requires every stream to be covered."
-                />
-                <div className="mw-gp-rows">
-                  {gapRows.map(r => {
-                    const ratio = r.target ? r.offer / r.target : 0;
-                    const state = r.gap > 0 ? 'short' : ratio > 1.15 ? 'over' : 'ok';
-                    const scale = Math.max(r.target, r.offer, 1);
-                    return (
-                    <div key={r.label} className={`mw-gp-row ${state}`}>
-                      <div className="mw-gp-head">
-                        <strong>{r.label}</strong>
-                        <em>{state === 'short' ? `${lakh(r.gap)} short` : state === 'over' ? `${lakh(r.offer - r.target)} over` : 'Covered'}</em>
-                      </div>
-                      <div className="mw-gp-figs">
-                        <div><small>Offer forecast</small><b>{lakh(r.offer)}</b></div>
-                        <div><small>Stream target</small><b>{lakh(r.target)}</b></div>
-                        <div><small>Coverage</small><b>{Math.round(ratio * 100)}%</b></div>
-                      </div>
-                      <div className="mw-gp-bar">
-                        <i style={{ width: `${(r.offer / scale) * 100}%` }} />
-                        <b style={{ left: `${(r.target / scale) * 100}%` }} title="Target" />
-                      </div>
-                      {r.gap > 0 && (
-                        <div className="mw-gp-plan">
-                          {r.picks.map(o => (
-                            <div key={o.id} className="mw-gp-pick">
-                              <span>{o.name}</span>
-                              <b>+{lakh(forecastRevenue(o))}</b>
+              );
+            })()}
+
+            {/* ─── Section 5: Offer coverage by revenue stream ─── */}
+            {isSectionVisible('coverage') && (gapRows.length > 0 || editable) && (() => {
+              const meta = sectionMeta(
+                'coverage',
+                'Offer coverage by revenue stream',
+                'Compares selected offer forecasts with each allocated target. Approval requires every stream to be covered.',
+              );
+              const covNotes: Record<string, string> = form.content?.coverageNotes || {};
+              return (
+                <div id="mw-sec-coverage" className="mw-section mw-gapplan">
+                  <SectionHead
+                    icon={Target}
+                    title={meta.title}
+                    hint={meta.hint}
+                    editable={editable}
+                    onTitleChange={v => patchSectionMeta('coverage', { title: v })}
+                    onHintChange={v => patchSectionMeta('coverage', { hint: v })}
+                    onDelete={() => hideSection('coverage')}
+                  />
+                  <div className="mw-gp-rows">
+                    {gapRows.map(r => {
+                      const ratio = r.target ? r.offer / r.target : 0;
+                      const state = r.gap > 0 ? 'short' : ratio > 1.15 ? 'over' : 'ok';
+                      const scale = Math.max(r.target, r.offer, 1);
+                      const note = covNotes[r.label] || '';
+                      return (
+                        <div key={r.label} className={`mw-gp-row ${state}`}>
+                          <div className="mw-gp-head">
+                            <strong>{r.label}</strong>
+                            <em>{state === 'short' ? `${lakh(r.gap)} short` : state === 'over' ? `${lakh(r.offer - r.target)} over` : 'Covered'}</em>
+                          </div>
+                          <div className="mw-gp-figs">
+                            <div><small>Offer forecast</small><b>{lakh(r.offer)}</b></div>
+                            <div><small>Stream target</small><b>{lakh(r.target)}</b></div>
+                            <div><small>Coverage</small><b>{Math.round(ratio * 100)}%</b></div>
+                          </div>
+                          <div className="mw-gp-bar">
+                            <i style={{ width: `${(r.offer / scale) * 100}%` }} />
+                            <b style={{ left: `${(r.target / scale) * 100}%` }} title="Target" />
+                          </div>
+                          {r.gap > 0 && (
+                            <div className="mw-gp-plan">
+                              {r.picks.map(o => (
+                                <div key={o.id} className="mw-gp-pick">
+                                  <span>{o.name}</span>
+                                  <b>+{lakh(forecastRevenue(o))}</b>
+                                </div>
+                              ))}
+                              {r.left > 0 && (
+                                <p>
+                                  {r.picks.length ? 'Still ' : ''}
+                                  <b>{lakh(r.left)}</b> to find.{' '}
+                                  {r.lead && r.extra
+                                    ? `Sell ${number(r.extra)} more of “${r.lead.name}” (${money(n(r.lead.expected_asp), true)} each), or add a new ${r.label.toLowerCase()} offer.`
+                                    : 'No offer carries this stream yet — create or add one above.'}
+                                </p>
+                              )}
                             </div>
-                          ))}
-                          {r.left > 0 && (
-                            <p>
-                              {r.picks.length ? 'Still ' : ''}
-                              <b>{lakh(r.left)}</b> to find.{' '}
-                              {r.lead && r.extra
-                                ? `Sell ${number(r.extra)} more of “${r.lead.name}” (${money(n(r.lead.expected_asp), true)} each), or build a new ${r.label.toLowerCase()} offer in Offer studio.`
-                                : 'No offer carries this stream yet — build one in Offer studio.'}
-                            </p>
+                          )}
+                          {(editable || note) && (
+                            <div className="mw-gp-note">
+                              {editable ? (
+                                <input
+                                  placeholder={`Plan note for ${r.label.toLowerCase()} coverage…`}
+                                  value={note}
+                                  onChange={e => updateContent({ coverageNotes: { ...covNotes, [r.label]: e.target.value } })}
+                                />
+                              ) : (
+                                <small>{note}</small>
+                              )}
+                            </div>
                           )}
                         </div>
-                      )}
-                    </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
+                  {offersEditable && (gapRows.some(r => r.gap > 0) || offerRevenue < effective) && (
+                    <Button icon={<Target size={15} />} variant="dark" disabled={busy} onClick={coverTarget}>
+                      Cover full target
+                    </Button>
+                  )}
+                  {offersEditable && gapRows.some(r => r.picks.length) && (
+                    <Button
+                      icon={<Plus size={15} />}
+                      disabled={busy}
+                      onClick={() => addOffers(gapRows.flatMap(r => r.picks.map((o: any) => o.id)))}
+                    >
+                      Add {gapRows.reduce((sum, r) => sum + r.picks.length, 0)} suggested offers
+                    </Button>
+                  )}
                 </div>
-                {offersEditable && (gapRows.some(r => r.gap > 0) || offerRevenue < effective) && (
-                  <Button icon={<Target size={15} />} variant="dark" disabled={busy} onClick={coverTarget}>
-                    Cover full target
-                  </Button>
-                )}
-                {offersEditable && gapRows.some(r => r.picks.length) && (
-                  <Button
-                    icon={<Plus size={15} />}
-                    disabled={busy}
-                    onClick={() => addOffers(gapRows.flatMap(r => r.picks.map((o: any) => o.id)))}
-                  >
-                    Add {gapRows.reduce((sum, r) => sum + r.picks.length, 0)} suggested offers
-                  </Button>
-                )}
-              </div>
-            )}
-            {(
-              <>
+              );
+            })()}
+
+            {/* ─── Section 6: Activations ─── */}
+            {isSectionVisible('acts') && (() => {
+              const meta = sectionMeta('acts', 'Activations', 'Challenge, event, partner and retention play.');
+              const hidden: string[] = Array.isArray(form.content?.hiddenActivations) ? form.content.hiddenActivations : [];
+              const extras: { id: string; label: string; title: string; text: string }[] = Array.isArray(form.content?.extraActivations)
+                ? form.content.extraActivations
+                : [];
+              const fixed = [
+                { key: 'challenge', icon: Trophy, label: 'Challenge', tone: 'purple', ...activation('challenge', challenge?.Activation || base.challenge[0], challenge?.Mechanics || base.challenge[1]) },
+                { key: 'event', icon: PartyPopper, label: 'Event', tone: 'coral', ...activation('event', event?.Activation || base.event[0], event?.Mechanics || base.event[1]) },
+                { key: 'partner', icon: Handshake, label: 'Partnership', tone: 'gold', ...activation('partner', base.partner[0], base.partner[1]) },
+                { key: 'retention', icon: HeartHandshake, label: 'Retention', tone: 'green', ...activation('retention', 'Members', base.retention) },
+              ].filter(a => !hidden.includes(a.key));
+              const setExtras = (next: typeof extras) => updateContent({ extraActivations: next });
+              const defaultPrimaryKpi = local[0]?.['Primary KPI'] ?? base.kpi;
+              const kpiList: string[] = Array.isArray(form.content?.kpis)
+                ? form.content.kpis
+                : [form.content?.kpi ?? defaultPrimaryKpi].filter(Boolean);
+              const setKpis = (next: string[]) => updateContent({ kpis: next, kpi: next[0] || '' });
+
+              return (
                 <div id="mw-sec-acts" className="mw-section">
                   <SectionHead
                     icon={PartyPopper}
-                    title="Activations"
-                    hint="Challenge, event, partner and retention play."
+                    title={meta.title}
+                    hint={meta.hint}
+                    editable={editable}
+                    onTitleChange={v => patchSectionMeta('acts', { title: v })}
+                    onHintChange={v => patchSectionMeta('acts', { hint: v })}
+                    onDelete={() => hideSection('acts')}
+                    actions={
+                      editable ? (
+                        <>
+                          <button
+                            type="button"
+                            className="mw-mini-btn"
+                            onClick={() => setExtras([...extras, { id: `x${Date.now()}`, label: 'Activation', title: '', text: '' }])}
+                          >
+                            <Plus size={12} /> Add activation
+                          </button>
+                          {hidden.length > 0 && (
+                            <button type="button" className="mw-mini-btn" onClick={() => updateContent({ hiddenActivations: [] })}>
+                              <RotateCcw size={11} /> Restore {hidden.length}
+                            </button>
+                          )}
+                        </>
+                      ) : undefined
+                    }
                   />
-                  {(() => {
-                    const hidden: string[] = Array.isArray(form.content?.hiddenActivations) ? form.content.hiddenActivations : [];
-                    const extras: { id: string; label: string; title: string; text: string }[] = Array.isArray(form.content?.extraActivations)
-                      ? form.content.extraActivations
-                      : [];
-                    const fixed = [
-                      { key: 'challenge', icon: Trophy, label: 'Challenge', tone: 'purple', ...activation('challenge', challenge?.Activation || base.challenge[0], challenge?.Mechanics || base.challenge[1]) },
-                      { key: 'event', icon: PartyPopper, label: 'Event', tone: 'coral', ...activation('event', event?.Activation || base.event[0], event?.Mechanics || base.event[1]) },
-                      { key: 'partner', icon: Handshake, label: 'Partnership', tone: 'gold', ...activation('partner', base.partner[0], base.partner[1]) },
-                      { key: 'retention', icon: HeartHandshake, label: 'Retention', tone: 'green', ...activation('retention', 'Members', base.retention) },
-                    ].filter(a => !hidden.includes(a.key));
-                    const setExtras = (next: typeof extras) => updateContent({ extraActivations: next });
-                    return (
-                      <>
-                        <div className="mw-acts">
-                          {fixed.map(a => (
-                            <Act
-                              key={a.key}
-                              icon={a.icon}
-                              label={a.label}
-                              tone={a.tone}
-                              title={a.title}
-                              text={a.text}
-                              editable={editable}
-                              onChange={(value: any) => updateContent({ activations: { ...activationEdits, [a.key]: value } })}
-                              onRemove={() => updateContent({ hiddenActivations: [...hidden, a.key] })}
+                  <div className="mw-acts">
+                    {fixed.map(a => (
+                      <Act
+                        key={a.key}
+                        icon={a.icon}
+                        label={a.label}
+                        tone={a.tone}
+                        title={a.title}
+                        text={a.text}
+                        editable={editable}
+                        onChange={(value: any) => updateContent({ activations: { ...activationEdits, [a.key]: value } })}
+                        onRemove={() => updateContent({ hiddenActivations: [...hidden, a.key] })}
+                      />
+                    ))}
+                    {extras.map(x => (
+                      <Act
+                        key={x.id}
+                        icon={Lightbulb}
+                        label={x.label || 'Activation'}
+                        labelEditable
+                        tone="purple"
+                        title={x.title}
+                        text={x.text}
+                        editable={editable}
+                        onChange={(value: any) => setExtras(extras.map(e => (e.id === x.id ? { ...e, ...value } : e)))}
+                        onRemove={() => setExtras(extras.filter(e => e.id !== x.id))}
+                      />
+                    ))}
+                    {!fixed.length && !extras.length && <p className="mw-action-empty">No activations planned for this month.</p>}
+                  </div>
+                  <div className="mw-acts-kpis">
+                    <span className="mw-fu-label">Activation KPIs</span>
+                    {editable ? (
+                      <div className="mw-list-editor">
+                        {kpiList.map((k, idx) => (
+                          <div key={idx} className="mw-list-editor-row">
+                            <input
+                              aria-label={`Activation KPI ${idx + 1}`}
+                              value={k}
+                              placeholder="KPI target…"
+                              onChange={e => setKpis(kpiList.map((x, j) => (j === idx ? e.target.value : x)))}
                             />
-                          ))}
-                          {extras.map(x => (
-                            <Act
-                              key={x.id}
-                              icon={Lightbulb}
-                              label={x.label || 'Activation'}
-                              labelEditable
-                              tone="purple"
-                              title={x.title}
-                              text={x.text}
-                              editable={editable}
-                              onChange={(value: any) => setExtras(extras.map(e => (e.id === x.id ? { ...e, ...value } : e)))}
-                              onRemove={() => setExtras(extras.filter(e => e.id !== x.id))}
-                            />
-                          ))}
-                          {!fixed.length && !extras.length && <p className="mw-action-empty">No activations planned for this month.</p>}
-                        </div>
-                        {editable && (
-                          <div className="mw-acts-tools">
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              icon={<Plus size={14} />}
-                              onClick={() => setExtras([...extras, { id: `x${Date.now()}`, label: 'Activation', title: '', text: '' }])}
-                            >
-                              Add activation
-                            </Button>
-                            {hidden.length > 0 && (
-                              <Button size="sm" variant="ghost" icon={<RotateCcw size={14} />} onClick={() => updateContent({ hiddenActivations: [] })}>
-                                Restore {hidden.length} removed
-                              </Button>
-                            )}
+                            <button type="button" aria-label="Remove KPI" onClick={() => setKpis(kpiList.filter((_, j) => j !== idx))}>
+                              <Trash2 size={12} />
+                            </button>
                           </div>
-                        )}
-                      </>
-                    );
-                  })()}
-                  <label className="mw-kpi">KPI
-                    {editable ? <input value={form.content?.kpi ?? local[0]?.['Primary KPI'] ?? base.kpi} onChange={e => updateContent({ kpi: e.target.value })} aria-label="Primary activation KPI" /> : <span>{form.content?.kpi ?? local[0]?.['Primary KPI'] ?? base.kpi}</span>}
-                  </label>
+                        ))}
+                        <button type="button" className="mw-mini-btn" onClick={() => setKpis([...kpiList, ''])}>
+                          <Plus size={11} /> Add KPI
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="mw-kpi-tags">
+                        {kpiList.map((k, idx) => (
+                          <span key={idx} className="mw-kpi-pill">{k}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </>
-            )}
-            {(
-              <>
-                <div className="mw-section mw-actions">
-                  <SectionHead icon={ListChecks} title="Action plan" hint="Who does what, week by week." />
+              );
+            })()}
+
+            {/* ─── Section 7: Action plan ─── */}
+            {isSectionVisible('actions') && (() => {
+              const meta = sectionMeta('actions', 'Action plan', 'Who does what, week by week.');
+              return (
+                <div id="mw-sec-actions" className="mw-section mw-actions">
+                  <SectionHead
+                    icon={ListChecks}
+                    title={meta.title}
+                    hint={meta.hint}
+                    editable={editable}
+                    onTitleChange={v => patchSectionMeta('actions', { title: v })}
+                    onHintChange={v => patchSectionMeta('actions', { hint: v })}
+                    onDelete={() => hideSection('actions')}
+                    actions={
+                      editable ? (
+                        <>
+                          <button
+                            type="button"
+                            className="mw-mini-btn"
+                            onClick={() => set({ actions: [...form.actions, { text: '', owner: '', week: 1, done: false }] })}
+                          >
+                            <Plus size={12} /> Add action
+                          </button>
+                          {form.actions.length === 0 && (
+                            <button
+                              type="button"
+                              className="mw-mini-btn"
+                              onClick={() =>
+                                set({
+                                  actions: [
+                                    { text: 'Brief creative & submit WhatsApp templates for approval', owner: 'Marketing', week: 1, done: false },
+                                    { text: 'Launch primary offers & brief front-desk team on scripts', owner: 'Studio Manager', week: 1, done: false },
+                                    { text: 'Mid-month renewal & trial conversion check-in', owner: 'Sales Lead', week: 2, done: false },
+                                    { text: '48-hour closing reminder broadcast & lapsed follow-up calls', owner: 'Studio Manager', week: 4, done: false },
+                                  ],
+                                })
+                              }
+                            >
+                              <Sparkles size={11} /> Starter checklist
+                            </button>
+                          )}
+                        </>
+                      ) : undefined
+                    }
+                  />
                   {form.actions.length > 0 && (
                     <div className="mw-action-head">
                       <span>{form.actions.filter(a => a.done).length} of {form.actions.length} done</span>
@@ -1853,6 +2774,7 @@ export default function MonthWorkspace({
                         </select>
                         {editable && (
                           <button
+                            type="button"
                             aria-label="Remove action"
                             onClick={() => set({ actions: form.actions.filter((_, j) => j !== i) })}
                           >
@@ -1892,18 +2814,145 @@ export default function MonthWorkspace({
                     </label>
                   )}
                 </div>
-              </>
+              );
+            })()}
+
+            {/* ─── Section 8: Marketing & collaterals ─── */}
+            {isSectionVisible('collaterals') && (
+              <MarketingCollaterals
+                id="mw-sec-collaterals"
+                offers={selected}
+                studioName={studio.name}
+                city={studio.city || (['Kenkere House', 'Pop-up'].includes(studio.name) ? 'Bengaluru' : 'Mumbai')}
+                year={year}
+                month={month}
+                theme={form.theme}
+                hook={(form.strategy || '').split('\n').find((l: string) => l.startsWith('Moment:'))?.slice(8)}
+                editable={editable}
+                collaterals={form.content?.collaterals}
+                onChangeCollaterals={next => updateContent({ collaterals: next })}
+                onDeleteSection={() => hideSection('collaterals')}
+              />
             )}
-            <MarketingCollaterals
-              id="mw-sec-collaterals"
-              offers={selected}
-              studioName={studio.name}
-              city={studio.city || (['Kenkere House', 'Pop-up'].includes(studio.name) ? 'Bengaluru' : 'Mumbai')}
-              year={year}
-              month={month}
-              theme={form.theme}
-              hook={(form.strategy || '').split('\n').find((l: string) => l.startsWith('Moment:'))?.slice(8)}
-            />
+
+            {/* ─── User-Added Custom Sections ─── */}
+            {customSections.map(cs => (
+              <div key={cs.id} id={`mw-sec-${cs.id}`} className="mw-section mw-custom-section">
+                <SectionHead
+                  icon={FileText}
+                  title={cs.title}
+                  hint={cs.hint}
+                  editable={editable}
+                  onTitleChange={v => updateCustomSection(cs.id, { title: v })}
+                  onHintChange={v => updateCustomSection(cs.id, { hint: v })}
+                  onDelete={() => removeCustomSection(cs.id)}
+                  actions={
+                    editable ? (
+                      <button
+                        type="button"
+                        className="mw-mini-btn"
+                        onClick={() =>
+                          updateCustomSection(cs.id, {
+                            items: [
+                              ...cs.items,
+                              { id: `item-${Date.now()}`, label: 'Item', value: 'New entry', detail: 'Details or owner' },
+                            ],
+                          })
+                        }
+                      >
+                        <Plus size={12} /> Add item
+                      </button>
+                    ) : undefined
+                  }
+                />
+                {(editable || cs.body) && (
+                  <div className="mw-custom-body">
+                    {editable ? (
+                      <textarea
+                        rows={3}
+                        placeholder="Add section notes, bullet points (- item) or context…"
+                        value={cs.body}
+                        onChange={e => updateCustomSection(cs.id, { body: e.target.value })}
+                      />
+                    ) : (
+                      <RichText text={cs.body} />
+                    )}
+                  </div>
+                )}
+                {cs.items.length > 0 && (
+                  <div className="mw-custom-grid">
+                    {cs.items.map(it => (
+                      <div key={it.id} className="mw-custom-card">
+                        {editable ? (
+                          <>
+                            <div className="mw-custom-card-top">
+                              <input
+                                aria-label="Item label"
+                                placeholder="Category / label"
+                                value={it.label}
+                                onChange={e =>
+                                  updateCustomSection(cs.id, {
+                                    items: cs.items.map(x => (x.id === it.id ? { ...x, label: e.target.value } : x)),
+                                  })
+                                }
+                              />
+                              <button
+                                type="button"
+                                aria-label="Remove item"
+                                onClick={() =>
+                                  updateCustomSection(cs.id, {
+                                    items: cs.items.filter(x => x.id !== it.id),
+                                  })
+                                }
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
+                            <input
+                              className="mw-custom-card-title"
+                              aria-label="Item headline"
+                              placeholder="Headline or metric"
+                              value={it.value}
+                              onChange={e =>
+                                updateCustomSection(cs.id, {
+                                  items: cs.items.map(x => (x.id === it.id ? { ...x, value: e.target.value } : x)),
+                                })
+                              }
+                            />
+                            <textarea
+                              rows={2}
+                              aria-label="Item details"
+                              placeholder="Supporting details, owner or timeline"
+                              value={it.detail}
+                              onChange={e =>
+                                updateCustomSection(cs.id, {
+                                  items: cs.items.map(x => (x.id === it.id ? { ...x, detail: e.target.value } : x)),
+                                })
+                              }
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <small>{it.label}</small>
+                            <strong>{it.value}</strong>
+                            {it.detail && <p>{it.detail}</p>}
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {editable && (
+              <div className="mw-add-section-bar">
+                <button type="button" className="mw-add-section-btn" onClick={addCustomSection}>
+                  <Plus size={15} />
+                  <span>Add new section to {MONTHS[month - 1]}</span>
+                </button>
+              </div>
+            )}
           </main>
 
           {(
@@ -2411,6 +3460,10 @@ const CARD_PHOTO_THEMES: [RegExp, string][] = [
 ];
 
 function pickOfferCardPhoto(o: any, slot?: string, no?: number): CardPhoto {
+  if (o.provenance?.photoKey) {
+    const chosen = OFFER_CARD_PHOTOS.find(p => p.url === o.provenance.photoKey || p.url.endsWith(`/${o.provenance.photoKey}.jpg`));
+    if (chosen) return chosen;
+  }
   const text = `${o.name || ''} ${o.benefit || ''} ${o.headline || ''} ${o.objective || ''}`;
   const theme = CARD_PHOTO_THEMES.find(([re]) => re.test(text))?.[1];
   const byTheme = theme ? OFFER_CARD_PHOTOS.filter(p => p.tags.includes(theme)) : [];
@@ -2451,7 +3504,9 @@ function OfferCard({
   busy,
   onApprove,
   onEdit,
+  onDuplicate,
   onRemove,
+  onDelete,
   onSwap,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
@@ -2702,14 +3757,14 @@ function OfferCard({
 
         <footer className="oc-footer">
         <div className="oc-footer-bar">
-          {hasDrawerContent ? (
+          {hasDrawerContent || editable ? (
             <button
               type="button"
               className={`oc-why-btn${whyOpen ? ' is-open' : ''}`}
               aria-expanded={whyOpen}
               onClick={() => setWhyOpen(v => !v)}
             >
-              <span>Why this offer works</span>
+              <span>{hasDrawerContent ? 'Why this offer works' : 'Offer details & guardrails'}</span>
               <ChevronDown size={14} className="oc-chevron" />
               {reasons.length > 0 && (
                 <em className="oc-why-tags">{reasons.map(([, k]) => titleCase(k)).join(' · ')}</em>
@@ -2720,39 +3775,68 @@ function OfferCard({
           )}
 
           <div className="oc-actions">
-            {canSwap && !shown && (
+            {(editable || (canSwap && !shown)) && (
               <div className="oc-icon-group">
-                <button
-                  type="button"
-                  aria-label={`Replace ${o.name} with AI`}
-                  title="Replace with AI"
-                  className="oc-icon-btn ai"
-                  onClick={onSwap}
-                  disabled={busy}
-                >
-                  <Sparkles size={13.5} />
-                </button>
+                {canSwap && !shown && (
+                  <button
+                    type="button"
+                    aria-label={`Replace ${o.name} with AI`}
+                    title="Replace with AI"
+                    className="oc-icon-btn ai"
+                    onClick={onSwap}
+                    disabled={busy}
+                  >
+                    <Sparkles size={13.5} />
+                  </button>
+                )}
+                {editable && onDuplicate && (
+                  <button
+                    type="button"
+                    aria-label={`Duplicate ${o.name}`}
+                    title="Duplicate as new offer"
+                    className="oc-icon-btn"
+                    onClick={onDuplicate}
+                    disabled={busy}
+                  >
+                    <Copy size={13} />
+                  </button>
+                )}
                 {editable && (
                   <button
                     type="button"
                     aria-label={`Edit ${o.name}`}
-                    title="Edit offer"
+                    title="Edit all offer details"
                     className="oc-icon-btn"
                     onClick={onEdit}
+                    disabled={busy}
                   >
                     <Pencil size={13.5} />
                   </button>
                 )}
-                <button
-                  type="button"
-                  aria-label={`Remove ${o.name}`}
-                  title="Remove from month"
-                  className="oc-icon-btn danger"
-                  onClick={onRemove}
-                  disabled={busy}
-                >
-                  <Minus size={14} />
-                </button>
+                {(editable || !shown) && (
+                  <button
+                    type="button"
+                    aria-label={`Remove ${o.name} from month`}
+                    title="Remove from month plan"
+                    className="oc-icon-btn danger"
+                    onClick={onRemove}
+                    disabled={busy}
+                  >
+                    <Minus size={14} />
+                  </button>
+                )}
+                {editable && onDelete && (
+                  <button
+                    type="button"
+                    aria-label={`Delete ${o.name}`}
+                    title="Delete offer permanently"
+                    className="oc-icon-btn danger"
+                    onClick={onDelete}
+                    disabled={busy}
+                  >
+                    <Trash2 size={13.5} />
+                  </button>
+                )}
               </div>
             )}
             {canApprove ? (
@@ -2781,7 +3865,7 @@ function OfferCard({
           </div>
         </div>
 
-        {whyOpen && hasDrawerContent && (
+        {whyOpen && (hasDrawerContent || editable) && (
           <div className="oc-details-body">
             {o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline && (
               <p className="oc-quote">“{o.customer_copy}”</p>
@@ -2819,8 +3903,8 @@ function OfferCard({
                     <dt>Success metrics</dt>
                     <dd>
                       <ul>
-                        {metrics.map((item: string) => (
-                          <li key={item}>{item}</li>
+                        {metrics.map((item: string, idx: number) => (
+                          <li key={`${idx}-${item}`}>{item}</li>
                         ))}
                       </ul>
                     </dd>
@@ -2840,6 +3924,13 @@ function OfferCard({
                 )}
               </dl>
             )}
+            {editable && (
+              <div className="oc-drawer-edit-bar">
+                <button type="button" className="mw-mini-btn is-primary" onClick={onEdit}>
+                  <Pencil size={12} /> Edit all offer details
+                </button>
+              </div>
+            )}
           </div>
         )}
         </footer>
@@ -2848,7 +3939,29 @@ function OfferCard({
   );
 }
 
+const OFFER_OBJECTIVES = [
+  ['acquisition', 'New clients · Acquisition'],
+  ['trial_conversion', 'New clients · Trial conversion'],
+  ['referral', 'New clients · Referral / duo'],
+  ['retention', 'Renewals · Member retention'],
+  ['annual_membership', 'Renewals · Annual commitment'],
+  ['additional_purchase', 'Renewals · Pack / upsell'],
+  ['reactivation', 'Comeback · Lapsed reactivation'],
+] as const;
+
+const OFFER_TYPES = [
+  ['percentage', 'Percentage discount'],
+  ['fixed_price', 'Fixed campaign tariff'],
+  ['value_add', 'Value-add / bonus perk'],
+  ['bundle', 'Curated bundle'],
+  ['bogo_duo', 'Duo / bring-a-friend'],
+  ['referral', 'Referral reward'],
+  ['annual', 'Annual tier'],
+  ['experience', 'Hosted experience'],
+] as const;
+
 function OfferEditor({
+  mode = 'edit',
   offer,
   studioId,
   prices,
@@ -2856,8 +3969,10 @@ function OfferEditor({
   others,
   busy,
   onCancel,
+  onDelete,
   onSave,
 }: {
+  mode?: 'edit' | 'create';
   offer: any;
   studioId: number;
   prices: Prices | null;
@@ -2865,116 +3980,387 @@ function OfferEditor({
   others: number;
   busy: boolean;
   onCancel: () => void;
+  onDelete?: () => void;
   onSave: (edit: any) => void;
 }) {
+  const parseList = (v: any): string[] => {
+    if (Array.isArray(v)) return v.map(String);
+    try {
+      return v ? JSON.parse(v) : [];
+    } catch {
+      return [];
+    }
+  };
   const pricing = offer.provenance?.pricing || {};
   const [f, setF] = useState({
     name: offer.name || '',
     headline: offer.headline || '',
     benefit: offer.benefit || '',
+    objective: offer.objective || 'acquisition',
+    offer_type: offer.offer_type || 'percentage',
+    plan_slot: offer.plan_slot || '',
+    photoKey: offer.provenance?.photoKey || '',
     audience: offer.audience || '',
+    excluded_audience: offer.excluded_audience || '',
+    redemption_conditions: offer.redemption_conditions || '',
+    cta: offer.cta || '',
+    customer_copy: offer.customer_copy || '',
     rationale: offer.rationale || '',
     product: pricing.product || '',
+    customListPrice: pricing.customListPrice ? Math.round(n(pricing.customListPrice)) : 0,
     discount: Math.round(n(pricing.discount ?? n(offer.effective_discount) / 100) * 100),
+    customAsp: Boolean(pricing.customAsp),
     units: n(offer.target_purchases),
     asp: Math.round(n(offer.expected_asp)),
     validity_start: offer.validity_start || '',
     validity_end: offer.validity_end || '',
+    success_metrics: parseList(offer.success_metrics),
+    risks: parseList(offer.risks),
   });
-  const list = f.product ? prices?.prices[studioId]?.[f.product] : null;
-  const asp = list ? Math.round(list * (1 - f.discount / 100)) : f.asp;
+  const catalogList = f.product ? prices?.prices[studioId]?.[f.product] : null;
+  const effectiveList = catalogList ?? (f.customListPrice > 0 ? f.customListPrice : null);
+  const computedAsp = effectiveList ? Math.round(effectiveList * (1 - f.discount / 100)) : f.asp;
+  const asp = f.customAsp || !effectiveList ? f.asp : computedAsp;
+  const savings = effectiveList && asp > 0 && effectiveList > asp ? effectiveList - asp : 0;
   const up = (p: Partial<typeof f>) => setF(x => ({ ...x, ...p }));
+
   return (
     <form
       className="mw-editor"
       onSubmit={e => {
         e.preventDefault();
         onSave({
-          name: f.name,
-          headline: f.headline || null,
-          benefit: f.benefit || null,
-          audience: f.audience || null,
-          rationale: f.rationale || null,
+          name: f.name.trim(),
+          headline: f.headline.trim() || null,
+          benefit: f.benefit.trim() || null,
+          objective: f.objective,
+          offer_type: f.offer_type,
+          plan_slot: f.plan_slot || null,
+          photoKey: f.photoKey || null,
+          audience: f.audience.trim() || null,
+          excluded_audience: f.excluded_audience.trim() || null,
+          redemption_conditions: f.redemption_conditions.trim() || null,
+          cta: f.cta.trim() || null,
+          customer_copy: f.customer_copy.trim() || null,
+          rationale: f.rationale.trim() || null,
           validity_start: f.validity_start || null,
           validity_end: f.validity_end || null,
           target_purchases: f.units,
-          ...(f.product ? {} : { expected_asp: f.asp }),
-          pricing: { product: f.product || null, discount: f.discount / 100, mechanic: f.benefit },
+          expected_asp: asp,
+          success_metrics: f.success_metrics.map(s => s.trim()).filter(Boolean),
+          risks: f.risks.map(s => s.trim()).filter(Boolean),
+          pricing: {
+            product: f.product || null,
+            discount: f.discount / 100,
+            mechanic: f.benefit,
+            customListPrice: !f.product && f.customListPrice > 0 ? f.customListPrice : null,
+            customAsp: f.customAsp,
+          },
         });
       }}
     >
-      <div className="mw-editor-grid">
-        <label className="wide">
-          <span>Offer name — make it memorable</span>
-          <input value={f.name} required minLength={3} onChange={e => up({ name: e.target.value })} />
-        </label>
-        <label className="wide">
-          <span>Commercial job</span>
-          <input value={f.headline} onChange={e => up({ headline: e.target.value })} />
-        </label>
-        <label className="wide">
-          <span>Mechanic (what the client gets)</span>
-          <textarea rows={2} value={f.benefit} onChange={e => up({ benefit: e.target.value })} />
-        </label>
-        <label>
-          <span>Audience</span>
-          <input value={f.audience} onChange={e => up({ audience: e.target.value })} />
-        </label>
-        <label>
-          <span>Priced on</span>
-          <select value={f.product} onChange={e => up({ product: e.target.value })}>
-            <option value="">Manual price</option>
-            {Object.entries(prices?.keys || {}).map(([k, label]) => (
-              <option key={k} value={k}>
-                {label}
-                {prices?.prices[studioId]?.[k] ? ` · ${money(prices.prices[studioId][k], true)}` : ' · not sold here'}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>Discount %</span>
-          <input
-            type="number"
-            min={0}
-            max={50}
-            value={f.discount}
-            onChange={e => up({ discount: n(e.target.value) })}
-          />
-        </label>
-        <label>
-          <span>Units (this location)</span>
-          <input type="number" min={0} value={f.units} onChange={e => up({ units: n(e.target.value) })} />
-        </label>
-        <label>
-          <span>Price per sale (₹)</span>
-          <input type="number" min={0} value={asp} disabled={!!list} onChange={e => up({ asp: n(e.target.value) })} />
-        </label>
-        <label>
-          <span>Window</span>
-          <div className="mw-dates-in">
-            <input type="date" value={f.validity_start} onChange={e => up({ validity_start: e.target.value })} />
-            <input type="date" value={f.validity_end} onChange={e => up({ validity_end: e.target.value })} />
-          </div>
-        </label>
-        <label className="wide">
-          <span>Reasoning — why it exists and why the mechanic works</span>
-          <textarea rows={4} value={f.rationale} onChange={e => up({ rationale: e.target.value })} />
-        </label>
+      <div className="mw-editor-head">
+        <div>
+          <span className="mw-editor-badge">{mode === 'create' ? 'New offer' : 'Edit offer'}</span>
+          <h5>{f.name || (mode === 'create' ? 'Build a new monthly offer' : 'Offer details')}</h5>
+        </div>
+        <button type="button" className="mw-mini-icon" aria-label="Close editor" onClick={onCancel}>
+          <X size={15} />
+        </button>
       </div>
+
+      {/* Group 1: Hero & Positioning */}
+      <div className="mw-editor-section">
+        <span className="mw-editor-sec-title">1 · Hero &amp; positioning</span>
+        <div className="mw-editor-grid">
+          <label className="wide">
+            <span>Offer title</span>
+            <input
+              value={f.name}
+              required
+              minLength={3}
+              placeholder="e.g. Founding 57: Annual Unlimited"
+              onChange={e => up({ name: e.target.value })}
+            />
+          </label>
+          <label>
+            <span>Revenue stream &amp; objective</span>
+            <select value={f.objective} onChange={e => up({ objective: e.target.value })}>
+              {OFFER_OBJECTIVES.map(([val, label]) => (
+                <option key={val} value={val}>{label}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Primary plan slot</span>
+            <select value={f.plan_slot} onChange={e => up({ plan_slot: e.target.value })}>
+              <option value="">Additional / general offer</option>
+              <option value="newcomer">Newcomer primary slot</option>
+              <option value="lapsed">Winback / lapsed primary slot</option>
+              <option value="renewal">Renewal primary slot</option>
+            </select>
+          </label>
+          <label>
+            <span>Offer mechanism type</span>
+            <select value={f.offer_type} onChange={e => up({ offer_type: e.target.value })}>
+              {OFFER_TYPES.map(([val, label]) => (
+                <option key={val} value={val}>{label}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Card hero photography</span>
+            <select value={f.photoKey} onChange={e => up({ photoKey: e.target.value })}>
+              <option value="">Auto-matched from offer wording</option>
+              {OFFER_CARD_PHOTOS.map((p, idx) => (
+                <option key={p.url} value={p.url}>
+                  Studio frame #{idx + 1} · {p.tags.join(', ')}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="wide">
+            <span>Subheadline / commercial hook</span>
+            <input
+              value={f.headline}
+              placeholder="Short one-line hook shown right under the card title"
+              onChange={e => up({ headline: e.target.value })}
+            />
+          </label>
+          <label className="wide">
+            <span>Value-add / mechanic summary (what the client gets)</span>
+            <textarea
+              rows={2}
+              value={f.benefit}
+              placeholder="e.g. 15% off 3-Month Unlimited + 2 complimentary guest passes"
+              onChange={e => up({ benefit: e.target.value })}
+            />
+          </label>
+        </div>
+      </div>
+
+      {/* Group 2: Pricing & Commercials */}
+      <div className="mw-editor-section">
+        <span className="mw-editor-sec-title">2 · Pricing &amp; plan forecast</span>
+        <div className="mw-editor-grid">
+          <label>
+            <span>Catalog membership / pack</span>
+            <select
+              value={f.product}
+              onChange={e => up({ product: e.target.value, customAsp: false })}
+            >
+              <option value="">Custom / manual package</option>
+              {Object.entries(prices?.keys || {}).map(([k, label]) => (
+                <option key={k} value={k}>
+                  {label}
+                  {prices?.prices[studioId]?.[k] ? ` · ${money(prices.prices[studioId][k], true)}` : ' · custom here'}
+                </option>
+              ))}
+            </select>
+          </label>
+          {!f.product && (
+            <label>
+              <span>List price / MRP (₹)</span>
+              <input
+                type="number"
+                min={0}
+                value={f.customListPrice}
+                placeholder="Optional MRP before discount"
+                onChange={e => up({ customListPrice: n(e.target.value) })}
+              />
+            </label>
+          )}
+          <label>
+            <span>Discount %</span>
+            <input
+              type="number"
+              min={0}
+              max={50}
+              value={f.discount}
+              onChange={e => up({ discount: Math.min(50, Math.max(0, n(e.target.value))) })}
+            />
+          </label>
+          <label>
+            <span className="mw-editor-inline-check">
+              Offer price / ASP (₹)
+              {effectiveList ? (
+                <small>
+                  <input
+                    type="checkbox"
+                    checked={f.customAsp}
+                    onChange={e => up({ customAsp: e.target.checked, asp: computedAsp })}
+                  />{' '}
+                  Override
+                </small>
+              ) : null}
+            </span>
+            <input
+              type="number"
+              min={0}
+              value={asp}
+              disabled={Boolean(effectiveList) && !f.customAsp}
+              onChange={e => up({ asp: n(e.target.value), customAsp: true })}
+            />
+          </label>
+          <label>
+            <span>Planned units (this location)</span>
+            <input type="number" min={0} value={f.units} onChange={e => up({ units: n(e.target.value) })} />
+          </label>
+        </div>
+        <div className="mw-editor-preview-strip">
+          <div><small>List price</small><b>{effectiveList ? money(effectiveList) : '—'}</b></div>
+          <div><small>Offer price</small><b>{asp ? money(asp) : '—'}</b></div>
+          <div><small>Client saves</small><b>{savings > 0 ? money(savings) : f.discount > 0 ? `${f.discount}% off` : 'Value-add'}</b></div>
+          <div><small>Plan forecast</small><b>{money(asp * f.units, true)}</b></div>
+        </div>
+      </div>
+
+      {/* Group 3: Operational Details & Guardrails */}
+      <div className="mw-editor-section">
+        <span className="mw-editor-sec-title">3 · Target cohort, window &amp; guardrails</span>
+        <div className="mw-editor-grid">
+          <label>
+            <span>Target cohort (Who it’s for)</span>
+            <input
+              value={f.audience}
+              placeholder="e.g. First-time studio visitors & trial completers"
+              onChange={e => up({ audience: e.target.value })}
+            />
+          </label>
+          <label>
+            <span>Valid window</span>
+            <div className="mw-dates-in">
+              <input type="date" value={f.validity_start} onChange={e => up({ validity_start: e.target.value })} />
+              <input type="date" value={f.validity_end} onChange={e => up({ validity_end: e.target.value })} />
+            </div>
+          </label>
+          <label>
+            <span>Call to action</span>
+            <input
+              value={f.cta}
+              placeholder="e.g. Claim at reception or book via Momence"
+              onChange={e => up({ cta: e.target.value })}
+            />
+          </label>
+          <label>
+            <span>Exclusions (Not eligible)</span>
+            <input
+              value={f.excluded_audience}
+              placeholder="e.g. Existing active annual members"
+              onChange={e => up({ excluded_audience: e.target.value })}
+            />
+          </label>
+          <label className="wide">
+            <span>Terms &amp; guardrails</span>
+            <textarea
+              rows={2}
+              value={f.redemption_conditions}
+              placeholder="Redemption rules, stacking policy, validity conditions…"
+              onChange={e => up({ redemption_conditions: e.target.value })}
+            />
+          </label>
+        </div>
+      </div>
+
+      {/* Group 4: Copy, Rationale, Success Metrics & Risks */}
+      <div className="mw-editor-section">
+        <span className="mw-editor-sec-title">4 · Copy, rationale, metrics &amp; watch-outs</span>
+        <div className="mw-editor-grid">
+          <label className="wide">
+            <span>Client-facing copy / quote</span>
+            <textarea
+              rows={2}
+              value={f.customer_copy}
+              placeholder="Client-facing message used on cards and collateral samples…"
+              onChange={e => up({ customer_copy: e.target.value })}
+            />
+          </label>
+          <label className="wide">
+            <span>Strategic rationale (Why it works)</span>
+            <textarea
+              rows={3}
+              value={f.rationale}
+              placeholder={'Why: Converts trial momentum within 72h\nLogic: Protects list rate with added value\nWatch: Enforce newcomer eligibility in Momence'}
+              onChange={e => up({ rationale: e.target.value })}
+            />
+          </label>
+          <div className="mw-editor-list-col">
+            <span>Success metrics</span>
+            <div className="mw-list-editor">
+              {f.success_metrics.map((m, i) => (
+                <div key={i} className="mw-list-editor-row">
+                  <input
+                    value={m}
+                    placeholder="KPI or target metric…"
+                    onChange={e => up({ success_metrics: f.success_metrics.map((x, idx) => (idx === i ? e.target.value : x)) })}
+                  />
+                  <button
+                    type="button"
+                    aria-label="Remove success metric"
+                    onClick={() => up({ success_metrics: f.success_metrics.filter((_, idx) => idx !== i) })}
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                className="mw-mini-btn"
+                onClick={() => up({ success_metrics: [...f.success_metrics, ''] })}
+              >
+                <Plus size={11} /> Add metric
+              </button>
+            </div>
+          </div>
+          <div className="mw-editor-list-col">
+            <span>Risks &amp; assumptions</span>
+            <div className="mw-list-editor">
+              {f.risks.map((r, i) => (
+                <div key={i} className="mw-list-editor-row">
+                  <input
+                    value={r}
+                    placeholder="Guardrail or assumption…"
+                    onChange={e => up({ risks: f.risks.map((x, idx) => (idx === i ? e.target.value : x)) })}
+                  />
+                  <button
+                    type="button"
+                    aria-label="Remove risk"
+                    onClick={() => up({ risks: f.risks.filter((_, idx) => idx !== i) })}
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                className="mw-mini-btn"
+                onClick={() => up({ risks: [...f.risks, ''] })}
+              >
+                <Plus size={11} /> Add risk
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="mw-editor-foot">
         <span>
           Expected <b>{money(asp * f.units, true)}</b> here.{' '}
           {solo
             ? 'Solo mode: saved to this location only and unlinked from the others.'
-            : `Copy, mechanic and discount also update in up to ${others} other locations at their own prices; their unit targets stay.`}
+            : `Mirrors across up to ${others} other locations at their local prices unless Solo mode is enabled.`}
         </span>
-        <div>
+        <div className="mw-editor-foot-btns">
+          {mode === 'edit' && onDelete && (
+            <Button size="sm" variant="ghost" type="button" disabled={busy} icon={<Trash2 size={13} />} onClick={onDelete}>
+              Delete offer
+            </Button>
+          )}
           <Button size="sm" variant="ghost" type="button" onClick={onCancel}>
             Cancel
           </Button>
           <Button size="sm" type="submit" disabled={busy}>
-            {busy ? 'Saving…' : solo ? 'Save here only' : 'Save everywhere'}
+            {busy ? 'Saving…' : mode === 'create' ? (solo ? 'Create here only' : 'Create everywhere') : solo ? 'Save here only' : 'Save everywhere'}
           </Button>
         </div>
       </div>
@@ -3103,14 +4489,69 @@ function OfferCopilot({ state, steer, setSteer, busy, onAsk, onApply, onClose, c
   );
 }
 
-function SectionHead({ icon: Icon, title, hint }: { icon: any; title: React.ReactNode; hint?: React.ReactNode }) {
+function SectionHead({
+  icon: Icon,
+  title,
+  hint,
+  editable = false,
+  onTitleChange,
+  onHintChange,
+  actions,
+  onDelete,
+}: {
+  icon: any;
+  title: React.ReactNode;
+  hint?: React.ReactNode;
+  editable?: boolean;
+  onTitleChange?: (next: string) => void;
+  onHintChange?: (next: string) => void;
+  actions?: React.ReactNode;
+  onDelete?: () => void;
+}) {
   return (
-    <header className="mw-sh">
+    <header className={`mw-sh${actions || (editable && onDelete) ? ' has-actions' : ''}`}>
       <span className="mw-sh-icon">
         <Icon size={16} />
       </span>
-      <h4>{title}</h4>
-      {hint && <p>{hint}</p>}
+      <div className="mw-sh-copy">
+        {editable && onTitleChange && typeof title === 'string' ? (
+          <input
+            className="mw-sh-title-in"
+            aria-label="Section title"
+            value={title}
+            onChange={e => onTitleChange(e.target.value)}
+          />
+        ) : (
+          <h4>{title}</h4>
+        )}
+        {editable && onHintChange && (typeof hint === 'string' || hint === undefined) ? (
+          <input
+            className="mw-sh-hint-in"
+            aria-label="Section subtitle"
+            placeholder="Section description…"
+            value={hint || ''}
+            onChange={e => onHintChange(e.target.value)}
+          />
+        ) : (
+          hint && <p>{hint}</p>
+        )}
+      </div>
+      {(actions || (editable && onDelete)) && (
+        <div className="mw-sh-actions">
+          {actions}
+          {editable && onDelete && (
+            <button
+              type="button"
+              className="mw-mini-icon is-danger"
+              title="Delete section from this month"
+              aria-label={`Delete ${typeof title === 'string' ? title : 'section'}`}
+              onClick={onDelete}
+            >
+              <Trash2 size={13.5} />
+            </button>
+          )}
+        </div>
+      )}
     </header>
   );
 }

@@ -11,6 +11,8 @@ import {
   Gift,
   LayoutGrid,
   LineChart,
+  RefreshCw,
+  RotateCcw,
   Rows3,
   Search,
   Sparkles,
@@ -207,7 +209,7 @@ export function SourceBar({ row }: { row: MonthRow }) {
 export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved: () => Promise<unknown> }) {
   const SOURCES = useSources();
   const multi = data.plans.length > 1,
-    { year, boot, studioId, toast } = useApp();
+    { year, boot, studioId, setStudioId, toast } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const [layout, setLayout] = useState('timeline'),
     [open, setOpenState] = useState<number | null>(() => {
@@ -216,7 +218,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
     }),
     [metric, setMetric] = useState<string | null>(null),
     [query, setQuery] = useState(''),
-    [scope, setScope] = useState<'all' | 'q1' | 'q2' | 'q3' | 'q4' | 'gap' | 'pending'>('all');
+    [scope, setScope] = useState<'all' | 'q1' | 'q2' | 'q3' | 'q4' | 'gap' | 'stretch' | 'pending'>('all');
 
   useEffect(() => {
     const m = Number(searchParams.get('month'));
@@ -249,6 +251,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
   );
   const approvedMonths = data.months.filter(m => m.approved).length;
   const gapMonthsCount = data.months.filter(m => m.renewalGap > 0).length;
+  const stretchMonthsCount = data.months.filter(m => m.feasibility === 'stretch').length;
 
   const visibleMonths = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -258,6 +261,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
       if (scope === 'q3' && (m.month < 7 || m.month > 9)) return false;
       if (scope === 'q4' && m.month < 10) return false;
       if (scope === 'gap' && !(m.renewalGap > 0)) return false;
+      if (scope === 'stretch' && m.feasibility !== 'stretch') return false;
       if (scope === 'pending' && m.approved) return false;
       if (!q) return true;
       const offers = selectedInMonth(data, m.month);
@@ -336,52 +340,185 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
     <>
       <ScenarioControl />
       <div className="mx-board">
-        <div className="mx-group">
-          <span className="mx-group-label">Revenue streams</span>
-          <div className="mx-row">
-            {totals.map(t => (
-              <button
-                key={t.key}
-                className={`mx ${metric === t.key ? 'active' : ''}`}
-                aria-pressed={metric === t.key}
-                onClick={() => setMetric(metric === t.key ? null : t.key)}
+        <section className="mx-panel mx-panel-streams" aria-label="Revenue streams">
+          <div className="mx-panel-head">
+            <div className="mx-panel-title-wrap">
+              <span className="mx-panel-idx">01</span>
+              <div className="mx-panel-titles">
+                <span className="mx-group-label">Revenue streams</span>
+                <small>Annual target mix across acquisition, renewals &amp; comeback · click any tile for 12-month split</small>
+              </div>
+            </div>
+            <div className="mx-panel-summary">
+              <div
+                className="mx-mix-track"
+                aria-hidden="true"
+                title={totals.map(t => `${t.label}: ${lakh(t.value)}`).join(' · ')}
               >
-                <span>
-                  <i style={{ background: t.color }} />
-                  {t.label}
-                </span>
-                <strong>{lakh(t.value)}</strong>
-                <small>{data.annual ? `${((t.value / data.annual) * 100).toFixed(0)}% of target` : '—'}</small>
-              </button>
-            ))}
+                {totals.map(t => {
+                  const w = data.annual ? (t.value / data.annual) * 100 : 0;
+                  return w > 0 ? <span key={t.key} style={{ width: `${w}%`, background: t.color }} /> : null;
+                })}
+              </div>
+              <span className="mx-total-pill">
+                Annual <b>{lakh(data.annual)}</b>
+              </span>
+            </div>
+          </div>
+          <div className="mx-row mx-row-streams">
+            {totals.map(t => {
+              const share = data.annual ? Math.round((t.value / data.annual) * 100) : 0;
+              const shortLabel = t.key === 'other' ? 'Other streams' : t.label;
+              return (
+                <button
+                  key={t.key}
+                  type="button"
+                  className={`mx ${t.value === 0 ? 'is-zero' : ''} ${metric === t.key ? 'active' : ''}`}
+                  aria-pressed={metric === t.key}
+                  onClick={() => setMetric(metric === t.key ? null : t.key)}
+                >
+                  <div className="mx-head-row">
+                    <span className="mx-title">
+                      <i style={{ background: t.color }} />
+                      {shortLabel}
+                    </span>
+                    <em className="mx-share-badge">{data.annual ? `${share}%` : '—'}</em>
+                  </div>
+                  <strong>{lakh(t.value)}</strong>
+                  <span className="mx-mini-bar" aria-hidden="true">
+                    <i style={{ width: `${t.value > 0 ? Math.max(5, share) : 0}%`, background: t.color }} />
+                  </span>
+                  <div className="mx-foot-row">
+                    <small>{t.value > 0 ? `${lakh(t.value / 12)} / mo avg` : 'Gifts, privates & retail'}</small>
+                    <span className="mx-drill-cue" aria-hidden="true">
+                      12m ↗
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
             <button
-              className={`mx ${metric === 'approved' ? 'active' : ''}`}
+              type="button"
+              className={`mx mx-approval ${metric === 'approved' ? 'active' : ''}`}
               aria-pressed={metric === 'approved'}
               onClick={() => setMetric(metric === 'approved' ? null : 'approved')}
             >
-              <span>Approval</span>
-              <strong>{approvedMonths}/12</strong>
-              <small>months approved</small>
+              <div className="mx-head-row">
+                <span className="mx-title">
+                  <CheckCircle2 size={13} className="mx-approval-ic" />
+                  Approval
+                </span>
+                <em className={`mx-share-badge ${approvedMonths === 12 ? 'is-complete' : ''}`}>
+                  {Math.round((approvedMonths / 12) * 100)}%
+                </em>
+              </div>
+              <strong>
+                {approvedMonths}
+                <em className="mx-denom">/12</em>
+              </strong>
+              <span className="mx-mini-bar" aria-hidden="true">
+                <i style={{ width: `${(approvedMonths / 12) * 100}%` }} />
+              </span>
+              <div className="mx-foot-row">
+                <small>{approvedMonths === 12 ? 'All months approved' : `${12 - approvedMonths} months pending`}</small>
+                <span className="mx-drill-cue" aria-hidden="true">
+                  12m ↗
+                </span>
+              </div>
             </button>
           </div>
-        </div>
-        <div className="mx-group">
-          <span className="mx-group-label">Volumes needed</span>
-          <div className="mx-row">
-            {funnel.map(([k, v]) => (
-              <button
-                key={k}
-                className={`mx ${metric === k ? 'active' : ''}`}
-                aria-pressed={metric === k}
-                onClick={() => setMetric(metric === k ? null : k)}
-              >
-                <span>{METRIC_LABELS[k]}</span>
-                <strong>{number(v)}</strong>
-                <small>{number(Math.round(v / 12))} a month</small>
-              </button>
-            ))}
-          </div>
-        </div>
+        </section>
+
+        <section className="mx-panel mx-panel-volumes" aria-label="Volumes needed">
+          {(() => {
+            const volMap = Object.fromEntries(funnel) as Record<string, number>;
+            const maxVol = Math.max(...funnel.map(([, v]) => v), 1);
+            const leadToTrial = volMap.leads > 0 ? Math.round((volMap.trials / volMap.leads) * 100) : null;
+            const trialToBuyer = volMap.trials > 0 ? Math.round((volMap.buyers / volMap.trials) * 100) : null;
+            const VOL_META: Record<
+              string,
+              { icon: React.ComponentType<{ size?: number; className?: string }>; tag: string; kind: 'acq' | 'ret' }
+            > = {
+              leads: { icon: Users, tag: 'Step 1 · Funnel', kind: 'acq' },
+              trials: {
+                icon: Sparkles,
+                tag: leadToTrial !== null ? `Step 2 · ${leadToTrial}% conv.` : 'Step 2 · Funnel',
+                kind: 'acq',
+              },
+              buyers: {
+                icon: Trophy,
+                tag: trialToBuyer !== null ? `Step 3 · ${trialToBuyer}% close` : 'Step 3 · Funnel',
+                kind: 'acq',
+              },
+              renewalPurchases: { icon: RefreshCw, tag: 'Retention', kind: 'ret' },
+              reactivated: { icon: RotateCcw, tag: 'Comeback', kind: 'ret' },
+            };
+            return (
+              <>
+                <div className="mx-panel-head">
+                  <div className="mx-panel-title-wrap">
+                    <span className="mx-panel-idx">02</span>
+                    <div className="mx-panel-titles">
+                      <span className="mx-group-label">Volumes needed</span>
+                      <small>Acquisition funnel stages &amp; member lifecycle volumes required across the year</small>
+                    </div>
+                  </div>
+                  <div className="mx-panel-summary">
+                    <span className="mx-track-tag is-acq">Acquisition · 3 stages</span>
+                    <span className="mx-track-tag is-ret">Lifecycle · 2 streams</span>
+                    <span
+                      className="mx-total-pill"
+                      title={
+                        stretchMonthsCount > 0
+                          ? `${stretchMonthsCount} month(s) require stretch cohort conversion or ticket lift`
+                          : 'All 12 months within historical cohort capacity'
+                      }
+                    >
+                      Feasibility <b>{12 - stretchMonthsCount}/12 on-pace</b>
+                    </span>
+                  </div>
+                </div>
+                <div className="mx-row mx-row-volumes">
+                  {funnel.map(([k, v], idx) => {
+                    const meta = VOL_META[k] || { icon: Users, tag: 'Volume', kind: 'acq' as const };
+                    const Icon = meta.icon;
+                    const barW = v > 0 ? Math.max(6, Math.round((v / maxVol) * 100)) : 0;
+                    return (
+                      <button
+                        key={k}
+                        type="button"
+                        className={`mx mx-vol mx-vol-${meta.kind} ${v === 0 ? 'is-zero' : ''} ${idx === 3 ? 'is-lifecycle-start' : ''} ${metric === k ? 'active' : ''}`}
+                        aria-pressed={metric === k}
+                        onClick={() => setMetric(metric === k ? null : k)}
+                      >
+                        <div className="mx-head-row">
+                          <span className="mx-title">
+                            <Icon size={13} className="mx-vol-ic" />
+                            {METRIC_LABELS[k]}
+                          </span>
+                          <em className={`mx-vol-tag is-${meta.kind}`}>{meta.tag}</em>
+                        </div>
+                        <strong>{number(v)}</strong>
+                        <span className="mx-mini-bar" aria-hidden="true">
+                          <i style={{ width: `${barW}%` }} />
+                        </span>
+                        <div className="mx-foot-row">
+                          <small>
+                            <b>{number(Math.round(v / 12))}</b> / month avg
+                          </small>
+                          <span className="mx-drill-cue" aria-hidden="true">
+                            12m ↗
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            );
+          })()}
+        </section>
+
         {metric && (
           <MetricFocus
             data={data}
@@ -441,6 +578,7 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
                 ['q2', 'Q2'],
                 ['q3', 'Q3'],
                 ['q4', 'Q4'],
+                ...(stretchMonthsCount > 0 ? [['stretch', `Stretch (${stretchMonthsCount})`]] : []),
                 ...(gapMonthsCount > 0 ? [['gap', `Renewal gap (${gapMonthsCount})`]] : []),
                 ...(approvedMonths < 12 ? [['pending', `Pending (${12 - approvedMonths})`]] : []),
               ] as Array<[typeof scope, string]>
@@ -785,81 +923,190 @@ export default function TargetsTab({ data, onSaved }: { data: PlanData; onSaved:
       )}
 
       {layout === 'studios' && (
-        <div className="ws-card">
-          <h3>Target by location</h3>
-          <div style={{ height: 340 }}>
-            <ResponsiveContainer>
-              <ComposedChart
-                data={data.months.map(m => ({
-                  name: MONTHS_SHORT[m.month - 1],
-                  ...Object.fromEntries(m.byStudio.map(s => [s.name, s.target])),
-                }))}
-              >
-                <CartesianGrid stroke="#eceaf1" vertical={false} />
-                <XAxis dataKey="name" tickLine={false} axisLine={false} />
-                <YAxis
-                  tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`}
-                  tickLine={false}
-                  axisLine={false}
-                  width={56}
-                />
-                <Tooltip formatter={(v: any, n: any) => [money(v), n]} />
-                <Legend />
-                {data.plans.map((p, i) => (
-                  <Bar
-                    key={p.studio.id}
-                    dataKey={p.studio.name}
-                    stackId="s"
-                    fill={LOCATION_COLORS[p.studio.name]}
-                    radius={i === data.plans.length - 1 ? [5, 5, 0, 0] : 0}
-                  />
-                ))}
-              </ComposedChart>
-            </ResponsiveContainer>
+        <div className="ws-studios-view">
+          <div className="ws-loc-cards">
+            {data.plans.map(p => {
+              const locColor = LOCATION_COLORS[p.studio.name] || '#3563d9';
+              const share = data.annual ? Math.round((p.annual / data.annual) * 100) : 0;
+              const newRev = p.months.reduce((n, m) => n + ((m as any).newClient || 0), 0);
+              const renRev = p.months.reduce((n, m) => n + ((m as any).renewal || 0), 0);
+              const reaRev = p.months.reduce((n, m) => n + ((m as any).reactivation || 0), 0);
+              const peakM = [...p.months].sort((a, b) => b.target - a.target)[0];
+              const offerCount = data.offers.filter(
+                o =>
+                  LIVE(o) &&
+                  (o.studio_id === p.studio.id ||
+                    (p.studio.name === 'Pop-up' && ['Copper + Cloves', 'Plash Pilates'].includes(o.studio))),
+              ).length;
+              const code = p.studio.name
+                .split(/[\s-]+/)
+                .map(w => w[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase();
+              return (
+                <article
+                  key={p.studio.id}
+                  className="ws-loc-card"
+                  style={{ '--loc': locColor } as React.CSSProperties}
+                >
+                  <header className="ws-loc-card-head">
+                    <i className="ws-loc-card-badge">{code}</i>
+                    <div className="ws-loc-card-titles">
+                      <strong>{p.studio.name}</strong>
+                      <small>{p.studio.city}</small>
+                    </div>
+                    <span className="ws-loc-card-share">{share}% share</span>
+                  </header>
+                  <div className="ws-loc-card-hero">
+                    <strong>{lakh(p.annual)}</strong>
+                    <span className={p.annual >= p.lastYear ? 'pos' : 'neg'}>
+                      {pct(p.annual, p.lastYear)} vs {lakh(p.lastYear)} LY
+                    </span>
+                  </div>
+                  <div
+                    className="ws-loc-card-mix"
+                    title={`New: ${lakh(newRev)} · Renewals: ${lakh(renRev)} · Reactivation: ${lakh(reaRev)}`}
+                  >
+                    <span style={{ width: `${p.annual ? (newRev / p.annual) * 100 : 0}%`, opacity: 1 }} />
+                    <span style={{ width: `${p.annual ? (renRev / p.annual) * 100 : 0}%`, opacity: 0.62 }} />
+                    <span style={{ width: `${p.annual ? (reaRev / p.annual) * 100 : 0}%`, opacity: 0.34 }} />
+                  </div>
+                  <dl className="ws-loc-card-stats">
+                    <div>
+                      <dt>Monthly avg</dt>
+                      <dd>{lakh(p.annual / 12)}</dd>
+                    </div>
+                    <div>
+                      <dt>Peak month</dt>
+                      <dd>{peakM ? MONTHS_SHORT[peakM.month - 1] : '—'}</dd>
+                    </div>
+                    <div>
+                      <dt>Live offers</dt>
+                      <dd>{offerCount}</dd>
+                    </div>
+                  </dl>
+                  <button
+                    type="button"
+                    className="ws-loc-card-cta"
+                    onClick={() => {
+                      setStudioId(p.studio.id);
+                      setLayout('timeline');
+                    }}
+                  >
+                    Focus {p.studio.name} plan <ChevronRight size={14} />
+                  </button>
+                </article>
+              );
+            })}
           </div>
-          <TableScroll>
-            <table className="data-table ws-table">
-              <thead>
-                <tr>
-                  <th>Location</th>
-                  <th className="num">Annual target</th>
-                  <th className="num">Last year</th>
-                  <th className="num">Growth</th>
-                  <th className="num">Share</th>
-                  <th className="num">Offers</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.plans.map(p => (
-                  <tr key={p.studio.id}>
-                    <td>
-                      <strong>
-                        <i className="ws-dot" style={{ background: LOCATION_COLORS[p.studio.name] }} />
-                        {p.studio.name}
-                      </strong>
-                      <span>{p.studio.city}</span>
-                    </td>
-                    <td className="num">
-                      <strong>{lakh(p.annual)}</strong>
-                    </td>
-                    <td className="num">{lakh(p.lastYear)}</td>
-                    <td className="num">{pct(p.annual, p.lastYear)}</td>
-                    <td className="num">{((p.annual / (data.annual || 1)) * 100).toFixed(0)}%</td>
-                    <td className="num">
-                      {
-                        data.offers.filter(
-                          o =>
-                            LIVE(o) &&
-                            (o.studio_id === p.studio.id ||
-                              (p.studio.name === 'Pop-up' && ['Copper + Cloves', 'Plash Pilates'].includes(o.studio))),
-                        ).length
-                      }
-                    </td>
+
+          <div className="ws-card ws-loc-breakdown-card">
+            <div className="ws-loc-section-head">
+              <div>
+                <h3>Monthly target stack by location</h3>
+                <p>Contribution of each studio toward the {lakh(data.annual)} combined annual plan across all 12 months.</p>
+              </div>
+            </div>
+            <div style={{ height: 340 }}>
+              <ResponsiveContainer>
+                <ComposedChart
+                  data={data.months.map(m => ({
+                    name: MONTHS_SHORT[m.month - 1],
+                    ...Object.fromEntries(m.byStudio.map(s => [s.name, s.target])),
+                  }))}
+                >
+                  <CartesianGrid stroke="#eceaf1" vertical={false} />
+                  <XAxis dataKey="name" tickLine={false} axisLine={false} />
+                  <YAxis
+                    tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`}
+                    tickLine={false}
+                    axisLine={false}
+                    width={56}
+                  />
+                  <Tooltip formatter={(v: any, n: any) => [money(v), n]} />
+                  <Legend />
+                  {data.plans.map((p, i) => (
+                    <Bar
+                      key={p.studio.id}
+                      dataKey={p.studio.name}
+                      stackId="s"
+                      fill={LOCATION_COLORS[p.studio.name]}
+                      radius={i === data.plans.length - 1 ? [5, 5, 0, 0] : 0}
+                    />
+                  ))}
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+            <TableScroll>
+              <table className="data-table ws-table ws-loc-table">
+                <thead>
+                  <tr>
+                    <th>Location</th>
+                    <th className="num">Annual target</th>
+                    <th className="num">Last year</th>
+                    <th className="num">Growth</th>
+                    <th className="num">New clients</th>
+                    <th className="num">Renewals</th>
+                    <th className="num">Reactivation</th>
+                    <th className="num">Share</th>
+                    <th className="num">Offers</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </TableScroll>
+                </thead>
+                <tbody>
+                  {data.plans.map(p => {
+                    const share = data.annual ? Math.round((p.annual / data.annual) * 100) : 0;
+                    const newRev = p.months.reduce((n, m) => n + ((m as any).newClient || 0), 0);
+                    const renRev = p.months.reduce((n, m) => n + ((m as any).renewal || 0), 0);
+                    const reaRev = p.months.reduce((n, m) => n + ((m as any).reactivation || 0), 0);
+                    return (
+                      <tr
+                        key={p.studio.id}
+                        className="clickable-row"
+                        onClick={() => {
+                          setStudioId(p.studio.id);
+                          setLayout('timeline');
+                        }}
+                      >
+                        <td>
+                          <div className="ws-loc-table-cell">
+                            <i className="ws-dot" style={{ background: LOCATION_COLORS[p.studio.name] }} />
+                            <div>
+                              <strong>{p.studio.name}</strong>
+                              <span>{p.studio.city}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="num">
+                          <strong>{lakh(p.annual)}</strong>
+                        </td>
+                        <td className="num">{lakh(p.lastYear)}</td>
+                        <td className={`num ${p.annual >= p.lastYear ? 'positive-text' : 'negative-text'}`}>
+                          {pct(p.annual, p.lastYear)}
+                        </td>
+                        <td className="num">{lakh(newRev)}</td>
+                        <td className="num">{lakh(renRev)}</td>
+                        <td className="num">{lakh(reaRev)}</td>
+                        <td className="num">
+                          <span className="ws-share-inline">{share}%</span>
+                        </td>
+                        <td className="num">
+                          {
+                            data.offers.filter(
+                              o =>
+                                LIVE(o) &&
+                                (o.studio_id === p.studio.id ||
+                                  (p.studio.name === 'Pop-up' && ['Copper + Cloves', 'Plash Pilates'].includes(o.studio))),
+                            ).length
+                          }
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </TableScroll>
+          </div>
         </div>
       )}
 

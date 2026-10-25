@@ -15,44 +15,52 @@ export default function Marquee({
   speed = 40,
   variant = 'light',
   tag = 'LIVE',
+  className = '',
 }: {
   items: MarqueeItem[];
   speed?: number;
-  variant?: 'light' | 'dark';
+  variant?: 'light' | 'dark' | 'minimal';
   tag?: string;
+  className?: string;
 }) {
   const [paused, setPaused] = useState(false);
   if (!items.length) return null;
 
   const renderLane = (hidden: boolean) => (
     <div className="mq-strip-lane" aria-hidden={hidden || undefined}>
-      {items.map((item, i) => (
-        <div key={i} className="mq-strip-cell">
-          {item.onClick ? (
-            <button
-              type="button"
-              className="mq-strip-item is-interactive"
-              onClick={item.onClick}
-              tabIndex={hidden ? -1 : 0}
-            >
-              <span className="mq-strip-label">{item.label}</span>
-              {item.value !== undefined && <strong className="mq-strip-value">{item.value}</strong>}
-            </button>
-          ) : (
-            <div className="mq-strip-item">
-              <span className="mq-strip-label">{item.label}</span>
-              {item.value !== undefined && <strong className="mq-strip-value">{item.value}</strong>}
-            </div>
-          )}
-          <i className="mq-strip-sep" aria-hidden="true" />
-        </div>
-      ))}
+      {items.map((item, i) => {
+        const toneClass = item.tone ? ` is-${item.tone}` : '';
+        return (
+          <div key={i} className="mq-strip-cell">
+            {item.onClick ? (
+              <button
+                type="button"
+                className={`mq-strip-item is-interactive${toneClass}`}
+                onClick={item.onClick}
+                tabIndex={hidden ? -1 : 0}
+              >
+                <span className="mq-strip-label">{item.label}</span>
+                {item.value !== undefined && <strong className="mq-strip-value">{item.value}</strong>}
+                <span className="mq-strip-jump" aria-hidden="true">
+                  ↗
+                </span>
+              </button>
+            ) : (
+              <div className={`mq-strip-item${toneClass}`}>
+                <span className="mq-strip-label">{item.label}</span>
+                {item.value !== undefined && <strong className="mq-strip-value">{item.value}</strong>}
+              </div>
+            )}
+            <i className="mq-strip-sep" aria-hidden="true" />
+          </div>
+        );
+      })}
     </div>
   );
 
   return (
     <div
-      className={`mq-strip mq-strip-${variant}${paused ? ' is-paused' : ''}`}
+      className={`mq-strip mq-strip-${variant}${paused ? ' is-paused' : ''}${className ? ` ${className}` : ''}`}
       role="region"
       aria-label="Key commercial metrics ticker"
       style={{ '--mq-duration': `${Math.max(28, items.length * (60 / speed) * 4.4)}s` } as React.CSSProperties}

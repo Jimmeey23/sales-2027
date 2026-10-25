@@ -32,6 +32,11 @@ export interface MonthRow {
   renewalGap: number;
   projectedExpiries: number;
   bookedExpiries: number;
+  feasibility: 'comfortable' | 'balanced' | 'stretch';
+  stretchPct: number;
+  bottleneck: string | null;
+  clients2026: number;
+  newClients2026: number;
   byStudio: Array<{ id: number; name: string; target: number; leadOffer: string; objective: string }>;
 }
 export interface MonthEconomics {
@@ -70,6 +75,21 @@ export interface MonthEconomics {
     coverage: number | null;
   };
   reactivation: { target: number; ticket: number; needed: number; lapsedPool: number };
+  other?: { target: number };
+  benchmark?: {
+    basis: 'observed_history' | 'empirical_playbook';
+    prior2026Revenue: number | null;
+    prior2026Partial: boolean;
+    prior2026Clients: number | null;
+    prior2026NewClients: number | null;
+    planPoolLeads: number;
+    planPoolTrials: number;
+    planPoolExpiries: number;
+    planPoolLapsed: number;
+    feasibility: 'comfortable' | 'balanced' | 'stretch';
+    stretchPct: number;
+    bottleneck: string | null;
+  };
   alternates: Array<{ key: string; name: string; logic: string; units: number; revenue: number }>;
 }
 export interface Economics {
@@ -117,46 +137,62 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
     const target = targetOf(t),
       scale = t && num(t.proposed_target) ? target / num(t.proposed_target) : 1;
     let renewal = num(t?.renewal_target) * scale,
-      reactivation = num(t?.reactivation_target) * scale;
-    const nonNew = renewal + reactivation;
+      reactivation = num(t?.reactivation_target) * scale,
+      other = num(t?.other_target) * scale;
+    const nonNew = renewal + reactivation + other;
     if (nonNew > target && nonNew > 0) {
       const factor = target / nonNew;
       renewal *= factor;
       reactivation *= factor;
+      other *= factor;
     }
+    const newClient = Math.max(0, target - renewal - reactivation - other);
     const leadOffer = pb.leadOffer || src?.offer || plan?.theme || detail.themes?.[month] || MONTH_ACTIVATIONS[i];
     const objective = pb.objective || src?.objective || plan?.objective || MONTH_THEMES[i];
-    // Volumes come from the bottom-up economics (history-based spend and conversion), not the imported playbook.
+    // Bottom-up economics take priority when unit economics are resolved; fall back to stored funnel/playbook counts if ever zeroed.
     const e = economics.months[i];
+    const fallbackBuyers = num(f.requiredNewBuyers ?? pb.buyers ?? src?.buyers ?? wb.newPaying);
+    const fallbackTrials = num(f.requiredCompletedTrials ?? pb.trials ?? src?.trials ?? wb.trials);
+    const fallbackLeads = num(f.requiredLeads ?? pb.leads ?? src?.leads ?? wb.leads);
+    const fallbackRenDue = num(pb.renewalsDue ?? src?.renewalsDue ?? wb.renewalsDue);
+    const fallbackRenPurchases = num(pb.renewalPurchases ?? src?.renewalPurchases ?? wb.renewalPurchases ?? wb.existingPaying);
+    const fallbackReactivated = num(pb.reactivated ?? src?.reactivated ?? wb.reactivated);
+    const fallbackLapsed = num(pb.lapsedTouches ?? src?.lapsedTouches ?? wb.lapsedTouches);
+    const hasNewEcon = Boolean(e && e.newClient.firstSpend > 0);
+    const hasRenEcon = Boolean(e && e.renewal.ticket > 0);
+    const hasReactEcon = Boolean(e && e.reactivation.ticket > 0);
     return {
       month,
       target,
       approved: t?.approved_target !== null && t?.approved_target !== undefined,
       planApproved: plan?.status === 'approved',
-      lastYear: num(t?.historical_revenue),
+      lastYear: num(t?.historical_revenue || e?.benchmark?.prior2026Revenue),
       actual: num(detail.actuals.find((x: any) => x.month === month)?.revenue),
-      newClient: Math.max(0, target - renewal - reactivation),
+      newClient,
       renewal,
       reactivation,
-      other: 0,
-      leads: e ? e.newClient.leads : num(f.requiredLeads ?? wb.leads),
-      trials: e ? e.newClient.trials : num(f.requiredCompletedTrials ?? wb.trials),
-      buyers: e ? e.newClient.buyers : num(f.requiredNewBuyers ?? wb.newPaying),
+      other,
+      leads: hasNewEcon && e.newClient.leads > 0 ? e.newClient.leads : fallbackLeads,
+      trials: hasNewEcon && e.newClient.trials > 0 ? e.newClient.trials : fallbackTrials,
+      buyers: hasNewEcon && e.newClient.buyers > 0 ? e.newClient.buyers : fallbackBuyers,
       transactions: num(t?.target_transactions),
-      renewalsDue: e ? e.renewal.projectedExpiries : num(pb.renewalsDue ?? src?.renewalsDue),
-      renewalPurchases: e
-        ? e.renewal.renewersNeeded
-        : num(pb.renewalPurchases ?? src?.renewalPurchases ?? wb.existingPaying),
-      reactivated: e ? e.reactivation.needed : num(pb.reactivated ?? src?.reactivated),
-      lapsedTouches: num(pb.lapsedTouches ?? src?.lapsedTouches),
+      renewalsDue: e && e.renewal.projectedExpiries > 0 ? e.renewal.projectedExpiries : fallbackRenDue,
+      renewalPurchases: hasRenEcon && e.renewal.renewersNeeded > 0 ? e.renewal.renewersNeeded : fallbackRenPurchases,
+      reactivated: hasReactEcon && e.reactivation.needed > 0 ? e.reactivation.needed : fallbackReactivated,
+      lapsedTouches: e && e.reactivation.lapsedPool > 0 ? e.reactivation.lapsedPool : fallbackLapsed,
       objective,
       leadOffer,
       theme: plan?.theme || detail.themes?.[month] || MONTH_THEMES[i],
-      renewalTarget: e?.renewal.target || 0,
+      renewalTarget: e?.renewal.target ?? renewal,
       expectedRenewal: e?.renewal.expected || 0,
       renewalGap: e?.renewal.gap || 0,
-      projectedExpiries: e?.renewal.projectedExpiries || 0,
+      projectedExpiries: e?.renewal.projectedExpiries || fallbackRenDue,
       bookedExpiries: e?.renewal.bookedExpiries || 0,
+      feasibility: e?.benchmark?.feasibility || 'balanced',
+      stretchPct: e?.benchmark?.stretchPct ?? 0,
+      bottleneck: e?.benchmark?.bottleneck || null,
+      clients2026: e?.benchmark?.prior2026Clients || 0,
+      newClients2026: e?.benchmark?.prior2026NewClients || 0,
       byStudio: [{ id: studio.id, name: studio.name, target, leadOffer, objective }],
     };
   });
@@ -166,32 +202,47 @@ function combine(rows: MonthRow[][]): MonthRow[] {
   return Array.from({ length: 12 }, (_, i) =>
     rows
       .map(r => r[i])
-      .reduce((sum, r) => ({
-        ...sum,
-        target: sum.target + r.target,
-        approved: sum.approved && r.approved,
-        planApproved: sum.planApproved && r.planApproved,
-        lastYear: sum.lastYear + r.lastYear,
-        actual: sum.actual + r.actual,
-        newClient: sum.newClient + r.newClient,
-        renewal: sum.renewal + r.renewal,
-        reactivation: sum.reactivation + r.reactivation,
-        other: sum.other + r.other,
-        leads: sum.leads + r.leads,
-        trials: sum.trials + r.trials,
-        buyers: sum.buyers + r.buyers,
-        transactions: sum.transactions + r.transactions,
-        renewalsDue: sum.renewalsDue + r.renewalsDue,
-        renewalPurchases: sum.renewalPurchases + r.renewalPurchases,
-        reactivated: sum.reactivated + r.reactivated,
-        lapsedTouches: sum.lapsedTouches + r.lapsedTouches,
-        renewalTarget: sum.renewalTarget + r.renewalTarget,
-        expectedRenewal: sum.expectedRenewal + r.expectedRenewal,
-        renewalGap: sum.renewalGap + r.renewalGap,
-        projectedExpiries: sum.projectedExpiries + r.projectedExpiries,
-        bookedExpiries: sum.bookedExpiries + r.bookedExpiries,
-        byStudio: [...sum.byStudio, ...r.byStudio],
-      })),
+      .reduce((sum, r) => {
+        const nextLastYear = sum.lastYear + r.lastYear;
+        const nextTarget = sum.target + r.target;
+        const worstFeasibility: MonthRow['feasibility'] =
+          sum.feasibility === 'stretch' || r.feasibility === 'stretch'
+            ? 'stretch'
+            : sum.feasibility === 'balanced' || r.feasibility === 'balanced'
+              ? 'balanced'
+              : 'comfortable';
+        return {
+          ...sum,
+          target: nextTarget,
+          approved: sum.approved && r.approved,
+          planApproved: sum.planApproved && r.planApproved,
+          lastYear: nextLastYear,
+          actual: sum.actual + r.actual,
+          newClient: sum.newClient + r.newClient,
+          renewal: sum.renewal + r.renewal,
+          reactivation: sum.reactivation + r.reactivation,
+          other: sum.other + r.other,
+          leads: sum.leads + r.leads,
+          trials: sum.trials + r.trials,
+          buyers: sum.buyers + r.buyers,
+          transactions: sum.transactions + r.transactions,
+          renewalsDue: sum.renewalsDue + r.renewalsDue,
+          renewalPurchases: sum.renewalPurchases + r.renewalPurchases,
+          reactivated: sum.reactivated + r.reactivated,
+          lapsedTouches: sum.lapsedTouches + r.lapsedTouches,
+          renewalTarget: sum.renewalTarget + r.renewalTarget,
+          expectedRenewal: sum.expectedRenewal + r.expectedRenewal,
+          renewalGap: sum.renewalGap + r.renewalGap,
+          projectedExpiries: sum.projectedExpiries + r.projectedExpiries,
+          bookedExpiries: sum.bookedExpiries + r.bookedExpiries,
+          feasibility: worstFeasibility,
+          stretchPct: nextLastYear > 0 ? Math.round(((nextTarget - nextLastYear) / nextLastYear) * 100) : sum.stretchPct,
+          bottleneck: sum.bottleneck || r.bottleneck,
+          clients2026: sum.clients2026 + r.clients2026,
+          newClients2026: sum.newClients2026 + r.newClients2026,
+          byStudio: [...sum.byStudio, ...r.byStudio],
+        };
+      }),
   );
 }
 

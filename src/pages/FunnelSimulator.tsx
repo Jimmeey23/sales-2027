@@ -59,8 +59,8 @@ export default function FunnelSimulator() {
     setInput((current: any) => ({
       ...current,
       revenueTarget: t?.approved_target ?? t?.proposed_target ?? 0,
-      revenueAchieved: a?.revenue || 0,
-      existingClientRevenue: t?.repeat_target || 0,
+      revenueAchieved: year <= 2026 ? a?.revenue || 0 : 0,
+      existingClientRevenue: (t?.repeat_target || 0) + (t?.other_target || 0),
       renewalRevenue: t?.renewal_target || 0,
       reactivationRevenue: t?.reactivation_target || 0,
       averageFirstPurchase: t?.assumptions.averageFirstPurchase || t?.expected_aov || 0,
