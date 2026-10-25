@@ -5,6 +5,8 @@ import path from 'node:path';
 import { db, initSchema } from './db.js';
 import { authenticate, requireAuth, verifyPassword } from './lib/auth.js';
 import { ensureCommercialSeed } from './lib/commercialSeed.js';
+import { ensureBaselineData, ensureHistoricalCohorts } from './lib/historicalBaseline.js';
+import { recalculateSegments } from './lib/segments.js';
 import { flushOutbox, pullRemoteChanges, startSupabaseSync } from './lib/supabaseSync.js';
 import registerAuthRoutes from './routes/auth.js';
 import registerWorkspaceRoutes from './routes/workspace.js';
@@ -25,19 +27,29 @@ if (process.env.NODE_ENV === 'production') {
   if (sharedDemoAccounts.length)
     throw new Error(`Refusing production startup while ${sharedDemoAccounts.length} active seeded account(s) still use the shared demonstration password. Rotate or disable them first.`);
 }
+ensureBaselineData();
 ensureCommercialSeed();
 // Load planning data from Supabase (or migrate it there on first run) before serving requests.
 // Called once per process: by server/main.ts locally and by api/index.ts on Vercel.
 let initialising: Promise<void> | null = null;
 export function initApp() {
   return (initialising ||= startSupabaseSync().then(counts => {
-    if (counts)
+    if (counts) {
       console.log(
         'Supabase sync ready:',
         Object.entries(counts)
           .map(([t, c]) => `${t} ${c.action} ${c.local}`)
           .join(' · '),
       );
+      // Supabase syncs planning tables only; ensure local historical cohorts & lifecycle segments remain populated.
+      const adminId =
+        Number((db.prepare("SELECT id FROM users WHERE role='administrator' AND active=1 ORDER BY id LIMIT 1").get() as any)?.id || 0) ||
+        null;
+      ensureHistoricalCohorts(adminId);
+      if (Number((db.prepare('SELECT COUNT(*) n FROM segment_snapshots').get() as any)?.n || 0) === 0) {
+        recalculateSegments();
+      }
+    }
   }));
 }
 const app = express();

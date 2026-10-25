@@ -11,8 +11,16 @@ import { recalculateSegments } from './lib/segments.js';
 import { calculateOffer } from './lib/calculations.js';
 import { importCheckinsFile } from './lib/checkins.js';
 import { ensureCommercialSeed } from './lib/commercialSeed.js';
+import { ensureBaselineData } from './lib/historicalBaseline.js';
 
 initSchema();
+const uploadDir = path.resolve('uploads');
+if (!fs.existsSync(path.join(uploadDir, 'Sales - Raw - Sales (24).csv'))) {
+  console.log('Raw CSV upload folder not present; hydrating bundled 2025–2026 historical baseline and 2027 commercial plan…');
+  const result = ensureBaselineData();
+  console.log('Baseline ready:', result);
+  process.exit(0);
+}
 const existing = Number((db.prepare('SELECT COUNT(*) n FROM transactions').get() as any).n);
 if (existing > 0 && process.env.FORCE_SEED !== 'true') {
   console.log(
@@ -30,7 +38,6 @@ if (existing > 0) {
     DELETE FROM settings WHERE key IN ('commercial_seed_version','commercial_seed_report'); DELETE FROM sqlite_sequence;`);
 }
 
-const uploadDir = path.resolve('uploads');
 const hashSalt = process.env.MEMBER_HASH_SALT || 'p57-local-demonstration-salt';
 const ref = (value: unknown) =>
   crypto

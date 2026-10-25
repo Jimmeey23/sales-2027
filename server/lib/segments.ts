@@ -1,4 +1,5 @@
 import { db } from '../db.js';
+import { studioScopeIds } from './studios.js';
 
 const DEFINITIONS: Record<string, { name: string; recommendation: string; incentive: string; response: number }> = {
   new_leads: {
@@ -87,6 +88,8 @@ export function recalculateSegments(studioId?: number) {
     recommendation=excluded.recommendation,evidence=excluded.evidence,limitations=excluded.limitations,calculated_at=CURRENT_TIMESTAMP`);
   const run = db.transaction(() => {
     for (const studio of studios) {
+      const scopeIds = studioScopeIds(db, studio.id);
+      const inClause = `studio_id IN (${scopeIds.map(() => '?').join(',')})`;
       const ids: Record<string, Set<string>> = Object.fromEntries(
         Object.keys(DEFINITIONS).map(key => [key, new Set<string>()]),
       );
@@ -98,85 +101,85 @@ export function recalculateSegments(studioId?: number) {
         'new_leads',
         db
           .prepare(
-            `SELECT member_ref,COALESCE(source_uid,'') member_ref FROM leads WHERE studio_id=? AND converted_at IS NULL AND created_at>=date('now','-90 days') AND stage IN ('Open','Trial Scheduled','Sent Introductory message')`,
+            `SELECT member_ref,COALESCE(source_uid,'') member_ref FROM leads WHERE ${inClause} AND converted_at IS NULL AND created_at>=date('now','-90 days') AND stage IN ('Open','Trial Scheduled','Sent Introductory message')`,
           )
-          .all(studio.id),
+          .all(...scopeIds),
       );
       add(
         'unconverted_trials',
         db
           .prepare(
-            `SELECT member_ref FROM member_visits WHERE studio_id=? AND first_purchase_at IS NULL AND first_visit_at>=date('now','-180 days')`,
+            `SELECT member_ref FROM member_visits WHERE ${inClause} AND first_purchase_at IS NULL AND first_visit_at>=date('now','-180 days')`,
           )
-          .all(studio.id),
+          .all(...scopeIds),
       );
       add(
         'first_time_purchasers',
         db
           .prepare(
-            `SELECT DISTINCT member_ref FROM transactions WHERE studio_id=? AND is_first_observed=1 AND purchased_at>=date('now','-90 days')`,
+            `SELECT DISTINCT member_ref FROM transactions WHERE ${inClause} AND is_first_observed=1 AND purchased_at>=date('now','-90 days')`,
           )
-          .all(studio.id),
+          .all(...scopeIds),
       );
       add(
         'active_customers',
         db
           .prepare(
-            `SELECT DISTINCT member_ref FROM customer_packages WHERE studio_id=? AND end_date>=date('now') AND status NOT IN ('Lapsed','Not Activated')`,
+            `SELECT DISTINCT member_ref FROM customer_packages WHERE ${inClause} AND end_date>=date('now') AND status NOT IN ('Lapsed','Not Activated')`,
           )
-          .all(studio.id),
+          .all(...scopeIds),
       );
       add(
         'frequent_purchasers',
         db
-          .prepare(`SELECT member_ref FROM transactions WHERE studio_id=? GROUP BY member_ref HAVING COUNT(*)>=?`)
-          .all(studio.id, rules.frequent_purchase_count),
+          .prepare(`SELECT member_ref FROM transactions WHERE ${inClause} GROUP BY member_ref HAVING COUNT(*)>=?`)
+          .all(...scopeIds, rules.frequent_purchase_count),
       );
       add(
         'approaching_expiry',
         db
           .prepare(
-            `SELECT DISTINCT member_ref FROM customer_packages WHERE studio_id=? AND end_date BETWEEN date('now') AND date('now','+'||?||' days') AND status NOT IN ('Lapsed','Not Activated')`,
+            `SELECT DISTINCT member_ref FROM customer_packages WHERE ${inClause} AND end_date BETWEEN date('now') AND date('now','+'||?||' days') AND status NOT IN ('Lapsed','Not Activated')`,
           )
-          .all(studio.id, rules.expiry_days),
+          .all(...scopeIds, rules.expiry_days),
       );
       add(
         'recently_lapsed',
         db
           .prepare(
-            `SELECT DISTINCT member_ref FROM customer_packages WHERE studio_id=? AND status='Lapsed' AND COALESCE(churned_date,end_date) BETWEEN date('now','-'||?||' days') AND date('now')`,
+            `SELECT DISTINCT member_ref FROM customer_packages WHERE ${inClause} AND status='Lapsed' AND COALESCE(churned_date,end_date) BETWEEN date('now','-'||?||' days') AND date('now')`,
           )
-          .all(studio.id, rules.recently_lapsed_days),
+          .all(...scopeIds, rules.recently_lapsed_days),
       );
       add(
         'long_lapsed',
         db
           .prepare(
-            `SELECT DISTINCT member_ref FROM customer_packages WHERE studio_id=? AND status='Lapsed' AND COALESCE(churned_date,end_date)<date('now','-'||?||' days')`,
+            `SELECT DISTINCT member_ref FROM customer_packages WHERE ${inClause} AND status='Lapsed' AND COALESCE(churned_date,end_date)<date('now','-'||?||' days')`,
           )
-          .all(studio.id, rules.long_lapsed_days),
+          .all(...scopeIds, rules.long_lapsed_days),
       );
       add(
         'promotion_sensitive',
         db
           .prepare(
-            `SELECT member_ref FROM transactions WHERE studio_id=? GROUP BY member_ref HAVING COUNT(*)>=2 AND 1.0*SUM(CASE WHEN discount_amount>0 THEN 1 ELSE 0 END)/COUNT(*)>=?`,
+            `SELECT member_ref FROM transactions WHERE ${inClause} GROUP BY member_ref HAVING COUNT(*)>=2 AND 1.0*SUM(CASE WHEN discount_amount>0 THEN 1 ELSE 0 END)/COUNT(*)>=?`,
           )
-          .all(studio.id, rules.promo_sensitivity_threshold),
+          .all(...scopeIds, rules.promo_sensitivity_threshold),
       );
       add(
         'reactivated',
         db
           .prepare(
-            `SELECT DISTINCT member_ref FROM transactions WHERE studio_id=? AND revenue_stream='reactivation' AND purchased_at>=date('now','-90 days')`,
+            `SELECT DISTINCT member_ref FROM transactions WHERE ${inClause} AND revenue_stream='reactivation' AND purchased_at>=date('now','-90 days')`,
           )
-          .all(studio.id),
+          .all(...scopeIds),
       );
       const values = db
         .prepare(
-          'SELECT member_ref,SUM(amount) value FROM transactions WHERE studio_id=? GROUP BY member_ref ORDER BY value DESC',
+          `SELECT member_ref,SUM(amount) value FROM transactions WHERE ${inClause} GROUP BY member_ref ORDER BY value DESC`,
         )
-        .all(studio.id) as any[];
+        .all(...scopeIds) as any[];
       if (values.length) {
         const rank = Math.max(0, Math.floor(values.length * (1 - rules.high_value_percentile / 100)));
         const threshold = values[Math.min(rank, values.length - 1)].value;
@@ -190,9 +193,9 @@ export function recalculateSegments(studioId?: number) {
           const placeholders = refs.map(() => '?').join(',');
           const rows = db
             .prepare(
-              `SELECT member_ref,SUM(amount) total,COUNT(*) purchases FROM transactions WHERE studio_id=? AND member_ref IN (${placeholders}) GROUP BY member_ref`,
+              `SELECT member_ref,SUM(amount) total,COUNT(*) purchases FROM transactions WHERE ${inClause} AND member_ref IN (${placeholders}) GROUP BY member_ref`,
             )
-            .all(studio.id, ...refs) as any[];
+            .all(...scopeIds, ...refs) as any[];
           if (rows.length) averageSpend = rows.reduce((sum, row) => sum + row.total / row.purchases, 0) / rows.length;
         }
         const expected = averageSpend && audience ? audience * definition.response * averageSpend : null;

@@ -26,6 +26,23 @@ export const STUDIO_DEFINITIONS = [
   { name: 'Outdoor / Unassigned', code: 'OUT', city: 'Unspecified', aliases: ['Out Door', 'Physique 57 India'] },
 ];
 
+export const POPUP_PARENT_NAME = 'Pop-up';
+export const POPUP_VENUE_NAMES = ['Copper + Cloves', 'Plash Pilates'] as const;
+
+export function studioScopeIds(db: { prepare: (sql: string) => any }, studioId: number): number[] {
+  const studio = db.prepare('SELECT id, name FROM studios WHERE id=?').get(studioId) as
+    | { id: number; name: string }
+    | undefined;
+  if (!studio) return [studioId];
+  if (studio.name !== POPUP_PARENT_NAME) return [studio.id];
+  const children = (
+    db
+      .prepare(`SELECT id FROM studios WHERE name IN (${POPUP_VENUE_NAMES.map(() => '?').join(',')})`)
+      .all(...POPUP_VENUE_NAMES) as Array<{ id: number }>
+  ).map(row => row.id);
+  return [...new Set([studio.id, ...children])];
+}
+
 export function canonicalStudio(value: unknown): string | null {
   const text = String(value ?? '')
     .trim()

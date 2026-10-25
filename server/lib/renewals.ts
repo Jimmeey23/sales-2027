@@ -1,4 +1,5 @@
 import { db } from '../db.js';
+import { studioScopeIds } from './studios.js';
 
 const OPEN_STATUSES = ['Active', 'New', 'Frozen'];
 function validMonth(value: string) {
@@ -27,8 +28,10 @@ export function renewalReport(
     throw Object.assign(new Error('Renewal conversion assumption must be between 0% and 100%.'), { status: 400 });
   const month = rawMonth,
     { start, end } = monthBounds(month);
-  const studioWhere = studioId ? 'AND cp.studio_id=?' : '',
-    params = studioId ? [studioId] : [];
+  const scopeIds = studioId ? studioScopeIds(db, studioId) : [];
+  const studioWhere = scopeIds.length ? `AND cp.studio_id IN (${scopeIds.map(() => '?').join(',')})` : '',
+    txStudioWhere = scopeIds.length ? `AND studio_id IN (${scopeIds.map(() => '?').join(',')})` : '',
+    params = scopeIds;
   const rows = db
     .prepare(
       `SELECT cp.id,cp.studio_id,cp.status,cp.product_name,cp.end_date,cp.amount,cp.original_amount,p.id product_id,p.list_price,p.source price_source,s.name studio
@@ -77,13 +80,13 @@ export function renewalReport(
   const historical = db
     .prepare(
       `SELECT month,SUM(amount) revenue,COUNT(*) transactions,COUNT(DISTINCT member_ref) members
-    FROM transactions WHERE revenue_stream='renewal' ${studioId ? 'AND studio_id=?' : ''} AND month>=? AND month<=? GROUP BY month ORDER BY month`,
+    FROM transactions WHERE revenue_stream='renewal' ${txStudioWhere} AND month>=? AND month<=? GROUP BY month ORDER BY month`,
     )
-    .all(...(studioId ? [studioId] : []), nextMonth(month, -11), month) as any[];
+    .all(...params, nextMonth(month, -11), month) as any[];
   const selectedActual = db
     .prepare(
       `SELECT COALESCE(SUM(amount),0) revenue,COUNT(*) transactions,COUNT(DISTINCT member_ref) members FROM transactions
-    WHERE revenue_stream='renewal' AND month=? ${studioId ? 'AND studio_id=?' : ''}`,
+    WHERE revenue_stream='renewal' AND month=? ${txStudioWhere}`,
     )
     .get(month, ...params) as any;
   const upcoming = Array.from({ length: 6 }, (_, index) => {
@@ -92,7 +95,7 @@ export function renewalReport(
     const row = db
       .prepare(
         `SELECT COUNT(*) due_packages,COALESCE(SUM(CASE WHEN amount>0 THEN amount ELSE 0 END),0) paid_due_value
-      FROM customer_packages cp WHERE cp.end_date>=? AND cp.end_date<? AND cp.status IN ('Active','New','Frozen') ${studioId ? 'AND cp.studio_id=?' : ''}`,
+      FROM customer_packages cp WHERE cp.end_date>=? AND cp.end_date<? AND cp.status IN ('Active','New','Frozen') ${studioWhere}`,
       )
       .get(bounds.start, bounds.end, ...params) as any;
     return { month: key, ...row };
@@ -106,7 +109,7 @@ export function renewalReport(
     SUM(CASE WHEN end_date>? THEN 1 ELSE 0 END) outlier_end_dates,
     SUM(CASE WHEN amount<0 THEN 1 ELSE 0 END) negative_amount_rows,
     SUM(CASE WHEN amount=0 THEN 1 ELSE 0 END) zero_amount_rows,
-    COUNT(*) total_packages FROM customer_packages cp WHERE 1=1 ${studioId ? 'AND cp.studio_id=?' : ''}`,
+    COUNT(*) total_packages FROM customer_packages cp WHERE 1=1 ${studioWhere}`,
     )
     .get(outlierBefore, ...params) as any;
   return {

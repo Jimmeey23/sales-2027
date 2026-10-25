@@ -74,7 +74,7 @@ export default function registerTargetsRoutes(app: Express) {
       totals,
       aggressiveHighest:
         totals[2].annualTarget >= totals[1].annualTarget && totals[2].annualTarget >= totals[0].annualTarget,
-      note: 'Read-only scenario preview. No target, approval, baseline forecast, or version was changed. Kemps retains seasonal monthly values within the directed ₹30–40L guardrail.',
+      note: 'Read-only scenario preview. No target, approval, baseline forecast, or version was changed. Kemps retains seasonal monthly values within the directed ₹20–60L guardrail (₹35L/mo average).',
     });
   });
   app.post('/api/targets/generate', permission('target_edit'), (req, res) => {
@@ -168,7 +168,7 @@ export default function registerTargetsRoutes(app: Express) {
     const funnel = calculateFunnel({
       revenueTarget: selected,
       revenueAchieved: 0,
-      existingClientRevenue: streams.repeat,
+      existingClientRevenue: streams.repeat + other,
       renewalRevenue: streams.renewal,
       reactivationRevenue: streams.reactivation,
       averageFirstPurchase: Number(

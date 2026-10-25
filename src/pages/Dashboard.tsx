@@ -49,9 +49,9 @@ import PageHeader from '../components/PageHeader';
 
 const COLORS = ['#6857e5', '#a9a0ef', '#f4a261', '#ee7d9b'];
 export default function Dashboard() {
-  const { studioId, boot, year } = useApp();
+  const { studioId, boot, year, setYear } = useApp();
   const navigate = useNavigate();
-  const [month, setMonth] = useState(new Date().getMonth() + 1),
+  const [month, setMonth] = useState(() => (year <= 2026 ? 9 : 1)),
     [city, setCity] = useState('all'),
     [status, setStatus] = useState('all'),
     [campaign, setCampaign] = useState('all');
@@ -69,6 +69,7 @@ export default function Dashboard() {
     () =>
       data?.rows.filter(
         (r: any) =>
+          (Number(r.actual?.revenue || 0) > 0 || Number(r.target_value || 0) > 0 || Number(r.prior_revenue || 0) > 0) &&
           (city === 'all' || r.studio.city === city) &&
           (status === 'all' || r.status === status) &&
           (campaign === 'all' ||
@@ -77,7 +78,11 @@ export default function Dashboard() {
     [data, city, status, campaign, campaignData],
   );
   const monthTotals = useMemo(() => {
-    const monthlyRows = data?.rows || [];
+    const rawRows: any[] = data?.rows || [];
+    const hasPopupRollup = rawRows.some(r => r.studio?.name === 'Pop-up');
+    const monthlyRows = hasPopupRollup
+      ? rawRows.filter(r => r.studio?.name !== 'Copper + Cloves' && r.studio?.name !== 'Plash Pilates')
+      : rawRows;
     const sum = (key: string) =>
       monthlyRows.reduce((total: number, row: any) => total + Number(row.actual?.[key] || 0), 0);
     const revenue = sum('revenue'),
@@ -136,6 +141,25 @@ export default function Dashboard() {
         }
         actions={
           <div className="filter-row">
+            <div className="ws-segmented" role="group" aria-label="Control centre horizon">
+              <button
+                type="button"
+                className={year === 2026 ? 'active' : ''}
+                onClick={() => {
+                  setYear(2026);
+                  if (month > 10) setMonth(9);
+                }}
+              >
+                2026 Actuals
+              </button>
+              <button
+                type="button"
+                className={year === 2027 ? 'active' : ''}
+                onClick={() => setYear(2027)}
+              >
+                2027 Plan
+              </button>
+            </div>
             <Select aria-label="Snapshot month" value={month} onChange={e => setMonth(Number(e.target.value))}>
               {MONTHS.map((m, i) => (
                 <option key={m} value={i + 1}>
@@ -149,6 +173,28 @@ export default function Dashboard() {
           </div>
         }
       />
+      {year > 2026 && k.achieved === 0 && (
+        <Callout tone="info" title={`Viewing ${year} forward planning targets (no ${year} sales actuals recorded yet)`}>
+          Imported sales actuals run through <strong>{data.coverage.sales.last?.slice(0, 10) || '2026-10'}</strong>.
+          Switch to <strong>2026 Actuals</strong> above to inspect observed YTD performance, or open{' '}
+          <button
+            type="button"
+            onClick={() => navigate('/insights')}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              color: 'inherit',
+              textDecoration: 'underline',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            Studio Insights
+          </button>{' '}
+          for the 2026 → 2027 commercial bridge.
+        </Callout>
+      )}
       <section className="commercial-flow" aria-label="Commercial planning workflow">
         <div className="commercial-flow-heading">
           <div>

@@ -16,7 +16,7 @@ export const WORKBOOK_SOURCE = 'Bengaluru_Sales_Plan_2027.xlsx · 2027 Targets';
 export const POPUP_PARENT = 'Pop-up';
 export const POPUP_CHILDREN = ['Copper + Cloves', 'Plash Pilates'];
 // The workbook only reports the pop-ups combined; this split is an editable planning assumption.
-const POPUP_SPLIT: Record<string, number> = { 'Copper + Cloves': 0.5, 'Plash Pilates': 0.5 };
+export const POPUP_SPLIT: Record<string, number> = { 'Copper + Cloves': 0.5, 'Plash Pilates': 0.5 };
 
 // Mumbai studios follow the playbook PDF (annual stream totals ₹ lakh, booking→attendance proxy).
 const MUMBAI_META: Record<
@@ -140,6 +140,13 @@ function writeTarget(
 export function applyPlanTargets(year: number, userId: number | null) {
   const actuals = readJson('actuals-2026-by-studio.json');
   const bengaluru = readJson('bengaluru-plan-2027.json');
+  const salesOfferPlan = readJson('sales-offer-plan-2027.json') as any[];
+  const parseArrowPair = (raw: unknown): [number, number] => {
+    const parts = String(raw || '')
+      .split('→')
+      .map(s => Number(s.replace(/[^0-9.]/g, '').trim()));
+    return [Number.isFinite(parts[0]) ? parts[0] : 0, Number.isFinite(parts[1]) ? parts[1] : 0];
+  };
   const studio = (name: string) => db.prepare('SELECT * FROM studios WHERE name=?').get(name) as any;
   const results: any[] = [];
   const tx = db.transaction(() => {
@@ -147,6 +154,8 @@ export function applyPlanTargets(year: number, userId: number | null) {
     for (const studioName of Object.keys(MUMBAI_META)) {
       const s = studio(studioName);
       if (!s) continue;
+      const hasCheckins =
+        Number((db.prepare('SELECT COUNT(*) n FROM checkins WHERE studio_id=?').get(s.id) as any)?.n || 0) > 0;
       const meta = MUMBAI_META[studioName],
         pb = PLAYBOOKS_2027[studioName];
       let annual = 0;
@@ -181,14 +190,22 @@ export function applyPlanTargets(year: number, userId: number | null) {
         };
         const prior = actuals[meta.dataModelId]?.[month];
         const before = db
-          .prepare('SELECT assumptions FROM monthly_targets WHERE studio_id=? AND year=? AND month=?')
+          .prepare('SELECT baseline_forecast, assumptions FROM monthly_targets WHERE studio_id=? AND year=? AND month=?')
           .get(s.id, year, month) as any;
         const previous = before ? JSON.parse(before.assumptions || '{}') : {};
+        const baselineForecast =
+          Number(before?.baseline_forecast) > 0 ? Number(before.baseline_forecast) : Math.round(m.revenueL * L);
         const assumptions = {
           ...previous,
           planSource: PLAN_SOURCE,
           bengaluruWorkbook: undefined,
           scenarioRange: undefined,
+          conversionSources: {
+            ...(previous.conversionSources || {}),
+            bookingToAttendanceRate: hasCheckins
+              ? 'checkins_historical_all_bookings'
+              : previous.conversionSources?.bookingToAttendanceRate || 'playbook_attendance_proxy',
+          },
           scenarioExplanation:
             studioName === 'Kemps Corner'
               ? 'Playbook seasonality rescaled to the user-directed Kemps Corner guardrail: about ₹35L a month on average, each month between ₹20L and ₹60L.'
@@ -216,7 +233,7 @@ export function applyPlanTargets(year: number, userId: number | null) {
                   minimumTarget: KEMPS_GUARDRAIL.min,
                   maximumTarget: KEMPS_GUARDRAIL.max,
                   averageTarget: KEMPS_GUARDRAIL.average,
-                  preAdjustmentTarget: previous.rentAdjustment?.preAdjustmentTarget ?? m.revenueL * L,
+                  preAdjustmentTarget: previous.rentAdjustment?.preAdjustmentTarget ?? baselineForecast,
                   source: 'user_directed_planning_assumption',
                   reason:
                     'Kwality House rent increases from January 2027. User-directed guardrail: about ₹35L a month on average, each month ₹20–60L.',
@@ -232,6 +249,7 @@ export function applyPlanTargets(year: number, userId: number | null) {
           {
             scenario: 'base',
             historical_revenue: prior?.net ?? null,
+            baseline_forecast: baselineForecast,
             proposed_target: target,
             target_growth: prior?.net ? Math.round((target / prior.net - 1) * 1000) / 10 : null,
             new_client_target: streams.new,
@@ -253,14 +271,31 @@ export function applyPlanTargets(year: number, userId: number | null) {
       }
       results.push({ studio: studioName, annual });
     }
-    // Bengaluru: workbook targets only. Kenkere directly; the pop-up venues get their share and Pop-up is their sum.
-    const bengaluruRow = (w: any, share: number, label: string) => {
+    // Bengaluru: workbook targets + empirical non-new stream allocation from the 2027 Sales & Offer Plan.
+    const bengaluruRow = (planStudio: string, month: number, w: any, share: number, label: string) => {
       const target = w.target * share,
         newRevenue = w.newRevenue * share,
         existing = w.existingRevenue * share;
+      const sopEntry = salesOfferPlan.find(x => x.studio === planStudio && Number(x.month) === month);
+      const sopPlan = sopEntry?.plan || {};
+      const sopRenewal = Number(sopPlan['Renewal plan']) || 0;
+      const sopReact = Number(sopPlan['Reactivation plan']) || 0;
+      const sopOther = Number(sopPlan['Drop-ins, privates, retail']) || 0;
+      const sopNonNew = sopRenewal + sopReact + sopOther;
+      const renewalRevenue = sopNonNew > 0 ? existing * (sopRenewal / sopNonNew) : existing * 0.72;
+      const reactivationRevenue = sopNonNew > 0 ? existing * (sopReact / sopNonNew) : existing * 0.14;
+      const otherRevenue = Math.max(0, existing - renewalRevenue - reactivationRevenue);
+      const [sopDue, sopRenPurchases] = parseArrowPair(
+        sopPlan['Renewals due → purchases'] ?? sopPlan['Regulars → pack buys'],
+      );
+      const [sopLapsedPool, sopReactivated] = parseArrowPair(sopPlan['Lapsed touches → reactivated']);
       const leads = Math.round(w.leads * share),
         trials = Math.round(w.trials * share),
-        newPaying = Math.round(w.newPaying * share);
+        newPaying = Math.round(w.newPaying * share),
+        renewalsDue = Math.round(sopDue * share),
+        renewalPurchases = Math.max(1, Math.round((sopRenPurchases || w.existingPaying * 0.72) * share)),
+        lapsedTouches = Math.round(sopLapsedPool * share),
+        reactivated = Math.max(1, Math.round((sopReactivated || w.existingPaying * 0.28) * share));
       const funnel = {
         requiredNewClientRevenue: newRevenue,
         requiredNewBuyers: newPaying,
@@ -291,32 +326,46 @@ export function applyPlanTargets(year: number, userId: number | null) {
       };
       const assumptions = {
         planSource: WORKBOOK_SOURCE,
-        streamLabels: { renewal: 'Existing clients' },
+        streamLabels: { renewal: planStudio === POPUP_PARENT ? 'Pack conversions & renewals' : 'Renewals & existing' },
         scenarioExplanation: `${label}. Stretch: ₹${Math.round(w.stretch * share).toLocaleString('en-IN')}.`,
         comparableMonth: `${year - 1} same month · workbook (actual / Q4 estimate)`,
+        playbook: {
+          leads,
+          trials,
+          buyers: newPaying,
+          renewalsDue,
+          renewalPurchases,
+          reactivated,
+          lapsedTouches,
+        },
         workbook: {
           leads,
           trials,
           newPaying,
           packageConversions: Math.round(w.packageConversions * share),
           existingPaying: Math.round(w.existingPaying * share),
+          renewalsDue,
+          renewalPurchases,
+          reactivated,
+          lapsedTouches,
           checkins: Math.round(w.checkins * share),
           offerLed: w.offerLed * share,
           stretch: w.stretch * share,
           avgSpend: w.avgSpend,
         },
       };
-      const transactions = newPaying + Math.round(w.existingPaying * share);
+      const transactions = newPaying + renewalPurchases + reactivated;
       return {
         scenario: 'base',
         historical_revenue: w.last * share,
+        baseline_forecast: Math.round(w.last * (1 + Math.max(-0.15, Math.min(0.2, Number(w.growth) || 0))) * share),
         proposed_target: target,
         target_growth: Math.round(w.growth * 1000) / 10,
         new_client_target: newRevenue,
-        renewal_target: existing,
+        renewal_target: renewalRevenue,
         repeat_target: 0,
-        reactivation_target: 0,
-        other_target: 0,
+        reactivation_target: reactivationRevenue,
+        other_target: otherRevenue,
         target_transactions: transactions,
         expected_aov: transactions ? target / transactions : null,
         funnel: JSON.stringify(funnel),
@@ -332,7 +381,7 @@ export function applyPlanTargets(year: number, userId: number | null) {
           kh.id,
           year,
           i + 1,
-          bengaluruRow(w, 1, 'Bengaluru workbook 2027 target'),
+          bengaluruRow('Kenkere House', i + 1, w, 1, 'Bengaluru workbook 2027 target'),
           userId,
           `Imported ${WORKBOOK_SOURCE}`,
         ),
@@ -351,6 +400,8 @@ export function applyPlanTargets(year: number, userId: number | null) {
           year,
           i + 1,
           bengaluruRow(
+            POPUP_PARENT,
+            i + 1,
             w,
             POPUP_SPLIT[child],
             `${Math.round(POPUP_SPLIT[child] * 100)}% of the workbook pop-up target (venue split is a planning assumption — edit as needed)`,
@@ -405,18 +456,23 @@ export function rollUpPopup(year: number, userId: number | null) {
     const sum = (k: string) => rows.reduce((s, r) => s + (r[k] || 0), 0);
     const f = rows.map(r => JSON.parse(r.funnel || '{}')),
       fs = (k: string) => f.reduce((s, x) => s + (x[k] || 0), 0);
+    const childAssumptions = rows.map(r => JSON.parse(r.assumptions || '{}'));
+    const sumNested = (group: 'workbook' | 'playbook', key: string) =>
+      childAssumptions.reduce((s, a) => s + (Number(a?.[group]?.[key]) || 0), 0);
     const approved = rows.every(r => r.approved_target !== null) ? sum('approved_target') : null;
     const target = sum('proposed_target');
+    const histRevenue = sum('historical_revenue');
     writeTarget(
       parent.id,
       year,
       month,
       {
         scenario: 'base',
-        historical_revenue: sum('historical_revenue'),
+        historical_revenue: histRevenue,
+        baseline_forecast: sum('baseline_forecast'),
         proposed_target: target,
         approved_target: approved,
-        target_growth: rows[0].target_growth,
+        target_growth: histRevenue > 0 ? Math.round((target / histRevenue - 1) * 1000) / 10 : rows[0].target_growth,
         new_client_target: sum('new_client_target'),
         renewal_target: sum('renewal_target'),
         repeat_target: 0,
@@ -436,8 +492,32 @@ export function rollUpPopup(year: number, userId: number | null) {
         assumptions: JSON.stringify({
           planSource: `Sum of ${POPUP_CHILDREN.join(' and ')}`,
           rollup: true,
-          streamLabels: { renewal: 'Existing clients' },
+          streamLabels: { renewal: 'Pack conversions & renewals' },
           scenarioExplanation: `Pop-up = ${POPUP_CHILDREN.join(' + ')}. Edit each venue's target; this total updates automatically.`,
+          playbook: {
+            leads: sumNested('playbook', 'leads') || fs('requiredLeads'),
+            trials: sumNested('playbook', 'trials') || fs('requiredCompletedTrials'),
+            buyers: sumNested('playbook', 'buyers') || fs('requiredNewBuyers'),
+            renewalsDue: sumNested('playbook', 'renewalsDue'),
+            renewalPurchases: sumNested('playbook', 'renewalPurchases'),
+            reactivated: sumNested('playbook', 'reactivated'),
+            lapsedTouches: sumNested('playbook', 'lapsedTouches'),
+          },
+          workbook: {
+            leads: sumNested('workbook', 'leads') || fs('requiredLeads'),
+            trials: sumNested('workbook', 'trials') || fs('requiredCompletedTrials'),
+            newPaying: sumNested('workbook', 'newPaying') || fs('requiredNewBuyers'),
+            packageConversions: sumNested('workbook', 'packageConversions'),
+            existingPaying: sumNested('workbook', 'existingPaying'),
+            renewalsDue: sumNested('workbook', 'renewalsDue'),
+            renewalPurchases: sumNested('workbook', 'renewalPurchases'),
+            reactivated: sumNested('workbook', 'reactivated'),
+            lapsedTouches: sumNested('workbook', 'lapsedTouches'),
+            checkins: sumNested('workbook', 'checkins'),
+            offerLed: sumNested('workbook', 'offerLed'),
+            stretch: sumNested('workbook', 'stretch'),
+            avgSpend: childAssumptions[0]?.workbook?.avgSpend || null,
+          },
         }),
         source: 'rollup',
         data_mode: 'plan',

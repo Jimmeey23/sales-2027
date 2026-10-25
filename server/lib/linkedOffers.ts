@@ -12,19 +12,71 @@ export const DEFAULT_PICKS = 4;
 
 // Generic product keys, resolved to each studio's own product (first match wins).
 export const PRODUCT_KEYS: Record<string, { label: string; names: string[] }> = {
-  '1M': { label: '1 month unlimited', names: ['Studio 1 Month Unlimited Membership', 'Studio 1 Month Unlimited'] },
-  '3M': { label: '3 month unlimited', names: ['Studio 3 Month Unlimited Membership', 'Studio 3 Month Unlimited'] },
-  '6M': { label: '6 month unlimited', names: ['Studio 6 Month Unlimited Membership', 'Studio 6 Month Unlimited'] },
-  ANNUAL: { label: 'Annual unlimited', names: ['Studio Annual Unlimited Membership', 'Studio Annual Unlimited'] },
-  '2W': { label: '2-week newcomer unlimited', names: ['Studio Newcomers 2 Week Unlimited Membership', 'Studio Newcomers 2 Week Unlimited'] },
-  '4C': { label: '4-class pack', names: ['Studio 4 Class Package', 'Plash Pilates 4 Class Package'] },
-  CC8: { label: 'C+C 8-class pack', names: ['Copper + Cloves 8 Class Package', 'Studio 8 Class Package'] },
-  '8C': { label: '8-class pack', names: ['Studio 8 Class Package', 'Copper + Cloves 8 Class Package'] },
-  '12C': { label: '12-class pack', names: ['Studio 12 Class Package', 'Copper + Cloves 12 Class Package'] },
-  '20C': { label: '20-class pack', names: ['Studio 20 Single Class Pack', 'Studio 20 Single Class Package'] },
-  PRIV10: { label: '10 privates', names: ['Studio Private Class X 10', 'Studio 4 Private Class Package'] },
-  CC10: { label: 'C+C 10-pack', names: ['Copper + Cloves 10 Class Pack', 'Studio 10 Single Class Pack'] },
-  SINGLE: { label: 'Single class', names: ['Studio Single Class', 'Copper + Cloves Single Class'] },
+  '1M': {
+    label: '1 month unlimited',
+    names: ['Studio 1 Month Unlimited Membership', 'Studio 1 Month Unlimited', '1 Month Unlimited'],
+  },
+  '3M': {
+    label: '3 month unlimited',
+    names: ['Studio 3 Month Unlimited Membership', 'Studio 3 Month Unlimited', '3 Month Unlimited'],
+  },
+  '6M': {
+    label: '6 month unlimited',
+    names: ['Studio 6 Month Unlimited Membership', 'Studio 6 Month Unlimited', '6 Month Unlimited'],
+  },
+  ANNUAL: {
+    label: 'Annual unlimited',
+    names: ['Studio Annual Unlimited Membership', 'Studio Annual Unlimited', 'Annual Unlimited'],
+  },
+  '2W': {
+    label: '2-week newcomer unlimited',
+    names: [
+      'Studio Newcomers 2 Week Unlimited Membership',
+      'Studio Newcomers 2 Week Unlimited',
+      'Studio 2 Week Unlimited',
+    ],
+  },
+  INTRO: {
+    label: 'Newcomer intro / 2-for-1',
+    names: ['New Client Intro Pack', 'Newcomers 2 For 1', 'Studio Newcomer 2 for 1'],
+  },
+  '4C': {
+    label: '4-class pack',
+    names: ['Studio 4 Class', 'Studio 4 Class Package', 'Plash Pilates 4 Class Package'],
+  },
+  CC8: {
+    label: 'C+C 8-class pack',
+    names: ['Copper + Cloves 8 Class Package', 'Studio 8 Class', 'Studio 8 Class Package'],
+  },
+  '8C': {
+    label: '8-class pack',
+    names: ['Studio 8 Class', 'Studio 8 Class Package', 'Copper + Cloves 8 Class Package'],
+  },
+  '12C': {
+    label: '12-class pack',
+    names: ['Studio 12 Class', 'Studio 12 Class Package', 'Copper + Cloves 12 Class Package'],
+  },
+  '20C': {
+    label: '20-class pack',
+    names: ['Studio 20 Single Class Pack', 'Studio 20 Single Class Package', 'Studio 20 Class'],
+  },
+  PRIV10: {
+    label: '10 privates',
+    names: ['Studio Private Class X 10', 'Studio 4 Private Class Package', 'Studio Private Class'],
+  },
+  CC10: {
+    label: 'C+C 10-pack',
+    names: ['Copper + Cloves 10 Class Package', 'Copper + Cloves 10 Class Pack', 'Studio 10 Single Class Pack'],
+  },
+  SINGLE: {
+    label: 'Single class',
+    names: [
+      'Studio Single Class',
+      'Copper + Cloves Single Class Package',
+      'Copper + Cloves Single Class',
+      'Plash Pilates Single Class Package',
+    ],
+  },
 };
 
 const json = (v: any, fallback: any) => {
@@ -43,11 +95,24 @@ export function planningStudios() {
 
 export function listPrice(studioId: number, key?: string | null) {
   const names = key ? PRODUCT_KEYS[key]?.names : null;
-  for (const name of names || []) {
+  if (!names?.length) return null;
+  for (const name of names) {
     const p = db
       .prepare('SELECT list_price FROM products WHERE studio_id=? AND name=? AND active=1 AND list_price>1')
       .get(studioId, name) as any;
     if (p) return Number(p.list_price);
+  }
+  // Pop-up and hosted Bengaluru venues share the Bengaluru catalogue hosted at Kenkere House when not duplicated per venue.
+  const studio = db.prepare('SELECT city FROM studios WHERE id=?').get(studioId) as { city?: string } | undefined;
+  if (studio?.city) {
+    for (const name of names) {
+      const p = db
+        .prepare(
+          'SELECT p.list_price FROM products p JOIN studios s ON s.id=p.studio_id WHERE s.city=? AND p.name=? AND p.active=1 AND p.list_price>1 ORDER BY p.id LIMIT 1',
+        )
+        .get(studio.city, name) as any;
+      if (p) return Number(p.list_price);
+    }
   }
   return null;
 }
@@ -190,12 +255,17 @@ const SHARED_TEXT = [
   'benefit',
   'rationale',
   'customer_copy',
+  'internal_description',
   'audience',
+  'excluded_audience',
+  'cta',
   'offer_type',
   'objective',
+  'plan_slot',
   'redemption_conditions',
   'validity_start',
   'validity_end',
+  'performance_notes',
 ] as const;
 
 export interface OfferEdit {
@@ -204,15 +274,29 @@ export interface OfferEdit {
   benefit?: string | null;
   rationale?: string | null;
   customer_copy?: string | null;
+  internal_description?: string | null;
   audience?: string | null;
+  excluded_audience?: string | null;
+  cta?: string | null;
   offer_type?: string;
   objective?: string;
+  plan_slot?: string | null;
   redemption_conditions?: string | null;
   validity_start?: string | null;
   validity_end?: string | null;
+  performance_notes?: string | null;
+  success_metrics?: string[];
+  risks?: string[];
   target_purchases?: number;
   expected_asp?: number;
-  pricing?: { product?: string | null; discount?: number; mechanic?: string };
+  photoKey?: string | null;
+  pricing?: {
+    product?: string | null;
+    discount?: number;
+    mechanic?: string;
+    customListPrice?: number | null;
+    customAsp?: boolean;
+  };
 }
 
 function applyEdit(offer: any, edit: OfferEdit, ownFields: boolean, sourceStudio: number) {
@@ -220,12 +304,26 @@ function applyEdit(offer: any, edit: OfferEdit, ownFields: boolean, sourceStudio
   const pricing = edit.pricing ? { ...(prov.pricing || {}), ...edit.pricing } : prov.pricing;
   const next: Record<string, any> = {};
   for (const k of SHARED_TEXT) if (edit[k] !== undefined) next[k] = edit[k];
+  if (edit.success_metrics !== undefined) next.success_metrics = JSON.stringify(edit.success_metrics);
+  if (edit.risks !== undefined) next.risks = JSON.stringify(edit.risks);
   const units =
-    ownFields && edit.target_purchases !== undefined ? edit.target_purchases : Number(offer.target_purchases);
+    ownFields && edit.target_purchases !== undefined ? edit.target_purchases : Number(offer.target_purchases) || 0;
   let asp = Number(offer.expected_asp) || 0;
-  if (edit.pricing) asp = priceFor(offer.studio_id, pricing, { asp, fromStudio: offer.studio_id }) || asp;
-  if (edit.expected_asp !== undefined && !pricing?.product)
+  const hasCustomAsp = Boolean(pricing?.customAsp) || (!pricing?.product && edit.expected_asp !== undefined);
+  if (hasCustomAsp && edit.expected_asp !== undefined) {
     asp = ownFields ? edit.expected_asp : Math.round(edit.expected_asp * priceRatio(offer.studio_id, sourceStudio));
+  } else if (edit.pricing) {
+    if (pricing?.customListPrice && Number(pricing.customListPrice) > 0 && !pricing?.product) {
+      const baseList = ownFields
+        ? Number(pricing.customListPrice)
+        : Math.round(Number(pricing.customListPrice) * priceRatio(offer.studio_id, sourceStudio));
+      asp = Math.round(baseList * (1 - Math.min(0.5, Math.max(0, Number(pricing?.discount) || 0))));
+    } else {
+      asp = priceFor(offer.studio_id, pricing, { asp, fromStudio: offer.studio_id }) || asp;
+    }
+  } else if (edit.expected_asp !== undefined) {
+    asp = ownFields ? edit.expected_asp : Math.round(edit.expected_asp * priceRatio(offer.studio_id, sourceStudio));
+  }
   if (edit.pricing?.discount !== undefined) next.effective_discount = Number(edit.pricing.discount) * 100;
   if (edit.pricing || edit.expected_asp !== undefined || edit.target_purchases !== undefined || edit.benefit !== undefined) {
     const financials = json(offer.financials, {});
@@ -238,23 +336,45 @@ function applyEdit(offer: any, edit: OfferEdit, ownFields: boolean, sourceStudio
     next.financials = JSON.stringify(financials);
     next.margin_impact = null;
   }
+  const nextProv = { ...prov, pricing };
+  if (edit.photoKey !== undefined) {
+    if (edit.photoKey) nextProv.photoKey = edit.photoKey;
+    else delete nextProv.photoKey;
+  }
+  if (offer.approval_status === 'approved' || offer.status === 'approved') {
+    next.approval_status = 'pending';
+    next.status = 'draft';
+  }
   Object.assign(next, {
     target_purchases: units,
     expected_asp: asp,
     expected_revenue: asp * units,
     revenue_target: asp * units,
-    provenance: JSON.stringify({ ...prov, pricing }),
+    provenance: JSON.stringify(nextProv),
   });
   const cols = Object.keys(next);
   db.prepare(
     `UPDATE offers SET ${cols.map(c => `${c}=?`).join(',')}, version=version+1, updated_at=CURRENT_TIMESTAMP WHERE id=?`,
   ).run(...Object.values(next), offer.id);
+  if (edit.plan_slot !== undefined && offer.studio_id && offer.year && offer.month) {
+    const { slots, offerIds } = selection(offer.studio_id, offer.year, offer.month);
+    const inPlan = [...Object.values(slots), ...offerIds].includes(offer.id);
+    if (inPlan) {
+      for (const k of Object.keys(slots)) if (slots[k] === offer.id) slots[k] = null;
+      const cleanIds = offerIds.filter(id => id !== offer.id);
+      if (edit.plan_slot && edit.plan_slot in slots && !slots[edit.plan_slot]) slots[edit.plan_slot] = offer.id;
+      else cleanIds.push(offer.id);
+      saveSelection(offer.studio_id, offer.year, offer.month, slots, cleanIds, null);
+    }
+  }
 }
 
 export type LinkedOp =
   | { op: 'add'; offerId: number; solo: boolean }
   | { op: 'remove'; offerId: number; solo: boolean }
-  | { op: 'update'; offerId: number; solo: boolean; edit: OfferEdit };
+  | { op: 'delete'; offerId: number; solo: boolean }
+  | { op: 'update'; offerId: number; solo: boolean; edit: OfferEdit }
+  | { op: 'create'; solo: boolean; edit: OfferEdit };
 
 // Runs one plan edit for a studio-month, mirroring it to the other planning locations unless `solo`.
 export function linkedOfferChange(
@@ -265,10 +385,62 @@ export function linkedOfferChange(
   userId: number | null,
 ) {
   const touched = new Set<number>([studioId]);
+  let createdOfferId: number | undefined;
   db.transaction(() => {
+    const others = planningStudios().filter(s => s.id !== studioId);
+
+    if (change.op === 'create') {
+      const uid = `P57-${year}-${crypto.randomBytes(5).toString('hex').toUpperCase()}`;
+      const group = uid;
+      const baseName = String(change.edit.name || 'New monthly offer').trim();
+      const baseId = db
+        .prepare(
+          `INSERT INTO offers(
+            offer_uid, name, objective, offer_type, studio_id, year, month,
+            status, approval_status, generation_source, data_mode,
+            target_purchases, expected_asp, expected_revenue, revenue_target,
+            financials, risks, success_metrics, provenance, created_by
+          ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+        )
+        .run(
+          uid,
+          baseName,
+          change.edit.objective || 'acquisition',
+          change.edit.offer_type || 'percentage',
+          studioId,
+          year,
+          month,
+          'draft',
+          'pending',
+          'manual',
+          'user',
+          change.edit.target_purchases ?? 10,
+          change.edit.expected_asp ?? 0,
+          0,
+          0,
+          JSON.stringify({}),
+          JSON.stringify(change.edit.risks || []),
+          JSON.stringify(change.edit.success_metrics || []),
+          JSON.stringify(change.solo ? {} : { linkGroup: group }),
+          userId,
+        ).lastInsertRowid as number;
+      const created = getOffer(baseId);
+      applyEdit(created, { ...change.edit, name: baseName }, true, studioId);
+      const local = getOffer(baseId);
+      addToPlan(studioId, year, month, local, userId);
+      createdOfferId = local.id;
+      if (!change.solo) {
+        for (const s of others) {
+          const twin = cloneTo({ ...local, year, month }, s.id, group, userId);
+          addToPlan(s.id, year, month, twin, userId);
+          touched.add(s.id);
+        }
+      }
+      return;
+    }
+
     const offer = getOffer(change.offerId);
     if (!offer) throw Object.assign(new Error('Offer not found.'), { status: 404 });
-    const others = planningStudios().filter(s => s.id !== studioId);
 
     if (change.op === 'add') {
       // Offers from another studio come in as a copy for this one.
@@ -300,6 +472,18 @@ export function linkedOfferChange(
         }
     }
 
+    if (change.op === 'delete') {
+      removeFromPlan(studioId, year, month, offer.id, userId);
+      db.prepare(`UPDATE offers SET status='archived', updated_at=CURRENT_TIMESTAMP WHERE id=?`).run(offer.id);
+      const group = json(offer.provenance, {}).linkGroup;
+      if (!change.solo && group)
+        for (const twin of siblings(group, offer.id).filter(o => o.year === year && o.month === month)) {
+          removeFromPlan(twin.studio_id, year, month, twin.id, userId);
+          db.prepare(`UPDATE offers SET status='archived', updated_at=CURRENT_TIMESTAMP WHERE id=?`).run(twin.id);
+          touched.add(twin.studio_id);
+        }
+    }
+
     if (change.op === 'update') {
       applyEdit(offer, change.edit, true, studioId);
       const group = json(offer.provenance, {}).linkGroup;
@@ -319,7 +503,7 @@ export function linkedOfferChange(
         }
     }
   })();
-  return { studios: [...touched] };
+  return { studios: [...touched], ...(createdOfferId ? { offerId: createdOfferId } : {}) };
 }
 
 const STREAM_OF: Record<string, 'newClient' | 'renewal' | 'reactivation'> = {

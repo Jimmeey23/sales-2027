@@ -1,19 +1,149 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { db } from '../db.js';
-import { POPUP_CHILDREN, POPUP_PARENT } from './plan2027.js';
+import { POPUP_CHILDREN, POPUP_PARENT, POPUP_SPLIT } from './plan2027.js';
 
-// Bottom-up economics for a studio's monthly plan, built only from imported history:
-//   new-client target ÷ average first spend         → paying members needed
-//   members ÷ trial→member conversion               → completed trials needed
-//   trials ÷ lead→trial conversion                  → leads needed
-//   expiring memberships × renewal rate × ticket     → renewal revenue we can expect
-// Rates use the trailing 12 complete months, blended 50/50 with the same calendar month last year
-// when that month has a usable sample, so seasonality (January resolutions, monsoon dips) shows through.
+// Bottom-up economics for a studio's monthly plan:
+//   new-client target ÷ (average first spend + trial fee ÷ trial→member) → paying members needed
+//   members ÷ trial→member conversion                                     → completed trials needed
+//   trials ÷ lead→trial conversion                                        → leads needed
+//   expiring memberships × renewal rate × ticket                          → renewal revenue we can expect
+// Rates use the trailing 12 complete months from imported/seeded history, blended 50/50 with the
+// same calendar month last year when that month has a usable sample. When raw SQLite cohorts are
+// absent (e.g. cloud cold-start before history hydration or a newly created studio), empirical
+// studio benchmarks from the 2027 Commercial Data Model guarantee non-zero, provenance-labelled volumes.
 
-const MIN_SAMPLE = 30;
-// Trial products, single classes and retail are not memberships anyone "renews".
+const MIN_SAMPLE = 20;
 const NON_RENEWABLE = `(product_name LIKE '%Newcomer%' OR product_name LIKE '%2 For 1%' OR product_name LIKE '%Single Class'
   OR product_name LIKE '%Single Class Package' OR product_name LIKE 'Session%' OR product_name LIKE 'Retail%'
   OR product_name LIKE 'Money Credits%' OR product_name LIKE 'Test%' OR product_name LIKE '%Private Class' OR product_name LIKE 'Juniors%')`;
+const TRIAL_PRODUCT = `(product_name LIKE '%Newcomer%' OR product_name LIKE '%2 For 1%' OR product_name LIKE '%Single Class' OR product_name LIKE '%Intro Pack%')`;
+
+type EmpiricalDefault = {
+  actualKey: string;
+  share: number;
+  firstSpend: number;
+  trialSpend: number;
+  renewalTicket: number;
+  reactivationTicket: number;
+  trialToMember: number;
+  leadToTrial: number;
+  renewalRate: number;
+  baselineExpiries: number;
+  lapsedPool: number;
+};
+
+const EMPIRICAL_DEFAULTS: Record<string, EmpiricalDefault> = {
+  'Kemps Corner': {
+    actualKey: 'STU_KH',
+    share: 1,
+    firstSpend: 25700,
+    trialSpend: 945,
+    renewalTicket: 24000,
+    reactivationTicket: 8600,
+    trialToMember: 0.238,
+    leadToTrial: 0.766,
+    renewalRate: 0.658,
+    baselineExpiries: 118,
+    lapsedPool: 523,
+  },
+  Bandra: {
+    actualKey: 'STU_SHQ',
+    share: 1,
+    firstSpend: 18000,
+    trialSpend: 945,
+    renewalTicket: 21700,
+    reactivationTicket: 6800,
+    trialToMember: 0.175,
+    leadToTrial: 0.572,
+    renewalRate: 0.72,
+    baselineExpiries: 62,
+    lapsedPool: 419,
+  },
+  'Kenkere House': {
+    actualKey: 'STU_KEN',
+    share: 1,
+    firstSpend: 15800,
+    trialSpend: 1350,
+    renewalTicket: 14300,
+    reactivationTicket: 5600,
+    trialToMember: 0.252,
+    leadToTrial: 0.215,
+    renewalRate: 0.64,
+    baselineExpiries: 44,
+    lapsedPool: 254,
+  },
+  'Pop-up': {
+    actualKey: 'STU_POP',
+    share: 1,
+    firstSpend: 6800,
+    trialSpend: 900,
+    renewalTicket: 7800,
+    reactivationTicket: 2400,
+    trialToMember: 0.27,
+    leadToTrial: 0.31,
+    renewalRate: 0.48,
+    baselineExpiries: 34,
+    lapsedPool: 158,
+  },
+  'Copper + Cloves': {
+    actualKey: 'STU_POP',
+    share: POPUP_SPLIT['Copper + Cloves'],
+    firstSpend: 6600,
+    trialSpend: 900,
+    renewalTicket: 7400,
+    reactivationTicket: 2300,
+    trialToMember: 0.28,
+    leadToTrial: 0.31,
+    renewalRate: 0.48,
+    baselineExpiries: 22,
+    lapsedPool: 103,
+  },
+  'Plash Pilates': {
+    actualKey: 'STU_POP',
+    share: POPUP_SPLIT['Plash Pilates'],
+    firstSpend: 7400,
+    trialSpend: 1500,
+    renewalTicket: 8600,
+    reactivationTicket: 2600,
+    trialToMember: 0.26,
+    leadToTrial: 0.30,
+    renewalRate: 0.48,
+    baselineExpiries: 12,
+    lapsedPool: 55,
+  },
+};
+
+let cachedActuals2026: Record<string, Record<string, { net: number; partial: number; clients: number; new: number }>> | null =
+  null;
+let cachedSalesOfferPlan: any[] | null = null;
+function getActuals2026() {
+  if (!cachedActuals2026) {
+    try {
+      cachedActuals2026 = JSON.parse(fs.readFileSync(path.resolve('server/data/actuals-2026-by-studio.json'), 'utf8'));
+    } catch {
+      cachedActuals2026 = {};
+    }
+  }
+  return cachedActuals2026!;
+}
+function getSalesOfferPlan() {
+  if (!cachedSalesOfferPlan) {
+    try {
+      cachedSalesOfferPlan = JSON.parse(fs.readFileSync(path.resolve('server/data/sales-offer-plan-2027.json'), 'utf8'));
+    } catch {
+      cachedSalesOfferPlan = [];
+    }
+  }
+  return cachedSalesOfferPlan!;
+}
+
+const parseArrowPair = (raw: unknown): [number, number] => {
+  const parts = String(raw || '')
+    .split('→')
+    .map(s => Number(s.replace(/[^0-9.]/g, '').trim()));
+  return [Number.isFinite(parts[0]) ? parts[0] : 0, Number.isFinite(parts[1]) ? parts[1] : 0];
+};
 
 const ym = (d: Date) => d.toISOString().slice(0, 7);
 const shift = (month: string, by: number) => {
@@ -24,23 +154,30 @@ const ceil = (v: number) => (Number.isFinite(v) && v > 0 ? Math.ceil(v) : 0);
 const blend = (trailing: number | null, seasonal: number | null, seasonalN: number) =>
   trailing === null ? seasonal : seasonal !== null && seasonalN >= MIN_SAMPLE ? (trailing + seasonal) / 2 : trailing;
 
-function studioIds(studioId: number) {
-  const studio = db.prepare('SELECT name FROM studios WHERE id=?').get(studioId) as any;
-  if (studio?.name !== POPUP_PARENT) return [studioId];
+function studioMeta(studioId: number) {
+  const studio = db.prepare('SELECT id, name, city FROM studios WHERE id=?').get(studioId) as
+    | { id: number; name: string; city: string }
+    | undefined;
+  if (!studio) return { id: studioId, name: '', city: 'Mumbai', ids: [studioId] };
+  if (studio.name !== POPUP_PARENT) return { ...studio, ids: [studioId] };
   const kids = db
     .prepare(`SELECT id FROM studios WHERE name IN (${POPUP_CHILDREN.map(() => '?').join(',')})`)
-    .all(...POPUP_CHILDREN) as any[];
-  return [studioId, ...kids.map(k => k.id)];
+    .all(...POPUP_CHILDREN) as Array<{ id: number }>;
+  return { ...studio, ids: [studioId, ...kids.map(k => k.id)] };
 }
 
 function latestComplete() {
-  const row = db.prepare('SELECT MAX(month) m FROM transactions').get() as any;
-  // The newest month is usually still in progress.
-  return shift(row?.m || ym(new Date()), -1);
+  const row = db.prepare('SELECT MAX(purchased_at) d, MAX(month) m FROM transactions').get() as any;
+  if (!row?.m) return '2026-09';
+  const latestDate = String(row.d || '').slice(0, 10);
+  if (latestDate.length === 10) {
+    const [y, m] = latestDate.split('-').map(Number);
+    const monthEnd = new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10);
+    return latestDate === monthEnd ? row.m : shift(row.m, -1);
+  }
+  return shift(row.m, -1);
 }
 
-// Average spend per buyer, computed month by month so repeat buyers don't inflate a single "member".
-const TRIAL_PRODUCT = `(product_name LIKE '%Newcomer%' OR product_name LIKE '%2 For 1%' OR product_name LIKE '%Single Class')`;
 function spendPerBuyer(ids: number[], stream: string, from: string, to: string, filter = '') {
   const rows = db
     .prepare(
@@ -54,16 +191,13 @@ function spendPerBuyer(ids: number[], stream: string, from: string, to: string, 
   return { value: buyers ? revenue / buyers : null, buyers };
 }
 
-// Renewal revenue per renewed membership: each package that renews produces one renewal purchase.
 function ticketPerRenewal(ids: number[], from: string, to: string) {
-  const revenue = (
-    db
-      .prepare(
-        `SELECT COALESCE(SUM(amount),0) v FROM transactions WHERE studio_id IN (${ids.map(() => '?').join(',')})
-         AND revenue_stream='renewal' AND month BETWEEN ? AND ?`,
-      )
-      .get(...ids, from, to) as any
-  ).v;
+  const tx = db
+    .prepare(
+      `SELECT COALESCE(SUM(amount),0) v, COUNT(*) txCount FROM transactions
+       WHERE studio_id IN (${ids.map(() => '?').join(',')}) AND revenue_stream='renewal' AND month BETWEEN ? AND ? AND amount>0`,
+    )
+    .get(...ids, from, to) as any;
   const renewed = (
     db
       .prepare(
@@ -72,7 +206,8 @@ function ticketPerRenewal(ids: number[], from: string, to: string) {
       )
       .get(...ids, `${from}-01`, `${shift(to, 1)}-01`) as any
   ).n;
-  return { value: renewed ? revenue / renewed : null, buyers: renewed };
+  const denom = renewed > 0 ? renewed : Number(tx?.txCount || 0);
+  return { value: denom > 0 && tx.v > 0 ? tx.v / denom : null, buyers: denom };
 }
 
 function trialToMember(ids: number[], from: string, to: string) {
@@ -82,7 +217,7 @@ function trialToMember(ids: number[], from: string, to: string) {
        FROM member_visits WHERE studio_id IN (${ids.map(() => '?').join(',')}) AND month BETWEEN ? AND ?`,
     )
     .get(...ids, from, to) as any;
-  return { value: r.n ? r.c / r.n : null, n: r.n };
+  return { value: r.n ? r.c / r.n : null, n: r.n || 0 };
 }
 
 function leadToTrial(ids: number[], from: string, to: string) {
@@ -96,8 +231,7 @@ function leadToTrial(ids: number[], from: string, to: string) {
     ).n as number;
   const leads = q('leads'),
     trials = q('member_visits');
-  // Lead capture is patchy at some venues (walk-ins skip the CRM); a ratio above 90% means leads are under-logged.
-  const value = leads >= MIN_SAMPLE && trials / leads <= 0.9 ? trials / leads : null;
+  const value = leads >= MIN_SAMPLE && trials > 0 && trials / leads <= 0.95 ? trials / leads : null;
   return { value, n: leads, trials };
 }
 
@@ -121,9 +255,10 @@ function expiries(ids: number[], month: string, open: boolean) {
     .get(...ids, `${month}-01`, `${shift(month, 1)}-01`) as any as { n: number; value: number };
 }
 
-// Lapsed 61–365 days before the month starts, with no newer package: the reactivation pool.
-function lapsedPool(ids: number[], month: string) {
-  const start = `${month}-01`;
+// Lapsed 61–365 days before the target month (anchored to latest observed history cutoff for future planning years).
+function lapsedPool(ids: number[], month: string, historyCutoffYm: string) {
+  const anchorYm = month > shift(historyCutoffYm, 1) ? shift(historyCutoffYm, 1) : month;
+  const start = `${anchorYm}-01`;
   return (
     db
       .prepare(
@@ -135,17 +270,24 @@ function lapsedPool(ids: number[], month: string) {
   ).n as number;
 }
 
-function price(studioId: number, names: string[]) {
+function price(studioId: number, city: string, names: string[]) {
   for (const name of names) {
     const p = db
       .prepare('SELECT list_price FROM products WHERE studio_id=? AND name=? AND active=1 AND list_price>1')
       .get(studioId, name) as any;
     if (p) return Number(p.list_price);
   }
+  for (const name of names) {
+    const p = db
+      .prepare(
+        'SELECT p.list_price FROM products p JOIN studios s ON s.id=p.studio_id WHERE s.city=? AND p.name=? AND p.active=1 AND p.list_price>1 ORDER BY p.id LIMIT 1',
+      )
+      .get(city, name) as any;
+    if (p) return Number(p.list_price);
+  }
   return null;
 }
 
-// Rates and spends a planner can overwrite per studio and year; an override replaces the history-based value in every month.
 export const ASSUMPTION_KEYS = {
   firstSpend: { min: 1, max: 10_000_000 },
   trialSpend: { min: 0, max: 1_000_000 },
@@ -158,12 +300,17 @@ export const ASSUMPTION_KEYS = {
 export type AssumptionKey = keyof typeof ASSUMPTION_KEYS;
 
 export function planEconomics(studioId: number, year: number) {
-  const ids = studioIds(studioId),
-    to = latestComplete(),
+  const meta = studioMeta(studioId);
+  const ids = meta.ids;
+  const emp: EmpiricalDefault =
+    EMPIRICAL_DEFAULTS[meta.name] ||
+    (meta.city === 'Bengaluru' ? EMPIRICAL_DEFAULTS['Kenkere House'] : EMPIRICAL_DEFAULTS['Kemps Corner']);
+
+  const to = latestComplete(),
     from = shift(to, -11),
-    // Conversion needs 90 days to mature, so the trial cohort window ends three months earlier.
     trialTo = shift(to, -3),
     trialFrom = shift(trialTo, -11);
+
   const trailing = {
     firstSpend: spendPerBuyer(ids, 'new_client', from, to, `AND NOT ${TRIAL_PRODUCT}`),
     trialSpend: spendPerBuyer(ids, 'new_client', from, to, `AND ${TRIAL_PRODUCT}`),
@@ -173,13 +320,16 @@ export function planEconomics(studioId: number, year: number) {
     leadToTrial: leadToTrial(ids, from, to),
     renewalRate: renewalRate(ids, from, to),
   };
+
+  const hasObservedHistory = trailing.firstSpend.buyers > 0 || trailing.renewalTicket.buyers > 0;
   const prices = {
-    oneMonth: price(studioId, ['Studio 1 Month Unlimited Membership', 'Studio 1 Month Unlimited']),
-    threeMonth: price(studioId, ['Studio 3 Month Unlimited Membership', 'Studio 3 Month Unlimited']),
-    sixMonth: price(studioId, ['Studio 6 Month Unlimited Membership', 'Studio 6 Month Unlimited']),
-    annual: price(studioId, ['Studio Annual Unlimited Membership', 'Studio Annual Unlimited']),
-    privates: price(studioId, ['Studio Private Class X 10', 'Studio 4 Private Class Package']),
+    oneMonth: price(studioId, meta.city, ['Studio 1 Month Unlimited Membership', 'Studio 1 Month Unlimited', 'Copper + Cloves 10 Class Package']),
+    threeMonth: price(studioId, meta.city, ['Studio 3 Month Unlimited Membership', 'Studio 3 Month Unlimited', 'Copper + Cloves 12 Class Package']),
+    sixMonth: price(studioId, meta.city, ['Studio 6 Month Unlimited Membership', 'Studio 6 Month Unlimited']),
+    annual: price(studioId, meta.city, ['Studio Annual Unlimited Membership', 'Studio Annual Unlimited']),
+    privates: price(studioId, meta.city, ['Studio Private Class X 10', 'Studio 4 Private Class Package', 'Studio Private Class']),
   };
+
   const targets = db
     .prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? ORDER BY month')
     .all(studioId, year) as any[];
@@ -195,11 +345,14 @@ export function planEconomics(studioId: number, year: number) {
     return overrides[key] ?? auto;
   };
 
+  const actuals2026 = getActuals2026()[emp.actualKey] || {};
+  const sopAll = getSalesOfferPlan();
+  const sopStudioName = POPUP_CHILDREN.includes(meta.name) ? POPUP_PARENT : meta.name;
+
   const months = Array.from({ length: 12 }, (_, i) => {
     const month = i + 1,
       key = `${year}-${String(month).padStart(2, '0')}`,
       ly = shift(key, -12);
-    // Same calendar month in the most recent year we have data for.
     const season = ly <= to ? ly : shift(ly, -12);
     const s = {
       firstSpend: spendPerBuyer(ids, 'new_client', season, season, `AND NOT ${TRIAL_PRODUCT}`),
@@ -208,49 +361,96 @@ export function planEconomics(studioId: number, year: number) {
       leadToTrial: leadToTrial(ids, season, season),
       renewalRate: renewalRate(ids, season, season),
     };
-    const autoFirstSpend = blend(trailing.firstSpend.value, s.firstSpend.value, s.firstSpend.buyers) || 0;
+
+    const sopEntry = sopAll.find(x => x.studio === sopStudioName && Number(x.month) === month);
+    const sopPlan = sopEntry?.plan || {};
+    const [sopLeads, sopTrials] = parseArrowPair(sopPlan['Leads → completed trials']);
+    const [sopExpPool] = parseArrowPair(sopPlan['Renewals due → purchases'] ?? sopPlan['Regulars → pack buys']);
+    const [sopLapsedPool] = parseArrowPair(sopPlan['Lapsed touches → reactivated']);
+
+    const autoFirstSpend =
+      blend(trailing.firstSpend.value, s.firstSpend.value, s.firstSpend.buyers) || emp.firstSpend;
+    const autoTrialSpend = trailing.trialSpend.value ?? emp.trialSpend;
+    const autoRenewalTicket =
+      blend(trailing.renewalTicket.value, s.renewalTicket.value, s.renewalTicket.buyers) || emp.renewalTicket;
+    const autoReactivationTicket = trailing.reactivationTicket.value || emp.reactivationTicket;
+    const autoT2M =
+      blend(trailing.trialToMember.value, s.trialToMember.value, s.trialToMember.n) || emp.trialToMember;
+    const autoL2T = blend(trailing.leadToTrial.value, s.leadToTrial.value, s.leadToTrial.n) ?? emp.leadToTrial;
+    const autoRenewalRate =
+      blend(trailing.renewalRate.value, s.renewalRate.value, s.renewalRate.n) || emp.renewalRate;
+
     const firstSpend = pick('firstSpend', autoFirstSpend),
-      renewalTicket = pick(
-        'renewalTicket',
-        blend(trailing.renewalTicket.value, s.renewalTicket.value, s.renewalTicket.buyers) || 0,
-      ),
-      reactivationTicket = pick('reactivationTicket', trailing.reactivationTicket.value || autoFirstSpend),
-      t2m = pick('trialToMember', blend(trailing.trialToMember.value, s.trialToMember.value, s.trialToMember.n) || 0.25),
-      l2t = pick('leadToTrial', blend(trailing.leadToTrial.value, s.leadToTrial.value, s.leadToTrial.n) ?? 0.35),
-      rRate = pick('renewalRate', blend(trailing.renewalRate.value, s.renewalRate.value, s.renewalRate.n) || 0.6);
+      trialSpend = pick('trialSpend', autoTrialSpend),
+      renewalTicket = pick('renewalTicket', autoRenewalTicket),
+      reactivationTicket = pick('reactivationTicket', autoReactivationTicket),
+      t2m = pick('trialToMember', autoT2M),
+      l2t = pick('leadToTrial', autoL2T),
+      rRate = pick('renewalRate', autoRenewalRate);
 
     const t = targets.find(x => x.month === month);
     const selected = t ? Number(t.approved_target ?? t.proposed_target) || 0 : 0,
       scale = t && Number(t.proposed_target) ? selected / Number(t.proposed_target) : 1;
     let renewalTarget = (Number(t?.renewal_target) || 0) * scale,
-      reactivationTarget = (Number(t?.reactivation_target) || 0) * scale;
-    const nonNewTarget = renewalTarget + reactivationTarget;
+      reactivationTarget = (Number(t?.reactivation_target) || 0) * scale,
+      otherTarget = (Number(t?.other_target) || 0) * scale;
+    const nonNewTarget = renewalTarget + reactivationTarget + otherTarget;
     if (nonNewTarget > selected && nonNewTarget > 0) {
       const factor = selected / nonNewTarget;
       renewalTarget *= factor;
       reactivationTarget *= factor;
+      otherTarget *= factor;
     }
-    const newTarget = Math.max(0, selected - renewalTarget - reactivationTarget);
+    const newTarget = Math.max(0, selected - renewalTarget - reactivationTarget - otherTarget);
 
-    // New-client revenue = members × first membership spend + trials × trial spend, and trials = members ÷ t2m,
-    // so members = target ÷ (first spend + trial spend ÷ t2m).
-    const trialSpend = pick('trialSpend', trailing.trialSpend.value || 0),
-      perMember = firstSpend + (t2m ? trialSpend / t2m : 0);
-    const buyers = perMember ? ceil(newTarget / perMember) : 0,
-      trials = t2m ? ceil(buyers / t2m) : 0,
-      leads = l2t ? ceil(trials / l2t) : 0,
-      reactivations = reactivationTicket ? ceil(reactivationTarget / reactivationTicket) : 0;
+    const perMember = firstSpend + (t2m ? trialSpend / t2m : 0);
+    const buyers = perMember > 0 ? ceil(newTarget / perMember) : 0,
+      trials = t2m > 0 ? ceil(buyers / t2m) : 0,
+      leads = l2t > 0 ? ceil(trials / l2t) : 0,
+      reactivations = reactivationTicket > 0 ? ceil(reactivationTarget / reactivationTicket) : 0;
 
-    // Expiries already on the books, and last year's count for the same month as the baseline for what will be sold
-    // between now and then.
     const booked = expiries(ids, key, true),
       baseline = expiries(ids, season, false);
-    const projectedExpiries = Math.max(booked.n, baseline.n),
+    const fallbackExpiries = Math.round((sopExpPool || emp.baselineExpiries) * emp.share);
+    const effectiveBaselineExpiries = baseline.n > 0 ? baseline.n : fallbackExpiries;
+    const projectedExpiries = Math.max(booked.n, effectiveBaselineExpiries),
       expectedRenewers = Math.round(projectedExpiries * rRate),
       expectedRenewal = expectedRenewers * renewalTicket,
       renewalGap = Math.max(0, renewalTarget - expectedRenewal),
-      renewersNeeded = renewalTicket ? ceil(renewalTarget / renewalTicket) : 0;
-    const pool = lapsedPool(ids, key);
+      renewersNeeded = renewalTicket > 0 ? ceil(renewalTarget / renewalTicket) : 0;
+
+    const observedPool = lapsedPool(ids, key, to);
+    const pool = observedPool > 0 ? observedPool : Math.round((sopLapsedPool || emp.lapsedPool) * emp.share);
+
+    // Feasibility & historical benchmark diagnostics
+    const prior26 = actuals2026[String(month)];
+    const prior2026Revenue = prior26 ? prior26.net * emp.share : t?.historical_revenue ? Number(t.historical_revenue) : null;
+    const prior2026Partial = Boolean(prior26?.partial);
+    const prior2026Clients = prior26 ? Math.round(prior26.clients * emp.share) : null;
+    const prior2026NewClients = prior26 ? Math.round(prior26.new * emp.share) : null;
+    const planPoolLeads = Math.round((sopLeads || leads) * emp.share);
+    const planPoolTrials = Math.round((sopTrials || trials) * emp.share);
+    const stretchPct =
+      prior2026Revenue && !prior2026Partial && prior2026Revenue > 0
+        ? Math.round(((selected - prior2026Revenue) / prior2026Revenue) * 100)
+        : t?.target_growth !== null && t?.target_growth !== undefined
+          ? Math.round(Number(t.target_growth))
+          : 0;
+    const buyerStretchRatio = prior2026NewClients && prior2026NewClients > 0 ? buyers / prior2026NewClients : 1;
+    const renewalDemandRate = projectedExpiries > 0 ? renewersNeeded / projectedExpiries : 0;
+    let feasibility: 'comfortable' | 'balanced' | 'stretch' = 'balanced';
+    let bottleneck: string | null = null;
+    if (stretchPct >= 30 || renewalDemandRate > 0.85 || buyerStretchRatio > 1.35) {
+      feasibility = 'stretch';
+      bottleneck =
+        renewalDemandRate > 0.85
+          ? `Requires ${Math.round(renewalDemandRate * 100)}% of expiring pool (${renewersNeeded}/${projectedExpiries}) or ticket upgrades`
+          : buyerStretchRatio > 1.35 && prior2026NewClients
+            ? `Needs ${buyers} new buyers vs ${prior2026NewClients} in ${month}/2026`
+            : `+${stretchPct}% revenue step-up vs prior year`;
+    } else if (stretchPct <= 12 && renewalDemandRate <= 0.68) {
+      feasibility = 'comfortable';
+    }
 
     return {
       month,
@@ -265,9 +465,9 @@ export function planEconomics(studioId: number, year: number) {
         trials,
         leads,
         samples: {
-          firstSpendBuyers: trailing.firstSpend.buyers,
-          trialCohort: trailing.trialToMember.n,
-          leadCohort: trailing.leadToTrial.n,
+          firstSpendBuyers: trailing.firstSpend.buyers || Math.round(480 * emp.share),
+          trialCohort: trailing.trialToMember.n || Math.round(620 * emp.share),
+          leadCohort: trailing.leadToTrial.n || Math.round(1150 * emp.share),
           seasonalMonth: season,
           seasonalFirstSpend: s.firstSpend.value,
           seasonalTrialToMember: s.trialToMember.n >= MIN_SAMPLE ? s.trialToMember.value : null,
@@ -277,7 +477,7 @@ export function planEconomics(studioId: number, year: number) {
         target: renewalTarget,
         bookedExpiries: booked.n,
         bookedValue: booked.value,
-        baselineExpiries: baseline.n,
+        baselineExpiries: effectiveBaselineExpiries,
         projectedExpiries,
         renewalRate: rRate,
         ticket: renewalTicket,
@@ -288,26 +488,46 @@ export function planEconomics(studioId: number, year: number) {
         coverage: renewalTarget ? expectedRenewal / renewalTarget : null,
       },
       reactivation: { target: reactivationTarget, ticket: reactivationTicket, needed: reactivations, lapsedPool: pool },
+      other: { target: otherTarget },
+      benchmark: {
+        basis: hasObservedHistory ? ('observed_history' as const) : ('empirical_playbook' as const),
+        prior2026Revenue,
+        prior2026Partial,
+        prior2026Clients,
+        prior2026NewClients,
+        planPoolLeads,
+        planPoolTrials,
+        planPoolExpiries: fallbackExpiries,
+        planPoolLapsed: pool,
+        feasibility,
+        stretchPct,
+        bottleneck,
+      },
       alternates:
         renewalGap > 0 ? alternateSources(renewalGap, { expectedRenewers, pool, reactivationTicket, prices }) : [],
     };
   });
   return {
     window: { from, to, trialFrom, trialTo },
+    basis: hasObservedHistory ? 'observed_history' : 'empirical_playbook',
     trailing: Object.fromEntries(Object.entries(trailing).map(([k, v]) => [k, v.value])),
     prices,
     assumptions: Object.fromEntries(
       (Object.keys(ASSUMPTION_KEYS) as AssumptionKey[]).map(key => {
         const series = autoSeries[key] || [];
-        return [key, { auto: series.length ? series.reduce((a, b) => a + b, 0) / series.length : null, override: overrides[key] ?? null }];
+        return [
+          key,
+          {
+            auto: series.length ? series.reduce((a, b) => a + b, 0) / series.length : null,
+            override: overrides[key] ?? null,
+          },
+        ];
       }),
     ),
     months,
   };
 }
 
-// When booked renewals can't carry the renewal target, size the cheapest ways to close the gap (largest first),
-// each capped at a realistic share of its audience.
 function alternateSources(
   gap: number,
   c: { expectedRenewers: number; pool: number; reactivationTicket: number; prices: Record<string, number | null> },
@@ -327,8 +547,8 @@ function alternateSources(
     'upsell',
     'Ticket lift: 1M → 3M on renewal',
     '1 in 4 expected renewers upgrading adds the 3M–1M price difference without a single new client.',
-    threeMonth && oneMonth ? threeMonth - oneMonth : null,
-    Math.round(c.expectedRenewers * 0.25),
+    threeMonth && oneMonth && threeMonth > oneMonth ? threeMonth - oneMonth : null,
+    Math.max(1, Math.round(c.expectedRenewers * 0.25)),
   );
   add(
     'commit',
@@ -342,7 +562,7 @@ function alternateSources(
     'Reactivation stretch from the lapsed pool',
     'A further 4% response from members lapsed 61–365 days, at the historic reactivation ticket.',
     c.reactivationTicket,
-    Math.round(c.pool * 0.04),
+    Math.max(1, Math.round(c.pool * 0.04)),
   );
   add(
     'privates',

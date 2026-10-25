@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, CalendarClock, Mail, MessageCircle, Printer } from 'lucide-react';
+import { ArrowRight, CalendarClock, Mail, Megaphone, MessageCircle, Plus, Printer, RotateCcw, Trash2 } from 'lucide-react';
 import { MONTHS } from '../types';
 
 // Marketing & collaterals for one studio-month: one row per channel (WhatsApp, email, in-studio tent card), each
@@ -171,6 +171,47 @@ function pickPhotos(offer: any, slot: string, month: number, studio: string): Ph
   return out;
 }
 
+export interface CollateralCustomChannel {
+  id: string;
+  title: string;
+  lead: number;
+  items: string[];
+  copyLabel: string;
+  copyText: string;
+}
+
+export interface CollateralOfferOverride {
+  kicker?: string;
+  headline?: string;
+  altHead?: string;
+  waLead?: number;
+  waItems?: string[];
+  waLaunchText?: string;
+  waLaunchButton?: string;
+  waReminderHeadline?: string;
+  waReminderText?: string;
+  waReminderButton?: string;
+  waWindow?: string;
+  emailLead?: number;
+  emailItems?: string[];
+  subjects?: string[];
+  preheader?: string;
+  intro?: string;
+  emailCta?: string;
+  tentLead?: number;
+  tentItems?: string[];
+  tentFront?: string;
+  tentBack?: string;
+}
+
+export interface CollateralsState {
+  title?: string;
+  subtitle?: string;
+  hiddenChannels?: string[];
+  byOffer?: Record<string, CollateralOfferOverride>;
+  customChannels?: CollateralCustomChannel[];
+}
+
 export default function MarketingCollaterals({
   id,
   offers,
@@ -180,6 +221,10 @@ export default function MarketingCollaterals({
   month,
   theme,
   hook,
+  editable = false,
+  collaterals,
+  onChangeCollaterals,
+  onDeleteSection,
 }: {
   id?: string;
   offers: any[];
@@ -189,45 +234,234 @@ export default function MarketingCollaterals({
   month: number;
   theme: string;
   hook?: string;
+  editable?: boolean;
+  collaterals?: CollateralsState;
+  onChangeCollaterals?: (next: CollateralsState) => void;
+  onDeleteSection?: () => void;
 }) {
   const [pickId, setPickId] = useState<number | null>(null);
   const [layoutPick, setLayoutPick] = useState<Record<string, string>>({});
   const offer = offers.find(o => o.id === pickId) || offers[0];
   const slot = (offer?.plan_slot as keyof typeof VOICE) in VOICE ? (offer.plan_slot as keyof typeof VOICE) : 'newcomer';
   const shots = useMemo(() => (offer ? pickPhotos(offer, slot, month, studioName) : []), [offer, slot, month, studioName]);
+  const state: CollateralsState = collaterals || {};
+  const patchState = (patch: Partial<CollateralsState>) => onChangeCollaterals?.({ ...state, ...patch });
+  const hiddenChannels = state.hiddenChannels || [];
+  const customChannels = state.customChannels || [];
+  const due = (lead: number) => fmtDay(new Date(year, month - 1, 1 - lead));
+  const monthName = MONTHS[month - 1];
+
+  const hideChannel = (ch: string) => patchState({ hiddenChannels: [...new Set([...hiddenChannels, ch])] });
+  const restoreChannel = (ch: string) => patchState({ hiddenChannels: hiddenChannels.filter(x => x !== ch) });
+  const addCustomChannel = () => {
+    const next: CollateralCustomChannel = {
+      id: `ch-${Date.now()}`,
+      title: 'Instagram Story & Reel',
+      lead: 8,
+      items: [
+        '9:16 vertical video / story sequence (1080×1920 px)',
+        'Direct booking link sticker + Momence UTM tag',
+      ],
+      copyLabel: 'Caption & hook',
+      copyText: `${theme || monthName} at ${studioName} — book your spot before the window closes.`,
+    };
+    patchState({ customChannels: [...customChannels, next] });
+  };
+  const updateCustomChannel = (cid: string, patch: Partial<CollateralCustomChannel>) =>
+    patchState({ customChannels: customChannels.map(c => (c.id === cid ? { ...c, ...patch } : c)) });
+  const removeCustomChannel = (cid: string) =>
+    patchState({ customChannels: customChannels.filter(c => c.id !== cid) });
 
   if (!offer)
     return (
       <div id={id} className="mw-section col-section">
         <div className="col-head">
-          <div><h4>Marketing &amp; collaterals needed</h4></div>
+          <div>
+            {editable ? (
+              <>
+                <input
+                  className="col-edit-heading"
+                  aria-label="Collaterals section title"
+                  value={state.title ?? 'Marketing & collaterals needed'}
+                  onChange={e => patchState({ title: e.target.value })}
+                />
+                <input
+                  className="col-edit-sub"
+                  aria-label="Collaterals section subtitle"
+                  value={state.subtitle ?? (hook || 'Everything the studio team needs to launch this month’s offers.')}
+                  onChange={e => patchState({ subtitle: e.target.value })}
+                />
+              </>
+            ) : (
+              <h4>{state.title || 'Marketing & collaterals needed'}</h4>
+            )}
+          </div>
+          {editable && (
+            <div className="col-head-actions">
+              <button type="button" className="mw-mini-btn" onClick={addCustomChannel}>
+                <Plus size={13} /> Add channel
+              </button>
+              {onDeleteSection && (
+                <button type="button" className="mw-mini-btn is-danger" onClick={onDeleteSection} title="Remove section from month plan">
+                  <Trash2 size={13} /> Delete section
+                </button>
+              )}
+            </div>
+          )}
         </div>
-        <p className="muted">Pick this month’s offers to see the WhatsApp, email and tent card requirements and samples.</p>
+        <p className="muted">Pick or create an offer above to preview WhatsApp, email and tent card creatives, or add custom collateral channels below.</p>
+        {customChannels.map(ch => (
+          <div key={ch.id} className="col-row is-custom">
+            <aside className="col-spec" style={{ gridColumn: '1 / -1' }}>
+              <header>
+                <span><Megaphone size={15} /></span>
+                {editable ? (
+                  <input
+                    className="col-inline-title"
+                    value={ch.title}
+                    onChange={e => updateCustomChannel(ch.id, { title: e.target.value })}
+                  />
+                ) : (
+                  <b>{ch.title}</b>
+                )}
+                <i>
+                  <CalendarClock size={12} /> Final by {due(ch.lead)}
+                  {editable && (
+                    <input
+                      type="number"
+                      min={1}
+                      max={45}
+                      className="col-lead-input"
+                      aria-label="Lead days"
+                      value={ch.lead}
+                      onChange={e => updateCustomChannel(ch.id, { lead: Math.max(1, Number(e.target.value) || 1) })}
+                    />
+                  )}
+                </i>
+                {editable && (
+                  <button type="button" className="mw-mini-icon is-danger" aria-label={`Delete ${ch.title}`} onClick={() => removeCustomChannel(ch.id)}>
+                    <Trash2 size={13} />
+                  </button>
+                )}
+              </header>
+              {editable ? (
+                <div className="col-edit-list">
+                  {ch.items.map((it, idx) => (
+                    <div key={idx} className="col-edit-item">
+                      <input
+                        value={it}
+                        onChange={e => updateCustomChannel(ch.id, { items: ch.items.map((x, i) => (i === idx ? e.target.value : x)) })}
+                      />
+                      <button type="button" aria-label="Remove deliverable" onClick={() => updateCustomChannel(ch.id, { items: ch.items.filter((_, i) => i !== idx) })}>
+                        <Trash2 size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  <button type="button" className="mw-mini-btn" onClick={() => updateCustomChannel(ch.id, { items: [...ch.items, 'New deliverable requirement'] })}>
+                    <Plus size={12} /> Add requirement
+                  </button>
+                </div>
+              ) : (
+                <ul>{ch.items.map((t, idx) => <li key={idx}>{t}</li>)}</ul>
+              )}
+              <div className="col-copy">
+                {editable ? (
+                  <>
+                    <input
+                      className="col-copy-label-input"
+                      value={ch.copyLabel}
+                      onChange={e => updateCustomChannel(ch.id, { copyLabel: e.target.value })}
+                    />
+                    <textarea
+                      rows={3}
+                      className="col-copy-textarea"
+                      value={ch.copyText}
+                      onChange={e => updateCustomChannel(ch.id, { copyText: e.target.value })}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <small>{ch.copyLabel}</small>
+                    <p>{ch.copyText}</p>
+                  </>
+                )}
+              </div>
+            </aside>
+          </div>
+        ))}
       </div>
     );
 
   const v = VOICE[slot];
-  const monthName = MONTHS[month - 1];
   const end = new Date(year, month, 0);
-  const due = (lead: number) => fmtDay(new Date(year, month - 1, 1 - lead));
   const n = Math.max(1, offers.length);
   const seed = hash(`${offer.id}${month}`);
   const tagline = String(offer.customer_copy || '').trim();
-  const headline = tagline && tagline.length <= 46 ? tagline : v.headlines[seed % v.headlines.length];
-  const altHead = v.headlines[(seed + 1) % v.headlines.length];
+  const ov: CollateralOfferOverride = state.byOffer?.[String(offer.id)] || {};
+  const patchOfferOv = (patch: Partial<CollateralOfferOverride>) =>
+    patchState({
+      byOffer: {
+        ...(state.byOffer || {}),
+        [String(offer.id)]: { ...ov, ...patch },
+      },
+    });
+
+  const defaultHeadline = tagline && tagline.length <= 46 ? tagline : v.headlines[seed % v.headlines.length];
+  const defaultAltHead = v.headlines[(seed + 1) % v.headlines.length];
   const detail = noPrice(String(offer.benefit || offer.headline || ''));
   const offerName = clip(String(offer.name), 44);
-  const kicker = `${SLOT_LABEL[slot]} · ${monthName}`;
+  const defaultKicker = `${SLOT_LABEL[slot]} · ${monthName}`;
+  const kicker = ov.kicker ?? defaultKicker;
+  const headline = ov.headline ?? defaultHeadline;
+  const altHead = ov.altHead ?? defaultAltHead;
   const closes = `Until ${fmtDay(end)}`;
-  const intro = v.intro(offer.name, studioName);
-  const subjects = v.subjects(offerName, monthName);
-  const waCopy = `Hi {first_name} ✨\n\n*${headline}*\n*${offer.name}*: ${clip(detail, 110)}\n\n${v.wa} Until ${fmtDay(end)}, ${studioName}.\n\n— Team Physique 57\nReply STOP to opt out`;
-  // Two sends per offer: the launch broadcast and a last-call reminder 48h before close (next layout, other photo).
+  const defaultIntro = v.intro(offer.name, studioName);
+  const intro = ov.intro ?? defaultIntro;
+  const defaultSubjects = v.subjects(offerName, monthName);
+  const subjects = ov.subjects ?? defaultSubjects;
+  const preheader = ov.preheader ?? v.preheaders.join(' / ');
+  const emailCta = ov.emailCta ?? v.cta;
+  const defaultWaCopy = `Hi {first_name} ✨\n\n*${defaultHeadline}*\n*${offer.name}*: ${clip(detail, 110)}\n\n${v.wa} Until ${fmtDay(end)}, ${studioName}.\n\n— Team Physique 57\nReply STOP to opt out`;
   const sqLayouts = LAYOUTS.square.map(([k]) => k);
-  const reminderCopy = `Hi {first_name} ⏳\n\n*Last call: ${offer.name}* closes ${fmtDay(end)}.\n\n${v.wa}\n\n— Team Physique 57\nReply STOP to opt out`;
+  const defaultReminderCopy = `Hi {first_name} ⏳\n\n*Last call: ${offer.name}* closes ${fmtDay(end)}.\n\n${v.wa}\n\n— Team Physique 57\nReply STOP to opt out`;
+
+  const waLaunchText = ov.waLaunchText ?? defaultWaCopy;
+  const waLaunchButton = ov.waLaunchButton ?? 'Book my spot';
+  const waReminderHeadline = ov.waReminderHeadline ?? `Ends ${fmtDay(end)}.`;
+  const waReminderText = ov.waReminderText ?? defaultReminderCopy;
+  const waReminderButton = ov.waReminderButton ?? 'Claim before it ends';
+  const waWindow = ov.waWindow ?? `Tue–Thu, 9–11 am or 6–8 pm. Reminder 48h before ${fmtDay(end)}.`;
+
+  const defaultWaItems = [
+    `${n} broadcast${n > 1 ? 's' : ''} (one per offer) + 1 reminder 48h before close`,
+    'A4 portrait creative (2480×3508 px, sent at 1240×1754), text ≤ 20% of image',
+    'Message ≤ 450 characters, one link, opt-out line',
+    'Business template submitted for approval 3 days ahead',
+  ];
+  const defaultEmailItems = [
+    `1 launch email featuring all ${n} offer${n > 1 ? 's' : ''} + 1 last-chance email`,
+    'A4 portrait creative (2480×3508 px), exported at 600 px wide for the template, dark-mode safe',
+    'Subject ≤ 45 characters + preheader ≤ 90 characters',
+    'Segmented sends: new leads, lapsed 61–365 days, renewals due',
+  ];
+  const defaultTentItems = [
+    `${n} designs, double-sided A4 (210×297 mm) on 350 gsm matte, folded into an A-frame`,
+    `Quantity: ${4 * n} per studio (reception, changing room, two on the floor)`,
+    'QR to the Momence checkout with a tracking tag per offer',
+    'Printed and placed by the 25th of the previous month',
+  ];
+  const waItems = ov.waItems ?? defaultWaItems;
+  const emailItems = ov.emailItems ?? defaultEmailItems;
+  const tentItems = ov.tentItems ?? defaultTentItems;
+  const waLead = ov.waLead ?? 10;
+  const emailLead = ov.emailLead ?? 12;
+  const tentLead = ov.tentLead ?? 15;
+  const tentFront = ov.tentFront ?? headline;
+  const tentBack = ov.tentBack ?? `${offer.name}. ${detail} ${v.wa.replace('Reply YES and', 'Ask at reception and')}`;
+
   const waSends = [
-    { label: 'Launch broadcast', day: `1 ${monthName.slice(0, 3)}`, time: '9:00 AM', layout: '', photo: shots[0], kicker, headline, text: waCopy, button: 'Book my spot' },
-    { label: 'Reminder · 48h before close', day: fmtDay(new Date(year, month, -1)), time: '6:30 PM', layout: '', photo: shots[2] ?? shots[0], kicker: `Last call · ${monthName}`, headline: `Ends ${fmtDay(end)}.`, text: reminderCopy, button: 'Claim before it ends' },
+    { label: 'Launch broadcast', day: `1 ${monthName.slice(0, 3)}`, time: '9:00 AM', layout: '', photo: shots[0], kicker, headline, text: waLaunchText, button: waLaunchButton },
+    { label: 'Reminder · 48h before close', day: fmtDay(new Date(year, month, -1)), time: '6:30 PM', layout: '', photo: shots[2] ?? shots[0], kicker: `Last call · ${monthName}`, headline: waReminderHeadline, text: waReminderText, button: waReminderButton },
   ];
   const bg = (p: Photo) => ({ backgroundImage: `url(/p57/pro/${p.id}.jpg)`, backgroundPosition: p.pos });
   const Photo = ({ p }: { p: Photo }) => <div className="cr-photo" style={bg(p)} />;
@@ -250,27 +484,160 @@ export default function MarketingCollaterals({
   const Logo = ({ light = false }: { light?: boolean }) => (
     <img className="cr-logo" src={light ? '/p57/logo-light.png' : '/p57/logo.png'} alt="Physique 57 India" />
   );
-  const Spec = ({ title, icon: Icon, lead, items, copy }: { title: string; icon: any; lead: number; items: string[]; copy?: React.ReactNode }) => (
+  const Spec = ({
+    channelKey,
+    title,
+    icon: Icon,
+    lead,
+    onLeadChange,
+    items,
+    onItemsChange,
+    copy,
+  }: {
+    channelKey: string;
+    title: string;
+    icon: any;
+    lead: number;
+    onLeadChange?: (d: number) => void;
+    items: string[];
+    onItemsChange?: (next: string[]) => void;
+    copy?: React.ReactNode;
+  }) => (
     <aside className="col-spec">
       <header>
         <span><Icon size={15} /></span>
         <b>{title}</b>
-        <i><CalendarClock size={12} /> Final by {due(lead)}</i>
+        <i>
+          <CalendarClock size={12} /> Final by {due(lead)}
+          {editable && onLeadChange && (
+            <input
+              type="number"
+              min={1}
+              max={45}
+              className="col-lead-input"
+              aria-label={`${title} lead days`}
+              title="Lead days before month start"
+              value={lead}
+              onChange={e => onLeadChange(Math.max(1, Number(e.target.value) || 1))}
+            />
+          )}
+        </i>
+        {editable && (
+          <button
+            type="button"
+            className="mw-mini-icon is-danger"
+            title={`Remove ${title} from this month`}
+            aria-label={`Remove ${title}`}
+            onClick={() => hideChannel(channelKey)}
+          >
+            <Trash2 size={13} />
+          </button>
+        )}
       </header>
-      <ul>{items.map(t => <li key={t}>{t}</li>)}</ul>
+      {editable && onItemsChange ? (
+        <div className="col-edit-list">
+          {items.map((t, idx) => (
+            <div key={idx} className="col-edit-item">
+              <input
+                value={t}
+                aria-label={`${title} requirement ${idx + 1}`}
+                onChange={e => onItemsChange(items.map((x, i) => (i === idx ? e.target.value : x)))}
+              />
+              <button
+                type="button"
+                aria-label="Remove requirement"
+                onClick={() => onItemsChange(items.filter((_, i) => i !== idx))}
+              >
+                <Trash2 size={12} />
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="mw-mini-btn"
+            onClick={() => onItemsChange([...items, 'New channel deliverable'])}
+          >
+            <Plus size={12} /> Add requirement
+          </button>
+        </div>
+      ) : (
+        <ul>{items.map((t, idx) => <li key={idx}>{t}</li>)}</ul>
+      )}
       {copy && <div className="col-copy">{copy}</div>}
     </aside>
   );
 
+  const CHANNEL_LABELS: Record<string, string> = {
+    whatsapp: 'WhatsApp broadcast',
+    email: 'Email campaign',
+    tent: 'In-studio tent card',
+  };
+
   return (
     <div id={id} className="mw-section col-section">
       <div className="col-head">
-        <div>
+        <div style={{ flex: '1 1 320px', minWidth: 0 }}>
           <small>{theme || monthName} · {studioName}</small>
-          <h4>Marketing &amp; collaterals needed</h4>
-          <p className="muted">{hook || 'Everything the studio team needs to launch this month’s offers, with a sample of each piece.'}</p>
+          {editable ? (
+            <div className="col-head-edit-fields">
+              <input
+                className="col-edit-heading"
+                aria-label="Collaterals section title"
+                value={state.title ?? 'Marketing & collaterals needed'}
+                onChange={e => patchState({ title: e.target.value })}
+              />
+              <input
+                className="col-edit-sub"
+                aria-label="Collaterals section subtitle"
+                value={state.subtitle ?? (hook || 'Everything the studio team needs to launch this month’s offers, with a sample of each piece.')}
+                onChange={e => patchState({ subtitle: e.target.value })}
+              />
+            </div>
+          ) : (
+            <>
+              <h4>{state.title || 'Marketing & collaterals needed'}</h4>
+              <p className="muted">{state.subtitle || hook || 'Everything the studio team needs to launch this month’s offers, with a sample of each piece.'}</p>
+            </>
+          )}
         </div>
+        {editable && (
+          <div className="col-head-actions">
+            <button type="button" className="mw-mini-btn" onClick={addCustomChannel}>
+              <Plus size={13} /> Add channel
+            </button>
+            {Object.keys(ov).length > 0 && (
+              <button
+                type="button"
+                className="mw-mini-btn"
+                onClick={() => {
+                  const nextByOffer = { ...(state.byOffer || {}) };
+                  delete nextByOffer[String(offer.id)];
+                  patchState({ byOffer: nextByOffer });
+                }}
+              >
+                <RotateCcw size={12} /> Reset offer copy
+              </button>
+            )}
+            {onDeleteSection && (
+              <button type="button" className="mw-mini-btn is-danger" onClick={onDeleteSection} title="Remove collaterals section">
+                <Trash2 size={13} /> Delete section
+              </button>
+            )}
+          </div>
+        )}
       </div>
+
+      {editable && hiddenChannels.length > 0 && (
+        <div className="mw-restore-strip">
+          <span>Removed channels:</span>
+          {hiddenChannels.map(ch => (
+            <button key={ch} type="button" onClick={() => restoreChannel(ch)}>
+              <RotateCcw size={11} /> Restore {CHANNEL_LABELS[ch] || ch}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="col-tabs" role="tablist" aria-label="Offer to preview">
         {(['newcomer', 'lapsed', 'renewal'] as const).map(k => {
           const list = offers.filter(o => (o.plan_slot in VOICE ? o.plan_slot : 'newcomer') === k);
@@ -288,142 +655,346 @@ export default function MarketingCollaterals({
         })}
       </div>
 
+      {editable && (
+        <div className="col-creative-bar">
+          <label>
+            <span>Creative kicker</span>
+            <input value={kicker} onChange={e => patchOfferOv({ kicker: e.target.value })} />
+          </label>
+          <label>
+            <span>Primary creative headline</span>
+            <input value={headline} onChange={e => patchOfferOv({ headline: e.target.value })} />
+          </label>
+          <label>
+            <span>Email hero headline</span>
+            <input value={altHead} onChange={e => patchOfferOv({ altHead: e.target.value })} />
+          </label>
+        </div>
+      )}
+
       {/* WhatsApp: A4 portrait creative, previewed as the received message */}
-      <div className="col-row is-wa">
-        <div className="cr-stage">
-        <div className="wa-pair">
-          {waSends.map(w => (
-            <div key={w.label} className="wa-send">
-              <span className="wa-label">{w.label}</span>
-              <div className="wa-phone">
-                <div className="wa-bar">
-                  <span className="wa-back">‹</span>
-                  <span className="wa-av"><img src="/p57/logo-light.png" alt="" /></span>
-                  <div><b>Physique 57 India <i className="wa-tick">✓</i></b><small>Business account</small></div>
-                </div>
-                <div className="wa-chat">
-                  <span className="wa-day">{w.day}</span>
-                  <div className="wa-bubble">
-                    <figure className={`cr-square is-${w.layout}`}>
-                      <Photo p={w.photo} />
-                      <div className="cr-shade" />
-                      <header><Logo light /><span>{city}</span></header>
-                      <div className="cr-body">
-                        <small>{w.kicker}</small>
-                        <h3>{w.headline}</h3>
-                        <p>{offerName}</p>
+      {!hiddenChannels.includes('whatsapp') && (
+        <div className="col-row is-wa">
+          <div className="cr-stage">
+            <div className="wa-pair">
+              {waSends.map(w => (
+                <div key={w.label} className="wa-send">
+                  <span className="wa-label">{w.label}</span>
+                  <div className="wa-phone">
+                    <div className="wa-bar">
+                      <span className="wa-back">‹</span>
+                      <span className="wa-av"><img src="/p57/logo-light.png" alt="" /></span>
+                      <div><b>Physique 57 India <i className="wa-tick">✓</i></b><small>Business account</small></div>
+                    </div>
+                    <div className="wa-chat">
+                      <span className="wa-day">{w.day}</span>
+                      <div className="wa-bubble">
+                        <figure className={`cr-square is-${w.layout}`}>
+                          <Photo p={w.photo} />
+                          <div className="cr-shade" />
+                          <header><Logo light /><span>{city}</span></header>
+                          <div className="cr-body">
+                            <small>{w.kicker}</small>
+                            <h3>{w.headline}</h3>
+                            <p>{offerName}</p>
+                          </div>
+                          <footer>
+                            <span className="cr-value"><b>57</b><em>min</em></span>
+                            <div><strong>Reply YES to book</strong><span>{closes} · {studioName}</span></div>
+                          </footer>
+                        </figure>
+                        <p className="wa-text">{w.text.split(/(\*[^*]+\*)/).map((t, i) => (t.startsWith('*') ? <b key={i}>{t.slice(1, -1)}</b> : t))}</p>
+                        <span className="wa-time">{w.time}</span>
                       </div>
-                      <footer>
-                        <span className="cr-value"><b>57</b><em>min</em></span>
-                        <div><strong>Reply YES to book</strong><span>{closes} · {studioName}</span></div>
-                      </footer>
-                    </figure>
-                    <p className="wa-text">{w.text.split(/(\*[^*]+\*)/).map((t, i) => (t.startsWith('*') ? <b key={i}>{t.slice(1, -1)}</b> : t))}</p>
-                    <span className="wa-time">{w.time}</span>
+                      <div className="wa-buttons"><span>{w.button}</span><span>Stop promotions</span></div>
+                    </div>
+                    <div className="wa-input"><span>Message</span><i /></div>
                   </div>
-                  <div className="wa-buttons"><span>{w.button}</span><span>Stop promotions</span></div>
                 </div>
-                <div className="wa-input"><span>Message</span><i /></div>
-              </div>
+              ))}
             </div>
-          ))}
+            <Layouts piece="square" />
+          </div>
+          <Spec
+            channelKey="whatsapp"
+            title="WhatsApp broadcast"
+            icon={MessageCircle}
+            lead={waLead}
+            onLeadChange={d => patchOfferOv({ waLead: d })}
+            items={waItems}
+            onItemsChange={next => patchOfferOv({ waItems: next })}
+            copy={
+              editable ? (
+                <div className="col-copy-edit">
+                  <label>
+                    <small>Send window</small>
+                    <input value={waWindow} onChange={e => patchOfferOv({ waWindow: e.target.value })} />
+                  </label>
+                  <label>
+                    <small>Launch message</small>
+                    <textarea rows={4} value={waLaunchText} onChange={e => patchOfferOv({ waLaunchText: e.target.value })} />
+                  </label>
+                  <div className="col-copy-row2">
+                    <label>
+                      <small>Launch CTA button</small>
+                      <input value={waLaunchButton} onChange={e => patchOfferOv({ waLaunchButton: e.target.value })} />
+                    </label>
+                    <label>
+                      <small>Reminder CTA button</small>
+                      <input value={waReminderButton} onChange={e => patchOfferOv({ waReminderButton: e.target.value })} />
+                    </label>
+                  </div>
+                  <label>
+                    <small>Reminder message (48h before close)</small>
+                    <textarea rows={3} value={waReminderText} onChange={e => patchOfferOv({ waReminderText: e.target.value })} />
+                  </label>
+                </div>
+              ) : (
+                <>
+                  <small>Send window</small>
+                  <p>{waWindow}</p>
+                </>
+              )
+            }
+          />
         </div>
-        <Layouts piece="square" />
-        </div>
-        <Spec
-          title="WhatsApp broadcast"
-          icon={MessageCircle}
-          lead={10}
-          items={[
-            `${n} broadcast${n > 1 ? 's' : ''} (one per offer) + 1 reminder 48h before close`,
-            'A4 portrait creative (2480×3508 px, sent at 1240×1754), text ≤ 20% of image',
-            'Message ≤ 450 characters, one link, opt-out line',
-            'Business template submitted for approval 3 days ahead',
-          ]}
-          copy={<><small>Send window</small><p>Tue–Thu, 9–11 am or 6–8 pm. Reminder 48h before {fmtDay(end)}.</p></>}
-        />
-      </div>
+      )}
 
       {/* Email: 600px template */}
-      <div className="col-row">
-        <div className="cr-stage">
-        <figure className={`cr-email is-${layout('email')}`}>
-          <div className="cr-hero">
-            <Photo p={shots[1]} />
-            <div className="cr-shade" />
-            <header><Logo light={layout('email') !== 'arch'} /><span>{studioName} · {city}</span></header>
-            <div className="cr-hero-text">
-              <small>{kicker}</small>
-              <h3>{altHead}</h3>
-            </div>
+      {!hiddenChannels.includes('email') && (
+        <div className="col-row">
+          <div className="cr-stage">
+            <figure className={`cr-email is-${layout('email')}`}>
+              <div className="cr-hero">
+                <Photo p={shots[1]} />
+                <div className="cr-shade" />
+                <header><Logo light={layout('email') !== 'arch'} /><span>{studioName} · {city}</span></header>
+                <div className="cr-hero-text">
+                  <small>{kicker}</small>
+                  <h3>{altHead}</h3>
+                </div>
+              </div>
+              <div className="cr-mail-body">
+                <h4>{offer.name}</h4>
+                <p>{clip(detail, 120)}</p>
+                <span className="cr-cta">{emailCta} <ArrowRight size={13} /></span>
+                <small className="cr-mail-fine">Until {fmtDay(end)} · {studioName}, {city} · Unsubscribe</small>
+              </div>
+            </figure>
+            <Layouts piece="email" />
           </div>
-          <div className="cr-mail-body">
-            <h4>{offer.name}</h4>
-            <p>{clip(detail, 120)}</p>
-            <span className="cr-cta">{v.cta} <ArrowRight size={13} /></span>
-            <small className="cr-mail-fine">Until {fmtDay(end)} · {studioName}, {city} · Unsubscribe</small>
-          </div>
-        </figure>
-        <Layouts piece="email" />
+          <Spec
+            channelKey="email"
+            title="Email"
+            icon={Mail}
+            lead={emailLead}
+            onLeadChange={d => patchOfferOv({ emailLead: d })}
+            items={emailItems}
+            onItemsChange={next => patchOfferOv({ emailItems: next })}
+            copy={
+              editable ? (
+                <div className="col-copy-edit">
+                  <small>Subject line options</small>
+                  <div className="col-edit-list">
+                    {subjects.map((s, idx) => (
+                      <div key={idx} className="col-edit-item">
+                        <input
+                          value={s}
+                          onChange={e => patchOfferOv({ subjects: subjects.map((x, i) => (i === idx ? e.target.value : x)) })}
+                        />
+                        <button
+                          type="button"
+                          aria-label="Remove subject line"
+                          onClick={() => patchOfferOv({ subjects: subjects.filter((_, i) => i !== idx) })}
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="mw-mini-btn"
+                      onClick={() => patchOfferOv({ subjects: [...subjects, `${offerName} — ${monthName}`] })}
+                    >
+                      <Plus size={12} /> Add subject line
+                    </button>
+                  </div>
+                  <label>
+                    <small>Preheader</small>
+                    <input value={preheader} onChange={e => patchOfferOv({ preheader: e.target.value })} />
+                  </label>
+                  <label>
+                    <small>Opening line</small>
+                    <textarea rows={2} value={intro} onChange={e => patchOfferOv({ intro: e.target.value })} />
+                  </label>
+                  <label>
+                    <small>Button CTA</small>
+                    <input value={emailCta} onChange={e => patchOfferOv({ emailCta: e.target.value })} />
+                  </label>
+                </div>
+              ) : (
+                <>
+                  <small>Subject line options</small>
+                  <ol className="col-subjects">{subjects.map((s, idx) => <li key={idx}>{s}</li>)}</ol>
+                  <small>Preheader</small>
+                  <p>{preheader}</p>
+                  <small>Opening line</small>
+                  <p>{intro}</p>
+                </>
+              )
+            }
+          />
         </div>
-        <Spec
-          title="Email"
-          icon={Mail}
-          lead={12}
-          items={[
-            `1 launch email featuring all ${n} offer${n > 1 ? 's' : ''} + 1 last-chance email`,
-            'A4 portrait creative (2480×3508 px), exported at 600 px wide for the template, dark-mode safe',
-            'Subject ≤ 45 characters + preheader ≤ 90 characters',
-            'Segmented sends: new leads, lapsed 61–365 days, renewals due',
-          ]}
-          copy={
-            <>
-              <small>Subject line options</small>
-              <ol className="col-subjects">{subjects.map(s => <li key={s}>{s}</li>)}</ol>
-              <small>Preheader</small>
-              <p>{v.preheaders.join(' / ')}</p>
-              <small>Opening line</small>
-              <p>{intro}</p>
-            </>
-          }
-        />
-      </div>
+      )}
 
       {/* Tent card: A4 portrait, shown standing on the reception counter */}
-      <div className="col-row is-tent">
-        <div className="cr-stage">
-        <div className="cr-tent-stage">
-          <figure className={`cr-tent is-${layout('tent')}`}>
-            <div className="cr-tent-photo" style={bg(shots[2])}>
-              <span className="cr-badge cr-value"><b>{monthName.slice(0, 3)}</b><em>only</em></span>
+      {!hiddenChannels.includes('tent') && (
+        <div className="col-row is-tent">
+          <div className="cr-stage">
+            <div className="cr-tent-stage">
+              <figure className={`cr-tent is-${layout('tent')}`}>
+                <div className="cr-tent-photo" style={bg(shots[2])}>
+                  <span className="cr-badge cr-value"><b>{monthName.slice(0, 3)}</b><em>only</em></span>
+                </div>
+                <div className="cr-tent-body">
+                  <Logo />
+                  <small>{kicker}</small>
+                  <h3>{tentFront}</h3>
+                  <p><b>{offerName}.</b> {clip(detail, 80)}</p>
+                  <div className="cr-tent-foot">
+                    <div className="cr-qr" aria-hidden="true">{Array.from({ length: 49 }, (_, i) => <i key={i} className={(i * 7 + month * 3 + i * i) % 3 ? '' : 'on'} />)}</div>
+                    <div><b>Scan to claim</b><span>Or ask at reception · {closes}</span></div>
+                  </div>
+                </div>
+              </figure>
             </div>
-            <div className="cr-tent-body">
-              <Logo />
-              <small>{kicker}</small>
-              <h3>{headline}</h3>
-              <p><b>{offerName}.</b> {clip(detail, 80)}</p>
-              <div className="cr-tent-foot">
-                <div className="cr-qr" aria-hidden="true">{Array.from({ length: 49 }, (_, i) => <i key={i} className={(i * 7 + month * 3 + i * i) % 3 ? '' : 'on'} />)}</div>
-                <div><b>Scan to claim</b><span>Or ask at reception · {closes}</span></div>
+            <Layouts piece="tent" />
+          </div>
+          <Spec
+            channelKey="tent"
+            title="In-studio tent card"
+            icon={Printer}
+            lead={tentLead}
+            onLeadChange={d => patchOfferOv({ tentLead: d })}
+            items={tentItems}
+            onItemsChange={next => patchOfferOv({ tentItems: next })}
+            copy={
+              editable ? (
+                <div className="col-copy-edit">
+                  <label>
+                    <small>Front headline</small>
+                    <input value={tentFront} onChange={e => patchOfferOv({ tentFront: e.target.value })} />
+                  </label>
+                  <label>
+                    <small>Back copy</small>
+                    <textarea rows={3} value={tentBack} onChange={e => patchOfferOv({ tentBack: e.target.value })} />
+                  </label>
+                </div>
+              ) : (
+                <>
+                  <small>Front</small>
+                  <p>{tentFront}</p>
+                  <small>Back</small>
+                  <p>{tentBack}</p>
+                </>
+              )
+            }
+          />
+        </div>
+      )}
+
+      {/* Custom added collateral channels */}
+      {customChannels.map(ch => (
+        <div key={ch.id} className="col-row is-custom">
+          <aside className="col-spec" style={{ gridColumn: '1 / -1' }}>
+            <header>
+              <span><Megaphone size={15} /></span>
+              {editable ? (
+                <input
+                  className="col-inline-title"
+                  value={ch.title}
+                  onChange={e => updateCustomChannel(ch.id, { title: e.target.value })}
+                />
+              ) : (
+                <b>{ch.title}</b>
+              )}
+              <i>
+                <CalendarClock size={12} /> Final by {due(ch.lead)}
+                {editable && (
+                  <input
+                    type="number"
+                    min={1}
+                    max={45}
+                    className="col-lead-input"
+                    aria-label="Lead days"
+                    value={ch.lead}
+                    onChange={e => updateCustomChannel(ch.id, { lead: Math.max(1, Number(e.target.value) || 1) })}
+                  />
+                )}
+              </i>
+              {editable && (
+                <button
+                  type="button"
+                  className="mw-mini-icon is-danger"
+                  aria-label={`Delete ${ch.title}`}
+                  onClick={() => removeCustomChannel(ch.id)}
+                >
+                  <Trash2 size={13} />
+                </button>
+              )}
+            </header>
+            {editable ? (
+              <div className="col-edit-list">
+                {ch.items.map((it, idx) => (
+                  <div key={idx} className="col-edit-item">
+                    <input
+                      value={it}
+                      onChange={e => updateCustomChannel(ch.id, { items: ch.items.map((x, i) => (i === idx ? e.target.value : x)) })}
+                    />
+                    <button
+                      type="button"
+                      aria-label="Remove deliverable"
+                      onClick={() => updateCustomChannel(ch.id, { items: ch.items.filter((_, i) => i !== idx) })}
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="mw-mini-btn"
+                  onClick={() => updateCustomChannel(ch.id, { items: [...ch.items, 'New deliverable requirement'] })}
+                >
+                  <Plus size={12} /> Add requirement
+                </button>
               </div>
+            ) : (
+              <ul>{ch.items.map((t, idx) => <li key={idx}>{t}</li>)}</ul>
+            )}
+            <div className="col-copy">
+              {editable ? (
+                <div className="col-copy-edit">
+                  <input
+                    className="col-copy-label-input"
+                    value={ch.copyLabel}
+                    onChange={e => updateCustomChannel(ch.id, { copyLabel: e.target.value })}
+                  />
+                  <textarea
+                    rows={3}
+                    value={ch.copyText}
+                    onChange={e => updateCustomChannel(ch.id, { copyText: e.target.value })}
+                  />
+                </div>
+              ) : (
+                <>
+                  <small>{ch.copyLabel}</small>
+                  <p>{ch.copyText}</p>
+                </>
+              )}
             </div>
-          </figure>
+          </aside>
         </div>
-        <Layouts piece="tent" />
-        </div>
-        <Spec
-          title="In-studio tent card"
-          icon={Printer}
-          lead={15}
-          items={[
-            `${n} designs, double-sided A4 (210×297 mm) on 350 gsm matte, folded into an A-frame`,
-            `Quantity: ${4 * n} per studio (reception, changing room, two on the floor)`,
-            'QR to the Momence checkout with a tracking tag per offer',
-            'Printed and placed by the 25th of the previous month',
-          ]}
-          copy={<><small>Front</small><p>{headline}</p><small>Back</small><p>{offer.name}. {detail} {v.wa.replace('Reply YES and', 'Ask at reception and')}</p></>}
-        />
-      </div>
+      ))}
     </div>
   );
 }

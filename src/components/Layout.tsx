@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Bot, ChevronDown, LogOut, Menu, PanelLeftClose, PanelLeftOpen, Plus, Search, X } from 'lucide-react';
+import { Bot, ChevronDown, LogOut, MapPin, Menu, PanelLeftClose, PanelLeftOpen, Plus, Search, X } from 'lucide-react';
 import BrandMark from './BrandMark';
 import CommandPalette from './CommandPalette';
 import CopilotDrawer from './CopilotDrawer';
@@ -60,12 +60,29 @@ export default function Layout() {
     await post('/auth/logout', {}).catch(() => undefined);
     window.location.reload();
   };
-  const tabs = [
-    ...locations
-      .filter(s => !scoped || s.id === boot.user.assigned_studio_id)
-      .map(s => ({ id: s.id as number | null, label: s.name, sub: s.city, color: LOCATION_COLORS[s.name] })),
-    ...(scoped ? [] : [{ id: null, label: 'All locations', sub: 'Combined', color: ALL_LOCATIONS_COLOR }]),
-  ];
+  const studioTabs = locations
+    .filter(s => !scoped || s.id === boot.user.assigned_studio_id)
+    .map(s => ({
+      id: s.id as number | null,
+      label: s.name,
+      sub: s.name === 'Pop-up' ? `${s.city} · 2 venues` : s.city,
+      code: s.name
+        .split(/[\s-]+/)
+        .map(w => w[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase(),
+      color: LOCATION_COLORS[s.name],
+    }));
+  const rollupTab = scoped
+    ? null
+    : {
+        id: null as number | null,
+        label: 'All locations',
+        sub: `${locations.length} studios · Combined`,
+        code: 'ALL',
+        color: ALL_LOCATIONS_COLOR,
+      };
   return (
     <div
       className={`ws-shell accented ${collapsed ? 'sidebar-collapsed' : ''}`}
@@ -231,38 +248,56 @@ export default function Layout() {
           </div>
         </div>
         {section?.locationAware !== false && (
-          <nav
-            className="ws-locations"
-            aria-label="Locations"
-            style={{ gridTemplateColumns: `repeat(${tabs.length}, minmax(0, 1fr))` }}
-          >
-            {tabs.map(tab => {
-              const disabled = scoped && tab.id !== boot.user.assigned_studio_id;
-              return (
-                <button
-                  key={tab.label}
-                  disabled={disabled}
-                  className={studioId === tab.id ? 'active' : ''}
-                  style={{ '--loc': tab.color } as React.CSSProperties}
-                  onClick={() => setStudioId(tab.id)}
-                >
-                  <i>
-                    {tab.id === null
-                      ? 'ALL'
-                      : tab.label
-                          .split(/[\s-]+/)
-                          .map(w => w[0])
-                          .join('')
-                          .slice(0, 2)
-                          .toUpperCase()}
-                  </i>
-                  <span>
-                    <strong>{tab.label}</strong>
-                    <small>{tab.sub}</small>
-                  </span>
-                </button>
-              );
-            })}
+          <nav className="ws-locations" aria-label="Locations">
+            <div className="ws-loc-rail" aria-hidden="true">
+              <MapPin size={12} />
+              <span>Locations</span>
+            </div>
+            <div className="ws-loc-track" role="tablist" aria-label="Select studio location">
+              {rollupTab && (
+                <>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={studioId === null}
+                    className={`ws-loc-tab is-rollup ${studioId === null ? 'active' : ''}`}
+                    style={{ '--loc': rollupTab.color } as React.CSSProperties}
+                    onClick={() => setStudioId(null)}
+                  >
+                    <i className="ws-loc-badge">{rollupTab.code}</i>
+                    <span className="ws-loc-copy">
+                      <strong>{rollupTab.label}</strong>
+                      <small>{rollupTab.sub}</small>
+                    </span>
+                    <em className="ws-loc-dot" aria-hidden="true" />
+                  </button>
+                  <span className="ws-loc-sep" aria-hidden="true" />
+                </>
+              )}
+              {studioTabs.map(tab => {
+                const disabled = scoped && tab.id !== boot.user.assigned_studio_id;
+                const isActive = studioId === tab.id;
+                return (
+                  <button
+                    key={tab.label}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    disabled={disabled}
+                    className={`ws-loc-tab ${isActive ? 'active' : ''}`}
+                    style={{ '--loc': tab.color } as React.CSSProperties}
+                    onClick={() => setStudioId(tab.id)}
+                  >
+                    <i className="ws-loc-badge">{tab.code}</i>
+                    <span className="ws-loc-copy">
+                      <strong>{tab.label}</strong>
+                      <small>{tab.sub}</small>
+                    </span>
+                    <em className="ws-loc-dot" aria-hidden="true" />
+                  </button>
+                );
+              })}
+            </div>
           </nav>
         )}
       </header>
