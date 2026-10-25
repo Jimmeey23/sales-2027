@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
@@ -95,6 +95,57 @@ const STREAM_OF: Record<string, string> = {
   aov: 'Ticket & renewal',
   reactivation: 'Comeback / reactivation',
 };
+const STREAM_KEY: Record<string, string> = {
+  'New clients': 'newClient',
+  'Ticket & renewal': 'renewal',
+  'Comeback / reactivation': 'reactivation',
+};
+type AiFocus = {
+  theme: string;
+  objective: string;
+  strategy: string;
+  focusPoints: string[];
+  splitRationale: string;
+  actionPlan: { week: number; owner: string; text: string }[];
+  reasoning: { heading: string; points: string[] }[];
+  risks: string[];
+};
+const planBodyOf = (f: any, over: Record<string, unknown> = {}) => ({
+  theme: f.theme || null,
+  objective: f.objective || null,
+  strategy: f.strategy || null,
+  notes: f.notes || null,
+  status: f.status,
+  actions: (f.actions || []).filter((a: ActionItem) => a.text.trim()),
+  content: f.content || {},
+  ...over,
+});
+// Renders "- " bullet lines, numbered lines and **bold** from AI or planner text.
+const inline = (t: string) => t.split(/(\*\*[^*]+\*\*)/).map((p, i) => (p.startsWith('**') && p.endsWith('**') ? <b key={i}>{p.slice(2, -2)}</b> : p));
+function RichText({ text }: { text: string }) {
+  const blocks: React.ReactNode[] = [];
+  let list: { ordered: boolean; items: string[] } | null = null;
+  const close = () => {
+    if (!list) return;
+    const Tag = list.ordered ? 'ol' : 'ul';
+    blocks.push(<Tag key={blocks.length}>{list.items.map((t, i) => <li key={i}>{inline(t)}</li>)}</Tag>);
+    list = null;
+  };
+  for (const raw of String(text || '').split('\n')) {
+    const line = raw.trim();
+    const bullet = line.match(/^[-•*]\s+(.*)/), num = line.match(/^\d+[.)]\s+(.*)/);
+    if (bullet || num) {
+      const ordered = !!num;
+      if (!list || list.ordered !== ordered) { close(); list = { ordered, items: [] }; }
+      list.items.push((bullet || num)![1]);
+    } else {
+      close();
+      if (line) blocks.push(<p key={blocks.length}>{inline(line)}</p>);
+    }
+  }
+  close();
+  return <div className="mw-rich">{blocks}</div>;
+}
 const n = (v: any) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 const MASTER_EDIT_CODE = '9818';
 const MASTER_EDIT_SESSION_KEY = 'sales-plan.master-edit-unlocked';
@@ -334,8 +385,22 @@ export default function MonthWorkspace({
     [busy, setBusy] = useState(false),
     [editing, setEditing] = useState<number | null>(null),
     [activeDay, setActiveDay] = useState<number | null>(null);
-  // Reset whenever the month or studio changes, or fresh data arrives after a save.
-  useEffect(() => setForm(initialForm()), [month, studioIdx, data]);
+  // Reset whenever the month or studio changes, or fresh data arrives — except right after our own autosave.
+  const skipReset = useRef(false),
+    resetKey = useRef(''),
+    lastSaved = useRef('');
+  useEffect(() => {
+    const key = `${month}-${studioIdx}`;
+    if (skipReset.current && resetKey.current === key) {
+      skipReset.current = false;
+      return;
+    }
+    skipReset.current = false;
+    resetKey.current = key;
+    const f = initialForm();
+    lastSaved.current = JSON.stringify(planBodyOf(f));
+    setForm(f);
+  }, [month, studioIdx, data]);
   useEffect(() => setEditing(null), [month, studioIdx]);
   useEffect(() => setActiveDay(null), [month, studioIdx]);
   useEffect(() => setMathsOpen(false), [month, studioIdx]);
@@ -439,44 +504,143 @@ export default function MonthWorkspace({
       await offerChange({ op: 'remove', offerId: outId }, `“${incoming.name}” replaced “${out.name}”`);
   };
 
-  const planBody = (over: Record<string, unknown> = {}) => ({
-    theme: form.theme || null,
-    objective: form.objective || null,
-    strategy: form.strategy || null,
-    notes: form.notes || null,
-    status: form.status,
-    actions: form.actions.filter(a => a.text.trim()),
-    content: form.content || {},
-    ...over,
-  });
+  const planBody = (over: Record<string, unknown> = {}) => planBodyOf(form, over);
+
+  // Autosave: plan text, focus points, activations, actions and AI output persist ~1s after the last edit.
+  const [autoState, setAutoState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const pendingSave = useRef<{ url: string; body: string } | null>(null),
+    saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const flushSave = async () => {
+    clearTimeout(saveTimer.current);
+    const p = pendingSave.current;
+    if (!p) return;
+    pendingSave.current = null;
+    setAutoState('saving');
+    try {
+      await api(p.url, { method: 'PUT', body: p.body });
+      lastSaved.current = p.body;
+      setAutoState('saved');
+      skipReset.current = true;
+      await onSaved();
+    } catch (e: any) {
+      setAutoState('error');
+      toast(e.message || 'Autosave failed.', 'error');
+    }
+  };
+  useEffect(() => {
+    if (!editable) return;
+    const body = JSON.stringify(planBody());
+    if (body === lastSaved.current) return;
+    pendingSave.current = { url: `/studio-plans/${studio.id}/${year}/${month}`, body };
+    clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(flushSave, 1000);
+  }, [form, editable]);
+  useEffect(() => () => void flushSave(), [month, studioIdx]);
+
+  // Persists a whole form snapshot, including the stream split when it differs from the saved target.
+  const persistForm = async (f: ReturnType<typeof initialForm>) => {
+    clearTimeout(saveTimer.current);
+    pendingSave.current = null;
+    const streamsChanged =
+      !!targetRow && STREAMS.some(s => n(f.streams[s.key]) !== Math.round(n(approved ? initialStreams[s.key] : targetRow[s.field])));
+    if (streamsChanged)
+      await api(`/targets/${targetRow.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          proposedTarget: f.target,
+          ...Object.fromEntries(STREAMS.map(s => [s.body, n(f.streams[s.key])])),
+          repeatTarget: 0,
+          otherTarget: 0,
+          requireFullCoverage: true,
+          monthlyPlan: planBodyOf(f),
+        }),
+      });
+    else await api(`/studio-plans/${studio.id}/${year}/${month}`, { method: 'PUT', body: JSON.stringify(planBodyOf(f)) });
+    lastSaved.current = JSON.stringify(planBodyOf(f));
+    setAutoState('saved');
+    skipReset.current = true;
+    await onSaved();
+  };
+
   const [generating, setGenerating] = useState(false);
   const generateFocus = async () => {
     setGenerating(true);
     try {
-      const ideas = await api<{ theme: string; objective: string; strategy: string }>(
-        `/studio-plans/${studio.id}/${year}/${month}/focus/generate`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            studioName: studio.name,
-            monthName: MONTHS[month - 1],
-            year,
-            currentTheme: form.theme,
-            target: effective,
-            lastYear: row.lastYear,
-            offerGap: Math.max(0, effective - offerRevenue),
-            keyDates: dates.map(d => `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)} · ${d.name}`),
-            offers: selected.map(o => o.name),
-          }),
-        },
-      );
-      setForm(f => ({ ...f, ...ideas }));
-      await api(`/studio-plans/${studio.id}/${year}/${month}`, {
-        method: 'PUT',
-        body: JSON.stringify(planBody(ideas)),
+      // Split the target across streams in proportion to the revenue each stream's offers carry.
+      const cover = { newClient: 0, renewal: 0, reactivation: 0 } as Record<string, number>;
+      for (const o of selected) {
+        const k = STREAM_KEY[STREAM_OF[o.objective] || ''];
+        if (k) cover[k] += forecastRevenue(o);
+      }
+      const coverTotal = cover.newClient + cover.renewal + cover.reactivation;
+      let streams = form.streams;
+      if (coverTotal > 0 && effective > 0) {
+        const renewal = Math.round((effective * cover.renewal) / coverTotal);
+        const reactivation = Math.round((effective * cover.reactivation) / coverTotal);
+        streams = { newClient: Math.max(0, Math.round(effective) - renewal - reactivation), renewal, reactivation };
+      }
+      const ai = await api<AiFocus>(`/studio-plans/${studio.id}/${year}/${month}/focus/generate`, {
+        method: 'POST',
+        body: JSON.stringify({
+          studioName: studio.name,
+          monthName: MONTHS[month - 1],
+          year,
+          currentTheme: form.theme,
+          target: effective,
+          lastYear: row.lastYear,
+          offerGap: effective - offerRevenue,
+          offerRevenue,
+          keyDates: dates.map(d => `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)} · ${d.name}`).slice(0, 16),
+          offers: selected.map(o => o.name).slice(0, 16),
+          offerDetails: selected.slice(0, 16).map(o => ({
+            name: String(o.name || '').slice(0, 160),
+            stream: STREAM_OF[o.objective] || 'Other',
+            benefit: String(o.benefit || '').slice(0, 400),
+            audience: String(o.audience || '').slice(0, 200),
+            price: n(o.expected_asp),
+            units: n(o.target_purchases),
+            revenue: forecastRevenue(o),
+          })),
+          streams,
+          streamCoverage: cover,
+          funnel: econ
+            ? {
+                leads: n(econ.newClient.leads),
+                trials: n(econ.newClient.trials),
+                newMembers: n(econ.newClient.buyers),
+                renewalsNeeded: n(econ.renewal.renewersNeeded),
+                expiriesDue: n(econ.renewal.projectedExpiries),
+                reactivationsNeeded: n(econ.reactivation.needed),
+                lapsedPool: n(econ.reactivation.lapsedPool),
+              }
+            : {},
+        }),
       });
-      await onSaved();
-      toast(`${MONTHS[month - 1]} focus written and saved.`);
+      const next = {
+        ...form,
+        theme: ai.theme,
+        objective: ai.objective,
+        strategy: ai.strategy,
+        streams,
+        actions: ai.actionPlan.map(a => ({ ...a, done: false })),
+        content: {
+          ...(form.content || {}),
+          focusPoints: ai.focusPoints,
+          ai: {
+            splitRationale: ai.splitRationale,
+            reasoning: ai.reasoning,
+            risks: ai.risks,
+            split: streams,
+            coverage: cover,
+            target: effective,
+            offerRevenue,
+            generatedAt: new Date().toISOString(),
+          },
+        },
+      };
+      setForm(next);
+      await persistForm(next);
+      toast(`${MONTHS[month - 1]} plan written by AI and saved.`);
     } catch (e: any) {
       toast(e.message || 'Could not generate the focus.', 'error');
     } finally {
@@ -1087,10 +1251,10 @@ export default function MonthWorkspace({
                           className="mw-ai"
                           disabled={generating || busy}
                           onClick={generateFocus}
-                          title="Draft the theme, objective and strategy from this month's dates, offers and target, then save"
+                          title="Write the focus, stream split, action plan and reasoning from this month's dates, offers and target, then save"
                         >
                           <Sparkles size={15} />
-                          {generating ? 'Writing…' : form.strategy ? 'Regenerate with AI' : 'Generate with AI'}
+                          {generating ? 'Writing plan…' : form.strategy ? 'Regenerate with AI' : 'Enhance with AI'}
                         </button>
                       )}
                     </div>
@@ -1109,26 +1273,58 @@ export default function MonthWorkspace({
                       <span>
                         <ListChecks size={13} /> Strategy — how we hit the number
                       </span>
-                      <textarea
-                        rows={5}
-                        value={form.strategy}
-                        placeholder="e.g. Lead with the festive gifting pack, push renewals in week 2…"
-                        onChange={e => set({ strategy: e.target.value })}
-                        {...fieldProps}
-                      />
+                      {editable ? (
+                        <textarea
+                          rows={6}
+                          value={form.strategy}
+                          placeholder={'- Lead with the festive gifting pack\n- Push renewals in week 2…'}
+                          onChange={e => set({ strategy: e.target.value })}
+                        />
+                      ) : form.strategy ? (
+                        <RichText text={form.strategy} />
+                      ) : (
+                        <p className="muted">No strategy yet.</p>
+                      )}
                     </label>
-                    <div className="mw-focus-points">
-                      <span><Flag size={13} /> Focus points</span>
-                      <ol>
-                        {(FOCUS_POINTS[month] || []).map((t, i) => (
-                          <li key={t}><b>{i + 1}</b>{t}</li>
-                        ))}
-                      </ol>
-                    </div>
+                    {(() => {
+                      const points: string[] = Array.isArray(form.content?.focusPoints) ? form.content.focusPoints : FOCUS_POINTS[month] || [];
+                      const setPoints = (next: string[]) => updateContent({ focusPoints: next });
+                      return (
+                        <div className="mw-focus-points">
+                          <span><Flag size={13} /> Focus points</span>
+                          <ol>
+                            {points.map((t, i) => (
+                              <li key={i}>
+                                <b>{i + 1}</b>
+                                {editable ? (
+                                  <>
+                                    <input
+                                      aria-label={`Focus point ${i + 1}`}
+                                      value={t}
+                                      onChange={e => setPoints(points.map((x, j) => (j === i ? e.target.value : x)))}
+                                    />
+                                    <button type="button" aria-label="Remove focus point" onClick={() => setPoints(points.filter((_, j) => j !== i))}>
+                                      <Trash2 size={12} />
+                                    </button>
+                                  </>
+                                ) : (
+                                  <span>{inline(t)}</span>
+                                )}
+                              </li>
+                            ))}
+                          </ol>
+                          {editable && (
+                            <button type="button" className="mw-focus-add" onClick={() => setPoints([...points, ''])}>
+                              <Plus size={12} /> Add focus point
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })()}
                     {editable && (
                       <small className="mw-focus-note">
-                        <Sparkles size={12} /> AI writes from the month’s key dates, offers and target, then saves automatically. Edit anything,
-                        then press Save month.
+                        <Sparkles size={12} /> AI writes the focus, stream split, action plan and reasoning from this month’s dates, offers and
+                        target. Everything autosaves{autoState === 'saving' ? ' — saving…' : autoState === 'saved' ? ' — saved.' : autoState === 'error' ? ' — last save failed.' : '.'}
                       </small>
                     )}
                   </div>
@@ -1227,6 +1423,93 @@ export default function MonthWorkspace({
                 </div>
               </>
             )}
+            {form.content?.ai && (() => {
+              const ai = form.content.ai;
+              const rows = STREAMS.map(s => ({
+                ...s,
+                target: n(form.streams[s.key]),
+                offer: selected
+                  .filter(o => STREAM_KEY[STREAM_OF[o.objective] || ''] === s.key)
+                  .reduce((sum, o) => sum + forecastRevenue(o), 0),
+              }));
+              const max = Math.max(1, ...rows.flatMap(r => [r.target, r.offer]));
+              return (
+                <div id="mw-sec-ai" className="mw-section mw-ai-plan">
+                  <SectionHead
+                    icon={Sparkles}
+                    title="AI plan & reasoning"
+                    hint={`How ${MONTHS[month - 1]} reaches ${lakh(effective)} · generated ${new Date(ai.generatedAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`}
+                  />
+                  <div className="mw-ai-split">
+                    <div className="mw-ai-chart" role="img" aria-label="Target versus offer forecast by revenue stream">
+                      <div className="mw-ai-legend">
+                        <span><i className="t" /> Target</span>
+                        <span><i className="o" /> Offer forecast</span>
+                      </div>
+                      {rows.map(r => (
+                        <div key={r.key} className="mw-ai-bar-row" style={{ '--c': r.color } as React.CSSProperties}>
+                          <span className="lbl">{r.label}</span>
+                          <div className="bars">
+                            <i className="t" style={{ width: `${(r.target / max) * 100}%` }} />
+                            <i className="o" style={{ width: `${(r.offer / max) * 100}%` }} />
+                          </div>
+                          <span className="val">
+                            <b>{lakh(r.target)}</b>
+                            <em className={r.offer >= r.target ? 'ok' : 'short'}>{lakh(r.offer)}</em>
+                          </span>
+                        </div>
+                      ))}
+                      <div className="mw-ai-donut">
+                        {rows.map(r => (
+                          <span key={r.key} style={{ flexGrow: Math.max(r.target, 0.0001), background: r.color }} title={`${r.label} ${lakh(r.target)}`}>
+                            {effective ? `${Math.round((r.target / effective) * 100)}%` : ''}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    {ai.splitRationale && (
+                      <div className="mw-ai-rationale">
+                        <h5>Why this split</h5>
+                        <RichText text={ai.splitRationale} />
+                      </div>
+                    )}
+                  </div>
+                  {Array.isArray(ai.reasoning) && ai.reasoning.length > 0 && (
+                    <div className="mw-ai-reasons">
+                      {ai.reasoning.map((sec: { heading: string; points: string[] }, i: number) => (
+                        <section key={i}>
+                          <h5><span>{String(i + 1).padStart(2, '0')}</span>{sec.heading}</h5>
+                          <ul>{sec.points.map((p, j) => <li key={j}>{inline(p)}</li>)}</ul>
+                        </section>
+                      ))}
+                    </div>
+                  )}
+                  {Array.isArray(ai.risks) && ai.risks.length > 0 && (
+                    <div className="mw-ai-risks">
+                      <h5>Risks &amp; mitigations</h5>
+                      <ul>{ai.risks.map((r: string, i: number) => <li key={i}>{inline(r)}</li>)}</ul>
+                    </div>
+                  )}
+                  {form.actions.length > 0 && (
+                    <div className="mw-ai-weeks">
+                      {[1, 2, 3, 4, 5].filter(w => form.actions.some(a => a.week === w)).map(w => (
+                        <div key={w}>
+                          <h6>Week {w}</h6>
+                          <ul>
+                            {form.actions.filter(a => a.week === w).map((a, i) => (
+                              <li key={i} className={a.done ? 'done' : ''}>
+                                {a.text}
+                                {a.owner && <em>{a.owner}</em>}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
             {econ && mathsOpen && (
               <MathsPanel
                 id="mw-maths-panel"
@@ -1250,6 +1533,32 @@ export default function MonthWorkspace({
                     title={`Offers · ${selected.length}`}
                     hint={`${lakh(offerRevenue)} expected. Edit here, or swap in an alternate from the right.`}
                   />
+                  {effective > 0 && selected.length > 0 && (() => {
+                    const ratio = offerRevenue / effective;
+                    const tone = ratio > 1.1 ? 'over' : ratio < 0.9 ? 'under' : 'ok';
+                    const diff = Math.abs(offerRevenue - effective);
+                    return (
+                      <div className={`mw-rev-check is-${tone}`} role="status">
+                        <div className="mw-rev-check-text">
+                          <strong>
+                            {tone === 'over' ? 'Offer plan exceeds target' : tone === 'under' ? 'Offer plan is below target' : 'Offer plan is in line with target'}
+                          </strong>
+                          <span>
+                            {lakh(offerRevenue)} forecast vs {lakh(effective)} target ·{' '}
+                            {tone === 'ok'
+                              ? `${Math.round(ratio * 100)}% covered`
+                              : tone === 'over'
+                                ? `${lakh(diff)} (${Math.round((ratio - 1) * 100)}%) over — check unit assumptions or trim an offer`
+                                : `${lakh(diff)} (${Math.round((1 - ratio) * 100)}%) short — add or raise offers`}
+                          </span>
+                        </div>
+                        <div className="mw-rev-check-meter" aria-hidden="true">
+                          <i style={{ width: `${Math.min(100, (ratio / 1.25) * 100)}%` }} />
+                          <b style={{ left: `${100 / 1.25}%` }} />
+                        </div>
+                      </div>
+                    );
+                  })()}
                   {offersEditable && (
                     <OfferCopilot
                       state={copilot}
@@ -1361,17 +1670,24 @@ export default function MonthWorkspace({
                   hint="Compares selected offer forecasts with each allocated target. Approval requires every stream to be covered."
                 />
                 <div className="mw-gp-rows">
-                  {gapRows.map(r => (
-                    <div key={r.label} className={`mw-gp-row ${r.gap > 0 ? 'short' : 'ok'}`}>
+                  {gapRows.map(r => {
+                    const ratio = r.target ? r.offer / r.target : 0;
+                    const state = r.gap > 0 ? 'short' : ratio > 1.15 ? 'over' : 'ok';
+                    const scale = Math.max(r.target, r.offer, 1);
+                    return (
+                    <div key={r.label} className={`mw-gp-row ${state}`}>
                       <div className="mw-gp-head">
                         <strong>{r.label}</strong>
-                        <span>
-                          {lakh(r.offer)} of {lakh(r.target)} offer-led
-                        </span>
-                        <em>{r.gap > 0 ? `${lakh(r.gap)} short` : 'Covered'}</em>
+                        <em>{state === 'short' ? `${lakh(r.gap)} short` : state === 'over' ? `${lakh(r.offer - r.target)} over` : 'Covered'}</em>
+                      </div>
+                      <div className="mw-gp-figs">
+                        <div><small>Offer forecast</small><b>{lakh(r.offer)}</b></div>
+                        <div><small>Stream target</small><b>{lakh(r.target)}</b></div>
+                        <div><small>Coverage</small><b>{Math.round(ratio * 100)}%</b></div>
                       </div>
                       <div className="mw-gp-bar">
-                        <i style={{ width: `${Math.min(100, (r.offer / r.target) * 100)}%` }} />
+                        <i style={{ width: `${(r.offer / scale) * 100}%` }} />
+                        <b style={{ left: `${(r.target / scale) * 100}%` }} title="Target" />
                       </div>
                       {r.gap > 0 && (
                         <div className="mw-gp-plan">
@@ -1393,7 +1709,8 @@ export default function MonthWorkspace({
                         </div>
                       )}
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 {offersEditable && (gapRows.some(r => r.gap > 0) || offerRevenue < effective) && (
                   <Button icon={<Target size={15} />} variant="dark" disabled={busy} onClick={coverTarget}>
@@ -1419,33 +1736,70 @@ export default function MonthWorkspace({
                     title="Activations"
                     hint="Challenge, event, partner and retention play."
                   />
-                  <div className="mw-acts">
-                    <Act
-                      icon={Trophy}
-                      label="Challenge"
-                      tone="purple"
-                      {...activation('challenge', challenge?.Activation || base.challenge[0], challenge?.Mechanics || base.challenge[1])}
-                      editable={editable}
-                      onChange={(value: any) => updateContent({ activations: { ...activationEdits, challenge: value } })}
-                    />
-                    <Act
-                      icon={PartyPopper}
-                      label="Event"
-                      tone="coral"
-                      {...activation('event', event?.Activation || base.event[0], event?.Mechanics || base.event[1])}
-                      editable={editable}
-                      onChange={(value: any) => updateContent({ activations: { ...activationEdits, event: value } })}
-                    />
-                    <Act
-                      icon={Handshake}
-                      label="Partnership"
-                      tone="gold"
-                      {...activation('partner', base.partner[0], base.partner[1])}
-                      editable={editable}
-                      onChange={(value: any) => updateContent({ activations: { ...activationEdits, partner: value } })}
-                    />
-                    <Act icon={HeartHandshake} label="Retention" tone="green" {...activation('retention', 'Members', base.retention)} editable={editable} onChange={(value: any) => updateContent({ activations: { ...activationEdits, retention: value } })} />
-                  </div>
+                  {(() => {
+                    const hidden: string[] = Array.isArray(form.content?.hiddenActivations) ? form.content.hiddenActivations : [];
+                    const extras: { id: string; label: string; title: string; text: string }[] = Array.isArray(form.content?.extraActivations)
+                      ? form.content.extraActivations
+                      : [];
+                    const fixed = [
+                      { key: 'challenge', icon: Trophy, label: 'Challenge', tone: 'purple', ...activation('challenge', challenge?.Activation || base.challenge[0], challenge?.Mechanics || base.challenge[1]) },
+                      { key: 'event', icon: PartyPopper, label: 'Event', tone: 'coral', ...activation('event', event?.Activation || base.event[0], event?.Mechanics || base.event[1]) },
+                      { key: 'partner', icon: Handshake, label: 'Partnership', tone: 'gold', ...activation('partner', base.partner[0], base.partner[1]) },
+                      { key: 'retention', icon: HeartHandshake, label: 'Retention', tone: 'green', ...activation('retention', 'Members', base.retention) },
+                    ].filter(a => !hidden.includes(a.key));
+                    const setExtras = (next: typeof extras) => updateContent({ extraActivations: next });
+                    return (
+                      <>
+                        <div className="mw-acts">
+                          {fixed.map(a => (
+                            <Act
+                              key={a.key}
+                              icon={a.icon}
+                              label={a.label}
+                              tone={a.tone}
+                              title={a.title}
+                              text={a.text}
+                              editable={editable}
+                              onChange={(value: any) => updateContent({ activations: { ...activationEdits, [a.key]: value } })}
+                              onRemove={() => updateContent({ hiddenActivations: [...hidden, a.key] })}
+                            />
+                          ))}
+                          {extras.map(x => (
+                            <Act
+                              key={x.id}
+                              icon={Lightbulb}
+                              label={x.label || 'Activation'}
+                              labelEditable
+                              tone="purple"
+                              title={x.title}
+                              text={x.text}
+                              editable={editable}
+                              onChange={(value: any) => setExtras(extras.map(e => (e.id === x.id ? { ...e, ...value } : e)))}
+                              onRemove={() => setExtras(extras.filter(e => e.id !== x.id))}
+                            />
+                          ))}
+                          {!fixed.length && !extras.length && <p className="mw-action-empty">No activations planned for this month.</p>}
+                        </div>
+                        {editable && (
+                          <div className="mw-acts-tools">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              icon={<Plus size={14} />}
+                              onClick={() => setExtras([...extras, { id: `x${Date.now()}`, label: 'Activation', title: '', text: '' }])}
+                            >
+                              Add activation
+                            </Button>
+                            {hidden.length > 0 && (
+                              <Button size="sm" variant="ghost" icon={<RotateCcw size={14} />} onClick={() => updateContent({ hiddenActivations: [] })}>
+                                Restore {hidden.length} removed
+                              </Button>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
                   <label className="mw-kpi">KPI
                     {editable ? <input value={form.content?.kpi ?? local[0]?.['Primary KPI'] ?? base.kpi} onChange={e => updateContent({ kpi: e.target.value })} aria-label="Primary activation KPI" /> : <span>{form.content?.kpi ?? local[0]?.['Primary KPI'] ?? base.kpi}</span>}
                   </label>
@@ -2761,19 +3115,28 @@ function SectionHead({ icon: Icon, title, hint }: { icon: any; title: React.Reac
   );
 }
 
-function Act({ icon: Icon, label, title, text, tone, editable = false, onChange }: any) {
+function Act({ icon: Icon, label, title, text, tone, editable = false, labelEditable = false, onChange, onRemove }: any) {
   return (
     <div className={`mw-act mw-act-${tone}`}>
       <Icon size={15} />
       <div>
-        <small>{label}</small>
+        {editable && labelEditable ? (
+          <input className="mw-act-label" aria-label="Activation type" value={label} onChange={e => onChange({ label: e.target.value })} />
+        ) : (
+          <small>{label}</small>
+        )}
         {editable ? (
           <div className="mw-act-edit">
-            <input aria-label={`${label} title`} value={title} onChange={e => onChange({ title: e.target.value, text })} />
-            <textarea aria-label={`${label} details`} rows={3} value={text} onChange={e => onChange({ title, text: e.target.value })} />
+            <input aria-label={`${label} title`} placeholder="Title" value={title} onChange={e => onChange({ title: e.target.value, text })} />
+            <textarea aria-label={`${label} details`} placeholder="Mechanics, dates, owner" rows={3} value={text} onChange={e => onChange({ title, text: e.target.value })} />
           </div>
         ) : <><strong>{title}</strong><p>{text}</p></>}
       </div>
+      {editable && onRemove && (
+        <button type="button" className="mw-act-remove" aria-label={`Remove ${label}`} title="Remove activation" onClick={onRemove}>
+          <Trash2 size={13} />
+        </button>
+      )}
     </div>
   );
 }
