@@ -30,6 +30,8 @@ import {
   Trophy,
   Unlink,
   X,
+  PanelRightClose,
+  PanelRightOpen,
 } from 'lucide-react';
 import { api } from '../../api';
 import { useApp } from '../../App';
@@ -158,6 +160,24 @@ export default function MonthWorkspace({
 }) {
   const { boot, year, can, toast } = useApp(),
     navigate = useNavigate();
+  // Offer library sidebar: width is draggable and it can collapse to a rail; both are remembered per browser.
+  const stored = (k: string) => {
+    try { return localStorage.getItem(k); } catch { return null; }
+  };
+  const [sideW, setSideW] = useState(() => Number(stored('mw-side-w')) || 340),
+    [sideOpen, setSideOpen] = useState(() => stored('mw-side-open') !== '0');
+  useEffect(() => {
+    try { localStorage.setItem('mw-side-w', String(sideW)); localStorage.setItem('mw-side-open', sideOpen ? '1' : '0'); } catch {}
+  }, [sideW, sideOpen]);
+  const dragSide = (e: React.PointerEvent) => {
+    e.preventDefault();
+    const x0 = e.clientX, w0 = sideW;
+    const move = (ev: PointerEvent) => setSideW(Math.min(640, Math.max(260, w0 + x0 - ev.clientX)));
+    const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); document.body.style.cursor = ''; };
+    document.body.style.cursor = 'col-resize';
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
   const [studioIdx, setStudioIdx] = useState(0),
     [solo, setSolo] = useState(false),
     [mathsOpen, setMathsOpen] = useState(false),
@@ -829,7 +849,7 @@ export default function MonthWorkspace({
           />
         </header>
 
-        <div className="mw-body pane-offers">
+        <div className="mw-body pane-offers" style={{ gridTemplateColumns: `minmax(0, 1fr) ${sideOpen ? sideW : 48}px` }}>
           <main className={`mw-main ${locked ? 'is-locked' : ''}`}>
             {locked && (
               <div className="mw-approved-banner">
@@ -1374,11 +1394,29 @@ export default function MonthWorkspace({
           </main>
 
           {(
+            sideOpen ? (
             <aside className="mw-side">
+              <div
+                className="mw-side-resize"
+                role="separator"
+                aria-orientation="vertical"
+                aria-label="Resize offer library"
+                aria-valuenow={sideW}
+                tabIndex={0}
+                onPointerDown={dragSide}
+                onDoubleClick={() => setSideW(340)}
+                onKeyDown={e => {
+                  if (e.key === 'ArrowLeft') setSideW(w => Math.min(640, w + 20));
+                  if (e.key === 'ArrowRight') setSideW(w => Math.max(260, w - 20));
+                }}
+              />
               <div className="mw-side-head">
                 <div className="mw-side-title">
                   <span><RefreshCcw size={15} /></span>
                   <div><h4>Offer library</h4><small>{altGroups.reduce((t, [, l]) => t + l.length, 0)} available to add · up to 15 per membership</small></div>
+                  <button type="button" className="mw-side-toggle" aria-label="Collapse offer library" title="Collapse" onClick={() => setSideOpen(false)}>
+                    <PanelRightClose size={15} />
+                  </button>
                 </div>
                 <p className="muted">
                   {studio.name}’s other offers, with this month’s first.{' '}
@@ -1477,6 +1515,14 @@ export default function MonthWorkspace({
                 </>
               )}
             </aside>
+            ) : (
+            <aside className="mw-side is-collapsed">
+              <button type="button" className="mw-side-toggle" aria-label="Expand offer library" title="Offer library" onClick={() => setSideOpen(true)}>
+                <PanelRightOpen size={15} />
+              </button>
+              <span className="mw-side-rail">Offer library</span>
+            </aside>
+            )
           )}
         </div>
       </section>
@@ -1793,23 +1839,6 @@ function OfferCard({ offer: o, no, slot, list, productLabel, editable, canSwap =
   return (
     <article className={`oc ${shown ? 'is-approved' : ''}`}>
       {no ? <span className="oc-no" aria-label={`Offer ${no}`}>{no}</span> : null}
-      {canApprove && (
-        <button
-          type="button"
-          role="checkbox"
-          aria-checked={shown}
-          className={`oc-check${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
-          title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
-          disabled={pending !== null}
-          onClick={() => {
-            setPending(!shown);
-            Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
-          }}
-        >
-          <i><Check size={13} strokeWidth={3} /></i>
-          <span>{shown ? 'Approved' : 'Approve'}</span>
-        </button>
-      )}
       <header className="oc-head">
         <div>
           <div className="oc-tags">
@@ -1829,6 +1858,23 @@ function OfferCard({ offer: o, no, slot, list, productLabel, editable, canSwap =
             <span className="oc-approved-tag">
               <CheckCircle2 size={12} /> Approved
             </span>
+          )}
+          {canApprove && (
+            <button
+              type="button"
+              role="checkbox"
+              aria-checked={shown}
+              className={`oc-check${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
+              title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
+              disabled={pending !== null}
+              onClick={() => {
+                setPending(!shown);
+                Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
+              }}
+            >
+              <i><Check size={13} strokeWidth={3} /></i>
+              <span>{shown ? 'Approved' : 'Approve'}</span>
+            </button>
           )}
           {canSwap && !approved && (
             <>

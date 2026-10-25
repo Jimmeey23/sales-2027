@@ -219,10 +219,19 @@ export default function MarketingCollaterals({
   const intro = v.intro(offer.name, studioName);
   const subjects = v.subjects(offerName, monthName);
   const waCopy = `Hi {first_name} ✨\n\n*${headline}*\n*${offer.name}*: ${clip(detail, 110)}\n\n${v.wa} Until ${fmtDay(end)}, ${studioName}.\n\n— Team Physique 57\nReply STOP to opt out`;
+  // Two sends per offer: the launch broadcast and a last-call reminder 48h before close (next layout, other photo).
+  const sqLayouts = LAYOUTS.square.map(([k]) => k);
+  const reminderCopy = `Hi {first_name} ⏳\n\n*Last call: ${offer.name}* closes ${fmtDay(end)}.\n\n${v.wa}\n\n— Team Physique 57\nReply STOP to opt out`;
+  const waSends = [
+    { label: 'Launch broadcast', day: `1 ${monthName.slice(0, 3)}`, time: '9:00 AM', layout: '', photo: shots[0], kicker, headline, text: waCopy, button: 'Book my spot' },
+    { label: 'Reminder · 48h before close', day: fmtDay(new Date(year, month, -1)), time: '6:30 PM', layout: '', photo: shots[2] ?? shots[0], kicker: `Last call · ${monthName}`, headline: `Ends ${fmtDay(end)}.`, text: reminderCopy, button: 'Claim before it ends' },
+  ];
   const bg = (p: Photo) => ({ backgroundImage: `url(/p57/pro/${p.id}.jpg)`, backgroundPosition: p.pos });
   const Photo = ({ p }: { p: Photo }) => <div className="cr-photo" style={bg(p)} />;
   const layout = (piece: Piece) =>
     layoutPick[`${offer.id}:${piece}`] ?? LAYOUTS[piece][(seed + month + Object.keys(LAYOUTS).indexOf(piece)) % LAYOUTS[piece].length][0];
+  waSends[0].layout = layout('square');
+  waSends[1].layout = sqLayouts[(sqLayouts.indexOf(layout('square') as any) + 1) % sqLayouts.length];
   const Layouts = ({ piece }: { piece: Piece }) => (
     <div className="cr-layouts" role="radiogroup" aria-label="Layout">
       {LAYOUTS[piece].map(([k, label]) => (
@@ -274,37 +283,44 @@ export default function MarketingCollaterals({
       </div>
 
       {/* WhatsApp: A4 portrait creative, previewed as the received message */}
-      <div className="col-row">
+      <div className="col-row is-wa">
         <div className="cr-stage">
-        <div className="wa-phone">
-          <div className="wa-bar">
-            <span className="wa-back">‹</span>
-            <span className="wa-av"><img src="/p57/logo-light.png" alt="" /></span>
-            <div><b>Physique 57 India <i className="wa-tick">✓</i></b><small>Business account</small></div>
-          </div>
-          <div className="wa-chat">
-            <span className="wa-day">Today</span>
-            <div className="wa-bubble">
-        <figure className={`cr-square is-${layout('square')}`}>
-          <Photo p={shots[0]} />
-          <div className="cr-shade" />
-          <header><Logo light /><span>{city}</span></header>
-          <div className="cr-body">
-            <small>{kicker}</small>
-            <h3>{headline}</h3>
-            <p>{offerName}</p>
-          </div>
-          <footer>
-            <span className="cr-value"><b>57</b><em>min</em></span>
-            <div><strong>Reply YES to book</strong><span>{closes} · {studioName}</span></div>
-          </footer>
-        </figure>
-              <p className="wa-text">{waCopy.split(/(\*[^*]+\*)/).map((t, i) => (t.startsWith('*') ? <b key={i}>{t.slice(1, -1)}</b> : t))}</p>
-              <span className="wa-time">9:00 AM</span>
+        <div className="wa-pair">
+          {waSends.map(w => (
+            <div key={w.label} className="wa-send">
+              <span className="wa-label">{w.label}</span>
+              <div className="wa-phone">
+                <div className="wa-bar">
+                  <span className="wa-back">‹</span>
+                  <span className="wa-av"><img src="/p57/logo-light.png" alt="" /></span>
+                  <div><b>Physique 57 India <i className="wa-tick">✓</i></b><small>Business account</small></div>
+                </div>
+                <div className="wa-chat">
+                  <span className="wa-day">{w.day}</span>
+                  <div className="wa-bubble">
+                    <figure className={`cr-square is-${w.layout}`}>
+                      <Photo p={w.photo} />
+                      <div className="cr-shade" />
+                      <header><Logo light /><span>{city}</span></header>
+                      <div className="cr-body">
+                        <small>{w.kicker}</small>
+                        <h3>{w.headline}</h3>
+                        <p>{offerName}</p>
+                      </div>
+                      <footer>
+                        <span className="cr-value"><b>57</b><em>min</em></span>
+                        <div><strong>Reply YES to book</strong><span>{closes} · {studioName}</span></div>
+                      </footer>
+                    </figure>
+                    <p className="wa-text">{w.text.split(/(\*[^*]+\*)/).map((t, i) => (t.startsWith('*') ? <b key={i}>{t.slice(1, -1)}</b> : t))}</p>
+                    <span className="wa-time">{w.time}</span>
+                  </div>
+                  <div className="wa-buttons"><span>{w.button}</span><span>Stop promotions</span></div>
+                </div>
+                <div className="wa-input"><span>Message</span><i /></div>
+              </div>
             </div>
-            <div className="wa-buttons"><span>Book my spot</span><span>Stop promotions</span></div>
-          </div>
-          <div className="wa-input"><span>Message</span><i /></div>
+          ))}
         </div>
         <Layouts piece="square" />
         </div>
