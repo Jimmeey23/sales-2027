@@ -6,6 +6,7 @@ import { money, number } from '../types';
 import { ReportFindings, ReportPerformance, ReportPlan } from './ReportIntel';
 import { reportStudioFor } from '../data/salesIntelligenceReport';
 import { Badge, Card, CardHeader, ErrorState, Loading, TableScroll, Tabs } from './ui';
+import Playbook2027 from './Playbook2027';
 
 const signed = (v: number | null | undefined, digits = 1) =>
   v === null || v === undefined || !Number.isFinite(v) ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(digits)}%`;
@@ -34,7 +35,8 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
     () => import('../api').then(({ api }) => api(`/overview-brief${studioId ? `?studio=${studioId}` : ''}`)),
     [studioId],
   );
-  const [view, setView] = useState('performance');
+  // Default to the 2027 playbook when a single location is selected.
+  const [view, setView] = useState(studioId ? 'playbook' : 'performance');
   if (loading && !b) return <Loading label="Building the 2025 → 2027 brief…" />;
   if (error && !b) return <ErrorState message={error} retry={() => reload().catch(() => {})} />;
   if (!b) return null;
@@ -196,8 +198,11 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
           { id: 'performance', label: '2025 vs 2026 performance' },
           { id: 'findings', label: 'Key findings', count: b.findings.length },
           { id: 'plan', label: '2027 plan in detail' },
+          { id: 'playbook', label: '2027 sales playbook' },
         ]}
       />
+
+      {view === 'playbook' && <Playbook2027 scope={b.scope} />}
 
       {view === 'performance' && (
         <>
