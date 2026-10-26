@@ -4,6 +4,7 @@ import { db, audit } from '../db.js';
 import { permission, ROLE_PERMISSIONS } from '../lib/auth.js';
 import { dashboard, studioProfile, studiosOverview, dataCoverage } from '../lib/intelligence.js';
 import { studioScopeIds } from '../lib/studios.js';
+import { overviewBrief } from '../lib/overviewBrief.js';
 import { currentScenario } from '../lib/targetScenarios.js';
 import { bodyError, id, studioFilter } from '../http.js';
 import type { Express } from 'express';
@@ -162,6 +163,10 @@ export default function registerWorkspaceRoutes(app: Express) {
       month = req.query.month ? Number(req.query.month) : null;
     const studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
     res.json(dashboard(year, month, studioId));
+  });
+  app.get('/api/overview-brief', (req, res) => {
+    const studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
+    res.json(overviewBrief(studioId ?? null));
   });
   app.get('/api/studios-overview', (req, res) => {
     const year = Number(req.query.year || 2026);

@@ -46,6 +46,7 @@ import {
   Tabs,
 } from '../components/ui';
 import PageHeader from '../components/PageHeader';
+import OverviewBrief from '../components/OverviewBrief';
 
 const COLORS = ['#6857e5', '#a9a0ef', '#f4a261', '#ee7d9b'];
 export default function Dashboard() {
@@ -131,7 +132,7 @@ export default function Dashboard() {
     <div className="dashboard-page">
       <PageHeader
         eyebrow="MANAGEMENT CONTROL CENTRE"
-        title="The business, in motion."
+        title="2025 → 2026 → 2027, in one view."
         description={
           <>
             Imported actuals and planning targets for{' '}
@@ -152,11 +153,7 @@ export default function Dashboard() {
               >
                 2026 Actuals
               </button>
-              <button
-                type="button"
-                className={year === 2027 ? 'active' : ''}
-                onClick={() => setYear(2027)}
-              >
+              <button type="button" className={year === 2027 ? 'active' : ''} onClick={() => setYear(2027)}>
                 2027 Plan
               </button>
             </div>
@@ -173,6 +170,7 @@ export default function Dashboard() {
           </div>
         }
       />
+      <OverviewBrief studioId={studioId} />
       {year > 2026 && k.achieved === 0 && (
         <Callout tone="info" title={`Viewing ${year} forward planning targets (no ${year} sales actuals recorded yet)`}>
           Imported sales actuals run through <strong>{data.coverage.sales.last?.slice(0, 10) || '2026-10'}</strong>.
@@ -195,32 +193,12 @@ export default function Dashboard() {
           for the 2026 → 2027 commercial bridge.
         </Callout>
       )}
-      <section className="commercial-flow" aria-label="Commercial planning workflow">
-        <div className="commercial-flow-heading">
-          <div>
-            <span className="eyebrow">A CONNECTED WORKFLOW</span>
-            <h2>From target to learning</h2>
-          </div>
-          <p>Every stage uses the same year and location selected above.</p>
-        </div>
-        <div className="commercial-flow-steps">
-          {[
-            { n: '01', title: 'Set targets', detail: 'Agree the goal', to: '/sales-plan/targets' },
-            { n: '02', title: 'Build offers', detail: 'Choose the levers', to: '/sales-plan/offers' },
-            { n: '03', title: 'Schedule campaigns', detail: 'Assign dates and owners', to: '/sales-plan/campaigns' },
-            { n: '04', title: 'Review outcomes', detail: 'Learn from actuals', to: '/performance' },
-          ].map((step, i) => (
-            <React.Fragment key={step.n}>
-              <button type="button" onClick={() => navigate(step.to)}>
-                <span>{step.n}</span>
-                <strong>{step.title}</strong>
-                <small>{step.detail}</small>
-              </button>
-              {i < 3 && <ArrowRight className="commercial-flow-arrow" size={16} />}
-            </React.Fragment>
-          ))}
-        </div>
-      </section>
+      <div className="ob-divider">
+        <span className="eyebrow">MONTHLY DRILL-DOWN</span>
+        <p>
+          {MONTHS[month - 1]} {year} snapshot · switch year and month above
+        </p>
+      </div>
       {data.coverage.sales.last?.slice(0, 7) === `${year}-${String(month).padStart(2, '0')}` &&
         Number(data.coverage.sales.last.slice(8, 10)) < new Date(year, month, 0).getDate() && (
           <Callout tone="warning" title="Partial month">
