@@ -5,7 +5,8 @@ import { permission, canAccessStudio } from '../lib/auth.js';
 import { generateYearTargets, observedFunnel, recommendTarget, type TargetScenario } from '../lib/intelligence.js';
 import { calculateFunnel } from '../lib/calculations.js';
 import { applyTargetScenario, currentScenario, rebaseTarget, TARGET_SCENARIOS } from '../lib/targetScenarios.js';
-import { POPUP_CHILDREN, rollUpPopup } from '../lib/plan2027.js';
+import { POPUP_CHILDREN, POPUP_PARENT, rollUpPopup } from '../lib/plan2027.js';
+import { PLAN_ASSUMPTIONS_2027, UNIT_GROUPS, syncBreakdownFunnels, targetBreakdown } from '../lib/targetBreakdown.js';
 import { bodyError, id, studioFilter } from '../http.js';
 import type { Express } from 'express';
 
@@ -15,7 +16,28 @@ export default function registerTargetsRoutes(app: Express) {
   app.post('/api/targets/scenario', permission('target_approve'), (req, res) => {
     const scenario = z.enum(TARGET_SCENARIOS).parse(req.body.scenario),
       year = Number(req.body.year || 2027);
-    res.json(applyTargetScenario(year, scenario, req.user!.id));
+    const result = applyTargetScenario(year, scenario, req.user!.id);
+    syncBreakdownFunnels(year);
+    res.json(result);
+  });
+  // The detailed month-by-month breakdown of the one target per location (Targets tab).
+  app.get('/api/targets/breakdown', (req, res) => {
+    const year = Number(req.query.year || 2027);
+    const studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
+    const names = ['Kemps Corner', 'Bandra', 'Kenkere House', POPUP_PARENT];
+    const studios = studioId
+      ? [studioId]
+      : (names
+          .map(n => (db.prepare('SELECT id FROM studios WHERE name=?').get(n) as any)?.id)
+          .filter(Boolean) as number[]);
+    const locations = studios.map(sid => targetBreakdown(sid, year)).filter(Boolean);
+    res.json({
+      year,
+      scenario: currentScenario(),
+      unitGroups: UNIT_GROUPS,
+      locations,
+      covered: Object.keys(PLAN_ASSUMPTIONS_2027),
+    });
   });
   app.get('/api/targets', (req, res) => {
     const year = Number(req.query.year || 2027),
@@ -87,6 +109,7 @@ export default function registerTargetsRoutes(app: Express) {
       : undefined;
     const studioId = req.body.studioId ? studioFilter(req, id(req.body.studioId)) : undefined;
     generateYearTargets(year, req.user!.id, Boolean(req.body.overwrite), scenario, studioId);
+    syncBreakdownFunnels(year);
     audit({
       userId: req.user!.id,
       action: 'generate_recommendations',
@@ -160,7 +183,8 @@ export default function registerTargetsRoutes(app: Express) {
       throw bodyError('Revenue stream allocations must be finite, non-negative amounts.');
     const streams = rawStreams;
     const rawOther = Number(req.body.otherTarget ?? before.other_target);
-    if (!Number.isFinite(rawOther) || rawOther < 0) throw bodyError('Other revenue must be a finite, non-negative amount.');
+    if (!Number.isFinite(rawOther) || rawOther < 0)
+      throw bodyError('Other revenue must be a finite, non-negative amount.');
     const other = req.body.requireFullCoverage ? 0 : rawOther;
     const assumptions = JSON.parse(before.assumptions || '{}');
     const observedRates = observedFunnel(before.studio_id);
@@ -214,7 +238,10 @@ export default function registerTargetsRoutes(app: Express) {
     }
     if (totalStreams > selected * 1.001)
       throw bodyError('Revenue stream allocations exceed the selected target. Adjust allocations before saving.');
-    if (req.body.requireFullCoverage && Math.abs(streams.newClient + streams.renewal + streams.reactivation - selected) > 1)
+    if (
+      req.body.requireFullCoverage &&
+      Math.abs(streams.newClient + streams.renewal + streams.reactivation - selected) > 1
+    )
       throw bodyError('New-client, renewal, and comeback revenue must add up to the selected monthly target.');
     const nextVersion = before.version + 1;
     const saveTogether = db.transaction(() => {
@@ -280,7 +307,13 @@ export default function registerTargetsRoutes(app: Express) {
     rebaseTarget(targetId);
     const studioName = (db.prepare('SELECT name FROM studios WHERE id=?').get(before.studio_id) as any)?.name;
     if (POPUP_CHILDREN.includes(studioName)) rollUpPopup(before.year, req.user!.id);
-    res.json({ ...after, funnel: JSON.parse(after.funnel), assumptions: JSON.parse(after.assumptions || '{}') });
+    syncBreakdownFunnels(before.year);
+    const saved = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(targetId) as any;
+    res.json({
+      ...saved,
+      funnel: JSON.parse(saved.funnel || '{}'),
+      assumptions: JSON.parse(saved.assumptions || '{}'),
+    });
   });
   app.get('/api/targets/:id/versions', (req, res) => {
     const target = db.prepare('SELECT studio_id FROM monthly_targets WHERE id=?').get(id(req.params.id)) as any;

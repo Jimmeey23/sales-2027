@@ -9,19 +9,13 @@ import BrandMark from './components/BrandMark';
 import Login from './pages/Login';
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const StudioIntelligence = lazy(() => import('./pages/StudioIntelligence'));
-const StudioPlan = lazy(() => import('./pages/StudioPlans'));
-const StudioPlansHub = lazy(() => import('./pages/StudioPlans').then(m => ({ default: m.StudioPlansHub })));
-const CampaignCalendar = lazy(() => import('./pages/CampaignCalendar'));
 const OfferStudio = lazy(() => import('./pages/OfferStudio'));
 const OfferViewRedirect = lazy(() => import('./pages/OfferStudio').then(m => ({ default: m.OfferViewRedirect })));
 const OfferBuilder = lazy(() => import('./pages/OfferBuilder'));
-const FunnelSimulator = lazy(() => import('./pages/FunnelSimulator'));
 const Retention = lazy(() => import('./pages/Retention'));
-const CampaignPerformance = lazy(() => import('./pages/CampaignPerformance'));
 const DataImport = lazy(() => import('./pages/DataImport'));
 const Reports = lazy(() => import('./pages/Reports'));
 const Settings = lazy(() => import('./pages/Settings'));
-const Anniversary = lazy(() => import('./pages/Anniversary'));
 const SalesPlan = lazy(() => import('./pages/SalesPlan'));
 const Memberships = lazy(() => import('./pages/Memberships'));
 const Insights = lazy(() => import('./pages/InsightsHome'));
@@ -172,20 +166,20 @@ export default function App() {
             <Route path="memberships" element={<Memberships />} />
             <Route path="insights" element={<Insights />} />
             <Route path="tools" element={<Navigate to="/" replace />} />
-            <Route path="plan" element={<StudioPlansHub />} />
-            <Route path="plan/:id" element={<StudioPlan />} />
+            <Route path="plan" element={<Navigate to="/sales-plan/plan" replace />} />
+            <Route path="plan/:id" element={<Navigate to="/sales-plan/plan" replace />} />
             <Route path="planner" element={<Navigate to="/sales-plan/approvals" replace />} />
-            <Route path="calendar" element={<CampaignCalendar />} />
-            <Route path="anniversary" element={<Anniversary />} />
+            <Route path="calendar" element={<Navigate to="/sales-plan/activations" replace />} />
+            <Route path="anniversary" element={<Navigate to="/sales-plan/anniversary" replace />} />
             <Route path="ai-offers" element={<OfferViewRedirect view="generate" />} />
             <Route path="goal-builder" element={<OfferViewRedirect view="gap" />} />
             <Route path="random-offers" element={<OfferViewRedirect view="generate" />} />
             <Route path="offers" element={<OfferStudio />} />
             <Route path="offer-builder" element={<OfferViewRedirect view="manual" />} />
             <Route path="offers/:id/edit" element={<OfferBuilder />} />
-            <Route path="funnel" element={<FunnelSimulator />} />
+            <Route path="funnel" element={<Navigate to="/sales-plan/targets" replace />} />
             <Route path="retention" element={<Retention />} />
-            <Route path="performance" element={<CampaignPerformance />} />
+            <Route path="performance" element={<Navigate to="/insights" replace />} />
             <Route path="imports" element={can('import') ? <DataImport /> : <Navigate to="/" replace />} />
             <Route path="reports" element={can('export') ? <Reports /> : <Navigate to="/" replace />} />
             <Route path="settings" element={can('settings') ? <Settings /> : <Navigate to="/" replace />} />

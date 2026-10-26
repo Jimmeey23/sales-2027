@@ -1015,8 +1015,7 @@ function historicFindings(
 
   // Curated empirical commercial intelligence from studio playbooks & audited workbooks
   const studioName = String(scalar('SELECT name value FROM studios WHERE id=?', studioId) || '');
-  const playbookKey =
-    studioName === 'Copper + Cloves' || studioName === 'Plash Pilates' ? 'Pop-up' : studioName;
+  const playbookKey = studioName === 'Copper + Cloves' || studioName === 'Plash Pilates' ? 'Pop-up' : studioName;
   const playbook = PLAYBOOKS_2027[playbookKey];
   if (playbook?.insight) {
     findings.push({
@@ -1025,7 +1024,6 @@ function historicFindings(
       finding: playbook.insight,
       evidence: {
         studio: studioName,
-        annualTargetL: playbook.annualL,
         ttmGrowth: playbook.ttmGrowth,
       },
       action: playbook.priority,
@@ -1056,8 +1054,7 @@ function historicFindings(
 function buildPlanBridge2027(studioId: number, studioName: string) {
   const scope = scopeClause(studioId);
   const through = latestCompleteMonth();
-  const playbookKey =
-    studioName === 'Copper + Cloves' || studioName === 'Plash Pilates' ? 'Pop-up' : studioName;
+  const playbookKey = studioName === 'Copper + Cloves' || studioName === 'Plash Pilates' ? 'Pop-up' : studioName;
   const playbook = PLAYBOOKS_2027[playbookKey] || null;
   const econ = planEconomics(studioId, 2027);
 
@@ -1131,9 +1128,7 @@ function buildPlanBridge2027(studioId: number, studioName: string) {
     const t = targetByMonth.get(m);
     const e = econ?.months?.find(em => em.month === m);
     const a26 = actual2026Rows[idx];
-    const econTarget = e
-      ? e.newClient.target + e.renewal.target + e.reactivation.target + (e.other?.target ?? 0)
-      : 0;
+    const econTarget = e ? e.newClient.target + e.renewal.target + e.reactivation.target + (e.other?.target ?? 0) : 0;
     const target2027 = Number(t?.approved_target ?? t?.proposed_target ?? econTarget);
     const baseline2026 = a26.complete
       ? a26.revenue
@@ -1235,9 +1230,8 @@ export function studioProfile(studioId: number, year: number) {
     .map(r => Number(r.year))
     .filter(Number.isFinite);
   const latestObservedMonth =
-    String(
-      scalar(`SELECT MAX(month) value FROM transactions WHERE ${scope.clause}`, ...scope.ids) || '2026-10',
-    ) || '2026-10';
+    String(scalar(`SELECT MAX(month) value FROM transactions WHERE ${scope.clause}`, ...scope.ids) || '2026-10') ||
+    '2026-10';
   const monthly = Array.from({ length: 12 }, (_, i) => ({
     month: i + 1,
     ...actualMetrics(studioId, monthKey(year, i + 1)),
@@ -1458,8 +1452,7 @@ export function studiosOverview(requestedYear = 2026, allowedStudioIds?: number[
         ? {
             name: topProduct.name,
             revenue: Math.round(Number(topProduct.revenue || 0)),
-            share:
-              ytdRevenue > 0 ? round((Number(topProduct.revenue || 0) / ytdRevenue) * 100) : null,
+            share: ytdRevenue > 0 ? round((Number(topProduct.revenue || 0) / ytdRevenue) * 100) : null,
           }
         : null,
       priority2027: bridge.playbookSummary?.priority || null,

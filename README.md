@@ -4,24 +4,21 @@ A working full-stack commercial planning application for Physique 57 India. It t
 
 The UI is a responsive React application. The API, relational database, calculations, RBAC, imports, sessions, and audit history run server-side. The browser is not the source of truth for important records.
 
-## Implemented workspaces
+## Workspaces
 
-1. Executive Dashboard
-2. Studio Intelligence, including trainer delivery performance
-3. Annual Sales Planner with target reconciliation and version history
-4. Monthly Campaign Calendar with annual, monthly, and weekly views
-5. April Anniversary Studio with portfolio planning and post-April retention
-6. Revenue & Funnel Simulator
-7. Retention & Reactivation
-8. AI Offer Generator with a genuine optional provider integration
-9. Goal-Based Offer Builder
-10. Random Offer Generator with variation controls
-11. Offer Bank with search, filters, cloning, versions, and approval
-12. Offer Builder & Editor with live server-recalculated economics
-13. Campaign Performance and the learning loop
-14. Data Import & Management
-15. Advanced Reporting Studio with 21 configurable reports, saved views, CSV/XLSX and print
-16. Settings & Permissions
+- **Overview** — 2025 → 2026 performance and key findings for the selected location.
+- **Plan** (six tabs):
+  1. **Target Metrics** — one target per location (Standard, or Stretch when switched) and its month-by-month breakdown: revenue split, leads, first visits, new and existing paying clients, check-ins and units by product.
+  2. **Approvals & Calculations** — edit/approve the target matrix and see how each month's target is made up.
+  3. **Sales Plan** — the location's 2027 playbook (diagnosis, levers, offers, team rhythm) and the editable month plans.
+  4. **Activations & Community Activations** — challenges, events, partnerships and retention plays by month.
+  5. **Anniversary Plan** — the April programme.
+  6. **Marketing & Performance Marketing** — channel plan, ads and creative hooks.
+- **Offers** — offer studio and memberships & pricing.
+- **Insights** — studio performance (historical) and retention & reactivation.
+- **Admin** — reports, data import, settings.
+
+All funnel volumes (leads, first visits, new paying clients) come from `server/lib/targetBreakdown.ts`, so every screen shows the same numbers. Planning rates live there; planner overrides from the month plan's assumption editor are applied on top.
 
 ## Run locally
 
@@ -67,7 +64,7 @@ The rebuilt database contains:
 
 Sales coverage runs from 4 July 2023 through 22 October 2026. October 2026 is incomplete; November and December 2026 have no sales actuals. Checkins coverage runs from 2 January 2024 through future sessions dated 29 October 2026; current-day and future sessions are excluded from behavioural actuals. The seven original files in `uploads/` plus the supplied **Day End Report - Part 4 / Checkins** Google Sheet have import-provenance records.
 
-Kemps Corner’s 2027 proposed plan accounts for the user-directed Kwality House rent increase beginning January 2027 while retaining comparable-month seasonality. Monthly proposals vary within a **₹30–40L guardrail**—₹32L, ₹30L, ₹30L, ₹40L, ₹30L, ₹30L, ₹31L, ₹35L, ₹38L, ₹31L, ₹30L and ₹32L—totalling **₹3.89Cr**. The earlier ₹35–40L wording was a rough range, not a flat monthly floor. Original baseline forecasts remain stored separately—including the April anniversary baseline—and no approved target was created or changed. No rent amount or expense saving has been invented.
+Kemps Corner’s 2027 proposed plan accounts for the user-directed Kwality House rent increase beginning January 2027 while retaining comparable-month seasonality. Its monthly targets (₹420L for the year in the Standard plan) are shown, with their range, in Plan › Approvals & Calculations. Original baseline forecasts remain stored separately—including the April anniversary baseline—and no approved target was created or changed. No rent amount or expense saving has been invented.
 
 The twelve additional 2027 campaign plans are clearly labelled demonstrations. They contain no fabricated campaign actuals and are not included as historical performance.
 
@@ -75,7 +72,7 @@ The twelve additional 2027 campaign plans are clearly labelled demonstrations. T
 
 ### Targets and reconciliation
 
-Generate or edit studio-specific monthly targets under nominal, standard or aggressive planning postures (with legacy conservative/base/stretch scenarios retained for compatibility). Proposed and approved targets remain separate. Annual totals reconcile to the monthly stream; any shortfall or overallocation is shown. Every change creates a version with actor, reason, before/after values, and timestamp. Regeneration is an explicit overwrite of proposed recommendations, optionally scoped to the selected studio; approved targets are preserved. For Kemps Corner in 2027, regeneration also reapplies the documented ₹30–40L rent-aware guardrail while retaining seasonal monthly values and leaving the baseline forecast unadjusted.
+Each location has one monthly target (approved, else proposed). Edit and approve it in Plan › Approvals & Calculations; every change is versioned with actor, reason and before/after values. The Standard/Stretch switch on Target Metrics rescales every location-month from its saved Standard value and can be switched back at any time.
 
 ### Funnel simulation
 

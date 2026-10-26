@@ -24,7 +24,6 @@ import {
   Tabs,
 } from '../components/ui';
 import PageHeader from '../components/PageHeader';
-import TargetScenarioPanel from '../components/TargetScenarioPanel';
 
 function TargetCell({
   value,
@@ -66,16 +65,31 @@ const growthTone = (value: number | null | undefined, ly: number | null | undefi
 };
 export default function AnnualPlanner() {
   const { studioId, year, toast, can } = useApp();
-  const [view, setView] = useState('matrix'),
-    [basis, setBasis] = useState('proposed'),
-    [scenario, setScenario] = useState('standard');
+  const [basis, setBasis] = useState('proposed');
   const [editing, setEditing] = useState<any>(null),
-    [versions, setVersions] = useState<any>(null),
-    [confirmGenerate, setConfirmGenerate] = useState(false);
-  const { data, setData, loading, error, reload } = useLoad<any>(
-    () => api(`/targets?year=${year}${studioId ? `&studio=${studioId}` : ''}`),
-    [year, studioId],
-  );
+    [versions, setVersions] = useState<any>(null);
+  const {
+    data: raw,
+    setData,
+    loading,
+    error,
+    reload,
+  } = useLoad<any>(() => api(`/targets?year=${year}${studioId ? `&studio=${studioId}` : ''}`), [year, studioId]);
+  // One editable row per target: Pop-up is the sum of its venues (edit the venues), and legacy venues
+  // with no target are hidden, so the grid's totals match the plan.
+  const data = useMemo(() => {
+    if (!raw) return raw;
+    const live = new Set(
+      raw.rows
+        .filter((r: any) => Number(r.proposed_target || 0) > 0 || r.approved_target !== null)
+        .map((r: any) => r.studio_id),
+    );
+    const hasVenues = raw.rows.some((r: any) => r.studio === 'Copper + Cloves' || r.studio === 'Plash Pilates');
+    return {
+      ...raw,
+      rows: raw.rows.filter((r: any) => live.has(r.studio_id) && !(hasVenues && r.studio === 'Pop-up')),
+    };
+  }, [raw]);
   const groups = useMemo(() => {
     const map = new Map();
     data?.rows.forEach((r: any) => {
@@ -136,16 +150,6 @@ export default function AnnualPlanner() {
       toast(error.message, 'error');
     }
   };
-  const regenerate = async () => {
-    try {
-      await post('/targets/generate', { year, scenario, studioId, overwrite: true });
-      await reload();
-      setConfirmGenerate(false);
-      toast(`${titleCase(scenario)} recommendations regenerated. Approved targets were preserved.`);
-    } catch (error: any) {
-      toast(error.message, 'error');
-    }
-  };
   if (loading && !data) return <Loading label="Reconciling the annual target matrix…" />;
   if (error && !data) return <ErrorState message={error} retry={() => reload().catch(() => {})} />;
   if (!data) return null;
@@ -155,20 +159,22 @@ export default function AnnualPlanner() {
         eyebrow="ALL STUDIOS"
         title={`${year} target matrix`}
         description="Set and approve monthly revenue targets for every studio in one grid."
-        actions={
-          <Button variant="secondary" icon={<RefreshCw size={15} />} onClick={() => setConfirmGenerate(true)}>
-            Regenerate recommendations
-          </Button>
-        }
       />
-      {year === 2027 && data.rows.some((r: any) => r.assumptions.rentAdjustment) && (
-        <Callout tone="info" title="Kemps Corner · rent-aware 2027 operating plan">
-          Kwality House rent increases from January 2027. Proposed targets retain month-to-month seasonality within the
-          directed ₹30–40L guardrail; ₹35–40L was a rough range, not a flat floor. The original baseline forecast and
-          pre-adjustment scenario remain preserved. These are proposals, not approvals or a calculated rent-expense
-          model.
-        </Callout>
-      )}
+      {year === 2027 &&
+        (() => {
+          const kc = data.rows.filter((r: any) => r.studio === 'Kemps Corner');
+          if (!kc.some((r: any) => r.assumptions.rentAdjustment)) return null;
+          const vals = kc.map((r: any) => Number(r.approved_target ?? r.proposed_target) || 0);
+          const L = (v: number) => `₹${(v / 1e5).toFixed(1)}L`;
+          return (
+            <Callout tone="info" title="Kemps Corner · rent-aware 2027 operating plan">
+              Kwality House rent increases from January 2027. Monthly targets keep their seasonality and currently run
+              from {L(Math.min(...vals))} to {L(Math.max(...vals))} (
+              {L(vals.reduce((a: number, b: number) => a + b, 0))} for the year). These are proposals until approved; no
+              rent expense is modelled.
+            </Callout>
+          );
+        })()}
       <section className="tm-summary" aria-label="Annual target summary">
         <div className="tm-stat">
           <span className="tm-label">Proposed plan</span>
@@ -200,42 +206,12 @@ export default function AnnualPlanner() {
           <strong>{lyTotal > 0 ? money(lyTotal, true) : '—'}</strong>
           <small>Historical revenue, same months</small>
         </div>
-        <div className="tm-stat tm-scenario">
-          <span className="tm-label">Recommendation scenario</span>
-          <Select aria-label="Recommendation scenario" value={scenario} onChange={e => setScenario(e.target.value)}>
-            <option value="nominal">Nominal</option>
-            <option value="standard">Standard</option>
-            <option value="aggressive">Aggressive</option>
-          </Select>
-          <small>Apply via Regenerate recommendations</small>
-        </div>
       </section>
       <p className="tm-hint">
         This page is the all-studio number grid. Each studio's month-by-month target, action plan and offers live in{' '}
-        <Link to="/plan">Studio Sales Plans</Link>.
+        <Link to="/sales-plan/plan">Plan › Sales Plan</Link>.
       </p>
-      <Tabs
-        value={view}
-        onChange={setView}
-        items={[
-          { id: 'matrix', label: 'Target matrix' },
-          { id: 'scenarios', label: 'Scenarios' },
-          { id: 'streams', label: 'Revenue streams' },
-          { id: 'funnel', label: 'Funnel requirements' },
-        ]}
-      />
-      {view === 'scenarios' && (
-        <TargetScenarioPanel
-          year={year}
-          studioId={studioId}
-          canEdit={can('target_edit')}
-          onSelect={value => {
-            setScenario(value);
-            setConfirmGenerate(true);
-          }}
-        />
-      )}
-      {view === 'matrix' && (
+      {
         <section className="tm-section">
           <header className="tm-section-head">
             <div>
@@ -318,7 +294,7 @@ export default function AnnualPlanner() {
                                 }`}
                               >
                                 {r.approved_target !== null && <ShieldCheck size={11} />}
-                                {r.scenario}
+                                {r.approved_target !== null ? 'approved' : 'detail'}
                               </button>
                               {r.version > 1 && (
                                 <button
@@ -384,104 +360,11 @@ export default function AnnualPlanner() {
             </table>
           </div>
           <p className="tm-note">
-            Blank/zero approved cells are intentional until management approves a target. Regenerating scenarios changes
-            recommendations only. Growth compares the shown value with last year&apos;s historical revenue for the same
-            month.
+            Blank/zero approved cells are intentional until management approves a target. Growth compares the shown
+            value with last year&apos;s historical revenue for the same month.
           </p>
         </section>
-      )}
-      {view === 'streams' && (
-        <Card>
-          <CardHeader
-            title="Months × revenue streams"
-            subtitle="Approved or proposed target allocation across the business"
-          />
-          <TableScroll>
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Month</th>
-                  <th className="num">New clients</th>
-                  <th className="num">Renewals</th>
-                  <th className="num">Repeat purchases</th>
-                  <th className="num">Reactivation</th>
-                  <th className="num">Other</th>
-                  <th className="num">Total proposed</th>
-                  <th className="num">Approved</th>
-                </tr>
-              </thead>
-              <tbody>
-                {MONTHS.map((m, i) => {
-                  const rows = data.rows.filter((r: any) => r.month === i + 1);
-                  const sum = (key: string) => rows.reduce((s: number, r: any) => s + (r[key] || 0), 0);
-                  return (
-                    <tr key={m}>
-                      <td>
-                        <strong>{m}</strong>
-                      </td>
-                      <td className="num">{money(sum('new_client_target'), true)}</td>
-                      <td className="num">{money(sum('renewal_target'), true)}</td>
-                      <td className="num">{money(sum('repeat_target'), true)}</td>
-                      <td className="num">{money(sum('reactivation_target'), true)}</td>
-                      <td className="num">{money(sum('other_target'), true)}</td>
-                      <td className="num">
-                        <strong>{money(sum('proposed_target'), true)}</strong>
-                      </td>
-                      <td className="num">{money(sum('approved_target'), true)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </TableScroll>
-        </Card>
-      )}
-      {view === 'funnel' && (
-        <Card>
-          <CardHeader
-            title="Operational funnel requirements"
-            subtitle="Counts round upward; assumptions and missing rates are visible in monthly detail"
-          />
-          <TableScroll>
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Studio</th>
-                  <th>Month</th>
-                  <th className="num">New-client revenue</th>
-                  <th className="num">New buyers</th>
-                  <th className="num">Completed trials</th>
-                  <th className="num">Trial bookings</th>
-                  <th className="num">Required leads</th>
-                  <th>Integrity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.rows.map((r: any) => (
-                  <tr key={r.id}>
-                    <td>{r.studio}</td>
-                    <td>{MONTHS_SHORT[r.month - 1]}</td>
-                    <td className="num">{money(r.funnel.requiredNewClientRevenue, true)}</td>
-                    <td className="num">{number(r.funnel.requiredNewBuyers)}</td>
-                    <td className="num">{number(r.funnel.requiredCompletedTrials)}</td>
-                    <td className="num">{number(r.funnel.requiredTrialBookings)}</td>
-                    <td className="num">
-                      <strong>{number(r.funnel.requiredLeads)}</strong>
-                    </td>
-                    <td>
-                      {r.funnel.warnings?.length ? (
-                        <Badge tone="amber">{r.funnel.warnings.length} warnings</Badge>
-                      ) : (
-                        <Badge tone="green">Calculated</Badge>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </TableScroll>
-        </Card>
-      )}
+      }
       {editing && (
         <TargetEditor
           target={editing}
@@ -522,25 +405,6 @@ export default function AnnualPlanner() {
           </div>
         </Modal>
       )}
-      {confirmGenerate && (
-        <Modal
-          title="Regenerate annual recommendations?"
-          onClose={() => setConfirmGenerate(false)}
-          footer={
-            <>
-              <Button variant="secondary" onClick={() => setConfirmGenerate(false)}>
-                Cancel
-              </Button>
-              <Button onClick={regenerate}>Regenerate {scenario}</Button>
-            </>
-          }
-        >
-          <Callout tone="warning" title="Proposed values will change">
-            This recalculates {studioId ? 'the selected studio’s' : 'all'} studio-month recommendations for {year} using
-            the {scenario} scenario. Approved targets are preserved. New versions and an audit event are created.
-          </Callout>
-        </Modal>
-      )}
     </div>
   );
 }
@@ -558,15 +422,10 @@ export function TargetEditor({
   const [proposed, setProposed] = useState<any>(target.proposedTarget ?? target.proposed_target),
     [approved, setApproved] = useState<any>(target.approvedTarget ?? target.approved_target ?? ''),
     [reason, setReason] = useState('Management review in annual planner.');
-  const rates = target.assumptions.conversionRates || {};
-  const [avg, setAvg] = useState<any>(target.assumptions.averageFirstPurchase || target.expected_aov || 0),
-    [trial, setTrial] = useState<any>((rates.trialToPurchaseRate ?? 0) * 100),
-    [attendance, setAttendance] = useState<any>((rates.bookingToAttendanceRate ?? 0.7) * 100),
-    [booking, setBooking] = useState<any>((rates.leadToBookingRate ?? 0.35) * 100);
   return (
     <Modal
       title={`Edit ${target.studio} · ${MONTHS[target.month - 1]}`}
-      subtitle="Changes are versioned and recalculate stream allocations and funnel requirements."
+      subtitle="Changes are versioned. Leads, first visits, clients and units recalculate from the target (Targets › target breakdown)."
       onClose={onClose}
       width="780px"
       footer={
@@ -581,10 +440,6 @@ export function TargetEditor({
                 proposedTarget: Number(proposed),
                 ...(canApprove && approved !== '' ? { approvedTarget: Number(approved) } : {}),
                 reason,
-                averageFirstPurchase: Number(avg),
-                trialToPurchaseRate: Number(trial) / 100,
-                bookingToAttendanceRate: Number(attendance) / 100,
-                leadToBookingRate: Number(booking) / 100,
               })
             }
           >
@@ -613,28 +468,13 @@ export function TargetEditor({
             disabled={!canApprove}
           />
         </Field>
-        <Field label="Average first purchase (₹)">
-          <Input type="number" min="0" value={avg} onChange={e => setAvg(e.target.value)} />
-        </Field>
         <Field label="Change / approval reason" required>
           <Input value={reason} onChange={e => setReason(e.target.value)} />
         </Field>
-        <Field
-          label="Trial → purchase assumption (%)"
-          hint="Loaded from the target's recorded conversion assumptions; edits are treated as manual assumptions."
-        >
-          <Input type="number" min="0" max="100" value={trial} onChange={e => setTrial(e.target.value)} />
-        </Field>
-        <Field label="Booking → attendance (%)">
-          <Input type="number" min="0" max="100" value={attendance} onChange={e => setAttendance(e.target.value)} />
-        </Field>
-        <Field label="Lead → booking (%)">
-          <Input type="number" min="0" max="100" value={booking} onChange={e => setBooking(e.target.value)} />
-        </Field>
       </div>
       <Callout title="Recommendation provenance">
-        {target.assumptions.scenarioExplanation} Comparable month: {target.assumptions.comparableMonth || 'unavailable'}
-        . {target.assumptions.rentAdjustment?.reason}
+        {String(target.assumptions.scenarioExplanation || '').replace(/\s*Stretch:[^.]*\.?/g, '')} Comparable month:{' '}
+        {target.assumptions.comparableMonth || 'unavailable'}. {target.assumptions.rentAdjustment?.reason}
       </Callout>
     </Modal>
   );

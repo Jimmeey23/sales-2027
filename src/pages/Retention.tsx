@@ -231,7 +231,7 @@ export default function Retention() {
               footer={
                 <Button
                   onClick={() =>
-                    navigate('/goal-builder', {
+                    navigate('/offers?view=gap', {
                       state: { studioId: selected.studio_id, segment: selected.segment_key },
                     })
                   }

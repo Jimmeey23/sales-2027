@@ -96,11 +96,11 @@ const TAG_TONE: Record<string, 'green' | 'amber' | 'blue' | 'purple' | 'red' | '
   Operations: 'neutral',
 };
 
-export default function Playbook2027({ scope }: { scope?: string | null }) {
-  const { boot } = useApp();
+export default function Playbook2027({ scope, showMonths = true }: { scope?: string | null; showMonths?: boolean }) {
+  const { boot, scenario } = useApp();
   const fixed = playbookKeyFor(scope);
-  const [picked, setPicked] = useState<PlaybookKey>('Kemps Corner');
-  const key = fixed || picked;
+  // The location always comes from the global location bar (Kemps Corner if none is chosen).
+  const key = fixed || 'Kemps Corner';
   const pb = PLAYBOOK_2027.studios[key];
   const studio = boot.studios.find(s => s.name === key);
   const {
@@ -108,24 +108,30 @@ export default function Playbook2027({ scope }: { scope?: string | null }) {
     loading,
     error,
     reload,
-  } = useLoad<any>(() => import('../api').then(({ api }) => api(`/overview-brief?studio=${studio?.id}`)), [studio?.id]);
+  } = useLoad<any>(
+    () => import('../api').then(({ api }) => api(`/targets/breakdown?year=2027&studio=${studio?.id}`)),
+    [studio?.id, scenario],
+  );
   const [openOffer, setOpenOffer] = useState<string | null>(null);
   const [openLever, setOpenLever] = useState<string | null>(null);
 
-  const liveTarget: number = Number(live?.plan?.target || 0) || pb.build.appTargetAtBuild;
-  const liveMonths: Array<{ label: string; target: number }> = live?.plan?.months || [];
-
-  const monthPlan = useMemo(() => {
-    const f = pb.funnel;
-    const convGain = f.convTarget ? f.convNow / f.convTarget : 1;
-    return pb.months.map((m, i) => {
-      const target = Number(liveMonths[i]?.target || 0) || (liveTarget / 12) * (pb.seasonality[i] || 1);
-      const buyers = (target * f.newShare) / f.avgFirstPurchase;
-      const visits = buyers * f.visitsPerBuyer * convGain;
-      const leads = visits * f.leadsPerVisit;
-      return { ...m, target, buyers, visits, leads };
-    });
-  }, [pb, liveMonths, liveTarget]);
+  // Targets and volumes come from the one target breakdown (Targets tab) — never recomputed here.
+  const bd = live?.locations?.[0];
+  const liveTarget: number = Number(bd?.total?.target || 0) || pb.build.appTargetAtBuild;
+  const monthPlan = useMemo(
+    () =>
+      pb.months.map((m, i) => {
+        const x = bd?.months?.[i];
+        return {
+          ...m,
+          target: Number(x?.target || 0),
+          buyers: Number(x?.newPaying || 0),
+          visits: Number(x?.firstVisits || 0),
+          leads: Number(x?.leads || 0),
+        };
+      }),
+    [pb, bd],
+  );
 
   const chart = useMemo(
     () =>
@@ -154,7 +160,7 @@ export default function Playbook2027({ scope }: { scope?: string | null }) {
     },
     ...b.levers.map(l => ({ label: l.name, value: l.value, kind: 'add' as const })),
     { label: `Overlap haircut (−${(b.haircut * 100).toFixed(0)}%)`, value: -b.leverTotal * b.haircut, kind: 'cut' },
-    { label: 'Data-backed 2027 projection', value: b.projection, kind: 'total' },
+    { label: 'Levers add up to', value: b.projection, kind: 'total' },
   ];
   let running = 0;
   const totals = { buyers: 0, visits: 0, leads: 0 };
@@ -173,21 +179,6 @@ export default function Playbook2027({ scope }: { scope?: string | null }) {
           </span>
           <p>{pb.headline}</p>
         </div>
-        {!fixed && (
-          <div className="pb27-switch" role="tablist" aria-label="Choose location">
-            {KEYS.map(k => (
-              <button
-                key={k}
-                role="tab"
-                aria-selected={k === key}
-                className={k === key ? 'active' : ''}
-                onClick={() => setPicked(k)}
-              >
-                {k}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="pb27-kpis">
@@ -219,7 +210,7 @@ export default function Playbook2027({ scope }: { scope?: string | null }) {
         <Card>
           <CardHeader
             title="From 2026 forecast to 2027, lever by lever"
-            subtitle={`Each lever is sized from this studio's own data; the plan target (${crore(liveTarget)}) is the dashed line.`}
+            subtitle={`A check on the one target (${crore(liveTarget)}, dashed line): what each lever is worth, sized from this studio's own data. Not a second target.`}
           />
           <div className="pb27-wf">
             {steps.map(s => {
@@ -247,18 +238,18 @@ export default function Playbook2027({ scope }: { scope?: string | null }) {
           <div className={`pb27-verdict ${gap >= 0 ? 'ok' : 'short'}`}>
             {gap >= 0 ? (
               <>
-                The data-backed projection of <strong>{lakh(b.projection)}</strong> covers the plan target of{' '}
+                The levers add up to <strong>{lakh(b.projection)}</strong>, which covers the target of{' '}
                 <strong>{lakh(liveTarget)}</strong> ({coverage.toFixed(0)}%) with <strong>{lakh(gap)}</strong> of
                 headroom
                 {coverage > 112
-                  ? ' — the target looks conservative; consider a stretch version.'
+                  ? ' — the Stretch target is within reach if the levers land.'
                   : ' — execution, not new ideas, decides the year.'}
               </>
             ) : (
               <>
-                The data-backed projection of <strong>{lakh(b.projection)}</strong> reaches {coverage.toFixed(0)}% of
-                the plan target of <strong>{lakh(liveTarget)}</strong>. A further <strong>{lakh(-gap)}</strong> needs a
-                new source (another venue, corporate blocks or a pricing change) or a lower target.
+                The levers add up to <strong>{lakh(b.projection)}</strong> — {coverage.toFixed(0)}% of the target of{' '}
+                <strong>{lakh(liveTarget)}</strong>. A further <strong>{lakh(-gap)}</strong> needs a new source (another
+                venue, corporate blocks or a pricing change) or a lower target.
               </>
             )}
           </div>
@@ -365,82 +356,84 @@ export default function Playbook2027({ scope }: { scope?: string | null }) {
         })}
       </div>
 
-      <Card>
-        <CardHeader
-          title="Month by month, 2027"
-          subtitle={`Targets from the live plan. Buyers, first visits and leads are what the target needs at this studio's 2026 mix, with conversion improving to ${pb.funnel.convTarget.toFixed(0)}%.`}
-        />
-        <TableScroll>
-          <table className="data-table pb27-months">
-            <thead>
-              <tr>
-                <th>Month</th>
-                <th>Theme &amp; focus</th>
-                <th>Offers</th>
-                <th>Sales team actions</th>
-                <th className="num">Target</th>
-                <th className="num">First-time buyers</th>
-                <th className="num">First visits</th>
-                <th className="num">Leads</th>
-              </tr>
-            </thead>
-            <tbody>
-              {monthPlan.map(m => (
-                <tr key={m.month}>
-                  <td>
-                    <strong>{m.month}</strong>
-                    <small>{m.event}</small>
-                  </td>
-                  <td>
-                    <strong>{m.theme}</strong>
-                    <span>{m.focus}</span>
-                    <small>{m.why}</small>
-                  </td>
-                  <td>
-                    {m.offers.map(o => (
-                      <span key={o} className="pb27-chip">
-                        {o}
-                      </span>
-                    ))}
-                  </td>
-                  <td>
-                    <ul>
-                      {m.actions.map(a => (
-                        <li key={a}>{a}</li>
+      {showMonths && (
+        <Card>
+          <CardHeader
+            title="Month by month, 2027"
+            subtitle="Target, new paying clients, first visits and leads are the same numbers as Plan › Targets › target breakdown."
+          />
+          <TableScroll>
+            <table className="data-table pb27-months">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Theme &amp; focus</th>
+                  <th>Offers</th>
+                  <th>Sales team actions</th>
+                  <th className="num">Target</th>
+                  <th className="num">New paying clients</th>
+                  <th className="num">First visits</th>
+                  <th className="num">Leads</th>
+                </tr>
+              </thead>
+              <tbody>
+                {monthPlan.map(m => (
+                  <tr key={m.month}>
+                    <td>
+                      <strong>{m.month}</strong>
+                      <small>{m.event}</small>
+                    </td>
+                    <td>
+                      <strong>{m.theme}</strong>
+                      <span>{m.focus}</span>
+                      <small>{m.why}</small>
+                    </td>
+                    <td>
+                      {m.offers.map(o => (
+                        <span key={o} className="pb27-chip">
+                          {o}
+                        </span>
                       ))}
-                    </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        {m.actions.map(a => (
+                          <li key={a}>{a}</li>
+                        ))}
+                      </ul>
+                    </td>
+                    <td className="num">
+                      <strong>{lakh(m.target)}</strong>
+                    </td>
+                    <td className="num">{int(m.buyers)}</td>
+                    <td className="num">{int(m.visits)}</td>
+                    <td className="num">{int(m.leads)}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={4}>
+                    <strong>2027</strong>
                   </td>
                   <td className="num">
-                    <strong>{lakh(m.target)}</strong>
+                    <strong>{lakh(monthPlan.reduce((a, m) => a + m.target, 0))}</strong>
                   </td>
-                  <td className="num">{int(m.buyers)}</td>
-                  <td className="num">{int(m.visits)}</td>
-                  <td className="num">{int(m.leads)}</td>
+                  <td className="num">
+                    <strong>{int(totals.buyers)}</strong>
+                  </td>
+                  <td className="num">
+                    <strong>{int(totals.visits)}</strong>
+                  </td>
+                  <td className="num">
+                    <strong>{int(totals.leads)}</strong>
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan={4}>
-                  <strong>2027</strong>
-                </td>
-                <td className="num">
-                  <strong>{lakh(monthPlan.reduce((a, m) => a + m.target, 0))}</strong>
-                </td>
-                <td className="num">
-                  <strong>{int(totals.buyers)}</strong>
-                </td>
-                <td className="num">
-                  <strong>{int(totals.visits)}</strong>
-                </td>
-                <td className="num">
-                  <strong>{int(totals.leads)}</strong>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </TableScroll>
-      </Card>
+              </tfoot>
+            </table>
+          </TableScroll>
+        </Card>
+      )}
 
       <div className="pb27-two">
         <Card>

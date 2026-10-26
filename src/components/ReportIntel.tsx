@@ -3,26 +3,17 @@ import { AlertTriangle, CheckCircle2, XCircle } from 'lucide-react';
 import { Badge, Card, CardHeader, TableScroll } from './ui';
 import {
   APRIL_HISTORY,
-  DATA_GAPS,
-  DECISIONS,
-  DELIVERABLES,
   EXEC_SUMMARY,
   FUNNEL,
   FUNNEL_INSIGHTS,
   FUNNEL_ROWS,
-  GUARDRAILS,
   LAPSED,
-  LEVERS,
-  METHOD,
   OFFER_EFFECTIVENESS,
   OFFERS_FAILED,
   OFFERS_WORKED,
   REPORT_LABEL,
   REPORT_META,
   REPORT_STUDIOS,
-  RISKS,
-  SCENARIOS,
-  SCENARIO_TOTAL,
   STUDIO_PROFILES,
   type ReportStudio,
 } from '../data/salesIntelligenceReport';
@@ -318,190 +309,6 @@ export function ReportFindings({ studio }: { studio: ReportStudio | null }) {
             <li key={x}>{x}</li>
           ))}
         </ul>
-      </Card>
-    </>
-  );
-}
-
-/* ---------- 2027 plan tab ---------- */
-export function ReportPlan({ studio }: { studio: ReportStudio | null }) {
-  const list = studiosFor(studio);
-  return (
-    <>
-      <Card>
-        <CardHeader
-          title="2027 scenarios (report model)"
-          subtitle={`${REPORT_META.model} · ₹ lakh incl. GST`}
-          action={<Source />}
-        />
-        <TableScroll>
-          <table className="data-table ob-table">
-            <thead>
-              <tr>
-                <th>Studio</th>
-                <th className="num">TTM sales</th>
-                <th className="num">YoY (TTM)</th>
-                <th className="num">2026 estimate</th>
-                <th className="num">Conservative</th>
-                <th className="num">Base target</th>
-                <th className="num">Base vs 2026E</th>
-                <th className="num">Stretch</th>
-                <th className="num">April 2027</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map(s => {
-                const r = SCENARIOS[s];
-                return (
-                  <tr key={s}>
-                    <td>
-                      <strong>{REPORT_LABEL[s]}</strong>
-                    </td>
-                    <td className="num">{L(r.ttm)}</td>
-                    <td className="num">{r.yoy}</td>
-                    <td className="num">{L(r.est2026)}</td>
-                    <td className="num">{L(r.conservative)}</td>
-                    <td className="num">
-                      <strong>{L(r.base)}</strong>
-                    </td>
-                    <td className="num">+{r.baseGrowth}%</td>
-                    <td className="num">{L(r.stretch)}</td>
-                    <td className="num">{L(r.april)}</td>
-                  </tr>
-                );
-              })}
-              {!studio && (
-                <tr>
-                  <td>
-                    <strong>All studios</strong>
-                  </td>
-                  <td className="num">{L(SCENARIO_TOTAL.ttm)}</td>
-                  <td className="num" />
-                  <td className="num">{L(SCENARIO_TOTAL.est2026)}</td>
-                  <td className="num">{L(SCENARIO_TOTAL.conservative)}</td>
-                  <td className="num">
-                    <strong>{L(SCENARIO_TOTAL.base)}</strong>
-                  </td>
-                  <td className="num">+{SCENARIO_TOTAL.baseGrowth}%</td>
-                  <td className="num">{L(SCENARIO_TOTAL.stretch)}</td>
-                  <td className="num">{L(SCENARIO_TOTAL.april)}</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </TableScroll>
-        <p className="data-note">
-          The report’s Base targets can differ from the app’s loaded targets above, which carry later user-directed
-          adjustments (e.g. the Kwality rent guardrail).
-        </p>
-      </Card>
-
-      <div className="ob-two">
-        <Card>
-          <CardHeader
-            title="What each studio must deliver (Base)"
-            subtitle="New / renewal / reactivation in ₹ lakh"
-            action={<Source />}
-          />
-          <TableScroll>
-            <table className="data-table ob-table">
-              <thead>
-                <tr>
-                  <th>Studio</th>
-                  <th className="num">Target</th>
-                  <th className="num">New / ren. / react.</th>
-                  <th className="num">Leads</th>
-                  <th className="num">Trials</th>
-                  <th className="num">New buyers</th>
-                  <th className="num">Renewals</th>
-                  <th className="num">Reactivated</th>
-                </tr>
-              </thead>
-              <tbody>
-                {list.map(s => {
-                  const d = DELIVERABLES[s];
-                  return (
-                    <tr key={s}>
-                      <td>
-                        <strong>{REPORT_LABEL[s]}</strong>
-                      </td>
-                      <td className="num">{L(d.target)}</td>
-                      <td className="num">{d.streams}</td>
-                      <td className="num">{d.leads}</td>
-                      <td className="num">{d.trials}</td>
-                      <td className="num">{d.buyers}</td>
-                      <td className="num">{d.renewals}</td>
-                      <td className="num">{d.reactivated}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </TableScroll>
-        </Card>
-        <Card>
-          <CardHeader title="Base levers vs observed TTM" action={<Source />} />
-          <TableScroll>
-            <table className="data-table ob-table">
-              <thead>
-                <tr>
-                  <th>Lever</th>
-                  {list.map(s => (
-                    <th key={s} className="num">
-                      {REPORT_LABEL[s]}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {LEVERS.map(l => (
-                  <tr key={l.lever}>
-                    <td>{l.lever}</td>
-                    {list.map(s => (
-                      <td key={s} className="num">
-                        {l.values[s]}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </TableScroll>
-        </Card>
-      </div>
-
-      <div className="ob-two">
-        <Card>
-          <CardHeader title="Priority decisions for management" action={<Source />} />
-          <ol className="ri-list ri-ordered">
-            {DECISIONS.map(x => (
-              <li key={x}>{x}</li>
-            ))}
-          </ol>
-        </Card>
-        <Card>
-          <CardHeader title="Biggest risks to the plan" action={<Source />} />
-          <ul className="ri-icons">
-            {RISKS.map(x => (
-              <li key={x}>
-                <AlertTriangle size={15} className="negative-text" />
-                <span>{x}</span>
-              </li>
-            ))}
-          </ul>
-          <h4 className="ri-h">2027 discount guardrails</h4>
-          <p className="ri-p">{GUARDRAILS}</p>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader title="How the targets were built" action={<Source />} />
-        <ul className="ri-list">
-          {METHOD.map(x => (
-            <li key={x}>{x}</li>
-          ))}
-        </ul>
-        <p className="data-note">{DATA_GAPS}</p>
       </Card>
     </>
   );

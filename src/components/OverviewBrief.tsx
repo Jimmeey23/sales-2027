@@ -3,10 +3,9 @@ import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, T
 import { TrendingDown, TrendingUp, Minus } from 'lucide-react';
 import { useLoad } from '../hooks';
 import { money, number } from '../types';
-import { ReportFindings, ReportPerformance, ReportPlan } from './ReportIntel';
+import { ReportFindings, ReportPerformance } from './ReportIntel';
 import { reportStudioFor } from '../data/salesIntelligenceReport';
 import { Badge, Card, CardHeader, ErrorState, Loading, TableScroll, Tabs } from './ui';
-import Playbook2027 from './Playbook2027';
 
 const signed = (v: number | null | undefined, digits = 1) =>
   v === null || v === undefined || !Number.isFinite(v) ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(digits)}%`;
@@ -35,8 +34,7 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
     () => import('../api').then(({ api }) => api(`/overview-brief${studioId ? `?studio=${studioId}` : ''}`)),
     [studioId],
   );
-  // Default to the 2027 playbook when a single location is selected.
-  const [view, setView] = useState(studioId ? 'playbook' : 'performance');
+  const [view, setView] = useState('performance');
   if (loading && !b) return <Loading label="Building the 2025 → 2027 brief…" />;
   if (error && !b) return <ErrorState message={error} retry={() => reload().catch(() => {})} />;
   if (!b) return null;
@@ -197,12 +195,8 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
         items={[
           { id: 'performance', label: '2025 vs 2026 performance' },
           { id: 'findings', label: 'Key findings', count: b.findings.length },
-          { id: 'plan', label: '2027 plan in detail' },
-          { id: 'playbook', label: '2027 sales playbook' },
         ]}
       />
-
-      {view === 'playbook' && <Playbook2027 scope={b.scope} />}
 
       {view === 'performance' && (
         <>
@@ -389,166 +383,6 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
           </div>
           <h3 className="ri-section">From the Sales Intelligence Report</h3>
           <ReportFindings studio={reportStudio} />
-        </>
-      )}
-
-      {view === 'plan' && (
-        <>
-          <div className="ob-plan-kpis">
-            <div>
-              <span>Annual target</span>
-              <strong>{cr(p.target)}</strong>
-              <small>{lakh(p.monthlyAverage)} a month on average</small>
-            </div>
-            <div>
-              <span>Incremental vs 2026</span>
-              <strong>{cr(p.incremental)}</strong>
-              <small>{signed(p.growthVsForecast2026)} on the 2026 forecast</small>
-            </div>
-            <div>
-              <span>New buyers required</span>
-              <strong>{number(p.funnel.buyers)}</strong>
-              <small>
-                from {number(p.funnel.trials)} trials · {number(p.funnel.leads)} leads
-              </small>
-            </div>
-            <div>
-              <span>Offers &amp; campaigns</span>
-              <strong>{number(p.offerTotal)}</strong>
-              <small>
-                offers loaded · {p.campaigns.count} campaigns ({lakh(p.campaigns.target)})
-              </small>
-            </div>
-          </div>
-
-          <div className="ob-two">
-            <Card>
-              <CardHeader
-                title="Where the 2027 revenue comes from"
-                subtitle="Target by revenue stream vs 2026 YTD mix"
-              />
-              <div className="ob-cats">
-                {[
-                  ['Renewals', p.streams.renewal, y26.streams.renewal],
-                  ['New clients', p.streams.newClient, y26.streams.newClient],
-                  ['Reactivation', p.streams.reactivation, y26.streams.reactivation],
-                  ['Repeat / other', p.streams.other, y26.streams.additional],
-                ].map(([label, v, prev]: any) => (
-                  <div key={label}>
-                    <div>
-                      <span>{label}</span>
-                      <strong>{cr(v)}</strong>
-                    </div>
-                    <div className="ob-bar">
-                      <i style={{ width: `${(v / p.target) * 100}%` }} />
-                    </div>
-                    <small>
-                      {((v / p.target) * 100).toFixed(0)}% of plan · 2026 YTD {lakh(prev)} (
-                      {((prev / y26.revenue) * 100).toFixed(0)}%)
-                    </small>
-                  </div>
-                ))}
-              </div>
-            </Card>
-            <Card>
-              <CardHeader title="Quarterly phasing" subtitle="2027 target vs 2025 actual for the same quarter" />
-              <table className="data-table ob-table">
-                <thead>
-                  <tr>
-                    <th>Quarter</th>
-                    <th className="num">2025 actual</th>
-                    <th className="num">2027 target</th>
-                    <th className="num">Uplift</th>
-                    <th className="num">Share</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {p.quarters.map((q: any) => (
-                    <tr key={q.quarter}>
-                      <td>
-                        <strong>{q.quarter}</strong>
-                      </td>
-                      <td className="num">{cr(q.actual2025)}</td>
-                      <td className="num">
-                        <strong>{cr(q.target)}</strong>
-                      </td>
-                      <td className="num">{signed(q.vs2025)}</td>
-                      <td className="num">{((q.target / p.target) * 100).toFixed(0)}%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </Card>
-          </div>
-
-          <Card>
-            <CardHeader
-              title="Month-by-month 2027 plan"
-              subtitle={`Targets for ${b.scope}; themes and objectives from the ${p.themeSource} playbook`}
-            />
-            <TableScroll>
-              <table className="data-table ob-table ob-months">
-                <thead>
-                  <tr>
-                    <th>Month</th>
-                    <th>Theme &amp; objective</th>
-                    <th className="num">2025 actual</th>
-                    <th className="num">2026 actual</th>
-                    <th className="num">2027 target</th>
-                    <th className="num">vs 2026</th>
-                    <th className="num">Offers</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {p.months.map((m: any) => (
-                    <tr key={m.month}>
-                      <td>
-                        <strong>{m.label}</strong>
-                      </td>
-                      <td className="ob-theme">
-                        <strong>{m.theme || '—'}</strong>
-                        {m.objective && <span>{m.objective}</span>}
-                      </td>
-                      <td className="num">{lakh(m.actual2025)}</td>
-                      <td className="num">{m.forecastBase2026 ? lakh(m.forecastBase2026) : '—'}</td>
-                      <td className="num">
-                        <strong>{lakh(m.target)}</strong>
-                      </td>
-                      <td className="num">{signed(delta(m.target, m.forecastBase2026))}</td>
-                      <td className="num">{m.offers || '—'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </TableScroll>
-          </Card>
-
-          <div className="ob-two">
-            <Card>
-              <CardHeader title="Always-on operating rules" subtitle="Run every month, every studio" />
-              <ul className="ob-rules">
-                {p.alwaysOn.map((r: any) => (
-                  <li key={r.title}>
-                    <strong>{r.title}</strong>
-                    <span>{r.body}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-            <Card>
-              <CardHeader title="Recovery triggers" subtitle="What happens when a month slips" />
-              <ul className="ob-rules">
-                {p.recovery.map((r: any) => (
-                  <li key={r.title}>
-                    <strong>{r.title}</strong>
-                    <span>{r.body}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </div>
-          <h3 className="ri-section">From the Sales Intelligence Report</h3>
-          <ReportPlan studio={reportStudio} />
         </>
       )}
 

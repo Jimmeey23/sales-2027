@@ -49,10 +49,6 @@ export default function CampaignsTab({ data }: { data: PlanData }) {
               {label}
             </button>
           ))}
-          <button onClick={() => navigate('/calendar')}>
-            <CalendarDays size={15} />
-            Open calendar
-          </button>
         </div>
       </div>
       <div className={layout === 'timeline' ? 'ws-timeline' : 'ws-camp-grid'}>
@@ -117,14 +113,6 @@ export default function CampaignsTab({ data }: { data: PlanData }) {
           );
         })}
       </div>
-      {data.campaigns.length === 0 && (
-        <p className="muted" style={{ marginTop: 12 }}>
-          No campaigns are scheduled in the calendar yet.{' '}
-          <Button size="sm" variant="ghost" onClick={() => navigate('/calendar')}>
-            Schedule one
-          </Button>
-        </p>
-      )}
     </>
   );
 }

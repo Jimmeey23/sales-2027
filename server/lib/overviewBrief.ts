@@ -1,5 +1,14 @@
 import { db } from '../db.js';
 import { studioScopeIds } from './studios.js';
+import { targetBreakdown } from './targetBreakdown.js';
+
+// The 2026 full-year figure is the same one the Targets breakdown compares 2027 against
+// (complete months actual, the rest estimated), so Overview and Plan never disagree.
+function breakdown2026(id: number) {
+  const b = targetBreakdown(id, 2027);
+  return b ? b.total.lastYear : null;
+}
+const PLANNING = ['Kemps Corner', 'Bandra', 'Kenkere House', 'Pop-up'];
 
 // Pop-up venues roll up into the Pop-up parent; portfolio totals exclude them so nothing double-counts.
 const POPUP_CHILDREN = ['Copper + Cloves', 'Plash Pilates'];
@@ -146,7 +155,15 @@ export function overviewBrief(studioId: number | null) {
   const rest2025 = revenueBetween(scopeIds, restFrom2025, '2025-12-31');
   const forecast = (ytd26: number, ytd25: number, rest25: number) =>
     ytd25 < MIN_COMPARABLE_BASE ? (ytd26 / dayOfYear) * 365 : ytd26 + rest25 * (ytd26 / ytd25);
-  const forecast2026 = forecast(ytd2026.revenue, ytd2025.revenue, rest2025);
+  const planningIds = PLANNING.map(n => (db.prepare('SELECT id FROM studios WHERE name=?').get(n) as any)?.id).filter(
+    Boolean,
+  ) as number[];
+  const scoped2026 = studioId
+    ? breakdown2026(studioId)
+    : planningIds.map(breakdown2026).every(v => v !== null)
+      ? planningIds.reduce((a, id) => a + (breakdown2026(id) || 0), 0)
+      : null;
+  const forecast2026 = scoped2026 ?? forecast(ytd2026.revenue, ytd2025.revenue, rest2025);
 
   const m25 = monthlyRevenue(scopeIds, 2025);
   const m26 = monthlyRevenue(scopeIds, 2026);
@@ -191,7 +208,7 @@ export function overviewBrief(studioId: number | null) {
       const y25 = revenueBetween(ids, '2025-01-01', cutoff25);
       const y26 = revenueBetween(ids, '2026-01-01', cutoff26);
       const r25 = revenueBetween(ids, restFrom2025, '2025-12-31');
-      const fc26 = forecast(y26, y25, r25);
+      const fc26 = breakdown2026(s.id) ?? forecast(y26, y25, r25);
       const tgt = t27.filter(t => t.studio_id === s.id).reduce((a, r) => a + Number(r.target || 0), 0);
       const clients26 = Number(
         (

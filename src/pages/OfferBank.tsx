@@ -489,9 +489,6 @@ export default function OfferBank() {
                 <Button variant="secondary" onClick={() => navigate('/ai-offers', { state: { prefill: selected } })}>
                   <Sparkles size={14} /> Generate variation
                 </Button>
-                <Button variant="secondary" onClick={() => navigate('/performance')}>
-                  View performance
-                </Button>
               </div>
               <h3>Version history</h3>
               <div className="version-list">

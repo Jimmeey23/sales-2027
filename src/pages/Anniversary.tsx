@@ -21,25 +21,26 @@ const AUDIENCES = [
 ];
 export default function Anniversary() {
   const { boot, studioId, year, toast, can } = useApp();
-  const [studio, setStudio] = useState(studioId || boot.studios[0]?.id),
-    [audienceIndex, setAudienceIndex] = useState(0),
-    [target, setTarget] = useState(300000),
-    [discount, setDiscount] = useState(20),
+  // Location comes from the global location bar; Pop-up plans for its venues together.
+  const studio = studioId || boot.studios.find(s => s.name === 'Kemps Corner')?.id || boot.studios[0]?.id;
+  const [audienceIndex, setAudienceIndex] = useState(0),
+    [target, setTarget] = useState(0),
+    // Playbook guardrail: April effective discount ≤ 12% (deep April codes cut repurchase sharply).
+    [discount, setDiscount] = useState(12),
     [repeatRate, setRepeatRate] = useState(0.25);
-  useOnChange(studioId, () => {
-    if (studioId) setStudio(studioId);
-  });
+  // Default contribution = April's target above an ordinary month of the same plan (Target Metrics).
+  const { data: plan } = useLoad<any>(() => api(`/targets/breakdown?year=${year}&studio=${studio}`), [studio, year]);
   const [offers, setOffers] = useState<any[]>([]),
     [loading, setLoading] = useState(false),
     [selectedCampaign, setSelectedCampaign] = useState('');
   const { data, reload } = useLoad<any>(() => api(`/anniversary?year=${year}&studio=${studio}`), [studio, year]);
   useEffect(() => {
-    if (!data) return;
-    const latest = data.baseline
-      .filter((b: any) => b.studio_id === studio)
-      .sort((a: any, b: any) => b.month.localeCompare(a.month))[0];
-    if (latest) setTarget(Math.round(latest.revenue * 0.1));
-  }, [data]);
+    const months = plan?.locations?.[0]?.months;
+    if (!months?.length) return;
+    const april = months[3].target,
+      ordinary = (months.reduce((a: number, m: any) => a + m.target, 0) - april) / 11;
+    setTarget(Math.max(0, Math.round(april - ordinary)));
+  }, [plan]);
   const generate = async () => {
     setLoading(true);
     try {
@@ -110,18 +111,9 @@ export default function Anniversary() {
         title="Build April without borrowing from May"
         description="A dedicated anniversary portfolio for every customer lifecycle—creative enough for WhatsApp, disciplined enough for management."
         actions={
-          <div className="filter-row">
-            <Select value={studio} onChange={e => setStudio(Number(e.target.value))}>
-              {boot.studios.map(s => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </Select>
-            <Badge tone="purple">
-              <Gift size={13} /> {year} anniversary
-            </Badge>
-          </div>
+          <Badge tone="purple">
+            <Gift size={13} /> {year} anniversary · {boot.studios.find(s => s.id === studio)?.name}
+          </Badge>
         }
       />
       <div className="dashboard-grid-main">
@@ -189,7 +181,10 @@ export default function Anniversary() {
           ))}
         </div>
         <div className="form-grid three anniversary-inputs">
-          <Field label="Revenue contribution target (₹)">
+          <Field
+            label="Revenue contribution target (₹)"
+            hint="Defaults to April’s target above an ordinary month in Target Metrics."
+          >
             <Input type="number" min="0" value={target} onChange={e => setTarget(Number(e.target.value))} />
           </Field>
           <Field label="Maximum effective discount (%)" hint="The high-impact lane must still obey this ceiling.">

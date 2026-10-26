@@ -7,6 +7,7 @@ import { authenticate, requireAuth, verifyPassword } from './lib/auth.js';
 import { ensureCommercialSeed } from './lib/commercialSeed.js';
 import { ensureBaselineData, ensureHistoricalCohorts } from './lib/historicalBaseline.js';
 import { recalculateSegments } from './lib/segments.js';
+import { syncBreakdownFunnels } from './lib/targetBreakdown.js';
 import { flushOutbox, pullRemoteChanges, startSupabaseSync } from './lib/supabaseSync.js';
 import registerAuthRoutes from './routes/auth.js';
 import registerWorkspaceRoutes from './routes/workspace.js';
@@ -21,14 +22,23 @@ import registerAdminRoutes from './routes/admin.js';
 initSchema();
 if (process.env.NODE_ENV === 'production') {
   if (process.env.DIRECT_WORKSPACE === 'true')
-    throw new Error('Refusing production startup with DIRECT_WORKSPACE=true; this grants every visitor administrator access.');
-  const demoAccounts = db.prepare('SELECT email,password_hash FROM users WHERE active=1').all() as Array<{ email: string; password_hash: string }>;
+    throw new Error(
+      'Refusing production startup with DIRECT_WORKSPACE=true; this grants every visitor administrator access.',
+    );
+  const demoAccounts = db.prepare('SELECT email,password_hash FROM users WHERE active=1').all() as Array<{
+    email: string;
+    password_hash: string;
+  }>;
   const sharedDemoAccounts = demoAccounts.filter(account => verifyPassword('P57demo!', account.password_hash));
   if (sharedDemoAccounts.length)
-    throw new Error(`Refusing production startup while ${sharedDemoAccounts.length} active seeded account(s) still use the shared demonstration password. Rotate or disable them first.`);
+    throw new Error(
+      `Refusing production startup while ${sharedDemoAccounts.length} active seeded account(s) still use the shared demonstration password. Rotate or disable them first.`,
+    );
 }
 ensureBaselineData();
 ensureCommercialSeed();
+// Keep stored funnel volumes in step with the one target per location (see lib/targetBreakdown).
+syncBreakdownFunnels(2027);
 // Load planning data from Supabase (or migrate it there on first run) before serving requests.
 // Called once per process: by server/main.ts locally and by api/index.ts on Vercel.
 let initialising: Promise<void> | null = null;
@@ -43,9 +53,12 @@ export function initApp() {
       );
       // Supabase syncs planning tables only; ensure local historical cohorts & lifecycle segments remain populated.
       const adminId =
-        Number((db.prepare("SELECT id FROM users WHERE role='administrator' AND active=1 ORDER BY id LIMIT 1").get() as any)?.id || 0) ||
-        null;
+        Number(
+          (db.prepare("SELECT id FROM users WHERE role='administrator' AND active=1 ORDER BY id LIMIT 1").get() as any)
+            ?.id || 0,
+        ) || null;
       ensureHistoricalCohorts(adminId);
+      syncBreakdownFunnels(2027);
       if (Number((db.prepare('SELECT COUNT(*) n FROM segment_snapshots').get() as any)?.n || 0) === 0) {
         recalculateSegments();
       }

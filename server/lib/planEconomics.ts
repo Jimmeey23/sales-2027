@@ -1,12 +1,12 @@
+import { assumptionsFor, targetBreakdown } from './targetBreakdown.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { db } from '../db.js';
 import { POPUP_CHILDREN, POPUP_PARENT, POPUP_SPLIT } from './plan2027.js';
 
 // Bottom-up economics for a studio's monthly plan:
-//   new-client target ÷ (average first spend + trial fee ÷ trial→member) → paying members needed
-//   members ÷ trial→member conversion                                     → completed trials needed
-//   trials ÷ lead→trial conversion                                        → leads needed
+//   new-client volumes (paying clients, first visits, leads) come from lib/targetBreakdown — the same
+//   numbers as the Targets tab — using its rates or any planner override saved below
 //   expiring memberships × renewal rate × ticket                          → renewal revenue we can expect
 // Rates use the trailing 12 complete months from imported/seeded history, blended 50/50 with the
 // same calendar month last year when that month has a usable sample. When raw SQLite cohorts are
@@ -107,15 +107,17 @@ const EMPIRICAL_DEFAULTS: Record<string, EmpiricalDefault> = {
     renewalTicket: 8600,
     reactivationTicket: 2600,
     trialToMember: 0.26,
-    leadToTrial: 0.30,
+    leadToTrial: 0.3,
     renewalRate: 0.48,
     baselineExpiries: 12,
     lapsedPool: 55,
   },
 };
 
-let cachedActuals2026: Record<string, Record<string, { net: number; partial: number; clients: number; new: number }>> | null =
-  null;
+let cachedActuals2026: Record<
+  string,
+  Record<string, { net: number; partial: number; clients: number; new: number }>
+> | null = null;
 let cachedSalesOfferPlan: any[] | null = null;
 function getActuals2026() {
   if (!cachedActuals2026) {
@@ -130,7 +132,9 @@ function getActuals2026() {
 function getSalesOfferPlan() {
   if (!cachedSalesOfferPlan) {
     try {
-      cachedSalesOfferPlan = JSON.parse(fs.readFileSync(path.resolve('server/data/sales-offer-plan-2027.json'), 'utf8'));
+      cachedSalesOfferPlan = JSON.parse(
+        fs.readFileSync(path.resolve('server/data/sales-offer-plan-2027.json'), 'utf8'),
+      );
     } catch {
       cachedSalesOfferPlan = [];
     }
@@ -323,11 +327,23 @@ export function planEconomics(studioId: number, year: number) {
 
   const hasObservedHistory = trailing.firstSpend.buyers > 0 || trailing.renewalTicket.buyers > 0;
   const prices = {
-    oneMonth: price(studioId, meta.city, ['Studio 1 Month Unlimited Membership', 'Studio 1 Month Unlimited', 'Copper + Cloves 10 Class Package']),
-    threeMonth: price(studioId, meta.city, ['Studio 3 Month Unlimited Membership', 'Studio 3 Month Unlimited', 'Copper + Cloves 12 Class Package']),
+    oneMonth: price(studioId, meta.city, [
+      'Studio 1 Month Unlimited Membership',
+      'Studio 1 Month Unlimited',
+      'Copper + Cloves 10 Class Package',
+    ]),
+    threeMonth: price(studioId, meta.city, [
+      'Studio 3 Month Unlimited Membership',
+      'Studio 3 Month Unlimited',
+      'Copper + Cloves 12 Class Package',
+    ]),
     sixMonth: price(studioId, meta.city, ['Studio 6 Month Unlimited Membership', 'Studio 6 Month Unlimited']),
     annual: price(studioId, meta.city, ['Studio Annual Unlimited Membership', 'Studio Annual Unlimited']),
-    privates: price(studioId, meta.city, ['Studio Private Class X 10', 'Studio 4 Private Class Package', 'Studio Private Class']),
+    privates: price(studioId, meta.city, [
+      'Studio Private Class X 10',
+      'Studio 4 Private Class Package',
+      'Studio Private Class',
+    ]),
   };
 
   const targets = db
@@ -368,17 +384,14 @@ export function planEconomics(studioId: number, year: number) {
     const [sopExpPool] = parseArrowPair(sopPlan['Renewals due → purchases'] ?? sopPlan['Regulars → pack buys']);
     const [sopLapsedPool] = parseArrowPair(sopPlan['Lapsed touches → reactivated']);
 
-    const autoFirstSpend =
-      blend(trailing.firstSpend.value, s.firstSpend.value, s.firstSpend.buyers) || emp.firstSpend;
+    const autoFirstSpend = blend(trailing.firstSpend.value, s.firstSpend.value, s.firstSpend.buyers) || emp.firstSpend;
     const autoTrialSpend = trailing.trialSpend.value ?? emp.trialSpend;
     const autoRenewalTicket =
       blend(trailing.renewalTicket.value, s.renewalTicket.value, s.renewalTicket.buyers) || emp.renewalTicket;
     const autoReactivationTicket = trailing.reactivationTicket.value || emp.reactivationTicket;
-    const autoT2M =
-      blend(trailing.trialToMember.value, s.trialToMember.value, s.trialToMember.n) || emp.trialToMember;
+    const autoT2M = blend(trailing.trialToMember.value, s.trialToMember.value, s.trialToMember.n) || emp.trialToMember;
     const autoL2T = blend(trailing.leadToTrial.value, s.leadToTrial.value, s.leadToTrial.n) ?? emp.leadToTrial;
-    const autoRenewalRate =
-      blend(trailing.renewalRate.value, s.renewalRate.value, s.renewalRate.n) || emp.renewalRate;
+    const autoRenewalRate = blend(trailing.renewalRate.value, s.renewalRate.value, s.renewalRate.n) || emp.renewalRate;
 
     const firstSpend = pick('firstSpend', autoFirstSpend),
       trialSpend = pick('trialSpend', autoTrialSpend),
@@ -424,7 +437,11 @@ export function planEconomics(studioId: number, year: number) {
 
     // Feasibility & historical benchmark diagnostics
     const prior26 = actuals2026[String(month)];
-    const prior2026Revenue = prior26 ? prior26.net * emp.share : t?.historical_revenue ? Number(t.historical_revenue) : null;
+    const prior2026Revenue = prior26
+      ? prior26.net * emp.share
+      : t?.historical_revenue
+        ? Number(t.historical_revenue)
+        : null;
     const prior2026Partial = Boolean(prior26?.partial);
     const prior2026Clients = prior26 ? Math.round(prior26.clients * emp.share) : null;
     const prior2026NewClients = prior26 ? Math.round(prior26.new * emp.share) : null;
@@ -507,6 +524,32 @@ export function planEconomics(studioId: number, year: number) {
         renewalGap > 0 ? alternateSources(renewalGap, { expectedRenewers, pool, reactivationTicket, prices }) : [],
     };
   });
+  // New-client volumes come from the one target breakdown (lib/targetBreakdown) so the month workspace,
+  // Targets tab, overview and offers all show the same leads / first visits / new paying clients.
+  const breakdown = targetBreakdown(studioId, year);
+  const baseRates = assumptionsFor(meta.name);
+  if (breakdown && baseRates) {
+    const a = breakdown.assumptions;
+    breakdown.months.forEach((b, i) => {
+      const m: any = months[i];
+      m.newClient = {
+        ...m.newClient,
+        target: b.newRevenue,
+        firstSpend: a.firstMonthSpend,
+        trialSpend: 0,
+        trialRevenue: 0,
+        trialToMember: a.payingPerVisit,
+        leadToTrial: a.leadToVisit,
+        buyers: b.newPaying,
+        trials: b.firstVisits,
+        leads: b.leads,
+      };
+    });
+    autoSeries.firstSpend = [baseRates.firstMonthSpend];
+    autoSeries.trialToMember = [baseRates.payingPerVisit];
+    autoSeries.leadToTrial = [baseRates.leadToVisit];
+    autoSeries.trialSpend = [0];
+  }
   return {
     window: { from, to, trialFrom, trialTo },
     basis: hasObservedHistory ? 'observed_history' : 'empirical_playbook',

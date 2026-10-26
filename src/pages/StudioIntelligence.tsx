@@ -71,7 +71,10 @@ export default function StudioIntelligence() {
     0,
     Math.round(annualizedGross * (Math.max(0, observedDiscPct - simDiscountCap) / 100)),
   );
-  const annualTrials2027 = (bridge?.monthlyBridge || []).reduce((sum: number, m: any) => sum + Number(m.trialsNeeded || 0), 0);
+  const annualTrials2027 = (bridge?.monthlyBridge || []).reduce(
+    (sum: number, m: any) => sum + Number(m.trialsNeeded || 0),
+    0,
+  );
   const newTicket = bridge?.unitEconomics?.newClientTicket || 6000;
   const simTrialRevenueLift = Math.round(annualTrials2027 * (simTrialLiftPts / 100) * newTicket);
   const annualRenewals2027 = (bridge?.monthlyBridge || []).reduce(
@@ -86,39 +89,17 @@ export default function StudioIntelligence() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 8 }}>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-          <Button
-            variant="ghost"
-            size="sm"
-            icon={<ArrowLeft size={15} />}
-            onClick={() => {
-              setStudioId(null);
-              navigate('/insights');
-            }}
-          >
-            All studios hub
-          </Button>
-          <div className="ws-locations" role="tablist" aria-label="Switch studio intelligence location">
-            {(navStudios.length ? navStudios : planningLocations(boot.studios)).map(loc => (
-              <button
-                key={loc.id}
-                type="button"
-                role="tab"
-                aria-selected={Number(id) === loc.id}
-                className={`ws-loc ${Number(id) === loc.id ? 'active' : ''}`}
-                style={{ '--loc': LOCATION_COLORS[loc.name] || '#6857e5' } as React.CSSProperties}
-                onClick={() => {
-                  setStudioId(loc.id);
-                  navigate(`/studios/${loc.id}`);
-                }}
-              >
-                <i />
-                <span>{loc.name}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 10,
+          marginBottom: 8,
+        }}
+      >
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}></div>
         <div className="ws-segmented" role="group" aria-label="Historical evidence year">
           {(data.availableActualYears || [2026, 2025]).map((yr: number) => (
             <button
@@ -147,8 +128,9 @@ export default function StudioIntelligence() {
               <MapPin size={12} /> {s.city}
             </Badge>
             {data.isRollup && <Badge tone="blue">Consolidated Pop-up rollup</Badge>}
-            <Badge tone="green">{activeYear} imported actuals (complete through {data.historic.through})</Badge>
-            <Badge tone="amber">AI/approved targets separate</Badge>
+            <Badge tone="green">
+              {activeYear} imported actuals (complete through {data.historic.through})
+            </Badge>
           </>
         }
       />
@@ -186,9 +168,6 @@ export default function StudioIntelligence() {
           { id: 'findings', label: 'Historic findings' },
           { id: 'attendance', label: 'Attendance & cancellations' },
           { id: 'customers', label: 'Customer opportunities' },
-          { id: 'offers', label: 'Offers & action plan' },
-          { id: 'bridge', label: '2027 Plan Bridge' },
-          { id: 'method', label: 'Seasonality & target logic' },
         ]}
       />
       {tab === 'performance' && (
@@ -221,7 +200,7 @@ export default function StudioIntelligence() {
               </div>
             </Card>
             <Card>
-              <CardHeader title="Conversion funnel" subtitle="Observed rates and explicit assumptions" />
+              <CardHeader title="Conversion funnel" subtitle="Observed rates" />
               <div className="funnel-vertical">
                 <div>
                   <span>Matured trial cohort</span>
@@ -242,15 +221,9 @@ export default function StudioIntelligence() {
                       : 'Checkins · all bookings'}
                   </Badge>
                 </div>
-                <div>
-                  <span>Lead-to-booking</span>
-                  <strong>{percent(data.funnel.leadToBookingRate, 1, true)}</strong>
-                  <Badge tone="amber">Assumption</Badge>
-                </div>
               </div>
-              <Callout tone="warning">
-                Checkins supplies an observed all-booking attendance rate, not a trial-specific rate. The lead file
-                remains a current-state snapshot, so lead-to-booking is still an explicit assumption.
+              <Callout tone="info">
+                Observed history only. The rates used for 2027 planning are in Plan › Target Metrics › target breakdown.
               </Callout>
             </Card>
           </div>
@@ -767,371 +740,6 @@ export default function StudioIntelligence() {
             </table>
           </TableScroll>
         </Card>
-      )}
-      {tab === 'offers' && (
-        <div className="dashboard-grid-main">
-          <Card>
-            <CardHeader
-              title="Relevant offer history and plans"
-              subtitle="Observed history is not automatically transferable from another studio"
-            />
-            <div className="offer-profile-list">
-              {data.offers.map((o: any) => (
-                <button key={o.id} onClick={() => navigate(`/offers?q=${encodeURIComponent(o.name)}`)}>
-                  <div>
-                    <strong>{o.name}</strong>
-                    <span>{o.objective.replaceAll('_', ' ')}</span>
-                  </div>
-                  <Badge tone={o.actual_revenue ? 'green' : 'amber'}>{o.actual_revenue ? 'Observed' : 'Planned'}</Badge>
-                  <strong>{money(o.actual_revenue ?? o.expected_revenue, true)}</strong>
-                  <ArrowRight size={15} />
-                </button>
-              ))}
-            </div>
-          </Card>
-          <Card>
-            <CardHeader
-              title={`${s.name} action plan`}
-              subtitle="Measurable next steps for the selected planning month"
-            />
-            <ol className="action-plan">
-              <li>
-                <span>01</span>
-                <div>
-                  <strong>Validate the monthly revenue gap</strong>
-                  <p>
-                    Compare the approved target with actual new-client, renewal, reactivation and additional-purchase
-                    revenue.
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span>02</span>
-                <div>
-                  <strong>Fix the narrowest funnel stage first</strong>
-                  <p>
-                    Use matured trial conversion and lead volume to choose follow-up, attendance or acquisition action.
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span>03</span>
-                <div>
-                  <strong>Select a financially evaluated offer</strong>
-                  <p>
-                    Check discount ceiling, product price, eligible audience and expected target coverage before
-                    approval.
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span>04</span>
-                <div>
-                  <strong>Record actuals and 90-day follow-up</strong>
-                  <p>Separate observed campaign revenue from incremental lift; review subsequent purchase behaviour.</p>
-                </div>
-              </li>
-            </ol>
-            <div className="button-row">
-              <Button onClick={() => navigate('/goal-builder')}>Build a goal-based plan</Button>
-              <Button variant="secondary" onClick={() => navigate('/funnel')}>
-                Model required leads
-              </Button>
-            </div>
-          </Card>
-        </div>
-      )}
-      {tab === 'bridge' && bridge && (
-        <>
-          <Card className="kpi-primary" style={{ marginBottom: 16 }}>
-            <div className="kpi-grid four">
-              <Metric
-                label="2026 complete (Jan–Sep)"
-                value={money(bridge.observedComplete2026, true)}
-                detail={`YTD incl. partial Oct: ${money(bridge.observedYtd2026, true)}`}
-              />
-              <Metric
-                label="2026 annualised pace"
-                value={money(bridge.annualized2026, true)}
-                detail="Seasonally projected full-year baseline"
-              />
-              <Metric
-                label="2027 annual target"
-                value={money(bridge.annualTarget2027, true)}
-                detail={
-                  bridge.bridgePct !== null
-                    ? `${bridge.bridgePct >= 0 ? '+' : ''}${bridge.bridgePct}% vs 2026 pace (+${money(bridge.bridgeDelta, true)})`
-                    : '2027 plan'
-                }
-              />
-              <Metric
-                label="Simulated leverage unlocked"
-                value={money(simTotalLeverage, true)}
-                detail={
-                  bridge.bridgeDelta > 0
-                    ? `Covers ${simBridgeCoveragePct}% of the 2026→2027 growth step-up`
-                    : 'Incremental margin & conversion lift'
-                }
-              />
-            </div>
-          </Card>
-
-          <div className="dashboard-grid-main">
-            <Card>
-              <CardHeader
-                title="2026 baseline vs 2027 monthly target"
-                subtitle="Month-by-month step-up across calendar seasonality"
-              />
-              <div className="chart-box">
-                <ResponsiveContainer width="100%" height={285}>
-                  <BarChart data={bridge.monthlyBridge} barGap={4}>
-                    <CartesianGrid stroke="#e8e4ef" vertical={false} />
-                    <XAxis
-                      dataKey="month"
-                      tickFormatter={m => MONTHS_SHORT[Number(m) - 1]}
-                      tickLine={false}
-                      axisLine={false}
-                    />
-                    <YAxis
-                      tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`}
-                      tickLine={false}
-                      axisLine={false}
-                      width={54}
-                    />
-                    <Tooltip
-                      formatter={(v: any, key: any) => [
-                        money(Number(v)),
-                        key === 'baseline2026' ? '2026 baseline' : '2027 target',
-                      ]}
-                      labelFormatter={m => MONTHS_SHORT[Number(m) - 1]}
-                    />
-                    <Bar dataKey="baseline2026" fill="#c7c2dc" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="target2027" fill="#5245cf" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              {bridge.playbookSummary?.insight && (
-                <Callout tone="info" title="Commercial cohort diagnosis">
-                  {bridge.playbookSummary.insight}
-                </Callout>
-              )}
-            </Card>
-
-            <Card>
-              <CardHeader
-                title="Margin & funnel leverage simulator"
-                subtitle="Model how pricing discipline, trial follow-up, and pack upgrades close the 2027 gap without extra ad spend"
-              />
-              <div style={{ display: 'grid', gap: 16 }}>
-                <div style={{ padding: '12px 14px', borderRadius: 10, background: 'var(--bg-subtle, #f7f6fb)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <strong>1. Discount ceiling cap ({simDiscountCap}% vs {observedDiscPct.toFixed(1)}% observed)</strong>
-                    <Badge tone="green">+{money(simDiscountRecovered, true)}/yr</Badge>
-                  </div>
-                  <input
-                    type="range"
-                    min={5}
-                    max={15}
-                    step={0.5}
-                    value={simDiscountCap}
-                    onChange={e => setSimDiscountCap(Number(e.target.value))}
-                    style={{ width: '100%' }}
-                    aria-label="Simulated discount ceiling percentage"
-                  />
-                  <small style={{ color: 'var(--muted, #68647a)' }}>
-                    Replace renewal % codes with bonus classes or validity freezes.
-                  </small>
-                </div>
-
-                <div style={{ padding: '12px 14px', borderRadius: 10, background: 'var(--bg-subtle, #f7f6fb)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <strong>2. 48h trial → member lift (+{simTrialLiftPts} pts on {number(annualTrials2027)} trials)</strong>
-                    <Badge tone="blue">+{money(simTrialRevenueLift, true)}/yr</Badge>
-                  </div>
-                  <input
-                    type="range"
-                    min={0}
-                    max={10}
-                    step={0.5}
-                    value={simTrialLiftPts}
-                    onChange={e => setSimTrialLiftPts(Number(e.target.value))}
-                    style={{ width: '100%' }}
-                    aria-label="Simulated trial conversion lift points"
-                  />
-                  <small style={{ color: 'var(--muted, #68647a)' }}>
-                    Valued at {money(newTicket, true)} observed first-purchase ticket.
-                  </small>
-                </div>
-
-                <div style={{ padding: '12px 14px', borderRadius: 10, background: 'var(--bg-subtle, #f7f6fb)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <strong>3. Renewal pack upgrade ({simUpgradeShare}% of {number(annualRenewals2027)} renewers)</strong>
-                    <Badge tone="amber">+{money(simUpgradeLift, true)}/yr</Badge>
-                  </div>
-                  <input
-                    type="range"
-                    min={0}
-                    max={40}
-                    step={5}
-                    value={simUpgradeShare}
-                    onChange={e => setSimUpgradeShare(Number(e.target.value))}
-                    style={{ width: '100%' }}
-                    aria-label="Simulated renewal upgrade share"
-                  />
-                  <small style={{ color: 'var(--muted, #68647a)' }}>
-                    Stepping 1M renewers into 3M commitment packs at expiry T-14.
-                  </small>
-                </div>
-              </div>
-            </Card>
-          </div>
-
-          <Card style={{ marginTop: 16 }}>
-            <CardHeader
-              title="12-month 2027 feasibility & bottleneck register"
-              subtitle="Click any month to open its 2027 execution workspace"
-            />
-            <TableScroll>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Month</th>
-                    <th className="num">2026 baseline</th>
-                    <th className="num">2027 target</th>
-                    <th className="num">YoY step-up</th>
-                    <th className="num">Leads</th>
-                    <th className="num">Trials</th>
-                    <th className="num">New buyers</th>
-                    <th className="num">Renewals</th>
-                    <th>Feasibility</th>
-                    <th>Primary watchpoint</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bridge.monthlyBridge.map((m: any) => (
-                    <tr
-                      key={m.month}
-                      className="clickable-row"
-                      onClick={() => navigate(`/sales-plan/targets?month=${m.month}`)}
-                    >
-                      <td>
-                        <strong>{MONTHS_SHORT[m.month - 1]} 2027</strong>
-                      </td>
-                      <td className="num">
-                        {money(m.baseline2026, true)}
-                        {!m.complete2026 && <span style={{ fontSize: 11 }}>est.</span>}
-                      </td>
-                      <td className="num">
-                        <strong>{money(m.target2027, true)}</strong>
-                      </td>
-                      <td
-                        className={`num ${
-                          m.yoyVs2026Pct !== null && m.yoyVs2026Pct <= 25 ? 'positive-text' : ''
-                        }`}
-                      >
-                        {m.yoyVs2026Pct !== null
-                          ? `${m.yoyVs2026Pct >= 0 ? '+' : ''}${m.yoyVs2026Pct.toFixed(1)}%`
-                          : '—'}
-                      </td>
-                      <td className="num">{number(m.leadsNeeded)}</td>
-                      <td className="num">{number(m.trialsNeeded)}</td>
-                      <td className="num">{number(m.newBuyersNeeded)}</td>
-                      <td className="num">{number(m.renewalsNeeded)}</td>
-                      <td>
-                        <Badge
-                          tone={
-                            m.feasibility === 'comfortable'
-                              ? 'green'
-                              : m.feasibility === 'stretch'
-                                ? 'amber'
-                                : 'blue'
-                          }
-                        >
-                          {m.feasibility}
-                        </Badge>
-                      </td>
-                      <td>{m.bottleneck || 'Within historical cohort capacity'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </TableScroll>
-          </Card>
-        </>
-      )}
-      {tab === 'method' && (
-        <>
-          <div className="two-column">
-            <Card>
-              <CardHeader
-                title="Observed seasonality"
-                subtitle="Average revenue by calendar month across imported years; partial months are not excluded here"
-              />
-              <div className="seasonality-grid">
-                {data.seasonality.map((m: any) => (
-                  <div
-                    key={m.month}
-                    style={{
-                      opacity:
-                        0.45 +
-                        Math.min(
-                          0.55,
-                          (m.average_revenue / Math.max(...data.seasonality.map((x: any) => x.average_revenue))) * 0.55,
-                        ),
-                    }}
-                  >
-                    <span>{MONTHS_SHORT[m.month - 1]}</span>
-                    <strong>{money(m.average_revenue, true)}</strong>
-                    <small>
-                      {m.observations} observation{m.observations === 1 ? '' : 's'}
-                    </small>
-                  </div>
-                ))}
-              </div>
-              {strongest && (
-                <p className="data-note">
-                  Strongest observed average: {MONTHS_SHORT[strongest.month - 1]}. Weakest:{' '}
-                  {MONTHS_SHORT[weakest.month - 1]}. Small observation counts require caution.
-                </p>
-              )}
-            </Card>
-            <Card>
-              <CardHeader
-                title="Target recommendation logic"
-                subtitle="Transparent assumptions; management approval remains separate"
-              />
-              <div className="method-steps">
-                <div>
-                  <Target size={18} />
-                  <p>{data.recommendations.targetMethod}</p>
-                </div>
-                <div>
-                  <TrendingUp size={18} />
-                  <p>
-                    Observed recent trend is capped to avoid extrapolating extreme growth. Conservative, base and
-                    stretch scenarios use different explicit assumptions.
-                  </p>
-                </div>
-                <div>
-                  <Lightbulb size={18} />
-                  <p>
-                    Stretch considers the best observed comparable month and a capped reactivation scenario; it is not
-                    an arbitrary ambition multiplier.
-                  </p>
-                </div>
-              </div>
-              <Button onClick={() => navigate('/planner')}>Review {year} target matrix</Button>
-            </Card>
-          </div>
-          <Card>
-            <CardHeader title="Data provenance and limitations" />
-            <ul className="methodology-list">
-              {data.coverage.limitations.map((x: string) => (
-                <li key={x}>{x}</li>
-              ))}
-            </ul>
-          </Card>
-        </>
       )}
     </div>
   );

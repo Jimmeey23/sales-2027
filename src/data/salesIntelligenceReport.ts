@@ -24,75 +24,10 @@ export const reportStudioFor = (name?: string | null): ReportStudio | null =>
       : null;
 
 export const EXEC_SUMMARY = [
-  'The recommended (Base) 2027 target is ₹772L across the four studios: +14% on the 2026 estimate of ₹676L, with a Conservative floor of ₹705L and a Stretch of ₹872L.',
   'Kwality House is the strongest grower (+21% TTM); Supreme HQ Bandra is the only studio going backwards (−3%). Kenkere House grew +15%, entirely through renewals — its new-client revenue fell 47% (Jan–Sep 2026 vs 2025).',
   'At the three main studios renewal and repeat purchases are 61–68% of TTM revenue; new clients 15–16%; reactivations 7–10%. Pop-ups are the exception: 48% from existing-client drop-ins.',
   'The top 10% of clients generate 54–60% of class revenue, so renewal economics — not lead volume — is the biggest lever at the main studios.',
 ];
-
-export const SCENARIOS: Record<
-  ReportStudio,
-  {
-    ttm: number;
-    yoy: string;
-    est2026: number;
-    base: number;
-    baseGrowth: number;
-    conservative: number;
-    stretch: number;
-    april: number;
-  }
-> = {
-  'Kemps Corner': {
-    ttm: 322.5,
-    yoy: '+21%',
-    est2026: 344.6,
-    base: 398.1,
-    baseGrowth: 15.5,
-    conservative: 368.3,
-    stretch: 442.9,
-    april: 57.6,
-  },
-  Bandra: {
-    ttm: 198.3,
-    yoy: '−3%',
-    est2026: 202.7,
-    base: 228.1,
-    baseGrowth: 12.5,
-    conservative: 211.9,
-    stretch: 261.1,
-    april: 33.0,
-  },
-  'Kenkere House': {
-    ttm: 107.5,
-    yoy: '+15%',
-    est2026: 112.7,
-    base: 126.1,
-    baseGrowth: 11.9,
-    conservative: 108.3,
-    stretch: 144.8,
-    april: 12.8,
-  },
-  'Pop-up': {
-    ttm: 15.4,
-    yoy: 'opened Oct-2025',
-    est2026: 16.2,
-    base: 19.5,
-    baseGrowth: 20,
-    conservative: 16.4,
-    stretch: 22.9,
-    april: 1.1,
-  },
-};
-export const SCENARIO_TOTAL = {
-  ttm: 643.7,
-  est2026: 676.2,
-  base: 771.8,
-  baseGrowth: 14.1,
-  conservative: 704.8,
-  stretch: 871.7,
-  april: 104.5,
-};
 
 export const STUDIO_PROFILES: Record<
   ReportStudio,
@@ -153,7 +88,7 @@ export const STUDIO_PROFILES: Record<
     constraints: 'Strength Lab capacity (69% fill). Barre and powerCycle have room (41–50%).',
     opportunity: {
       title: 'Protect renewal economics',
-      body: 'Renewal is ₹198L a year, so each point of renewal yield ≈ ₹2.9L. Replace 30%+ anniversary pull-forwards with capped, bonus-based offers to hold yield above 69% and the ticket near ₹24k — +₹12L in Base over Conservative.',
+      body: 'Renewal is ₹198L a year, so each point of renewal yield ≈ ₹2.9L. Replace 30%+ anniversary pull-forwards with capped, bonus-based offers to hold yield above 69% and the ticket near ₹24k.',
     },
   },
   Bandra: {
@@ -199,7 +134,7 @@ export const STUDIO_PROFILES: Record<
       'None on capacity (42% fill). The constraint is follow-up discipline. Reactivation is 2.8%/month — lowest of any studio.',
     opportunity: {
       title: 'Reactivate the lapsed pool and rebuild the renewal ticket',
-      body: 'Lift reactivation of the 610-client 61–365d pool from 2.8% to 3.4% a month, add a launch-cohort reunion for the 638 at 1–2 years, and move the renewal ticket halfway back to ₹24.3k — about +₹12L in Base (reactivation ₹23.0L vs ₹17.8L; renewal ₹151.6L vs ₹145.1L).',
+      body: 'Lift reactivation of the 610-client 61–365d pool from 2.8% to 3.4% a month, add a launch-cohort reunion for the 638 at 1–2 years, and move the renewal ticket halfway back to ₹24.3k.',
     },
   },
   'Kenkere House': {
@@ -248,7 +183,7 @@ export const STUDIO_PROFILES: Record<
     constraints: 'Late cancels and show-up (78%), not class capacity.',
     opportunity: {
       title: 'Rebuild the new-client engine',
-      body: 'Restore trial → commitment above 15%, convert hosted visits at 4% and qualify website leads: new-client revenue ₹16.8L → ₹21.5L in Base. Plan needs lead → commitment of ~5.5% vs 3.4% today — lead qualification and named trial ownership come before buying more leads.',
+      body: 'Restore trial → commitment above 15%, convert hosted visits at 4% and qualify website leads: new-client revenue ₹16.8L → ₹21.5L. Plan needs lead → commitment of ~5.5% vs 3.4% today — lead qualification and named trial ownership come before buying more leads.',
     },
   },
   'Pop-up': {
@@ -282,29 +217,10 @@ export const STUDIO_PROFILES: Record<
     constraints: 'Low fill and per-visit buying habit.',
     opportunity: {
       title: 'Convert drop-in regulars into packs; feed Kenkere',
-      body: '“Credit Where It’s Due”: credit the last two drop-ins toward a 10-class pack. Add a Studio Passport class at Kenkere. Together these lift commitment conversion from 2.9% to 5% in Base.',
+      body: '“Credit Where It’s Due”: credit the last two drop-ins toward a 10-class pack. Add a Studio Passport class at Kenkere. Together these lift commitment conversion from 2.9% to 5%.',
     },
   },
 };
-
-export const RISKS = [
-  'April 2027 is planned at ₹57.6L for Kwality with a lower discount than 2026’s 30%. If the pull-forward doesn’t hold without deep codes, April could fall ₹5–10L short.',
-  'Kenkere’s plan needs lead → commitment to rise from 3.4% to ~5.5%. Lead volume alone cannot close that gap.',
-  'Bandra’s recovery relies on reactivation and renewal yield, both of which declined in 2026.',
-  'Booking → attendance for trials is a proxy: no trial booking or no-show data exists.',
-];
-
-export const DECISIONS = [
-  'Approve discount guardrails: effective-discount cap of 20% on ≤1-month products and 15% on 3-month-plus, no BOGO, private codes capped at 10%.',
-  'Approve the April “Still Shaking” segmented portfolio in place of blanket % codes.',
-  'Make 72-hour trial follow-up mandatory, with a named owner on every trial (Bengaluru has 39–43% of sales with no associate attribution).',
-  'Run the Encore conversion offer at every hosted class (~1,250 hosted first visits a year convert at 1–3%).',
-  'Kenkere: qualify website leads by phone before booking; enforce the late-cancel policy (20–30% late cancels).',
-  'Bandra: dedicated reactivation programme (3.4% of the 61–365-day pool a month) and usage-based renewal upgrades.',
-  'Renewal calls at T-14 days with a usage-based recommendation at all studios; track renewal yield weekly.',
-  'Fix the data: Member ID on every lead (51% today), trial booking and no-show capture, “Sold By” on every sale.',
-  'Treat the pop-ups as a feeder: Studio Passport into Kenkere, convert drop-in regulars to packs.',
-];
 
 export const OFFER_EFFECTIVENESS: Array<{ family: string; kwality: string; bandra: string; kenkere: string }> = [
   { family: 'Full price', kwality: '0% / 61%', bandra: '0% / 60%', kenkere: '0% / 66%' },
@@ -345,9 +261,6 @@ export const APRIL_HISTORY: Array<{ studio: ReportStudio; a25: string; a26: stri
   { studio: 'Bandra', a25: '27.9 (13%)', a26: '26.4 (26%)', lift: '2.34× → 1.72×', after: '14.2, slight dip' },
   { studio: 'Kenkere House', a25: '9.5 (8%)', a26: '11.8 (9%)', lift: '1.35× → 1.45×', after: '9.3, no dip' },
 ];
-export const GUARDRAILS =
-  'New client 15% (standing perk, no stacking) · trial conversion within 72h 20% · 3M+ 15% · renewal 10% · lapsed 15% · privates 10% · referral as bonus classes. No offer stacks with standing perks.';
-
 export const FUNNEL: Record<ReportStudio, Record<string, string>> = {
   'Kemps Corner': {
     leads: '1,411',
@@ -419,107 +332,3 @@ export const LAPSED: Record<
   'Kenkere House': { active: 123, grace: 156, l180: 232, l365: 215, l2y: 381, highValue: 32, reactivation: '2.7%' },
   'Pop-up': { active: 56, grace: 117, l180: 149, l365: 188, l2y: 6, highValue: 2, reactivation: '— (new)' },
 };
-
-export const LEVERS: Array<{ lever: string; values: Record<ReportStudio, string> }> = [
-  {
-    lever: 'Core trial growth',
-    values: { 'Kemps Corner': '+8%', Bandra: '+3%', 'Kenkere House': '+8%', 'Pop-up': '+10%' },
-  },
-  {
-    lever: 'Trial → commitment',
-    values: {
-      'Kemps Corner': '18.7% → 20.5%',
-      Bandra: '16.3% → 17.0%',
-      'Kenkere House': '13.7% → 15.0%',
-      'Pop-up': '2.9% → 5.0%',
-    },
-  },
-  {
-    lever: 'Hosted conversion',
-    values: { 'Kemps Corner': '1.9% → 3%', Bandra: '2.9% → 4%', 'Kenkere House': '1.4% → 4%', 'Pop-up': '0%' },
-  },
-  {
-    lever: 'Renewal yield',
-    values: {
-      'Kemps Corner': '0.676 → 0.695',
-      Bandra: '0.694 → 0.71',
-      'Kenkere House': '0.858 → 0.86',
-      'Pop-up': 'held',
-    },
-  },
-  {
-    lever: 'Renewal ticket',
-    values: {
-      'Kemps Corner': '₹23.4k → ₹24.0k',
-      Bandra: '₹21.2k → ₹21.7k',
-      'Kenkere House': '₹13.5k → ₹14.3k',
-      'Pop-up': 'held',
-    },
-  },
-  {
-    lever: 'Reactivation multiplier',
-    values: { 'Kemps Corner': '1.10×', Bandra: '1.20×', 'Kenkere House': '1.25×', 'Pop-up': '1.20×' },
-  },
-  {
-    lever: 'Renewals-due growth',
-    values: { 'Kemps Corner': '+10.9%', Bandra: '+5.0%', 'Kenkere House': '+3%', 'Pop-up': '+25%' },
-  },
-];
-
-export const DELIVERABLES: Record<
-  ReportStudio,
-  {
-    target: number;
-    streams: string;
-    leads: string;
-    trials: string;
-    buyers: number;
-    renewals: number;
-    reactivated: number;
-  }
-> = {
-  'Kemps Corner': {
-    target: 398.1,
-    streams: '58.8 / 241.3 / 48.0',
-    leads: '1,420',
-    trials: '1,096',
-    buyers: 236,
-    renewals: 967,
-    reactivated: 580,
-  },
-  Bandra: {
-    target: 228.1,
-    streams: '37.2 / 151.6 / 22.9',
-    leads: '2,124',
-    trials: '1,213',
-    buyers: 218,
-    renewals: 693,
-    reactivated: 368,
-  },
-  'Kenkere House': {
-    target: 126.1,
-    streams: '21.5 / 76.2 / 11.6',
-    leads: '2,512',
-    trials: '827',
-    buyers: 142,
-    renewals: 534,
-    reactivated: 239,
-  },
-  'Pop-up': {
-    target: 19.5,
-    streams: '5.2 / 4.0 / 1.3',
-    leads: '1,851',
-    trials: '483',
-    buyers: 24,
-    renewals: 54,
-    reactivated: 145,
-  },
-};
-
-export const METHOD = [
-  'Targets are reverse-engineered from drivers: new-client = core trials × trial→commitment × first purchase (+ hosted × hosted conversion); renewal = renewals due × yield × ticket; reactivation = lapsed pool × monthly rate × ticket; drop-ins/privates/retail = run rate × growth.',
-  'Baseline = latest 12 months (Nov-2025 to Oct-2026E), phased by two years of seasonality weighted 2:1 to the latest year. Conservative holds observed rates; Base moves each rate partway back to prior-year or an evidenced improvement; Stretch goes further.',
-  'Every month of 2027 is above 2026 except November (₹46.8L vs ₹47.5L) — revisit once Nov-2026 closes. April stays the flagship at 1.6× an average month while its discount falls from 26–31% to a 15–20% cap.',
-];
-export const DATA_GAPS =
-  'Before the mid-2027 re-forecast add: trial booking and no-show records, Member ID on every lead, “Sold By” on every sale, monthly marketing spend by channel (for cost per acquired client).';
