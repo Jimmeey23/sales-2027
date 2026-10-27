@@ -527,8 +527,9 @@
 
 /* Details panel — soft blue, the approval control sits in its header. */
 .mw .oc-details {
+  flex: none;
   margin: 14px 0 0;
-  padding: 13px 16px 14px;
+  padding: 13px 16px 13px;
   border-radius: 14px;
   background: var(--oc-panel);
 }
@@ -563,6 +564,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  /* The legacy unscoped `.oc-actions` rule dims this group to 55% until hover. */
+  opacity: 1;
 }
 .mw .oc .oc-actions .oc-check {
   display: inline-flex;
@@ -710,6 +713,7 @@
    the three blocks line up whatever the length of the written reasoning. */
 .mw .oc-why {
   padding: 15px 0 14px;
+  border-top: 0; /* legacy unscoped .oc-why rules draw a dashed top border */
   border-bottom: 1px solid var(--oc-line);
 }
 .mw .oc-why-heading {
@@ -724,11 +728,13 @@
   display: grid;
   grid-template-columns: repeat(var(--oc-why-cols, 3), minmax(0, 1fr));
   align-items: stretch;
+  width: 100%;
 }
 .mw .oc-why-col {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
   min-width: 0;
   padding: 0 16px;
 }
@@ -762,11 +768,15 @@
   color: #6d7b88;
 }
 .mw .oc-why-col p {
+  /* The unscoped `.oc-why p` rule in workspace.css lays paragraphs out as a 56px label
+     grid; reset it so the reasoning reads full width. */
+  display: block;
+  grid-template-columns: none;
   margin: 0;
   font-size: 12px;
   line-height: 1.6;
   color: #495764;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 /* Closing rule with the offer's plan line. */
@@ -944,11 +954,10 @@
   line-height: 1.42;
 }
 .mw .mw-offer-list.is-two-up .oc-term b {
-  min-height: 2.9em;
   font-size: 12px;
 }
 .mw .mw-offer-list.is-two-up .oc-why-grid {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 .mw .mw-offer-list.is-two-up .oc-why-col,
 .mw .mw-offer-list.is-two-up .oc-why-col:first-child,
