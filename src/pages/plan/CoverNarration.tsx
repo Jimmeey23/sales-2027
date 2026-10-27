@@ -28,15 +28,7 @@ const fmt = (s: number) => {
   return `${m}:${String(r).padStart(2, '0')}`;
 };
 
-export default function CoverNarration({
-  month,
-  onBeat,
-  onPlayingChange,
-}: {
-  month: number;
-  onBeat: (beat: CoverBeat | null) => void;
-  onPlayingChange?: (playing: boolean) => void;
-}) {
+export default function CoverNarration({ month, onBeat }: { month: number; onBeat: (beat: CoverBeat | null) => void }) {
   const data = useMemo(() => coverNarration(month), [month]);
   const segments: CoverSegment[] = data.segments;
 
@@ -57,6 +49,7 @@ export default function CoverNarration({
   const windowsRef = useRef(windows);
   windowsRef.current = windows;
   const indexRef = useRef(-1);
+  const lastPaint = useRef(0);
 
   /* ── Playback ─────────────────────────────────────────────────────────────── */
   const toggle = useCallback(() => {
@@ -107,6 +100,12 @@ export default function CoverNarration({
           const body = 0.5 + 0.5 * Math.sin(phase * 0.41 + i * 1.7);
           bar.style.transform = `scaleY(${(0.16 + voice * 0.5 + body * 0.34).toFixed(3)})`;
         }
+        // React state at ~4 Hz: the rail and the bars move at frame rate (directly on the
+        // DOM), but re-rendering the caption sixty times a second would only cost frames.
+        if (Math.abs(t - lastPaint.current) >= 0.24 || t === 0) {
+          lastPaint.current = t;
+          setTime(t);
+        }
         const w = windowsRef.current;
         if (w.length) {
           const next = segmentAt(t, w);
@@ -122,15 +121,12 @@ export default function CoverNarration({
             }
           }
         }
-        setTime(t);
       }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [playing, onBeat, segments]);
-
-  useEffect(() => onPlayingChange?.(playing), [playing, onPlayingChange]);
 
   // Leaving the cover must not leave a voice talking in another room.
   useEffect(() => {
@@ -149,7 +145,6 @@ export default function CoverNarration({
 
   const total = duration || 0;
   const active = index >= 0 && index < segments.length ? segments[index] : null;
-  const progress = total ? Math.min(1, time / total) : 0;
 
   return (
     <div className={`mc-narr${playing ? ' is-playing' : ''}${status === 'missing' ? ' is-silent' : ''}`}>
@@ -263,9 +258,23 @@ export default function CoverNarration({
         </div>
       </div>
 
-      {/* Progress of the whole recording, under the bar's own edge. */}
+      {/* One segment per beat, filled as it is spoken: the shape of the argument in time. */}
       <span className="mc-narr-progress" aria-hidden="true">
-        <i style={{ width: `${progress * 100}%` }} />
+        {segments.map((seg, i) => {
+          const w = windows[i];
+          const span = Math.max(0.001, (w?.end ?? 0) - (w?.start ?? 0));
+          const filled = total ? Math.min(1, Math.max(0, (time - (w?.start ?? 0)) / span)) : 0;
+          const weight = w ? span : 1;
+          return (
+            <span
+              key={seg.beat}
+              className={`mc-narr-seg${i === index ? ' is-live' : ''}`}
+              style={{ ['--w' as string]: weight } as React.CSSProperties}
+            >
+              <i style={{ width: `${filled * 100}%` }} />
+            </span>
+          );
+        })}
       </span>
 
       {scriptOpen && (

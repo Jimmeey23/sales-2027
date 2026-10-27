@@ -1136,15 +1136,28 @@
   cursor: not-allowed;
 }
 .mc-narr-progress {
-  display: block;
-  height: 2px;
+  display: flex;
+  gap: 2px;
+  height: 3px;
+}
+.mc-narr-seg {
+  position: relative;
+  flex: var(--w, 1) 1 0;
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.1);
 }
-.mc-narr-progress i {
+.mc-narr-seg i {
   display: block;
   height: 100%;
+  background: rgba(255, 255, 255, 0.62);
+  transition: width 0.22s linear;
+}
+.mc-narr-seg.is-live {
+  background: rgba(255, 255, 255, 0.2);
+}
+.mc-narr-seg.is-live i {
   background: linear-gradient(90deg, var(--mc-a), #ffffff);
-  transition: width 0.18s linear;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--mc-a) 60%, transparent);
 }
 
 /* The script, line by line, each one a playhead. */
