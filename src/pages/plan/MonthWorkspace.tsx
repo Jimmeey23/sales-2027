@@ -1247,7 +1247,7 @@ export default function MonthWorkspace({
       } else if (e.key === ']' && month < 12) {
         e.preventDefault();
         setMonth(month + 1);
-      } else if (e.key === '\\' && page === 'offers') {
+      } else if (e.key === '\\' && page === 'offers' && !coverOpen) {
         e.preventDefault();
         setLibraryOpen(o => !o);
       }
@@ -3145,7 +3145,6 @@ export default function MonthWorkspace({
                   `Offers · ${selected.length}`,
                   `${lakh(offerRevenue)} expected. Edit all offer details here, build a new offer, or pick from the library.`,
                 );
-                const twoUp = true;
                 const mm = String(month).padStart(2, '0');
                 const lastDay = String(new Date(year, month, 0).getDate()).padStart(2, '0');
                 const openNewOffer = (preset?: Partial<any>) => {
@@ -3263,9 +3262,20 @@ export default function MonthWorkspace({
                         );
                         // In the 2-up grid each row is a pair: expanding one card expands its neighbour so
                         // the two columns keep the same height and the shared subgrid rows stay aligned.
-                        const toggleCardPair = (offerId: number, no: number) => {
-                          const partner = twoUp ? orderedOffers[no % 2 === 1 ? no : no - 2]?.offer : null;
-                          const ids = partner && partner.id !== offerId ? [offerId, partner.id] : [offerId];
+                        // Pairs restart at every revenue stream band, so they are read off the groups
+                        // rather than from the card's running number.
+                        const pairOf = new Map<number, number>();
+                        activeGroups.forEach(group => {
+                          for (let i = 0; i + 1 < group.offers.length; i += 2) {
+                            const a = group.offers[i],
+                              b = group.offers[i + 1];
+                            pairOf.set(a.id, b.id);
+                            pairOf.set(b.id, a.id);
+                          }
+                        });
+                        const toggleCardPair = (offerId: number) => {
+                          const partnerId = pairOf.get(offerId);
+                          const ids = partnerId ? [offerId, partnerId] : [offerId];
                           const anyClosed = ids.some(id => !expandedOffers.includes(id));
                           updateContent({
                             expandedOffers: anyClosed
@@ -3305,7 +3315,7 @@ export default function MonthWorkspace({
                               key={o.id}
                               no={no}
                               offer={o}
-                              streamLabel={twoUp ? stream : undefined}
+                              streamLabel={stream}
                               list={
                                 prices?.prices[studio.id]?.[o.provenance?.pricing?.product] ??
                                 (o.provenance?.pricing?.customListPrice
@@ -3341,7 +3351,7 @@ export default function MonthWorkspace({
                               monthUnits={monthUnitsTotal}
                               photo={photoById.get(o.id)}
                               collapsed={!expandedOffers.includes(o.id)}
-                              onToggleCollapse={() => toggleCardPair(o.id, no)}
+                              onToggleCollapse={() => toggleCardPair(o.id)}
                             />
                           );
 
