@@ -13,6 +13,7 @@ import {
   FileText,
   Flag,
   Gift,
+  Globe,
   Handshake,
   HeartHandshake,
   LayoutGrid,
@@ -32,6 +33,7 @@ import {
   Save,
   Search,
   ShieldCheck,
+  ShoppingBag,
   Sigma,
   SlidersHorizontal,
   Loader2,
@@ -53,7 +55,6 @@ import { useApp } from '../../App';
 import { Badge, Button } from '../../components/ui';
 import { LOCATION_COLORS, accentFor, locationStudioIds } from '../../data/locations';
 import Marquee from '../../components/Marquee';
-import FestivalArt from '../../components/FestivalArt';
 import MarketingCollaterals from '../../components/MarketingCollaterals';
 import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor } from '../../data/keyDates';
 import { MONTHS, money, number, titleCase } from '../../types';
@@ -270,6 +271,16 @@ function RichText({ text }: { text: string }) {
   return <div className="mw-rich">{blocks}</div>;
 }
 const n = (v: any) => (Number.isFinite(Number(v)) ? Number(v) : 0);
+// Minimal line icons for the important-days list.
+const DAY_KIND_ICONS = {
+  festival: PartyPopper,
+  holiday: CalendarHeart,
+  awareness: HeartHandshake,
+  global: Globe,
+  retail: ShoppingBag,
+  brand: Sparkles,
+} as const;
+
 const hasValidForecast = (o: any) => {
   if (
     !o ||
@@ -645,6 +656,16 @@ export default function MonthWorkspace({
   const updateContent = (patch: Record<string, unknown>) =>
     setForm(f => ({ ...f, content: { ...(f.content || {}), ...patch } }));
   const hiddenSections: string[] = Array.isArray(form.content?.hiddenSections) ? form.content.hiddenSections : [];
+  // Collapsed offer cards are part of the month content, so they persist with the plan (and autosave).
+  const collapsedOffers: number[] = Array.isArray(form.content?.collapsedOffers)
+    ? (form.content.collapsedOffers as number[])
+    : [];
+  const toggleOfferCollapsed = (offerId: number) =>
+    updateContent({
+      collapsedOffers: collapsedOffers.includes(offerId)
+        ? collapsedOffers.filter(id => id !== offerId)
+        : [...collapsedOffers, offerId],
+    });
   const isSectionVisible = (secKey: string) => !hiddenSections.includes(secKey);
   const hideSection = (secKey: string) => updateContent({ hiddenSections: [...new Set([...hiddenSections, secKey])] });
   const restoreSection = (secKey: string) =>
@@ -1776,11 +1797,10 @@ export default function MonthWorkspace({
                                 style={editable ? { cursor: 'pointer' } : undefined}
                                 title={editable ? 'Click to edit play & channel details' : undefined}
                               >
-                                <FestivalArt name={d.name} kind={d.kind} />
-                                <span className="mw-day-date">
-                                  <b>{formatKeyDate(d)}</b>
-                                  <small>{MONTHS[month - 1].slice(0, 3)}</small>
-                                </span>
+                                {(() => {
+                                  const Icon = DAY_KIND_ICONS[d.kind as keyof typeof DAY_KIND_ICONS] || CalendarHeart;
+                                  return <Icon size={17} strokeWidth={1.6} />;
+                                })()}
                               </div>
                               <div className="mw-day-body">
                                 {editable ? (
@@ -1869,7 +1889,9 @@ export default function MonthWorkspace({
                                   <>
                                     <strong>{d.name}</strong>
                                     <span className="mw-day-meta">
-                                      <em>{KEY_DATE_LABELS[d.kind as keyof typeof KEY_DATE_LABELS]}</em>
+                                      <em>
+                                        {formatKeyDate(d)} {MONTHS[month - 1].slice(0, 3)}
+                                      </em>
                                       <i className={left < 0 ? 'is-past' : left <= 14 ? 'is-soon' : ''}>
                                         {left < 0 ? 'Passed' : left === 0 ? 'Today' : `in ${left}d`}
                                       </i>
@@ -1975,6 +1997,13 @@ export default function MonthWorkspace({
                   : FOCUS_POINTS[month] || [];
                 const setPoints = (next: string[]) => updateContent({ focusPoints: next });
                 const strategyLines = parseStrategyLines(form.strategy);
+                // Plan notes carry the month's numbers and cohort maths; surface them under the plays so
+                // the strategy column carries as much substance as the focus-points panel beside it.
+                const strategyContext = String(form.notes || '')
+                  .split(/\n+/)
+                  .map(line => line.replace(/^\s*[-•*]\s*/, '').trim())
+                  .filter(Boolean)
+                  .slice(0, 5);
                 const setStrategyLines = (next: string[]) => set({ strategy: serializeStrategyLines(next) });
                 const aiMeta = form.content?.ai || null;
                 const splitRationaleLines = aiMeta?.splitRationale
@@ -2417,16 +2446,26 @@ export default function MonthWorkspace({
                               </ol>
                             )
                           ) : strategyLines.length > 0 ? (
-                            <ol className="mw-fu-strategy-cards">
-                              {strategyLines.map((line, idx) => (
-                                <li key={idx}>
-                                  <b>{String(idx + 1).padStart(2, '0')}</b>
-                                  <div className="mw-fu-card-copy">
-                                    <StructuredLine text={line} />
-                                  </div>
-                                </li>
-                              ))}
-                            </ol>
+                            <>
+                              <ol className="mw-fu-strategy-cards">
+                                {strategyLines.map((line, idx) => (
+                                  <li key={idx}>
+                                    <b>{String(idx + 1).padStart(2, '0')}</b>
+                                    <div className="mw-fu-card-copy">
+                                      <StructuredLine text={line} />
+                                    </div>
+                                  </li>
+                                ))}
+                              </ol>
+                              {strategyContext.length > 0 && (
+                                <div className="mw-fu-strategy-context">
+                                  <span className="mw-fu-context-label">Month context</span>
+                                  {strategyContext.map((line, idx) => (
+                                    <p key={idx}>{line}</p>
+                                  ))}
+                                </div>
+                              )}
+                            </>
                           ) : (
                             <p className="mw-fu-empty">No execution strategy drafted yet.</p>
                           )}
@@ -3262,6 +3301,10 @@ export default function MonthWorkspace({
                         const orderedOffers = activeGroups.flatMap(g =>
                           g.offers.map(o => ({ offer: o, stream: g.label })),
                         );
+                        // One photograph per card, so no two cards in a month share a hero image.
+                        const photoById = assignMonthPhotos(
+                          orderedOffers.map(({ offer }) => ({ offer, slot: slotOf(offer.id) })),
+                        );
                         // Month totals let each card's bars show its share of the plan.
                         const monthUnitsTotal = orderedOffers.reduce(
                           (sum, { offer }) => sum + (forecastRevenue(offer) > 0 ? n(offer.target_purchases) || 0 : 0),
@@ -3332,6 +3375,9 @@ export default function MonthWorkspace({
                               regenerating={regenerating === o.id}
                               monthTarget={effective}
                               monthUnits={monthUnitsTotal}
+                              photo={photoById.get(o.id)}
+                              collapsed={collapsedOffers.includes(o.id)}
+                              onToggleCollapse={() => toggleOfferCollapsed(o.id)}
                             />
                           );
 
@@ -4543,6 +4589,64 @@ const OFFER_CARD_PHOTOS: CardPhoto[] = [
   { url: '/p57/pro/n26.jpg', pos: '58% 26%', tags: ['calm', 'strength', 'lapsed'] },
 ];
 
+// Remaining studio photography, used to keep every card in a month on its own image.
+const CARD_PHOTO_EXTRAS: CardPhoto[] = [
+  { url: '/p57/pro/n04.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n05.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n06.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n07.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n09.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n11.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n14.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n15.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n17.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n19.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n21.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n22.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n27.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n28.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p01.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p02.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p03.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p04.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p05.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p06.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p08.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p09.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p10.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p12.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p13.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p14.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p15.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p16.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p17.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p18.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p19.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p20.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p21.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p23.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p24.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p25.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p26.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p27.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p28.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p29.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p30.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p31.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p32.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p33.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p35.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p36.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p37.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p39.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p40.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p41.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p42.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p43.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p44.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p45.jpg', pos: '56% 26%', tags: [] },
+];
+
 const CARD_PHOTO_THEMES: [RegExp, string][] = [
   [/private|consult|1-on-1|trainer|personal|coach/i, 'coaching'],
   [/friend|duo|pair|squad|refer|bring|together|reunion|couple/i, 'duo'],
@@ -4552,6 +4656,24 @@ const CARD_PHOTO_THEMES: [RegExp, string][] = [
   [/strength|lift|box|trade-up|upgrade|level up|20-class|10-pack|pack/i, 'strength'],
   [/barre|welcome|first|trial|intro|golden|bonus|punch/i, 'barre'],
 ];
+
+// Assigns each card in a month its own photograph so no two cards share a hero image.
+function assignMonthPhotos(offers: { offer: any; slot?: string }[]): Map<number, CardPhoto> {
+  const used = new Set<string>();
+  const assigned = new Map<number, CardPhoto>();
+  const pool = [...OFFER_CARD_PHOTOS, ...CARD_PHOTO_EXTRAS];
+  offers.forEach(({ offer, slot }, index) => {
+    const preferred = pickOfferCardPhoto(offer, slot, index + 1);
+    const chosen =
+      (used.has(preferred.url) ? undefined : preferred) ||
+      pool.find(photo => !used.has(photo.url)) ||
+      CARD_PHOTO_EXTRAS.find(photo => !used.has(photo.url)) ||
+      preferred;
+    used.add(chosen.url);
+    assigned.set(offer.id, chosen);
+  });
+  return assigned;
+}
 
 function pickOfferCardPhoto(o: any, slot?: string, no?: number): CardPhoto {
   if (o.provenance?.photoKey) {
@@ -4592,6 +4714,9 @@ function OfferCard({
   regenerating = false,
   monthTarget = 0,
   monthUnits = 0,
+  photo,
+  collapsed = false,
+  onToggleCollapse,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
   const parseList = (value: any) => {
@@ -4700,7 +4825,7 @@ function OfferCard({
     .filter(Boolean);
   const titleAccent = titleWords.length > 1 ? (titleWords.pop() as string) : titleWords[0] || '';
   const titleLead = titleWords.join(' ');
-  const heroPhoto = pickOfferCardPhoto(o, slot, no);
+  const heroPhoto: CardPhoto = photo || pickOfferCardPhoto(o, slot, no);
   const offerNum = no ? String(no).padStart(2, '0') : '01';
 
   // Imported rationale uses "Why: … / Watch: … / Model: … / Logic: … / KPI: …" lines.
@@ -4803,7 +4928,9 @@ function OfferCard({
 
   return (
     <article
-      className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${slot ? ` slot-${slot}` : ''}`}
+      className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${
+        slot ? ` slot-${slot}` : ''
+      }${collapsed ? ' is-collapsed' : ''}`}
     >
       <div className="oc-hero">
         <div
@@ -4820,8 +4947,20 @@ function OfferCard({
           <span className="oc-kicker">
             {o.month ? `${MONTHS[o.month - 1]} ${o.year || ''}`.trim() : streamLabel || 'Offer'}
           </span>
-          {(editable || (canSwap && !shown)) && (
-            <div className="oc-toolbar">
+          <div className="oc-toolbar">
+            {onToggleCollapse && (
+              <button
+                type="button"
+                className="oc-collapse"
+                aria-expanded={!collapsed}
+                aria-label={collapsed ? `Expand ${o.name}` : `Collapse ${o.name}`}
+                title={collapsed ? 'Expand this offer card' : 'Collapse to the photo only'}
+                onClick={onToggleCollapse}
+              >
+                <ChevronDown size={14} className={collapsed ? 'is-flipped' : undefined} />
+              </button>
+            )}
+            {(editable || (canSwap && !shown)) && (
               <div className="oc-icon-group">
                 {canSwap && !shown && (
                   <button
@@ -4885,8 +5024,8 @@ function OfferCard({
                   </button>
                 )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         <div className="oc-hero-copy">

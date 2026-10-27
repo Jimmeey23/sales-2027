@@ -93,8 +93,9 @@
   position: relative;
   z-index: 3;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
-  gap: 12px;
+  gap: 8px 12px;
   min-height: 42px;
 }
 .mw .oc-num-badge {
@@ -361,30 +362,30 @@
   align-items: baseline;
   gap: 5px;
   overflow: hidden;
-  font-size: 19px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
+  font-size: 16.5px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   font-variant-numeric: tabular-nums;
   color: var(--oc-ink);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 .mw .oc-stat-value s {
-  font-size: 11px;
-  font-weight: 450;
+  font-size: 11.5px;
+  font-weight: 500;
   letter-spacing: 0;
   color: #9fadb8;
 }
 .mw .oc-stat-value em {
-  font-size: 10px;
+  font-size: 10.5px;
   font-style: normal;
   font-weight: 550;
   letter-spacing: 0;
   color: #93a1ac;
 }
 .mw .oc-stat-value.is-muted {
-  font-size: 17px;
+  font-size: 16.5px;
   font-weight: 600;
   color: #a7b3bd;
 }
@@ -524,18 +525,23 @@
     background-color 150ms ease,
     border-color 150ms ease;
 }
-.mw .oc .oc-actions .oc-check:hover:not(:disabled) {
+.mw .oc .oc-actions .oc-check:hover:not(:disabled),
+.mw .oc .oc-actions .oc-check:focus-visible,
+.mw .oc .oc-actions .oc-check:active {
   background: #14405f;
   border-color: #14405f;
+  color: #ffffff;
 }
 .mw .oc .oc-actions .oc-check.is-on {
   border-color: #147a55;
   background: #147a55;
   box-shadow: 0 2px 10px rgba(20, 122, 85, 0.24);
 }
-.mw .oc .oc-actions .oc-check.is-on:hover:not(:disabled) {
+.mw .oc .oc-actions .oc-check.is-on:hover:not(:disabled),
+.mw .oc .oc-actions .oc-check.is-on:focus-visible {
   background: #0f6546;
   border-color: #0f6546;
+  color: #ffffff;
 }
 .mw .oc .oc-actions .oc-check.is-saving {
   opacity: 0.72;
@@ -772,6 +778,16 @@
   .mw .oc-hero-copy {
     max-width: 100%;
   }
+  .mw .oc-kicker {
+    display: none;
+  }
+  .mw .oc-toolbar {
+    margin-left: auto;
+  }
+  .mw .oc-toolbar .oc-icon-btn {
+    width: 23px;
+    height: 23px;
+  }
   .mw .oc h3.oc-title {
     font-size: 25px;
   }
@@ -832,21 +848,36 @@
   }
 }
 
-/* Two-up cards opt out of container queries (they are subgrid items); mirror the
-   compact rules for the narrower column instead. */
+/* Two-up cards sit on a shared subgrid, so the hero row already matches; these rules keep
+   every section below it on the same baseline by fixing each block's line budget. */
 .mw .mw-offer-list.is-two-up .oc-hero {
   padding: 16px 15px 14px;
-  min-height: 0;
-  height: auto;
+  min-height: 208px;
+  height: 100%;
 }
 .mw .mw-offer-list.is-two-up .oc-sheet {
   padding: 0 15px 13px;
 }
 .mw .mw-offer-list.is-two-up .oc h3.oc-title {
-  font-size: 26px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.2em;
+  font-size: 25px;
 }
 .mw .mw-offer-list.is-two-up .oc .oc-job {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.64em;
   font-size: 13.5px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-brief {
+  height: 3em;
+  -webkit-line-clamp: 2;
+  font-size: 12.3px;
 }
 .mw .mw-offer-list.is-two-up .oc-stats {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -865,8 +896,9 @@
   padding-top: 13px;
   border-top: 1px solid var(--oc-line-soft);
 }
-.mw .mw-offer-list.is-two-up .oc-stat-value {
-  font-size: 17px;
+.mw .mw-offer-list.is-two-up .oc-meta {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
 }
 .mw .mw-offer-list.is-two-up .oc-meta-item {
   grid-template-columns: 16px minmax(0, 1fr);
@@ -876,19 +908,69 @@
 .mw .mw-offer-list.is-two-up .oc-meta-item:nth-child(3n + 1) {
   padding-left: 0;
 }
-.mw .mw-offer-list.is-two-up .oc-meta-item b {
-  font-size: 11.5px;
-  line-height: 1.42;
-}
 .mw .mw-offer-list.is-two-up .oc-meta-icon svg {
   width: 13px;
   height: 13px;
+}
+.mw .mw-offer-list.is-two-up .oc-meta-item b {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.84em;
+  font-size: 11.5px;
+  line-height: 1.42;
+}
+.mw .mw-offer-list.is-two-up .oc-term b {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.9em;
+  font-size: 12px;
 }
 .mw .mw-offer-list.is-two-up .oc-why-col {
   padding: 0 12px;
 }
 .mw .mw-offer-list.is-two-up .oc-why-col p {
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 4;
+  min-height: 6.4em;
   font-size: 11.5px;
   line-height: 1.55;
+}
+.mw .mw-offer-list.is-two-up .oc-sign {
+  margin-top: auto;
+}
+
+/* Collapsed cards keep only the hero photograph and its copy. */
+.mw .oc.is-collapsed .oc-sheet {
+  display: none;
+}
+.mw .oc.is-collapsed .oc-hero {
+  min-height: 176px;
+}
+.mw .oc-collapse {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 7px;
+  background: rgba(9, 18, 28, 0.5);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  backdrop-filter: blur(10px) saturate(130%);
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+.mw .oc-collapse:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+.mw .oc-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }

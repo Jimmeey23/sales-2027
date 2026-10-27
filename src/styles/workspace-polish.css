@@ -1,0 +1,142 @@
+/* Sales Plan · month workspace refinements that are narrower than the offer-card restyle:
+   the important-days list (minimal medallions instead of illustrations) and the month-context
+   block under the execution strategy so the two columns of that band carry equal weight. */
+
+/* ── Important days ───────────────────────────────────────────────────────── */
+.mw .mw-days-grid {
+  grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+  gap: 8px;
+}
+.mw .mw-day,
+.mw .mw-day.kd-global {
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 0;
+  padding: 9px 11px 9px 10px;
+  border: 1px solid #e9edf0;
+  border-radius: 13px;
+  background: #fff !important;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+/* The old coloured underline is replaced by a quiet tinted medallion. */
+.mw .mw-day::after {
+  display: none;
+}
+.mw .mw-day:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--kd, #25a07a) 26%, #e9edf0);
+  box-shadow: 0 6px 16px -10px rgba(16, 32, 44, 0.28);
+}
+.mw .mw-day.is-open {
+  border-color: color-mix(in srgb, var(--kd, #25a07a) 46%, #e9edf0);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--kd, #25a07a) 10%, transparent);
+}
+.mw .mw-day-art {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  overflow: visible;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--kd, #25a07a) 9%, #ffffff);
+  color: color-mix(in srgb, var(--kd, #25a07a) 78%, #26343d);
+}
+.mw .mw-day-art svg {
+  display: block;
+}
+.mw .mw-day-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 0;
+}
+.mw .mw-day-body strong {
+  font-size: 12.2px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #1d2a33;
+  -webkit-line-clamp: 2;
+}
+.mw .mw-day-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.mw .mw-day-meta em {
+  overflow: hidden;
+  font-size: 9.5px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #8b98a3 !important;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .mw-day-meta i {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #f2f5f7;
+  color: #6f7d88;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+.mw .mw-day-meta i.is-soon {
+  background: color-mix(in srgb, var(--kd, #25a07a) 11%, #ffffff);
+  color: color-mix(in srgb, var(--kd, #25a07a) 82%, #26343d);
+}
+.mw .mw-day-meta i.is-past {
+  opacity: 0.55;
+}
+
+/* ── Execution strategy · month context ───────────────────────────────────── */
+.mw .mw-fu-strategy {
+  gap: 12px;
+}
+.mw .mw-fu-strategy-context {
+  display: grid;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #eef2f4;
+}
+.mw .mw-fu-context-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #96a3ad;
+}
+.mw .mw-fu-strategy-context p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #5d6b76;
+}
+.mw .mw-fu-strategy-context p + p {
+  padding-top: 5px;
+  border-top: 1px dashed #f0f3f5;
+}
+
+/* Collapsed-card chevron flips when the card is open. */
+.mw .oc-collapse .is-flipped {
+  transform: rotate(180deg);
+}
+
+/* Edit mode keeps the same compact medallion column. */
+.mw .mw-day:has(.mw-inline-edit) {
+  grid-template-columns: 36px minmax(0, 1fr);
+}
+.mw .mw-day-art {
+  flex: none;
+}
