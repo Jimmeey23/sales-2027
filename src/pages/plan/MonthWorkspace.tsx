@@ -11,6 +11,7 @@ import {
   ChevronRight,
   ChevronsDownUp,
   ChevronsUpDown,
+  Columns2,
   Copy,
   FileText,
   Flag,
@@ -36,6 +37,7 @@ import {
   Search,
   ShieldCheck,
   ShoppingBag,
+  Square,
   Sigma,
   SlidersHorizontal,
   Loader2,
@@ -662,6 +664,10 @@ export default function MonthWorkspace({
   const expandedOffers: number[] = Array.isArray(form.content?.expandedOffers)
     ? (form.content.expandedOffers as number[])
     : [];
+  // One card per row or two is a reading preference, so it rides the plan content like the
+  // expanded set: it survives reloads and autosaves with the month.
+  const offerColumns: 1 | 2 = form.content?.offerColumns === 1 ? 1 : 2;
+  const setOfferColumns = (next: 1 | 2) => updateContent({ offerColumns: next });
   const allOffersExpanded = selected.length > 0 && selected.every(o => expandedOffers.includes(o.id));
   const toggleAllOffers = () => updateContent({ expandedOffers: allOffersExpanded ? [] : selected.map(o => o.id) });
   const isSectionVisible = (secKey: string) => !hiddenSections.includes(secKey);
@@ -3187,6 +3193,30 @@ export default function MonthWorkspace({
                       actions={
                         <>
                           {selected.length > 0 && (
+                            <div className="mw-card-cols" role="group" aria-label="Cards per row">
+                              <button
+                                type="button"
+                                aria-pressed={offerColumns === 1}
+                                className={offerColumns === 1 ? 'is-on' : ''}
+                                onClick={() => setOfferColumns(1)}
+                                title="One offer per row — read each card in full"
+                              >
+                                <Square size={10} />
+                                1-up
+                              </button>
+                              <button
+                                type="button"
+                                aria-pressed={offerColumns === 2}
+                                className={offerColumns === 2 ? 'is-on' : ''}
+                                onClick={() => setOfferColumns(2)}
+                                title="Two offers per row — scan the month"
+                              >
+                                <Columns2 size={10} />
+                                2-up
+                              </button>
+                            </div>
+                          )}
+                          {selected.length > 0 && (
                             <button
                               type="button"
                               className="mw-mini-btn"
@@ -3274,7 +3304,8 @@ export default function MonthWorkspace({
                           }
                         });
                         const toggleCardPair = (offerId: number) => {
-                          const partnerId = pairOf.get(offerId);
+                          // In a one-up list the neighbour is a whole card away — do not open it.
+                          const partnerId = offerColumns === 2 ? pairOf.get(offerId) : undefined;
                           const ids = partnerId ? [offerId, partnerId] : [offerId];
                           const anyClosed = ids.some(id => !expandedOffers.includes(id));
                           updateContent({
@@ -3389,7 +3420,7 @@ export default function MonthWorkspace({
                                   </div>
                                 );
                               })()}
-                            <div className="mw-offer-list is-two-up">
+                            <div className={`mw-offer-list ${offerColumns === 2 ? 'is-two-up' : 'is-one-up'}`}>
                               {activeGroups.flatMap(g => {
                                 const total = g.offers.reduce((sum, o) => sum + forecastRevenue(o), 0);
                                 return [

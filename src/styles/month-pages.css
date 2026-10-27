@@ -6,22 +6,24 @@
    define it and the prose that explains them. */
 
 /* ── Page tabs ─────────────────────────────────────────────────────────────── */
+/* The tab bar is a rule across the page, not another card on top of it. */
 .mw .mw-pages {
   position: sticky;
-  top: -22px;
+  top: -20px;
   z-index: 6;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 8px 14px;
-  margin: -6px 0 4px;
-  padding: 8px 10px;
-  border: 1px solid #e4e7e2;
-  border-radius: 15px;
-  background: rgba(255, 255, 255, 0.94);
+  margin: -8px 0 2px;
+  padding: 10px 26px 9px;
+  border: 0;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(12px) saturate(1.1);
-  box-shadow: 0 12px 30px -26px rgba(18, 26, 22, 0.55);
+  box-shadow: none;
 }
 .mw .mw-pages-tabs {
   display: flex;
@@ -81,53 +83,62 @@
   gap: 5px;
 }
 
-/* ── Overview: poster, ledger, narrative ───────────────────────────────────── */
+/* ── Overview: one sheet ────────────────────────────────────────────────────── */
+/* The page is a single document, not a stack of cards: the photograph and title open it,
+   then the brief, three narrative notes and the chapter close follow on the same paper,
+   divided by hairlines. */
 .mw .mw-overview {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
+  display: block;
   animation: mo-page-in 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
+/* The sheet is the page itself, so it carries no frame — only the hero's photograph and
+   the hairlines between the bands below it. */
+.mo-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.mo-body {
+  display: flex;
+  flex-direction: column;
+}
 
-/* The brief: the month's job in prose, at the width of a paragraph, not a card of chips. */
+/* The brief: the month's job in prose, at the width of a paragraph. */
 .mo-brief {
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  padding: 20px 22px 18px;
-  border: 1px solid rgba(25, 26, 36, 0.08);
-  border-radius: 17px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--a1, #5b4fd6) 4%, #ffffff), #ffffff);
-  box-shadow: 0 18px 38px -36px rgba(18, 26, 22, 0.6);
+  gap: 10px;
+  padding: 26px 26px 22px;
 }
 .mo-brief > p {
   margin: 0;
-  max-width: 92ch;
+  max-width: 88ch;
   font-family: 'Bodoni Moda', Georgia, serif;
-  font-size: 14.5px;
-  line-height: 1.72;
+  font-size: 16px;
+  line-height: 1.68;
   color: #2c2939;
   text-wrap: pretty;
 }
-.mo-brief footer {
+.mo-brief-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 6px 12px;
-  padding-top: 9px;
-  border-top: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 10%, #eceae6);
+  gap: 6px 14px;
+  margin-top: 2px;
+  padding-top: 11px;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
 }
-.mo-brief footer span {
+.mo-brief-foot > span {
   font-size: 10.5px;
   font-weight: 620;
   letter-spacing: 0.02em;
   color: #6f6b7c;
 }
-.mo-brief footer em {
+.mo-brief-foot em {
   font-style: italic;
   font-family: 'Bodoni Moda', Georgia, serif;
-  font-size: 11.5px;
+  font-size: 12px;
   color: #8b8a99;
 }
 
@@ -159,7 +170,7 @@
   color: var(--a1-dark, #3f35a8);
 }
 
-/* The small label shared by the brief and the chapter cards. */
+/* The small label shared by the brief and the chapter columns. */
 .mo-label {
   display: inline-flex;
   align-items: center;
@@ -176,21 +187,22 @@
   opacity: 0.85;
 }
 
-/* Three notes: where the money comes from, who walks in, who stays. */
+/* Three notes on one rule: where the money comes from, who walks in, who stays. */
 .mo-notes {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
 }
 .mo-note {
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  padding: 16px 17px;
-  border: 1px solid rgba(25, 26, 36, 0.08);
-  border-radius: 15px;
-  background: #ffffff;
-  box-shadow: 0 16px 34px -32px rgba(18, 26, 22, 0.6);
+  gap: 10px;
+  min-width: 0;
+  padding: 22px 26px 24px;
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mo-note:first-child {
+  border-left: 0;
 }
 .mo-note-head {
   display: flex;
@@ -200,7 +212,7 @@
 .mo-note-head i {
   font-family: 'Bodoni Moda', Georgia, serif;
   font-style: italic;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--a1, #5b4fd6);
 }
 .mo-note-head span {
@@ -213,22 +225,24 @@
 .mo-note p {
   margin: 0;
   font-size: 12.5px;
-  line-height: 1.62;
+  line-height: 1.64;
   color: #3f3d4a;
   text-wrap: pretty;
 }
 .mo-funnel {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 8px;
   margin-top: auto;
-  padding-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(25, 26, 36, 0.06);
 }
 .mo-funnel b {
   display: flex;
   flex-direction: column;
+  gap: 1px;
   font-family: 'Bodoni Moda', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
   line-height: 1.1;
   color: #1b1824;
@@ -246,12 +260,25 @@
 .mo-funnel > i {
   flex: 1 1 0;
   height: 1px;
+  margin-bottom: 9px;
   background: linear-gradient(90deg, rgba(25, 26, 36, 0.18), rgba(25, 26, 36, 0.04));
+}
+.mo-cover-note {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(25, 26, 36, 0.06);
+}
+.mo-cover-note small {
+  font-size: 9.5px;
+  line-height: 1.45;
+  color: #8b8a99;
 }
 .mo-meter {
   display: block;
-  height: 3px;
-  margin-top: auto;
+  height: 4px;
   overflow: hidden;
   border-radius: 999px;
   background: rgba(25, 26, 36, 0.08);
@@ -260,40 +287,40 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--a1, #5b4fd6), color-mix(in srgb, var(--a1, #5b4fd6) 45%, #7fe6c4));
+  background: color-mix(in srgb, var(--a1, #5b4fd6) 82%, #ffffff);
 }
 
 /* The chapter: what goes wrong, the move, and what this room is built on. */
 .mo-chapter {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
+  background: #faf9f7;
 }
 .mo-chapter article {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 15px 17px;
-  border: 1px solid rgba(25, 26, 36, 0.07);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--a1, #5b4fd6) 3%, #ffffff);
+  gap: 9px;
+  min-width: 0;
+  padding: 20px 26px 22px;
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
 }
-.mo-chapter article.is-room {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--a1, #5b4fd6) 8%, #ffffff), #ffffff);
+.mo-chapter article:first-child {
+  border-left: 0;
 }
 .mo-chapter p {
   margin: 0;
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.62;
   color: #4a4657;
   text-wrap: pretty;
 }
 .mo-chapter em {
   margin-top: auto;
-  font-style: normal;
+  padding-top: 2px;
+  font-style: italic;
   font-family: 'Bodoni Moda', Georgia, serif;
-  font-size: 11px;
-  letter-spacing: 0.01em;
+  font-size: 11.5px;
   color: #8b8a99;
 }
 
@@ -309,13 +336,22 @@
 }
 
 /* ── Responsive ────────────────────────────────────────────────────────────── */
-@media (max-width: 1180px) {
+@media (max-width: 1080px) {
   .mo-notes,
   .mo-chapter {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
-  .mo-notes .mo-note:first-child {
-    grid-column: 1 / -1;
+  .mo-note,
+  .mo-chapter article {
+    border-left: 0;
+    border-top: 1px solid rgba(25, 26, 36, 0.07);
+  }
+  .mo-note:first-child,
+  .mo-chapter article:first-child {
+    border-top: 0;
+  }
+  .mo-chapter {
+    display: grid;
   }
 }
 
@@ -329,9 +365,15 @@
     padding: 0 10px;
     font-size: 11px;
   }
-  .mo-notes,
-  .mo-chapter {
-    grid-template-columns: minmax(0, 1fr);
+  .mo-brief {
+    padding: 20px 18px 18px;
+  }
+  .mo-brief > p {
+    font-size: 15px;
+  }
+  .mo-note,
+  .mo-chapter article {
+    padding: 18px;
   }
 }
 
@@ -341,38 +383,6 @@
   }
 }
 
-/* ── Section shells ────────────────────────────────────────────────────────── */
-/* The sections inside a page keep their card habit but borrow the cover's paper:
-   a soft accent wash in the header, a serif title and a hairline in the accent's tint. */
-.mw .mw-main > .mw-section {
-  border-radius: 18px;
-  box-shadow:
-    0 1px 2px rgba(25, 26, 36, 0.04),
-    0 22px 44px -40px rgba(18, 26, 22, 0.55);
-}
-.mw .mw-sh {
-  border-bottom-color: color-mix(in srgb, var(--a1, #5b4fd6) 12%, #eef0ec);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--a1, #5b4fd6) 3.5%, #ffffff), #ffffff);
-}
-.mw .mw-sh h4 {
-  font-family: 'Bodoni Moda', Georgia, serif;
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: #1b1824;
-}
-.mw .mw-sh p {
-  max-width: 78ch;
-  font-size: 11.5px;
-  line-height: 1.55;
-  text-wrap: pretty;
-}
-.mw .mw-sh-icon {
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--a1, #5b4fd6) 11%, #ffffff);
-  color: color-mix(in srgb, var(--a1, #5b4fd6) 78%, #1b1824);
-}
-
 /* ── Page foot ─────────────────────────────────────────────────────────────── */
 /* The end of a long page is the moment to move on: a quiet pair of page links. */
 .mw .mw-page-foot {
@@ -380,33 +390,33 @@
   align-items: stretch;
   justify-content: space-between;
   gap: 12px;
-  padding-top: 2px;
+  margin-top: 4px;
+  padding: 16px 26px 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
 }
 .mw .mw-page-foot button {
   display: inline-flex;
   align-items: center;
   gap: 9px;
   min-width: 0;
-  padding: 11px 15px;
-  border: 1px solid rgba(25, 26, 36, 0.09);
-  border-radius: 14px;
-  background: #ffffff;
+  padding: 6px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: #4a4657;
   font-family: inherit;
   font-size: 12px;
   font-weight: 620;
   text-align: left;
   cursor: pointer;
-  box-shadow: 0 14px 30px -30px rgba(18, 26, 22, 0.6);
+  box-shadow: none;
   transition:
-    border-color 0.18s ease,
     color 0.18s ease,
-    transform 0.18s ease;
+    gap 0.18s ease;
 }
 .mw .mw-page-foot button:hover {
-  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 35%, #e4e7e2);
   color: var(--a1-dark, #3f35a8);
-  transform: translateY(-1px);
+  gap: 12px;
 }
 .mw .mw-page-foot button svg {
   flex: none;
@@ -461,62 +471,67 @@
 }
 
 /* ── Page hero ─────────────────────────────────────────────────────────────── */
-/* Every page opens the same way as the cover: photograph on the left, the page's own
-   editorial title on paper, the three numbers that page is about along the foot. It is
-   the same object four times, so the month reads as one document. */
+/* One photograph, one title, one foot — the same object as an offer card's hero and the
+   month cover: a scrimmed photograph, a white serif title, the numbers that page is about
+   along the bottom rule. `is-sheet` merges it into the Overview's paper. */
 .mp-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  overflow: hidden;
-  border: 1px solid rgba(25, 26, 36, 0.09);
-  border-radius: 20px;
-  background: #ffffff;
-  box-shadow: 0 26px 56px -48px rgba(18, 26, 22, 0.7);
-  animation: mo-page-in 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-.mp-hero-photo {
   position: relative;
-  min-height: 232px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 318px;
+  padding: 26px 26px 22px;
   overflow: hidden;
   isolation: isolate;
-  background: #0b1119;
+  border: 1px solid rgba(25, 26, 36, 0.09);
+  border-radius: 20px;
+  background: #0b1420;
+  box-shadow: 0 30px 60px -52px rgba(8, 16, 26, 0.9);
+  animation: mo-page-in 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mp-hero.is-sheet {
+  min-height: 300px;
 }
 .mp-hero-img {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-color: #0b1119;
+  background-color: #0b1420;
   background-repeat: no-repeat;
   background-size: cover;
-  transform: scale(1.02);
+  transform: scale(1.015);
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.mp-hero:hover .mp-hero-img {
+  transform: scale(1.04);
 }
 .mp-hero-scrim {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, rgba(8, 16, 26, 0.5) 0%, rgba(8, 16, 26, 0.04) 46%, rgba(6, 13, 22, 0.62) 100%),
-    linear-gradient(90deg, rgba(6, 13, 22, 0.32) 0%, transparent 42%);
+  background: linear-gradient(180deg, rgba(6, 13, 22, 0.62) 0%, rgba(6, 13, 22, 0.12) 36%, rgba(5, 11, 19, 0.92) 100%),
+    linear-gradient(92deg, rgba(6, 13, 22, 0.66) 0%, rgba(6, 13, 22, 0.2) 54%, rgba(6, 13, 22, 0) 82%);
 }
 .mp-hero-mark {
   position: absolute;
-  left: 20px;
-  bottom: 12px;
+  top: 16px;
+  right: 24px;
   z-index: 2;
   font-family: 'Bodoni Moda', Georgia, serif;
   font-style: italic;
-  font-size: clamp(44px, 5.6vw, 68px);
+  font-size: clamp(38px, 4.4vw, 58px);
   line-height: 0.8;
-  color: rgba(255, 255, 255, 0.66);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.3);
 }
-.mp-hero-copy {
+.mp-hero-inner {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 9px;
-  min-width: 0;
-  padding: 24px 26px 20px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--a1, #5b4fd6) 4%, #ffffff), #ffffff 62%);
+  gap: 10px;
+  width: 100%;
+  max-width: 1040px;
 }
 .mp-hero-kicker {
   display: inline-flex;
@@ -526,30 +541,31 @@
   font-weight: 750;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #8b8a99;
+  color: rgba(255, 255, 255, 0.74);
 }
 .mp-hero-kicker i {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--a1, #5b4fd6);
+  background: rgba(255, 255, 255, 0.62);
 }
-.mp-hero-copy h2 {
+.mp-hero h2 {
   margin: 0;
+  max-width: 26ch;
   font-family: 'Bodoni Moda', Georgia, serif;
-  font-size: clamp(24px, 2.3vw, 31px);
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  color: #1b1824;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: #ffffff;
   text-wrap: balance;
 }
-.mp-hero-copy > p {
+.mp-hero-lede {
   margin: 0;
-  max-width: 62ch;
-  font-size: 12.5px;
+  max-width: 66ch;
+  font-size: 13px;
   line-height: 1.6;
-  color: #5d5a6b;
+  color: rgba(255, 255, 255, 0.8);
   text-wrap: pretty;
 }
 .mp-hero-foot {
@@ -557,16 +573,17 @@
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 12px 16px;
-  margin-top: 6px;
-  padding-top: 13px;
-  border-top: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 12%, #eceae6);
+  gap: 12px 20px;
+  width: 100%;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 .mp-hero-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 4px 22px;
+  gap: 4px 26px;
   margin: 0;
 }
 .mp-hero-meta div {
@@ -579,15 +596,15 @@
   font-weight: 750;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #9a97a6;
+  color: rgba(255, 255, 255, 0.52);
 }
 .mp-hero-meta dd {
   margin: 0;
   font-family: 'Bodoni Moda', Georgia, serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 1.15;
-  color: #1b1824;
+  color: #ffffff;
   font-variant-numeric: tabular-nums;
 }
 .mp-hero-actions {
@@ -595,35 +612,51 @@
   align-items: center;
   gap: 7px;
 }
+/* Status pills sit on glass when they ride the photograph. */
+.mp-hero-actions .mp-status {
+  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px) saturate(130%);
+}
+.mp-hero-actions .mp-status.is-approved {
+  border-color: rgba(126, 232, 184, 0.4);
+  background: rgba(21, 122, 85, 0.34);
+  color: #dff7ec;
+}
+.mp-hero-actions .mp-status.is-locked {
+  border-color: rgba(196, 190, 255, 0.38);
+  background: rgba(91, 79, 214, 0.34);
+  color: #edebff;
+}
 .mp-hero-btn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   height: 34px;
   padding: 0 14px;
-  border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 22%, #e4e7e2);
+  border: 1px solid rgba(255, 255, 255, 0.26);
   border-radius: 999px;
-  background: #ffffff;
-  color: var(--a1-dark, #3f35a8);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
   font-family: inherit;
   font-size: 11.5px;
   font-weight: 650;
   cursor: pointer;
+  backdrop-filter: blur(10px) saturate(130%);
   transition:
     background 0.18s ease,
-    border-color 0.18s ease,
-    transform 0.18s ease;
+    border-color 0.18s ease;
 }
 .mp-hero-btn:hover {
-  background: var(--a1-soft, #efedfc);
-  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 40%, #e4e7e2);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 .mp-hero-btn em {
   font-style: normal;
   padding: 1px 6px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--a1, #5b4fd6) 12%, #ffffff);
+  background: rgba(255, 255, 255, 0.18);
   font-size: 9.5px;
   font-weight: 750;
   font-variant-numeric: tabular-nums;
@@ -749,6 +782,49 @@
   font-weight: 500;
   color: #1b1824;
   font-variant-numeric: tabular-nums;
+}
+
+/* ── Cards per row ─────────────────────────────────────────────────────────── */
+/* A two-segment switch in the band head: the month can be scanned two-up, or read one
+   offer at a time without losing the plan's shape. */
+.mw .mw-card-cols {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid rgba(25, 26, 36, 0.12);
+  border-radius: 999px;
+  background: #ffffff;
+}
+.mw .mw-card-cols button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #9a97a6;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease;
+}
+.mw .mw-card-cols button:hover {
+  color: #4a4657;
+}
+.mw .mw-card-cols button.is-on {
+  background: #1b1824;
+  color: #ffffff;
+}
+.mw .mw-card-cols button svg {
+  flex: none;
+  opacity: 0.75;
 }
 
 /* ── Offer library drawer ──────────────────────────────────────────────────── */
@@ -1188,19 +1264,33 @@
 
 @media (max-width: 1080px) {
   .mp-hero {
-    grid-template-columns: minmax(0, 1fr);
+    min-height: 280px;
+    padding: 22px 24px 20px;
   }
-  .mp-hero-photo {
-    min-height: 178px;
-  }
-  .mp-hero-copy {
-    padding: 20px 20px 18px;
+  .mp-hero h2 {
+    max-width: 34ch;
+    font-size: clamp(26px, 4vw, 34px);
   }
 }
 
 @media (max-width: 760px) {
+  .mp-hero {
+    min-height: 250px;
+    padding: 18px 18px 16px;
+  }
+  .mp-hero-mark {
+    top: 12px;
+    right: 16px;
+    font-size: 34px;
+  }
   .mp-hero-foot {
     align-items: flex-start;
+  }
+  .mp-hero-meta {
+    gap: 4px 18px;
+  }
+  .mp-hero-meta dd {
+    font-size: 16px;
   }
   .mp-drawer {
     width: 100%;

@@ -1,80 +1,94 @@
-/* Sales Plan › page canvas.
-   One reading surface for each month page. Every band on a page shares the same paper,
-   the same hairline separators, the same numbered kicker and the same numeral voice, so
-   Targets & mix, Offers and Execution read as three chapters of one document instead of
-   shelves of individually styled widgets. Loaded last, scoped per page. */
+/* Sales Plan › the month pages.
+   Each month page is one sheet of paper: a photographed band at the top, then bands of
+   content divided by hairlines — the same type, the same numerals, the same quiet tools on
+   every screen, so Overview, Targets & mix, Offers and Execution read as four chapters of
+   one document instead of shelves of individually styled widgets. Loaded last. */
 
-/* ═══ Shared: the canvas and its band headers ══════════════════════════════════ */
-.mw .mw-main.is-page-targets > .mw-section,
-.mw .mw-main.is-page-offers > .mw-section,
-.mw .mw-main.is-page-execution > .mw-section {
-  position: relative;
-  padding: 0 0 20px;
-  overflow: hidden;
-  border: 1px solid rgba(25, 26, 36, 0.08) !important;
-  border-radius: 20px;
+/* ═══ Shared: one sheet, its bands and their heads ═════════════════════════════ */
+.mw .mw-main[class*='is-page-'] {
+  gap: 0;
+  padding: 20px 22px 44px;
   background: #ffffff;
-  box-shadow:
-    0 1px 2px rgba(25, 26, 36, 0.04),
-    0 22px 46px -42px rgba(18, 26, 22, 0.55);
 }
 
-/* Bands run edge to edge: the page supplies one gutter, not every block its own. */
-.mw .mw-main.is-page-targets > .mw-section > .mw-focus-unified,
-.mw .mw-main.is-page-targets > .mw-section > .mw-ai-unified,
-.mw .mw-main.is-page-targets > .mw-section > .mw-gp-rows,
-.mw .mw-main.is-page-targets > .mw-section > .mw-gp-note,
-.mw .mw-main.is-page-offers > .mw-section > .mw-offers-board,
-.mw .mw-main.is-page-execution > .mw-section > .mw-acts,
-.mw .mw-main.is-page-execution > .mw-section > .mp-run,
-.mw .mw-main.is-page-execution > .mw-section > .mw-notes,
-.mw .mw-main.is-page-execution > .mw-section > .mw-final {
-  margin-right: 0;
-  margin-left: 0;
+/* Sections stop being cards: they are bands on the page, separated by a hairline. */
+.mw .mw-main[class*='is-page-'] > .mw-section,
+.mw .mw-main[class*='is-page-'] > .mw-days,
+.mw .mw-main[class*='is-page-'] > .mw-dates {
+  position: relative;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible;
+  border: 0 !important;
+  border-top: 1px solid rgba(25, 26, 36, 0.08) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.mw .mw-main[class*='is-page-'] > .mw-section:last-of-type {
+  padding-bottom: 24px !important;
+}
+
+/* One gutter on every page. */
+.mw .mw-main[class*='is-page-'] > .mw-section > :not(.mw-sh),
+.mw .mw-main[class*='is-page-'] > .mw-days > :not(.mw-sh) {
+  margin-right: 26px !important;
+  margin-left: 26px !important;
+}
+
+/* Bands that own their own gutters: the page supplies one margin, not every block its own. */
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-focus-unified,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-ai-unified,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-gp-rows,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-gp-note,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-offers-board,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-acts,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mp-run,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-notes,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-final {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
 }
 
 /* A section header is a band head, not a toolbar: one icon, a serif title, a quiet hint. */
-.mw .mw-main.is-page-targets .mw-sh,
-.mw .mw-main.is-page-offers .mw-sh,
-.mw .mw-main.is-page-execution .mw-sh {
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-sh,
+.mw .mw-main[class*='is-page-'] > .mw-days > .mw-sh {
+  display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
-  column-gap: 13px;
-  padding: 17px 24px 15px;
-  border-bottom: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 10%, #eceae6);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--a1, #5b4fd6) 3%, #ffffff), #ffffff);
+  align-items: center;
+  column-gap: 14px;
+  padding: 24px 26px 14px;
+  border: 0;
+  background: transparent;
 }
-.mw .mw-main.is-page-targets .mw-sh.has-actions,
-.mw .mw-main.is-page-offers .mw-sh.has-actions,
-.mw .mw-main.is-page-execution .mw-sh.has-actions {
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-sh.has-actions,
+.mw .mw-main[class*='is-page-'] > .mw-days > .mw-sh.has-actions {
   grid-template-columns: 34px minmax(0, 1fr) auto;
 }
-.mw .mw-main.is-page-targets .mw-sh h4,
-.mw .mw-main.is-page-offers .mw-sh h4,
-.mw .mw-main.is-page-execution .mw-sh h4 {
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-sh h4,
+.mw .mw-main[class*='is-page-'] > .mw-days > .mw-sh h4 {
   font-family: 'Bodoni Moda', Georgia, serif;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 500;
   letter-spacing: -0.015em;
   color: #1b1824;
 }
-.mw .mw-main.is-page-targets .mw-sh p,
-.mw .mw-main.is-page-offers .mw-sh p,
-.mw .mw-main.is-page-execution .mw-sh p {
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-sh p,
+.mw .mw-main[class*='is-page-'] > .mw-days > .mw-sh p {
   max-width: 82ch;
   font-size: 11.5px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: #7b7887;
 }
-.mw .mw-main.is-page-targets .mw-sh-icon,
-.mw .mw-main.is-page-offers .mw-sh-icon,
-.mw .mw-main.is-page-execution .mw-sh-icon {
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-sh .mw-sh-icon,
+.mw .mw-main[class*='is-page-'] > .mw-days > .mw-sh .mw-sh-icon {
   width: 34px;
   height: 34px;
   border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 14%, #eceae6);
   border-radius: 50%;
   background: #ffffff;
   color: color-mix(in srgb, var(--a1, #5b4fd6) 80%, #1b1824);
-  box-shadow: 0 6px 14px -12px rgba(25, 26, 36, 0.5);
+  box-shadow: none;
 }
 
 /* The maths panel keeps its own head: title, hint, customised count, close. */
@@ -87,9 +101,7 @@
 }
 
 /* Toolbar buttons inside a band head: outline pills, never filled blocks. */
-.mw .mw-main.is-page-targets .mw-sh-actions .mw-mini-btn,
-.mw .mw-main.is-page-offers .mw-sh-actions .mw-mini-btn,
-.mw .mw-main.is-page-execution .mw-sh-actions .mw-mini-btn {
+.mw .mw-main[class*='is-page-'] .mw-sh-actions .mw-mini-btn {
   height: 28px;
   padding: 0 11px;
   border: 1px solid rgba(25, 26, 36, 0.12);
@@ -100,28 +112,33 @@
   font-weight: 650;
   box-shadow: none;
 }
-.mw .mw-main.is-page-targets .mw-sh-actions .mw-mini-btn:hover,
-.mw .mw-main.is-page-offers .mw-sh-actions .mw-mini-btn:hover,
-.mw .mw-main.is-page-execution .mw-sh-actions .mw-mini-btn:hover {
+.mw .mw-main[class*='is-page-'] .mw-sh-actions .mw-mini-btn:hover {
   border-color: color-mix(in srgb, var(--a1, #5b4fd6) 35%, #e4e7e2);
   color: var(--a1-dark, #3f35a8);
   background: color-mix(in srgb, var(--a1, #5b4fd6) 5%, #ffffff);
 }
-.mw .mw-main.is-page-offers .mw-sh-actions .mw-mini-btn.is-primary {
-  border-color: transparent;
-  background: var(--a1, #5b4fd6);
+.mw .mw-main[class*='is-page-'] .mw-sh-actions .mw-mini-btn.is-primary {
+  border-color: #1b1824;
+  background: #1b1824;
   color: #ffffff;
 }
-.mw .mw-main.is-page-offers .mw-sh-actions .mw-mini-btn.is-primary:hover {
-  background: var(--a1-dark, #3f35a8);
+.mw .mw-main[class*='is-page-'] .mw-sh-actions .mw-mini-btn.is-primary:hover {
+  background: #2c2939;
+  border-color: #2c2939;
   color: #ffffff;
 }
 
 /* ═══ Targets & mix ═══════════════════════════════════════════════════════════ */
 /* The canvas: five numbered bands, one paper, hairlines between. Nothing inside the
    focus canvas is allowed its own border, gradient or shadow. */
-.mw .mw-main.is-page-targets #mw-sec-focus.mw-planning-section {
-  border-radius: 20px;
+/* Monthly-modal.css still frames these two sections by id; on the page they are bands. */
+.mw .mw-main.is-page-targets #mw-sec-focus.mw-planning-section,
+.mw .mw-main.is-page-targets #mw-sec-ai.mw-ai-plan {
+  border: 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 .mw .mw-main.is-page-targets #mw-sec-focus > .mw-focus-unified > * {
   border-bottom: 1px solid rgba(25, 26, 36, 0.07);
@@ -272,10 +289,10 @@
 .mw .mw-main.is-page-targets .mw-fu-target-box {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 22px 24px 21px;
+  gap: 15px;
+  padding: 24px 26px 24px;
   border-left: 1px solid rgba(25, 26, 36, 0.07);
-  background: color-mix(in srgb, var(--a1, #5b4fd6) 2.5%, #ffffff);
+  background: transparent;
 }
 .mw .mw-main.is-page-targets .mw-fu-status-pill {
   padding: 0;
@@ -425,11 +442,11 @@
   border-top: 0;
 }
 .mw .mw-main.is-page-targets .mw-fu-strategy {
-  padding: 22px 26px 24px;
+  padding: 22px 26px 26px;
   border-right: 1px solid rgba(25, 26, 36, 0.07);
 }
 .mw .mw-main.is-page-targets .mw-fu-pillars {
-  padding: 22px 24px 24px;
+  padding: 22px 26px 26px;
 }
 .mw .mw-main.is-page-targets .mw-fu-pillars-head {
   display: flex;
@@ -1074,35 +1091,102 @@
 }
 
 /* ═══ Offers ══════════════════════════════════════════════════════════════════ */
-/* Fewer frames around the cards: one board, one check, one grid. */
+/* One board: a summary band, then streams ruled across the page, then the cards. The
+   cards themselves live in offer-card.css so they read the same on any surface. */
 .mw .mw-main.is-page-offers .mw-offers-board {
-  gap: 18px;
-  padding: 18px 22px 0;
+  display: block;
   margin: 0;
+  padding: 0;
 }
 .mw .mw-main.is-page-offers .mw-rev-check {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(160px, 280px);
+  gap: 16px;
   margin: 0;
+  padding: 18px 26px 20px;
+  border: 0;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  border-radius: 0;
+  background: #faf9f7;
+  box-shadow: none;
+  color: #1b1824;
+}
+.mw .mw-main.is-page-offers .mw-rev-check.is-ok,
+.mw .mw-main.is-page-offers .mw-rev-check.is-under,
+.mw .mw-main.is-page-offers .mw-rev-check.is-over {
+  border-color: rgba(25, 26, 36, 0.08);
+  background: #faf9f7;
+  color: #1b1824;
+}
+.mw .mw-main.is-page-offers .mw-rev-check-text strong {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.mw .mw-main.is-page-offers .mw-rev-check-text span {
+  margin-top: 4px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #7b7887;
+}
+.mw .mw-main.is-page-offers .mw-rev-check-meter {
+  align-self: center;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(25, 26, 36, 0.08);
+}
+.mw .mw-main.is-page-offers .mw-rev-check-meter i {
+  border-radius: inherit;
+  background: var(--rc, #5b4fd6);
+}
+.mw .mw-main.is-page-offers .mw-rev-check-meter b {
+  top: -4px;
+  bottom: -4px;
+  width: 1.5px;
+  background: #1b1824;
+  opacity: 0.55;
+}
+.mw .mw-main.is-page-offers .mw-offer-list {
+  margin: 0;
+  padding: 22px 26px 26px;
 }
 .mw .mw-main.is-page-offers .mw-offer-list.is-two-up {
   column-gap: 18px;
-  margin-bottom: -18px;
+  row-gap: 0;
+  margin-bottom: -8px;
 }
 .mw .mw-main.is-page-offers .mw-offer-list.is-two-up > .oc {
   margin-bottom: 18px;
 }
+.mw .mw-main.is-page-offers .mw-offer-list.is-one-up {
+  gap: 18px;
+  margin-bottom: 0;
+}
 .mw .mw-main.is-page-offers .mp-offer-divider {
-  margin: 6px 0 16px;
-  padding-bottom: 8px;
+  margin: 2px 0 16px;
+  padding-bottom: 9px;
+}
+.mw .mw-main.is-page-offers .mp-offer-divider + .oc,
+.mw .mw-main.is-page-offers .mp-offer-divider + .mw-editor {
+  margin-top: 0;
+}
+.mw .mw-main.is-page-offers .mw-offer-list.is-one-up .mp-offer-divider {
+  margin-top: 10px;
 }
 .mw .mw-main.is-page-offers .mw-offer-empty {
-  padding: 26px 24px 30px;
+  padding: 30px 26px 34px;
   margin: 0;
+  max-width: 74ch;
   font-size: 12.5px;
   line-height: 1.6;
   color: #8b8a99;
 }
 .mw .mw-main.is-page-offers .mw-editor {
-  margin: 0 22px 18px;
+  margin: 0 26px 20px;
+}
+.mw .mw-main.is-page-offers .mw-copilot {
+  margin: 0 26px 18px;
 }
 
 /* ═══ Execution: the run of the month ═════════════════════════════════════════ */
@@ -1511,32 +1595,45 @@
   color: var(--a1-dark, #3f35a8);
 }
 
-/* Activations: four beats on the same paper. */
+/* Activations: four beats ruled across the page, not four floating cards. */
 .mw .mw-main.is-page-execution .mw-acts {
-  margin: 0;
+  margin: 0 !important;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  padding: 20px 24px 4px;
+  gap: 0;
+  padding: 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
 }
 .mw .mw-main.is-page-execution .mw-act {
   position: relative;
   display: grid;
   grid-template-columns: 30px minmax(0, 1fr);
   align-items: start;
-  gap: 11px;
-  padding: 15px 16px;
-  border: 1px solid rgba(25, 26, 36, 0.08);
-  border-radius: 15px;
-  background: #ffffff;
-  box-shadow: 0 12px 26px -30px rgba(18, 26, 22, 0.6);
+  gap: 12px;
+  min-width: 0;
+  padding: 20px 26px 22px;
+  border: 0;
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+  border-bottom: 1px solid rgba(25, 26, 36, 0.07);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition: background 0.16s ease;
+}
+.mw .mw-main.is-page-execution .mw-act:nth-child(2n + 1) {
+  border-left: 0;
+  padding-left: 26px;
+}
+.mw .mw-main.is-page-execution .mw-act:hover {
+  background: color-mix(in srgb, var(--a1, #5b4fd6) 2.5%, #ffffff);
 }
 .mw .mw-main.is-page-execution .mw-act > svg {
-  width: 30px;
-  height: 30px;
-  padding: 7px;
+  width: 28px;
+  height: 28px;
+  padding: 6px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--a1, #5b4fd6) 7%, #ffffff);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 18%, #eceae6);
   color: color-mix(in srgb, var(--a1, #5b4fd6) 80%, #1b1824);
 }
 .mw .mw-main.is-page-execution .mw-act small,
@@ -1578,9 +1675,9 @@
   opacity: 1;
 }
 .mw .mw-main.is-page-execution .mw-acts-kpis {
-  margin: 16px 24px 0;
-  padding: 14px 0 0;
-  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  margin: 0 26px;
+  padding: 18px 0 22px;
+  border-top: 0;
 }
 .mw .mw-main.is-page-execution .mw-kpi-tags {
   display: flex;
@@ -1635,11 +1732,14 @@
 }
 
 /* ═══ The maths panel ═════════════════════════════════════════════════════════ */
+/* Last band of the Targets page: ruled sections on the page, no panel inside a panel. */
 .mw .mw-maths {
-  border: 1px solid rgba(25, 26, 36, 0.08) !important;
-  border-radius: 18px;
-  background: #ffffff;
-  overflow: hidden;
+  border: 0 !important;
+  border-top: 1px solid rgba(25, 26, 36, 0.08) !important;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 .mw .mw-main .mw-maths > .mw-assume-wrap,
 .mw .mw-main .mw-maths > .mw-econ-body {
@@ -1648,7 +1748,7 @@
 
 .mw .mw-maths .mw-assume-wrap {
   margin: 0;
-  padding: 20px 24px 6px;
+  padding: 20px 26px 6px;
   border: 0;
   border-bottom: 1px solid rgba(25, 26, 36, 0.07);
   background: transparent;
@@ -1669,8 +1769,10 @@
   grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
   gap: 1px;
   overflow: hidden;
-  border: 1px solid rgba(25, 26, 36, 0.07);
-  border-radius: 13px;
+  border: 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  border-bottom: 1px solid rgba(25, 26, 36, 0.07);
+  border-radius: 0;
   background: rgba(25, 26, 36, 0.07);
 }
 .mw .mw-maths .mw-assume-grid > label {
@@ -1752,7 +1854,7 @@
   padding: 0;
 }
 .mw .mw-maths .mw-econ-card {
-  padding: 20px 24px;
+  padding: 20px 26px;
   border: 0;
   border-bottom: 1px solid rgba(25, 26, 36, 0.07);
   border-radius: 0;
@@ -1796,8 +1898,10 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
-  border: 1px solid rgba(25, 26, 36, 0.07);
-  border-radius: 13px;
+  border: 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  border-bottom: 1px solid rgba(25, 26, 36, 0.07);
+  border-radius: 0;
   overflow: hidden;
 }
 .mw .mw-maths .mw-chain > div {
@@ -1885,8 +1989,10 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: 12px;
-  border: 1px solid rgba(25, 26, 36, 0.07);
-  border-radius: 13px;
+  border: 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  border-bottom: 1px solid rgba(25, 26, 36, 0.07);
+  border-radius: 0;
   overflow: hidden;
 }
 .mw .mw-maths .mw-renewal-math > span {
