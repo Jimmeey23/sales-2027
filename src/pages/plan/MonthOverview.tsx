@@ -1,7 +1,8 @@
 import React from 'react';
-import { Gift, Quote, RefreshCcw, ShieldCheck, Sparkles, Target, Users } from 'lucide-react';
+import { Quote, ShieldCheck, Sparkles } from 'lucide-react';
 import { MONTHS, number } from '../../types';
 import type { MonthChapter, MonthStory } from '../../data/monthNarrative';
+import PageHero from './PageHero';
 
 /* The month's opening page: a poster of the month, the four numbers that define it, and
    the narrative behind each one — where the money comes from, who has to walk in, and who
@@ -53,65 +54,36 @@ export default function MonthOverview({
   const buyerRate = trials ? buyers / trials : null;
   return (
     <section className="mw-overview" aria-label={`${MONTHS[month - 1]} overview`}>
-      <div className="mo-top">
-        <figure className="mo-poster">
-          <div
-            className="mo-photo"
-            style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
-            aria-hidden="true"
-          />
-          <div className="mo-scrim" aria-hidden="true" />
-          <figcaption>
-            <span className="mo-kicker">
-              <i aria-hidden="true" />
-              {chapter.kicker} · {MONTHS[month - 1]} {year}
-            </span>
-            <p className="mo-theme">{theme}</p>
-            <p className="mo-moment">{chapter.moment}</p>
-            <span className={`mo-status is-${status}`}>
-              {status === 'approved' ? 'Approved' : status === 'locked' ? 'Targets locked' : 'Proposed'}
-            </span>
-          </figcaption>
-        </figure>
+      <PageHero
+        index="01"
+        label="Overview"
+        title={theme}
+        description={chapter.moment}
+        photo={photo}
+        meta={[
+          { label: 'Target', value: lakh(target) },
+          {
+            label: 'vs last year',
+            value: yoy === null ? 'no prior year' : `${yoy >= 0 ? '+' : ''}${Math.round(yoy * 100)}%`,
+          },
+          { label: 'The door', value: `${number(leads)} leads` },
+          { label: 'Renewal book', value: `${number(renewalsDue)} · ${pct(renewalCoverage)} covered` },
+        ]}
+        actions={
+          <span className={`mp-status is-${status}`}>
+            {status === 'approved' ? 'Approved' : status === 'locked' ? 'Targets locked' : 'Proposed'}
+          </span>
+        }
+      />
 
-        <div className="mo-ledger">
-          <span className="mo-label">The month in four lines</span>
-          <div className="mo-line">
-            <span>
-              <Target size={12} />
-              Target
-            </span>
-            <strong>{lakh(target)}</strong>
-            <em>{yoy === null ? 'no prior year' : `${yoy >= 0 ? '+' : ''}${Math.round(yoy * 100)}% on last year`}</em>
-          </div>
-          <div className="mo-line">
-            <span>
-              <Users size={12} />
-              The door
-            </span>
-            <strong>{number(leads)} leads</strong>
-            <em>
-              {number(trials)} trials → {number(buyers)} buyers, {pct(buyerRate)} convert
-            </em>
-          </div>
-          <div className="mo-line">
-            <span>
-              <Gift size={12} />
-              The offers
-            </span>
-            <strong>{offers ? `${offers} planned` : 'None yet'}</strong>
-            <em>{offers ? `${lakh(offerRevenue)} carried by them` : 'Pick offers on the Offers page'}</em>
-          </div>
-          <div className="mo-line">
-            <span>
-              <RefreshCcw size={12} />
-              The renewal book
-            </span>
-            <strong>{number(renewalsDue)} expiring</strong>
-            <em>{pct(renewalCoverage)} covered by the plan</em>
-          </div>
-        </div>
-      </div>
+      <article className="mo-brief">
+        <span className="mo-label">The brief</span>
+        <p>{chapter.brief}</p>
+        <footer>
+          <span>{offers ? `${offers} offers · ${lakh(offerRevenue)} carried` : 'No offers picked yet'}</span>
+          <em>{studioName}</em>
+        </footer>
+      </article>
 
       <div className="mo-notes">
         <article className="mo-note">

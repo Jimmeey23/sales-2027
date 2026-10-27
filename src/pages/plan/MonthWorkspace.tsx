@@ -63,6 +63,7 @@ import { locationPlaybook, type ActionItem } from '../../data/planDefaults';
 import { isLegacyTheme, monthChapter, monthStory } from '../../data/monthNarrative';
 import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
+import PageHero, { PAGE_PHOTOS } from './PageHero';
 import MonthOverview from './MonthOverview';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
@@ -481,36 +482,8 @@ export default function MonthWorkspace({
 }) {
   const { boot, year, can, toast, adminUnlocked: masterUnlocked, unlockAdmin, lockAdmin } = useApp(),
     navigate = useNavigate();
-  // Offer library sidebar: width is draggable and it can collapse to a rail; both are remembered per browser.
-  const stored = (k: string) => {
-    try {
-      return localStorage.getItem(k);
-    } catch {
-      return null;
-    }
-  };
-  const [sideW, setSideW] = useState(() => Number(stored('mw-side-w')) || 340),
-    [sideOpen, setSideOpen] = useState(() => stored('mw-side-open') !== '0');
-  useEffect(() => {
-    try {
-      localStorage.setItem('mw-side-w', String(sideW));
-      localStorage.setItem('mw-side-open', sideOpen ? '1' : '0');
-    } catch {}
-  }, [sideW, sideOpen]);
-  const dragSide = (e: React.PointerEvent) => {
-    e.preventDefault();
-    const x0 = e.clientX,
-      w0 = sideW;
-    const move = (ev: PointerEvent) => setSideW(Math.min(640, Math.max(260, w0 + x0 - ev.clientX)));
-    const up = () => {
-      window.removeEventListener('pointermove', move);
-      window.removeEventListener('pointerup', up);
-      document.body.style.cursor = '';
-    };
-    document.body.style.cursor = 'col-resize';
-    window.addEventListener('pointermove', move);
-    window.addEventListener('pointerup', up);
-  };
+  // The offer library is a drawer over the page, never a squeezed column beside it.
+  const [libraryOpen, setLibraryOpen] = useState(false);
   const [studioIdx, setStudioIdx] = useState(0),
     [solo, setSolo] = useState(false),
     [mathsOpen, setMathsOpen] = useState(false),
@@ -569,7 +542,7 @@ export default function MonthWorkspace({
   const alternates = ownOffers
     .filter(o => o.year === year && o.month == null && !pickedBank.has(o.id))
     .sort((a, b) => n(b.expected_revenue) - n(a.expected_revenue));
-  const [flippedAlt, setFlippedAlt] = useState<number | null>(null);
+  const [openAlt, setOpenAlt] = useState<number | null>(null);
   const [altQuery, setAltQuery] = useState('');
   const [altScope, setAltScope] = useState<'all' | 'newcomer' | 'lapsed' | 'renewal'>('all');
   const filteredAlternates = useMemo(() => {
@@ -655,7 +628,6 @@ export default function MonthWorkspace({
     [busy, setBusy] = useState(false),
     [editing, setEditing] = useState<number | null>(null),
     [creatingOffer, setCreatingOffer] = useState<any | null>(null),
-    [twoUpForce, setTwoUpForce] = useState<boolean | null>(null),
     [activeDay, setActiveDay] = useState<number | null>(null);
   // Reset whenever the month or studio changes, or fresh data arrives — except right after our own autosave.
   const skipReset = useRef(false),
@@ -1260,7 +1232,8 @@ export default function MonthWorkspace({
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        if (coverOpen) setCoverOpen(false);
+        if (libraryOpen) setLibraryOpen(false);
+        else if (coverOpen) setCoverOpen(false);
         else onClose();
         return;
       }
@@ -1273,14 +1246,14 @@ export default function MonthWorkspace({
       } else if (e.key === ']' && month < 12) {
         e.preventDefault();
         setMonth(month + 1);
-      } else if (e.key === '\\') {
+      } else if (e.key === '\\' && page === 'offers') {
         e.preventDefault();
-        setSideOpen(o => !o);
+        setLibraryOpen(o => !o);
       }
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [month, onClose, setMonth, coverOpen]);
+  }, [month, onClose, setMonth, coverOpen, page, libraryOpen]);
 
   const copyMonthBrief = async () => {
     const lines = [
@@ -1347,7 +1320,6 @@ export default function MonthWorkspace({
     offers: selected.length,
     offerRevenue,
   });
-  const showLibrary = sideOpen && page === 'offers';
   const showOnPage = (key: string) => isSectionVisible(key) && PAGE_OF_SECTION[key] === page;
   const pageTabs: Array<{ id: PlanPage; label: string; meta?: string }> = [
     { id: 'overview', label: 'Overview' },
@@ -1355,6 +1327,9 @@ export default function MonthWorkspace({
     { id: 'offers', label: 'Offers', meta: selected.length ? String(selected.length) : undefined },
     { id: 'execution', label: 'Execution' },
   ];
+  const heroPhoto = (offset: number) => PAGE_PHOTOS[(month + offset) % PAGE_PHOTOS.length];
+  const heroYoy = row.lastYear ? Math.round((effective / row.lastYear - 1) * 100) : null;
+  const mix = (value: number) => (effective ? `${Math.round((n(value) / effective) * 100)}%` : '—');
   const pageIdx = pageTabs.findIndex(t => t.id === page);
   const prevTab = pageIdx > 0 ? pageTabs[pageIdx - 1] : null;
   const nextTab = pageIdx >= 0 && pageIdx < pageTabs.length - 1 ? pageTabs[pageIdx + 1] : null;
@@ -1410,7 +1385,7 @@ export default function MonthWorkspace({
                 </div>
                 <div className="mw-title-line">
                   <h2>{MONTHS[month - 1]}</h2>
-                  {displayTheme && (
+                  {displayTheme && page !== 'overview' && (
                     <>
                       <i className="mw-title-sep" aria-hidden="true" />
                       <span className="mw-theme-sub">{displayTheme}</span>
@@ -1538,13 +1513,7 @@ export default function MonthWorkspace({
           )}
         </header>
 
-        <div
-          className={`mw-body pane-offers ${showLibrary ? 'is-side-open' : 'is-side-collapsed'}${
-            page === 'offers' ? '' : ' is-no-library'
-          }`}
-          style={{ gridTemplateColumns: showLibrary ? `minmax(0, 1fr) ${sideW}px` : 'minmax(0, 1fr)' }}
-          inert={coverOpen}
-        >
+        <div className="mw-body" inert={coverOpen}>
           <main ref={mainRef} className={`mw-main ${locked ? 'is-locked' : ''}`}>
             <nav className="mw-pages" aria-label="Month plan pages">
               <div className="mw-pages-tabs" role="group" aria-label="Month pages">
@@ -1579,12 +1548,13 @@ export default function MonthWorkspace({
                 {page === 'offers' && (
                   <button
                     type="button"
-                    className={`mw-qtool${!sideOpen ? ' is-active' : ''}`}
-                    onClick={() => setSideOpen(o => !o)}
-                    title="Toggle right Offer Library sidebar (shortcut: \\)"
+                    className="mw-qtool"
+                    onClick={() => setLibraryOpen(true)}
+                    title="Browse the offer library (shortcut: \\)"
                   >
                     <LayoutGrid size={13} />
-                    <span>{sideOpen ? '2-up offers' : 'Show library'}</span>
+                    <span>Offer library</span>
+                    <em>{alternates.length}</em>
                   </button>
                 )}
                 <button
@@ -1639,6 +1609,64 @@ export default function MonthWorkspace({
                   Fields are locked — reopen the month to make changes.
                 </span>
               </div>
+            )}
+
+            {page === 'targets' && (
+              <PageHero
+                index="02"
+                label="Targets & mix"
+                title="Where the money comes from"
+                description="Set the month’s number, split it across new clients, renewals and comeback, then check that the offers can carry it."
+                photo={heroPhoto(1)}
+                meta={[
+                  { label: 'Target', value: lakh(effective) },
+                  {
+                    label: 'vs last year',
+                    value: heroYoy === null ? '—' : `${heroYoy >= 0 ? '+' : ''}${heroYoy}%`,
+                  },
+                  {
+                    label: 'New · renew · back',
+                    value: `${mix(form.streams.newClient)} · ${mix(form.streams.renewal)} · ${mix(form.streams.reactivation)}`,
+                  },
+                ]}
+              />
+            )}
+
+            {page === 'offers' && (
+              <PageHero
+                index="03"
+                label="Offers"
+                title="What we sell to get there"
+                description="Every offer that carries the month: the photograph, the promise, the maths behind it and its approval, in one card."
+                photo={heroPhoto(2)}
+                meta={[
+                  { label: 'Offers', value: `${selected.length}` },
+                  { label: 'Carried', value: lakh(offerRevenue) },
+                  { label: 'Of target', value: effective ? `${Math.round((offerRevenue / effective) * 100)}%` : '—' },
+                ]}
+                actions={
+                  <button type="button" className="mp-hero-btn" onClick={() => setLibraryOpen(true)}>
+                    <LayoutGrid size={14} />
+                    Offer library
+                    <em>{alternates.length}</em>
+                  </button>
+                }
+              />
+            )}
+
+            {page === 'execution' && (
+              <PageHero
+                index="04"
+                label="Execution"
+                title="How the month actually runs"
+                description="The activations that create demand, the week-by-week checklist that delivers it, and the marketing that makes it visible."
+                photo={heroPhoto(3)}
+                meta={[
+                  { label: 'Actions', value: `${form.actions.length}` },
+                  { label: 'Strategy plays', value: `${parseStrategyLines(form.strategy).length}` },
+                  { label: 'Key dates', value: `${dates.length}` },
+                ]}
+              />
             )}
 
             {page === 'overview' && (
@@ -3117,7 +3145,7 @@ export default function MonthWorkspace({
                   `Offers · ${selected.length}`,
                   `${lakh(offerRevenue)} expected. Edit all offer details here, build a new offer, or pick from the library.`,
                 );
-                const twoUp = twoUpForce !== null ? twoUpForce : !sideOpen;
+                const twoUp = true;
                 const mm = String(month).padStart(2, '0');
                 const lastDay = String(new Date(year, month, 0).getDate()).padStart(2, '0');
                 const openNewOffer = (preset?: Partial<any>) => {
@@ -3170,16 +3198,15 @@ export default function MonthWorkspace({
                               {allOffersExpanded ? 'Collapse all' : 'Expand all'}
                             </button>
                           )}
-                          {selected.length >= 2 && (
-                            <button
-                              type="button"
-                              className={`mw-mini-btn${twoUp ? ' is-active' : ''}`}
-                              onClick={() => setTwoUpForce(twoUp ? false : true)}
-                              title="Toggle side-by-side 2-up offer card view"
-                            >
-                              <LayoutGrid size={12} /> {twoUp ? '1-up list' : '2-up cards'}
-                            </button>
-                          )}
+                          <button
+                            type="button"
+                            className="mw-mini-btn"
+                            onClick={() => setLibraryOpen(true)}
+                            title="Browse every offer this studio can run, and add or swap them in"
+                          >
+                            <LayoutGrid size={12} /> Offer library
+                            <em>{alternates.length}</em>
+                          </button>
                           {(editable || offersEditable) && (
                             <button type="button" className="mw-mini-btn is-primary" onClick={() => openNewOffer()}>
                               <Plus size={12} /> New offer
@@ -3207,38 +3234,6 @@ export default function MonthWorkspace({
                       />
                     )}
 
-                    {effective > 0 &&
-                      selected.length > 0 &&
-                      (() => {
-                        const ratio = offerRevenue / effective;
-                        const tone = ratio > 1.1 ? 'over' : ratio < 0.9 ? 'under' : 'ok';
-                        const diff = Math.abs(offerRevenue - effective);
-                        return (
-                          <div className={`mw-rev-check is-${tone}`} role="status">
-                            <div className="mw-rev-check-text">
-                              <strong>
-                                {tone === 'over'
-                                  ? 'Offer plan exceeds target'
-                                  : tone === 'under'
-                                    ? 'Offer plan is below target'
-                                    : 'Offer plan is in line with target'}
-                              </strong>
-                              <span>
-                                {lakh(offerRevenue)} forecast vs {lakh(effective)} target ·{' '}
-                                {tone === 'ok'
-                                  ? `${Math.round(ratio * 100)}% covered`
-                                  : tone === 'over'
-                                    ? `${lakh(diff)} (${Math.round((ratio - 1) * 100)}%) over — check unit assumptions or trim an offer`
-                                    : `${lakh(diff)} (${Math.round((1 - ratio) * 100)}%) short — add or raise offers`}
-                              </span>
-                            </div>
-                            <div className="mw-rev-check-meter" aria-hidden="true">
-                              <i style={{ width: `${Math.min(100, (ratio / 1.25) * 100)}%` }} />
-                              <b style={{ left: `${100 / 1.25}%` }} />
-                            </div>
-                          </div>
-                        );
-                      })()}
                     {offersEditable && (
                       <OfferCopilot
                         state={copilot}
@@ -3350,47 +3345,65 @@ export default function MonthWorkspace({
                             />
                           );
 
-                        if (twoUp) {
-                          return (
-                            <div className="mw-offers-collapsed-wrap">
-                              <div className="mw-offer-stream-strip" aria-label="Revenue stream breakdown">
-                                {activeGroups.map(g => (
-                                  <div key={g.label} className="mw-offer-stream-pill">
-                                    <span className="mw-offer-group-title">{g.label}</span>
-                                    <span className="mw-offer-group-count">{g.offers.length}</span>
-                                    <strong className="mw-offer-group-sum">
-                                      {lakh(g.offers.reduce((s, o) => s + forecastRevenue(o), 0))}
-                                    </strong>
+                        return (
+                          <div className="mw-offers-board">
+                            {effective > 0 &&
+                              selected.length > 0 &&
+                              (() => {
+                                const ratio = offerRevenue / effective;
+                                const tone = ratio > 1.1 ? 'over' : ratio < 0.9 ? 'under' : 'ok';
+                                const diff = Math.abs(offerRevenue - effective);
+                                return (
+                                  <div className={`mw-rev-check is-${tone}`} role="status">
+                                    <div className="mw-rev-check-text">
+                                      <strong>
+                                        {tone === 'over'
+                                          ? 'Offer plan exceeds target'
+                                          : tone === 'under'
+                                            ? 'Offer plan is below target'
+                                            : 'Offer plan is in line with target'}
+                                      </strong>
+                                      <span>
+                                        {lakh(offerRevenue)} forecast vs {lakh(effective)} target ·{' '}
+                                        {tone === 'ok'
+                                          ? `${Math.round(ratio * 100)}% covered`
+                                          : tone === 'over'
+                                            ? `${lakh(diff)} (${Math.round((ratio - 1) * 100)}%) over — check unit assumptions or trim an offer`
+                                            : `${lakh(diff)} (${Math.round((1 - ratio) * 100)}%) short — add or raise offers`}
+                                      </span>
+                                    </div>
+                                    <div className="mw-rev-check-meter" aria-hidden="true">
+                                      <i style={{ width: `${Math.min(100, (ratio / 1.25) * 100)}%` }} />
+                                      <b style={{ left: `${100 / 1.25}%` }} />
+                                    </div>
                                   </div>
-                                ))}
-                              </div>
-                              <div className="mw-offer-list is-two-up">
-                                {orderedOffers.map(({ offer: o, stream }, idx) => renderItem(o, idx + 1, stream))}
-                              </div>
-                            </div>
-                          );
-                        }
-
-                        return activeGroups.map(g => (
-                          <div key={g.label} className="mw-offer-group">
-                            <div className="mw-offer-group-head">
-                              <span className="mw-offer-group-title">{g.label}</span>
-                              <span className="mw-offer-group-count">{g.offers.length}</span>
-                              <i aria-hidden="true" />
-                              <strong className="mw-offer-group-sum">
-                                {lakh(g.offers.reduce((s, o) => s + forecastRevenue(o), 0))}
-                              </strong>
-                            </div>
-                            <div className="mw-offer-list">
-                              {g.offers.map(o => renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1))}
+                                );
+                              })()}
+                            <div className="mw-offer-list is-two-up">
+                              {activeGroups.flatMap(g => {
+                                const total = g.offers.reduce((sum, o) => sum + forecastRevenue(o), 0);
+                                return [
+                                  <div key={`divider-${g.label}`} className={`mp-offer-divider stream-${g.label}`}>
+                                    <span>{g.label}</span>
+                                    <em>
+                                      {g.offers.length} {g.offers.length === 1 ? 'offer' : 'offers'}
+                                    </em>
+                                    <i aria-hidden="true" />
+                                    <b>{lakh(total)}</b>
+                                  </div>,
+                                  ...g.offers.map(o =>
+                                    renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label),
+                                  ),
+                                ];
+                              })}
                             </div>
                           </div>
-                        ));
+                        );
                       })()
                     ) : (
                       <p className="mw-offer-empty">
-                        No offers picked yet — click “New offer” above or select an option from the offer library on the
-                        right.
+                        No offers picked yet — click “New offer” above, or open the offer library and add the ones that
+                        fit this month.
                       </p>
                     )}
                   </div>
@@ -4019,141 +4032,169 @@ export default function MonthWorkspace({
               )}
             </nav>
           </main>
+        </div>
 
-          {page !== 'offers' ? null : sideOpen ? (
-            <aside className="mw-side">
-              <div
-                className="mw-side-resize"
-                role="separator"
-                aria-orientation="vertical"
-                aria-label="Resize offer library"
-                aria-valuenow={sideW}
-                tabIndex={0}
-                onPointerDown={dragSide}
-                onDoubleClick={() => setSideW(340)}
-                onKeyDown={e => {
-                  if (e.key === 'ArrowLeft') setSideW(w => Math.min(640, w + 20));
-                  if (e.key === 'ArrowRight') setSideW(w => Math.max(260, w - 20));
-                }}
-              />
-              <div className="mw-side-head">
-                <div className="mw-side-title">
-                  <span>
-                    <RefreshCcw size={15} />
-                  </span>
-                  <div>
-                    <h4>Offer library</h4>
-                    <small>
-                      {altGroups.reduce((t, [, l]) => t + l.length, 0)} available to add · up to 15 per membership
-                    </small>
-                  </div>
-                  <button
-                    type="button"
-                    className="mw-side-toggle"
-                    aria-label="Collapse offer library"
-                    title="Collapse"
-                    onClick={() => setSideOpen(false)}
-                  >
-                    <PanelRightClose size={15} />
-                  </button>
+        {libraryOpen && (
+          <div className="mp-drawer-scrim" onClick={() => setLibraryOpen(false)} role="presentation">
+            <aside
+              className="mp-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Offer library"
+              onClick={e => e.stopPropagation()}
+            >
+              <header className="mp-drawer-head">
+                <div
+                  className="mp-drawer-photo"
+                  style={{
+                    backgroundImage: `url(${heroPhoto(5).url})`,
+                    backgroundPosition: heroPhoto(5).pos,
+                  }}
+                  aria-hidden="true"
+                />
+                <div className="mp-drawer-veil" aria-hidden="true" />
+                <div className="mp-drawer-title">
+                  <span className="mp-drawer-kicker">Offer library · {alternates.length} available</span>
+                  <h3>Everything else we could run</h3>
+                  <p>{studio.name}’s other offers, with this month’s first. Add one, or swap it in for a card.</p>
                 </div>
-                <p className="muted">
-                  {studio.name}’s other offers, with this month’s first.{' '}
-                  {solo ? 'Adds apply to this location only.' : 'Adding copies to every location at local prices.'}
-                </p>
-                {alternates.length > 0 && (
-                  <div className="mw-side-filters">
-                    <div className="mw-side-search">
-                      <Search size={13} />
-                      <input
-                        value={altQuery}
-                        onChange={e => setAltQuery(e.target.value)}
-                        placeholder="Search library offers…"
-                        aria-label="Search offer library"
-                      />
-                      {altQuery && (
-                        <button type="button" onClick={() => setAltQuery('')} aria-label="Clear library search">
-                          <X size={12} />
-                        </button>
-                      )}
-                    </div>
-                    <div className="mw-side-scopes">
-                      {(
-                        [
-                          ['all', 'All'],
-                          ['newcomer', 'Newcomer'],
-                          ['lapsed', 'Winback'],
-                          ['renewal', 'Renewal'],
-                        ] as Array<[typeof altScope, string]>
-                      ).map(([id, label]) => (
-                        <button
-                          key={id}
-                          type="button"
-                          className={altScope === id ? 'is-on' : ''}
-                          onClick={() => setAltScope(id)}
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <button
+                  type="button"
+                  className="mp-drawer-close"
+                  aria-label="Close offer library"
+                  onClick={() => setLibraryOpen(false)}
+                >
+                  <X size={17} />
+                </button>
+              </header>
+
+              <div className="mp-drawer-tools">
+                <div className="mp-drawer-search">
+                  <Search size={14} />
+                  <input
+                    value={altQuery}
+                    onChange={e => setAltQuery(e.target.value)}
+                    placeholder="Search the library…"
+                    aria-label="Search offer library"
+                  />
+                  {altQuery && (
+                    <button type="button" onClick={() => setAltQuery('')} aria-label="Clear library search">
+                      <X size={12} />
+                    </button>
+                  )}
+                </div>
+                <div className="mp-drawer-scopes">
+                  {(
+                    [
+                      ['all', 'All'],
+                      ['newcomer', 'Newcomer'],
+                      ['lapsed', 'Winback'],
+                      ['renewal', 'Renewal'],
+                    ] as Array<[typeof altScope, string]>
+                  ).map(([id, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      className={altScope === id ? 'is-on' : ''}
+                      onClick={() => setAltScope(id)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
               </div>
-              {alternates.length ? (
-                altGroups.length ? (
-                  altGroups.map(([group, list]) => (
-                    <section key={group} className="mw-alt-group">
-                      <h5>
-                        {group} <em>{list.length}</em>
-                      </h5>
-                      {list.map(o => {
-                        const approved = o.approval_status === 'approved';
-                        const flipped = flippedAlt === o.id;
-                        const stop = (e: React.SyntheticEvent) => e.stopPropagation();
-                        return (
-                          <div
-                            key={o.id}
-                            role="button"
-                            tabIndex={0}
-                            aria-pressed={flipped}
-                            className={`mw-alt mw-flip${flipped ? ' is-flipped' : ''}${approved ? ' is-approved' : ''}`}
-                            onClick={() => setFlippedAlt(f => (f === o.id ? null : o.id))}
-                            onKeyDown={e => {
-                              if (e.target !== e.currentTarget || (e.key !== 'Enter' && e.key !== ' ')) return;
-                              e.preventDefault();
-                              setFlippedAlt(f => (f === o.id ? null : o.id));
-                            }}
-                          >
-                            <div className="mw-flip-inner">
-                              <div className={`mw-flip-face mw-flip-front slot-${o.plan_slot || 'any'}`}>
-                                <div className="mw-lc-top">
-                                  <em>
-                                    {o.plan_slot
-                                      ? o.plan_slot === 'lapsed'
-                                        ? 'Winback'
-                                        : titleCase(o.plan_slot)
-                                      : 'Any audience'}
-                                  </em>
-                                  <span>{o.month ? MONTHS[o.month - 1].slice(0, 3) : 'Always on'}</span>
-                                </div>
-                                <strong>{o.name}</strong>
-                                {(o.benefit || o.headline) && <p>{o.benefit || o.headline}</p>}
-                                <div className="mw-lc-foot">
-                                  <span className="mw-lc-type">{titleCase(o.offer_type)}</span>
-                                  <b>{money(o.expected_revenue, true)}</b>
+
+              <div className="mp-drawer-body">
+                {alternates.length ? (
+                  altGroups.length ? (
+                    altGroups.map(([group, list]) => (
+                      <section key={group} className="mp-lib-group">
+                        <h5>
+                          {group} <em>{list.length}</em>
+                        </h5>
+                        {list.map((o, idx) => {
+                          const approved = o.approval_status === 'approved';
+                          const open = openAlt === o.id;
+                          const photo = pickOfferCardPhoto(o, o.plan_slot, idx + 1);
+                          const slotText = o.plan_slot
+                            ? o.plan_slot === 'lapsed'
+                              ? 'Winback'
+                              : titleCase(o.plan_slot)
+                            : 'Any audience';
+                          return (
+                            <div key={o.id} className={`mp-lib-row${open ? ' is-open' : ''}`}>
+                              <button
+                                type="button"
+                                className="mp-lib-main"
+                                aria-expanded={open}
+                                onClick={() => setOpenAlt(open ? null : o.id)}
+                              >
+                                <span
+                                  className="mp-lib-thumb"
+                                  style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
+                                  aria-hidden="true"
+                                />
+                                <span className="mp-lib-copy">
+                                  <span className="mp-lib-slot">
+                                    {slotText}
+                                    {approved && <b>Approved</b>}
+                                  </span>
+                                  <strong>{o.name}</strong>
+                                  <em>{o.benefit || o.headline || titleCase(o.offer_type)}</em>
+                                </span>
+                                <span className="mp-lib-side">
+                                  <b>{lakh(n(o.expected_revenue))}</b>
+                                  <ChevronDown size={14} className={open ? 'is-flipped' : undefined} />
+                                </span>
+                              </button>
+                              {open && (
+                                <div className="mp-lib-detail">
+                                  {(o.rationale || o.customer_copy) && (
+                                    <p>
+                                      {String(o.rationale || o.customer_copy)
+                                        .split('\n')[0]
+                                        .replace(/^Why: /, '')}
+                                    </p>
+                                  )}
+                                  <dl>
+                                    <div>
+                                      <dt>Audience</dt>
+                                      <dd>{o.audience || '—'}</dd>
+                                    </div>
+                                    <div>
+                                      <dt>Value</dt>
+                                      <dd>
+                                        {Number(o.effective_discount)
+                                          ? `${Number(o.effective_discount).toFixed(0)}% effective`
+                                          : 'At list'}
+                                      </dd>
+                                    </div>
+                                    <div>
+                                      <dt>Avg ticket</dt>
+                                      <dd>{o.expected_asp ? lakh(n(o.expected_asp)) : '—'}</dd>
+                                    </div>
+                                    <div>
+                                      <dt>Buyers</dt>
+                                      <dd>{o.target_purchases || '—'}</dd>
+                                    </div>
+                                  </dl>
+                                  {o.redemption_conditions && <p className="mp-lib-fine">{o.redemption_conditions}</p>}
                                   {offersEditable && !approved && (
-                                    <span className="mw-alt-actions" onClick={stop} onKeyDown={stop}>
+                                    <div className="mp-lib-actions">
                                       <button
-                                        aria-label={`Add ${o.name}`}
-                                        title="Add to month"
+                                        type="button"
+                                        className="mp-lib-add"
                                         disabled={busy}
                                         onClick={() => offerChange({ op: 'add', offerId: o.id }, `“${o.name}” added`)}
                                       >
-                                        <Plus size={14} />
+                                        <Plus size={13} /> Add to month
                                       </button>
                                       {selected.length > 0 && (
-                                        <label className="mw-alt-replace" title="Replace a current offer">
-                                          <RefreshCcw size={13} />
+                                        <label
+                                          className="mp-lib-swap"
+                                          title="Swap this offer in for one of the month's cards"
+                                        >
+                                          <RefreshCcw size={12} />
                                           <select
                                             aria-label={`Replace an offer with ${o.name}`}
                                             disabled={busy}
@@ -4161,7 +4202,7 @@ export default function MonthWorkspace({
                                             onChange={e => replaceOffer(Number(e.target.value), o)}
                                           >
                                             <option value="" disabled>
-                                              Replace…
+                                              Swap for…
                                             </option>
                                             {selected.map(cur => (
                                               <option
@@ -4175,72 +4216,31 @@ export default function MonthWorkspace({
                                           </select>
                                         </label>
                                       )}
+                                    </div>
+                                  )}
+                                  {approved && (
+                                    <span className="mp-lib-approved">
+                                      <CheckCircle2 size={12} /> Approved for {MONTHS[month - 1]} — reopen the month to
+                                      swap it.
                                     </span>
                                   )}
                                 </div>
-                              </div>
-                              <div className="mw-flip-face mw-flip-back" aria-hidden={!flipped}>
-                                <small>{o.headline || 'Offer details'}</small>
-                                {o.customer_copy && <em>“{o.customer_copy}”</em>}
-                                <dl>
-                                  <div>
-                                    <dt>Audience</dt>
-                                    <dd>{o.audience || '—'}</dd>
-                                  </div>
-                                  <div>
-                                    <dt>Value</dt>
-                                    <dd>
-                                      {Number(o.effective_discount)
-                                        ? `${Number(o.effective_discount).toFixed(0)}% effective`
-                                        : 'At list'}
-                                    </dd>
-                                  </div>
-                                  <div>
-                                    <dt>Avg ticket</dt>
-                                    <dd>{o.expected_asp ? money(o.expected_asp) : '—'}</dd>
-                                  </div>
-                                  <div>
-                                    <dt>Buyers</dt>
-                                    <dd>{o.target_purchases || '—'}</dd>
-                                  </div>
-                                </dl>
-                                {o.rationale && (
-                                  <p>
-                                    {String(o.rationale)
-                                      .split('\n')[0]
-                                      .replace(/^Why: /, '')}
-                                  </p>
-                                )}
-                                {o.redemption_conditions && <p className="mw-flip-fine">{o.redemption_conditions}</p>}
-                              </div>
+                              )}
                             </div>
-                          </div>
-                        );
-                      })}
-                    </section>
-                  ))
+                          );
+                        })}
+                      </section>
+                    ))
+                  ) : (
+                    <p className="mp-drawer-empty">No library offers match “{altQuery || altScope}”.</p>
+                  )
                 ) : (
-                  <p className="muted">No library offers match “{altQuery || altScope}”.</p>
-                )
-              ) : (
-                <p className="muted">No other offers for this studio yet.</p>
-              )}
+                  <p className="mp-drawer-empty">No other offers for this studio yet.</p>
+                )}
+              </div>
             </aside>
-          ) : (
-            <aside className="mw-side is-collapsed">
-              <button
-                type="button"
-                className="mw-side-toggle"
-                aria-label="Expand offer library"
-                title="Offer library"
-                onClick={() => setSideOpen(true)}
-              >
-                <PanelRightOpen size={15} />
-              </button>
-              <span className="mw-side-rail">Offer library</span>
-            </aside>
-          )}
-        </div>
+          </div>
+        )}
 
         {coverOpen && (
           <MonthCover

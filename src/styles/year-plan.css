@@ -368,7 +368,7 @@
   margin: 0;
   font-size: 10px;
 }
-.ws-month-grid .ws-keydates {
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates {
   margin: 11px 16px 0;
 }
 :is(.ws-month-grid, .ws-year-timeline) .ws-keydates > svg {
@@ -726,6 +726,195 @@
     width: 44px;
     height: 44px;
     font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-year-timeline .yt-card {
+    transition: none;
+  }
+  .ws-year-timeline .yt-card:hover {
+    transform: none;
+  }
+}
+
+/* ── Timeline rows ─────────────────────────────────────────────────────────── */
+/* The same paper, radius and type scale as the month cards, so switching between the
+   two views of the year does not feel like switching applications. */
+.ws-year-timeline {
+  gap: 15px;
+}
+.ws-year-timeline::before {
+  left: 30px;
+  width: 1px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--a1, #5b4fd6) 26%, #e6e3ee), #eceae6 62%, transparent);
+}
+.ws-year-timeline li {
+  grid-template-columns: 60px minmax(0, 1fr);
+  gap: 16px;
+}
+.ws-year-timeline .yt-card {
+  gap: 13px;
+  padding: 18px 20px 16px;
+  border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 9%, #e7e4ee);
+  border-radius: 19px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(25, 26, 36, 0.04),
+    0 18px 34px -30px rgba(25, 26, 36, 0.45);
+  transition:
+    transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.24s ease,
+    border-color 0.24s ease;
+}
+.ws-year-timeline .yt-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 26%, #e7e4ee);
+  box-shadow:
+    0 1px 2px rgba(25, 26, 36, 0.04),
+    0 24px 44px -30px rgba(25, 26, 36, 0.5);
+}
+.ws-year-timeline li.approved .yt-card,
+.ws-year-timeline li.plan-approved .yt-card {
+  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 22%, #e7e4ee);
+  border-left-color: var(--a1, #5b4fd6);
+  background: #ffffff;
+  filter: none;
+  opacity: 1;
+}
+.ws-year-timeline .yt-rail span {
+  width: 60px;
+  height: 60px;
+  border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 16%, #e7e4ee);
+  border-radius: 50%;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--a1, #5b4fd6) 8%, #ffffff), #ffffff 66%);
+  color: color-mix(in srgb, var(--a1, #5b4fd6) 82%, #1b1824);
+  font-family: var(--display, 'Bodoni Moda', Georgia, serif);
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  box-shadow: 0 8px 18px -16px rgba(25, 26, 36, 0.5);
+}
+.ws-year-timeline .yt-title em {
+  display: block;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--a1, #5b4fd6) 68%, #4a4657);
+}
+.ws-year-timeline .yt-title h3 {
+  margin: 5px 0 5px;
+  font-family: var(--display, 'Bodoni Moda', Georgia, serif);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.024em;
+  color: #1b1824;
+}
+.ws-year-timeline .yt-title p {
+  max-width: 74ch;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #7b7887;
+  text-wrap: pretty;
+}
+.ws-year-timeline .yt-target {
+  gap: 6px;
+}
+.ws-year-timeline .yt-target strong {
+  font-size: 29px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: #1b1824;
+}
+.ws-year-timeline .yt-target small {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #1f8a5f 9%, #ffffff);
+  color: #1b7357;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.ws-year-timeline .yt-target small.neg {
+  background: color-mix(in srgb, var(--a2, #e8704f) 12%, #ffffff);
+  color: #ac4c3b;
+}
+.ws-year-timeline .yt-renew {
+  font-size: 11.5px;
+  color: #7b7887;
+}
+.ws-year-timeline .yt-renew i {
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--a1, #5b4fd6) 9%, #eef0f4);
+}
+.ws-year-timeline .yt-renew i::after {
+  border-radius: inherit;
+}
+.ws-year-timeline .yt-grid {
+  gap: 0;
+  border-top: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 10%, #eceae6);
+  padding-top: 11px;
+}
+.ws-year-timeline .yt-grid > div {
+  padding: 0 14px;
+  border-radius: 0;
+  border-left: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 8%, #eceae6);
+  background: transparent;
+}
+.ws-year-timeline .yt-grid > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.ws-year-timeline .yt-grid small {
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9a97a6;
+}
+.ws-year-timeline .yt-grid b {
+  margin-top: 3px;
+  font-size: 12px;
+  font-weight: 620;
+  line-height: 1.4;
+  color: #2c2939;
+}
+.ws-year-timeline .yt-stats b {
+  font-family: var(--display, 'Bodoni Moda', Georgia, serif);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+@media (max-width: 900px) {
+  .ws-year-timeline::before {
+    left: 20px;
+  }
+  .ws-year-timeline li {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 11px;
+  }
+  .ws-year-timeline .yt-rail span {
+    width: 42px;
+    height: 42px;
+    font-size: 11px;
+  }
+  .ws-year-timeline .yt-card {
+    padding: 15px 16px 14px;
+  }
+  .ws-year-timeline .yt-title h3 {
+    font-size: 22px;
   }
 }
 
