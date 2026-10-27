@@ -4756,7 +4756,14 @@ function OfferCard({
       className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${slot ? ` slot-${slot}` : ''}`}
     >
       <div className="oc-hero">
-        <div className="oc-hero-copy">
+        <div
+          className="oc-hero-image"
+          aria-hidden="true"
+          style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }}
+        />
+        <div className="oc-hero-scrim" aria-hidden="true" />
+
+        <div className="oc-hero-top">
           <div className="oc-chips">
             <span className="oc-num-badge" aria-hidden="true">
               <span>{offerNum}</span>
@@ -4789,19 +4796,7 @@ function OfferCard({
               {linked ? <Link2 size={11} /> : <Unlink size={11} />}
             </span>
           </div>
-          <h3 className="oc-title">
-            {restTitle ? (
-              <>
-                <span className="oc-title-accent">{leadTitle}</span> {restTitle}
-              </>
-            ) : (
-              <span className="oc-title-accent">{leadTitle}</span>
-            )}
-          </h3>
-          {o.headline && <p className="oc-job">{o.headline}</p>}
-        </div>
 
-        <div className="oc-hero-side">
           {(editable || (canSwap && !shown)) && (
             <div className="oc-toolbar">
               <div className="oc-icon-group">
@@ -4857,7 +4852,7 @@ function OfferCard({
                 {editable && onDelete && (
                   <button
                     type="button"
-                    aria-label={`Delete ${o.name}`}
+                    aria-label={`Delete ${o.name} permanently`}
                     title="Delete offer permanently"
                     className="oc-icon-btn danger"
                     onClick={onDelete}
@@ -4869,88 +4864,94 @@ function OfferCard({
               </div>
             </div>
           )}
-          <div
-            className="oc-hero-thumb"
-            aria-hidden="true"
-            style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }}
-          />
+        </div>
+
+        <div className="oc-hero-copy">
+          <h3 className="oc-title">
+            {restTitle ? (
+              <>
+                <span className="oc-title-accent">{leadTitle}</span> {restTitle}
+              </>
+            ) : (
+              <span className="oc-title-accent">{leadTitle}</span>
+            )}
+          </h3>
+          {o.headline && <p className="oc-job">{o.headline}</p>}
         </div>
       </div>
 
       <div className="oc-sheet">
-        {/* Price, what the client gets, and how much of the month's target this offer carries. */}
-        <div className="oc-band">
-          <div className="oc-band-cell">
-            <span className="oc-label">{offerColLabel}</span>
-            <span className="oc-price-line">
-              <strong>{offerPrice ? money(offerPrice) : '—'}</strong>
-              {strikePrice && <s>{money(strikePrice)}</s>}
-            </span>
-            <small className="oc-band-note">
-              {offerColSub || listColSub || (offerPrice ? 'Per membership' : 'Not priced yet')}
-            </small>
+        {/* Money first: what it sells for, what the client gains, what it brings in. */}
+        <div className="oc-deal">
+          <div className="oc-deal-primary">
+            <div>
+              <span className="oc-label">{offerColLabel}</span>
+              <span className="oc-price-line">
+                <strong>{offerPrice ? money(offerPrice) : '—'}</strong>
+                {strikePrice && <s>{money(strikePrice)}</s>}
+              </span>
+              <small className="oc-note">
+                {offerColSub || listColSub || (offerPrice ? 'Per membership' : 'Not priced yet')}
+              </small>
+            </div>
+            <div>
+              <span className="oc-label">Client gets</span>
+              <span className="oc-deal-value">
+                {savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}
+              </span>
+              <small className="oc-note">
+                {strikePrice
+                  ? `List ${money(strikePrice)}`
+                  : cashDisc && cashDisc > 0
+                    ? `${Math.round(cashDisc * 100)}% off list`
+                    : effPct > 0
+                      ? 'Structured perk value'
+                      : 'No price cut'}
+              </small>
+            </div>
+            <div>
+              <span className="oc-label">Revenue forecast</span>
+              <span className="oc-deal-value">{revenue !== null ? lakh(revenue) : '—'}</span>
+              <small className="oc-note">
+                {units ? `${number(units)} sales planned` : revenue !== null ? 'Units not set' : 'No forecast yet'}
+              </small>
+            </div>
           </div>
-          <div className="oc-band-cell">
-            <span className="oc-label">Client gets</span>
-            <span className="oc-band-value">
-              {savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}
-            </span>
-            <small className="oc-band-note">
-              {strikePrice
-                ? `List ${money(strikePrice)}`
-                : cashDisc && cashDisc > 0
-                  ? `${Math.round(cashDisc * 100)}% off list`
-                  : effPct > 0
-                    ? 'Structured perk value'
-                    : 'No price cut'}
-            </small>
-          </div>
-          <div className="oc-band-cell oc-band-share">
-            {sharePct !== null ? (
-              <>
-                <span className="oc-label">Share of month target</span>
-                <span className="oc-band-value">{`${sharePct.toFixed(sharePct < 10 ? 1 : 0)}%`}</span>
-                <span className="oc-share-bar" aria-hidden="true">
-                  <i style={{ width: `${Math.min(Math.max(sharePct, 2), 100).toFixed(1)}%` }} />
-                </span>
-                <small className="oc-band-note">{lakh(monthTarget)} target</small>
-              </>
-            ) : (
-              <>
-                <span className="oc-label">Planned sales</span>
-                <span className="oc-band-value">{units ? number(units) : '—'}</span>
-                <small className="oc-band-note">{revenue !== null ? `${lakh(revenue)} forecast` : 'No forecast'}</small>
-              </>
-            )}
+
+          <div className="oc-deal-secondary">
+            <div>
+              <span className="oc-label">Units</span>
+              <span className={units ? 'oc-deal-mini' : 'oc-deal-mini is-muted'}>
+                {number(units)}
+                {perWeek > 0 && <em>~{perWeek}/wk</em>}
+              </span>
+            </div>
+            <div>
+              <span className="oc-label">Effective discount</span>
+              <span className={effPct > 0 ? 'oc-deal-mini' : 'oc-deal-mini is-muted'}>
+                {effPct > 0 ? fmtPct(effPct) : 'None'}
+              </span>
+            </div>
+            <div>
+              <span className="oc-label">Contribution</span>
+              <span
+                className={contribution === null ? 'oc-deal-mini is-muted' : 'oc-deal-mini'}
+                title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
+              >
+                {contribution === null ? 'Not set' : lakh(contribution)}
+              </span>
+            </div>
+            <div className="oc-deal-share">
+              <span className="oc-label">Share of month target</span>
+              <span className="oc-deal-mini" title={monthTarget ? `${lakh(monthTarget)} target` : undefined}>
+                {sharePct !== null ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}%` : '—'}
+              </span>
+              <span className="oc-share-bar" aria-hidden="true">
+                <i style={{ width: `${Math.min(Math.max(sharePct ?? 0, 2), 100).toFixed(1)}%` }} />
+              </span>
+            </div>
           </div>
         </div>
-
-        <dl className="oc-kpis">
-          <div>
-            <dt>Revenue</dt>
-            <dd>{revenue !== null ? lakh(revenue) : '—'}</dd>
-          </div>
-          <div>
-            <dt>Units</dt>
-            <dd>
-              {number(units)}
-              {perWeek > 0 && <small>~{perWeek}/wk</small>}
-            </dd>
-          </div>
-          <div>
-            <dt>Effective discount</dt>
-            <dd className={effPct > 0 ? '' : 'is-muted'}>{effPct > 0 ? fmtPct(effPct) : 'None'}</dd>
-          </div>
-          <div>
-            <dt>Contribution</dt>
-            <dd
-              className={contribution === null ? 'is-muted' : ''}
-              title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
-            >
-              {contribution === null ? 'Not set' : lakh(contribution)}
-            </dd>
-          </div>
-        </dl>
 
         {mechanicsText && (
           <div className="oc-how">
