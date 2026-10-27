@@ -62,6 +62,7 @@ import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor } from '../../data/keyDates
 import { MONTHS, money, number, titleCase } from '../../types';
 import type { ActionItem } from '../../data/planDefaults';
 import { monthActivations } from './CampaignsTab';
+import MonthCover from './MonthCover';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
@@ -500,6 +501,8 @@ export default function MonthWorkspace({
     [prices, setPrices] = useState<Prices | null>(null),
     [masterCode, setMasterCode] = useState(''),
     [masterCodeError, setMasterCodeError] = useState('');
+  // The cover is the first page of a month: it mounts with the workspace and re-animates on month changes.
+  const [coverOpen, setCoverOpen] = useState(true);
   const plan = data.plans[studioIdx],
     studio = plan.studio,
     row = plan.months[month - 1],
@@ -1234,7 +1237,8 @@ export default function MonthWorkspace({
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        if (coverOpen) setCoverOpen(false);
+        else onClose();
         return;
       }
       const el = e.target as HTMLElement | null;
@@ -1253,7 +1257,7 @@ export default function MonthWorkspace({
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [month, onClose, setMonth]);
+  }, [month, onClose, setMonth, coverOpen]);
 
   const jumpToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1291,6 +1295,15 @@ export default function MonthWorkspace({
   const event = local.find(a => !a.Format?.toLowerCase().includes('challenge'));
   const fieldProps = { disabled: !editable };
   const coverage = econ?.renewal.coverage ?? null;
+  const coverStreams = [
+    { key: 'newClient', label: 'New clients', value: n(form.streams.newClient) },
+    { key: 'renewal', label: 'Renewals', value: n(form.streams.renewal) },
+    { key: 'reactivation', label: 'Comeback', value: n(form.streams.reactivation) },
+  ];
+  const coverPhoto = selected[0]
+    ? pickOfferCardPhoto(selected[0], slotOf(selected[0].id), month)
+    : pickOfferCardPhoto({ name: `${form.theme || row.theme} ${MONTHS[month - 1]}`, month }, 'newcomer', month);
+  const coverStatus = locked ? 'approved' : approved ? 'locked' : 'proposed';
   const unlockEditing = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -1309,12 +1322,12 @@ export default function MonthWorkspace({
   return (
     <div className="mw-backdrop" onMouseDown={e => e.target === e.currentTarget && onClose()}>
       <section
-        className={`mw accented ${editable ? 'is-editable' : 'is-readonly'}`}
+        className={`mw accented ${editable ? 'is-editable' : 'is-readonly'} ${coverOpen ? 'has-cover' : ''}`}
         role="dialog"
         aria-label={`${MONTHS[month - 1]} plan`}
         style={{ '--a1': accentFor(studio.name) } as React.CSSProperties}
       >
-        <header className="mw-hero">
+        <header className="mw-hero" inert={coverOpen}>
           <div className="mw-hero-fx" aria-hidden="true">
             <i className="mw-aurora mw-aurora-a" />
             <i className="mw-aurora mw-aurora-b" />
@@ -1546,7 +1559,7 @@ export default function MonthWorkspace({
           )}
         </header>
 
-        <div className="mw-marquee-dock">
+        <div className="mw-marquee-dock" inert={coverOpen}>
           <Marquee
             variant="minimal"
             tag="MONTH PULSE"
@@ -1593,6 +1606,7 @@ export default function MonthWorkspace({
         <div
           className={`mw-body pane-offers ${sideOpen ? 'is-side-open' : 'is-side-collapsed'}`}
           style={{ gridTemplateColumns: `minmax(0, 1fr) ${sideOpen ? sideW : 48}px` }}
+          inert={coverOpen}
         >
           <main className={`mw-main ${locked ? 'is-locked' : ''}`}>
             <nav className="mw-quicknav" aria-label="Jump to section">
@@ -4268,6 +4282,33 @@ export default function MonthWorkspace({
             </aside>
           )}
         </div>
+
+        {coverOpen && (
+          <MonthCover
+            key={`cover-${month}-${studioIdx}`}
+            month={month}
+            year={year}
+            studioName={studio.name}
+            theme={form.theme || row.theme}
+            brief={form.objective || row.objective}
+            target={effective}
+            lastYear={row.lastYear}
+            streams={coverStreams}
+            leads={row.leads}
+            trials={row.trials}
+            buyers={row.buyers}
+            renewalsDue={econ?.renewal.projectedExpiries || row.renewalsDue || 0}
+            renewalCoverage={coverage}
+            dates={dates}
+            offers={selected.length}
+            status={coverStatus}
+            photo={coverPhoto}
+            onOpen={() => setCoverOpen(false)}
+            onClose={onClose}
+            onPrev={() => month > 1 && setMonth(month - 1)}
+            onNext={() => month < 12 && setMonth(month + 1)}
+          />
+        )}
       </section>
     </div>
   );
