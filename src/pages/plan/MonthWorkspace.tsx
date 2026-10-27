@@ -9,10 +9,13 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronsDownUp,
+  ChevronsUpDown,
   Copy,
   FileText,
   Flag,
   Gift,
+  Globe,
   Handshake,
   HeartHandshake,
   LayoutGrid,
@@ -21,20 +24,27 @@ import {
   LockKeyhole,
   ListChecks,
   Minus,
+  Package,
   PartyPopper,
   Pencil,
+  Percent,
   Plus,
+  Quote,
   RefreshCcw,
   RotateCcw,
   Save,
   Search,
+  ShieldCheck,
+  ShoppingBag,
   Sigma,
   SlidersHorizontal,
   Loader2,
   Sparkles,
   Tag,
   Target,
+  TrendingUp,
   Users,
+  Wallet,
   Trash2,
   Trophy,
   Unlink,
@@ -47,12 +57,12 @@ import { useApp } from '../../App';
 import { Badge, Button } from '../../components/ui';
 import { LOCATION_COLORS, accentFor, locationStudioIds } from '../../data/locations';
 import Marquee from '../../components/Marquee';
-import FestivalArt from '../../components/FestivalArt';
 import MarketingCollaterals from '../../components/MarketingCollaterals';
 import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor } from '../../data/keyDates';
 import { MONTHS, money, number, titleCase } from '../../types';
 import type { ActionItem } from '../../data/planDefaults';
 import { monthActivations } from './CampaignsTab';
+import MonthCover from './MonthCover';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
@@ -264,6 +274,16 @@ function RichText({ text }: { text: string }) {
   return <div className="mw-rich">{blocks}</div>;
 }
 const n = (v: any) => (Number.isFinite(Number(v)) ? Number(v) : 0);
+// Minimal line icons for the important-days list.
+const DAY_KIND_ICONS = {
+  festival: PartyPopper,
+  holiday: CalendarHeart,
+  awareness: HeartHandshake,
+  global: Globe,
+  retail: ShoppingBag,
+  brand: Sparkles,
+} as const;
+
 const hasValidForecast = (o: any) => {
   if (
     !o ||
@@ -481,6 +501,8 @@ export default function MonthWorkspace({
     [prices, setPrices] = useState<Prices | null>(null),
     [masterCode, setMasterCode] = useState(''),
     [masterCodeError, setMasterCodeError] = useState('');
+  // The cover is the first page of a month: it mounts with the workspace and re-animates on month changes.
+  const [coverOpen, setCoverOpen] = useState(true);
   const plan = data.plans[studioIdx],
     studio = plan.studio,
     row = plan.months[month - 1],
@@ -639,6 +661,13 @@ export default function MonthWorkspace({
   const updateContent = (patch: Record<string, unknown>) =>
     setForm(f => ({ ...f, content: { ...(f.content || {}), ...patch } }));
   const hiddenSections: string[] = Array.isArray(form.content?.hiddenSections) ? form.content.hiddenSections : [];
+  // Offer cards start collapsed to their hero, and the open ones persist with the month plan
+  // (so the layout survives reloads and rides the existing autosave).
+  const expandedOffers: number[] = Array.isArray(form.content?.expandedOffers)
+    ? (form.content.expandedOffers as number[])
+    : [];
+  const allOffersExpanded = selected.length > 0 && selected.every(o => expandedOffers.includes(o.id));
+  const toggleAllOffers = () => updateContent({ expandedOffers: allOffersExpanded ? [] : selected.map(o => o.id) });
   const isSectionVisible = (secKey: string) => !hiddenSections.includes(secKey);
   const hideSection = (secKey: string) => updateContent({ hiddenSections: [...new Set([...hiddenSections, secKey])] });
   const restoreSection = (secKey: string) =>
@@ -1208,7 +1237,8 @@ export default function MonthWorkspace({
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        if (coverOpen) setCoverOpen(false);
+        else onClose();
         return;
       }
       const el = e.target as HTMLElement | null;
@@ -1227,7 +1257,7 @@ export default function MonthWorkspace({
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [month, onClose, setMonth]);
+  }, [month, onClose, setMonth, coverOpen]);
 
   const jumpToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1265,6 +1295,15 @@ export default function MonthWorkspace({
   const event = local.find(a => !a.Format?.toLowerCase().includes('challenge'));
   const fieldProps = { disabled: !editable };
   const coverage = econ?.renewal.coverage ?? null;
+  const coverStreams = [
+    { key: 'newClient', label: 'New clients', value: n(form.streams.newClient) },
+    { key: 'renewal', label: 'Renewals', value: n(form.streams.renewal) },
+    { key: 'reactivation', label: 'Comeback', value: n(form.streams.reactivation) },
+  ];
+  const coverPhoto = selected[0]
+    ? pickOfferCardPhoto(selected[0], slotOf(selected[0].id), month)
+    : pickOfferCardPhoto({ name: `${form.theme || row.theme} ${MONTHS[month - 1]}`, month }, 'newcomer', month);
+  const coverStatus = locked ? 'approved' : approved ? 'locked' : 'proposed';
   const unlockEditing = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -1283,12 +1322,12 @@ export default function MonthWorkspace({
   return (
     <div className="mw-backdrop" onMouseDown={e => e.target === e.currentTarget && onClose()}>
       <section
-        className={`mw accented ${editable ? 'is-editable' : 'is-readonly'}`}
+        className={`mw accented ${editable ? 'is-editable' : 'is-readonly'} ${coverOpen ? 'has-cover' : ''}`}
         role="dialog"
         aria-label={`${MONTHS[month - 1]} plan`}
         style={{ '--a1': accentFor(studio.name) } as React.CSSProperties}
       >
-        <header className="mw-hero">
+        <header className="mw-hero" inert={coverOpen}>
           <div className="mw-hero-fx" aria-hidden="true">
             <i className="mw-aurora mw-aurora-a" />
             <i className="mw-aurora mw-aurora-b" />
@@ -1520,7 +1559,7 @@ export default function MonthWorkspace({
           )}
         </header>
 
-        <div className="mw-marquee-dock">
+        <div className="mw-marquee-dock" inert={coverOpen}>
           <Marquee
             variant="minimal"
             tag="MONTH PULSE"
@@ -1567,6 +1606,7 @@ export default function MonthWorkspace({
         <div
           className={`mw-body pane-offers ${sideOpen ? 'is-side-open' : 'is-side-collapsed'}`}
           style={{ gridTemplateColumns: `minmax(0, 1fr) ${sideOpen ? sideW : 48}px` }}
+          inert={coverOpen}
         >
           <main className={`mw-main ${locked ? 'is-locked' : ''}`}>
             <nav className="mw-quicknav" aria-label="Jump to section">
@@ -1770,11 +1810,10 @@ export default function MonthWorkspace({
                                 style={editable ? { cursor: 'pointer' } : undefined}
                                 title={editable ? 'Click to edit play & channel details' : undefined}
                               >
-                                <FestivalArt name={d.name} kind={d.kind} />
-                                <span className="mw-day-date">
-                                  <b>{formatKeyDate(d)}</b>
-                                  <small>{MONTHS[month - 1].slice(0, 3)}</small>
-                                </span>
+                                {(() => {
+                                  const Icon = DAY_KIND_ICONS[d.kind as keyof typeof DAY_KIND_ICONS] || CalendarHeart;
+                                  return <Icon size={17} strokeWidth={1.6} />;
+                                })()}
                               </div>
                               <div className="mw-day-body">
                                 {editable ? (
@@ -1863,7 +1902,9 @@ export default function MonthWorkspace({
                                   <>
                                     <strong>{d.name}</strong>
                                     <span className="mw-day-meta">
-                                      <em>{KEY_DATE_LABELS[d.kind as keyof typeof KEY_DATE_LABELS]}</em>
+                                      <em>
+                                        {formatKeyDate(d)} {MONTHS[month - 1].slice(0, 3)}
+                                      </em>
                                       <i className={left < 0 ? 'is-past' : left <= 14 ? 'is-soon' : ''}>
                                         {left < 0 ? 'Passed' : left === 0 ? 'Today' : `in ${left}d`}
                                       </i>
@@ -1969,6 +2010,13 @@ export default function MonthWorkspace({
                   : FOCUS_POINTS[month] || [];
                 const setPoints = (next: string[]) => updateContent({ focusPoints: next });
                 const strategyLines = parseStrategyLines(form.strategy);
+                // Plan notes carry the month's numbers and cohort maths; surface them under the plays so
+                // the strategy column carries as much substance as the focus-points panel beside it.
+                const strategyContext = String(form.notes || '')
+                  .split(/\n+/)
+                  .map(line => line.replace(/^\s*[-•*]\s*/, '').trim())
+                  .filter(Boolean)
+                  .slice(0, 5);
                 const setStrategyLines = (next: string[]) => set({ strategy: serializeStrategyLines(next) });
                 const aiMeta = form.content?.ai || null;
                 const splitRationaleLines = aiMeta?.splitRationale
@@ -2411,16 +2459,26 @@ export default function MonthWorkspace({
                               </ol>
                             )
                           ) : strategyLines.length > 0 ? (
-                            <ol className="mw-fu-strategy-cards">
-                              {strategyLines.map((line, idx) => (
-                                <li key={idx}>
-                                  <b>{String(idx + 1).padStart(2, '0')}</b>
-                                  <div className="mw-fu-card-copy">
-                                    <StructuredLine text={line} />
-                                  </div>
-                                </li>
-                              ))}
-                            </ol>
+                            <>
+                              <ol className="mw-fu-strategy-cards">
+                                {strategyLines.map((line, idx) => (
+                                  <li key={idx}>
+                                    <b>{String(idx + 1).padStart(2, '0')}</b>
+                                    <div className="mw-fu-card-copy">
+                                      <StructuredLine text={line} />
+                                    </div>
+                                  </li>
+                                ))}
+                              </ol>
+                              {strategyContext.length > 0 && (
+                                <div className="mw-fu-strategy-context">
+                                  <span className="mw-fu-context-label">Month context</span>
+                                  {strategyContext.map((line, idx) => (
+                                    <p key={idx}>{line}</p>
+                                  ))}
+                                </div>
+                              )}
+                            </>
                           ) : (
                             <p className="mw-fu-empty">No execution strategy drafted yet.</p>
                           )}
@@ -3169,6 +3227,17 @@ export default function MonthWorkspace({
                       onDelete={() => hideSection('offers')}
                       actions={
                         <>
+                          {selected.length > 0 && (
+                            <button
+                              type="button"
+                              className="mw-mini-btn"
+                              onClick={toggleAllOffers}
+                              title={allOffersExpanded ? 'Collapse every offer card' : 'Expand every offer card'}
+                            >
+                              {allOffersExpanded ? <ChevronsDownUp size={12} /> : <ChevronsUpDown size={12} />}
+                              {allOffersExpanded ? 'Collapse all' : 'Expand all'}
+                            </button>
+                          )}
                           {selected.length >= 2 && (
                             <button
                               type="button"
@@ -3256,6 +3325,28 @@ export default function MonthWorkspace({
                         const orderedOffers = activeGroups.flatMap(g =>
                           g.offers.map(o => ({ offer: o, stream: g.label })),
                         );
+                        // One photograph per card, so no two cards in a month share a hero image.
+                        const photoById = assignMonthPhotos(
+                          orderedOffers.map(({ offer }) => ({ offer, slot: slotOf(offer.id) })),
+                        );
+                        // Month totals let each card's bars show its share of the plan.
+                        const monthUnitsTotal = orderedOffers.reduce(
+                          (sum, { offer }) => sum + (forecastRevenue(offer) > 0 ? n(offer.target_purchases) || 0 : 0),
+                          0,
+                        );
+                        // In the 2-up grid each row is a pair: expanding one card expands its neighbour so
+                        // the two columns keep the same height and the shared subgrid rows stay aligned.
+                        const toggleCardPair = (offerId: number, no: number) => {
+                          const partner = twoUp ? orderedOffers[no % 2 === 1 ? no : no - 2]?.offer : null;
+                          const ids = partner && partner.id !== offerId ? [offerId, partner.id] : [offerId];
+                          const anyClosed = ids.some(id => !expandedOffers.includes(id));
+                          updateContent({
+                            expandedOffers: anyClosed
+                              ? Array.from(new Set([...expandedOffers, ...ids]))
+                              : expandedOffers.filter(id => !ids.includes(id)),
+                          });
+                        };
+
                         const renderItem = (o: any, no: number, stream?: string) =>
                           editing === o.id ? (
                             <OfferEditor
@@ -3319,6 +3410,11 @@ export default function MonthWorkspace({
                               onDelete={() => offerChange({ op: 'delete', offerId: o.id }, `“${o.name}” deleted`)}
                               onSwap={() => regenerateOffer(o)}
                               regenerating={regenerating === o.id}
+                              monthTarget={effective}
+                              monthUnits={monthUnitsTotal}
+                              photo={photoById.get(o.id)}
+                              collapsed={!expandedOffers.includes(o.id)}
+                              onToggleCollapse={() => toggleCardPair(o.id, no)}
                             />
                           );
 
@@ -4186,6 +4282,33 @@ export default function MonthWorkspace({
             </aside>
           )}
         </div>
+
+        {coverOpen && (
+          <MonthCover
+            key={`cover-${month}-${studioIdx}`}
+            month={month}
+            year={year}
+            studioName={studio.name}
+            theme={form.theme || row.theme}
+            brief={form.objective || row.objective}
+            target={effective}
+            lastYear={row.lastYear}
+            streams={coverStreams}
+            leads={row.leads}
+            trials={row.trials}
+            buyers={row.buyers}
+            renewalsDue={econ?.renewal.projectedExpiries || row.renewalsDue || 0}
+            renewalCoverage={coverage}
+            dates={dates}
+            offers={selected.length}
+            status={coverStatus}
+            photo={coverPhoto}
+            onOpen={() => setCoverOpen(false)}
+            onClose={onClose}
+            onPrev={() => month > 1 && setMonth(month - 1)}
+            onNext={() => month < 12 && setMonth(month + 1)}
+          />
+        )}
       </section>
     </div>
   );
@@ -4530,6 +4653,64 @@ const OFFER_CARD_PHOTOS: CardPhoto[] = [
   { url: '/p57/pro/n26.jpg', pos: '58% 26%', tags: ['calm', 'strength', 'lapsed'] },
 ];
 
+// Remaining studio photography, used to keep every card in a month on its own image.
+const CARD_PHOTO_EXTRAS: CardPhoto[] = [
+  { url: '/p57/pro/n04.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n05.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n06.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n07.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n09.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n11.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n14.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n15.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n17.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n19.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n21.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n22.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n27.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n28.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p01.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p02.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p03.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p04.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p05.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p06.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p08.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p09.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p10.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p12.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p13.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p14.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p15.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p16.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p17.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p18.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p19.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p20.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p21.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p23.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p24.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p25.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p26.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p27.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p28.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p29.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p30.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p31.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p32.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p33.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p35.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p36.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p37.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p39.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p40.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p41.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p42.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p43.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p44.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/p45.jpg', pos: '56% 26%', tags: [] },
+];
+
 const CARD_PHOTO_THEMES: [RegExp, string][] = [
   [/private|consult|1-on-1|trainer|personal|coach/i, 'coaching'],
   [/friend|duo|pair|squad|refer|bring|together|reunion|couple/i, 'duo'],
@@ -4539,6 +4720,24 @@ const CARD_PHOTO_THEMES: [RegExp, string][] = [
   [/strength|lift|box|trade-up|upgrade|level up|20-class|10-pack|pack/i, 'strength'],
   [/barre|welcome|first|trial|intro|golden|bonus|punch/i, 'barre'],
 ];
+
+// Assigns each card in a month its own photograph so no two cards share a hero image.
+function assignMonthPhotos(offers: { offer: any; slot?: string }[]): Map<number, CardPhoto> {
+  const used = new Set<string>();
+  const assigned = new Map<number, CardPhoto>();
+  const pool = [...OFFER_CARD_PHOTOS, ...CARD_PHOTO_EXTRAS];
+  offers.forEach(({ offer, slot }, index) => {
+    const preferred = pickOfferCardPhoto(offer, slot, index + 1);
+    const chosen =
+      (used.has(preferred.url) ? undefined : preferred) ||
+      pool.find(photo => !used.has(photo.url)) ||
+      CARD_PHOTO_EXTRAS.find(photo => !used.has(photo.url)) ||
+      preferred;
+    used.add(chosen.url);
+    assigned.set(offer.id, chosen);
+  });
+  return assigned;
+}
 
 function pickOfferCardPhoto(o: any, slot?: string, no?: number): CardPhoto {
   if (o.provenance?.photoKey) {
@@ -4556,24 +4755,6 @@ function pickOfferCardPhoto(o: any, slot?: string, no?: number): CardPhoto {
   const seed = [...String(o.name || o.id || '')].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 13);
   const idx = (seed + (o.month || 1) * 3 + (no || 1) * 5) % pool.length;
   return pool[idx];
-}
-
-function splitOfferTitle(rawName: string): [string, string] {
-  const words = String(rawName || '')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-  if (words.length <= 1) return [words[0] || '', ''];
-  if (words.length === 2) return [words[0], words[1]];
-  const w0 = words[0].toLowerCase();
-  const w1 = words[1].toLowerCase();
-  const leadPair =
-    w0.length <= 3 ||
-    ['the', 'one', 'two', 'six', 'ten', 'new', 'all', 'get', 'try', 'win'].includes(w0) ||
-    ['up', 'in', 'on', 'to', 'by', 'of', 'or', 'your', 'the', 'out', 'back', 'more', 'where', '+'].includes(w1) ||
-    words.length >= 4;
-  const splitAt = leadPair ? 2 : 1;
-  return [words.slice(0, splitAt).join(' '), words.slice(splitAt).join(' ')];
 }
 
 function OfferCard({
@@ -4595,6 +4776,11 @@ function OfferCard({
   onDelete,
   onSwap,
   regenerating = false,
+  monthTarget = 0,
+  monthUnits = 0,
+  photo,
+  collapsed = false,
+  onToggleCollapse,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
   const parseList = (value: any) => {
@@ -4665,7 +4851,7 @@ function OfferCard({
           : 'Value-add, no price cut';
 
   const slotLabel = slot === 'lapsed' ? 'Winback' : slot ? titleCase(slot) : null;
-  const membership = productLabel || o.provenance?.pricing?.product || titleCase(o.offer_type);
+  const membership = productLabel || o.provenance?.pricing?.product || (o.offer_type ? titleCase(o.offer_type) : '');
   const objectiveLabel = o.objective ? titleCase(o.objective) : null;
   const showObjective = objectiveLabel && (!membership || objectiveLabel.toLowerCase() !== membership.toLowerCase());
 
@@ -4695,9 +4881,15 @@ function OfferCard({
     }
   })();
   const margin = fin.contributionMargin ?? o.margin_impact;
-  const mechanic = [titleCase(o.offer_type || ''), productLabel].filter(Boolean).join(' · ');
-  const [leadTitle, restTitle] = splitOfferTitle(o.name);
-  const heroPhoto = pickOfferCardPhoto(o, slot, no);
+  const mechanic = [o.offer_type ? titleCase(o.offer_type) : '', productLabel].filter(Boolean).join(' · ');
+  // The closing words of the name carry the accent, as in the studio's own cards.
+  const titleWords = String(o.name || '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  const titleAccent = titleWords.length > 1 ? (titleWords.pop() as string) : titleWords[0] || '';
+  const titleLead = titleWords.join(' ');
+  const heroPhoto: CardPhoto = photo || pickOfferCardPhoto(o, slot, no);
   const offerNum = no ? String(no).padStart(2, '0') : '01';
 
   // Imported rationale uses "Why: … / Watch: … / Model: … / Logic: … / KPI: …" lines.
@@ -4711,241 +4903,407 @@ function OfferCard({
   const [whyOpen, setWhyOpen] = useState(false);
   useEffect(() => setPending(null), [approved]);
   const shown = pending ?? !!approved;
-  const hasDrawerContent = Boolean(
-    reasons.length > 0 ||
-      o.rationale ||
-      (o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline) ||
-      o.excluded_audience ||
-      o.cta ||
-      metrics.length > 0 ||
-      risks.length > 0,
-  );
+  // The whole card is the collapse target; controls, links and text selection are left alone.
+  const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (!onToggleCollapse) return;
+    const target = event.target as HTMLElement;
+    if (target.closest('button, a, input, select, textarea, label, [role="checkbox"], [contenteditable="true"]'))
+      return;
+    if (typeof window !== 'undefined' && window.getSelection()?.toString()) return;
+    onToggleCollapse();
+  };
+  const revenue = hasValidForecast(o) ? n(o.expected_revenue) : null;
+  const contribution = margin != null && Number.isFinite(Number(margin)) ? Number(margin) : null;
+  const sharePct = monthTarget && monthTarget > 0 && revenue !== null ? (revenue / monthTarget) * 100 : null;
+  // The plan's offers carry the written mechanic in provenance; older ones keep it in mechanics,
+  // customer copy or the benefit line.
+  const mechanicsText = (() => {
+    const asText = (value: any): string => {
+      if (!value) return '';
+      if (typeof value === 'object') {
+        return String(value.summary || value.text || value.description || value.mechanic || '').trim();
+      }
+      const text = String(value).trim();
+      if (!/^[[{]/.test(text)) return text;
+      try {
+        const parsed = JSON.parse(text);
+        return parsed && typeof parsed === 'object'
+          ? String(parsed.summary || parsed.text || parsed.description || '').trim()
+          : '';
+      } catch {
+        return '';
+      }
+    };
+    const written = asText(o.provenance?.pricing?.mechanic) || asText(o.mechanics);
+    if (written) return written;
+    if (o.customer_copy && o.customer_copy !== o.headline && o.customer_copy !== o.benefit) return o.customer_copy;
+    return o.benefit && o.benefit !== o.headline ? o.benefit : '';
+  })();
+
+  // The hero explains, in one or two plain lines, what the offer actually is: what is being
+  // sold, at what price against list, and the mechanic that makes it work.
+  const offerDescription = (() => {
+    const firstSentences = (value: string, budget = 150) => {
+      const clean = String(value || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      if (!clean) return '';
+      const parts = (clean.match(/[^.!?]+[.!?]*/g) || [clean]).map(part => part.trim()).filter(Boolean);
+      let out = '';
+      for (const part of parts) {
+        if (out && out.length + part.length > budget) break;
+        const sentence = /[.!?]$/.test(part) ? part : `${part}.`;
+        out = out ? `${out} ${sentence}` : sentence;
+        if (out.length >= budget * 0.6) break;
+      }
+      if (out.length > budget) out = `${out.slice(0, budget).replace(/[,;:\s]+\S*$/, '')}…`;
+      return out;
+    };
+
+    const what = productLabel || (o.offer_type ? titleCase(o.offer_type) : '');
+    const price = offerPrice ? money(offerPrice) : '';
+    const headline = what ? (price ? `${what} at ${price}` : what) : price ? `Priced at ${price}` : '';
+
+    const discount = (() => {
+      if (strikePrice && offerPrice && strikePrice > offerPrice * 1.01) {
+        return `${fmtPct(directPct * 100)} below the ${money(strikePrice)} list price`;
+      }
+      if (cashDisc && cashDisc > 0 && list) return `${Math.round(cashDisc * 100)}% below the ${money(list)} list price`;
+      if (effPct > 0) return `with ${fmtPct(effPct)} back in value`;
+      return '';
+    })();
+
+    // Client-facing copy reads most plainly; otherwise fall back to the written benefit with its
+    // internal asides removed, then to the mechanic.
+    const plain = (value: string) =>
+      String(value || '')
+        .replace(/\s*\([^)]*\)/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const description = firstSentences(o.customer_copy || plain(o.benefit) || plain(mechanicsText), 140);
+
+    const lead = [headline, discount].filter(Boolean).join(', ');
+    const parts = [lead ? (/[.!?]$/.test(lead) ? lead : `${lead}.`) : '', description].filter(Boolean);
+    return parts.join(' ').trim();
+  })();
+
+  // Bars are the chart line for each figure; they all share one 0–100 scale.
+  const clampPct = (value: number) =>
+    Number.isFinite(value) ? Math.round(Math.max(0, Math.min(100, value)) * 10) / 10 : 0;
+  const valueBar = clampPct(effPct);
+  const cashBar = clampPct(cashDisc !== null && cashDisc > 0 ? Math.min(cashDisc * 100, effPct) : 0);
+  const ticketBase = strikePrice || (isBlendedTicket ? featuredSell : list);
+  const ticketBar = ticketBase && offerPrice ? clampPct((offerPrice / ticketBase) * 100) : 0;
+  const unitsBar = monthUnits > 0 && units ? clampPct((units / monthUnits) * 100) : 0;
+  const revenueBar = sharePct !== null ? Math.max(2, clampPct(sharePct)) : 0;
+  const marginPct = contribution !== null && revenue ? (contribution / revenue) * 100 : null;
+  const marginBar = marginPct !== null ? clampPct(marginPct) : 0;
 
   return (
     <article
-      className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${slot ? ` slot-${slot}` : ''}`}
+      className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${
+        slot ? ` slot-${slot}` : ''
+      }${collapsed ? ' is-collapsed' : ''}`}
+      onClick={handleCardClick}
     >
       <div className="oc-hero">
-        <div className="oc-hero-art" aria-hidden="true">
-          <div
-            className="oc-hero-photo"
-            style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }}
-          />
-          <div className="oc-hero-vignette" />
-        </div>
+        <div
+          className="oc-hero-image"
+          aria-hidden="true"
+          style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }}
+        />
+        <div className="oc-hero-scrim" aria-hidden="true" />
 
-        <div className="oc-toolbar">
-          {(editable || (canSwap && !shown)) && (
-            <div className="oc-icon-group">
-              {canSwap && !shown && (
-                <button
-                  type="button"
-                  aria-label={`Generate a new offer with AI in place of ${o.name}`}
-                  title="Generate with AI — a new, better-optimised offer replaces this one"
-                  className={`oc-icon-btn ai${regenerating ? ' is-loading' : ''}`}
-                  onClick={onSwap}
-                  disabled={busy || regenerating}
-                  aria-busy={regenerating}
-                >
-                  {regenerating ? <Loader2 size={13.5} className="spin" /> : <Sparkles size={13.5} />}
-                </button>
-              )}
-              {editable && onDuplicate && (
-                <button
-                  type="button"
-                  aria-label={`Duplicate ${o.name}`}
-                  title="Duplicate as new offer"
-                  className="oc-icon-btn"
-                  onClick={onDuplicate}
-                  disabled={busy}
-                >
-                  <Copy size={13} />
-                </button>
-              )}
-              {editable && (
-                <button
-                  type="button"
-                  aria-label={`Edit ${o.name}`}
-                  title="Edit all offer details"
-                  className="oc-icon-btn"
-                  onClick={onEdit}
-                  disabled={busy}
-                >
-                  <Pencil size={13.5} />
-                </button>
-              )}
-              {(editable || !shown) && (
-                <button
-                  type="button"
-                  aria-label={`Remove ${o.name} from month`}
-                  title="Remove from month plan"
-                  className="oc-icon-btn danger"
-                  onClick={onRemove}
-                  disabled={busy}
-                >
-                  <Minus size={14} />
-                </button>
-              )}
-              {editable && onDelete && (
-                <button
-                  type="button"
-                  aria-label={`Delete ${o.name}`}
-                  title="Delete offer permanently"
-                  className="oc-icon-btn danger"
-                  onClick={onDelete}
-                  disabled={busy}
-                >
-                  <Trash2 size={13.5} />
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className="oc-hero-body">
-          <div className="oc-num-badge" aria-label={no ? `Offer ${offerNum}` : 'Offer'}>
-            <span>{offerNum}</span>
+        <div className="oc-hero-top">
+          <span className="oc-num-badge" aria-hidden="true">
+            {offerNum}
+          </span>
+          <div className="oc-toolbar">
+            {onToggleCollapse && (
+              <button
+                type="button"
+                className="oc-collapse"
+                aria-expanded={!collapsed}
+                aria-label={collapsed ? `Expand ${o.name}` : `Collapse ${o.name}`}
+                title={collapsed ? 'Expand this offer card' : 'Collapse to the photo only'}
+                onClick={onToggleCollapse}
+              >
+                <ChevronDown size={14} className={collapsed ? 'is-flipped' : undefined} />
+              </button>
+            )}
+            {(editable || (canSwap && !shown)) && (
+              <div className="oc-icon-group">
+                {canSwap && !shown && (
+                  <button
+                    type="button"
+                    aria-label={`Generate a new offer with AI in place of ${o.name}`}
+                    title="Generate with AI — a new, better-optimised offer replaces this one"
+                    className={`oc-icon-btn ai${regenerating ? ' is-loading' : ''}`}
+                    onClick={onSwap}
+                    disabled={busy || regenerating}
+                    aria-busy={regenerating}
+                  >
+                    {regenerating ? <Loader2 size={13.5} className="spin" /> : <Sparkles size={13.5} />}
+                  </button>
+                )}
+                {editable && onDuplicate && (
+                  <button
+                    type="button"
+                    aria-label={`Duplicate ${o.name}`}
+                    title="Duplicate as new offer"
+                    className="oc-icon-btn"
+                    onClick={onDuplicate}
+                    disabled={busy}
+                  >
+                    <Copy size={13} />
+                  </button>
+                )}
+                {editable && (
+                  <button
+                    type="button"
+                    aria-label={`Edit ${o.name}`}
+                    title="Edit all offer details"
+                    className="oc-icon-btn"
+                    onClick={onEdit}
+                    disabled={busy}
+                  >
+                    <Pencil size={13.5} />
+                  </button>
+                )}
+                {(editable || !shown) && (
+                  <button
+                    type="button"
+                    aria-label={`Remove ${o.name} from month`}
+                    title="Remove from month plan"
+                    className="oc-icon-btn danger"
+                    onClick={onRemove}
+                    disabled={busy}
+                  >
+                    <Minus size={14} />
+                  </button>
+                )}
+                {editable && onDelete && (
+                  <button
+                    type="button"
+                    aria-label={`Delete ${o.name}`}
+                    title="Delete offer permanently"
+                    className="oc-icon-btn danger"
+                    onClick={onDelete}
+                    disabled={busy}
+                  >
+                    <Trash2 size={13.5} />
+                  </button>
+                )}
+              </div>
+            )}
           </div>
+        </div>
 
+        <div className="oc-hero-bottom">
           <div className="oc-hero-copy">
-            <div className="oc-chips">
-              {slotLabel && (
-                <span className={`oc-chip is-slot slot-${slot}`}>
-                  <Sparkles size={11} />
-                  {slotLabel}
-                </span>
-              )}
-              {!slotLabel && streamLabel && (
+            <div className="oc-headline">
+              <h3 className="oc-title">
+                {titleLead && <>{titleLead} </>}
+                <span className="oc-title-accent">{titleAccent}</span>
+              </h3>
+            </div>
+            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
+              <p className="oc-job">{o.headline}</p>
+            )}
+            {offerDescription && <p className="oc-brief">{offerDescription}</p>}
+          </div>
+          <div className="oc-chips">
+            {slotLabel ? (
+              <span className={`oc-chip is-slot slot-${slot}`}>
+                <Sparkles size={10} />
+                {slotLabel}
+              </span>
+            ) : (
+              streamLabel && (
                 <span className="oc-chip is-stream">
-                  <Target size={11} />
+                  <Target size={10} />
                   {streamLabel}
                 </span>
-              )}
-              {membership && (
-                <span className="oc-chip">
-                  <Calendar size={11} />
-                  {membership}
-                </span>
-              )}
-              <span
-                className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
-                title={linked ? 'Runs at all locations' : 'This location only'}
-                aria-label={linked ? 'Runs at all locations' : 'This location only'}
-              >
-                {linked ? <Link2 size={11} /> : <Unlink size={11} />}
+              )
+            )}
+            {membership && (
+              <span className="oc-chip">
+                <Tag size={10} />
+                {membership}
               </span>
-            </div>
-
-            <h3 className="oc-title">
-              {restTitle ? (
-                <>
-                  <span className="oc-title-accent">{leadTitle}</span> {restTitle}
-                </>
-              ) : (
-                <span className="oc-title-accent">{leadTitle}</span>
-              )}
-            </h3>
-
-            {o.headline && <p className="oc-job">{o.headline}</p>}
-            {o.benefit && o.benefit !== o.headline && <p className="oc-benefit-inline">{o.benefit}</p>}
+            )}
+            {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
+            <span
+              className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
+              title={linked ? 'Runs at all locations' : 'This location only'}
+              aria-label={linked ? 'Runs at all locations' : 'This location only'}
+            >
+              {linked ? <Link2 size={10} /> : <Unlink size={10} />}
+            </span>
           </div>
         </div>
       </div>
 
       <div className="oc-sheet">
-        {/* Uniform metric grid: price, value to the client, volume, money and margin. */}
-        <dl className="oc-kpis">
-          <div>
-            <dt>{offerColLabel}</dt>
-            <dd>
+        {/* Six figures on one bar, each with its own icon, so the card scans at a glance. */}
+        {/* Six figures, each closed with a bar so the numbers read as a chart, not as prose. */}
+        <div className="oc-stats">
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <Tag size={12} />
+              {offerColLabel}
+            </span>
+            <span className="oc-stat-value">
               {offerPrice ? money(offerPrice) : '—'}
               {strikePrice && <s>{money(strikePrice)}</s>}
-            </dd>
+            </span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${ticketBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {strikePrice
+                ? `of ${money(strikePrice)} list`
+                : isBlendedTicket && featuredSell
+                  ? `vs ${money(featuredSell)} featured`
+                  : list
+                    ? `of ${money(list)} list`
+                    : 'No list comparison'}
+            </small>
           </div>
-          <div>
-            <dt>Client gets</dt>
-            <dd>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}</dd>
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <Users size={12} />
+              Client gets
+            </span>
+            <span className="oc-stat-value">{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${valueBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {hasCashDiscount ? 'Off the list price' : effPct > 0 ? 'In perks & extras' : 'No price cut'}
+            </small>
           </div>
-          <div>
-            <dt>Units</dt>
-            <dd>
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <Package size={12} />
+              Units
+            </span>
+            <span className="oc-stat-value">
               {number(units)}
-              {perWeek > 0 && <small>~{perWeek}/wk</small>}
-            </dd>
+              {perWeek > 0 && <em>~{perWeek}/wk</em>}
+            </span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${unitsBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
+            </small>
           </div>
-          <div>
-            <dt>Revenue</dt>
-            <dd>{hasValidForecast(o) ? lakh(n(o.expected_revenue)) : '—'}</dd>
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <TrendingUp size={12} />
+              Revenue
+            </span>
+            <span className="oc-stat-value">{revenue !== null ? lakh(revenue) : '—'}</span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${revenueBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {sharePct !== null
+                ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}% of ${monthTarget ? lakh(monthTarget) : 'the'} target`
+                : 'No forecast'}
+            </small>
           </div>
-          <div>
-            <dt>Eff. discount</dt>
-            <dd>{effPct > 0 ? fmtPct(effPct) : '0%'}</dd>
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <Percent size={12} />
+              Eff. discount
+            </span>
+            <span className={effPct > 0 ? 'oc-stat-value' : 'oc-stat-value is-muted'}>
+              {effPct > 0 ? fmtPct(effPct) : 'None'}
+            </span>
+            <span
+              className="oc-bar is-stacked"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${valueBar}%`, '--oc-cash': `${cashBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {cashBar > 0 ? 'Cash + perk value' : effPct > 0 ? 'Perk value only' : 'No discount'}
+            </small>
           </div>
-          <div>
-            <dt>Margin</dt>
-            <dd>{margin != null && Number.isFinite(Number(margin)) ? lakh(Number(margin)) : '—'}</dd>
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <Wallet size={12} />
+              Contribution
+            </span>
+            <span
+              className={contribution === null ? 'oc-stat-value is-muted' : 'oc-stat-value'}
+              title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
+            >
+              {contribution === null ? '—' : lakh(contribution)}
+            </span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${marginBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {marginPct !== null ? `${marginPct.toFixed(0)}% margin` : 'Costs pending'}
+            </small>
           </div>
-        </dl>
+        </div>
 
-        <dl className="oc-rows">
-          <div>
-            <dt>
-              <Users size={12} /> Who
-            </dt>
-            <dd>{o.audience || 'All clients'}</dd>
+        <div className="oc-meta">
+          <div className="oc-meta-item">
+            <span className="oc-meta-icon">
+              <Users size={15} />
+            </span>
+            <div>
+              <span className="oc-label">Who</span>
+              <b>{o.audience || 'All clients'}</b>
+            </div>
           </div>
-          <div>
-            <dt>
-              <Calendar size={12} /> When
-            </dt>
-            <dd>
-              {windowText} · {days} days
-            </dd>
+          <div className="oc-meta-item">
+            <span className="oc-meta-icon">
+              <Calendar size={15} />
+            </span>
+            <div>
+              <span className="oc-label">When</span>
+              <b>
+                {windowText} · {days} days
+              </b>
+            </div>
           </div>
-          {mechanic && (
+          <div className="oc-meta-item">
+            <span className="oc-meta-icon">
+              <Tag size={15} />
+            </span>
             <div>
-              <dt>
-                <Tag size={12} /> How
-              </dt>
-              <dd>
-                {mechanic}
-                {offerColSub ? ` · ${offerColSub}` : savesPrimary ? ` · ${savesPillText}` : ''}
-              </dd>
+              <span className="oc-label">How</span>
+              <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
             </div>
-          )}
-          {o.cta && (
-            <div>
-              <dt>
-                <Target size={12} /> CTA
-              </dt>
-              <dd>{o.cta}</dd>
-            </div>
-          )}
-          {o.excluded_audience && (
-            <div>
-              <dt>
-                <Minus size={12} /> Excludes
-              </dt>
-              <dd>{o.excluded_audience}</dd>
-            </div>
-          )}
-        </dl>
+          </div>
+        </div>
 
-        <footer className="oc-footer">
-          <div className="oc-footer-bar">
+        <div className={`oc-details${whyOpen ? ' is-open' : ''}`}>
+          <div className="oc-details-head">
             <button
               type="button"
-              className={`oc-why-btn${whyOpen ? ' is-open' : ''}`}
+              className={`oc-details-toggle${whyOpen ? ' is-open' : ''}`}
               aria-expanded={whyOpen}
               onClick={() => setWhyOpen(v => !v)}
             >
-              <span>{hasDrawerContent ? 'Details & why it works' : 'Terms & guardrails'}</span>
-              <ChevronDown size={14} className="oc-chevron" />
-              {reasons.length > 0 && (
-                <em className="oc-why-tags">{reasons.map(([, k]) => titleCase(k)).join(' · ')}</em>
-              )}
+              <span>Details &amp; why it works</span>
+              <ChevronDown size={15} className="oc-chevron" />
             </button>
-
             <div className="oc-actions">
               {canApprove ? (
                 <button
@@ -4960,79 +5318,110 @@ function OfferCard({
                     Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
                   }}
                 >
-                  <i>
-                    <Check size={10.5} strokeWidth={2.75} />
-                  </i>
+                  <Check size={13} strokeWidth={2.75} />
                   <span>{shown ? 'Approved' : 'Approve'}</span>
                 </button>
               ) : shown ? (
                 <span className="oc-status-approved">
-                  <Check size={11} strokeWidth={2.75} /> Approved
+                  <Check size={12} strokeWidth={2.75} /> Approved
                 </span>
               ) : null}
             </div>
           </div>
 
-          {whyOpen && (
-            <div className="oc-details-body">
-              <p className="oc-terms-line">
-                <b>Terms</b> {o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}
-              </p>
-              {o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline && (
-                <p className="oc-quote">“{o.customer_copy}”</p>
-              )}
-              {(reasons.length > 0 || o.rationale) && (
-                <div className="oc-rationale">
-                  {reasons.length ? (
-                    reasons.map(([, k, v], idx) => (
-                      <div key={`${k}-${idx}`} className="oc-rationale-row">
-                        <span>{k}</span>
-                        <p>{v}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="oc-rationale-plain">{o.rationale}</p>
-                  )}
-                </div>
-              )}
-              {(metrics.length > 0 || risks.length > 0) && (
-                <dl className="oc-terms-grid">
-                  {metrics.length > 0 && (
-                    <div className="wide">
-                      <dt>Success metrics</dt>
-                      <dd>
-                        <ul>
-                          {metrics.map((item: string, idx: number) => (
-                            <li key={`${idx}-${item}`}>{item}</li>
-                          ))}
-                        </ul>
-                      </dd>
-                    </div>
-                  )}
-                  {risks.length > 0 && (
-                    <div className="wide">
-                      <dt>Risks &amp; assumptions</dt>
-                      <dd>
-                        <ul>
-                          {risks.map((item: string, index: number) => (
-                            <li key={`${index}-${item}`}>{item}</li>
-                          ))}
-                        </ul>
-                      </dd>
-                    </div>
-                  )}
-                </dl>
-              )}
-              {editable && (
-                <div className="oc-drawer-edit-bar">
-                  <button type="button" className="mw-mini-btn is-primary" onClick={onEdit}>
-                    <Pencil size={12} /> Edit all offer details
-                  </button>
-                </div>
-              )}
+          <div className="oc-details-body">
+            <div className="oc-term">
+              <span className="oc-term-icon">
+                <Lightbulb size={16} />
+              </span>
+              <div>
+                <span className="oc-label">Terms</span>
+                <b>{o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}</b>
+              </div>
             </div>
-          )}
-        </footer>
+
+            {whyOpen && (
+              <div className="oc-drawer">
+                {mechanicsText && (
+                  <div className="oc-drawer-row">
+                    <span className="oc-label">How it works</span>
+                    <p>{mechanicsText}</p>
+                  </div>
+                )}
+                {o.excluded_audience && (
+                  <div className="oc-drawer-row">
+                    <span className="oc-label">Excludes</span>
+                    <p>{o.excluded_audience}</p>
+                  </div>
+                )}
+                {o.cta && (
+                  <div className="oc-drawer-row">
+                    <span className="oc-label">Call to action</span>
+                    <p>{o.cta}</p>
+                  </div>
+                )}
+                {o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline && (
+                  <p className="oc-quote">
+                    <Quote size={14} /> {o.customer_copy}
+                  </p>
+                )}
+                {editable && (
+                  <div className="oc-drawer-actions">
+                    <button type="button" className="mw-mini-btn is-primary" onClick={onEdit}>
+                      <Pencil size={12} /> Edit all offer details
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {(reasons.length > 0 || o.rationale || metrics.length > 0 || risks.length > 0) &&
+          (() => {
+            // Three evenly weighted columns: the written reasoning first, then the watch-list.
+            const columns: Array<{ key: string; value: string; icon: typeof Target }> = reasons.length
+              ? reasons.slice(0, 3).map(([, key, value]) => ({
+                  key: titleCase(key),
+                  value,
+                  icon: /why|logic/i.test(key) ? Target : /watch|kpi/i.test(key) ? TrendingUp : Package,
+                }))
+              : [
+                  {
+                    key: 'Why',
+                    value: o.rationale || 'Add the reasoning behind this offer so the team can defend it in the room.',
+                    icon: Target,
+                  },
+                  ...(metrics.length ? [{ key: 'Watch', value: metrics.join(' · '), icon: TrendingUp }] : []),
+                  ...(risks.length ? [{ key: 'Risk', value: risks.join(' · '), icon: ShieldCheck }] : []),
+                ];
+            return (
+              <div className="oc-why">
+                <span className="oc-why-heading">Why it works</span>
+                <div
+                  className="oc-why-grid"
+                  style={{ '--oc-why-cols': Math.min(columns.length, 3) } as React.CSSProperties}
+                >
+                  {columns.map(({ key, value, icon: Icon }, index) => (
+                    <div key={`${key}-${index}`} className="oc-why-col">
+                      <div className="oc-why-head">
+                        <span className="oc-why-icon">
+                          <Icon size={14} />
+                        </span>
+                        <span className="oc-label">{key}</span>
+                      </div>
+                      <p title={value}>{value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
+        <div className="oc-sign">
+          <span>{[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}</span>
+          <i aria-hidden="true">//</i>
+        </div>
       </div>
     </article>
   );

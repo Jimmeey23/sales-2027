@@ -292,6 +292,13 @@ export default function TargetsTab({
     });
   }, [data, query, scope, year]);
 
+  // Scales the month-card funnel bars against the biggest month in view, so the shape is comparable.
+  const cardScale = useMemo(() => {
+    const peak = (key: 'leads' | 'trials' | 'buyers') =>
+      Math.max(...visibleMonths.map(m => Number((m as any)[key]) || 0), 1);
+    return { leads: peak('leads'), trials: peak('trials'), buyers: peak('buyers') };
+  }, [visibleMonths]);
+
   const exportCsv = () => {
     const activeStudio = boot.studios.find(s => s.id === studioId);
     const scopeName = activeStudio ? activeStudio.name : 'All-Locations';
@@ -762,61 +769,112 @@ export default function TargetsTab({
             <div className="ws-month-grid">
               {visibleMonths.map(m => {
                 const offers = [...new Map(selectedInMonth(data, m.month).map(o => [o.name, o])).values()],
-                  dates = keyDatesFor(year, m.month);
+                  dates = keyDatesFor(year, m.month),
+                  quarter = Math.ceil(m.month / 3),
+                  share = data.annual ? (m.target / data.annual) * 100 : 0,
+                  funnel = [
+                    { key: 'leads', label: 'Leads', value: m.leads, max: cardScale.leads },
+                    { key: 'trials', label: 'Trials', value: m.trials, max: cardScale.trials },
+                    { key: 'buyers', label: 'Buyers', value: m.buyers, max: cardScale.buyers },
+                  ];
                 return (
                   <button
                     key={m.month}
-                    className={`ws-month-card ${m.planApproved ? 'plan-approved' : ''}`}
+                    className={`ws-month-card q${quarter} ${m.planApproved ? 'plan-approved' : ''}`}
+                    style={{ '--i': m.month } as React.CSSProperties}
                     onClick={() => setOpen(m.month)}
+                    aria-label={`Open the ${MONTHS[m.month - 1]} plan`}
                   >
-                    <header>
-                      <span>{MONTHS[m.month - 1]}</span>
-                      {m.approved ? (
-                        <Badge tone="green">
-                          <CheckCircle2 size={11} /> Approved
-                        </Badge>
-                      ) : (
-                        <Badge tone="amber">Proposed</Badge>
-                      )}
-                    </header>
-                    <em className="ws-month-theme">{m.theme}</em>
-                    <div className="ws-month-figure">
-                      <strong className="ws-month-target">{lakh(m.target)}</strong>
-                      <small className={m.target >= m.lastYear ? 'pos' : 'neg'}>
-                        {pct(m.target, m.lastYear)} vs {lakh(m.lastYear)} LY
-                      </small>
+                    <div className="ws-mc-head">
+                      <span className="ws-mc-idx">
+                        {String(m.month).padStart(2, '0')}
+                        <em>/12</em>
+                      </span>
+                      <div className="ws-mc-tags">
+                        <span className="ws-mc-q">Q{quarter}</span>
+                        {m.planApproved ? (
+                          <span className="ws-mc-status is-approved">
+                            <CheckCircle2 size={11} /> Month approved
+                          </span>
+                        ) : m.approved ? (
+                          <span className="ws-mc-status is-approved">
+                            <CheckCircle2 size={11} /> Targets locked
+                          </span>
+                        ) : (
+                          <span className="ws-mc-status is-proposed">Proposed</span>
+                        )}
+                      </div>
                     </div>
-                    <SourceBar row={m} />
-                    <KeyDateChips dates={dates} limit={3} />
+
+                    <div className="ws-mc-title">
+                      <h3>{MONTHS[m.month - 1]}</h3>
+                      <em className="ws-month-theme" title={m.theme}>
+                        {m.theme}
+                      </em>
+                    </div>
+                    <p className="ws-mc-brief">{m.objective}</p>
+
+                    <div className="ws-mc-target">
+                      <div className="ws-mc-target-top">
+                        <span className="ws-mc-label">Monthly target</span>
+                        <span className={`ws-mc-yoy ${m.target >= m.lastYear ? 'pos' : 'neg'}`}>
+                          {m.lastYear ? `${pct(m.target, m.lastYear)} vs LY` : 'No prior year'}
+                        </span>
+                      </div>
+                      <div className="ws-mc-figure">
+                        <strong className="ws-month-target">{lakh(m.target)}</strong>
+                        <span className="ws-mc-share-label">{Math.round(share)}% of year</span>
+                      </div>
+                    </div>
+
+                    <div className="ws-mc-mix">
+                      <SourceBar row={m} />
+                      <div className="ws-mc-legend" aria-hidden="true">
+                        {SOURCES.map((s, i) => (
+                          <span key={s.key}>
+                            <i style={{ background: s.color }} />
+                            {['New', 'Renewals', 'Win-back', 'Other'][i]}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="ws-mc-funnel">
+                      {funnel.map(f => (
+                        <div key={f.key} className="ws-mc-stat">
+                          <b>{number(f.value)}</b>
+                          <span>{f.label}</span>
+                          <i
+                            style={
+                              {
+                                '--w': `${Math.max(6, Math.min(100, (f.value / f.max) * 100))}%`,
+                              } as React.CSSProperties
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    <KeyDateChips dates={dates} limit={2} />
+
                     <div className="ws-month-offer">
                       <Sparkles size={13} />
                       <span>
-                        <b>{m.leadOffer}</b>
-                        <em>{m.objective}</em>
+                        <b title={m.leadOffer}>{m.leadOffer}</b>
+                        <em>Lead offer</em>
                       </span>
                     </div>
-                    <div className="ws-month-metrics">
-                      <span>
-                        <b>{number(m.leads)}</b> leads
-                      </span>
-                      <span>
-                        <b>{number(m.trials)}</b> trials
-                      </span>
-                      <span>
-                        <b>{number(m.buyers)}</b> buyers
-                      </span>
-                    </div>
-                    {offers.length > 0 && (
-                      <div className="ws-month-promos">
-                        <Gift size={12} />
-                        {offers.slice(0, 2).map(o => (
-                          <span key={o.id}>{o.name}</span>
-                        ))}
-                        {offers.length > 2 && <span>+{offers.length - 2}</span>}
-                      </div>
-                    )}
+
                     <footer>
-                      Open month plan <ChevronRight size={14} />
+                      <span className="ws-mc-promo-count">
+                        <Gift size={12} />
+                        {offers.length
+                          ? `${offers.length} offer${offers.length === 1 ? '' : 's'} planned`
+                          : 'No offers yet'}
+                      </span>
+                      <span className="ws-mc-open">
+                        Open plan <ChevronRight size={14} />
+                      </span>
                     </footer>
                   </button>
                 );
