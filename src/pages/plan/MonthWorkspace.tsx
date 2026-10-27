@@ -1673,7 +1673,6 @@ export default function MonthWorkspace({
             {page === 'overview' && (
               <MonthOverview
                 month={month}
-                year={year}
                 chapter={chapter}
                 theme={displayTheme}
                 studioName={studio.name}

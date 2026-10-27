@@ -13,7 +13,6 @@ const pct = (v: number | null | undefined, d = 0) =>
 
 export default function MonthOverview({
   month,
-  year,
   chapter,
   theme,
   studioName,
@@ -32,7 +31,6 @@ export default function MonthOverview({
   status,
 }: {
   month: number;
-  year: number;
   chapter: MonthChapter;
   theme: string;
   studioName: string;
