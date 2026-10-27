@@ -3,6 +3,8 @@ import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, X } from 'lucide-r
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
+import CoverNarration from './CoverNarration';
+import type { CoverBeat } from '../../data/coverNarration';
 
 /* The cover that opens before a month plan: the month's focus and brief over its lead
    photograph, then the numbers that define the month — revenue split, lead requirement,
@@ -13,6 +15,14 @@ export interface CoverStream {
   key: string;
   label: string;
   value: number;
+}
+
+/** One week of the month's action plan, shortened for the cover. */
+export interface CoverPlanWeek {
+  week: number;
+  text: string;
+  /** How many further steps that week carries. */
+  extra?: number;
 }
 
 const TONES = ['var(--mc-a)', 'var(--mc-b)', 'var(--mc-c)'];
@@ -73,6 +83,9 @@ export default function MonthCover({
   studioName,
   theme,
   brief,
+  risk,
+  signature,
+  plan,
   target,
   lastYear,
   streams,
@@ -95,6 +108,9 @@ export default function MonthCover({
   studioName: string;
   theme: string;
   brief: string;
+  risk?: string;
+  signature?: string;
+  plan?: CoverPlanWeek[];
   target: number;
   lastYear: number;
   streams: CoverStream[];
@@ -116,6 +132,8 @@ export default function MonthCover({
   const animate = !reduce;
   // The cover dissolves into the plan rather than cutting straight to it.
   const [leaving, setLeaving] = useState(false);
+  // Which part of the cover the narrator is talking about, set as the voice moves.
+  const [beat, setBeat] = useState<CoverBeat | null>(null);
   const timer = useRef<number | null>(null);
   const root = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -144,7 +162,8 @@ export default function MonthCover({
     <div
       ref={root}
       tabIndex={-1}
-      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}`}
+      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}${beat ? ' is-narrating' : ''}`}
+      data-beat={beat ?? ''}
       role="dialog"
       aria-modal="true"
       aria-label={`${MONTHS[month - 1]} overview`}
@@ -306,6 +325,50 @@ export default function MonthCover({
           </section>
         </div>
 
+        {/* The argument in three columns — what breaks, what we do, and the four weeks —
+            which the narration walks through in order, lighting each one as it speaks. */}
+        {(risk || signature || (plan && plan.length > 0)) && (
+          <section className="mc-story" aria-label="The month's argument and action plan">
+            {risk && (
+              <article className="mc-story-col is-risk">
+                <span className="mc-label">
+                  <i aria-hidden="true" />
+                  What goes wrong
+                </span>
+                <p>{risk}</p>
+              </article>
+            )}
+            {signature && (
+              <article className="mc-story-col is-move">
+                <span className="mc-label">
+                  <i aria-hidden="true" />
+                  The move
+                </span>
+                <p>{signature}</p>
+              </article>
+            )}
+            {plan && plan.length > 0 && (
+              <article className="mc-story-col is-plan">
+                <span className="mc-label">
+                  <i aria-hidden="true" />
+                  The plan
+                </span>
+                <ol className="mc-weeks">
+                  {plan.map(w => (
+                    <li key={w.week} className="mc-week" data-week={w.week}>
+                      <b>W{w.week}</b>
+                      <span>
+                        {w.text || 'Not planned yet'}
+                        {!!w.extra && <em>+{w.extra}</em>}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </article>
+            )}
+          </section>
+        )}
+
         <footer className="mc-foot">
           <div className="mc-dates">
             {dates.slice(0, 4).map(d => (
@@ -329,6 +392,8 @@ export default function MonthCover({
           </div>
         </footer>
       </div>
+
+      <CoverNarration month={month} onBeat={setBeat} />
     </div>
   );
 }

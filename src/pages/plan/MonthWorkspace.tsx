@@ -4393,6 +4393,12 @@ export default function MonthWorkspace({
             studioName={studio.name}
             theme={displayTheme}
             brief={chapter.brief}
+            risk={chapter.risk}
+            signature={chapter.signature}
+            plan={[1, 2, 3, 4].map(week => {
+              const steps = form.actions.filter((a: any) => a.week === week && a.text);
+              return { week, text: steps[0]?.text ?? '', extra: Math.max(0, steps.length - 1) };
+            })}
             target={effective}
             lastYear={row.lastYear}
             streams={coverStreams}
