@@ -52,9 +52,11 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  min-height: 0;
-  padding: 17px 20px 15px;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 214px;
+  padding: 16px 20px 15px;
+  cursor: pointer;
   overflow: hidden;
   isolation: isolate;
   background: var(--oc-navy);
@@ -114,11 +116,19 @@
     linear-gradient(180deg, rgba(6, 13, 22, 0.66) 0%, rgba(6, 13, 22, 0.05) 34%, rgba(5, 12, 20, 0.82) 100%);
 }
 
+.mw .oc-hero-top {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 34px;
+}
 .mw .oc-num-badge {
   display: inline-grid;
   place-items: center;
   flex: none;
-  margin-top: 1px;
   width: 34px;
   height: 34px;
   border: 1px solid rgba(255, 255, 255, 0.38);
@@ -145,20 +155,24 @@
   color: #eafff5;
 }
 
-.mw .oc-headline {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  min-width: 0;
-}
-.mw .oc-hero-copy {
+.mw .oc-hero-bottom {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+}
+.mw .oc-headline {
+  min-width: 0;
+}
+.mw .oc-hero-copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   gap: 5px;
   min-width: 0;
-  max-width: min(50ch, 96%);
+  max-width: min(56ch, 100%);
   transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .mw .oc:hover .oc-hero-copy {
@@ -205,41 +219,9 @@
 }
 
 /* Chips and controls ride together along the foot of the photograph. */
-.mw .oc-hero-foot {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 10px;
-  min-width: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mw .oc,
-  .mw .oc:hover,
-  .mw .oc-hero-image,
-  .mw .oc:hover .oc-hero-image,
-  .mw .oc-hero-copy,
-  .mw .oc:hover .oc-hero-copy,
-  .mw .oc-hero::after,
-  .mw .oc:hover .oc-hero::after,
-  .mw .oc-stat,
-  .mw .oc-num-badge {
-    transition: none;
-    transform: none;
-  }
-  .mw .oc:hover .oc-hero::after {
-    opacity: 0;
-  }
-}
-
 /* Small glass chips along the foot of the hero. */
 .mw .oc-chips {
   position: relative;
-  z-index: 2;
-  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -840,6 +822,13 @@
 }
 
 @container (max-width: 560px) {
+  .mw .oc-hero {
+    min-height: 186px;
+    padding: 14px 16px 13px;
+  }
+  .mw .oc.is-collapsed .oc-hero {
+    min-height: 172px;
+  }
   .mw .oc-hero-copy {
     max-width: 100%;
   }
@@ -897,7 +886,7 @@
    every section below it on the same baseline by fixing each block's line budget. */
 .mw .mw-offer-list.is-two-up .oc-hero {
   padding: 15px 15px 13px;
-  min-height: 0;
+  min-height: 208px;
   height: 100%;
 }
 .mw .mw-offer-list.is-two-up .oc-sheet {
@@ -958,8 +947,23 @@
   min-height: 2.9em;
   font-size: 12px;
 }
-.mw .mw-offer-list.is-two-up .oc-why-col {
-  padding: 0 12px;
+.mw .mw-offer-list.is-two-up .oc-why-grid {
+  grid-template-columns: 1fr;
+}
+.mw .mw-offer-list.is-two-up .oc-why-col,
+.mw .mw-offer-list.is-two-up .oc-why-col:first-child,
+.mw .mw-offer-list.is-two-up .oc-why-col:last-child {
+  padding: 11px 0;
+}
+.mw .mw-offer-list.is-two-up .oc-why-col:first-child {
+  padding-top: 0;
+}
+.mw .mw-offer-list.is-two-up .oc-why-col:last-child {
+  padding-bottom: 0;
+}
+.mw .mw-offer-list.is-two-up .oc-why-col + .oc-why-col {
+  border-left: 0;
+  border-top: 1px solid var(--oc-line-soft);
 }
 .mw .mw-offer-list.is-two-up .oc-why-col p {
   font-size: 11.5px;
@@ -974,7 +978,22 @@
   display: none;
 }
 .mw .oc.is-collapsed .oc-hero {
-  min-height: 150px;
+  min-height: 196px;
+}
+
+/* The full card is the collapse target. */
+.mw .oc {
+  cursor: pointer;
+}
+.mw .oc button,
+.mw .oc a,
+.mw .oc input,
+.mw .oc textarea,
+.mw .oc label {
+  cursor: auto;
+}
+.mw .oc button {
+  cursor: pointer;
 }
 .mw .oc-collapse {
   display: inline-grid;

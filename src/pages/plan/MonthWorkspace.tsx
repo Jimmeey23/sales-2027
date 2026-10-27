@@ -663,12 +663,6 @@ export default function MonthWorkspace({
   const expandedOffers: number[] = Array.isArray(form.content?.expandedOffers)
     ? (form.content.expandedOffers as number[])
     : [];
-  const toggleOfferExpanded = (offerId: number) =>
-    updateContent({
-      expandedOffers: expandedOffers.includes(offerId)
-        ? expandedOffers.filter(id => id !== offerId)
-        : [...expandedOffers, offerId],
-    });
   const allOffersExpanded = selected.length > 0 && selected.every(o => expandedOffers.includes(o.id));
   const toggleAllOffers = () => updateContent({ expandedOffers: allOffersExpanded ? [] : selected.map(o => o.id) });
   const isSectionVisible = (secKey: string) => !hiddenSections.includes(secKey);
@@ -3326,6 +3320,19 @@ export default function MonthWorkspace({
                           (sum, { offer }) => sum + (forecastRevenue(offer) > 0 ? n(offer.target_purchases) || 0 : 0),
                           0,
                         );
+                        // In the 2-up grid each row is a pair: expanding one card expands its neighbour so
+                        // the two columns keep the same height and the shared subgrid rows stay aligned.
+                        const toggleCardPair = (offerId: number, no: number) => {
+                          const partner = twoUp ? orderedOffers[no % 2 === 1 ? no : no - 2]?.offer : null;
+                          const ids = partner && partner.id !== offerId ? [offerId, partner.id] : [offerId];
+                          const anyClosed = ids.some(id => !expandedOffers.includes(id));
+                          updateContent({
+                            expandedOffers: anyClosed
+                              ? Array.from(new Set([...expandedOffers, ...ids]))
+                              : expandedOffers.filter(id => !ids.includes(id)),
+                          });
+                        };
+
                         const renderItem = (o: any, no: number, stream?: string) =>
                           editing === o.id ? (
                             <OfferEditor
@@ -3393,7 +3400,7 @@ export default function MonthWorkspace({
                               monthUnits={monthUnitsTotal}
                               photo={photoById.get(o.id)}
                               collapsed={!expandedOffers.includes(o.id)}
-                              onToggleCollapse={() => toggleOfferExpanded(o.id)}
+                              onToggleCollapse={() => toggleCardPair(o.id, no)}
                             />
                           );
 
@@ -4855,6 +4862,15 @@ function OfferCard({
   const [whyOpen, setWhyOpen] = useState(false);
   useEffect(() => setPending(null), [approved]);
   const shown = pending ?? !!approved;
+  // The whole card is the collapse target; controls, links and text selection are left alone.
+  const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (!onToggleCollapse) return;
+    const target = event.target as HTMLElement;
+    if (target.closest('button, a, input, select, textarea, label, [role="checkbox"], [contenteditable="true"]'))
+      return;
+    if (typeof window !== 'undefined' && window.getSelection()?.toString()) return;
+    onToggleCollapse();
+  };
   const revenue = hasValidForecast(o) ? n(o.expected_revenue) : null;
   const contribution = margin != null && Number.isFinite(Number(margin)) ? Number(margin) : null;
   const sharePct = monthTarget && monthTarget > 0 && revenue !== null ? (revenue / monthTarget) * 100 : null;
@@ -4947,6 +4963,7 @@ function OfferCard({
       className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${
         slot ? ` slot-${slot}` : ''
       }${collapsed ? ' is-collapsed' : ''}`}
+      onClick={handleCardClick}
     >
       <div className="oc-hero">
         <div
@@ -4956,52 +4973,10 @@ function OfferCard({
         />
         <div className="oc-hero-scrim" aria-hidden="true" />
 
-        <div className="oc-hero-copy">
-          <div className="oc-headline">
-            <span className="oc-num-badge" aria-hidden="true">
-              {offerNum}
-            </span>
-            <h3 className="oc-title">
-              {titleLead && <>{titleLead} </>}
-              <span className="oc-title-accent">{titleAccent}</span>
-            </h3>
-          </div>
-          {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
-            <p className="oc-job">{o.headline}</p>
-          )}
-          {offerDescription && <p className="oc-brief">{offerDescription}</p>}
-        </div>
-
-        <div className="oc-hero-foot">
-          <div className="oc-chips">
-            {slotLabel ? (
-              <span className={`oc-chip is-slot slot-${slot}`}>
-                <Sparkles size={10} />
-                {slotLabel}
-              </span>
-            ) : (
-              streamLabel && (
-                <span className="oc-chip is-stream">
-                  <Target size={10} />
-                  {streamLabel}
-                </span>
-              )
-            )}
-            {membership && (
-              <span className="oc-chip">
-                <Tag size={10} />
-                {membership}
-              </span>
-            )}
-            {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
-            <span
-              className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
-              title={linked ? 'Runs at all locations' : 'This location only'}
-              aria-label={linked ? 'Runs at all locations' : 'This location only'}
-            >
-              {linked ? <Link2 size={10} /> : <Unlink size={10} />}
-            </span>
-          </div>
+        <div className="oc-hero-top">
+          <span className="oc-num-badge" aria-hidden="true">
+            {offerNum}
+          </span>
           <div className="oc-toolbar">
             {onToggleCollapse && (
               <button
@@ -5080,6 +5055,50 @@ function OfferCard({
                 )}
               </div>
             )}
+          </div>
+        </div>
+
+        <div className="oc-hero-bottom">
+          <div className="oc-hero-copy">
+            <div className="oc-headline">
+              <h3 className="oc-title">
+                {titleLead && <>{titleLead} </>}
+                <span className="oc-title-accent">{titleAccent}</span>
+              </h3>
+            </div>
+            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
+              <p className="oc-job">{o.headline}</p>
+            )}
+            {offerDescription && <p className="oc-brief">{offerDescription}</p>}
+          </div>
+          <div className="oc-chips">
+            {slotLabel ? (
+              <span className={`oc-chip is-slot slot-${slot}`}>
+                <Sparkles size={10} />
+                {slotLabel}
+              </span>
+            ) : (
+              streamLabel && (
+                <span className="oc-chip is-stream">
+                  <Target size={10} />
+                  {streamLabel}
+                </span>
+              )
+            )}
+            {membership && (
+              <span className="oc-chip">
+                <Tag size={10} />
+                {membership}
+              </span>
+            )}
+            {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
+            <span
+              className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
+              title={linked ? 'Runs at all locations' : 'This location only'}
+              aria-label={linked ? 'Runs at all locations' : 'This location only'}
+            >
+              {linked ? <Link2 size={10} /> : <Unlink size={10} />}
+            </span>
           </div>
         </div>
       </div>
