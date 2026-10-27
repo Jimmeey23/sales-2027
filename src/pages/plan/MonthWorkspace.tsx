@@ -3262,6 +3262,11 @@ export default function MonthWorkspace({
                         const orderedOffers = activeGroups.flatMap(g =>
                           g.offers.map(o => ({ offer: o, stream: g.label })),
                         );
+                        // Month totals let each card's bars show its share of the plan.
+                        const monthUnitsTotal = orderedOffers.reduce(
+                          (sum, { offer }) => sum + (forecastRevenue(offer) > 0 ? n(offer.target_purchases) || 0 : 0),
+                          0,
+                        );
                         const renderItem = (o: any, no: number, stream?: string) =>
                           editing === o.id ? (
                             <OfferEditor
@@ -3326,6 +3331,7 @@ export default function MonthWorkspace({
                               onSwap={() => regenerateOffer(o)}
                               regenerating={regenerating === o.id}
                               monthTarget={effective}
+                              monthUnits={monthUnitsTotal}
                             />
                           );
 
@@ -4585,6 +4591,7 @@ function OfferCard({
   onSwap,
   regenerating = false,
   monthTarget = 0,
+  monthUnits = 0,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
   const parseList = (value: any) => {
@@ -4710,7 +4717,6 @@ function OfferCard({
   const revenue = hasValidForecast(o) ? n(o.expected_revenue) : null;
   const contribution = margin != null && Number.isFinite(Number(margin)) ? Number(margin) : null;
   const sharePct = monthTarget && monthTarget > 0 && revenue !== null ? (revenue / monthTarget) * 100 : null;
-  const shareWidth = sharePct === null ? 0 : Math.min(Math.max(sharePct, 2), 100);
   // The plan's offers carry the written mechanic in provenance; older ones keep it in mechanics,
   // customer copy or the benefit line.
   const mechanicsText = (() => {
@@ -4736,29 +4742,64 @@ function OfferCard({
     return o.benefit && o.benefit !== o.headline ? o.benefit : '';
   })();
 
-  // The hero carries a plain-language summary of what the client actually gets — short enough
-  // to read at a glance, with the full mechanic kept in the details drawer.
-  const offerBrief = (() => {
-    const source = [o.customer_copy, o.benefit, mechanicsText].find(value => value && String(value).trim());
-    const text = String(source || '')
-      .replace(/\s+/g, ' ')
-      .trim();
-    if (!text) return '';
-    const sentences = (text.match(/[^.!?]+[.!?]*/g) || []).map(part => part.trim()).filter(Boolean);
-    const LIMIT = 128;
-    let brief = '';
-    for (const sentence of sentences) {
-      const next = brief ? `${brief} ${sentence}` : sentence;
-      if (next.length > LIMIT && brief) break;
-      brief = next;
-      if (brief.length >= LIMIT * 0.7) break;
-    }
-    if (brief.length > LIMIT) {
-      const cut = brief.slice(0, LIMIT);
-      brief = `${cut.slice(0, Math.max(cut.lastIndexOf(' '), Math.floor(LIMIT * 0.65))).trim()}…`;
-    }
-    return /[.!?…]$/.test(brief) ? brief : `${brief}.`;
+  // The hero explains, in one or two plain lines, what the offer actually is: what is being
+  // sold, at what price against list, and the mechanic that makes it work.
+  const offerDescription = (() => {
+    const firstSentences = (value: string, budget = 150) => {
+      const clean = String(value || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      if (!clean) return '';
+      const parts = (clean.match(/[^.!?]+[.!?]*/g) || [clean]).map(part => part.trim()).filter(Boolean);
+      let out = '';
+      for (const part of parts) {
+        if (out && out.length + part.length > budget) break;
+        const sentence = /[.!?]$/.test(part) ? part : `${part}.`;
+        out = out ? `${out} ${sentence}` : sentence;
+        if (out.length >= budget * 0.6) break;
+      }
+      if (out.length > budget) out = `${out.slice(0, budget).replace(/[,;:\s]+\S*$/, '')}…`;
+      return out;
+    };
+
+    const what = productLabel || (o.offer_type ? titleCase(o.offer_type) : '');
+    const price = offerPrice ? money(offerPrice) : '';
+    const headline = what ? (price ? `${what} at ${price}` : what) : price ? `Priced at ${price}` : '';
+
+    const discount = (() => {
+      if (strikePrice && offerPrice && strikePrice > offerPrice * 1.01) {
+        return `${fmtPct(directPct * 100)} below the ${money(strikePrice)} list price`;
+      }
+      if (cashDisc && cashDisc > 0 && list) return `${Math.round(cashDisc * 100)}% below the ${money(list)} list price`;
+      if (effPct > 0) return `with ${fmtPct(effPct)} back in value`;
+      return '';
+    })();
+
+    // Client-facing copy reads most plainly; otherwise fall back to the written benefit with its
+    // internal asides removed, then to the mechanic.
+    const plain = (value: string) =>
+      String(value || '')
+        .replace(/\s*\([^)]*\)/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const description = firstSentences(o.customer_copy || plain(o.benefit) || plain(mechanicsText), 140);
+
+    const lead = [headline, discount].filter(Boolean).join(', ');
+    const parts = [lead ? (/[.!?]$/.test(lead) ? lead : `${lead}.`) : '', description].filter(Boolean);
+    return parts.join(' ').trim();
   })();
+
+  // Bars are the chart line for each figure; they all share one 0–100 scale.
+  const clampPct = (value: number) =>
+    Number.isFinite(value) ? Math.round(Math.max(0, Math.min(100, value)) * 10) / 10 : 0;
+  const valueBar = clampPct(effPct);
+  const cashBar = clampPct(cashDisc !== null && cashDisc > 0 ? Math.min(cashDisc * 100, effPct) : 0);
+  const ticketBase = strikePrice || (isBlendedTicket ? featuredSell : list);
+  const ticketBar = ticketBase && offerPrice ? clampPct((offerPrice / ticketBase) * 100) : 0;
+  const unitsBar = monthUnits > 0 && units ? clampPct((units / monthUnits) * 100) : 0;
+  const revenueBar = sharePct !== null ? Math.max(2, clampPct(sharePct)) : 0;
+  const marginPct = contribution !== null && revenue ? (contribution / revenue) * 100 : null;
+  const marginBar = marginPct !== null ? clampPct(marginPct) : 0;
 
   return (
     <article
@@ -4853,8 +4894,10 @@ function OfferCard({
             {titleLead && <>{titleLead} </>}
             <span className="oc-title-accent">{titleAccent}</span>
           </h3>
-          {o.headline && <p className="oc-job">{o.headline}</p>}
-          {offerBrief && <p className="oc-brief">{offerBrief}</p>}
+          {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
+            <p className="oc-job">{o.headline}</p>
+          )}
+          {offerDescription && <p className="oc-brief">{offerDescription}</p>}
         </div>
 
         <div className="oc-chips">
@@ -4890,85 +4933,119 @@ function OfferCard({
 
       <div className="oc-sheet">
         {/* Six figures on one bar, each with its own icon, so the card scans at a glance. */}
+        {/* Six figures, each closed with a bar so the numbers read as a chart, not as prose. */}
         <div className="oc-stats">
-          <div className="oc-stat is-lead">
-            <Tag className="oc-stat-icon" size={16} />
-            <span className="oc-label">{offerColLabel}</span>
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <Tag size={12} />
+              {offerColLabel}
+            </span>
             <span className="oc-stat-value">
               {offerPrice ? money(offerPrice) : '—'}
               {strikePrice && <s>{money(strikePrice)}</s>}
             </span>
-            <small className="oc-stat-note">
-              {offerColSub || listColSub || (offerPrice ? 'Per membership' : 'Not priced yet')}
-            </small>
-          </div>
-          <div className="oc-stat">
-            <Users className="oc-stat-icon" size={16} />
-            <span className="oc-label">Client gets</span>
-            <span className="oc-stat-value">
-              {savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}
-            </span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${ticketBar}%` } as React.CSSProperties}
+            />
             <small className="oc-stat-note">
               {strikePrice
-                ? `List ${money(strikePrice)}`
-                : cashDisc && cashDisc > 0
-                  ? `${Math.round(cashDisc * 100)}% off list`
-                  : effPct > 0
-                    ? 'Structured perk value'
-                    : 'No price cut'}
+                ? `of ${money(strikePrice)} list`
+                : isBlendedTicket && featuredSell
+                  ? `vs ${money(featuredSell)} featured`
+                  : list
+                    ? `of ${money(list)} list`
+                    : 'No list comparison'}
             </small>
           </div>
           <div className="oc-stat">
-            <Package className="oc-stat-icon" size={16} />
-            <span className="oc-label">Units</span>
+            <span className="oc-stat-label">
+              <Users size={12} />
+              Client gets
+            </span>
+            <span className="oc-stat-value">{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${valueBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {hasCashDiscount ? 'Off the list price' : effPct > 0 ? 'In perks & extras' : 'No price cut'}
+            </small>
+          </div>
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <Package size={12} />
+              Units
+            </span>
             <span className="oc-stat-value">
               {number(units)}
               {perWeek > 0 && <em>~{perWeek}/wk</em>}
             </span>
-            <small className="oc-stat-note">{units ? `over ${days} days` : 'Not planned'}</small>
-          </div>
-          <div className="oc-stat">
-            <TrendingUp className="oc-stat-icon" size={16} />
-            <span className="oc-label">Revenue</span>
-            <span className="oc-stat-value">{revenue !== null ? lakh(revenue) : '—'}</span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${unitsBar}%` } as React.CSSProperties}
+            />
             <small className="oc-stat-note">
-              {units && offerPrice
-                ? `${number(units)} × ${money(offerPrice)}`
-                : revenue !== null
-                  ? 'Units not set'
-                  : 'No forecast yet'}
+              {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
             </small>
           </div>
           <div className="oc-stat">
-            <Percent className="oc-stat-icon" size={16} />
-            <span className="oc-label">Eff. discount</span>
+            <span className="oc-stat-label">
+              <TrendingUp size={12} />
+              Revenue
+            </span>
+            <span className="oc-stat-value">{revenue !== null ? lakh(revenue) : '—'}</span>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${revenueBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {sharePct !== null
+                ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}% of ${monthTarget ? lakh(monthTarget) : 'the'} target`
+                : 'No forecast'}
+            </small>
+          </div>
+          <div className="oc-stat">
+            <span className="oc-stat-label">
+              <Percent size={12} />
+              Eff. discount
+            </span>
             <span className={effPct > 0 ? 'oc-stat-value' : 'oc-stat-value is-muted'}>
               {effPct > 0 ? fmtPct(effPct) : 'None'}
             </span>
-            <small className="oc-stat-note">Against list price</small>
+            <span
+              className="oc-bar is-stacked"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${valueBar}%`, '--oc-cash': `${cashBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {cashBar > 0 ? 'Cash + perk value' : effPct > 0 ? 'Perk value only' : 'No discount'}
+            </small>
           </div>
           <div className="oc-stat">
-            <Wallet className="oc-stat-icon" size={16} />
-            <span className="oc-label">Contribution</span>
+            <span className="oc-stat-label">
+              <Wallet size={12} />
+              Contribution
+            </span>
             <span
               className={contribution === null ? 'oc-stat-value is-muted' : 'oc-stat-value'}
               title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
             >
               {contribution === null ? '—' : lakh(contribution)}
             </span>
-            <small className="oc-stat-note">{contribution === null ? 'Costs pending' : 'After delivery'}</small>
+            <span
+              className="oc-bar"
+              aria-hidden="true"
+              style={{ '--oc-fill': `${marginBar}%` } as React.CSSProperties}
+            />
+            <small className="oc-stat-note">
+              {marginPct !== null ? `${marginPct.toFixed(0)}% margin` : 'Costs pending'}
+            </small>
           </div>
-        </div>
-
-        <div className="oc-share">
-          <div className="oc-share-head">
-            <span className="oc-label">Share of month target</span>
-            <b>{sharePct !== null ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}%` : '—'}</b>
-            <em>{monthTarget ? `of ${lakh(monthTarget)}` : 'Month target not set'}</em>
-          </div>
-          <span className="oc-meter" aria-hidden="true">
-            <i style={{ width: `${shareWidth.toFixed(1)}%` }} />
-          </span>
         </div>
 
         <div className="oc-meta">
@@ -5051,21 +5128,24 @@ function OfferCard({
             </div>
 
             {whyOpen && (
-              <>
+              <div className="oc-drawer">
                 {mechanicsText && (
-                  <p className="oc-term-line">
-                    <b>How it works</b> {mechanicsText}
-                  </p>
+                  <div className="oc-drawer-row">
+                    <span className="oc-label">How it works</span>
+                    <p>{mechanicsText}</p>
+                  </div>
                 )}
                 {o.excluded_audience && (
-                  <p className="oc-term-line">
-                    <b>Excludes</b> {o.excluded_audience}
-                  </p>
+                  <div className="oc-drawer-row">
+                    <span className="oc-label">Excludes</span>
+                    <p>{o.excluded_audience}</p>
+                  </div>
                 )}
                 {o.cta && (
-                  <p className="oc-term-line">
-                    <b>Call to action</b> {o.cta}
-                  </p>
+                  <div className="oc-drawer-row">
+                    <span className="oc-label">Call to action</span>
+                    <p>{o.cta}</p>
+                  </div>
                 )}
                 {o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline && (
                   <p className="oc-quote">
@@ -5073,13 +5153,13 @@ function OfferCard({
                   </p>
                 )}
                 {editable && (
-                  <div className="oc-drawer-edit-bar">
+                  <div className="oc-drawer-actions">
                     <button type="button" className="mw-mini-btn is-primary" onClick={onEdit}>
                       <Pencil size={12} /> Edit all offer details
                     </button>
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
         </div>
