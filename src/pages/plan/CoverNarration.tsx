@@ -186,7 +186,7 @@ export default function CoverNarration({ month, onBeat }: { month: number; onBea
             <span className="mc-narr-kicker">
               <Headphones size={11} />
               {status === 'missing'
-                ? 'Narration score · voice not attached'
+                ? 'Script · in the booth'
                 : playing
                   ? `Narrating · ${COVER_BEAT_LABEL[active?.beat ?? 'focus']}`
                   : 'Listen to the month'}
@@ -215,7 +215,7 @@ export default function CoverNarration({ month, onBeat }: { month: number; onBea
 
           <p ref={live} className="mc-narr-caption" aria-live="off">
             {status === 'missing'
-              ? 'The recorded voice is not in this build yet — the script below is the same narration, line for line.'
+              ? 'This month’s voice is still being recorded. The script below is the narration, line for line — open it to read along.'
               : active
                 ? active.text
                 : segments[0]?.text}

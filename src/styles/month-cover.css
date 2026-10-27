@@ -1089,6 +1089,14 @@
   font-size: 11.5px;
   color: rgba(255, 255, 255, 0.6);
 }
+/* A month whose voice is still in the booth: no dead waveform, no disabled-looking player. */
+.mc-narr.is-silent .mc-narr-bars > span {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scaleY(0.1);
+}
+.mc-narr.is-silent .mc-narr-time {
+  display: none;
+}
 @keyframes mc-narr-line {
   from {
     opacity: 0;
