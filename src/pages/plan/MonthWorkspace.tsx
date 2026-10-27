@@ -28,6 +28,7 @@ import {
   RotateCcw,
   Save,
   Search,
+  ShieldCheck,
   Sigma,
   SlidersHorizontal,
   Loader2,
@@ -4726,6 +4727,7 @@ function OfferCard({
   const revenue = hasValidForecast(o) ? n(o.expected_revenue) : null;
   const contribution = margin != null && Number.isFinite(Number(margin)) ? Number(margin) : null;
   const sharePct = monthTarget && monthTarget > 0 && revenue !== null ? (revenue / monthTarget) * 100 : null;
+  const shareWidth = sharePct === null ? 0 : Math.min(Math.max(sharePct, 2), 100);
   // The plan's offers carry the written mechanic in provenance; older ones keep it in mechanics,
   // customer copy or the benefit line.
   const mechanicsText = (() => {
@@ -4751,6 +4753,30 @@ function OfferCard({
     return o.benefit && o.benefit !== o.headline ? o.benefit : '';
   })();
 
+  // The hero carries a plain-language summary of what the client actually gets — short enough
+  // to read at a glance, with the full mechanic kept in the details drawer.
+  const offerBrief = (() => {
+    const source = [o.customer_copy, o.benefit, mechanicsText].find(value => value && String(value).trim());
+    const text = String(source || '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!text) return '';
+    const sentences = (text.match(/[^.!?]+[.!?]*/g) || []).map(part => part.trim()).filter(Boolean);
+    const LIMIT = 128;
+    let brief = '';
+    for (const sentence of sentences) {
+      const next = brief ? `${brief} ${sentence}` : sentence;
+      if (next.length > LIMIT && brief) break;
+      brief = next;
+      if (brief.length >= LIMIT * 0.7) break;
+    }
+    if (brief.length > LIMIT) {
+      const cut = brief.slice(0, LIMIT);
+      brief = `${cut.slice(0, Math.max(cut.lastIndexOf(' '), Math.floor(LIMIT * 0.65))).trim()}…`;
+    }
+    return /[.!?…]$/.test(brief) ? brief : `${brief}.`;
+  })();
+
   return (
     <article
       className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${slot ? ` slot-${slot}` : ''}`}
@@ -4763,108 +4789,73 @@ function OfferCard({
         />
         <div className="oc-hero-scrim" aria-hidden="true" />
 
-        <div className="oc-hero-top">
-          <div className="oc-chips">
-            <span className="oc-num-badge" aria-hidden="true">
-              <span>{offerNum}</span>
-            </span>
-            {slotLabel ? (
-              <span className={`oc-chip is-slot slot-${slot}`}>
-                <Sparkles size={11} />
-                {slotLabel}
-              </span>
-            ) : (
-              streamLabel && (
-                <span className="oc-chip is-stream">
-                  <Target size={11} />
-                  {streamLabel}
-                </span>
-              )
-            )}
-            {membership && (
-              <span className="oc-chip">
-                <Tag size={11} />
-                {membership}
-              </span>
-            )}
-            {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
-            <span
-              className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
-              title={linked ? 'Runs at all locations' : 'This location only'}
-              aria-label={linked ? 'Runs at all locations' : 'This location only'}
-            >
-              {linked ? <Link2 size={11} /> : <Unlink size={11} />}
-            </span>
-          </div>
-
-          {(editable || (canSwap && !shown)) && (
-            <div className="oc-toolbar">
-              <div className="oc-icon-group">
-                {canSwap && !shown && (
-                  <button
-                    type="button"
-                    aria-label={`Generate a new offer with AI in place of ${o.name}`}
-                    title="Generate with AI — a new, better-optimised offer replaces this one"
-                    className={`oc-icon-btn ai${regenerating ? ' is-loading' : ''}`}
-                    onClick={onSwap}
-                    disabled={busy || regenerating}
-                    aria-busy={regenerating}
-                  >
-                    {regenerating ? <Loader2 size={13.5} className="spin" /> : <Sparkles size={13.5} />}
-                  </button>
-                )}
-                {editable && onDuplicate && (
-                  <button
-                    type="button"
-                    aria-label={`Duplicate ${o.name}`}
-                    title="Duplicate as new offer"
-                    className="oc-icon-btn"
-                    onClick={onDuplicate}
-                    disabled={busy}
-                  >
-                    <Copy size={13} />
-                  </button>
-                )}
-                {editable && (
-                  <button
-                    type="button"
-                    aria-label={`Edit ${o.name}`}
-                    title="Edit all offer details"
-                    className="oc-icon-btn"
-                    onClick={onEdit}
-                    disabled={busy}
-                  >
-                    <Pencil size={13.5} />
-                  </button>
-                )}
-                {(editable || !shown) && (
-                  <button
-                    type="button"
-                    aria-label={`Remove ${o.name} from month`}
-                    title="Remove from month plan"
-                    className="oc-icon-btn danger"
-                    onClick={onRemove}
-                    disabled={busy}
-                  >
-                    <Minus size={14} />
-                  </button>
-                )}
-                {editable && onDelete && (
-                  <button
-                    type="button"
-                    aria-label={`Delete ${o.name} permanently`}
-                    title="Delete offer permanently"
-                    className="oc-icon-btn danger"
-                    onClick={onDelete}
-                    disabled={busy}
-                  >
-                    <Trash2 size={13.5} />
-                  </button>
-                )}
-              </div>
+        {(editable || (canSwap && !shown)) && (
+          <div className="oc-toolbar">
+            <div className="oc-icon-group">
+              {canSwap && !shown && (
+                <button
+                  type="button"
+                  aria-label={`Generate a new offer with AI in place of ${o.name}`}
+                  title="Generate with AI — a new, better-optimised offer replaces this one"
+                  className={`oc-icon-btn ai${regenerating ? ' is-loading' : ''}`}
+                  onClick={onSwap}
+                  disabled={busy || regenerating}
+                  aria-busy={regenerating}
+                >
+                  {regenerating ? <Loader2 size={13.5} className="spin" /> : <Sparkles size={13.5} />}
+                </button>
+              )}
+              {editable && onDuplicate && (
+                <button
+                  type="button"
+                  aria-label={`Duplicate ${o.name}`}
+                  title="Duplicate as new offer"
+                  className="oc-icon-btn"
+                  onClick={onDuplicate}
+                  disabled={busy}
+                >
+                  <Copy size={13} />
+                </button>
+              )}
+              {editable && (
+                <button
+                  type="button"
+                  aria-label={`Edit ${o.name}`}
+                  title="Edit all offer details"
+                  className="oc-icon-btn"
+                  onClick={onEdit}
+                  disabled={busy}
+                >
+                  <Pencil size={13.5} />
+                </button>
+              )}
+              {(editable || !shown) && (
+                <button
+                  type="button"
+                  aria-label={`Remove ${o.name} from month`}
+                  title="Remove from month plan"
+                  className="oc-icon-btn danger"
+                  onClick={onRemove}
+                  disabled={busy}
+                >
+                  <Minus size={14} />
+                </button>
+              )}
+              {editable && onDelete && (
+                <button
+                  type="button"
+                  aria-label={`Delete ${o.name}`}
+                  title="Delete offer permanently"
+                  className="oc-icon-btn danger"
+                  onClick={onDelete}
+                  disabled={busy}
+                >
+                  <Trash2 size={13.5} />
+                </button>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="oc-hero-copy">
           <h3 className="oc-title">
@@ -4877,126 +4868,174 @@ function OfferCard({
             )}
           </h3>
           {o.headline && <p className="oc-job">{o.headline}</p>}
+          {offerBrief && <p className="oc-brief">{offerBrief}</p>}
+        </div>
+
+        <div className="oc-chips">
+          <span className="oc-num-badge" aria-hidden="true">
+            <span>{offerNum}</span>
+          </span>
+          {slotLabel ? (
+            <span className={`oc-chip is-slot slot-${slot}`}>
+              <Sparkles size={10} />
+              {slotLabel}
+            </span>
+          ) : (
+            streamLabel && (
+              <span className="oc-chip is-stream">
+                <Target size={10} />
+                {streamLabel}
+              </span>
+            )
+          )}
+          {membership && (
+            <span className="oc-chip">
+              <Tag size={10} />
+              {membership}
+            </span>
+          )}
+          {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
+          <span
+            className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
+            title={linked ? 'Runs at all locations' : 'This location only'}
+            aria-label={linked ? 'Runs at all locations' : 'This location only'}
+          >
+            {linked ? <Link2 size={10} /> : <Unlink size={10} />}
+          </span>
         </div>
       </div>
 
       <div className="oc-sheet">
-        {/* Money first: what it sells for, what the client gains, what it brings in. */}
-        <div className="oc-deal">
-          <div className="oc-deal-primary">
-            <div>
-              <span className="oc-label">{offerColLabel}</span>
-              <span className="oc-price-line">
-                <strong>{offerPrice ? money(offerPrice) : '—'}</strong>
-                {strikePrice && <s>{money(strikePrice)}</s>}
-              </span>
-              <small className="oc-note">
-                {offerColSub || listColSub || (offerPrice ? 'Per membership' : 'Not priced yet')}
-              </small>
-            </div>
-            <div>
-              <span className="oc-label">Client gets</span>
-              <span className="oc-deal-value">
-                {savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}
-              </span>
-              <small className="oc-note">
-                {strikePrice
-                  ? `List ${money(strikePrice)}`
-                  : cashDisc && cashDisc > 0
-                    ? `${Math.round(cashDisc * 100)}% off list`
-                    : effPct > 0
-                      ? 'Structured perk value'
-                      : 'No price cut'}
-              </small>
-            </div>
-            <div>
-              <span className="oc-label">Revenue forecast</span>
-              <span className="oc-deal-value">{revenue !== null ? lakh(revenue) : '—'}</span>
-              <small className="oc-note">
-                {units ? `${number(units)} sales planned` : revenue !== null ? 'Units not set' : 'No forecast yet'}
-              </small>
-            </div>
+        {/* Plan numbers, in one even grid so they can be scanned rather than read. */}
+        <div className="oc-stats">
+          <div className="oc-stat is-lead">
+            <span className="oc-label">{offerColLabel}</span>
+            <span className="oc-stat-value">
+              {offerPrice ? money(offerPrice) : '—'}
+              {strikePrice && <s>{money(strikePrice)}</s>}
+            </span>
+            <small className="oc-stat-note">
+              {offerColSub || listColSub || (offerPrice ? 'Per membership' : 'Not priced yet')}
+            </small>
           </div>
-
-          <div className="oc-deal-secondary">
-            <div>
-              <span className="oc-label">Units</span>
-              <span className={units ? 'oc-deal-mini' : 'oc-deal-mini is-muted'}>
-                {number(units)}
-                {perWeek > 0 && <em>~{perWeek}/wk</em>}
-              </span>
-            </div>
-            <div>
-              <span className="oc-label">Effective discount</span>
-              <span className={effPct > 0 ? 'oc-deal-mini' : 'oc-deal-mini is-muted'}>
-                {effPct > 0 ? fmtPct(effPct) : 'None'}
-              </span>
-            </div>
-            <div>
-              <span className="oc-label">Contribution</span>
-              <span
-                className={contribution === null ? 'oc-deal-mini is-muted' : 'oc-deal-mini'}
-                title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
-              >
-                {contribution === null ? 'Not set' : lakh(contribution)}
-              </span>
-            </div>
-            <div className="oc-deal-share">
-              <span className="oc-label">Share of month target</span>
-              <span className="oc-deal-mini" title={monthTarget ? `${lakh(monthTarget)} target` : undefined}>
-                {sharePct !== null ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}%` : '—'}
-              </span>
-              <span className="oc-share-bar" aria-hidden="true">
-                <i style={{ width: `${Math.min(Math.max(sharePct ?? 0, 2), 100).toFixed(1)}%` }} />
-              </span>
-            </div>
+          <div className="oc-stat">
+            <span className="oc-label">Revenue forecast</span>
+            <span className="oc-stat-value">{revenue !== null ? lakh(revenue) : '—'}</span>
+            <small className="oc-stat-note">
+              {units && offerPrice
+                ? `${number(units)} × ${money(offerPrice)}`
+                : revenue !== null
+                  ? 'Units not set'
+                  : 'No forecast yet'}
+            </small>
+          </div>
+          <div className="oc-stat">
+            <span className="oc-label">Units</span>
+            <span className="oc-stat-value">
+              {number(units)}
+              {perWeek > 0 && <em>~{perWeek}/wk</em>}
+            </span>
+            <small className="oc-stat-note">{units ? `over ${days} days` : 'Not planned'}</small>
+          </div>
+          <div className="oc-stat">
+            <span className="oc-label">Client gets</span>
+            <span className="oc-stat-value">
+              {savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}
+            </span>
+            <small className="oc-stat-note">
+              {strikePrice
+                ? `List ${money(strikePrice)}`
+                : cashDisc && cashDisc > 0
+                  ? `${Math.round(cashDisc * 100)}% off list`
+                  : effPct > 0
+                    ? 'Structured perk value'
+                    : 'No price cut'}
+            </small>
+          </div>
+          <div className="oc-stat">
+            <span className="oc-label">Effective discount</span>
+            <span className={effPct > 0 ? 'oc-stat-value' : 'oc-stat-value is-muted'}>
+              {effPct > 0 ? fmtPct(effPct) : 'None'}
+            </span>
+            <small className="oc-stat-note">Against list price</small>
+          </div>
+          <div className="oc-stat">
+            <span className="oc-label">Contribution</span>
+            <span
+              className={contribution === null ? 'oc-stat-value is-muted' : 'oc-stat-value'}
+              title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
+            >
+              {contribution === null ? 'Not set' : lakh(contribution)}
+            </span>
+            <small className="oc-stat-note">{contribution === null ? 'Costs pending' : 'After delivery cost'}</small>
           </div>
         </div>
 
-        {mechanicsText && (
-          <div className="oc-how">
-            <div className="oc-how-head">
-              <span className="oc-label">
-                <Lightbulb size={12} /> How it works
-              </span>
-              {mechanic && <em className="oc-how-tag">{mechanic}</em>}
-            </div>
-            <p title={mechanicsText}>{mechanicsText}</p>
+        <div className="oc-share">
+          <div className="oc-share-head">
+            <span className="oc-label">Share of month target</span>
+            <b>{sharePct !== null ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}%` : '—'}</b>
+            <em>{monthTarget ? `of ${lakh(monthTarget)}` : 'Month target not set'}</em>
           </div>
-        )}
+          <span className="oc-meter" aria-hidden="true">
+            <i style={{ width: `${shareWidth.toFixed(1)}%` }} />
+          </span>
+        </div>
 
-        <dl className="oc-rows">
-          <div>
-            <dt>
-              <Users size={12} /> Who
-            </dt>
-            <dd>{o.audience || 'All clients'}</dd>
+        <div className="oc-meta">
+          <div className="oc-meta-item">
+            <span className="oc-meta-icon">
+              <Users size={13} />
+            </span>
+            <div>
+              <span className="oc-label">Who it&rsquo;s for</span>
+              <b>{o.audience || 'All clients'}</b>
+            </div>
           </div>
-          <div>
-            <dt>
-              <Calendar size={12} /> When
-            </dt>
-            <dd>
-              {windowText} · {days} days
-            </dd>
+          <div className="oc-meta-item">
+            <span className="oc-meta-icon">
+              <Calendar size={13} />
+            </span>
+            <div>
+              <span className="oc-label">Runs</span>
+              <b>
+                {windowText} · {days} days
+              </b>
+            </div>
           </div>
           {o.excluded_audience && (
-            <div>
-              <dt>
-                <Minus size={12} /> Excludes
-              </dt>
-              <dd>{o.excluded_audience}</dd>
+            <div className="oc-meta-item">
+              <span className="oc-meta-icon">
+                <Minus size={13} />
+              </span>
+              <div>
+                <span className="oc-label">Excludes</span>
+                <b>{o.excluded_audience}</b>
+              </div>
             </div>
           )}
           {o.cta && (
-            <div>
-              <dt>
-                <Target size={12} /> Call to action
-              </dt>
-              <dd>{o.cta}</dd>
+            <div className="oc-meta-item">
+              <span className="oc-meta-icon">
+                <Target size={13} />
+              </span>
+              <div>
+                <span className="oc-label">Call to action</span>
+                <b>{o.cta}</b>
+              </div>
             </div>
           )}
-        </dl>
+        </div>
+
+        <div className="oc-terms">
+          <span className="oc-meta-icon">
+            <ShieldCheck size={13} />
+          </span>
+          <div>
+            <span className="oc-label">Terms</span>
+            <b>{o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}</b>
+          </div>
+        </div>
 
         <footer className="oc-footer">
           <div className="oc-footer-bar">
@@ -5042,8 +5081,14 @@ function OfferCard({
 
           {whyOpen && (
             <div className="oc-details-body">
+              {mechanicsText && (
+                <p className="oc-terms-line">
+                  <b>How it works</b> {mechanicsText}
+                </p>
+              )}
               <p className="oc-terms-line">
-                <b>Terms</b> {o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}
+                <b>Full terms</b>{' '}
+                {o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}
               </p>
               {o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline && (
                 <p className="oc-quote">“{o.customer_copy}”</p>
