@@ -5084,53 +5084,46 @@ function OfferCard({
           </div>
         </div>
 
-        {(reasons.length > 0 || o.rationale || metrics.length > 0 || risks.length > 0) && (
-          <div className="oc-why">
-            <span className="oc-why-heading">Why it works</span>
-            <div className="oc-why-grid">
-              {reasons.length ? (
-                reasons.slice(0, 3).map(([, key, value], index) => {
-                  const Icon = /why|logic/i.test(key) ? Target : /watch|kpi/i.test(key) ? TrendingUp : Package;
-                  return (
+        {(reasons.length > 0 || o.rationale || metrics.length > 0 || risks.length > 0) &&
+          (() => {
+            // Three evenly weighted columns: the written reasoning first, then the watch-list.
+            const columns: Array<{ key: string; value: string; icon: typeof Target }> = reasons.length
+              ? reasons.slice(0, 3).map(([, key, value]) => ({
+                  key: titleCase(key),
+                  value,
+                  icon: /why|logic/i.test(key) ? Target : /watch|kpi/i.test(key) ? TrendingUp : Package,
+                }))
+              : [
+                  {
+                    key: 'Why',
+                    value: o.rationale || 'Add the reasoning behind this offer so the team can defend it in the room.',
+                    icon: Target,
+                  },
+                  ...(metrics.length ? [{ key: 'Watch', value: metrics.join(' · '), icon: TrendingUp }] : []),
+                  ...(risks.length ? [{ key: 'Risk', value: risks.join(' · '), icon: ShieldCheck }] : []),
+                ];
+            return (
+              <div className="oc-why">
+                <span className="oc-why-heading">Why it works</span>
+                <div
+                  className="oc-why-grid"
+                  style={{ '--oc-why-cols': Math.min(columns.length, 3) } as React.CSSProperties}
+                >
+                  {columns.map(({ key, value, icon: Icon }, index) => (
                     <div key={`${key}-${index}`} className="oc-why-col">
-                      <span className="oc-why-icon">
-                        <Icon size={15} />
-                      </span>
-                      <span className="oc-label">{key}</span>
-                      <p>{value}</p>
+                      <div className="oc-why-head">
+                        <span className="oc-why-icon">
+                          <Icon size={14} />
+                        </span>
+                        <span className="oc-label">{key}</span>
+                      </div>
+                      <p title={value}>{value}</p>
                     </div>
-                  );
-                })
-              ) : (
-                <div className="oc-why-col is-wide">
-                  <span className="oc-why-icon">
-                    <Target size={15} />
-                  </span>
-                  <span className="oc-label">Why</span>
-                  <p>{o.rationale || 'Add the reasoning behind this offer so the team can defend it in the room.'}</p>
+                  ))}
                 </div>
-              )}
-              {!reasons.length && metrics.length > 0 && (
-                <div className="oc-why-col">
-                  <span className="oc-why-icon">
-                    <TrendingUp size={15} />
-                  </span>
-                  <span className="oc-label">Watch</span>
-                  <p>{metrics.join(' · ')}</p>
-                </div>
-              )}
-              {!reasons.length && risks.length > 0 && (
-                <div className="oc-why-col">
-                  <span className="oc-why-icon">
-                    <ShieldCheck size={15} />
-                  </span>
-                  <span className="oc-label">Risk</span>
-                  <p>{risks.join(' · ')}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+              </div>
+            );
+          })()}
 
         <div className="oc-sign">
           <span>{[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}</span>
