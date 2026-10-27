@@ -1271,7 +1271,7 @@ export function studioProfile(studioId: number, year: number) {
   const offers = db
     .prepare(
       `SELECT id,name,objective,status,actual_revenue,actual_redemptions,effective_discount,expected_revenue FROM offers
-    WHERE ${offerScope.clause} OR studio_id IS NULL ORDER BY COALESCE(actual_revenue,expected_revenue,0) DESC LIMIT 8`,
+    WHERE (${offerScope.clause} OR studio_id IS NULL) AND NOT (year=2027 AND month IS NULL) ORDER BY COALESCE(actual_revenue,expected_revenue,0) DESC LIMIT 8`,
     )
     .all(...offerScope.ids);
   const strengths: string[] = [],

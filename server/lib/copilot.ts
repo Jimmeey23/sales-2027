@@ -475,7 +475,16 @@ function planContext(studioId: number | null | undefined, year: number) {
           leads: f.requiredLeads,
           trials: f.requiredCompletedTrials,
           buyers: f.requiredNewBuyers,
-          leadOffer: a.playbook?.leadOffer,
+          offers: (
+            db
+              .prepare(
+                `SELECT o.name FROM monthly_plans p, json_each(json_array(json_extract(p.slots,'$.newcomer'),json_extract(p.slots,'$.lapsed'),json_extract(p.slots,'$.renewal'))) j
+                 JOIN offers o ON o.id=j.value WHERE p.studio_id=? AND p.year=? AND p.month=?
+                 UNION ALL SELECT o.name FROM monthly_plans p, json_each(COALESCE(p.offer_ids,'[]')) j
+                 JOIN offers o ON o.id=j.value WHERE p.studio_id=? AND p.year=? AND p.month=?`,
+              )
+              .all(s.id, year, t.month, s.id, year, t.month) as any[]
+          ).map(r => r.name),
           objective: a.playbook?.objective,
         };
       }),
@@ -490,7 +499,7 @@ function planContext(studioId: number | null | undefined, year: number) {
     .all(focus.id);
   const offers = db
     .prepare(
-      `SELECT name,offer_type,benefit,month,year,effective_discount,expected_revenue,actual_revenue,status FROM offers WHERE studio_id=? AND status NOT IN ('archived','rejected')
+      `SELECT name,offer_type,benefit,month,year,effective_discount,expected_revenue,actual_revenue,status FROM offers WHERE studio_id=? AND status NOT IN ('archived','rejected') AND NOT (year=2027 AND month IS NULL)
     ORDER BY COALESCE(actual_revenue,0) DESC, expected_revenue DESC LIMIT 15`,
     )
     .all(focus.id);

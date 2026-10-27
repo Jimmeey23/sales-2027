@@ -6,7 +6,7 @@ import { Badge, Input, TableScroll } from '../../components/ui';
 import { ACTIVATIONS_2027, AD_SPLIT, CHANNEL_LABELS, CPL_BY_CITY, collateralFor } from '../../data/activations';
 import { OFFER_LIBRARY } from '../../data/offerLibrary';
 import { lakh, type PlanData } from './usePlanData';
-import { offersInMonth } from './TargetsTab';
+import { selectedInMonth } from './TargetsTab';
 
 export default function MarketingTab({ data }: { data: PlanData }) {
   const [month, setMonth] = useState(1),
@@ -36,7 +36,7 @@ export default function MarketingTab({ data }: { data: PlanData }) {
     spend = budget[month - 1];
   const activation = ACTIVATIONS_2027[month - 1],
     hook = OFFER_LIBRARY.find(o => o.name.toLowerCase().startsWith(row.leadOffer.toLowerCase().split(' (')[0]))?.hook;
-  const promos = offersInMonth(data, month);
+  const promos = selectedInMonth(data, month);
   return (
     <>
       <div className="ws-toolbar">

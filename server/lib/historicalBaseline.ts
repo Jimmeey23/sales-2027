@@ -12,6 +12,7 @@ import { applySlotOffers } from './offerCatalog.js';
 import { applySalesOfferPlan } from './salesOfferPlan2027.js';
 import { applyMembershipLibrary } from './membershipLibrary2027.js';
 import { captureStandardBase } from './targetScenarios.js';
+import { ensureOfferBank2027, offerBankReady } from './offerBank2027.js';
 
 const readJson = (file: string) => JSON.parse(fs.readFileSync(path.resolve('server/data', file), 'utf8'));
 
@@ -1042,12 +1043,15 @@ export function ensureBaselineData() {
   const planOffers2027 = Number(
     (db.prepare("SELECT COUNT(*) n FROM offers WHERE year=2027 AND generation_source='plan_2027'").get() as any)?.n || 0,
   );
-  if (planOffers2027 === 0) {
+  // Once the 2027 offer bank exists it is the only offer source; the old plan imports must never re-run.
+  if (planOffers2027 === 0 && !offerBankReady()) {
     applyPlanOffers(2027, adminId);
     applySlotOffers(2027, adminId);
     applySalesOfferPlan(2027, adminId);
     applyMembershipLibrary(2027, adminId);
   }
+  const bank = ensureOfferBank2027();
+  if (bank) audit({ userId: adminId, action: 'offer_bank_2027', entityType: 'system', after: bank, reason: 'Merged all 2027 offer sources into one bank per location.' });
 
   if (history.seeded) {
     audit({

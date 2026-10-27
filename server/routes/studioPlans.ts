@@ -18,16 +18,27 @@ import { studioScopeIds } from '../lib/studios.js';
 import { coverPlan, PRODUCT_KEYS, linkedOfferChange, listPrice, planningStudios, selection } from '../lib/linkedOffers.js';
 
 export default function registerStudioPlansRoutes(app: Express) {
-  const planRow = (p: any) =>
-    p
-      ? {
-          ...p,
-          actions: JSON.parse(p.actions || '[]'),
-          content: p.content ? JSON.parse(p.content) : {},
-          offer_ids: p.offer_ids === null || p.offer_ids === undefined ? null : JSON.parse(p.offer_ids),
-          slots: p.slots ? JSON.parse(p.slots) : null,
-        }
-      : null;
+  // The offers a month picked from the bank, in plan order — the only offers any view shows for that month.
+  const pickedOffers = (slots: any, offerIds: any) => {
+    const ids = [...Object.values(slots || {}), ...(offerIds || [])].map(Number).filter(Boolean);
+    const get = db.prepare(
+      `SELECT id,name,headline,objective,benefit,expected_revenue,status FROM offers WHERE id=? AND status NOT IN ('archived','rejected')`,
+    );
+    return ids.map(i => get.get(i)).filter(Boolean);
+  };
+  const planRow = (p: any) => {
+    if (!p) return null;
+    const slots = p.slots ? JSON.parse(p.slots) : null,
+      offer_ids = p.offer_ids === null || p.offer_ids === undefined ? null : JSON.parse(p.offer_ids);
+    return {
+      ...p,
+      actions: JSON.parse(p.actions || '[]'),
+      content: p.content ? JSON.parse(p.content) : {},
+      offer_ids,
+      slots,
+      offers: pickedOffers(slots, offer_ids),
+    };
+  };
   const studioIdByName = (name: string) =>
     (db.prepare('SELECT id FROM studios WHERE name=?').get(name) as any)?.id as number | undefined;
   app.get('/api/studio-plans', (req, res) => {
@@ -165,6 +176,47 @@ export default function registerStudioPlansRoutes(app: Express) {
   app.post('/api/studio-plans/:studioId/:year/:month/offers/ai', permission('target_edit'), async (req, res) => {
     const studioId = studioFilter(req, id(req.params.studioId));
     res.json(await proposeOffers(studioId, copilotRequestSchema.parse(req.body)));
+  });
+  // One-click "Generate with AI" on an offer card: asks for fresh, better-optimised replacements, keeps the
+  // strongest (most revenue at the least discount) and swaps it into the same card.
+  app.post('/api/studio-plans/:studioId/:year/:month/offers/:offerId/ai/regenerate', permission('target_edit'), async (req, res) => {
+    const studioId = studioFilter(req, id(req.params.studioId)),
+      year = id(req.params.year),
+      month = id(req.params.month),
+      offerId = id(req.params.offerId);
+    if (month > 12) throw bodyError('Month must be between 1 and 12.');
+    const current = db.prepare('SELECT name, approval_status FROM offers WHERE id=? AND studio_id=?').get(offerId, studioId) as any;
+    if (!current) throw bodyError('Offer not found.', 404);
+    if (current.approval_status === 'approved') throw bodyError('Reopen the approved offer first.', 409);
+    const body = copilotRequestSchema.parse({
+      ...req.body,
+      mode: 'replace',
+      replaceOfferId: offerId,
+      steer: [
+        `Invent a new, different concept to replace “${current.name}” — not a reworded copy of it.`,
+        'It must beat it: more revenue for this stream at a lower effective discount, using value-adds over cash off.',
+        'Fill every field completely: a specific audience, a concrete benefit, a sharp headline, realistic units and a data-led rationale.',
+        `Variation seed ${Math.random().toString(36).slice(2, 8)}.`,
+        req.body?.steer || '',
+      ]
+        .join(' ')
+        .slice(0, 400),
+    });
+    const { proposals } = await proposeOffers(studioId, body);
+    const score = (p: any) => Number(p.revenue || 0) * (1 - Math.min(0.5, Number(p.discountPct || 0) / 100));
+    const best = [...proposals].filter(p => p.action === 'replace').sort((a, b) => score(b) - score(a))[0];
+    if (!best) throw bodyError('The AI could not find a better offer for this card. Try again.', 422);
+    const result = applyProposal(studioId, year, month, best, Boolean(req.body?.solo), req.user!.id);
+    audit({
+      userId: req.user!.id,
+      action: 'offer.ai_regenerate',
+      entityType: 'offer',
+      entityId: result.offerId,
+      studioId,
+      before: { offerId, name: current.name },
+      after: { name: best.name, revenue: best.revenue, discountPct: best.discountPct },
+    });
+    res.json({ ...result, proposal: best });
   });
   app.post('/api/studio-plans/:studioId/:year/:month/offers/ai/apply', permission('target_edit'), (req, res) => {
     const studioId = studioFilter(req, id(req.params.studioId)),

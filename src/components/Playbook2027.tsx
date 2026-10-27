@@ -3,7 +3,7 @@ import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, T
 import { useApp } from '../App';
 import { useLoad } from '../hooks';
 import { PLAYBOOK_2027 } from '../data/playbook2027';
-import { Badge, Card, CardHeader, ErrorState, Loading, TableScroll } from './ui';
+import { Card, CardHeader, ErrorState, Loading, TableScroll } from './ui';
 
 // ---------- types (data lives in src/data/playbook2027.ts) ----------
 export type PlaybookKey = 'Kemps Corner' | 'Bandra' | 'Kenkere House' | 'Pop-up';
@@ -44,6 +44,8 @@ export type StudioPlaybook = {
     projection: number;
     appTargetAtBuild: number;
   };
+  // Written offers and month picks below were folded into the 2027 offer bank (server/lib/offerBank2027.ts);
+  // the page shows each month's picks from the plan instead.
   offers: Offer[];
   months: MonthRow[];
   rhythm: Array<[string, string]>;
@@ -85,16 +87,6 @@ const lakh = (v: number | null | undefined, d = 1) =>
   v == null ? '—' : `${v < 0 ? '−' : ''}₹${(Math.abs(v) / 1e5).toFixed(d)}L`;
 const crore = (v: number | null | undefined) => (v == null ? '—' : `₹${(v / 1e7).toFixed(2)} Cr`);
 const int = (v: number) => Math.round(v).toLocaleString('en-IN');
-const TAG_TONE: Record<string, 'green' | 'amber' | 'blue' | 'purple' | 'red' | 'neutral' | 'dark'> = {
-  Conversion: 'green',
-  Acquisition: 'blue',
-  'Win-back': 'amber',
-  Renewal: 'purple',
-  Retention: 'purple',
-  Capacity: 'dark',
-  Upsell: 'blue',
-  Operations: 'neutral',
-};
 
 export default function Playbook2027({ scope, showMonths = true }: { scope?: string | null; showMonths?: boolean }) {
   const { boot, scenario } = useApp();
@@ -112,7 +104,11 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
     () => import('../api').then(({ api }) => api(`/targets/breakdown?year=2027&studio=${studio?.id}`)),
     [studio?.id, scenario],
   );
-  const [openOffer, setOpenOffer] = useState<string | null>(null);
+  // Each month's offers are the ones its plan picked from the offer bank.
+  const { data: planDetail } = useLoad<any>(
+    () => import('../api').then(({ api }) => api(`/studio-plans/${studio?.id}?year=2027`)),
+    [studio?.id],
+  );
   const [openLever, setOpenLever] = useState<string | null>(null);
 
   // Targets and volumes come from the one target breakdown (Targets tab) — never recomputed here.
@@ -124,13 +120,14 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
         const x = bd?.months?.[i];
         return {
           ...m,
+          offers: ((planDetail?.plans || []).find((p: any) => p.month === i + 1)?.offers || []).map((o: any) => o.name) as string[],
           target: Number(x?.target || 0),
           buyers: Number(x?.newPaying || 0),
           visits: Number(x?.firstVisits || 0),
           leads: Number(x?.leads || 0),
         };
       }),
-    [pb, bd],
+    [pb, bd, planDetail],
   );
 
   const chart = useMemo(
@@ -311,50 +308,6 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
           </ResponsiveContainer>
         </div>
       </Card>
-
-      <h3 className="pb27-h">Offer playbook</h3>
-      <p className="pb27-note">
-        Offers beat the standing perks rather than stack with them: a client gets either the 15% newcomer/lapsed perk or
-        the campaign offer. Value is given as time, classes and service — not cash off — because discounted buyers renew
-        less at every studio.
-      </p>
-      <div className="pb27-offers">
-        {pb.offers.map(o => {
-          const open = openOffer === o.name;
-          return (
-            <Card key={o.name} className={`pb27-offer ${open ? 'open' : ''}`}>
-              <div className="pb27-offer-top">
-                <Badge tone={TAG_TONE[o.tag] || 'neutral'}>{o.tag}</Badge>
-                <span className="pb27-offer-when">{o.months}</span>
-              </div>
-              <h4>{o.name}</h4>
-              <p className="pb27-offer-aud">{o.audience}</p>
-              <p>{o.mechanic}</p>
-              <div className="pb27-offer-logic">
-                <span>Why — the data</span>
-                <p>{o.logic}</p>
-              </div>
-              {open && (
-                <dl className="pb27-offer-more">
-                  <dt>Economics</dt>
-                  <dd>{o.economics}</dd>
-                  <dt>Watch</dt>
-                  <dd>{o.kpi}</dd>
-                  {o.lever && (
-                    <>
-                      <dt>Lever</dt>
-                      <dd>{b.levers.find(l => l.id === o.lever)?.name || '—'}</dd>
-                    </>
-                  )}
-                </dl>
-              )}
-              <button className="pb27-link" onClick={() => setOpenOffer(open ? null : o.name)}>
-                {open ? 'Less' : 'Economics & KPI'}
-              </button>
-            </Card>
-          );
-        })}
-      </div>
 
       {showMonths && (
         <Card>

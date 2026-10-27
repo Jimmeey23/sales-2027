@@ -23,12 +23,11 @@ import { api, post } from '../../api';
 import { useApp } from '../../App';
 import { MONTHS, MONTHS_SHORT, OBJECTIVES, SEGMENTS, money, number, percent, titleCase } from '../../types';
 import { Badge, Button, Callout, Field, Input, Loading, Select, StatusBadge, Textarea } from '../../components/ui';
-import { FAMILY_TONES, OFFER_LIBRARY, type OfferTemplate } from '../../data/offerLibrary';
 import { planningLocations } from '../../data/locations';
 import { MONTH_OBJECTIVES } from '../../data/planDefaults';
 import { useLoad } from '../../hooks';
 import { lakh, type PlanData } from './usePlanData';
-import { offersInMonth, selectedInMonth } from './TargetsTab';
+import { selectedInMonth } from './TargetsTab';
 
 const OfferBuilder = lazy(() => import('../OfferBuilder'));
 const OfferBank = lazy(() => import('../OfferBank'));
@@ -36,8 +35,7 @@ const GoalBuilder = lazy(() => import('../GoalBuilder'));
 // One offer studio: every way to find, generate or build an offer is a view here.
 export const OFFER_VIEWS = [
   { id: 'planned', label: 'Planned promotions', icon: CalendarRange },
-  { id: 'library', label: 'Offer library', icon: Library },
-  { id: 'playbook', label: 'Playbook', icon: BookOpen },
+  { id: 'library', label: 'Offer bank', icon: Library },
   { id: 'generate', label: 'Generate', icon: WandSparkles },
   { id: 'gap', label: 'Fill a revenue gap', icon: Target },
   { id: 'manual', label: 'Build manually', icon: PenLine },
@@ -82,7 +80,6 @@ export default function OffersTab({ data, reload }: { data: PlanData; reload: ()
       </nav>
       {view === 'planned' && <Planned data={data} />}
       {view === 'library' && embed(<OfferBank />)}
-      {view === 'playbook' && <Playbook />}
       {view === 'generate' && <Generator data={data} onSaved={() => reload().catch(() => {})} />}
       {view === 'gap' && embed(<GoalBuilder />)}
       {view === 'manual' && embed(<OfferBuilder />)}
@@ -174,9 +171,8 @@ function Planned({ data }: { data: PlanData }) {
   const navigate = useNavigate();
   const [month, setMonth] = useState(0),
     [status, setStatus] = useState(''),
-    [q, setQ] = useState(''),
-    [showAlternatives, setShowAlternatives] = useState(false);
-  const all = data.months.flatMap(m => offersInMonth(data, m.month));
+    [q, setQ] = useState('');
+  const all = data.months.flatMap(m => selectedInMonth(data, m.month));
   const statuses = [...new Set(all.map(o => o.status).filter(Boolean))] as string[];
   const match = (o: any) =>
     (!status || o.status === status) &&
@@ -190,7 +186,7 @@ function Planned({ data }: { data: PlanData }) {
             All
           </button>
           {data.months.map(m => {
-            const n = offersInMonth(data, m.month).length;
+            const n = selectedInMonth(data, m.month).length;
             return (
               <button
                 key={m.month}
@@ -205,9 +201,6 @@ function Planned({ data }: { data: PlanData }) {
           })}
         </div>
         <div className="os-toolbar-right">
-          <button className="os-view-toggle" aria-pressed={showAlternatives} onClick={() => setShowAlternatives(v => !v)}>
-            {showAlternatives ? 'Showing candidates' : 'Show candidates'}
-          </button>
           <label className="os-search">
             <Search size={14} />
             <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search offers" />
@@ -225,8 +218,7 @@ function Planned({ data }: { data: PlanData }) {
       {months.map(m => {
         const selected = selectedInMonth(data, m.month).filter(o => o.data_mode !== 'demo' && o.generation_source !== 'demo_seed'),
           selectedIds = new Set(selected.map(o => Number(o.id))),
-          allOffers = offersInMonth(data, m.month).filter(match),
-          offers = allOffers.filter(o => showAlternatives || selectedIds.has(Number(o.id))),
+          offers = selected.filter(match),
           expected = selected.reduce((sum, o) => {
             const financials = parseJson(o.financials);
             const modeledRevenue = financials.expectedRevenue;
@@ -253,8 +245,8 @@ function Planned({ data }: { data: PlanData }) {
                   <b>{lakh(expected)}</b>
                 </div>
                 <div>
-                  <span className="os-label">Selected / candidates</span>
-                  <b>{selected.length} / {allOffers.length}</b>
+                  <span className="os-label">Selected offers</span>
+                  <b>{selected.length}</b>
                 </div>
                 <div className="os-cover" aria-hidden>
                   <span style={{ width: `${cover}%` }} />
@@ -269,106 +261,13 @@ function Planned({ data }: { data: PlanData }) {
               </div>
             ) : (
               <p className="os-empty">
-                {q || status ? 'No offers match these filters.' : showAlternatives ? 'No candidate offers for this month.' : 'No offers selected on this month plan yet.'}
+                {q || status ? 'No offers match these filters.' : 'No offers selected on this month plan yet.'}
               </p>
             )}
           </section>
         );
       })}
     </div>
-  );
-}
-
-export function templateConcept(t: OfferTemplate, studioId: number, year: number, month = t.months[0]) {
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return {
-    name: t.name,
-    headline: t.hook,
-    customerCopy: t.benefit,
-    rationale: t.why,
-    internalDescription: `Guardrail: ${t.guardrail}`,
-    objective: t.objective,
-    offerType: t.mechanism,
-    audience: t.audience,
-    benefit: t.benefit,
-    studioId,
-    year,
-    month,
-    validityStart: `${year}-${pad(month)}-01`,
-    validityEnd: `${year}-${pad(month)}-14`,
-    mechanics: t.mechanics,
-  };
-}
-
-function Playbook() {
-  const { boot, studioId, year } = useApp(),
-    navigate = useNavigate();
-  const [family, setFamily] = useState(''),
-    [month, setMonth] = useState('');
-  const sid = studioId || planningLocations(boot.studios)[0]?.id;
-  const rows = OFFER_LIBRARY.filter(
-    t => (!family || t.family === family) && (!month || t.months.includes(Number(month))),
-  );
-  return (
-    <>
-      <div className="ws-filterbar">
-        <div className="ws-chipset">
-          {['', ...new Set(OFFER_LIBRARY.map(t => t.family))].map(f => (
-            <button key={f || 'all'} className={family === f ? 'active' : ''} onClick={() => setFamily(f)}>
-              {f || 'All'}
-            </button>
-          ))}
-        </div>
-        <Select value={month} onChange={e => setMonth(e.target.value)}>
-          <option value="">Any month</option>
-          {MONTHS.map((m, i) => (
-            <option key={m} value={i + 1}>
-              {m}
-            </option>
-          ))}
-        </Select>
-      </div>
-      <div className="ws-offer-grid">
-        {rows.map(t => (
-          <div key={t.id} className="ws-template">
-            <header>
-              <Badge tone={FAMILY_TONES[t.family] as any}>{t.family}</Badge>
-              <span>{t.months.length === 12 ? 'Always-on' : t.months.map(m => MONTHS_SHORT[m - 1]).join(' · ')}</span>
-            </header>
-            <strong>{t.name}</strong>
-            <em>“{t.hook}”</em>
-            <p>{t.benefit}</p>
-            <dl>
-              <div>
-                <dt>Why it works</dt>
-                <dd>{t.why}</dd>
-              </div>
-              <div>
-                <dt>Guardrail</dt>
-                <dd>{t.guardrail}</dd>
-              </div>
-              <div>
-                <dt>Audience</dt>
-                <dd>
-                  {titleCase(t.audience)} · {titleCase(t.mechanism)}
-                </dd>
-              </div>
-            </dl>
-            <Button
-              size="sm"
-              icon={<Edit3 size={14} />}
-              onClick={() =>
-                navigate('/offers?view=manual', {
-                  state: { concept: templateConcept(t, sid!, year, month ? Number(month) : t.months[0]) },
-                })
-              }
-            >
-              Use in builder
-            </Button>
-          </div>
-        ))}
-      </div>
-    </>
   );
 }
 

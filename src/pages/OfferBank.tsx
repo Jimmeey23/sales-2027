@@ -68,10 +68,12 @@ export default function OfferBank() {
     const q = new URLSearchParams();
     Object.entries(filters).forEach(([k, v]) => v && q.set(k, String(v)));
     if (studioId) q.set('studio', String(studioId));
+    q.set('year', String(year));
+    q.set('bank', '1');
     q.set('page', String(page));
     q.set('limit', '40');
     return q.toString();
-  }, [filters, studioId, page]);
+  }, [filters, studioId, year, page]);
   const { data, loading, error, reload } = useLoad<any>(() => api(`/offers?${query}`), [query]);
   const rows = useMemo(
     () =>
@@ -200,14 +202,6 @@ export default function OfferBank() {
                   </option>
                 ))}
               </Select>
-              <Select value={filters.month} onChange={e => set('month', e.target.value)}>
-                <option value="">All months</option>
-                {MONTHS.map((m, i) => (
-                  <option key={m} value={i + 1}>
-                    {m}
-                  </option>
-                ))}
-              </Select>
               <Select value={filters.year} onChange={e => set('year', e.target.value)}>
                 <option value="">All years</option>
                 {[2024, 2025, 2026, 2027].map(y => (
@@ -306,7 +300,7 @@ export default function OfferBank() {
                         </td>
                         <td>
                           <strong>{o.studio || 'All studios'}</strong>
-                          <span>{o.month ? `${MONTHS[o.month - 1]} ${o.year}` : 'Always-on / unscheduled'}</span>
+                          <span>Offer bank {o.year}</span>
                         </td>
                         <td>
                           <span>{titleCase(o.objective)}</span>

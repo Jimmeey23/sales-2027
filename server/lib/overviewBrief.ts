@@ -278,12 +278,12 @@ export function overviewBrief(studioId: number | null) {
     .all(themeStudioId) as any[];
   const offerCounts = db
     .prepare(
-      `SELECT month, COUNT(*) n FROM offers WHERE year=2027 ${studioId ? `AND studio_id IN (${placeholders(scopeIds)})` : ''} GROUP BY month`,
+      `SELECT month, COUNT(*) n FROM offers WHERE year=2027 AND month IS NOT NULL AND status NOT IN ('archived','rejected') AND data_mode!='demo' ${studioId ? `AND studio_id IN (${placeholders(scopeIds)})` : ''} GROUP BY month`,
     )
     .all(...(studioId ? scopeIds : [])) as any[];
   const offerTypes = db
     .prepare(
-      `SELECT offer_type, COUNT(*) n FROM offers WHERE year=2027 ${studioId ? `AND studio_id IN (${placeholders(scopeIds)})` : ''} GROUP BY 1 ORDER BY 2 DESC`,
+      `SELECT offer_type, COUNT(*) n FROM offers WHERE year=2027 AND month IS NOT NULL AND status NOT IN ('archived','rejected') AND data_mode!='demo' ${studioId ? `AND studio_id IN (${placeholders(scopeIds)})` : ''} GROUP BY 1 ORDER BY 2 DESC`,
     )
     .all(...(studioId ? scopeIds : [])) as any[];
   const campaigns = db

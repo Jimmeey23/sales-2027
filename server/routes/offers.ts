@@ -117,6 +117,8 @@ export function persistOffer(body: any, user: any) {
   )
     throw bodyError('New offers must be saved as drafts; use the approval action after review.', 422);
   const row = validateOfferForSave(body, user);
+  // 2027 offers are saved to the location's offer bank; a month uses them only once its plan picks them.
+  if (Number(row.year) === 2027) row.month = null;
   const uid = `P57-${new Date().getFullYear()}-${crypto.randomBytes(5).toString('hex').toUpperCase()}`;
   const columns = Object.keys(row),
     values = Object.values(row);
@@ -498,6 +500,8 @@ export default function registerOffersRoutes(app: Express) {
       clauses.push('o.year=?');
       params.push(Number(req.query.year));
     }
+    // The offer bank: a year's offers not tied to a month (month copies live on the month plans).
+    if (req.query.bank) clauses.push('o.month IS NULL');
     if (req.query.month) {
       clauses.push('o.month=?');
       params.push(Number(req.query.month));
@@ -751,8 +755,9 @@ export default function registerOffersRoutes(app: Express) {
         generationSource: before.generation_source,
         dataMode: 'user',
       };
-      const row = validateOfferForSave(payload, req.user),
-        columns = Object.keys(row);
+      const row = validateOfferForSave(payload, req.user);
+      if (Number(row.year) === 2027) row.month = null; // clones land in the destination's offer bank
+      const columns = Object.keys(row);
       const result = db
         .prepare(
           `INSERT INTO offers(offer_uid,created_by,original_offer_id,${columns.join(',')}) VALUES (?,?,?${',?'.repeat(columns.length)})`,

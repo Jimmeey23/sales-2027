@@ -2,16 +2,13 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
-  BadgePercent,
   Calendar,
-  CalendarCheck2,
   CalendarHeart,
   Check,
   CheckCircle2,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  Clock,
   Copy,
   FileText,
   Flag,
@@ -33,9 +30,11 @@ import {
   Search,
   Sigma,
   SlidersHorizontal,
+  Loader2,
   Sparkles,
   Tag,
   Target,
+  Users,
   Trash2,
   Trophy,
   Unlink,
@@ -51,7 +50,6 @@ import Marquee from '../../components/Marquee';
 import FestivalArt from '../../components/FestivalArt';
 import MarketingCollaterals from '../../components/MarketingCollaterals';
 import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor } from '../../data/keyDates';
-import { OFFER_LIBRARY } from '../../data/offerLibrary';
 import { MONTHS, money, number, titleCase } from '../../types';
 import type { ActionItem } from '../../data/planDefaults';
 import { monthActivations } from './CampaignsTab';
@@ -59,6 +57,15 @@ import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
 const LIVE = (o: any) => !['archived', 'rejected'].includes(o.status);
+// A month's copy points back at the bank offer it was picked from.
+const bankIdOf = (o: any) => {
+  if (o.month == null) return o.id;
+  try {
+    return (typeof o.provenance === 'string' ? JSON.parse(o.provenance) : o.provenance || {}).bankId ?? o.id;
+  } catch {
+    return o.id;
+  }
+};
 const STREAMS = [
   { key: 'newClient', field: 'new_client_target', body: 'newClientTarget', label: 'New clients', color: 'var(--a1)' },
   {
@@ -505,45 +512,25 @@ export default function MonthWorkspace({
       ),
     [data.offers, ownIds],
   );
+  // The month shows only what its plan picked; the library is the location's offer bank (offers with no month).
   const exists = (id: any) => id && ownOffers.some(o => o.id === id);
   const slots: Record<string, number | null> = Object.fromEntries(
-    SLOT_KEYS.map(slot => [
-      slot,
-      saved?.slots
-        ? exists(saved.slots[slot])
-          ? saved.slots[slot]
-          : null
-        : (ownOffers.find(
-            o => o.month === month && o.generation_source === 'plan_2027' && o.plan_slot === slot && o.plan_rank === 1,
-          )?.id ?? null),
-    ]),
+    SLOT_KEYS.map(slot => [slot, exists(saved?.slots?.[slot]) ? saved.slots[slot] : null]),
   );
-  const extras: number[] = Array.isArray(saved?.offer_ids)
-    ? saved.offer_ids.filter(exists)
-    : ownOffers
-        .filter(o => o.month === month && o.generation_source === 'plan_2027' && !o.plan_slot)
-        .sort((a, b) => n(b.expected_revenue) - n(a.expected_revenue))
-        .map(o => o.id)
-        // Unsaved months start with at most four offers; more can be added by hand.
-        .slice(0, Math.max(0, 4 - Object.values(slots).filter(Boolean).length));
+  const extras: number[] = Array.isArray(saved?.offer_ids) ? saved.offer_ids.filter(exists) : [];
   const selectedIds = [...(Object.values(slots).filter(Boolean) as number[]), ...extras];
   const selected = selectedIds.map(id => ownOffers.find(o => o.id === id)).filter(Boolean) as any[];
   const slotOf = (id: number) => Object.entries(slots).find(([, v]) => v === id)?.[0];
+  const pickedBank = new Set(selected.map(o => bankIdOf(o)));
   const alternates = ownOffers
-    .filter(o => !selectedIds.includes(o.id))
-    .sort(
-      (a, b) =>
-        (a.month === month ? 0 : 1) - (b.month === month ? 0 : 1) ||
-        Math.abs((a.month || 13) - month) - Math.abs((b.month || 13) - month) ||
-        n(b.expected_revenue) - n(a.expected_revenue),
-    );
+    .filter(o => o.year === year && o.month == null && !pickedBank.has(o.id))
+    .sort((a, b) => n(b.expected_revenue) - n(a.expected_revenue));
   const [flippedAlt, setFlippedAlt] = useState<number | null>(null);
   const [altQuery, setAltQuery] = useState('');
-  const [altScope, setAltScope] = useState<'all' | 'month' | 'newcomer' | 'lapsed' | 'renewal'>('all');
+  const [altScope, setAltScope] = useState<'all' | 'newcomer' | 'lapsed' | 'renewal'>('all');
   const filteredAlternates = useMemo(() => {
     const q = altQuery.trim().toLowerCase();
     return alternates.filter(o => {
-      if (altScope === 'month' && o.month !== month) return false;
       if (
         altScope === 'newcomer' &&
         o.plan_slot !== 'newcomer' &&
@@ -595,7 +582,6 @@ export default function MonthWorkspace({
       return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
     });
   }, [filteredAlternates, prices]);
-  const ideas = OFFER_LIBRARY.filter(t => t.months.includes(month));
   const offerRevenue = selected.reduce((s, o) => s + forecastRevenue(o), 0);
   const groups = ['New clients', 'Ticket & renewal', 'Comeback / reactivation', 'Other'].map(g => ({
     label: g,
@@ -1079,6 +1065,47 @@ export default function MonthWorkspace({
     creating?: boolean;
   } | null>(null);
   const [steer, setSteer] = useState('');
+  // What the copilot needs to know about this month: target, stream gaps, key dates and the offers on the plan.
+  const copilotContext = () => ({
+    studioName: studio.name,
+    monthName: MONTHS[month - 1],
+    theme: form.theme,
+    target: effective,
+    steer,
+    streams: gapRows.map(g => ({
+      label: g.label,
+      target: Math.round(g.target),
+      offerLed: Math.round(g.offer),
+    })),
+    keyDates: dates.map(d => `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)} · ${d.name}`),
+    offers: selected.map(o => ({
+      id: o.id,
+      name: o.name,
+      stream: STREAM_OF[o.objective] || 'Other',
+      product: prices?.keys[o.provenance?.pricing?.product] || '',
+      price: Math.round(n(o.expected_asp)),
+      units: Math.round(n(o.target_purchases)),
+      revenue: Math.round(n(o.expected_revenue)),
+      approved: o.approval_status === 'approved',
+    })),
+  });
+  const [regenerating, setRegenerating] = useState<number | null>(null);
+  // "Generate with AI" on a card: a new, better-optimised offer replaces this one in the same card.
+  const regenerateOffer = async (o: any) => {
+    setRegenerating(o.id);
+    try {
+      const r = await api<{ offerId: number; proposal: { name: string } }>(
+        `/studio-plans/${studio.id}/${year}/${month}/offers/${o.id}/ai/regenerate`,
+        { method: 'POST', body: JSON.stringify({ ...copilotContext(), steer, solo }) },
+      );
+      await onSaved();
+      toast(`“${o.name}” replaced with “${r.proposal.name}”.`);
+    } catch (e: any) {
+      toast(e.message || 'Could not generate a new offer.', 'error');
+    } finally {
+      setRegenerating(null);
+    }
+  };
   const askCopilot = async (mode: 'suggest' | 'replace' | 'optimise', replaceOfferId?: number) => {
     setCopilot({ mode, replaceOfferId, loading: true, proposals: [] });
     try {
@@ -1086,31 +1113,7 @@ export default function MonthWorkspace({
         `/studio-plans/${studio.id}/${year}/${month}/offers/ai`,
         {
           method: 'POST',
-          body: JSON.stringify({
-            mode,
-            replaceOfferId,
-            studioName: studio.name,
-            monthName: MONTHS[month - 1],
-            theme: form.theme,
-            target: effective,
-            steer,
-            streams: gapRows.map(g => ({
-              label: g.label,
-              target: Math.round(g.target),
-              offerLed: Math.round(g.offer),
-            })),
-            keyDates: dates.map(d => `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)} · ${d.name}`),
-            offers: selected.map(o => ({
-              id: o.id,
-              name: o.name,
-              stream: STREAM_OF[o.objective] || 'Other',
-              product: prices?.keys[o.provenance?.pricing?.product] || '',
-              price: Math.round(n(o.expected_asp)),
-              units: Math.round(n(o.target_purchases)),
-              revenue: Math.round(n(o.expected_revenue)),
-              approved: o.approval_status === 'approved',
-            })),
-          }),
+          body: JSON.stringify({ mode, replaceOfferId, ...copilotContext() }),
         },
       );
       setCopilot({ mode, replaceOfferId, loading: false, ...r, created: [] });
@@ -2023,6 +2026,7 @@ export default function MonthWorkspace({
                       kind: 'acq',
                       value: number(liveTrials),
                       hint: `${pct(econ.newClient.leadToTrial)} lead → trial`,
+                      rate: l2t,
                     },
                     {
                       id: 'buyers',
@@ -2031,6 +2035,7 @@ export default function MonthWorkspace({
                       kind: 'acq',
                       value: number(liveBuyers),
                       hint: `${pct(econ.newClient.trialToMember)} trial → member`,
+                      rate: t2m,
                     },
                     {
                       id: 'renewals',
@@ -2039,6 +2044,8 @@ export default function MonthWorkspace({
                       kind: 'ret',
                       value: number(liveRenewals),
                       hint: `of ${number(econ.renewal.projectedExpiries)} due · ${pct(econ.renewal.renewalRate)}`,
+                      of: n(econ.renewal.projectedExpiries),
+                      ofLabel: 'due',
                     },
                     {
                       id: 'reactivations',
@@ -2047,6 +2054,8 @@ export default function MonthWorkspace({
                       kind: 'ret',
                       value: number(liveReactivations),
                       hint: `from ${number(econ.reactivation.lapsedPool)} lapsed`,
+                      of: n(econ.reactivation.lapsedPool),
+                      ofLabel: 'lapsed',
                     },
                     {
                       id: 'conv',
@@ -2438,7 +2447,7 @@ export default function MonthWorkspace({
                           <ol className="mw-fu-points-list">
                             {points.map((t, i) => (
                               <li key={i} className={editable ? 'is-editing' : ''}>
-                                <b>{i + 1}</b>
+                                <b>{String(i + 1).padStart(2, '0')}</b>
                                 {editable ? (
                                   <>
                                     <textarea
@@ -2482,64 +2491,94 @@ export default function MonthWorkspace({
                                 : ' · 100% allocated across 3 streams'}
                             </small>
                           </div>
-                          <div className="mw-streams">
-                            {STREAMS.map(s => {
+                          {(() => {
+                            // One chart: the target split as a single bar, then each stream's target vs its
+                            // offers' forecast on a shared scale.
+                            const rows = STREAMS.map(s => {
                               const val = n(form.streams[s.key]);
-                              const share = effective ? Math.round((val / effective) * 100) : 0;
                               const streamOffers = selected.filter(
                                 o => STREAM_KEY[STREAM_OF[o.objective] || ''] === s.key,
                               );
-                              const streamOfferTotal = streamOffers.reduce((sum, o) => sum + forecastRevenue(o), 0);
-                              const streamCovered = val <= 0 || streamOfferTotal >= val - 500;
-                              return (
-                                <div
-                                  key={s.key}
-                                  className="mw-stream-card"
-                                  style={{ '--c': s.color } as React.CSSProperties}
-                                >
-                                  <div className="mw-stream-top">
-                                    <span>
-                                      <i /> {s.label}
-                                    </span>
-                                    <em className="mw-stream-pct">{share}%</em>
-                                  </div>
-                                  {editable ? (
-                                    <div className="mw-money">
-                                      <em className="cur">₹</em>
-                                      <input
-                                        aria-label={`${s.label} target`}
-                                        type="number"
-                                        min={0}
-                                        step={1000}
-                                        value={form.streams[s.key]}
-                                        onChange={e => changeStream(s.key, Math.round(n(e.target.value)))}
-                                        disabled={!targetRow}
-                                      />
-                                      <span className="mw-money-lakh-pill is-sm">{lakh(val)}</span>
-                                    </div>
-                                  ) : (
-                                    <div className="mw-stream-readout">
-                                      <strong>{lakh(val)}</strong>
-                                      <small>₹{Math.round(val).toLocaleString('en-IN')}</small>
-                                    </div>
-                                  )}
-                                  <span className="mw-stream-bar" aria-hidden="true">
-                                    <b style={{ width: `${Math.min(100, Math.max(0, share))}%` }} />
-                                  </span>
-                                  <div className="mw-stream-foot">
-                                    <small>
-                                      {lakh(val)} of {lakh(effective)}
-                                    </small>
-                                    <small className={streamCovered ? 'is-covered' : 'is-short'}>
-                                      {streamOffers.length > 0
-                                        ? `${streamOffers.length} offer${streamOffers.length === 1 ? '' : 's'} · ${lakh(streamOfferTotal)}`
-                                        : 'No offer assigned'}
-                                    </small>
-                                  </div>
+                              const forecast = streamOffers.reduce((sum, o) => sum + forecastRevenue(o), 0);
+                              return {
+                                ...s,
+                                val,
+                                share: effective ? Math.round((val / effective) * 100) : 0,
+                                offers: streamOffers.length,
+                                forecast,
+                                covered: val <= 0 || forecast >= val - 500,
+                              };
+                            });
+                            const scale = Math.max(1, ...rows.map(r => Math.max(r.val, r.forecast)));
+                            const w = (v: number) => `${Math.min(100, Math.max(0, (v / scale) * 100))}%`;
+                            return (
+                              <div className="mw-streamchart">
+                                <div className="mw-streamchart-split" aria-label="Target split by stream">
+                                  {rows
+                                    .filter(r => r.val > 0)
+                                    .map(r => (
+                                      <span
+                                        key={r.key}
+                                        style={{ flexGrow: r.val, '--c': r.color } as React.CSSProperties}
+                                        title={`${r.label}: ${lakh(r.val)} (${r.share}%)`}
+                                      >
+                                        {r.share >= 8 && `${r.share}%`}
+                                      </span>
+                                    ))}
                                 </div>
-                              );
-                            })}
-                          </div>
+                                <div className="mw-streamchart-legend" aria-hidden="true">
+                                  <span>
+                                    <i className="is-target" /> Target
+                                  </span>
+                                  <span>
+                                    <i className="is-forecast" /> Offer forecast
+                                  </span>
+                                </div>
+                                {rows.map(r => (
+                                  <div
+                                    key={r.key}
+                                    className="mw-streamchart-row"
+                                    style={{ '--c': r.color } as React.CSSProperties}
+                                  >
+                                    <div className="mw-streamchart-label">
+                                      <span title={r.label}>
+                                        <i /> {r.key === 'reactivation' ? 'Comeback' : r.label}
+                                      </span>
+                                    </div>
+                                    <div className="mw-streamchart-bars">
+                                      <b className="is-target" style={{ width: w(r.val) }} />
+                                      <b className="is-forecast" style={{ width: w(r.forecast) }} />
+                                    </div>
+                                    <div className="mw-streamchart-value">
+                                      {editable ? (
+                                        <div className="mw-money">
+                                          <em className="cur">₹</em>
+                                          <input
+                                            aria-label={`${r.label} target`}
+                                            type="number"
+                                            min={0}
+                                            step={1000}
+                                            value={form.streams[r.key]}
+                                            onChange={e => changeStream(r.key, Math.round(n(e.target.value)))}
+                                            disabled={!targetRow}
+                                          />
+                                        </div>
+                                      ) : (
+                                        <strong>
+                                          {lakh(r.val)} <em>{r.share}%</em>
+                                        </strong>
+                                      )}
+                                      <small className={r.covered ? 'is-covered' : 'is-short'}>
+                                        {r.offers > 0
+                                          ? `${r.offers} offer${r.offers === 1 ? '' : 's'} · ${lakh(r.forecast)}`
+                                          : 'No offer assigned'}
+                                      </small>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            );
+                          })()}
 
                           {splitRationaleLines.length > 0 && (
                             <div className="mw-fu-rationale-strip">
@@ -2622,106 +2661,109 @@ export default function MonthWorkspace({
                                 )}
                               </div>
                             </div>
-                            <div className="mw-volumes-grid is-full">
-                              {allVols.map(k => (
-                                <div
-                                  key={k.id}
-                                  className={`mw-vol-card is-${k.kind}`}
-                                  title={`${k.label}: ${k.value} · ${k.hint}`}
-                                >
-                                  {editable ? (
-                                    <div className="mw-vol-edit">
-                                      <div className="mw-vol-edit-top">
+                            {!editable && <VolumesChart vols={allVols} />}
+                            {editable && (
+                              <div className="mw-volumes-grid is-full">
+                                {allVols.map(k => (
+                                  <div
+                                    key={k.id}
+                                    className={`mw-vol-card is-${k.kind}`}
+                                    title={`${k.label}: ${k.value} · ${k.hint}`}
+                                  >
+                                    {editable ? (
+                                      <div className="mw-vol-edit">
+                                        <div className="mw-vol-edit-top">
+                                          <input
+                                            aria-label="Volume metric label"
+                                            value={k.label}
+                                            onChange={e => {
+                                              if (k.isCustom) {
+                                                updateContent({
+                                                  customVolumes: customVols.map(c =>
+                                                    c.id === k.id ? { ...c, label: e.target.value } : c,
+                                                  ),
+                                                });
+                                              } else {
+                                                updateContent({
+                                                  volumeOverrides: {
+                                                    ...volOverrides,
+                                                    [k.id]: { ...(volOverrides[k.id] || {}), label: e.target.value },
+                                                  },
+                                                });
+                                              }
+                                            }}
+                                          />
+                                          <button
+                                            type="button"
+                                            aria-label={`Remove ${k.label}`}
+                                            onClick={() => {
+                                              if (k.isCustom) {
+                                                updateContent({ customVolumes: customVols.filter(c => c.id !== k.id) });
+                                              } else {
+                                                updateContent({ hiddenVolumes: [...hiddenVols, k.id] });
+                                              }
+                                            }}
+                                          >
+                                            <Trash2 size={11} />
+                                          </button>
+                                        </div>
                                         <input
-                                          aria-label="Volume metric label"
-                                          value={k.label}
+                                          className="mw-vol-val-in"
+                                          aria-label={`${k.label} value`}
+                                          value={k.value}
                                           onChange={e => {
                                             if (k.isCustom) {
                                               updateContent({
                                                 customVolumes: customVols.map(c =>
-                                                  c.id === k.id ? { ...c, label: e.target.value } : c,
+                                                  c.id === k.id ? { ...c, value: e.target.value } : c,
                                                 ),
                                               });
                                             } else {
                                               updateContent({
                                                 volumeOverrides: {
                                                   ...volOverrides,
-                                                  [k.id]: { ...(volOverrides[k.id] || {}), label: e.target.value },
+                                                  [k.id]: { ...(volOverrides[k.id] || {}), value: e.target.value },
                                                 },
                                               });
                                             }
                                           }}
                                         />
-                                        <button
-                                          type="button"
-                                          aria-label={`Remove ${k.label}`}
-                                          onClick={() => {
+                                        <input
+                                          className="mw-vol-hint-in"
+                                          aria-label={`${k.label} note`}
+                                          value={k.hint}
+                                          onChange={e => {
                                             if (k.isCustom) {
-                                              updateContent({ customVolumes: customVols.filter(c => c.id !== k.id) });
+                                              updateContent({
+                                                customVolumes: customVols.map(c =>
+                                                  c.id === k.id ? { ...c, hint: e.target.value } : c,
+                                                ),
+                                              });
                                             } else {
-                                              updateContent({ hiddenVolumes: [...hiddenVols, k.id] });
+                                              updateContent({
+                                                volumeOverrides: {
+                                                  ...volOverrides,
+                                                  [k.id]: { ...(volOverrides[k.id] || {}), hint: e.target.value },
+                                                },
+                                              });
                                             }
                                           }}
-                                        >
-                                          <Trash2 size={11} />
-                                        </button>
+                                        />
                                       </div>
-                                      <input
-                                        className="mw-vol-val-in"
-                                        aria-label={`${k.label} value`}
-                                        value={k.value}
-                                        onChange={e => {
-                                          if (k.isCustom) {
-                                            updateContent({
-                                              customVolumes: customVols.map(c =>
-                                                c.id === k.id ? { ...c, value: e.target.value } : c,
-                                              ),
-                                            });
-                                          } else {
-                                            updateContent({
-                                              volumeOverrides: {
-                                                ...volOverrides,
-                                                [k.id]: { ...(volOverrides[k.id] || {}), value: e.target.value },
-                                              },
-                                            });
-                                          }
-                                        }}
-                                      />
-                                      <input
-                                        className="mw-vol-hint-in"
-                                        aria-label={`${k.label} note`}
-                                        value={k.hint}
-                                        onChange={e => {
-                                          if (k.isCustom) {
-                                            updateContent({
-                                              customVolumes: customVols.map(c =>
-                                                c.id === k.id ? { ...c, hint: e.target.value } : c,
-                                              ),
-                                            });
-                                          } else {
-                                            updateContent({
-                                              volumeOverrides: {
-                                                ...volOverrides,
-                                                [k.id]: { ...(volOverrides[k.id] || {}), hint: e.target.value },
-                                              },
-                                            });
-                                          }
-                                        }}
-                                      />
-                                    </div>
-                                  ) : (
-                                    <>
-                                      <div className="mw-vol-head">
-                                        <small>{k.label}</small>
-                                        <span>{k.tag}</span>
-                                      </div>
-                                      <b>{k.value}</b>
-                                      <em>{k.hint}</em>
-                                    </>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
+                                    ) : (
+                                      <>
+                                        <div className="mw-vol-head">
+                                          <small>{k.label}</small>
+                                          <span>{k.tag}</span>
+                                        </div>
+                                        <b>{k.value}</b>
+                                        <em>{k.hint}</em>
+                                      </>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -3275,7 +3317,8 @@ export default function MonthWorkspace({
                                 offerChange({ op: 'remove', offerId: o.id }, `“${o.name}” removed from month`)
                               }
                               onDelete={() => offerChange({ op: 'delete', offerId: o.id }, `“${o.name}” deleted`)}
-                              onSwap={() => askCopilot('replace', o.id)}
+                              onSwap={() => regenerateOffer(o)}
+                              regenerating={regenerating === o.id}
                             />
                           );
 
@@ -3983,7 +4026,6 @@ export default function MonthWorkspace({
                       {(
                         [
                           ['all', 'All'],
-                          ['month', MONTHS[month - 1].slice(0, 3)],
                           ['newcomer', 'Newcomer'],
                           ['lapsed', 'Winback'],
                           ['renewal', 'Renewal'],
@@ -4127,21 +4169,6 @@ export default function MonthWorkspace({
                 )
               ) : (
                 <p className="muted">No other offers for this studio yet.</p>
-              )}
-              {ideas.length > 0 && (
-                <>
-                  <h4>
-                    <Lightbulb size={15} /> Ideas for {MONTHS[month - 1]}
-                  </h4>
-                  {ideas.map(t => (
-                    <button key={t.id} className="mw-idea" onClick={() => navigate('/offers')}>
-                      <Badge tone="purple">{t.family}</Badge>
-                      <strong>{t.name}</strong>
-                      <span>{t.benefit}</span>
-                      <em>{t.why}</em>
-                    </button>
-                  ))}
-                </>
               )}
             </aside>
           ) : (
@@ -4567,6 +4594,7 @@ function OfferCard({
   onRemove,
   onDelete,
   onSwap,
+  regenerating = false,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
   const parseList = (value: any) => {
@@ -4612,7 +4640,6 @@ function OfferCard({
 
   // Column 1: List price / Featured MRP (only crossed out when there is a real direct price cut)
   const listColLabel = isBlendedTicket ? 'Featured MRP' : 'List price';
-  const listColValue = strikePrice ? strikePrice : list ? list : offerPrice || null;
   const listColSub = isBlendedTicket && productLabel ? productLabel : !list && !strikePrice ? 'Standard tariff' : null;
 
   // Column 2: Offer price / Blended cohort avg ticket
@@ -4653,6 +4680,22 @@ function OfferCard({
       ? `1 – ${monthEndDay} ${MONTHS[o.month - 1].slice(0, 3)}${o.year ? ` ${o.year}` : ''}`
       : 'Full month';
 
+  const days =
+    o.validity_start && o.validity_end
+      ? Math.max(1, Math.round((+new Date(o.validity_end) - +new Date(o.validity_start)) / 86400000) + 1)
+      : monthEndDay;
+  const units = n(o.target_purchases);
+  const perWeek = units ? Math.max(1, Math.round((units / days) * 7)) : 0;
+  const fin = (() => {
+    if (o.financials && typeof o.financials === 'object') return o.financials;
+    try {
+      return JSON.parse(o.financials || '{}');
+    } catch {
+      return {};
+    }
+  })();
+  const margin = fin.contributionMargin ?? o.margin_impact;
+  const mechanic = [titleCase(o.offer_type || ''), productLabel].filter(Boolean).join(' · ');
   const [leadTitle, restTitle] = splitOfferTitle(o.name);
   const heroPhoto = pickOfferCardPhoto(o, slot, no);
   const offerNum = no ? String(no).padStart(2, '0') : '01';
@@ -4691,6 +4734,74 @@ function OfferCard({
           <div className="oc-hero-vignette" />
         </div>
 
+        <div className="oc-toolbar">
+          {(editable || (canSwap && !shown)) && (
+            <div className="oc-icon-group">
+              {canSwap && !shown && (
+                <button
+                  type="button"
+                  aria-label={`Generate a new offer with AI in place of ${o.name}`}
+                  title="Generate with AI — a new, better-optimised offer replaces this one"
+                  className={`oc-icon-btn ai${regenerating ? ' is-loading' : ''}`}
+                  onClick={onSwap}
+                  disabled={busy || regenerating}
+                  aria-busy={regenerating}
+                >
+                  {regenerating ? <Loader2 size={13.5} className="spin" /> : <Sparkles size={13.5} />}
+                </button>
+              )}
+              {editable && onDuplicate && (
+                <button
+                  type="button"
+                  aria-label={`Duplicate ${o.name}`}
+                  title="Duplicate as new offer"
+                  className="oc-icon-btn"
+                  onClick={onDuplicate}
+                  disabled={busy}
+                >
+                  <Copy size={13} />
+                </button>
+              )}
+              {editable && (
+                <button
+                  type="button"
+                  aria-label={`Edit ${o.name}`}
+                  title="Edit all offer details"
+                  className="oc-icon-btn"
+                  onClick={onEdit}
+                  disabled={busy}
+                >
+                  <Pencil size={13.5} />
+                </button>
+              )}
+              {(editable || !shown) && (
+                <button
+                  type="button"
+                  aria-label={`Remove ${o.name} from month`}
+                  title="Remove from month plan"
+                  className="oc-icon-btn danger"
+                  onClick={onRemove}
+                  disabled={busy}
+                >
+                  <Minus size={14} />
+                </button>
+              )}
+              {editable && onDelete && (
+                <button
+                  type="button"
+                  aria-label={`Delete ${o.name}`}
+                  title="Delete offer permanently"
+                  className="oc-icon-btn danger"
+                  onClick={onDelete}
+                  disabled={busy}
+                >
+                  <Trash2 size={13.5} />
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
         <div className="oc-hero-body">
           <div className="oc-num-badge" aria-label={no ? `Offer ${offerNum}` : 'Offer'}>
             <span>{offerNum}</span>
@@ -4716,15 +4827,12 @@ function OfferCard({
                   {membership}
                 </span>
               )}
-              {showObjective && (
-                <span className="oc-chip">
-                  <Clock size={11} />
-                  {objectiveLabel}
-                </span>
-              )}
-              <span className={`oc-chip ${linked ? 'is-linked' : 'is-solo'}`}>
+              <span
+                className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
+                title={linked ? 'Runs at all locations' : 'This location only'}
+                aria-label={linked ? 'Runs at all locations' : 'This location only'}
+              >
                 {linked ? <Link2 size={11} /> : <Unlink size={11} />}
-                {linked ? 'All locations' : 'This location'}
               </span>
             </div>
 
@@ -4745,157 +4853,100 @@ function OfferCard({
       </div>
 
       <div className="oc-sheet">
-        <div className="oc-metrics-grid">
-          <div className="oc-metric-card">
-            <div className="oc-metric-head">
-              <span className="oc-metric-label">{listColLabel}</span>
-              <Tag size={13.5} strokeWidth={1.75} className="oc-metric-glyph" aria-hidden="true" />
+        {/* Uniform metric grid: price, value to the client, volume, money and margin. */}
+        <dl className="oc-kpis">
+          <div>
+            <dt>{offerColLabel}</dt>
+            <dd>
+              {offerPrice ? money(offerPrice) : '—'}
+              {strikePrice && <s>{money(strikePrice)}</s>}
+            </dd>
+          </div>
+          <div>
+            <dt>Client gets</dt>
+            <dd>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}</dd>
+          </div>
+          <div>
+            <dt>Units</dt>
+            <dd>
+              {number(units)}
+              {perWeek > 0 && <small>~{perWeek}/wk</small>}
+            </dd>
+          </div>
+          <div>
+            <dt>Revenue</dt>
+            <dd>{hasValidForecast(o) ? lakh(n(o.expected_revenue)) : '—'}</dd>
+          </div>
+          <div>
+            <dt>Eff. discount</dt>
+            <dd>{effPct > 0 ? fmtPct(effPct) : '0%'}</dd>
+          </div>
+          <div>
+            <dt>Margin</dt>
+            <dd>{margin != null && Number.isFinite(Number(margin)) ? lakh(Number(margin)) : '—'}</dd>
+          </div>
+        </dl>
+
+        <dl className="oc-rows">
+          <div>
+            <dt>
+              <Users size={12} /> Who
+            </dt>
+            <dd>{o.audience || 'All clients'}</dd>
+          </div>
+          <div>
+            <dt>
+              <Calendar size={12} /> When
+            </dt>
+            <dd>
+              {windowText} · {days} days
+            </dd>
+          </div>
+          {mechanic && (
+            <div>
+              <dt>
+                <Tag size={12} /> How
+              </dt>
+              <dd>
+                {mechanic}
+                {offerColSub ? ` · ${offerColSub}` : savesPrimary ? ` · ${savesPillText}` : ''}
+              </dd>
             </div>
-            {strikePrice ? (
-              <s className="oc-strike">{money(strikePrice)}</s>
-            ) : (
-              <strong className="oc-list-val">{listColValue ? money(listColValue) : '—'}</strong>
-            )}
-            <small className="oc-metric-sub">{listColSub || (strikePrice ? 'Before discount' : 'Standard MRP')}</small>
-          </div>
-
-          <div className="oc-metric-card">
-            <div className="oc-metric-head">
-              <span className="oc-metric-label">{offerColLabel}</span>
-              <Gift size={13.5} strokeWidth={1.75} className="oc-metric-glyph" aria-hidden="true" />
+          )}
+          {o.cta && (
+            <div>
+              <dt>
+                <Target size={12} /> CTA
+              </dt>
+              <dd>{o.cta}</dd>
             </div>
-            <strong className="oc-offer-val">{offerPrice ? money(offerPrice) : '—'}</strong>
-            <small className="oc-metric-sub">{offerColSub || membership || 'Member tariff'}</small>
-          </div>
-
-          <div className="oc-metric-card">
-            <div className="oc-metric-head">
-              <span className="oc-metric-label">Client saves</span>
-              <BadgePercent size={13.5} strokeWidth={1.75} className="oc-metric-glyph" aria-hidden="true" />
+          )}
+          {o.excluded_audience && (
+            <div>
+              <dt>
+                <Minus size={12} /> Excludes
+              </dt>
+              <dd>{o.excluded_audience}</dd>
             </div>
-            <strong className={`oc-save-val ${savesPrimary ? 'is-cut' : 'is-perk'}`}>
-              {savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)} value` : 'Value-add')}
-            </strong>
-            <small className="oc-metric-sub">
-              {savesPrimary ? savesPillText : effPct > 0 ? 'Added perk · MRP intact' : 'No price cut'}
-            </small>
-          </div>
-
-          <div className="oc-metric-card is-plan">
-            <div className="oc-metric-head">
-              <span className="oc-metric-label">Plan</span>
-              <CalendarCheck2 size={13.5} strokeWidth={1.75} className="oc-metric-glyph" aria-hidden="true" />
-            </div>
-            <strong className="oc-plan-val">
-              {hasValidForecast(o) ? lakh(n(o.expected_revenue)) : 'Needs review'}
-            </strong>
-            <small className="oc-metric-sub">
-              {number(o.target_purchases)} units × {money(offerPrice, true)}
-            </small>
-          </div>
-        </div>
-
-        <div className="oc-details-strip">
-          <div className="oc-fact">
-            <span className="oc-fact-label">Target cohort</span>
-            <p>{o.audience || 'All clients'}</p>
-          </div>
-
-          <div className="oc-fact">
-            <span className="oc-fact-label">Window</span>
-            <p>{windowText}</p>
-          </div>
-
-          <div className="oc-fact oc-fact-terms">
-            <span className="oc-fact-label">Terms &amp; guardrails</span>
-            <p>{o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}</p>
-          </div>
-        </div>
+          )}
+        </dl>
 
         <footer className="oc-footer">
           <div className="oc-footer-bar">
-            {hasDrawerContent || editable ? (
-              <button
-                type="button"
-                className={`oc-why-btn${whyOpen ? ' is-open' : ''}`}
-                aria-expanded={whyOpen}
-                onClick={() => setWhyOpen(v => !v)}
-              >
-                <span>{hasDrawerContent ? 'Why this offer works' : 'Offer details & guardrails'}</span>
-                <ChevronDown size={14} className="oc-chevron" />
-                {reasons.length > 0 && (
-                  <em className="oc-why-tags">{reasons.map(([, k]) => titleCase(k)).join(' · ')}</em>
-                )}
-              </button>
-            ) : (
-              <span />
-            )}
+            <button
+              type="button"
+              className={`oc-why-btn${whyOpen ? ' is-open' : ''}`}
+              aria-expanded={whyOpen}
+              onClick={() => setWhyOpen(v => !v)}
+            >
+              <span>{hasDrawerContent ? 'Details & why it works' : 'Terms & guardrails'}</span>
+              <ChevronDown size={14} className="oc-chevron" />
+              {reasons.length > 0 && (
+                <em className="oc-why-tags">{reasons.map(([, k]) => titleCase(k)).join(' · ')}</em>
+              )}
+            </button>
 
             <div className="oc-actions">
-              {(editable || (canSwap && !shown)) && (
-                <div className="oc-icon-group">
-                  {canSwap && !shown && (
-                    <button
-                      type="button"
-                      aria-label={`Replace ${o.name} with AI`}
-                      title="Replace with AI"
-                      className="oc-icon-btn ai"
-                      onClick={onSwap}
-                      disabled={busy}
-                    >
-                      <Sparkles size={13.5} />
-                    </button>
-                  )}
-                  {editable && onDuplicate && (
-                    <button
-                      type="button"
-                      aria-label={`Duplicate ${o.name}`}
-                      title="Duplicate as new offer"
-                      className="oc-icon-btn"
-                      onClick={onDuplicate}
-                      disabled={busy}
-                    >
-                      <Copy size={13} />
-                    </button>
-                  )}
-                  {editable && (
-                    <button
-                      type="button"
-                      aria-label={`Edit ${o.name}`}
-                      title="Edit all offer details"
-                      className="oc-icon-btn"
-                      onClick={onEdit}
-                      disabled={busy}
-                    >
-                      <Pencil size={13.5} />
-                    </button>
-                  )}
-                  {(editable || !shown) && (
-                    <button
-                      type="button"
-                      aria-label={`Remove ${o.name} from month`}
-                      title="Remove from month plan"
-                      className="oc-icon-btn danger"
-                      onClick={onRemove}
-                      disabled={busy}
-                    >
-                      <Minus size={14} />
-                    </button>
-                  )}
-                  {editable && onDelete && (
-                    <button
-                      type="button"
-                      aria-label={`Delete ${o.name}`}
-                      title="Delete offer permanently"
-                      className="oc-icon-btn danger"
-                      onClick={onDelete}
-                      disabled={busy}
-                    >
-                      <Trash2 size={13.5} />
-                    </button>
-                  )}
-                </div>
-              )}
               {canApprove ? (
                 <button
                   type="button"
@@ -4922,8 +4973,11 @@ function OfferCard({
             </div>
           </div>
 
-          {whyOpen && (hasDrawerContent || editable) && (
+          {whyOpen && (
             <div className="oc-details-body">
+              <p className="oc-terms-line">
+                <b>Terms</b> {o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}
+              </p>
               {o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline && (
                 <p className="oc-quote">“{o.customer_copy}”</p>
               )}
@@ -4941,20 +4995,8 @@ function OfferCard({
                   )}
                 </div>
               )}
-              {(o.excluded_audience || o.cta || metrics.length > 0 || risks.length > 0) && (
+              {(metrics.length > 0 || risks.length > 0) && (
                 <dl className="oc-terms-grid">
-                  {o.excluded_audience && (
-                    <div className="wide">
-                      <dt>Exclusions</dt>
-                      <dd>{o.excluded_audience}</dd>
-                    </div>
-                  )}
-                  {o.cta && (
-                    <div>
-                      <dt>Call to action</dt>
-                      <dd>{o.cta}</dd>
-                    </div>
-                  )}
                   {metrics.length > 0 && (
                     <div className="wide">
                       <dt>Success metrics</dt>
@@ -5775,6 +5817,89 @@ function Act({
         >
           <Trash2 size={13} />
         </button>
+      )}
+    </div>
+  );
+}
+
+// Volumes as two compact charts: the acquisition funnel (bars taper from leads, with step conversion) and the
+// lifecycle asks (renewals of those due, comebacks of the lapsed pool). Custom metrics sit underneath as chips.
+const VOL_DEFAULT_LABELS = ['Leads needed', 'Completed trials', 'New members', 'Renewals needed', 'Reactivations'];
+const volLabelEdited = (v: any) => !VOL_DEFAULT_LABELS.includes(v.label);
+const SHORT_VOL: Record<string, string> = {
+  leads: 'Leads',
+  trials: 'Trials',
+  buyers: 'New members',
+  renewals: 'Renewals',
+  reactivations: 'Comebacks',
+};
+const toNum = (v: any) => Number(String(v ?? '').replace(/[^\d.]/g, '')) || 0;
+function VolumesChart({ vols }: { vols: any[] }) {
+  const byId = Object.fromEntries(vols.map(v => [v.id, v]));
+  const funnel = ['leads', 'trials', 'buyers'].map(id => byId[id]).filter(Boolean);
+  const life = ['renewals', 'reactivations'].map(id => byId[id]).filter(Boolean);
+  const extra = vols.filter(v => !['leads', 'trials', 'buyers', 'renewals', 'reactivations', 'conv'].includes(v.id));
+  const top = Math.max(1, ...funnel.map(v => toNum(v.value)));
+  return (
+    <div className="mw-volchart">
+      {funnel.length > 0 && (
+        <div className="mw-volchart-block">
+          <div className="mw-volchart-title">
+            <span>Acquisition funnel</span>
+            {byId.conv && (
+              <em title={byId.conv.hint}>
+                {byId.conv.value} {byId.conv.label.toLowerCase()}
+              </em>
+            )}
+          </div>
+          {funnel.map(v => {
+            const val = toNum(v.value);
+            return (
+              <div key={v.id} className="mw-volchart-row is-acq" title={v.hint}>
+                <span className="mw-volchart-label">
+                  {v.isCustom || volLabelEdited(v) ? v.label : SHORT_VOL[v.id] || v.label}
+                </span>
+                <div className="mw-volchart-track">
+                  <b style={{ width: `${Math.max(2, (val / top) * 100)}%` }} />
+                </div>
+                <strong>{v.value}</strong>
+                <small>{v.rate ? `${Math.round(v.rate * 100)}% conv.` : ''}</small>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {life.length > 0 && (
+        <div className="mw-volchart-block">
+          <div className="mw-volchart-title">
+            <span>Lifecycle</span>
+          </div>
+          {life.map(v => {
+            const val = toNum(v.value),
+              share = v.of ? val / v.of : 0;
+            return (
+              <div key={v.id} className={`mw-volchart-row is-${v.id}${share > 1 ? ' is-over' : ''}`} title={v.hint}>
+                <span className="mw-volchart-label">
+                  {v.isCustom || volLabelEdited(v) ? v.label : SHORT_VOL[v.id] || v.label}
+                </span>
+                <div className="mw-volchart-track is-share">
+                  <b style={{ width: `${Math.min(100, Math.max(2, share * 100))}%` }} />
+                </div>
+                <strong>{v.value}</strong>
+                <small>{v.of ? `${Math.round(share * 100)}% of ${number(v.of)}` : ''}</small>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {extra.length > 0 && (
+        <div className="mw-volchart-extra">
+          {extra.map(v => (
+            <span key={v.id} title={v.hint}>
+              {v.label} <b>{v.value}</b>
+            </span>
+          ))}
+        </div>
       )}
     </div>
   );

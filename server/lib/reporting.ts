@@ -607,7 +607,7 @@ export const reportDefinitions: ReportDefinition[] = [
         .prepare(
           `SELECT o.offer_uid,o.name,o.studio_id,s.name studio,o.objective,o.audience,o.offer_type,o.expected_asp,o.expected_revenue,o.effective_discount,
         o.actual_revenue,o.actual_redemptions,o.status,o.approval_status,o.generation_source,o.data_mode,o.validity_start,o.validity_end
-        FROM offers o LEFT JOIN studios s ON s.id=o.studio_id WHERE (o.year IS NULL OR o.month IS NULL OR (o.year*100+o.month) BETWEEN ? AND ?) ${filter}
+        FROM offers o LEFT JOIN studios s ON s.id=o.studio_id WHERE (o.year IS NULL OR o.month IS NULL OR (o.year*100+o.month) BETWEEN ? AND ?) AND NOT (o.year=2027 AND o.month IS NULL) ${filter}
         ORDER BY o.updated_at DESC`,
         )
         .all(...params);

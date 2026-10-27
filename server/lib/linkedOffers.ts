@@ -4,6 +4,8 @@ import { db } from '../db.js';
 // Offers planned for one location are mirrored to every other planning location by default. Mirrors share a
 // `provenance.linkGroup`; each copy keeps its own studio, unit target and prices from that studio's product list.
 // Solo edits detach an offer from its group so later shared edits no longer overwrite it.
+// Each location has one offer bank (rows with no month). Picking a bank offer for a month makes that month's
+// copy (`provenance.bankId`), which holds the month's own units and revenue; removing it deletes the copy.
 
 export const PLANNING_LOCATIONS = ['Kemps Corner', 'Bandra', 'Kenkere House', 'Pop-up'];
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
@@ -137,26 +139,11 @@ export function selection(studioId: number, year: number, month: number) {
   const plan = db
     .prepare('SELECT slots, offer_ids FROM monthly_plans WHERE studio_id=? AND year=? AND month=?')
     .get(studioId, year, month) as any;
-  const live = db
-    .prepare(
-      `SELECT id, plan_slot, plan_rank, generation_source, data_mode FROM offers WHERE studio_id=? AND year=? AND month=?
-       AND status NOT IN ('archived','rejected')`,
-    )
-    .all(studioId, year, month) as any[];
-  const savedSlots = json(plan?.slots, null),
+  // A month's offers are exactly what the planner picked; nothing is filled in by default.
+  const savedSlots = json(plan?.slots, null) || {},
     savedIds = json(plan?.offer_ids, null);
-  const slots: Record<string, number | null> = Object.fromEntries(
-      SLOT_KEYS.map(slot => [
-      slot,
-      savedSlots ? (savedSlots[slot] ?? null) : (live.find(o => o.generation_source === 'plan_2027' && o.data_mode !== 'demo' && o.plan_slot === slot && o.plan_rank === 1)?.id ?? null),
-    ]),
-  );
-  const offerIds: number[] = Array.isArray(savedIds)
-    ? savedIds
-    : live
-        .filter(o => o.generation_source === 'plan_2027' && o.data_mode !== 'demo' && !o.plan_slot)
-        .map(o => o.id)
-        .slice(0, Math.max(0, DEFAULT_PICKS - Object.values(slots).filter(Boolean).length));
+  const slots: Record<string, number | null> = Object.fromEntries(SLOT_KEYS.map(slot => [slot, savedSlots[slot] ?? null]));
+  const offerIds: number[] = Array.isArray(savedIds) ? savedIds : [];
   return { slots, offerIds };
 }
 
@@ -184,6 +171,29 @@ function addToPlan(studioId: number, year: number, month: number, offer: any, us
   if (slot && slot in slots && !slots[slot]) slots[slot] = offer.id;
   else offerIds.push(offer.id);
   saveSelection(studioId, year, month, slots, offerIds, userId);
+}
+
+// Where an offer sits in a month's plan (its slot, else its place in the list), so a replacement can take it.
+export function planPosition(studioId: number, year: number, month: number, offerId: number) {
+  const { slots, offerIds } = selection(studioId, year, month);
+  const slot = Object.keys(slots).find(k => slots[k] === offerId);
+  return slot ? { slot } : { index: offerIds.indexOf(offerId) };
+}
+
+export function moveInPlan(
+  studioId: number,
+  year: number,
+  month: number,
+  offerId: number,
+  at: { slot?: string; index?: number },
+  userId: number | null,
+) {
+  const { slots, offerIds } = selection(studioId, year, month);
+  for (const k of Object.keys(slots)) if (slots[k] === offerId) slots[k] = null;
+  const ids = offerIds.filter(id => id !== offerId);
+  if (at.slot && at.slot in slots && !slots[at.slot]) slots[at.slot] = offerId;
+  else ids.splice(at.index != null && at.index >= 0 ? at.index : ids.length, 0, offerId);
+  saveSelection(studioId, year, month, slots, ids, userId);
 }
 
 function removeFromPlan(studioId: number, year: number, month: number, offerId: number, userId: number | null) {
@@ -228,7 +238,8 @@ function cloneTo(offer: any, studioId: number, group: string, userId: number | n
   financials.expectedRevenue = asp * units;
   financials.contributionMargin = null;
   financials.economicsComplete = false;
-  financials.warnings = [...new Set([...(financials.warnings || []), 'Destination pricing changed; refresh product and benefit costs before approval.'])];
+  if (offer.studio_id !== studioId)
+    financials.warnings = [...new Set([...(financials.warnings || []), 'Destination pricing changed; refresh product and benefit costs before approval.'])];
   const skip = new Set(['id', 'offer_uid', 'studio_id', 'created_at', 'updated_at', 'version', 'created_by']);
   const row: Record<string, any> = Object.fromEntries(Object.entries(offer).filter(([k]) => !skip.has(k)));
   Object.assign(row, {
@@ -247,6 +258,47 @@ function cloneTo(offer: any, studioId: number, group: string, userId: number | n
     )
     .run(uid, studioId, userId, ...Object.values(row)).lastInsertRowid as number;
   return getOffer(id);
+}
+
+const bankIdOf = (offer: any) => (offer.month == null ? offer.id : (json(offer.provenance, {}).bankId as number | undefined));
+
+// The bank offer of `studioId` matching `offer` (same row, same name, or a repriced copy added to that bank).
+function bankOfferFor(offer: any, studioId: number, year: number, group: string, userId: number | null) {
+  const source = offer.month == null ? offer : getOffer(bankIdOf(offer) ?? -1) || { ...offer, month: null };
+  if (source.studio_id === studioId && source.id) return source;
+  const named = db
+    .prepare(
+      `SELECT * FROM offers WHERE studio_id=? AND year=? AND month IS NULL AND lower(name)=lower(?) AND status NOT IN ('archived','rejected')`,
+    )
+    .get(studioId, year, source.name) as any;
+  return named || cloneTo({ ...source, year, month: null }, studioId, group, userId);
+}
+
+// This month's copy of a bank offer, made on first pick.
+function monthCopy(bank: any, year: number, month: number, group: string, userId: number | null) {
+  const existing = db
+    .prepare(
+      `SELECT * FROM offers WHERE studio_id=? AND year=? AND month=? AND json_extract(provenance,'$.bankId')=? AND status NOT IN ('archived','rejected')`,
+    )
+    .get(bank.studio_id, year, month, bank.id) as any;
+  if (existing) return existing;
+  const copy = cloneTo({ ...bank, year, month }, bank.studio_id, group, userId);
+  const prov = json(copy.provenance, {});
+  db.prepare('UPDATE offers SET provenance=? WHERE id=?').run(JSON.stringify({ ...prov, bankId: bank.id }), copy.id);
+  return getOffer(copy.id);
+}
+
+function pick(offer: any, studioId: number, year: number, month: number, group: string, userId: number | null) {
+  if (offer.studio_id === studioId && offer.month === month && offer.year === year) return offer;
+  return monthCopy(bankOfferFor(offer, studioId, year, group, userId), year, month, group, userId);
+}
+
+// A month copy that left the plan is gone; bank offers and anything a campaign uses stay.
+function dropCopy(offer: any) {
+  if (offer.month == null || !json(offer.provenance, {}).bankId) return;
+  if (db.prepare('SELECT 1 FROM campaigns WHERE offer_id=?').get(offer.id)) return;
+  db.prepare('DELETE FROM offer_versions WHERE offer_id=?').run(offer.id);
+  db.prepare('DELETE FROM offers WHERE id=?').run(offer.id);
 }
 
 const SHARED_TEXT = [
@@ -409,7 +461,7 @@ export function linkedOfferChange(
           change.edit.offer_type || 'percentage',
           studioId,
           year,
-          month,
+          null,
           'draft',
           'pending',
           'manual',
@@ -424,14 +476,15 @@ export function linkedOfferChange(
           JSON.stringify(change.solo ? {} : { linkGroup: group }),
           userId,
         ).lastInsertRowid as number;
+      // New offers go into the bank, then this month picks them.
       const created = getOffer(baseId);
       applyEdit(created, { ...change.edit, name: baseName }, true, studioId);
-      const local = getOffer(baseId);
+      const local = pick(getOffer(baseId), studioId, year, month, group, userId);
       addToPlan(studioId, year, month, local, userId);
       createdOfferId = local.id;
       if (!change.solo) {
         for (const s of others) {
-          const twin = cloneTo({ ...local, year, month }, s.id, group, userId);
+          const twin = pick(local, s.id, year, month, group, userId);
           addToPlan(s.id, year, month, twin, userId);
           touched.add(s.id);
         }
@@ -443,45 +496,44 @@ export function linkedOfferChange(
     if (!offer) throw Object.assign(new Error('Offer not found.'), { status: 404 });
 
     if (change.op === 'add') {
-      // Offers from another studio come in as a copy for this one.
-      const own = offer.studio_id === studioId ? offer : null;
+      // Picking a bank offer (from any location's bank) makes this month's copy of it.
       const group = groupOf(offer);
-      const local =
-        own ||
-        siblings(group, offer.id).find(o => o.studio_id === studioId && o.year === year && o.month === month) ||
-        cloneTo({ ...offer, year, month }, studioId, group, userId);
+      const local = pick(offer, studioId, year, month, group, userId);
       addToPlan(studioId, year, month, local, userId);
       if (!change.solo)
         for (const s of others) {
-          const twin =
-            (offer.studio_id === s.id && offer.month === month && offer.year === year ? offer : null) ||
-            siblings(group, local.id).find(o => o.studio_id === s.id && o.year === year && o.month === month) ||
-            cloneTo({ ...local, year, month }, s.id, group, userId);
+          const twin = pick(local, s.id, year, month, group, userId);
           addToPlan(s.id, year, month, twin, userId);
           touched.add(s.id);
         }
     }
 
     if (change.op === 'remove') {
-      removeFromPlan(studioId, year, month, offer.id, userId);
       const group = json(offer.provenance, {}).linkGroup;
-      if (!change.solo && group)
-        for (const twin of siblings(group, offer.id).filter(o => o.year === year && o.month === month)) {
-          removeFromPlan(twin.studio_id, year, month, twin.id, userId);
-          touched.add(twin.studio_id);
-        }
+      const twins = !change.solo && group ? siblings(group, offer.id).filter(o => o.year === year && o.month === month) : [];
+      removeFromPlan(studioId, year, month, offer.id, userId);
+      dropCopy(offer);
+      for (const twin of twins) {
+        removeFromPlan(twin.studio_id, year, month, twin.id, userId);
+        dropCopy(twin);
+        touched.add(twin.studio_id);
+      }
     }
 
     if (change.op === 'delete') {
-      removeFromPlan(studioId, year, month, offer.id, userId);
-      db.prepare(`UPDATE offers SET status='archived', updated_at=CURRENT_TIMESTAMP WHERE id=?`).run(offer.id);
+      // Deleting from a month retires the offer: the month copy goes and its bank offer is archived.
+      const archive = db.prepare(`UPDATE offers SET status='archived', updated_at=CURRENT_TIMESTAMP WHERE id=?`);
       const group = json(offer.provenance, {}).linkGroup;
-      if (!change.solo && group)
-        for (const twin of siblings(group, offer.id).filter(o => o.year === year && o.month === month)) {
-          removeFromPlan(twin.studio_id, year, month, twin.id, userId);
-          db.prepare(`UPDATE offers SET status='archived', updated_at=CURRENT_TIMESTAMP WHERE id=?`).run(twin.id);
-          touched.add(twin.studio_id);
-        }
+      const twins = !change.solo && group ? siblings(group, offer.id).filter(o => o.year === year && o.month === month) : [];
+      for (const o of [offer, ...twins]) {
+        removeFromPlan(o.studio_id, year, month, o.id, userId);
+        const bankId = bankIdOf(o);
+        if (bankId) archive.run(bankId);
+        if (o.month == null) continue;
+        archive.run(o.id);
+        dropCopy(o);
+        touched.add(o.studio_id);
+      }
     }
 
     if (change.op === 'update') {
@@ -539,8 +591,8 @@ export function coverPlan(studioId: number, year: number, month: number, userId:
   const added: number[] = [], raised: number[] = [];
   db.transaction(() => {
     const pool = db
-      .prepare(`SELECT * FROM offers WHERE studio_id=? AND year=? AND month=? AND status NOT IN ('archived','rejected')`)
-      .all(studioId, year, month) as any[];
+      .prepare(`SELECT * FROM offers WHERE studio_id=? AND year=? AND month IS NULL AND status NOT IN ('archived','rejected')`)
+      .all(studioId, year) as any[];
     const picked = () => {
       const { slots, offerIds } = selection(studioId, year, month);
       const ids = [...Object.values(slots), ...offerIds].filter(Boolean) as number[];
@@ -552,11 +604,12 @@ export function coverPlan(studioId: number, year: number, month: number, userId:
     for (const key of Object.keys(targets) as (keyof typeof targets)[]) {
       if (targets[key] <= 0) continue;
       let left = targets[key] - streamSum(picked(), key);
-      const chosen = new Set(picked().map(o => o.id));
-      for (const o of pool
+      const chosen = new Set(picked().map(o => bankIdOf(o)));
+      for (const b of pool
         .filter(o => !chosen.has(o.id) && STREAM_OF[o.objective] === key && revenueOf(o) > 0)
         .sort((a, b) => revenueOf(b) - revenueOf(a))) {
         if (left <= 0) break;
+        const o = monthCopy(b, year, month, groupOf(b), userId);
         addToPlan(studioId, year, month, o, userId);
         added.push(o.id);
         left -= revenueOf(o);

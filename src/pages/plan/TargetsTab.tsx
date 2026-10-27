@@ -39,7 +39,7 @@ const SCENARIO_LABELS: Record<string, string> = {
   standard: 'Standard',
   aggressive: 'Stretch',
 };
-function ScenarioControl() {
+function ScenarioControl({ compact = false }: { compact?: boolean }) {
   const { scenario, setScenario, can, year } = useApp();
   const [busy, setBusy] = useState(false);
   const active = scenario === 'standard' ? 'standard' : 'aggressive';
@@ -55,6 +55,25 @@ function ScenarioControl() {
     await setScenario(choice);
     setBusy(false);
   };
+  const buttons = can('target_approve') && (
+    <div
+      className="ws-segmented"
+      aria-label="Targets in use"
+      title="Standard is the plan; Stretch lifts every month to the stretch case. Switching recalculates every number on this page."
+    >
+      {Object.entries(SCENARIO_LABELS).map(([id, label]) => (
+        <button
+          key={id}
+          disabled={busy}
+          className={active === id && scenario !== 'aspirational' ? 'active' : ''}
+          onClick={() => apply(id)}
+        >
+          {busy && active !== id ? 'Switching…' : label}
+        </button>
+      ))}
+    </div>
+  );
+  if (compact) return buttons || null;
   return (
     <div className="ws-toolbar">
       <div>
@@ -64,20 +83,7 @@ function ScenarioControl() {
           {can('target_approve') ? 'Switching recalculates every number on this page.' : 'Only approvers can switch.'}
         </p>
       </div>
-      {can('target_approve') && (
-        <div className="ws-segmented">
-          {Object.entries(SCENARIO_LABELS).map(([id, label]) => (
-            <button
-              key={id}
-              disabled={busy}
-              className={active === id && scenario !== 'aspirational' ? 'active' : ''}
-              onClick={() => apply(id)}
-            >
-              {busy && active !== id ? 'Switching…' : label}
-            </button>
-          ))}
-        </div>
-      )}
+      {buttons}
     </div>
   );
 }
@@ -96,38 +102,17 @@ export function useSources() {
 }
 const LIVE = (o: any) => !['archived', 'rejected'].includes(o.status);
 const PLANNABLE = (o: any) => LIVE(o) && o.data_mode !== 'demo' && o.generation_source !== 'demo_seed';
-export const offersInMonth = (data: PlanData, month: number) =>
-  data.offers
-    .filter(o => o.month === month && PLANNABLE(o))
+// A month's offers are only those its plan has picked from the location's offer bank — nothing else is shown.
+export const selectedForPlan = (data: PlanData, p: PlanData['plans'][number], month: number) => {
+  const saved = p.detail.plans.find((x: any) => x.month === month);
+  const ids = new Set<number>(
+    [...Object.values(saved?.slots || {}), ...(saved?.offer_ids || [])].map(Number).filter(Boolean),
+  );
+  return data.offers
+    .filter(o => ids.has(Number(o.id)) && PLANNABLE(o))
     .sort(
       (a, b) => (a.plan_slot ? 0 : 1) - (b.plan_slot ? 0 : 1) || (b.expected_revenue || 0) - (a.expected_revenue || 0),
     );
-// Match MonthWorkspace's saved selections and curated defaults. Scenario/demo offers are never defaults.
-export const selectedForPlan = (data: PlanData, p: PlanData['plans'][number], month: number) => {
-  const saved = p.detail.plans.find((x: any) => x.month === month);
-  const studioIds = new Set<number>([p.studio.id, ...(p.detail.children || []).map((s: any) => s.id)]);
-  const own = offersInMonth(data, month).filter(o => studioIds.has(Number(o.studio_id)));
-  const hasSavedSelection = Boolean(
-    saved && ((saved.slots !== null && saved.slots !== undefined) || Array.isArray(saved.offer_ids)),
-  );
-  if (hasSavedSelection) {
-    const ids = new Set<number>(
-      [...Object.values(saved.slots || {}), ...(saved.offer_ids || [])].map(Number).filter(Boolean),
-    );
-    return own.filter(o => ids.has(Number(o.id)));
-  }
-  const slots = ['newcomer', 'lapsed', 'renewal']
-    .map(slot => own.find(o => o.plan_slot === slot && Number(o.plan_rank) === 1))
-    .filter(Boolean) as any[];
-  const extras = own
-    .filter(o => o.generation_source === 'plan_2027' && !o.plan_slot)
-    .sort(
-      (a, b) =>
-        Number(a.plan_rank || 999) - Number(b.plan_rank || 999) ||
-        Number(b.expected_revenue || 0) - Number(a.expected_revenue || 0),
-    )
-    .slice(0, Math.max(0, 4 - slots.length));
-  return [...slots, ...extras];
 };
 export const selectedInMonth = (data: PlanData, month: number) =>
   data.plans.flatMap(p => selectedForPlan(data, p, month));
@@ -362,211 +347,226 @@ export default function TargetsTab({
   };
   return (
     <>
-      {section === 'metrics' && (
-        <>
-          <ScenarioControl />
-          <div className="mx-board">
-            <section className="mx-panel mx-panel-streams" aria-label="Revenue streams">
-              <div className="mx-panel-head">
-                <div className="mx-panel-title-wrap">
-                  <span className="mx-panel-idx">01</span>
-                  <div className="mx-panel-titles">
-                    <span className="mx-group-label">Revenue streams</span>
-                    <small>
-                      Annual target mix across acquisition, renewals &amp; comeback · click any tile for 12-month split
-                    </small>
-                  </div>
-                </div>
-                <div className="mx-panel-summary">
-                  <div
-                    className="mx-mix-track"
-                    aria-hidden="true"
-                    title={totals.map(t => `${t.label}: ${lakh(t.value)}`).join(' · ')}
-                  >
-                    {totals.map(t => {
-                      const w = data.annual ? (t.value / data.annual) * 100 : 0;
-                      return w > 0 ? <span key={t.key} style={{ width: `${w}%`, background: t.color }} /> : null;
-                    })}
-                  </div>
-                  <span className="mx-total-pill">
-                    Annual <b>{lakh(data.annual)}</b>
-                  </span>
-                </div>
-              </div>
-              <div className="mx-row mx-row-streams">
-                {totals.map(t => {
-                  const share = data.annual ? Math.round((t.value / data.annual) * 100) : 0;
-                  const shortLabel = t.key === 'other' ? 'Other streams' : t.label;
-                  return (
-                    <button
-                      key={t.key}
-                      type="button"
-                      className={`mx ${t.value === 0 ? 'is-zero' : ''} ${metric === t.key ? 'active' : ''}`}
-                      aria-pressed={metric === t.key}
-                      title={`${shortLabel}: ${t.key === 'newClient' ? 'sum of monthly new-client revenue allocations' : t.key === 'renewal' ? 'sum of monthly renewal revenue allocations' : t.key === 'reactivation' ? 'sum of monthly reactivation revenue allocations' : 'sum of other revenue allocations such as gifts, privates, and retail'}; share = this amount ÷ annual target.`}
-                      onClick={() => setMetric(metric === t.key ? null : t.key)}
-                    >
-                      <div className="mx-head-row">
-                        <span className="mx-title">
-                          <i style={{ background: t.color }} />
-                          {shortLabel}
-                        </span>
-                        <em className="mx-share-badge">{data.annual ? `${share}%` : '—'}</em>
-                      </div>
-                      <strong>{lakh(t.value)}</strong>
-                      <span className="mx-mini-bar" aria-hidden="true">
-                        <i style={{ width: `${t.value > 0 ? Math.max(5, share) : 0}%`, background: t.color }} />
-                      </span>
-                      <div className="mx-foot-row">
-                        <small>{t.value > 0 ? `${lakh(t.value / 12)} / mo avg` : 'Gifts, privates & retail'}</small>
-                        <span className="mx-drill-cue" aria-hidden="true">
-                          12m ↗
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
-                <button
-                  type="button"
-                  className={`mx mx-approval ${metric === 'approved' ? 'active' : ''}`}
-                  aria-pressed={metric === 'approved'}
-                  title="Approved months count the location-month targets with an approved target value; the maximum is 12."
-                  onClick={() => setMetric(metric === 'approved' ? null : 'approved')}
-                >
-                  <div className="mx-head-row">
-                    <span className="mx-title">
-                      <CheckCircle2 size={13} className="mx-approval-ic" />
-                      Approval
-                    </span>
-                    <em className={`mx-share-badge ${approvedMonths === 12 ? 'is-complete' : ''}`}>
-                      {Math.round((approvedMonths / 12) * 100)}%
-                    </em>
-                  </div>
-                  <strong>
-                    {approvedMonths}
-                    <em className="mx-denom">/12</em>
-                  </strong>
-                  <span className="mx-mini-bar" aria-hidden="true">
-                    <i style={{ width: `${(approvedMonths / 12) * 100}%` }} />
-                  </span>
-                  <div className="mx-foot-row">
-                    <small>
-                      {approvedMonths === 12 ? 'All months approved' : `${12 - approvedMonths} months pending`}
-                    </small>
-                    <span className="mx-drill-cue" aria-hidden="true">
-                      12m ↗
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </section>
-
-            <section className="mx-panel mx-panel-volumes" aria-label="Volumes needed">
-              {(() => {
-                const volMap = Object.fromEntries(funnel) as Record<string, number>;
-                const maxVol = Math.max(...funnel.map(([, v]) => v), 1);
-                const leadToTrial = volMap.leads > 0 ? Math.round((volMap.trials / volMap.leads) * 100) : null;
-                const trialToBuyer = volMap.trials > 0 ? Math.round((volMap.buyers / volMap.trials) * 100) : null;
-                const VOL_META: Record<
-                  string,
-                  { icon: React.ComponentType<{ size?: number; className?: string }>; tag: string; kind: 'acq' | 'ret' }
-                > = {
-                  leads: { icon: Users, tag: 'Step 1 · Funnel', kind: 'acq' },
-                  trials: {
-                    icon: Sparkles,
-                    tag: leadToTrial !== null ? `Step 2 · ${leadToTrial}% conv.` : 'Step 2 · Funnel',
-                    kind: 'acq',
-                  },
-                  buyers: {
-                    icon: Trophy,
-                    tag: trialToBuyer !== null ? `Step 3 · ${trialToBuyer}% close` : 'Step 3 · Funnel',
-                    kind: 'acq',
-                  },
-                  renewalPurchases: { icon: RefreshCw, tag: 'Retention', kind: 'ret' },
-                  reactivated: { icon: RotateCcw, tag: 'Comeback', kind: 'ret' },
-                };
-                return (
-                  <>
-                    <div className="mx-panel-head">
-                      <div className="mx-panel-title-wrap">
-                        <span className="mx-panel-idx">02</span>
-                        <div className="mx-panel-titles">
-                          <span className="mx-group-label">Volumes needed</span>
-                          <small>
-                            Acquisition funnel stages &amp; member lifecycle volumes required across the year
-                          </small>
-                        </div>
-                      </div>
-                      <div className="mx-panel-summary">
-                        <span className="mx-track-tag is-acq">Acquisition · 3 stages</span>
-                        <span className="mx-track-tag is-ret">Lifecycle · 2 streams</span>
-                        <span
-                          className="mx-total-pill"
-                          title={
-                            stretchMonthsCount > 0
-                              ? `${stretchMonthsCount} month(s) require stretch cohort conversion or ticket lift`
-                              : 'All 12 months within historical cohort capacity'
-                          }
-                        >
-                          Feasibility <b>{12 - stretchMonthsCount}/12 on-pace</b>
-                        </span>
-                      </div>
+      {section === 'metrics' &&
+        (() => {
+          const board = (
+            <div className="mx-board">
+              <section className="mx-panel mx-panel-streams" aria-label="Revenue streams">
+                <div className="mx-panel-head">
+                  <div className="mx-panel-title-wrap">
+                    <span className="mx-panel-idx">01</span>
+                    <div className="mx-panel-titles">
+                      <span className="mx-group-label">Revenue streams</span>
+                      <small>
+                        Annual target mix across acquisition, renewals &amp; comeback · click any tile for 12-month
+                        split
+                      </small>
                     </div>
-                    <div className="mx-row mx-row-volumes">
-                      {funnel.map(([k, v], idx) => {
-                        const meta = VOL_META[k] || { icon: Users, tag: 'Volume', kind: 'acq' as const };
-                        const Icon = meta.icon;
-                        const barW = v > 0 ? Math.max(6, Math.round((v / maxVol) * 100)) : 0;
-                        return (
-                          <button
-                            key={k}
-                            type="button"
-                            className={`mx mx-vol mx-vol-${meta.kind} ${v === 0 ? 'is-zero' : ''} ${idx === 3 ? 'is-lifecycle-start' : ''} ${metric === k ? 'active' : ''}`}
-                            aria-pressed={metric === k}
-                            onClick={() => setMetric(metric === k ? null : k)}
-                          >
-                            <div className="mx-head-row">
-                              <span className="mx-title">
-                                <Icon size={13} className="mx-vol-ic" />
-                                {METRIC_LABELS[k]}
-                              </span>
-                              <em className={`mx-vol-tag is-${meta.kind}`}>{meta.tag}</em>
-                            </div>
-                            <strong>{number(v)}</strong>
-                            <span className="mx-mini-bar" aria-hidden="true">
-                              <i style={{ width: `${barW}%` }} />
-                            </span>
-                            <div className="mx-foot-row">
-                              <small>
-                                <b>{number(Math.round(v / 12))}</b> / month avg
-                              </small>
-                              <span className="mx-drill-cue" aria-hidden="true">
-                                12m ↗
-                              </span>
-                            </div>
-                          </button>
-                        );
+                  </div>
+                  <div className="mx-panel-summary">
+                    <div
+                      className="mx-mix-track"
+                      aria-hidden="true"
+                      title={totals.map(t => `${t.label}: ${lakh(t.value)}`).join(' · ')}
+                    >
+                      {totals.map(t => {
+                        const w = data.annual ? (t.value / data.annual) * 100 : 0;
+                        return w > 0 ? <span key={t.key} style={{ width: `${w}%`, background: t.color }} /> : null;
                       })}
                     </div>
-                  </>
-                );
-              })()}
-            </section>
+                    <span className="mx-total-pill">
+                      Annual <b>{lakh(data.annual)}</b>
+                    </span>
+                  </div>
+                </div>
+                <div className="mx-row mx-row-streams">
+                  {totals.map(t => {
+                    const share = data.annual ? Math.round((t.value / data.annual) * 100) : 0;
+                    const shortLabel = t.key === 'other' ? 'Other streams' : t.label;
+                    return (
+                      <button
+                        key={t.key}
+                        type="button"
+                        className={`mx ${t.value === 0 ? 'is-zero' : ''} ${metric === t.key ? 'active' : ''}`}
+                        aria-pressed={metric === t.key}
+                        title={`${shortLabel}: ${t.key === 'newClient' ? 'sum of monthly new-client revenue allocations' : t.key === 'renewal' ? 'sum of monthly renewal revenue allocations' : t.key === 'reactivation' ? 'sum of monthly reactivation revenue allocations' : 'sum of other revenue allocations such as gifts, privates, and retail'}; share = this amount ÷ annual target.`}
+                        onClick={() => setMetric(metric === t.key ? null : t.key)}
+                      >
+                        <div className="mx-head-row">
+                          <span className="mx-title">
+                            <i style={{ background: t.color }} />
+                            {shortLabel}
+                          </span>
+                          <em className="mx-share-badge">{data.annual ? `${share}%` : '—'}</em>
+                        </div>
+                        <strong>{lakh(t.value)}</strong>
+                        <span className="mx-mini-bar" aria-hidden="true">
+                          <i style={{ width: `${t.value > 0 ? Math.max(5, share) : 0}%`, background: t.color }} />
+                        </span>
+                        <div className="mx-foot-row">
+                          <small>{t.value > 0 ? `${lakh(t.value / 12)} / mo avg` : 'Gifts, privates & retail'}</small>
+                          <span className="mx-drill-cue" aria-hidden="true">
+                            12m ↗
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                  <button
+                    type="button"
+                    className={`mx mx-approval ${metric === 'approved' ? 'active' : ''}`}
+                    aria-pressed={metric === 'approved'}
+                    title="Approved months count the location-month targets with an approved target value; the maximum is 12."
+                    onClick={() => setMetric(metric === 'approved' ? null : 'approved')}
+                  >
+                    <div className="mx-head-row">
+                      <span className="mx-title">
+                        <CheckCircle2 size={13} className="mx-approval-ic" />
+                        Approval
+                      </span>
+                      <em className={`mx-share-badge ${approvedMonths === 12 ? 'is-complete' : ''}`}>
+                        {Math.round((approvedMonths / 12) * 100)}%
+                      </em>
+                    </div>
+                    <strong>
+                      {approvedMonths}
+                      <em className="mx-denom">/12</em>
+                    </strong>
+                    <span className="mx-mini-bar" aria-hidden="true">
+                      <i style={{ width: `${(approvedMonths / 12) * 100}%` }} />
+                    </span>
+                    <div className="mx-foot-row">
+                      <small>
+                        {approvedMonths === 12 ? 'All months approved' : `${12 - approvedMonths} months pending`}
+                      </small>
+                      <span className="mx-drill-cue" aria-hidden="true">
+                        12m ↗
+                      </span>
+                    </div>
+                  </button>
+                </div>
+              </section>
 
-            {metric && (
-              <MetricFocus
-                data={data}
-                metric={metric}
-                label={METRIC_LABELS[metric] || totals.find(t => t.key === metric)?.label || ''}
-                money={totals.some(t => t.key === metric)}
-                onMonth={m => setOpen(m)}
-                onClose={() => setMetric(null)}
-              />
-            )}
-          </div>
-          {year >= boot.planningYear && <TargetBreakdown onMonth={m => setOpen(m)} onSaved={onSaved} />}
-        </>
-      )}
+              <section className="mx-panel mx-panel-volumes" aria-label="Volumes needed">
+                {(() => {
+                  const volMap = Object.fromEntries(funnel) as Record<string, number>;
+                  const maxVol = Math.max(...funnel.map(([, v]) => v), 1);
+                  const leadToTrial = volMap.leads > 0 ? Math.round((volMap.trials / volMap.leads) * 100) : null;
+                  const trialToBuyer = volMap.trials > 0 ? Math.round((volMap.buyers / volMap.trials) * 100) : null;
+                  const VOL_META: Record<
+                    string,
+                    {
+                      icon: React.ComponentType<{ size?: number; className?: string }>;
+                      tag: string;
+                      kind: 'acq' | 'ret';
+                    }
+                  > = {
+                    leads: { icon: Users, tag: 'Step 1 · Funnel', kind: 'acq' },
+                    trials: {
+                      icon: Sparkles,
+                      tag: leadToTrial !== null ? `Step 2 · ${leadToTrial}% conv.` : 'Step 2 · Funnel',
+                      kind: 'acq',
+                    },
+                    buyers: {
+                      icon: Trophy,
+                      tag: trialToBuyer !== null ? `Step 3 · ${trialToBuyer}% close` : 'Step 3 · Funnel',
+                      kind: 'acq',
+                    },
+                    renewalPurchases: { icon: RefreshCw, tag: 'Retention', kind: 'ret' },
+                    reactivated: { icon: RotateCcw, tag: 'Comeback', kind: 'ret' },
+                  };
+                  return (
+                    <>
+                      <div className="mx-panel-head">
+                        <div className="mx-panel-title-wrap">
+                          <span className="mx-panel-idx">02</span>
+                          <div className="mx-panel-titles">
+                            <span className="mx-group-label">Volumes needed</span>
+                            <small>
+                              Acquisition funnel stages &amp; member lifecycle volumes required across the year
+                            </small>
+                          </div>
+                        </div>
+                        <div className="mx-panel-summary">
+                          <span className="mx-track-tag is-acq">Acquisition · 3 stages</span>
+                          <span className="mx-track-tag is-ret">Lifecycle · 2 streams</span>
+                          <span
+                            className="mx-total-pill"
+                            title={
+                              stretchMonthsCount > 0
+                                ? `${stretchMonthsCount} month(s) require stretch cohort conversion or ticket lift`
+                                : 'All 12 months within historical cohort capacity'
+                            }
+                          >
+                            Feasibility <b>{12 - stretchMonthsCount}/12 on-pace</b>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="mx-row mx-row-volumes">
+                        {funnel.map(([k, v], idx) => {
+                          const meta = VOL_META[k] || { icon: Users, tag: 'Volume', kind: 'acq' as const };
+                          const Icon = meta.icon;
+                          const barW = v > 0 ? Math.max(6, Math.round((v / maxVol) * 100)) : 0;
+                          return (
+                            <button
+                              key={k}
+                              type="button"
+                              className={`mx mx-vol mx-vol-${meta.kind} ${v === 0 ? 'is-zero' : ''} ${idx === 3 ? 'is-lifecycle-start' : ''} ${metric === k ? 'active' : ''}`}
+                              aria-pressed={metric === k}
+                              onClick={() => setMetric(metric === k ? null : k)}
+                            >
+                              <div className="mx-head-row">
+                                <span className="mx-title">
+                                  <Icon size={13} className="mx-vol-ic" />
+                                  {METRIC_LABELS[k]}
+                                </span>
+                                <em className={`mx-vol-tag is-${meta.kind}`}>{meta.tag}</em>
+                              </div>
+                              <strong>{number(v)}</strong>
+                              <span className="mx-mini-bar" aria-hidden="true">
+                                <i style={{ width: `${barW}%` }} />
+                              </span>
+                              <div className="mx-foot-row">
+                                <small>
+                                  <b>{number(Math.round(v / 12))}</b> / month avg
+                                </small>
+                                <span className="mx-drill-cue" aria-hidden="true">
+                                  12m ↗
+                                </span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </>
+                  );
+                })()}
+              </section>
+
+              {metric && (
+                <MetricFocus
+                  data={data}
+                  metric={metric}
+                  label={METRIC_LABELS[metric] || totals.find(t => t.key === metric)?.label || ''}
+                  money={totals.some(t => t.key === metric)}
+                  onMonth={m => setOpen(m)}
+                  onClose={() => setMetric(null)}
+                />
+              )}
+            </div>
+          );
+          // Planning years show one combined targets section; past years just the board.
+          return year >= boot.planningYear ? (
+            <TargetBreakdown onMonth={m => setOpen(m)} onSaved={onSaved} switcher={<ScenarioControl compact />}>
+              {board}
+            </TargetBreakdown>
+          ) : (
+            <>
+              <ScenarioControl />
+              {board}
+            </>
+          );
+        })()}
       {section === 'plan' && (
         <>
           <div className="ws-toolbar">
@@ -868,7 +868,7 @@ export default function TargetsTab({
                         <td className="num">{number(m.trials)}</td>
                         <td className="num">{number(m.buyers)}</td>
                         <td>{m.leadOffer}</td>
-                        <td className="num">{offersInMonth(data, m.month).length}</td>
+                        <td className="num">{selectedInMonth(data, m.month).length}</td>
                       </tr>
                     ))}
                   </tbody>

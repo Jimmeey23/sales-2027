@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import { z } from 'zod';
 import { db } from '../db.js';
-import { PRODUCT_KEYS, linkedOfferChange, listPrice, priceFor } from './linkedOffers.js';
+import { PRODUCT_KEYS, linkedOfferChange, listPrice, moveInPlan, planPosition, priceFor } from './linkedOffers.js';
 
 const OBJECTIVES = [
   'acquisition',
@@ -301,7 +301,7 @@ export function applyProposal(
     objective: p.objective,
     offer_type: p.offerType,
     studio_id: studioId,
-    month,
+    month: null, // saved to the offer bank; the month plan picks its own copy below
     year,
     audience: p.audience,
     excluded_audience: 'Employees, ineligible customers, and customers redeeming a conflicting offer.',
@@ -335,7 +335,13 @@ export function applyProposal(
   const created = db.prepare('SELECT * FROM offers WHERE id=?').get(id) as any;
   db.prepare('INSERT INTO offer_versions(offer_id,version,snapshot,changed_by) VALUES (?,?,?,?)')
     .run(id, 1, JSON.stringify(created), userId);
+  // A replacement takes the old offer's place in the month (same slot or list position).
+  const at = p.targetOfferId ? planPosition(studioId, year, month, p.targetOfferId) : null;
   if (p.targetOfferId) linkedOfferChange(studioId, year, month, { op: 'remove', offerId: p.targetOfferId, solo }, userId);
   linkedOfferChange(studioId, year, month, { op: 'add', offerId: id, solo }, userId);
-  return { offerId: id, offer: created };
+  const copy = db
+    .prepare(`SELECT * FROM offers WHERE studio_id=? AND year=? AND month=? AND json_extract(provenance,'$.bankId')=?`)
+    .get(studioId, year, month, id) as any;
+  if (at && copy) moveInPlan(studioId, year, month, copy.id, at, userId);
+  return { offerId: copy?.id ?? id, offer: copy ?? created };
 }

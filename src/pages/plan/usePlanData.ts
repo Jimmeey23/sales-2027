@@ -2,7 +2,7 @@ import { api } from '../../api';
 import { useApp } from '../../App';
 import { useLoad } from '../../hooks';
 import { locationStudioIds, planningLocations } from '../../data/locations';
-import { MONTH_ACTIVATIONS, MONTH_THEMES, studioPlaybook } from '../../data/planDefaults';
+import { MONTH_THEMES, studioPlaybook } from '../../data/planDefaults';
 import type { Studio } from '../../types';
 
 export interface MonthRow {
@@ -147,7 +147,8 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
       other *= factor;
     }
     const newClient = Math.max(0, target - renewal - reactivation - other);
-    const leadOffer = pb.leadOffer || src?.offer || plan?.theme || detail.themes?.[month] || MONTH_ACTIVATIONS[i];
+    // The lead offer is the month's first pick from the offer bank, never a written default.
+    const leadOffer: string = plan?.offers?.[0]?.name || 'No offer picked yet';
     const objective = pb.objective || src?.objective || plan?.objective || MONTH_THEMES[i];
     // Bottom-up economics take priority when unit economics are resolved; fall back to stored funnel/playbook counts if ever zeroed.
     const e = economics.months[i];

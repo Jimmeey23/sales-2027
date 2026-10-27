@@ -123,12 +123,18 @@ const METRIC_FORMULAS: Record<string, string> = {
   ci: 'Check-ins = classes per month × average class capacity × fill rate.',
 };
 
+// One "targets" section: header with the Standard/Stretch switch (`switcher`), the streams & volumes board
+// (`children`), then the month-by-month table.
 export default function TargetBreakdown({
   onMonth,
   onSaved,
+  switcher,
+  children,
 }: {
   onMonth: (month: number) => void;
   onSaved: () => Promise<unknown>;
+  switcher?: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   const { studioId, year, scenario, can } = useApp();
   const { data, loading, error, reload } = useLoad<BResponse>(
@@ -255,16 +261,21 @@ export default function TargetBreakdown({
       <div className="ws-toolbar">
         <div>
           <h2>
-            {year} target breakdown · {current.studio.name}{' '}
+            {year} targets · {current.studio.name}{' '}
             <Badge tone={data.scenario === 'standard' ? 'green' : 'purple'}>{scenarioLabel} target</Badge>
           </h2>
           <p>
-            One target per location; every column below is calculated from it. Click a month to open its plan.
+            <b>{lakh(current.total.target)}</b> · {pct(current.total.growth)} vs 2026 ({lakh(current.total.lastYear)}) ·
+            blended spend {rupee(current.monthlyAverage.avgSpend)} per paying client.
+          </p>
+          <p>
+            One target per location; every number below is calculated from it. Click a month to open its plan.
             {current.venues.length > 0 &&
               ` Pop-up = ${current.venues.map(v => `${v.studio.name} ${lakh(v.annual)}`).join(' + ')}.`}
           </p>
         </div>
         <div className="ws-toolbar-actions">
+          {switcher}
           <div className="ws-segmented" aria-label="Column groups">
             {['Revenue', 'Funnel', 'Studio', 'Units'].map(g => (
               <button
@@ -308,57 +319,7 @@ export default function TargetBreakdown({
         </p>
       )}
 
-      <div className="tb-kpis">
-        {[
-          [
-            'Revenue target',
-            lakh(current.total.target),
-            `${pct(current.total.growth)} vs 2026 (${lakh(current.total.lastYear)})`,
-          ],
-          [
-            'New-client revenue',
-            lakh(current.total.newRevenue),
-            `${share(current.total.newRevenue / current.total.target)} of target`,
-          ],
-          ['Leads needed', int(current.total.leads), `${(current.total.leads / 52.14).toFixed(0)} a week`],
-          [
-            'First visits / trials',
-            int(current.total.firstVisits),
-            `${int(current.total.packageConversions)} package conversions`,
-          ],
-          [
-            'New paying clients',
-            int(current.total.newPaying),
-            `${int(current.monthlyAverage.totalPaying)} paying clients a month`,
-          ],
-          [
-            'Blended spend / paying client',
-            rupee(current.monthlyAverage.avgSpend),
-            `${int(current.total.checkins)} check-ins`,
-          ],
-        ].map(([l, v, s]) => (
-          <div
-            key={l}
-            title={
-              l === 'Blended spend / paying client'
-                ? 'Blended spend = total target revenue ÷ average monthly total paying clients; it includes both new and existing clients.'
-                : l === 'New-client revenue'
-                  ? 'Sum of the monthly new-client revenue allocation.'
-                  : l === 'Leads needed'
-                    ? 'Monthly leads = trials required ÷ lead-to-trial rate; rounded up per month.'
-                    : l === 'First visits / trials'
-                      ? 'Monthly trials = buyers required ÷ trial-to-purchase rate; rounded up per month.'
-                      : l === 'New paying clients'
-                        ? 'Monthly buyers = new-client revenue ÷ (member spend + visit spend ÷ trial-to-purchase rate); rounded up per month.'
-                        : 'Sum of the selected monthly targets.'
-            }
-          >
-            <span>{l}</span>
-            <strong>{v}</strong>
-            <small>{s}</small>
-          </div>
-        ))}
-      </div>
+      {children}
 
       <div className="tb-scroll">
         <table className="tb-table">
