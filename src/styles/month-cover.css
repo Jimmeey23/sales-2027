@@ -965,6 +965,19 @@
 .mc-narr.is-playing .mc-narr-ring {
   animation: mc-narr-pulse 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
 }
+/* Three slow breaths on first sight, then never again. Not autoplay — an invitation. */
+.mc-narr-play.is-inviting {
+  animation: mc-narr-invite 2.6s cubic-bezier(0.2, 0.7, 0.2, 1) 1.2s 3;
+}
+@keyframes mc-narr-invite {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--mc-a) 0%, transparent);
+  }
+  45% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--mc-a) 26%, transparent);
+  }
+}
 @keyframes mc-narr-pulse {
   0% {
     opacity: 0.7;
@@ -1293,6 +1306,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .mc-narr.is-playing .mc-narr-ring,
+  .mc-narr-play.is-inviting,
   .mc-narr-caption,
   .mw-monthcover[data-beat='planEarly'] .mc-week:nth-child(-n + 2)::after,
   .mw-monthcover[data-beat='planLate'] .mc-week:nth-child(n + 3)::after {

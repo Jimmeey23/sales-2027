@@ -44,8 +44,13 @@ export default function CoverNarration({ month, onBeat }: { month: number; onBea
   const [time, setTime] = useState(0);
   const [status, setStatus] = useState<'loading' | 'ready' | 'missing'>('loading');
   const [scriptOpen, setScriptOpen] = useState(false);
+  // A single, quiet invitation the first time a cover opens. Once the voice has played even
+  // once, the cover stops asking.
+  const [invited, setInvited] = useState(false);
 
-  const windows = useMemo(() => segmentWindows(duration, segments), [duration, segments]);
+  // No duration yet means no reliable windows: hold on the first line rather than let every
+  // segment's zero-length window read as "we are on the last one".
+  const windows = useMemo(() => (duration > 0 ? segmentWindows(duration, segments) : []), [duration, segments]);
   const windowsRef = useRef(windows);
   windowsRef.current = windows;
   const indexRef = useRef(-1);
@@ -154,7 +159,10 @@ export default function CoverNarration({ month, onBeat }: { month: number; onBea
         preload="metadata"
         onLoadedMetadata={onLoaded}
         onDurationChange={onLoaded}
-        onPlay={() => setPlaying(true)}
+        onPlay={() => {
+          setPlaying(true);
+          setInvited(true);
+        }}
         onPause={() => {
           setPlaying(false);
           onBeat(null);
@@ -171,7 +179,9 @@ export default function CoverNarration({ month, onBeat }: { month: number; onBea
       <div className="mc-narr-inner">
         <button
           type="button"
-          className={`mc-narr-play${playing ? ' is-on' : ''}`}
+          className={`mc-narr-play${playing ? ' is-on' : ''}${
+            !playing && !invited && status === 'ready' ? ' is-inviting' : ''
+          }`}
           onClick={toggle}
           aria-label={playing ? 'Pause narration' : 'Play narration'}
           aria-pressed={playing}
