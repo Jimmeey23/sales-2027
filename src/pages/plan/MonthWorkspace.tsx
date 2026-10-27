@@ -63,7 +63,8 @@ import { locationPlaybook, type ActionItem } from '../../data/planDefaults';
 import { isLegacyTheme, monthChapter, monthStory } from '../../data/monthNarrative';
 import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
-import PageHero, { PAGE_PHOTOS } from './PageHero';
+import PageHero from './PageHero';
+import { PAGE_PHOTOS } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
