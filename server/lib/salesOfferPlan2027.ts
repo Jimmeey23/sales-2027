@@ -10,6 +10,8 @@ import { planningStudios, saveSelection } from './linkedOffers.js';
 interface PlanOffer {
   stream: 'newcomer' | 'lapsed' | 'renewal';
   selected: boolean;
+  /** Second offer of this stream, carried beside the slot holder in the month. */
+  include?: boolean;
   panelPick: boolean;
   name: string;
   tagline: string;
@@ -36,6 +38,7 @@ interface PlanMonth {
   moment: string;
   plan: Record<string, number | string>;
   offers: PlanOffer[];
+  actions?: { week: number; owner: string; done: boolean; text: string }[];
 }
 
 const SOURCE = '2027 Annual Sales and Offer Plan';
@@ -84,7 +87,7 @@ function offerType(o: PlanOffer) {
 export function applySalesOfferPlan(year: number, userId: number | null) {
   const months = load();
   const studios = new Map(planningStudios().map(s => [s.name, s.id]));
-  const counts = { archived: 0, cleared: 0, created: 0, reused: 0, months: 0 };
+  const counts = { archived: 0, cleared: 0, created: 0, reused: 0, months: 0, banked: 0 };
   db.transaction(() => {
     // Retire the earlier imports (2027 base plan offers, January Top 25, Offer Bank workbook). Archived, not deleted.
     counts.archived = db
@@ -115,10 +118,14 @@ export function applySalesOfferPlan(year: number, userId: number | null) {
         else {
           const revenue = o.selected && o.modelBuyers && o.ticket ? Math.round(o.modelBuyers * o.ticket) : o.revenue;
           const asp = o.buyers ? Math.round(revenue / o.buyers) : 0;
-          const rationale = [`Why: ${o['Why it works']}`, o['What to watch'] ? `Watch: ${o['What to watch']}` : '', o.Model ? `Model: ${o.Model}` : '']
+          const rationale = [
+            `Why: ${o['Why it works']}`,
+            o['What to watch'] ? `Watch: ${o['What to watch']}` : '',
+            o.Model ? `Model: ${o.Model}` : '',
+          ]
             .filter(Boolean)
             .join('\n');
-          const label = o.selected ? 'Selected' : 'Alternative considered';
+          const label = o.selected ? 'Selected' : 'Second offer in the month';
           const financials = {
             source: SOURCE,
             expectedBuyers: o.buyers,
@@ -149,9 +156,15 @@ export function applySalesOfferPlan(year: number, userId: number | null) {
               /founding 57/i.test(o.name) ? 'annual_membership' : OBJECTIVE[o.stream],
               offerType(o),
               studioId,
-              m.month,
+              // Only the two offers a month carries get a month; the third stays in the
+              // location's offer bank as a library alternative.
+              o.selected || o.include ? m.month : null,
               year,
-              o.stream === 'newcomer' ? 'New clients / trials' : o.stream === 'lapsed' ? 'Lapsed clients' : 'Renewals due',
+              o.stream === 'newcomer'
+                ? 'New clients / trials'
+                : o.stream === 'lapsed'
+                  ? 'Lapsed clients'
+                  : 'Renewals due',
               'Does not stack a campaign % on the standing 15% new/lapsed or 10% pack perks.',
               o.buyers,
               asp,
@@ -166,18 +179,44 @@ export function applySalesOfferPlan(year: number, userId: number | null) {
               o.stream,
               o.selected ? 1 : 2,
               JSON.stringify(financials),
-              JSON.stringify({ sourceKey, source: SOURCE, linkGroup: group, selected: o.selected, panelPick: o.panelPick, pricing: pricingOf(o) }),
+              JSON.stringify({
+                sourceKey,
+                source: SOURCE,
+                linkGroup: group,
+                selected: o.selected,
+                panelPick: o.panelPick,
+                pricing: pricingOf(o),
+              }),
               userId,
             ).lastInsertRowid as number;
           const row = db.prepare('SELECT * FROM offers WHERE id=?').get(id);
-          db.prepare('INSERT INTO offer_versions(offer_id,version,snapshot,changed_by) VALUES (?,?,?,?)').run(id, 1, JSON.stringify(row), userId);
+          db.prepare('INSERT INTO offer_versions(offer_id,version,snapshot,changed_by) VALUES (?,?,?,?)').run(
+            id,
+            1,
+            JSON.stringify(row),
+            userId,
+          );
           counts.created++;
         }
+        // Reused rows carry a month from an earlier run, so the month is asserted every time
+        // rather than only when a row is created.
+        db.prepare('UPDATE offers SET month=?, plan_slot=?, plan_rank=?, updated_at=CURRENT_TIMESTAMP WHERE id=?').run(
+          o.selected || o.include ? m.month : null,
+          o.stream,
+          o.selected ? 1 : 2,
+          id,
+        );
         if (o.selected) slots[o.stream] = id;
-        else options.push(id!);
+        else if (o.include) options.push(id!);
       }
       saveSelection(studioId, year, m.month, slots, options, userId);
       const p = m.plan;
+      if (m.actions?.length) {
+        db.prepare(
+          `UPDATE monthly_plans SET actions=?, updated_by=?, updated_at=CURRENT_TIMESTAMP
+           WHERE studio_id=? AND year=? AND month=?`,
+        ).run(JSON.stringify(m.actions), userId, studioId, year, m.month);
+      }
       db.prepare(
         `UPDATE monthly_plans SET theme=?, objective=?, strategy=?, notes=?, updated_by=?, updated_at=CURRENT_TIMESTAMP
          WHERE studio_id=? AND year=? AND month=?`,
@@ -200,6 +239,20 @@ export function applySalesOfferPlan(year: number, userId: number | null) {
       );
       counts.months++;
     }
+
+    // Reconcile: an offer keeps its month only while that month's plan still carries it.
+    // Everything else returns to the bank, so a re-run can never leave orphans behind.
+    const planned = new Set<number>();
+    for (const row of db.prepare('SELECT slots, offer_ids FROM monthly_plans WHERE year=?').all(year) as any[]) {
+      const slots = JSON.parse(row.slots || '{}');
+      for (const id of Object.values(slots)) if (id) planned.add(Number(id));
+      for (const id of JSON.parse(row.offer_ids || '[]')) planned.add(Number(id));
+    }
+    const stray = (db.prepare('SELECT id FROM offers WHERE year=? AND month IS NOT NULL').all(year) as any[])
+      .map(r => Number(r.id))
+      .filter(id => !planned.has(id));
+    for (const id of stray) db.prepare('UPDATE offers SET month=NULL, updated_at=CURRENT_TIMESTAMP WHERE id=?').run(id);
+    counts.banked = stray.length;
   })();
   audit({
     userId,

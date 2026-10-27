@@ -8,7 +8,7 @@ export const MONTH_ACTIVATIONS = [
   'Newcomer open house + trial follow-up',
   'Referral week with member guest passes',
   'Progress check-ins and goal resets',
-  'Signature community event + conversion desk',
+  'The Coronation Gala: 57 numbered seats crowned, founding wall unveiled, conversion desk at the door',
   'Beginner series / foundations workshop',
   'Midyear member challenge',
   'Consistency streak challenge',

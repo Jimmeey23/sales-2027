@@ -59,129 +59,142 @@ const conv = (input: MonthStoryInput) => P(input.trials > 0 ? input.buyers / inp
 
 export const MONTH_CHAPTERS: MonthChapter[] = [
   {
-    theme: 'The January Re-Up',
-    kicker: 'First light',
-    moment:
-      'The city restarts: resolutions, new memberships, and the annuals signed last January coming due in the same fortnight.',
-    objective: 'Convert January trial demand at full price, and re-up the expiring annuals before the month cools.',
+    theme: 'The Re-Up',
+    kicker: 'The renewal book',
+    moment: 'The annual book signed a year ago comes due in one block, while trial demand converts without paid media.',
+    objective:
+      'Re-sign the expiring annual book at full value and convert trial demand at list — with no discount anchor set for the year.',
     brief:
-      'January is the one month the year comes to you. The resolution crowd walks in without being chased, and last January’s annual members arrive at the same door holding an expiry date. The job is not to buy demand — it is to be ready for it: a full-price first purchase for the new, a warm re-up conversation for the old, and no discount that steals revenue from either.',
-    risk: 'New-year discounting. If the first offer of the year is a percentage off, that discount becomes the price anchor for the next eleven months.',
-    signature: 'An annual re-up week in the first ten days, before the trial wave peaks.',
+      'January is decided by the book the studio already owns. Renewals are the largest stream, so the month leads with a ladder of longer terms on the expiring annuals; new clients convert from trial at full price, with a refund-of-habit mechanism instead of a price cut; the lapsed list is worked once, honestly. Nothing is bought with margin.',
+    risk: 'Discount anchoring. If the first offer of the year is a percentage off, that number becomes the reference price for the next eleven months.',
+    signature:
+      'A re-up ladder inside the first ten days, and a full-price trial conversion that pays back in studio credit, not cash.',
   },
   {
-    theme: 'Plus-One Season',
-    kicker: 'Bring someone',
+    theme: 'The Second Seat',
+    kicker: 'Referral, not discount',
     moment:
-      'Valentine’s on the 14th, Galentine’s on the 13th — the two weekends that turn February into a referral month wearing a romance costume.',
-    objective: 'Turn couples and best friends into members, and keep the January cohort’s second month honest.',
+      'New clients arrive in pairs — one member brings another — so the second seat is the product the month sells.',
+    objective:
+      'Grow new clients through the second seat: a duo rate that prices the companion membership, a referral credit paid in classes, and a winback for members who left as a pair.',
     brief:
-      'February sells company. The people who join this month are rarely alone: they arrive as a pair, a duo, a friend who was brought along and now wants her own membership. That makes it a referral month, not a romance one — the offer should reward the second person rather than discount the first.',
-    risk: 'Buy-one-get-one. BOGO buyers renewed at a third to a half, and almost all of them were already members paying full price.',
-    signature: 'A Galentine’s class with a QR at the door, and a duo rate that never discounts the first membership.',
+      'February buys growth with product rather than margin. The offer is built on the second person: a duo rate that prices the companion seat, a referral that pays out in classes so cash never leaves the business, and a winback that returns the pair together. The first membership is never discounted — the second one is the reason to buy.',
+    risk: 'Buy-one-get-one. It discounts the first seat, and the buyers it attracts renew at a fraction of the rate of people who paid in full.',
+    signature: 'A duo rate priced on the second seat, with referral credits paid in classes.',
   },
   {
-    theme: 'She Moves',
-    kicker: 'Half the city',
+    theme: 'The Homecoming',
+    kicker: 'The winback',
     moment:
-      'International Women’s Day on the 8th, and the reunion that brings the launch-year cohort back into the room.',
-    objective: 'Reach the women who left after the launch year, and stop March trials from waiting for April.',
+      'The oldest cohort on the book — the launch-year members — is the largest reactivation pool the studio has.',
+    objective:
+      'Rebuild the reactivation stream: bring the lapsed launch cohort home, and close trials inside the month instead of letting them slide.',
     brief:
-      'March belongs to a purpose, not a promotion. Women’s Day gives the studio a reason to gather the women who built the first year — including the hundreds who lapsed after the launch cohort — and a reason to ask plainly why they stopped. The offer is a homecoming, not a discount: come back to the room you helped fill.',
-    risk: 'Trials that wait. A March trial allowed to defer its decision becomes an April buyer — at April’s scarcity price, on April’s terms.',
-    signature: 'A Class of 2024 reunion, then a short, honest winback window for everyone who was in it.',
+      'March is won back, not bought. The reunion is the offer: the launch-year cohort is invited together, asked plainly why they left and given a reason to return that is about the room rather than a price. Trials close in-week so demand does not defer into April, and the renewal ladder holds the first-quarter book while acquisition runs warm rather than loud.',
+    risk: 'Trials that wait. A trial allowed to defer its decision becomes next month’s buyer, at next month’s terms.',
+    signature: 'A reunion-led winback with a closing window, and a trial that has to decide inside the month.',
   },
   {
     theme: 'Still Shaking',
     kicker: 'The anniversary',
-    moment: 'The brand turns a year older, and the Founding 57 goes on sale — fifty-seven numbered annuals, in waves.',
-    objective: 'Make the anniversary the revenue month: full-value annuals, hard-capped, hard-closed.',
+    moment:
+      'The brand turns a year older. The flagship is a numbered annual, and the month around it is a birthday programme that fills the room.',
+    objective:
+      'Sell the flagship of the year — fifty-seven numbered annuals in three tiers, capped and hard-closed — inside a month of anniversary events.',
     brief:
-      'April is the flagship. An anniversary is the one moment a membership can be sold as belonging rather than as a price: numbered annuals, released in waves, capped by seat count and closed at midnight on the 30th. Everything else the month does — the hosted classes, the founding story, the countdown — exists to fill that room.',
-    risk: 'An anniversary that reads as a sale. The moment the cap becomes negotiable, the scarcity and the price leave together.',
-    signature: 'The Founding 57: numbered annual memberships, released in waves, closing at 23:59 on 30 April.',
+      'April is the year’s grand month. The product is the Founding 57: fifty-seven numbered annual memberships, crowned across three tiers, capped by seat count and closed on the anniversary night. Around it runs the birthday programme — a coronation gala, themed classes in every format, a founding-members wall, a comeback party and daily celebration moments — so the annual is sold by the room rather than by a discount. The ceremony is the referral engine that May inherits.',
+    risk: 'An anniversary that reads as a sale. The moment a capped seat is quietly re-opened, the number on the wall stops meaning anything and the tier price follows it down.',
+    signature:
+      'The Founding 57 · Coronation: three tiers, fifty-seven numbered seats, crowned at the gala and closed that night.',
   },
   {
     theme: 'The Afterparty',
-    kicker: 'The month after',
-    moment: 'Mother’s Day on the 9th, and the first thirty days of every single person who bought in April.',
-    objective:
-      'Hold the April cohort: 55% renewal at next expiry, and a second purchase from everyone who can carry one.',
+    kicker: 'The second purchase',
+    moment: 'April sold the membership. The next thirty days decide whether it becomes a habit or a receipt.',
+    objective: 'Turn the anniversary cohort into a habit: eight classes inside thirty days, then the second purchase.',
     brief:
-      'May is not about acquisition. It is the month that decides whether April was a spike or a membership — the first thirty days of every April buyer, when the habit is still a decision rather than a routine. The work is small and specific: a call in week one, eight classes by month-end, and a hosted class that makes the second visit feel like the point of the first.',
-    risk: 'Silence. An April buyer with no contact in the first three weeks is a May churn statistic with a receipt.',
-    signature: 'The 30-day Afterparty plan: one call, eight classes, one hosted class.',
+      'May is the month that makes April real. Every coronation member gets a thirty-day plan — a call in the first week, eight classes by month end, one hosted class — and the ask at the end of it is the second purchase. Upgrades take whoever is ready for a longer term, and a winback catches the buyers who never came back, because an April receipt with no visits is churn with better stationery.',
+    risk: 'Silence. A flagship buyer with no contact in the first three weeks is a churn statistic with a receipt.',
+    signature: 'A thirty-day plan per member: one call, eight classes, one hosted class, then the second purchase.',
   },
   {
-    theme: 'Out of Office',
-    kicker: 'Before they leave',
+    theme: 'The Freeze',
+    kicker: 'Retention',
     moment:
-      'Summer travel, college holidays and Father’s Day on the 20th — the month members leave without cancelling.',
-    objective: 'Stop the summer lapse: freeze memberships instead of losing them, and fill the daytime with students.',
+      'The book is under pressure from cancellation intent — and a cancellation is a decision that can still be dated instead of taken.',
+    objective:
+      'Protect the book: convert cancellation intent into dated freezes, keep the direct debits alive, and hold intake with a low-commitment newcomer offer.',
     brief:
-      'June is the month members disappear politely. Travel, weddings and school holidays empty the room, and the direct debits quietly follow. The job is to catch the exit at the door: a freeze with a return date rather than a cancellation, a plan rather than a pause, and the under-25s who are suddenly free at eleven in the morning.',
+      'June is a defence month. Where a member asks to cancel, the offer is a freeze with a return date — the plan, not the pause — so revenue stays in the book and the door stays open. The renewal ladder runs early so nothing lapses by default, and a short-ticket newcomer offer keeps new seats coming in while the existing ones are held.',
     risk: 'Cancellations dressed as pauses. A freeze with no return date is churn with better manners.',
-    signature: 'Golden Hours: student access to the quietest slots of the week.',
+    signature: 'A dated freeze instead of a cancellation, with an early renewal ladder behind it.',
   },
   {
-    theme: 'Rain Check',
-    kicker: 'The monsoon test',
-    moment: 'Monsoon. Attendance drops six weeks before intent does.',
-    objective: 'Hold attendance through the rain, and earn the renewals that fall due in the wettest month.',
+    theme: 'The Attendance Book',
+    kicker: 'Engagement',
+    moment: 'Renewal is decided weeks after attendance moves, which makes attendance the month’s revenue lever.',
+    objective: 'Hold attendance so the renewals that fall due actually land, and price the renewal before the drop.',
     brief:
-      'July is a weather month, and weather is an excuse rather than a reason. Attendance falls first; the renewal follows it six weeks later. So the work is attendance — streaks, a little grace on late cancels, and a leaderboard that makes showing up in the rain a small status symbol rather than a chore.',
-    risk: 'Late cancels. In the busiest studios they reach a third of all bookings in July.',
-    signature: 'The Monsoon Streak: a studio leaderboard for the people who came anyway.',
+      'July works on behaviour rather than price. A streak makes showing up visible, a small grace on late cancels removes the excuse that ends a habit, and a leaderboard turns consistency into a small status symbol. The renewal ladder is offered to people who are still coming, because a renewal argued while the habit is alive is a different conversation from one argued after it has died.',
+    risk: 'Late cancels. Where they run unchecked they take a third of all bookings, and the renewal follows them out of the door.',
+    signature: 'A studio streak and leaderboard, with renewals sold to members who are still in the room.',
   },
   {
-    theme: 'Squads & Upgrades',
-    kicker: 'More than one',
-    moment: 'Friendship Day on the 1st, and the second seasonal peak of the Mumbai year.',
-    objective: 'Move one-month members onto three-month terms, and let friends bring friends.',
+    theme: 'The Upgrade',
+    kicker: 'The term ladder',
+    moment: 'The one-month book is the largest pool of members whose commitment can be lengthened.',
+    objective:
+      'Move the one-month book onto longer terms — one to three to six — priced on commitment, and fill the new seats by referral.',
     brief:
-      'August is the month of the upgrade. A one-month member renews half the time; a three-month member renews at sixty-eight to seventy-four. The same person, a different length of habit. Friendship Day gives the nudge a social shape — squad classes, friend-led trials — and the upgrade conversation becomes about commitment instead of price.',
+      'August sells length rather than price. A one-month member renews about half the time; a three-month member renews at two-thirds or better. The same person, a different length of habit. The upgrade ladder prices commitment — three months, then six — a squad referral brings in the new seats without a discount, and the winback returns the lapsed to the same ladder.',
     risk: 'Selling more of the same. A longer term at a discount is a smaller margin, not a bigger member.',
-    signature: 'Friendship Day squads, and a 1M → 3M upgrade path priced on commitment.',
+    signature: 'A one-to-three-to-six upgrade ladder priced on commitment, with squad referrals for new seats.',
   },
   {
-    theme: 'The 57-Day Comeback',
-    kicker: 'Before the lights',
-    moment: 'Fifty-seven days to Diwali: the long run-in to the festive season starts on the 2nd.',
-    objective: 'Reactivate the lapsed before Diwali, and build a challenge that carries attendance into October.',
+    theme: 'The Comeback Cohort',
+    kicker: 'Reactivation at scale',
+    moment: 'The lapsed book is large enough to reactivate as a single cohort with one start date.',
+    objective:
+      'Reactivate the lapsed book at scale — one cohort, one start date, one finish line — and step the book into the final quarter.',
     brief:
-      'September is the last quiet month before the year gets loud, which makes it the best window to win people back. A 57-day countdown to Diwali gives the comeback a deadline and a story: start now, walk into the festival having already changed something. The cohort is the offer; the festival is the reason.',
+      'September takes the whole lapsed list at once. A cohort with a fixed start date gives the comeback a deadline and a peer group, which is the difference between a message and a habit. The newcomer trial rides the same date so the room feels full, and the renewal ladder moves the book into the last quarter with its strongest months still ahead.',
     risk: 'A comeback that peaks on day three. Without a cohort and a check-in, reactivation is a message rather than a habit.',
-    signature: 'The 57 Days to Diwali cohort: one start date, one leaderboard, one finish line.',
+    signature: 'One cohort, one start date, one leaderboard — the comeback runs as a class, not a campaign.',
   },
   {
-    theme: 'Festival of Lights',
-    kicker: 'Give the room',
-    moment: 'Diwali on the 29th, Dasara week in Bengaluru, and the year’s biggest gifting window.',
-    objective: 'Sell the festival through gifting, and protect the Bengaluru Dasara trough.',
+    theme: 'The Gifting Window',
+    kicker: 'Gifting as revenue',
+    moment: 'Gift cards and gift annuals are a revenue stream that costs no discount — if they are priced and banked.',
+    objective:
+      'Add revenue that survives the month — gift cards, gifting annuals and a second annual wave — with no promo-code discounting.',
     brief:
-      'October is bought for other people. Diwali gifting turns a membership into a present — a card, a class, a candle-lit evening — and brings in revenue no discount could. The other half of the month is defensive: Dasara week empties Bengaluru, and the plan has to hold the numbers while the city is at home.',
-    risk: 'Codes. A festival rush bought with promo codes becomes a January renewal problem.',
-    signature: 'Gift a Shake cards, and candle-lit evening classes through Diwali week.',
+      'October adds a stream instead of cutting a price. Gift cards are sold at full value and banked, gift annuals take the commitment buyer who is buying for someone else, and a second wave of numbered annuals takes whoever missed the first. The winback returns the lapsed on the strength of the gift rather than a cut, and nothing in the month is bought with a code.',
+    risk: 'Codes. A rush bought with promo codes becomes a renewal problem once the code expires.',
+    signature: 'Gift cards and gift annuals at full value, banked — plus the second numbered-annual wave.',
   },
   {
-    theme: 'Strong Monday',
-    kicker: 'Lock the year',
-    moment: 'Black Friday on the 26th, Cyber Monday on the 29th, and the softest four weeks in Mumbai.',
-    objective: 'Use the one week the city expects a deal to sell annual commitments, not discounts.',
+    theme: 'The Annual Window',
+    kicker: 'The commitment window',
+    moment:
+      'The year’s largest commitment window opens — the one month a long-term membership is the expected purchase.',
+    objective:
+      'Take the year’s biggest commitment window without discounting the year: capped numbered annuals, a closed date, and a renewal ladder on the expiring book.',
     brief:
-      'November has the year’s softest demand and its loudest discount week. The instinct is to join in; the plan is to use the noise. Black Friday is the one moment a long commitment is culturally expected, so the Founding 57 returns for a second wave — annuals, capped, closing on Monday — instead of a percentage off a month.',
-    risk: 'A discount week that discounts the year. An annual sold at 40% off is sold at 40% off forever.',
-    signature: 'The Founding 57, second wave: remaining seats only, Cyber Monday close.',
+      'November sells time, at the moment the market is willing to buy it. The second wave of numbered annuals opens to the list first and closes on a date, the renewal ladder re-signs whatever comes due, and the winback catches anyone who let a membership lapse during the year. The discipline is the same as April: cap the seats, close the date, hold the price.',
+    risk: 'A discount week that discounts the year. An annual sold at forty percent off is sold at forty percent off forever.',
+    signature: 'A second numbered-annual wave: remaining seats only, opening on the list and closing on a date.',
   },
   {
     theme: 'Wrapped, Then Renewed',
-    kicker: 'Close the loop',
-    moment: 'Year-end, and the January decision made a month early.',
-    objective: 'Pre-sell January with the year’s own data, and renew on personal usage.',
+    kicker: 'Data-led renewal',
+    moment: 'Every member’s own year of attendance is the argument for the next one — and it is already in the data.',
+    objective:
+      'Renew on usage: a personal year-in-review ending in a renewal prescription, then pre-sell January before the calendar resets.',
     brief:
-      'December is where the year is counted. Every member gets their own 2027 Wrapped — the classes, the streaks, the months that went missing — and the last page is a renewal prescription built from their own attendance. The month’s real product is the argument, and the argument is already in the data.',
+      'December closes the year with evidence. Each member gets their own year in numbers — the classes, the streaks, the months that went missing — and the last page is a renewal prescription built from their attendance. That same argument pre-sells January, so next year’s annuals are sold before the discount season can argue against them.',
     risk: 'January panic. A renewal left to the new year is a renewal argued against January’s discounts.',
-    signature: '‘Your 2027 Wrapped’: a personal year-in-review ending in a renewal prescription.',
+    signature:
+      'A personal year-in-review that ends in a renewal prescription, and a January pre-sale on the back of it.',
   },
 ];
 

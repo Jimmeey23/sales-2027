@@ -824,3 +824,267 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
+
+/* ═══ April · the anniversary cover ═══════════════════════════════════════════
+   The month the brand turns a year older dresses for it: a royal plum ground under
+   the photograph, gold rules, a crown crest, confetti, and the month name set in
+   gold foil. Everything here is scoped to `.is-birthday`, so the other eleven covers
+   are untouched. */
+
+.mw-monthcover.is-birthday {
+  --mc-gold: #e6c16a;
+  --mc-gold-deep: #b8912f;
+  --mc-gold-soft: rgba(230, 193, 106, 0.32);
+  --mc-royal: #2a1035;
+  background: #170a20;
+  color: #fdf6e6;
+}
+
+/* The photograph is pushed back and warmed, so gold reads against it. */
+.mw-monthcover.is-birthday .mc-photo {
+  filter: saturate(0.92) contrast(1.06) brightness(0.86) sepia(0.12);
+}
+.mw-monthcover.is-birthday .mc-scrim {
+  background: linear-gradient(
+      180deg,
+      rgba(23, 10, 32, 0.82) 0%,
+      rgba(23, 10, 32, 0.42) 32%,
+      rgba(20, 8, 28, 0.9) 68%,
+      #150820 100%
+    ),
+    radial-gradient(120% 90% at 8% 0%, rgba(230, 193, 106, 0.16) 0%, transparent 56%),
+    radial-gradient(90% 70% at 100% 8%, rgba(120, 40, 120, 0.3) 0%, transparent 60%);
+}
+
+/* ── Crest ────────────────────────────────────────────────────────────────── */
+.mc-crest {
+  position: absolute;
+  top: 20px;
+  right: 34px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px 7px 8px;
+  border: 1px solid rgba(230, 193, 106, 0.42);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(66, 26, 80, 0.72), rgba(30, 12, 42, 0.78));
+  backdrop-filter: blur(12px) saturate(130%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 18px 40px -28px rgba(0, 0, 0, 0.9);
+  animation: mc-rise 0.8s 0.18s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mc-crest-crown {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--mc-gold), var(--mc-gold-deep));
+  color: #2a1035;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28) inset;
+}
+.mc-crest-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.mc-crest-copy b {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mc-gold);
+}
+.mc-crest-copy em {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-style: italic;
+  font-size: 12px;
+  color: rgba(253, 246, 230, 0.82);
+}
+
+/* ── Confetti ─────────────────────────────────────────────────────────────── */
+.mc-confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mc-confetti i {
+  position: absolute;
+  top: -6%;
+  left: calc((var(--i) * 5.6%) + 1%);
+  width: 6px;
+  height: 10px;
+  border-radius: 1px;
+  opacity: 0;
+  background: var(--mc-gold);
+  transform: rotate(12deg);
+  animation: mc-confetti-fall calc(9s + var(--i) * 0.45s) linear infinite;
+  animation-delay: calc(var(--i) * 0.62s);
+}
+.mc-confetti i:nth-child(3n) {
+  background: #f0a6c8;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.mc-confetti i:nth-child(3n + 1) {
+  background: #c9a6ff;
+}
+.mc-confetti i:nth-child(4n) {
+  background: #ffe9a8;
+  height: 7px;
+}
+@keyframes mc-confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  8% {
+    opacity: 0.85;
+  }
+  92% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(38px, 108vh, 0) rotate(520deg);
+  }
+}
+
+/* ── The royal badge and the gold month name ──────────────────────────────── */
+.mc-royal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 5px 13px 5px 10px;
+  border: 1px solid rgba(230, 193, 106, 0.4);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(230, 193, 106, 0.16), rgba(230, 193, 106, 0.04));
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mc-gold);
+  animation: mc-rise 0.8s 0.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mc-royal svg {
+  color: var(--mc-gold);
+}
+.mw-monthcover.is-birthday .mc-hero h2 {
+  background: linear-gradient(176deg, #fff8e3 8%, var(--mc-gold) 46%, var(--mc-gold-deep) 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 22px 48px rgba(230, 193, 106, 0.22));
+}
+.mw-monthcover.is-birthday .mc-focus {
+  color: var(--mc-gold);
+}
+.mw-monthcover.is-birthday .mc-focus span {
+  border-right-color: rgba(230, 193, 106, 0.4);
+  color: rgba(253, 246, 230, 0.6);
+}
+.mw-monthcover.is-birthday .mc-brief {
+  color: rgba(253, 246, 230, 0.86);
+}
+
+/* ── The panel and the story band, gilded ─────────────────────────────────── */
+.mw-monthcover.is-birthday .mc-label {
+  color: var(--mc-gold);
+}
+.mw-monthcover.is-birthday .mc-split-head strong,
+.mw-monthcover.is-birthday .mc-count b {
+  color: #fff8e3;
+}
+.mw-monthcover.is-birthday .mc-story {
+  border-top-color: rgba(230, 193, 106, 0.34);
+}
+.mw-monthcover.is-birthday .mc-story-col {
+  border-left-color: rgba(230, 193, 106, 0.18);
+}
+.mw-monthcover.is-birthday .mc-story-col > .mc-label i {
+  background: var(--mc-gold);
+}
+.mw-monthcover.is-birthday .mc-story-col p {
+  color: rgba(253, 246, 230, 0.78);
+}
+.mw-monthcover.is-birthday .mc-week {
+  border-top-color: rgba(230, 193, 106, 0.16);
+}
+.mw-monthcover.is-birthday .mc-week > b {
+  color: var(--mc-gold);
+}
+.mw-monthcover.is-birthday .mc-week > span {
+  color: rgba(253, 246, 230, 0.8);
+}
+
+/* ── The close: a gold seal instead of a plain button ─────────────────────── */
+.mw-monthcover.is-birthday .mc-open {
+  border-color: var(--mc-gold);
+  background: linear-gradient(180deg, #f6dfa4 0%, var(--mc-gold) 42%, var(--mc-gold-deep) 100%);
+  color: #2a1035;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 18px 40px -18px rgba(230, 193, 106, 0.7);
+}
+.mw-monthcover.is-birthday .mc-open:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.mw-monthcover.is-birthday .mc-status.is-proposed {
+  border-color: rgba(230, 193, 106, 0.44);
+  color: var(--mc-gold);
+}
+.mw-monthcover.is-birthday .mc-dates > span {
+  border-color: rgba(230, 193, 106, 0.26) !important;
+  background: rgba(230, 193, 106, 0.08) !important;
+}
+
+/* A gilded top rule, so the whole sheet reads as invitation stock. */
+.mw-monthcover.is-birthday::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 4;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--mc-gold-deep) 18%,
+    #fff6d8 50%,
+    var(--mc-gold-deep) 82%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .mc-crest {
+    top: 14px;
+    right: 20px;
+  }
+}
+@media (max-width: 560px) {
+  .mc-crest-copy em {
+    display: none;
+  }
+  .mc-royal {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-confetti {
+    display: none;
+  }
+  .mw-monthcover.is-birthday .mc-open:hover {
+    transform: none;
+  }
+}

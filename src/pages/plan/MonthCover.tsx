@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Crown, Sparkles, X } from 'lucide-react';
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
@@ -128,6 +128,8 @@ export default function MonthCover({
 }) {
   const reduce = useReducedMotion();
   const animate = !reduce;
+  // April is the anniversary: the cover dresses for it — royal ground, gold rules, confetti.
+  const birthday = month === 4;
   // The cover dissolves into the plan rather than cutting straight to it.
   const [leaving, setLeaving] = useState(false);
   const timer = useRef<number | null>(null);
@@ -158,7 +160,8 @@ export default function MonthCover({
     <div
       ref={root}
       tabIndex={-1}
-      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}`}
+      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}${birthday ? ' is-birthday' : ''}`}
+      data-month={month}
       role="dialog"
       aria-modal="true"
       aria-label={`${MONTHS[month - 1]} overview`}
@@ -169,6 +172,26 @@ export default function MonthCover({
         aria-hidden="true"
       />
       <div className="mc-scrim" aria-hidden="true" />
+
+      {birthday && (
+        <>
+          {/* Birthday confetti: eighteen slow pieces, purely decorative, frozen by reduced motion. */}
+          <div className="mc-confetti" aria-hidden="true">
+            {Array.from({ length: 18 }).map((_, i) => (
+              <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
+            ))}
+          </div>
+          <div className="mc-crest" aria-hidden="true">
+            <span className="mc-crest-crown">
+              <Crown size={15} />
+            </span>
+            <span className="mc-crest-copy">
+              <b>The Anniversary</b>
+              <em>Still Shaking · one year</em>
+            </span>
+          </div>
+        </>
+      )}
 
       <div className="mc-scroll">
         <header className="mc-top">
@@ -209,6 +232,12 @@ export default function MonthCover({
         </header>
 
         <div className="mc-hero">
+          {birthday && (
+            <p className="mc-royal">
+              <Sparkles size={13} />
+              57 numbered memberships · crowned this month
+            </p>
+          )}
           {theme && (
             <p className="mc-focus">
               <span>Focus</span>
