@@ -1515,7 +1515,7 @@ export default function MonthWorkspace({
         </header>
 
         <div className="mw-body" inert={coverOpen}>
-          <main ref={mainRef} className={`mw-main ${locked ? 'is-locked' : ''}`}>
+          <main ref={mainRef} className={`mw-main is-page-${page} ${locked ? 'is-locked' : ''}`}>
             <nav className="mw-pages" aria-label="Month plan pages">
               <div className="mw-pages-tabs" role="group" aria-label="Month pages">
                 {pageTabs.map(tab => (
@@ -1660,7 +1660,7 @@ export default function MonthWorkspace({
                 index="04"
                 label="Execution"
                 title="How the month actually runs"
-                description="The activations that create demand, the week-by-week checklist that delivers it, and the marketing that makes it visible."
+                description="The week-by-week run of the month, the activations that create demand, and the marketing that makes it visible."
                 photo={heroPhoto(3)}
                 meta={[
                   { label: 'Actions', value: `${form.actions.length}` },
@@ -3533,7 +3533,280 @@ export default function MonthWorkspace({
                 );
               })()}
 
-            {/* ─── Section 6: Activations ─── */}
+            {/* ─── Section 6: The run of the month ─── */}
+            {showOnPage('actions') &&
+              (() => {
+                const meta = sectionMeta(
+                  'actions',
+                  'The run of the month',
+                  'Every step, week by week — tick them off as the month moves.',
+                );
+                return (
+                  <div id="mw-sec-actions" className="mw-section mw-actions">
+                    <SectionHead
+                      icon={ListChecks}
+                      title={meta.title}
+                      hint={meta.hint}
+                      editable={editable}
+                      onTitleChange={v => patchSectionMeta('actions', { title: v })}
+                      onHintChange={v => patchSectionMeta('actions', { hint: v })}
+                      onDelete={() => hideSection('actions')}
+                      actions={
+                        editable ? (
+                          <>
+                            <button
+                              type="button"
+                              className="mw-mini-btn"
+                              onClick={() =>
+                                set({ actions: [...form.actions, { text: '', owner: '', week: 1, done: false }] })
+                              }
+                            >
+                              <Plus size={12} /> Add action
+                            </button>
+                            {form.actions.length === 0 && (
+                              <button
+                                type="button"
+                                className="mw-mini-btn"
+                                onClick={() =>
+                                  set({
+                                    actions: [
+                                      {
+                                        text: 'Brief creative & submit WhatsApp templates for approval',
+                                        owner: 'Marketing',
+                                        week: 1,
+                                        done: false,
+                                      },
+                                      {
+                                        text: 'Launch primary offers & brief front-desk team on scripts',
+                                        owner: 'Studio Manager',
+                                        week: 1,
+                                        done: false,
+                                      },
+                                      {
+                                        text: 'Mid-month renewal & trial conversion check-in',
+                                        owner: 'Sales Lead',
+                                        week: 2,
+                                        done: false,
+                                      },
+                                      {
+                                        text: '48-hour closing reminder broadcast & lapsed follow-up calls',
+                                        owner: 'Studio Manager',
+                                        week: 4,
+                                        done: false,
+                                      },
+                                    ],
+                                  })
+                                }
+                              >
+                                <Sparkles size={11} /> Starter checklist
+                              </button>
+                            )}
+                          </>
+                        ) : undefined
+                      }
+                    />
+                    {(() => {
+                      const PHASES = [
+                        {
+                          week: 1,
+                          label: 'Set up & launch',
+                          hint: 'Creatives approved, offers live, front desk briefed',
+                        },
+                        { week: 2, label: 'Push & convert', hint: 'Trial follow-ups and the first renewal calls' },
+                        { week: 3, label: 'Mid-month review', hint: 'Read the numbers, fix what is not converting' },
+                        { week: 4, label: 'Close & renew', hint: 'Final reminders, renewals and hand-over' },
+                        { week: 5, label: 'Overflow', hint: 'Anything that slipped' },
+                      ];
+                      const total = form.actions.length;
+                      const done = form.actions.filter(a => a.done).length;
+                      // The rail also carries the calendar span each week covers, so the track
+                      // reads as a dated timeline rather than five abstract buckets.
+                      const lastDay = new Date(year, month, 0).getDate();
+                      const span = (week: number) => {
+                        const from = (week - 1) * 7 + 1;
+                        const to = week === 5 ? lastDay : Math.min(week * 7, lastDay);
+                        const pad = (n: number) => String(n).padStart(2, '0');
+                        return from > lastDay ? '' : `${pad(from)}–${pad(to)}`;
+                      };
+                      const phases = PHASES.map(phase => ({
+                        ...phase,
+                        range: span(phase.week),
+                        items: form.actions
+                          .map((action, index) => ({ action, index }))
+                          .filter(entry => entry.action.week === phase.week),
+                      })).filter(phase => phase.items.length > 0 || (editable && phase.week < 5));
+                      const patchAt = (i: number, patch: Partial<ActionItem>) =>
+                        set({ actions: form.actions.map((x, j) => (j === i ? { ...x, ...patch } : x)) });
+
+                      return (
+                        <div className="mp-run">
+                          <header className="mp-run-head">
+                            <div className="mp-run-summary">
+                              <span className="mp-run-kicker">Run of the month</span>
+                              <strong>{total ? `${done} of ${total} steps done` : 'The month, week by week'}</strong>
+                            </div>
+                            <div className="mp-run-meter" aria-hidden="true">
+                              <i style={{ width: `${total ? (done / total) * 100 : 0}%` }} />
+                            </div>
+                            {dates.length > 0 && (
+                              <div className="mp-run-dates">
+                                {dates.slice(0, 4).map(d => (
+                                  <span key={`${d.day}-${d.name}`} className={`kd-${d.kind}`}>
+                                    <b>{formatKeyDate(d)}</b>
+                                    {d.name}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </header>
+
+                          {!total && (
+                            <p className="mp-run-empty">
+                              The run of the month is still blank. Add the launch tasks — creatives briefed, WhatsApp
+                              template approved, emails scheduled, tent cards placed — and the week-2 and week-4
+                              performance checks.
+                            </p>
+                          )}
+
+                          <ol className="mp-track">
+                            {phases.map((phase, gi) => {
+                              const phaseDone = phase.items.filter(e => e.action.done).length;
+                              return (
+                                <li
+                                  key={phase.week}
+                                  className={`mp-phase${phase.items.length ? ' has-steps' : ' is-empty'}`}
+                                  style={{ '--i': gi } as React.CSSProperties}
+                                >
+                                  <div className="mp-phase-rail" aria-hidden="true">
+                                    <span>W{phase.week}</span>
+                                    {phase.range && <em>{phase.range}</em>}
+                                  </div>
+                                  <div className="mp-phase-body">
+                                    <header className="mp-phase-head">
+                                      <div>
+                                        <h5>{phase.label}</h5>
+                                        <p>{phase.hint}</p>
+                                      </div>
+                                      <span
+                                        className={`mp-phase-count${phaseDone === phase.items.length && phase.items.length ? ' is-done' : ''}`}
+                                      >
+                                        {phase.items.length ? `${phaseDone}/${phase.items.length}` : '—'}
+                                      </span>
+                                    </header>
+
+                                    {phase.items.length > 0 && (
+                                      <div className="mp-steps">
+                                        {phase.items.map(({ action, index }) => (
+                                          <div key={index} className={`mp-step${action.done ? ' is-done' : ''}`}>
+                                            <label className="mp-step-check">
+                                              <input
+                                                type="checkbox"
+                                                checked={action.done}
+                                                aria-label={`Mark “${action.text || 'step'}” done`}
+                                                onChange={e => patchAt(index, { done: e.target.checked })}
+                                                {...fieldProps}
+                                              />
+                                              <i aria-hidden="true">
+                                                <Check size={11} />
+                                              </i>
+                                            </label>
+                                            <div className="mp-step-body">
+                                              <input
+                                                className="mp-step-text"
+                                                value={action.text}
+                                                placeholder="What happens"
+                                                aria-label={`Step ${index + 1}`}
+                                                onChange={e => patchAt(index, { text: e.target.value })}
+                                                {...fieldProps}
+                                              />
+                                              <div className="mp-step-meta">
+                                                <input
+                                                  className="mp-step-owner"
+                                                  value={action.owner}
+                                                  placeholder="Owner"
+                                                  aria-label={`Owner for step ${index + 1}`}
+                                                  onChange={e => patchAt(index, { owner: e.target.value })}
+                                                  {...fieldProps}
+                                                />
+                                                <select
+                                                  value={action.week}
+                                                  aria-label={`Week for step ${index + 1}`}
+                                                  onChange={e => patchAt(index, { week: n(e.target.value) })}
+                                                  {...fieldProps}
+                                                >
+                                                  {[1, 2, 3, 4, 5].map(w => (
+                                                    <option key={w} value={w}>
+                                                      Week {w}
+                                                    </option>
+                                                  ))}
+                                                </select>
+                                              </div>
+                                            </div>
+                                            {editable && (
+                                              <button
+                                                type="button"
+                                                className="mp-step-del"
+                                                aria-label="Remove step"
+                                                onClick={() =>
+                                                  set({ actions: form.actions.filter((_, j) => j !== index) })
+                                                }
+                                              >
+                                                <Trash2 size={13} />
+                                              </button>
+                                            )}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+
+                                    {editable && (
+                                      <button
+                                        type="button"
+                                        className="mp-phase-add"
+                                        onClick={() =>
+                                          set({
+                                            actions: [
+                                              ...form.actions,
+                                              { text: '', owner: '', week: phase.week, done: false },
+                                            ],
+                                          })
+                                        }
+                                      >
+                                        <Plus size={11} /> Add a step to week {phase.week}
+                                      </button>
+                                    )}
+                                  </div>
+                                </li>
+                              );
+                            })}
+                          </ol>
+                        </div>
+                      );
+                    })()}
+                    <label className="mw-notes">
+                      <span>Notes</span>
+                      <textarea
+                        rows={3}
+                        value={form.notes}
+                        onChange={e => set({ notes: e.target.value })}
+                        {...fieldProps}
+                      />
+                    </label>
+                    {editable && (
+                      <label className="mw-final">
+                        <input
+                          type="checkbox"
+                          checked={form.status === 'final'}
+                          onChange={e => set({ status: e.target.checked ? 'final' : 'draft' })}
+                        />
+                        Mark this month’s plan as final
+                      </label>
+                    )}
+                  </div>
+                );
+              })()}
+
+            {/* ─── Section 7: Activations ─── */}
             {showOnPage('acts') &&
               (() => {
                 const meta = sectionMeta('acts', 'Activations', 'Challenge, event, partner and retention play.');
@@ -3695,177 +3968,6 @@ export default function MonthWorkspace({
                         </div>
                       )}
                     </div>
-                  </div>
-                );
-              })()}
-
-            {/* ─── Section 7: Action plan ─── */}
-            {showOnPage('actions') &&
-              (() => {
-                const meta = sectionMeta('actions', 'Action plan', 'Who does what, week by week.');
-                return (
-                  <div id="mw-sec-actions" className="mw-section mw-actions">
-                    <SectionHead
-                      icon={ListChecks}
-                      title={meta.title}
-                      hint={meta.hint}
-                      editable={editable}
-                      onTitleChange={v => patchSectionMeta('actions', { title: v })}
-                      onHintChange={v => patchSectionMeta('actions', { hint: v })}
-                      onDelete={() => hideSection('actions')}
-                      actions={
-                        editable ? (
-                          <>
-                            <button
-                              type="button"
-                              className="mw-mini-btn"
-                              onClick={() =>
-                                set({ actions: [...form.actions, { text: '', owner: '', week: 1, done: false }] })
-                              }
-                            >
-                              <Plus size={12} /> Add action
-                            </button>
-                            {form.actions.length === 0 && (
-                              <button
-                                type="button"
-                                className="mw-mini-btn"
-                                onClick={() =>
-                                  set({
-                                    actions: [
-                                      {
-                                        text: 'Brief creative & submit WhatsApp templates for approval',
-                                        owner: 'Marketing',
-                                        week: 1,
-                                        done: false,
-                                      },
-                                      {
-                                        text: 'Launch primary offers & brief front-desk team on scripts',
-                                        owner: 'Studio Manager',
-                                        week: 1,
-                                        done: false,
-                                      },
-                                      {
-                                        text: 'Mid-month renewal & trial conversion check-in',
-                                        owner: 'Sales Lead',
-                                        week: 2,
-                                        done: false,
-                                      },
-                                      {
-                                        text: '48-hour closing reminder broadcast & lapsed follow-up calls',
-                                        owner: 'Studio Manager',
-                                        week: 4,
-                                        done: false,
-                                      },
-                                    ],
-                                  })
-                                }
-                              >
-                                <Sparkles size={11} /> Starter checklist
-                              </button>
-                            )}
-                          </>
-                        ) : undefined
-                      }
-                    />
-                    {form.actions.length > 0 && (
-                      <div className="mw-action-head">
-                        <span>
-                          {form.actions.filter(a => a.done).length} of {form.actions.length} done
-                        </span>
-                        <i
-                          style={
-                            {
-                              '--p': `${(form.actions.filter(a => a.done).length / form.actions.length) * 100}%`,
-                            } as React.CSSProperties
-                          }
-                        />
-                      </div>
-                    )}
-                    {!form.actions.length && (
-                      <p className="mw-action-empty">
-                        No actions yet. Add the launch tasks for this month: creatives briefed, WhatsApp template
-                        approved, emails scheduled, tent cards placed, and the week-2 and week-4 performance checks.
-                      </p>
-                    )}
-                    {form.actions.map((a, i) => {
-                      const patchAction = (p: Partial<ActionItem>) =>
-                        set({ actions: form.actions.map((x, j) => (j === i ? { ...x, ...p } : x)) });
-                      return (
-                        <div key={i} className={`mw-action${a.done ? ' is-done' : ''}`}>
-                          <b className="mw-action-no">{i + 1}</b>
-                          <input
-                            type="checkbox"
-                            checked={a.done}
-                            onChange={e => patchAction({ done: e.target.checked })}
-                            {...fieldProps}
-                          />
-                          <input
-                            value={a.text}
-                            placeholder="Action"
-                            onChange={e => patchAction({ text: e.target.value })}
-                            {...fieldProps}
-                          />
-                          <input
-                            value={a.owner}
-                            placeholder="Owner"
-                            className="mw-owner"
-                            onChange={e => patchAction({ owner: e.target.value })}
-                            {...fieldProps}
-                          />
-                          <select
-                            value={a.week}
-                            onChange={e => patchAction({ week: n(e.target.value) })}
-                            {...fieldProps}
-                          >
-                            {[1, 2, 3, 4, 5].map(w => (
-                              <option key={w} value={w}>
-                                Week {w}
-                              </option>
-                            ))}
-                          </select>
-                          {editable && (
-                            <button
-                              type="button"
-                              aria-label="Remove action"
-                              onClick={() => set({ actions: form.actions.filter((_, j) => j !== i) })}
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                    {editable && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        icon={<Plus size={14} />}
-                        onClick={() =>
-                          set({ actions: [...form.actions, { text: '', owner: '', week: 1, done: false }] })
-                        }
-                      >
-                        Add action
-                      </Button>
-                    )}
-                    <label className="mw-notes">
-                      <span>Notes</span>
-                      <textarea
-                        rows={3}
-                        value={form.notes}
-                        onChange={e => set({ notes: e.target.value })}
-                        {...fieldProps}
-                      />
-                    </label>
-                    {editable && (
-                      <label className="mw-final">
-                        <input
-                          type="checkbox"
-                          checked={form.status === 'final'}
-                          onChange={e => set({ status: e.target.checked ? 'final' : 'draft' })}
-                        />
-                        Mark this month’s plan as final
-                      </label>
-                    )}
                   </div>
                 );
               })()}
