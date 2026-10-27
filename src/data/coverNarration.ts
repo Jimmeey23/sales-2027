@@ -437,7 +437,14 @@ export function coverScript(month: number): string {
  * plenty for a caption and for a block lighting up as it is described.
  */
 export function segmentWindows(duration: number, segments: CoverSegment[]) {
-  const weight = (t: string) => t.length + 14;
+  // Characters carry the reading time; punctuation carries the pauses that fall between
+  // them. Calibrated against the recorded files (~13 characters a second, ~0.35 s at a
+  // full stop), which keeps the caption within a fraction of a line of the voice.
+  const weight = (t: string) => {
+    const stops = (t.match(/[.!?]/g) || []).length;
+    const beats = (t.match(/[,;:]/g) || []).length;
+    return t.length + stops * 4.5 + beats * 2;
+  };
   const total = segments.reduce((sum, s) => sum + weight(s.text), 0) || 1;
   let cursor = 0;
   return segments.map(s => {
