@@ -44,8 +44,6 @@
 .mw .mw-main[class*='is-page-'] > .mw-section > .mw-offers-board,
 .mw .mw-main[class*='is-page-'] > .mw-section > .mw-acts,
 .mw .mw-main[class*='is-page-'] > .mw-section > .mp-run,
-.mw .mw-main[class*='is-page-'] > .mw-section > .mw-notes,
-.mw .mw-main[class*='is-page-'] > .mw-section > .mw-final,
 .mw .mw-main[class*='is-page-'] > .mw-section > .mw-assume-wrap,
 .mw .mw-main[class*='is-page-'] > .mw-section > .mw-econ-body {
   margin-right: 0 !important;
@@ -1212,7 +1210,7 @@
   margin-top: 10px;
 }
 .mw .mw-main.is-page-offers .mw-offer-empty {
-  padding: 30px 26px 34px;
+  padding: 30px 0 34px;
   margin: 0;
   max-width: 74ch;
   font-size: 12.5px;
@@ -1220,7 +1218,7 @@
   color: #8b8a99;
 }
 .mw .mw-main.is-page-offers .mw-editor {
-  margin: 0 26px 20px;
+  margin: 0 0 20px;
 }
 /* The copilot is a quiet line on the page, not a violet panel above the cards. */
 .mw .mw-main.is-page-offers .mw-copilot {
