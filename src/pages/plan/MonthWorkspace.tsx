@@ -9,6 +9,8 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronsDownUp,
+  ChevronsUpDown,
   Copy,
   FileText,
   Flag,
@@ -656,16 +658,19 @@ export default function MonthWorkspace({
   const updateContent = (patch: Record<string, unknown>) =>
     setForm(f => ({ ...f, content: { ...(f.content || {}), ...patch } }));
   const hiddenSections: string[] = Array.isArray(form.content?.hiddenSections) ? form.content.hiddenSections : [];
-  // Collapsed offer cards are part of the month content, so they persist with the plan (and autosave).
-  const collapsedOffers: number[] = Array.isArray(form.content?.collapsedOffers)
-    ? (form.content.collapsedOffers as number[])
+  // Offer cards start collapsed to their hero, and the open ones persist with the month plan
+  // (so the layout survives reloads and rides the existing autosave).
+  const expandedOffers: number[] = Array.isArray(form.content?.expandedOffers)
+    ? (form.content.expandedOffers as number[])
     : [];
-  const toggleOfferCollapsed = (offerId: number) =>
+  const toggleOfferExpanded = (offerId: number) =>
     updateContent({
-      collapsedOffers: collapsedOffers.includes(offerId)
-        ? collapsedOffers.filter(id => id !== offerId)
-        : [...collapsedOffers, offerId],
+      expandedOffers: expandedOffers.includes(offerId)
+        ? expandedOffers.filter(id => id !== offerId)
+        : [...expandedOffers, offerId],
     });
+  const allOffersExpanded = selected.length > 0 && selected.every(o => expandedOffers.includes(o.id));
+  const toggleAllOffers = () => updateContent({ expandedOffers: allOffersExpanded ? [] : selected.map(o => o.id) });
   const isSectionVisible = (secKey: string) => !hiddenSections.includes(secKey);
   const hideSection = (secKey: string) => updateContent({ hiddenSections: [...new Set([...hiddenSections, secKey])] });
   const restoreSection = (secKey: string) =>
@@ -3214,6 +3219,17 @@ export default function MonthWorkspace({
                       onDelete={() => hideSection('offers')}
                       actions={
                         <>
+                          {selected.length > 0 && (
+                            <button
+                              type="button"
+                              className="mw-mini-btn"
+                              onClick={toggleAllOffers}
+                              title={allOffersExpanded ? 'Collapse every offer card' : 'Expand every offer card'}
+                            >
+                              {allOffersExpanded ? <ChevronsDownUp size={12} /> : <ChevronsUpDown size={12} />}
+                              {allOffersExpanded ? 'Collapse all' : 'Expand all'}
+                            </button>
+                          )}
                           {selected.length >= 2 && (
                             <button
                               type="button"
@@ -3376,8 +3392,8 @@ export default function MonthWorkspace({
                               monthTarget={effective}
                               monthUnits={monthUnitsTotal}
                               photo={photoById.get(o.id)}
-                              collapsed={collapsedOffers.includes(o.id)}
-                              onToggleCollapse={() => toggleOfferCollapsed(o.id)}
+                              collapsed={!expandedOffers.includes(o.id)}
+                              onToggleCollapse={() => toggleOfferExpanded(o.id)}
                             />
                           );
 
@@ -4940,13 +4956,52 @@ function OfferCard({
         />
         <div className="oc-hero-scrim" aria-hidden="true" />
 
-        <div className="oc-hero-top">
-          <span className="oc-num-badge" aria-hidden="true">
-            {offerNum}
-          </span>
-          <span className="oc-kicker">
-            {o.month ? `${MONTHS[o.month - 1]} ${o.year || ''}`.trim() : streamLabel || 'Offer'}
-          </span>
+        <div className="oc-hero-copy">
+          <div className="oc-headline">
+            <span className="oc-num-badge" aria-hidden="true">
+              {offerNum}
+            </span>
+            <h3 className="oc-title">
+              {titleLead && <>{titleLead} </>}
+              <span className="oc-title-accent">{titleAccent}</span>
+            </h3>
+          </div>
+          {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
+            <p className="oc-job">{o.headline}</p>
+          )}
+          {offerDescription && <p className="oc-brief">{offerDescription}</p>}
+        </div>
+
+        <div className="oc-hero-foot">
+          <div className="oc-chips">
+            {slotLabel ? (
+              <span className={`oc-chip is-slot slot-${slot}`}>
+                <Sparkles size={10} />
+                {slotLabel}
+              </span>
+            ) : (
+              streamLabel && (
+                <span className="oc-chip is-stream">
+                  <Target size={10} />
+                  {streamLabel}
+                </span>
+              )
+            )}
+            {membership && (
+              <span className="oc-chip">
+                <Tag size={10} />
+                {membership}
+              </span>
+            )}
+            {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
+            <span
+              className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
+              title={linked ? 'Runs at all locations' : 'This location only'}
+              aria-label={linked ? 'Runs at all locations' : 'This location only'}
+            >
+              {linked ? <Link2 size={10} /> : <Unlink size={10} />}
+            </span>
+          </div>
           <div className="oc-toolbar">
             {onToggleCollapse && (
               <button
@@ -5026,47 +5081,6 @@ function OfferCard({
               </div>
             )}
           </div>
-        </div>
-
-        <div className="oc-hero-copy">
-          <h3 className="oc-title">
-            {titleLead && <>{titleLead} </>}
-            <span className="oc-title-accent">{titleAccent}</span>
-          </h3>
-          {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
-            <p className="oc-job">{o.headline}</p>
-          )}
-          {offerDescription && <p className="oc-brief">{offerDescription}</p>}
-        </div>
-
-        <div className="oc-chips">
-          {slotLabel ? (
-            <span className={`oc-chip is-slot slot-${slot}`}>
-              <Sparkles size={10} />
-              {slotLabel}
-            </span>
-          ) : (
-            streamLabel && (
-              <span className="oc-chip is-stream">
-                <Target size={10} />
-                {streamLabel}
-              </span>
-            )
-          )}
-          {membership && (
-            <span className="oc-chip">
-              <Tag size={10} />
-              {membership}
-            </span>
-          )}
-          {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
-          <span
-            className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
-            title={linked ? 'Runs at all locations' : 'This location only'}
-            aria-label={linked ? 'Runs at all locations' : 'This location only'}
-          >
-            {linked ? <Link2 size={10} /> : <Unlink size={10} />}
-          </span>
         </div>
       </div>
 
