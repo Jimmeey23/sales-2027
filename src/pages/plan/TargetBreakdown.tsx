@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Download } from 'lucide-react';
 import { api } from '../../api';
 import { useApp } from '../../App';
 import { useLoad } from '../../hooks';
 import { MONTHS_SHORT } from '../../types';
-import { Badge, ErrorState, Loading } from '../../components/ui';
+import { Badge, Button, ErrorState, Loading } from '../../components/ui';
 import { accentFor } from '../../data/locations';
 
 // Month-by-month breakdown of the ONE target per location (server: lib/targetBreakdown). Every column
@@ -26,6 +26,7 @@ interface BMonth {
   packageConversions: number;
   existingPaying: number;
   totalPaying: number;
+  newMemberSpend: number;
   avgSpend: number;
   leadsPerWeek: number;
   checkins: number;
@@ -72,6 +73,9 @@ const SUMS: Array<keyof BMonth> = [
 function addMonth(a: BMonth, b: BMonth): BMonth {
   const out: any = { ...a, units: { ...a.units } };
   for (const k of SUMS) out[k] = (a as any)[k] + (b as any)[k];
+  out.newMemberSpend = out.newPaying
+    ? (a.newMemberSpend * a.newPaying + b.newMemberSpend * b.newPaying) / out.newPaying
+    : 0;
   for (const k of Object.keys(out.units) as UnitKey[]) out.units[k] = a.units[k] + b.units[k];
   out.growth = out.lastYear > 0 ? out.target / out.lastYear - 1 : null;
   out.avgSpend = out.totalPaying ? out.target / out.totalPaying : 0;
@@ -101,9 +105,32 @@ function combine(locs: BLocation[]): BLocation {
 }
 
 type Col = { key: string; label: string; group: string; get: (m: BMonth, total: boolean) => string; title?: string };
+const METRIC_FORMULAS: Record<string, string> = {
+  si: 'Season index = this month target ÷ average monthly target.',
+  t: 'Revenue target = approved target when available; otherwise proposed target.',
+  ly: 'Prior-year revenue for the same month; future months may use the marked estimate.',
+  g: 'Growth = selected target ÷ prior-year revenue − 1.',
+  nr: 'New-client revenue allocation for this month.',
+  er: 'Existing-client revenue = total target − new-client revenue.',
+  rt: 'Retail revenue = total target × location retail share.',
+  ld: 'Leads = trials ÷ lead-to-trial rate; rounded up.',
+  lw: 'Leads per week = leads ÷ days in month × 7.',
+  fv: 'Trials = buyers ÷ trial-to-purchase rate; rounded up.',
+  np: 'Buyers = new-client revenue ÷ (first-month member spend + trial spend ÷ trial-to-purchase rate); rounded up.',
+  pc: 'Package conversions = trials × first-visit-to-package rate.',
+  ep: 'Existing paying clients = existing-client revenue ÷ monthly spend per existing client.',
+  tp: 'Total paying clients = new buyers + existing paying clients.',
+  ci: 'Check-ins = classes per month × average class capacity × fill rate.',
+};
 
-export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) => void }) {
-  const { studioId, year, scenario, boot } = useApp();
+export default function TargetBreakdown({
+  onMonth,
+  onSaved,
+}: {
+  onMonth: (month: number) => void;
+  onSaved: () => Promise<unknown>;
+}) {
+  const { studioId, year, scenario, can } = useApp();
   const { data, loading, error, reload } = useLoad<BResponse>(
     () => api(`/targets/breakdown?year=${year}${studioId ? `&studio=${studioId}` : ''}`),
     [studioId, year, scenario],
@@ -174,9 +201,29 @@ export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) 
       get: (m, t) => int(t ? current.monthlyAverage.totalPaying : m.totalPaying),
       title: 'Total row: monthly average',
     },
-    { key: 'as', label: 'Avg spend / paying client', group: 'Funnel', get: m => rupee(m.avgSpend) },
+    {
+      key: 'ns',
+      label: 'Avg new-member spend',
+      group: 'Funnel',
+      get: m => rupee(m.newMemberSpend),
+      title: 'Location-specific first-month spend assumption used in the new-client revenue calculation.',
+    },
+    {
+      key: 'as',
+      label: 'Blended spend / paying client',
+      group: 'Funnel',
+      get: m => rupee(m.avgSpend),
+      title:
+        'Total target revenue ÷ new plus existing paying clients. This blended average differs from the new-member spend assumption.',
+    },
     { key: 'ci', label: 'Check-ins target', group: 'Studio', get: m => int(m.checkins) },
-    ...units.map(u => ({ key: `u_${u.key}`, label: u.label, group: 'Units', get: (m: BMonth) => int(m.units[u.key]) })),
+    ...units.map(u => ({
+      key: `u_${u.key}`,
+      label: u.label,
+      group: 'Units',
+      get: (m: BMonth) => int(m.units[u.key]),
+      title: `${u.label} units = target after retail share × this product group’s revenue mix ÷ its realized price.`,
+    })),
   ];
   const shown = cols.filter(c => groups[c.group]);
   const groupSpans = shown.reduce<Array<{ group: string; n: number }>>((acc, c) => {
@@ -255,6 +302,11 @@ export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) 
           ))}
         </div>
       )}
+      {!studioId && locs.length > 1 && view === 'all' && (
+        <p className="tb-edit-note">
+          Assumptions are set per location. Select a location above to view or edit its values.
+        </p>
+      )}
 
       <div className="tb-kpis">
         {[
@@ -280,12 +332,27 @@ export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) 
             `${int(current.monthlyAverage.totalPaying)} paying clients a month`,
           ],
           [
-            'Avg spend / paying client',
+            'Blended spend / paying client',
             rupee(current.monthlyAverage.avgSpend),
             `${int(current.total.checkins)} check-ins`,
           ],
         ].map(([l, v, s]) => (
-          <div key={l}>
+          <div
+            key={l}
+            title={
+              l === 'Blended spend / paying client'
+                ? 'Blended spend = total target revenue ÷ average monthly total paying clients; it includes both new and existing clients.'
+                : l === 'New-client revenue'
+                  ? 'Sum of the monthly new-client revenue allocation.'
+                  : l === 'Leads needed'
+                    ? 'Monthly leads = trials required ÷ lead-to-trial rate; rounded up per month.'
+                    : l === 'First visits / trials'
+                      ? 'Monthly trials = buyers required ÷ trial-to-purchase rate; rounded up per month.'
+                      : l === 'New paying clients'
+                        ? 'Monthly buyers = new-client revenue ÷ (member spend + visit spend ÷ trial-to-purchase rate); rounded up per month.'
+                        : 'Sum of the selected monthly targets.'
+            }
+          >
             <span>{l}</span>
             <strong>{v}</strong>
             <small>{s}</small>
@@ -314,7 +381,14 @@ export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) 
             </tr>
             <tr>
               {shown.map(c => (
-                <th key={c.key} title={c.title} className={`tb-g-${c.group.toLowerCase()}`}>
+                <th
+                  key={c.key}
+                  title={
+                    c.title ||
+                    `${c.label}. ${METRIC_FORMULAS[c.key] || 'Calculated from the selected monthly target and location assumptions.'}`
+                  }
+                  className={`tb-g-${c.group.toLowerCase()}`}
+                >
                   {c.label}
                 </th>
               ))}
@@ -327,6 +401,10 @@ export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) 
                 {shown.map(c => (
                   <td
                     key={c.key}
+                    title={
+                      c.title ||
+                      `${c.label}: ${METRIC_FORMULAS[c.key] || 'Calculated from the selected monthly target and location assumptions.'}`
+                    }
                     className={c.key === 't' ? 'tb-strong' : c.key === 'g' && (m.growth ?? 0) < 0 ? 'tb-neg' : ''}
                   >
                     {c.get(m, false)}
@@ -357,6 +435,17 @@ export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) 
             How {current.studio.name}'s numbers are calculated — planning assumptions
             {a.overridden?.length ? <Badge tone="amber">{a.overridden.length} planner override(s)</Badge> : null}
           </summary>
+          {current.studio.id > 0 && can('target_edit') && (
+            <TargetAssumptionsEditor
+              studioId={current.studio.id}
+              studioName={current.studio.name}
+              year={year}
+              onSaved={async () => {
+                await reload();
+                await onSaved();
+              }}
+            />
+          )}
           <div className="tb-assume-grid">
             <table className="data-table">
               <thead>
@@ -373,15 +462,10 @@ export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) 
                     'firstMonthSpend',
                     'First-month spend per new paying client',
                     rupee,
-                    'New paying clients = new-client revenue ÷ this',
+                    'Buyers = new-client revenue ÷ (member spend + visit spend ÷ trial conversion)',
                   ],
-                  [
-                    'payingPerVisit',
-                    'New paying clients per first visit',
-                    share,
-                    'First visits = new paying clients ÷ this',
-                  ],
-                  ['leadToVisit', 'Lead → first visit', share, 'Leads = first visits ÷ this'],
+                  ['payingPerVisit', 'Trial → purchase', share, 'Trials = buyers ÷ this'],
+                  ['leadToVisit', 'Lead → trial', share, 'Leads = trials ÷ this'],
                   [
                     'visitToPackage',
                     'First visit → package conversion',
@@ -458,5 +542,146 @@ export default function TargetBreakdown({ onMonth }: { onMonth: (month: number) 
         </details>
       )}
     </section>
+  );
+}
+
+const TARGET_ASSUMPTIONS: Array<{ key: string; label: string; hint: string; kind: 'money' | 'rate' }> = [
+  { key: 'leadToTrial', label: 'Lead → trial', hint: 'Leads that complete a trial', kind: 'rate' },
+  { key: 'trialToMember', label: 'Trial → purchase', hint: 'Trials that become paying members', kind: 'rate' },
+  {
+    key: 'firstSpend',
+    label: 'Average spend per member',
+    hint: 'First-month spend per new paying member',
+    kind: 'money',
+  },
+  { key: 'trialSpend', label: 'Average spend per visit', hint: 'Spend per completed trial visit', kind: 'money' },
+];
+
+function TargetAssumptionsEditor({
+  studioId,
+  studioName,
+  year,
+  onSaved,
+}: {
+  studioId: number;
+  studioName: string;
+  year: number;
+  onSaved: () => Promise<unknown>;
+}) {
+  const { can, toast } = useApp();
+  const { data, loading, error, reload } = useLoad<{
+    assumptions: Record<string, { auto: number | null; override: number | null }>;
+  }>(() => api(`/studio-plans/${studioId}/economics?year=${year}`), [studioId, year]);
+  const show = (field: (typeof TARGET_ASSUMPTIONS)[number], value: number | null | undefined) =>
+    value == null ? '' : String(field.kind === 'rate' ? Math.round(value * 100) : Math.round(value));
+  const signature = JSON.stringify(
+    Object.fromEntries(TARGET_ASSUMPTIONS.map(f => [f.key, show(f, data?.assumptions?.[f.key]?.override)])),
+  );
+  const [draft, setDraft] = useState<Record<string, string>>({});
+  const [busy, setBusy] = useState(false);
+  useEffect(() => setDraft(JSON.parse(signature)), [signature]);
+  const dirty = JSON.stringify(draft) !== signature;
+  const save = async (values: Record<string, number | null>, message: string) => {
+    setBusy(true);
+    try {
+      await api(`/studio-assumptions/${studioId}/${year}`, { method: 'PUT', body: JSON.stringify({ values }) });
+      await reload();
+      await onSaved();
+      toast(message);
+    } catch (e: any) {
+      toast(e.message || 'Could not save assumptions.', 'error');
+    } finally {
+      setBusy(false);
+    }
+  };
+  const apply = () => {
+    const values: Record<string, number | null> = {};
+    for (const field of TARGET_ASSUMPTIONS) {
+      const raw = (draft[field.key] || '').trim();
+      if (!raw) values[field.key] = null;
+      else {
+        const value = Number(raw);
+        const minimum = field.key === 'firstSpend' ? 1 : field.kind === 'rate' ? 0.1 : 0;
+        if (!Number.isFinite(value) || value < minimum || (field.kind === 'rate' && value > 100)) {
+          toast(
+            `${field.label} must be ${field.kind === 'rate' ? 'between 0.1 and 100%' : 'greater than zero'}.`,
+            'error',
+          );
+          return;
+        }
+        values[field.key] = field.kind === 'rate' ? value / 100 : value;
+      }
+    }
+    void save(values, `${studioName} assumptions applied to all months`);
+  };
+  const customised = TARGET_ASSUMPTIONS.filter(f => data?.assumptions?.[f.key]?.override != null).length;
+  if (loading && !data) return <p className="tb-assume-state">Loading editable assumptions…</p>;
+  if (error && !data)
+    return (
+      <p className="tb-assume-state" role="alert">
+        {error}
+      </p>
+    );
+  if (!data) return null;
+  return (
+    <div className="tb-assume-editor">
+      <h3>Editable assumptions · {studioName}</h3>
+      <p>Changes recalculate this location’s funnel and apply across all months.</p>
+      <div className="tb-assume-fields">
+        {TARGET_ASSUMPTIONS.map(field => {
+          const assumption = data.assumptions?.[field.key];
+          return (
+            <label key={field.key}>
+              <span>{field.label}</span>
+              <div className="tb-assume-input">
+                {field.kind === 'money' && <i>₹</i>}
+                <input
+                  type="number"
+                  name={field.key}
+                  min={field.kind === 'rate' ? 0.1 : field.key === 'firstSpend' ? 1 : 0}
+                  max={field.kind === 'rate' ? 100 : undefined}
+                  step={field.kind === 'rate' ? 1 : 100}
+                  title={`${field.label}. ${field.kind === 'rate' ? field.hint + '; enter a percentage.' : field.hint + '; enter rupees.'}`}
+                  inputMode="decimal"
+                  disabled={!can('target_edit') || busy}
+                  value={draft[field.key] ?? ''}
+                  placeholder={show(field, assumption?.auto) || 'auto'}
+                  onChange={event => setDraft(current => ({ ...current, [field.key]: event.target.value }))}
+                />
+                {field.kind === 'rate' && <i>%</i>}
+              </div>
+              <small>
+                History:{' '}
+                {assumption?.auto == null
+                  ? '—'
+                  : field.kind === 'rate'
+                    ? share(assumption.auto)
+                    : rupee(assumption.auto)}{' '}
+                · {field.hint}
+              </small>
+            </label>
+          );
+        })}
+      </div>
+      <div className="tb-assume-actions">
+        <Button variant="primary" disabled={!dirty || busy} onClick={apply}>
+          {busy ? 'Recalculating…' : 'Apply to all months'}
+        </Button>
+        {customised > 0 && (
+          <Button
+            variant="secondary"
+            disabled={busy}
+            onClick={() =>
+              void save(
+                Object.fromEntries(TARGET_ASSUMPTIONS.map(f => [f.key, null])),
+                'Back to history-based assumptions',
+              )
+            }
+          >
+            Reset to history
+          </Button>
+        )}
+      </div>
+    </div>
   );
 }

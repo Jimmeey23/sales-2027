@@ -158,6 +158,11 @@
   font-size: 12px;
   color: var(--muted);
 }
+.tb-edit-note {
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
 .tb-assume {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -176,6 +181,75 @@
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   gap: 16px;
+  margin-top: 10px;
+}
+.tb-assume-editor {
+  margin: 14px 0 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--canvas);
+}
+.tb-assume-editor h3 {
+  margin: 0;
+  font-size: 13px;
+}
+.tb-assume-editor > p,
+.tb-assume-state {
+  margin: 4px 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.tb-assume-fields {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.tb-assume-fields label {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tb-assume-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--paper);
+  padding: 0 8px;
+  min-height: 38px;
+}
+.tb-assume-input:focus-within {
+  outline: 2px solid var(--tb, var(--green));
+  outline-offset: 1px;
+}
+.tb-assume-input input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+}
+.tb-assume-input i {
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 500;
+}
+.tb-assume-fields small {
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+.tb-assume-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-top: 10px;
 }
 .tb-assume-grid td small {
@@ -200,6 +274,9 @@
   }
 }
 @media (max-width: 720px) {
+  .tb-assume-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .tb-kpis {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

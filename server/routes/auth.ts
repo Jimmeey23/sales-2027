@@ -5,12 +5,16 @@ import {
   destroySession,
   ROLE_PERMISSIONS,
   directWorkspaceEnabled,
+  verifyAdminPasscode,
+  createAdminUnlock,
+  clearAdminUnlock,
 } from '../lib/auth.js';
 import { id } from '../http.js';
 import type { Express } from 'express';
 
 export default function registerAuthRoutes(app: Express) {
   const loginAttempts = new Map<string, { count: number; resetAt: number }>();
+  const adminAttempts = new Map<string, { count: number; resetAt: number }>();
   app.post('/api/auth/login', (req, res) => {
     const email = String(req.body.email || '')
         .trim()
@@ -46,6 +50,27 @@ export default function registerAuthRoutes(app: Express) {
   });
   app.post('/api/auth/logout', (req, res) => {
     destroySession(req, res);
+    res.json({ ok: true });
+  });
+  app.post('/api/auth/admin-unlock', (req, res) => {
+    if (!req.user) return res.status(401).json({ error: 'Sign in before unlocking edit access.' });
+    const key = String(req.ip || 'unknown');
+    const nowMs = Date.now();
+    const previous = adminAttempts.get(key);
+    if (previous && previous.resetAt <= nowMs) adminAttempts.delete(key);
+    const current = adminAttempts.get(key);
+    if (current && current.count >= 8)
+      return res.status(429).json({ error: 'Too many passcode attempts. Try again in 15 minutes.' });
+    if (!verifyAdminPasscode(String(req.body?.passcode || ''))) {
+      adminAttempts.set(key, { count: (current?.count || 0) + 1, resetAt: current?.resetAt || nowMs + 15 * 60 * 1000 });
+      return res.status(401).json({ error: 'That passcode is incorrect.' });
+    }
+    adminAttempts.delete(key);
+    createAdminUnlock(req, res);
+    res.json({ ok: true, expiresIn: 8 * 60 * 60 });
+  });
+  app.post('/api/auth/admin-lock', (req, res) => {
+    clearAdminUnlock(res);
     res.json({ ok: true });
   });
   app.post('/api/auth/workspace', (req, res) => {

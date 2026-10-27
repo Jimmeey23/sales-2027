@@ -152,6 +152,24 @@ export default function registerCampaignsRoutes(app: Express) {
     });
     res.json(after);
   });
+  app.delete('/api/campaigns/:id', permission('campaign_edit'), (req, res) => {
+    const campaignId = id(req.params.id);
+    const before = db.prepare('SELECT * FROM campaigns WHERE id=?').get(campaignId) as any;
+    if (!before || !canAccessStudio(req.user!, before.studio_id))
+      return res.status(404).json({ error: 'Campaign not found.' });
+    if (before.status === 'active' || before.approval_status === 'approved')
+      throw bodyError('Approved or active campaigns must be archived through the campaign workflow, not deleted.', 422);
+    db.prepare('DELETE FROM campaigns WHERE id=?').run(campaignId);
+    audit({
+      userId: req.user!.id,
+      action: 'delete',
+      entityType: 'campaign',
+      entityId: campaignId,
+      studioId: before.studio_id,
+      before,
+    });
+    res.json({ ok: true, id: campaignId });
+  });
   app.post('/api/campaigns/:id/duplicate', permission('campaign_edit'), (req, res) => {
     const before = db.prepare('SELECT * FROM campaigns WHERE id=?').get(id(req.params.id)) as any;
     if (!before || !canAccessStudio(req.user!, before.studio_id))

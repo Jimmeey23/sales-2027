@@ -65,6 +65,7 @@ export interface AuthUser {
   role: string;
   assigned_studio_id: number | null;
   permissions: string[];
+  admin_override?: boolean;
 }
 declare global {
   namespace Express {
@@ -85,6 +86,41 @@ export function verifyPassword(password: string, stored: string) {
   return candidate.length === expected.length && crypto.timingSafeEqual(candidate, expected);
 }
 const tokenHash = (token: string) => crypto.createHash('sha256').update(token).digest('hex');
+const ADMIN_COOKIE = 'p57_admin_unlock';
+const adminPasscode = () => process.env.ADMIN_EDIT_PASSCODE || '9818';
+const adminUnlockSecret = () => process.env.ADMIN_UNLOCK_SECRET || `p57:${adminPasscode()}:admin-unlock`;
+const adminSignature = (userId: number, expires: number) =>
+  crypto.createHmac('sha256', adminUnlockSecret()).update(`${userId}:${expires}`).digest('hex');
+export function verifyAdminPasscode(candidate: string) {
+  const expected = Buffer.from(adminPasscode());
+  const actual = Buffer.from(candidate);
+  return expected.length === actual.length && crypto.timingSafeEqual(expected, actual);
+}
+export function createAdminUnlock(req: Request, res: Response) {
+  if (!req.user) return false;
+  const expires = Date.now() + 8 * 60 * 60 * 1000;
+  const value = `${req.user.id}.${expires}.${adminSignature(req.user.id, expires)}`;
+  res.cookie(ADMIN_COOKIE, value, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production' && process.env.COOKIE_SECURE === 'true',
+    maxAge: 8 * 60 * 60 * 1000,
+    path: '/',
+  });
+  return true;
+}
+export function clearAdminUnlock(res: Response) {
+  res.clearCookie(ADMIN_COOKIE, { path: '/' });
+}
+function hasAdminUnlock(req: Request, userId: number) {
+  const [subject, expiryText, signature] = String(req.cookies?.[ADMIN_COOKIE] || '').split('.');
+  const expires = Number(expiryText);
+  if (Number(subject) !== userId || !Number.isSafeInteger(expires) || expires <= Date.now() || !signature) return false;
+  const expected = Buffer.from(adminSignature(userId, expires));
+  const actual = Buffer.from(signature);
+  return expected.length === actual.length && crypto.timingSafeEqual(expected, actual);
+}
+const allPermissions = [...new Set(Object.values(ROLE_PERMISSIONS).flat())];
 
 export function createSession(res: Response, userId: number) {
   const token = crypto.randomBytes(32).toString('hex');
@@ -106,6 +142,7 @@ export function destroySession(req: Request, res: Response) {
   const token = req.cookies?.p57_session;
   if (token) db.prepare('DELETE FROM auth_sessions WHERE token_hash = ?').run(tokenHash(token));
   res.clearCookie('p57_session', { path: '/' });
+  clearAdminUnlock(res);
 }
 // Login-free admin access is an explicit opt-in: anyone who can reach the URL becomes an administrator.
 export const directWorkspaceEnabled = () => process.env.DIRECT_WORKSPACE === 'true';
@@ -128,6 +165,10 @@ export function authenticate(req: Request, _res: Response, next: NextFunction) {
       .get() as any;
     if (row) req.user = { ...row, permissions: ROLE_PERMISSIONS[row.role] || [] };
   }
+  if (req.user && hasAdminUnlock(req, req.user.id)) {
+    req.user.admin_override = true;
+    req.user.permissions = [...new Set([...req.user.permissions, ...allPermissions, 'admin_override'])];
+  }
   next();
 }
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
@@ -143,6 +184,7 @@ export function permission(key: string) {
   };
 }
 export function canAccessStudio(user: AuthUser, studioId: number) {
+  if (user.admin_override) return true;
   if (!['studio_manager', 'sales_associate'].includes(user.role)) return true;
   return user.assigned_studio_id === studioId;
 }

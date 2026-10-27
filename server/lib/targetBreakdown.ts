@@ -22,6 +22,7 @@ type UnitKey = (typeof UNIT_GROUPS)[number]['key'];
 export interface PlanAssumptions {
   source: string;
   firstMonthSpend: number; // avg first-month spend per new paying client (₹)
+  trialSpend?: number; // fee per completed trial (₹), supplied by a planner override
   payingPerVisit: number; // new paying clients per first visit
   leadToVisit: number; // first visits per lead
   visitToPackage: number; // first visit → package/membership conversion
@@ -290,6 +291,7 @@ export interface BreakdownMonth {
   packageConversions: number;
   existingPaying: number;
   totalPaying: number;
+  newMemberSpend: number;
   avgSpend: number;
   leadsPerWeek: number;
   checkins: number;
@@ -303,7 +305,8 @@ function monthMetrics(year: number, row: any, a: PlanAssumptions): BreakdownMont
   const scale = row.proposed_target ? target / Number(row.proposed_target) : 1;
   const newRevenue = Math.min(target, Number(row.new_client_target || 0) * scale);
   const existingRevenue = target - newRevenue;
-  const newPaying = newRevenue > 0 ? ceil(newRevenue / a.firstMonthSpend) : 0;
+  const spendPerMember = a.firstMonthSpend + (a.trialSpend && a.payingPerVisit ? a.trialSpend / a.payingPerVisit : 0);
+  const newPaying = newRevenue > 0 && spendPerMember > 0 ? ceil(newRevenue / spendPerMember) : 0;
   const firstVisits = newPaying > 0 ? ceil(newPaying / a.payingPerVisit) : 0;
   const leads = firstVisits > 0 ? ceil(firstVisits / a.leadToVisit) : 0;
   const existingPaying = Math.round(existingRevenue / a.existingSpend);
@@ -328,6 +331,7 @@ function monthMetrics(year: number, row: any, a: PlanAssumptions): BreakdownMont
     packageConversions: Math.round(firstVisits * a.visitToPackage),
     existingPaying,
     totalPaying,
+    newMemberSpend: a.firstMonthSpend,
     avgSpend: totalPaying ? target / totalPaying : 0,
     leadsPerWeek: leads / (daysIn(year, row.month) / 7),
     checkins: Math.round(a.classesPerMonth * a.capacity * a.fill),
@@ -383,6 +387,7 @@ const studioByName = (name: string) => db.prepare('SELECT id,name,city FROM stud
 // the defaults above, so there is one set of rates behind every funnel number in the app.
 const OVERRIDE_MAP = {
   firstSpend: 'firstMonthSpend',
+  trialSpend: 'trialSpend',
   trialToMember: 'payingPerVisit',
   leadToTrial: 'leadToVisit',
 } as const;

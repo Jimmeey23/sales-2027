@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import { MONTHS, MONTHS_SHORT, money } from '../../types';
 import { Badge, Button } from '../../components/ui';
+import { api } from '../../api';
+import { useApp } from '../../App';
 import { ACTIVATIONS_2027 } from '../../data/activations';
 import { lakh, type PlanData } from './usePlanData';
 
@@ -25,10 +27,74 @@ export function monthActivations(data: PlanData, month: number) {
   return { base, local };
 }
 
-export default function CampaignsTab({ data }: { data: PlanData }) {
+export default function CampaignsTab({ data, onSaved }: { data: PlanData; onSaved: () => Promise<unknown> }) {
   const [layout, setLayout] = useState('timeline'),
-    navigate = useNavigate();
+    navigate = useNavigate(),
+    [editMonth, setEditMonth] = useState<number | null>(null),
+    [draft, setDraft] = useState<any>(null),
+    [saving, setSaving] = useState(false);
+  const { year, can, adminUnlocked, toast } = useApp();
+  const selectedPlan = data.plans.length === 1 ? data.plans[0] : null;
+  const canEdit = Boolean(selectedPlan && can('target_edit') && adminUnlocked);
   const campaignsIn = (month: number) => data.campaigns.filter(c => Number(String(c.start_date).slice(5, 7)) === month);
+  const openEditor = (month: number, base: any) => {
+    const saved = selectedPlan?.detail.plans.find((p: any) => p.month === month);
+    const overrides = saved?.content?.activations || {};
+    setEditMonth(month);
+    setDraft({
+      activations: Object.fromEntries(
+        ['challenge', 'event', 'partner', 'retention'].map(key => [
+          key,
+          {
+            title:
+              overrides[key]?.title ??
+              (key === 'challenge'
+                ? base.challenge[0]
+                : key === 'event'
+                  ? base.event[0]
+                  : key === 'partner'
+                    ? base.partner[0]
+                    : 'Members'),
+            text:
+              overrides[key]?.text ??
+              (key === 'challenge'
+                ? base.challenge[1]
+                : key === 'event'
+                  ? base.event[1]
+                  : key === 'partner'
+                    ? base.partner[1]
+                    : base.retention),
+          },
+        ]),
+      ),
+      customActivations: [...(saved?.content?.customActivations || [])],
+    });
+  };
+  const saveEditor = async () => {
+    if (!selectedPlan || editMonth === null || !draft) return;
+    const current = selectedPlan.detail.plans.find((p: any) => p.month === editMonth);
+    setSaving(true);
+    try {
+      await api(`/studio-plans/${selectedPlan.studio.id}/${year}/${editMonth}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          content: {
+            ...(current?.content || {}),
+            activations: draft.activations,
+            customActivations: draft.customActivations,
+          },
+        }),
+      });
+      await onSaved();
+      setEditMonth(null);
+      setDraft(null);
+      toast('Monthly activations saved.');
+    } catch (error: any) {
+      toast(error.message || 'Could not save activations.', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
   return (
     <>
       <div className="ws-toolbar">
@@ -51,6 +117,12 @@ export default function CampaignsTab({ data }: { data: PlanData }) {
           ))}
         </div>
       </div>
+      {adminUnlocked && !selectedPlan && (
+        <p className="ws-act-edit-note">Choose a location from the location bar to add or edit its activations.</p>
+      )}
+      {can('target_edit') && !adminUnlocked && (
+        <p className="ws-act-edit-note">Enter the admin passcode in the top bar to manage activations.</p>
+      )}
       <div className={layout === 'timeline' ? 'ws-timeline' : 'ws-camp-grid'}>
         {data.months.map(m => {
           const { base, local } = monthActivations(data, m.month),
@@ -71,20 +143,79 @@ export default function CampaignsTab({ data }: { data: PlanData }) {
                   tone="purple"
                   label="Challenge"
                   title={
-                    local[0]?.Format?.toLowerCase().includes('challenge') ? local[0].Activation : base.challenge[0]
+                    selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.activations?.challenge
+                      ?.title ||
+                    (local[0]?.Format?.toLowerCase().includes('challenge') ? local[0].Activation : base.challenge[0])
                   }
-                  text={local[0]?.Format?.toLowerCase().includes('challenge') ? local[0].Mechanics : base.challenge[1]}
+                  text={
+                    selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.activations?.challenge
+                      ?.text ||
+                    (local[0]?.Format?.toLowerCase().includes('challenge') ? local[0].Mechanics : base.challenge[1])
+                  }
                 />
                 <Item
                   icon={PartyPopper}
                   tone="coral"
                   label="Activation / event"
-                  title={local.find(a => !a.Format?.toLowerCase().includes('challenge'))?.Activation || base.event[0]}
-                  text={local.find(a => !a.Format?.toLowerCase().includes('challenge'))?.Mechanics || base.event[1]}
+                  title={
+                    selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.activations?.event
+                      ?.title ||
+                    local.find(a => !a.Format?.toLowerCase().includes('challenge'))?.Activation ||
+                    base.event[0]
+                  }
+                  text={
+                    selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.activations?.event
+                      ?.text ||
+                    local.find(a => !a.Format?.toLowerCase().includes('challenge'))?.Mechanics ||
+                    base.event[1]
+                  }
                 />
-                <Item icon={Handshake} tone="gold" label="Partnership" title={base.partner[0]} text={base.partner[1]} />
-                <Item icon={HeartHandshake} tone="green" label="Retention play" title="Members" text={base.retention} />
+                <Item
+                  icon={Handshake}
+                  tone="gold"
+                  label="Partnership"
+                  title={
+                    selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.activations?.partner
+                      ?.title || base.partner[0]
+                  }
+                  text={
+                    selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.activations?.partner
+                      ?.text || base.partner[1]
+                  }
+                />
+                <Item
+                  icon={HeartHandshake}
+                  tone="green"
+                  label="Retention play"
+                  title={
+                    selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.activations?.retention
+                      ?.title || 'Members'
+                  }
+                  text={
+                    selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.activations?.retention
+                      ?.text || base.retention
+                  }
+                />
+                {(
+                  selectedPlan?.detail.plans.find((p: any) => p.month === m.month)?.content?.customActivations || []
+                ).map((item: any) => (
+                  <Item
+                    key={item.id}
+                    icon={PartyPopper}
+                    tone="coral"
+                    label={item.label || 'Custom activation'}
+                    title={item.title}
+                    text={item.text}
+                  />
+                ))}
               </div>
+              {canEdit && (
+                <div className="ws-act-actions">
+                  <Button variant="secondary" size="sm" onClick={() => openEditor(m.month, base)}>
+                    Manage activations
+                  </Button>
+                </div>
+              )}
               <footer>
                 <span>
                   <Flag size={12} /> KPI: {local[0]?.['Primary KPI'] || base.kpi}
@@ -113,6 +244,139 @@ export default function CampaignsTab({ data }: { data: PlanData }) {
           );
         })}
       </div>
+      {editMonth !== null && draft && (
+        <div
+          className="ws-act-editor"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Edit ${MONTHS[editMonth - 1]} activations`}
+        >
+          <div className="ws-act-editor-card">
+            <header>
+              <h3>
+                {MONTHS[editMonth - 1]} activations · {selectedPlan?.studio.name}
+              </h3>
+              <button type="button" aria-label="Close" onClick={() => setEditMonth(null)}>
+                ×
+              </button>
+            </header>
+            {['challenge', 'event', 'partner', 'retention'].map(key => (
+              <fieldset key={key}>
+                <legend>{key === 'event' ? 'Activation / event' : key[0].toUpperCase() + key.slice(1)}</legend>
+                <label>
+                  Title
+                  <input
+                    value={draft.activations[key].title}
+                    onChange={e =>
+                      setDraft((d: any) => ({
+                        ...d,
+                        activations: { ...d.activations, [key]: { ...d.activations[key], title: e.target.value } },
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  Details
+                  <textarea
+                    value={draft.activations[key].text}
+                    onChange={e =>
+                      setDraft((d: any) => ({
+                        ...d,
+                        activations: { ...d.activations, [key]: { ...d.activations[key], text: e.target.value } },
+                      }))
+                    }
+                  />
+                </label>
+              </fieldset>
+            ))}
+            <div className="ws-act-custom-head">
+              <strong>Additional activations</strong>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() =>
+                  setDraft((d: any) => ({
+                    ...d,
+                    customActivations: [
+                      ...d.customActivations,
+                      { id: `custom-${Date.now()}`, label: 'Custom activation', title: '', text: '' },
+                    ],
+                  }))
+                }
+              >
+                Add activation
+              </Button>
+            </div>
+            {draft.customActivations.map((item: any, index: number) => (
+              <fieldset key={item.id}>
+                <legend>Additional activation {index + 1}</legend>
+                <label>
+                  Label
+                  <input
+                    value={item.label}
+                    onChange={e =>
+                      setDraft((d: any) => ({
+                        ...d,
+                        customActivations: d.customActivations.map((x: any) =>
+                          x.id === item.id ? { ...x, label: e.target.value } : x,
+                        ),
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  Title
+                  <input
+                    value={item.title}
+                    onChange={e =>
+                      setDraft((d: any) => ({
+                        ...d,
+                        customActivations: d.customActivations.map((x: any) =>
+                          x.id === item.id ? { ...x, title: e.target.value } : x,
+                        ),
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  Details
+                  <textarea
+                    value={item.text}
+                    onChange={e =>
+                      setDraft((d: any) => ({
+                        ...d,
+                        customActivations: d.customActivations.map((x: any) =>
+                          x.id === item.id ? { ...x, text: e.target.value } : x,
+                        ),
+                      }))
+                    }
+                  />
+                </label>
+                <Button
+                  size="sm"
+                  variant="danger"
+                  onClick={() =>
+                    setDraft((d: any) => ({
+                      ...d,
+                      customActivations: d.customActivations.filter((x: any) => x.id !== item.id),
+                    }))
+                  }
+                >
+                  Delete activation
+                </Button>
+              </fieldset>
+            ))}
+            <footer>
+              <Button variant="secondary" onClick={() => setEditMonth(null)}>
+                Cancel
+              </Button>
+              <Button disabled={saving} onClick={() => void saveEditor()}>
+                {saving ? 'Saving…' : 'Save activations'}
+              </Button>
+            </footer>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -190,7 +190,11 @@ function MetricFocus({
       </header>
       <div className="mx-bars">
         {data.months.map((m, i) => (
-          <button key={m.month} onClick={() => onMonth(m.month)} title={`${MONTHS[i]}: ${fmt(values[i])}`}>
+          <button
+            key={m.month}
+            onClick={() => onMonth(m.month)}
+            title={`${MONTHS[i]}: ${fmt(values[i])}. ${METRIC_HINTS[metric] || 'Monthly amount calculated from the active target and planning assumptions.'}`}
+          >
             <b>{metric === 'approved' ? (values[i] ? '✓' : '·') : fmt(values[i])}</b>
             <span className="mx-bar">
               <i style={{ height: `${Math.max(4, (values[i] / max) * 100)}%` }} />
@@ -399,6 +403,7 @@ export default function TargetsTab({
                       type="button"
                       className={`mx ${t.value === 0 ? 'is-zero' : ''} ${metric === t.key ? 'active' : ''}`}
                       aria-pressed={metric === t.key}
+                      title={`${shortLabel}: ${t.key === 'newClient' ? 'sum of monthly new-client revenue allocations' : t.key === 'renewal' ? 'sum of monthly renewal revenue allocations' : t.key === 'reactivation' ? 'sum of monthly reactivation revenue allocations' : 'sum of other revenue allocations such as gifts, privates, and retail'}; share = this amount ÷ annual target.`}
                       onClick={() => setMetric(metric === t.key ? null : t.key)}
                     >
                       <div className="mx-head-row">
@@ -425,6 +430,7 @@ export default function TargetsTab({
                   type="button"
                   className={`mx mx-approval ${metric === 'approved' ? 'active' : ''}`}
                   aria-pressed={metric === 'approved'}
+                  title="Approved months count the location-month targets with an approved target value; the maximum is 12."
                   onClick={() => setMetric(metric === 'approved' ? null : 'approved')}
                 >
                   <div className="mx-head-row">
@@ -558,7 +564,7 @@ export default function TargetsTab({
               />
             )}
           </div>
-          {year >= boot.planningYear && <TargetBreakdown onMonth={m => setOpen(m)} />}
+          {year >= boot.planningYear && <TargetBreakdown onMonth={m => setOpen(m)} onSaved={onSaved} />}
         </>
       )}
       {section === 'plan' && (

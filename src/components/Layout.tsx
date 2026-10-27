@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Bot, ChevronDown, LogOut, MapPin, Menu, PanelLeftClose, PanelLeftOpen, Plus, Search, X } from 'lucide-react';
+import {
+  Bot,
+  ChevronDown,
+  LockKeyhole,
+  LogOut,
+  MapPin,
+  Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Plus,
+  Search,
+  X,
+} from 'lucide-react';
 import BrandMark from './BrandMark';
 import CommandPalette from './CommandPalette';
 import CopilotDrawer from './CopilotDrawer';
@@ -11,10 +23,12 @@ import { NAV, linkMatches, locate } from '../app/navigation';
 import { post } from '../api';
 
 export default function Layout() {
-  const { boot, studioId, setStudioId, year, setYear, can, dataVersion } = useApp();
+  const { boot, studioId, setStudioId, year, setYear, can, dataVersion, adminUnlocked, unlockAdmin, lockAdmin, toast } =
+    useApp();
   const [copilotOpen, setCopilotOpen] = useState(false),
     [cmdOpen, setCmdOpen] = useState(false),
     [sidebarOpen, setSidebarOpen] = useState(false),
+    [adminPasscode, setAdminPasscode] = useState(''),
     [collapsed, setCollapsed] = useState(() => {
       try {
         return localStorage.getItem('p57-sidebar') === 'collapsed';
@@ -52,13 +66,24 @@ export default function Layout() {
     ...item,
     links: item.links.filter(l => !l.permission || can(l.permission)),
   })).filter(item => item.id === 'overview' || item.links.length);
-  const scoped = ['studio_manager', 'sales_associate'].includes(boot.user.role);
+  const scoped = ['studio_manager', 'sales_associate'].includes(boot.user.role) && !adminUnlocked;
   const locations = planningLocations(boot.studios);
   const active = boot.studios.find(s => s.id === studioId);
   const yearOptions = [...new Set([...(boot.years || []), boot.planningYear])].sort();
   const signOut = async () => {
     await post('/auth/logout', {}).catch(() => undefined);
     window.location.reload();
+  };
+  const submitAdminPasscode = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      await unlockAdmin(adminPasscode);
+      setAdminPasscode('');
+      toast('Admin edit mode unlocked for this session.');
+    } catch (error: any) {
+      setAdminPasscode('');
+      toast(error.message || 'Could not unlock admin edit mode.', 'error');
+    }
   };
   const studioTabs = locations
     .filter(s => !scoped || s.id === boot.user.assigned_studio_id)
@@ -235,6 +260,29 @@ export default function Layout() {
               <Plus size={17} />
               <span>New offer</span>
             </button>
+            {adminUnlocked ? (
+              <button className="ws-admin-status" title="Lock admin edit mode" onClick={() => void lockAdmin()}>
+                <LockKeyhole size={15} />
+                <span>Admin edit · Lock</span>
+              </button>
+            ) : (
+              <form className="ws-admin-gate" onSubmit={submitAdminPasscode}>
+                <LockKeyhole size={14} aria-hidden="true" />
+                <input
+                  aria-label="Admin passcode"
+                  type="password"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  maxLength={4}
+                  value={adminPasscode}
+                  onChange={event => setAdminPasscode(event.target.value.replace(/\D/g, '').slice(0, 4))}
+                  placeholder="Admin code"
+                />
+                <button type="submit" disabled={adminPasscode.length !== 4}>
+                  Unlock
+                </button>
+              </form>
+            )}
             <button className="icon-btn" title="Sign out" aria-label="Sign out" onClick={signOut}>
               <LogOut size={15} />
             </button>
@@ -304,11 +352,7 @@ export default function Layout() {
       <main className="ws-content" key={dataVersion}>
         <Outlet />
       </main>
-      <CommandPalette
-        open={cmdOpen}
-        onClose={() => setCmdOpen(false)}
-        onOpenCopilot={() => setCopilotOpen(true)}
-      />
+      <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} onOpenCopilot={() => setCopilotOpen(true)} />
       {copilotOpen && <CopilotDrawer onClose={() => setCopilotOpen(false)} />}
     </div>
   );

@@ -445,6 +445,9 @@ const json = (value: string | null | undefined, fallback: any = {}) => {
   }
 };
 
+// Pre-format rupees as lakh strings so the model never has to rescale raw numbers.
+const lakh = (v: number | null | undefined) => (v == null ? null : `₹${(v / 100000).toFixed(1)}L`);
+
 function planContext(studioId: number | null | undefined, year: number) {
   const studios = db
     .prepare(`SELECT * FROM studios WHERE active=1 AND name IN (${PLAN_LOCATIONS.map(() => '?').join(',')})`)
@@ -457,17 +460,18 @@ function planContext(studioId: number | null | undefined, year: number) {
       studio: s.name,
       city: s.city,
       maxDiscountPercent: s.max_discount_percent,
-      annualTarget: Math.round(targets.reduce((n, t) => n + (t.approved_target ?? t.proposed_target), 0)),
-      lastYearRevenue: Math.round(targets.reduce((n, t) => n + (t.historical_revenue || 0), 0)),
+      annualTarget: lakh(targets.reduce((n, t) => n + (t.approved_target ?? t.proposed_target), 0)),
+      lastYearRevenue: lakh(targets.reduce((n, t) => n + (t.historical_revenue || 0), 0)),
       months: targets.map(t => {
         const a = json(t.assumptions),
           f = json(t.funnel);
         return {
           month: t.month,
-          target: Math.round(t.approved_target ?? t.proposed_target),
-          newClient: Math.round(t.new_client_target),
-          renewal: Math.round(t.renewal_target),
-          reactivation: Math.round(t.reactivation_target),
+          target: lakh(t.approved_target ?? t.proposed_target),
+          lastYear: lakh(t.historical_revenue),
+          newClient: lakh(t.new_client_target),
+          renewal: lakh(t.renewal_target),
+          reactivation: lakh(t.reactivation_target),
           leads: f.requiredLeads,
           trials: f.requiredCompletedTrials,
           buyers: f.requiredNewBuyers,
@@ -497,10 +501,10 @@ function planContext(studioId: number | null | undefined, year: number) {
       a = actualMetrics(focus.id, latest);
     observed = {
       month: latest,
-      revenue: a.revenue,
+      revenue: lakh(a.revenue),
       transactions: a.transactions,
-      newClientRevenue: a.new_client,
-      renewalRevenue: a.renewal,
+      newClientRevenue: lakh(a.new_client),
+      renewalRevenue: lakh(a.renewal),
       leads: a.leads,
       firstVisits: a.completed_trials,
       trialConversion: a.trial_conversion,
@@ -513,7 +517,7 @@ function planContext(studioId: number | null | undefined, year: number) {
   try {
     const next = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth() + 1, 1)).toISOString().slice(0, 7),
       r = renewalReport(next, focus.id);
-    renewals = { month: next, duePackages: r.summary.duePackages, paidDueValue: r.summary.paidDueValue };
+    renewals = { month: next, duePackages: r.summary.duePackages, paidDueValue: lakh(r.summary.paidDueValue) };
   } catch {
     /* no packages */
   }
@@ -589,7 +593,7 @@ export async function aiCopilot(
     },
   };
   const system = `You are P57 Copilot, the commercial strategist for Physique 57 India (premium barre studios in Mumbai and Bengaluru). Today is ${context.today}; the plan year is 2027.
-Answer the user's actual question directly and specifically, using the supplied plan, targets, products, prices and offer history. Quote real numbers from the context in ₹ lakh (L) where useful; never invent actuals.
+Answer the user's actual question directly and specifically, using the supplied plan, targets, products, prices and offer history. All money in the context is already formatted in ₹ lakh (L; 1L = ₹1,00,000, 100L = ₹1 crore) except product list_price and offer revenue fields, which are raw rupees. Quote figures exactly as given; never rescale lakh into crore or invent actuals. If the context lacks the data, say so plainly.
 When the user asks for offers, promotions, campaigns or ideas, return 3–5 genuinely innovative, on-brand offers in "offers": witty memorable names, a clear hook, a specific mechanism, the real product they apply to, a pricing sketch respecting the studio's maxDiscountPercent, and why it will work for that month and audience. Favour value-adds, challenges, referral ladders, partnerships and urgency over deep discounts. Otherwise return an empty offers array.
 Write "answer" in concise markdown (short paragraphs, **bold** key numbers, "- " bullets). Put 2–4 concrete next steps in nextActions. Nothing is approved or published by chatting.`;
   const response = await fetch(`${process.env.AI_PROVIDER_BASE_URL || 'https://api.openai.com/v1'}/responses`, {

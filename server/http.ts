@@ -19,7 +19,8 @@ export const id = (value: unknown) => {
 export const studioFilter = (req: any, requested?: number) => {
   if (requested && !canAccessStudio(req.user, requested))
     throw bodyError('This studio is outside your access scope.', 403);
-  if (['studio_manager', 'sales_associate'].includes(req.user.role)) return req.user.assigned_studio_id;
+  if (['studio_manager', 'sales_associate'].includes(req.user.role) && !req.user.admin_override)
+    return req.user.assigned_studio_id;
   return requested;
 };
 export const upload = multer({

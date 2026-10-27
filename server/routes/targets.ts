@@ -125,6 +125,46 @@ export default function registerTargetsRoutes(app: Express) {
     });
     res.json({ ok: true, year, studioId: studioId || null, scenario: scenario || 'preserved_or_standard' });
   });
+  app.post('/api/targets/studio/:studioId/:year/approve-all', permission('target_approve'), (req, res) => {
+    const studioId = studioFilter(req, id(req.params.studioId));
+    const year = id(req.params.year);
+    if (year < 2020 || year > 2100) throw bodyError('Invalid planning year.');
+    const rows = db
+      .prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? ORDER BY month')
+      .all(studioId, year) as any[];
+    if (rows.length !== 12) throw bodyError('All 12 monthly targets must exist before approving the location.');
+    const pending = rows.filter(row => row.approved_target == null);
+    if (!pending.length) return res.json({ ok: true, approved: 0, alreadyApproved: 12 });
+    const reason = 'Approved all monthly targets for this location in one action.';
+    const approve = db.transaction(() => {
+      for (const row of pending) {
+        const version = row.version + 1;
+        db.prepare(
+          `UPDATE monthly_targets SET approved_target=proposed_target,source='approved_decision',version=?,override_reason=?,updated_by=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`,
+        ).run(version, reason, req.user!.id, row.id);
+        const after = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(row.id) as any;
+        db.prepare(
+          'INSERT INTO target_versions(target_id,version,snapshot,change_reason,changed_by) VALUES (?,?,?,?,?)',
+        ).run(row.id, version, JSON.stringify(after), reason, req.user!.id);
+      }
+    });
+    approve();
+    pending.forEach(row => rebaseTarget(row.id));
+    const name = (db.prepare('SELECT name FROM studios WHERE id=?').get(studioId) as any)?.name;
+    if (POPUP_CHILDREN.includes(name)) rollUpPopup(year, req.user!.id);
+    syncBreakdownFunnels(year);
+    audit({
+      userId: req.user!.id,
+      action: 'approve_all_location_targets',
+      entityType: 'annual_targets',
+      entityId: `${studioId}-${year}`,
+      studioId,
+      before: pending,
+      after: { approvedMonths: pending.map(row => row.month) },
+      reason,
+    });
+    res.json({ ok: true, approved: pending.length });
+  });
   app.patch('/api/targets/:id', permission('target_edit'), (req, res) => {
     const targetId = id(req.params.id),
       before = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(targetId) as any;

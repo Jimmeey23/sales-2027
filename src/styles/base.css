@@ -2446,6 +2446,52 @@ input[type='checkbox'] {
   gap: 12px;
   margin-bottom: 12px;
 }
+.anniversary-campaign-add,
+.anniversary-campaign-edit {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 10px;
+}
+.anniversary-campaign-add label,
+.anniversary-campaign-edit label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+.anniversary-campaign-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+.anniversary-campaign-list article {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.anniversary-campaign-list article > div:first-child:not(.anniversary-campaign-edit) {
+  display: grid;
+  flex: 1;
+  gap: 3px;
+}
+.anniversary-campaign-list article span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.anniversary-campaign-edit {
+  width: 100%;
+}
+@media (max-width: 720px) {
+  .anniversary-campaign-add,
+  .anniversary-campaign-edit {
+    grid-template-columns: 1fr;
+  }
+}
 .anniversary-lanes > div {
   background: #fff;
   border: 1px solid var(--line);

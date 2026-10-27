@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { CalendarHeart, Gift, MessageCircle, Save, Sparkles } from 'lucide-react';
+import { CalendarHeart, Gift, MessageCircle, Pencil, Save, Sparkles, Trash2 } from 'lucide-react';
 import { api, patch, post } from '../api';
 import { useApp } from '../App';
 import { useLoad, useOnChange } from '../hooks';
@@ -32,7 +32,12 @@ export default function Anniversary() {
   const { data: plan } = useLoad<any>(() => api(`/targets/breakdown?year=${year}&studio=${studio}`), [studio, year]);
   const [offers, setOffers] = useState<any[]>([]),
     [loading, setLoading] = useState(false),
-    [selectedCampaign, setSelectedCampaign] = useState('');
+    [selectedCampaign, setSelectedCampaign] = useState(''),
+    [campaignName, setCampaignName] = useState(''),
+    [campaignTarget, setCampaignTarget] = useState(''),
+    [editingCampaign, setEditingCampaign] = useState<any>(null),
+    [campaignDraft, setCampaignDraft] = useState<any>(null),
+    [savingCampaign, setSavingCampaign] = useState(false);
   const { data, reload } = useLoad<any>(() => api(`/anniversary?year=${year}&studio=${studio}`), [studio, year]);
   useEffect(() => {
     const months = plan?.locations?.[0]?.months;
@@ -92,6 +97,64 @@ export default function Anniversary() {
       await reload();
     } catch (error: any) {
       toast(error.message, 'error');
+    }
+  };
+  const createCampaign = async () => {
+    if (!campaignName.trim()) return toast('Add a campaign name.', 'error');
+    setSavingCampaign(true);
+    try {
+      await post('/campaigns', {
+        studioId: studio,
+        year,
+        name: campaignName.trim(),
+        startDate: `${year}-04-01`,
+        endDate: `${year}-04-30`,
+        audience: AUDIENCES[audienceIndex][0],
+        objective: 'anniversary',
+        targetRevenue: Number(campaignTarget || 0),
+        notes: 'Created from the anniversary planner.',
+      });
+      setCampaignName('');
+      setCampaignTarget('');
+      await reload();
+      toast('Anniversary campaign added as a draft.');
+    } catch (error: any) {
+      toast(error.message || 'Could not add campaign.', 'error');
+    } finally {
+      setSavingCampaign(false);
+    }
+  };
+  const saveCampaign = async () => {
+    if (!editingCampaign || !campaignDraft) return;
+    setSavingCampaign(true);
+    try {
+      await patch(`/campaigns/${editingCampaign.id}`, {
+        name: campaignDraft.name,
+        startDate: campaignDraft.start_date,
+        endDate: campaignDraft.end_date,
+        audience: campaignDraft.audience,
+        objective: campaignDraft.objective,
+        targetRevenue: Number(campaignDraft.target_revenue || 0),
+        notes: campaignDraft.notes,
+      });
+      setEditingCampaign(null);
+      setCampaignDraft(null);
+      await reload();
+      toast('Anniversary campaign updated.');
+    } catch (error: any) {
+      toast(error.message || 'Could not update campaign.', 'error');
+    } finally {
+      setSavingCampaign(false);
+    }
+  };
+  const deleteCampaign = async (campaign: any) => {
+    if (!window.confirm(`Delete the draft campaign “${campaign.name}”?`)) return;
+    try {
+      await api(`/campaigns/${campaign.id}`, { method: 'DELETE' });
+      await reload();
+      toast('Anniversary campaign deleted.');
+    } catch (error: any) {
+      toast(error.message || 'Could not delete campaign.', 'error');
     }
   };
   const chart =
@@ -239,6 +302,133 @@ export default function Anniversary() {
           </div>
           <OfferConceptBoard offers={offers} source="rules_engine" />
         </>
+      )}
+      {can('campaign_edit') && (
+        <Card className="anniversary-campaigns">
+          <CardHeader
+            title="April campaign records"
+            subtitle="Add, edit, or remove draft campaigns for this location."
+          />
+          <div className="anniversary-campaign-add">
+            <label>
+              Campaign name
+              <Input value={campaignName} onChange={e => setCampaignName(e.target.value)} />
+            </label>
+            <label>
+              Target revenue (₹)
+              <Input type="number" min="0" value={campaignTarget} onChange={e => setCampaignTarget(e.target.value)} />
+            </label>
+            <Button disabled={savingCampaign || !campaignName.trim()} onClick={() => void createCampaign()}>
+              Add draft campaign
+            </Button>
+          </div>
+          <div className="anniversary-campaign-list">
+            {(data?.campaigns || []).map((campaign: any) => (
+              <article key={campaign.id}>
+                {editingCampaign?.id === campaign.id ? (
+                  <div className="anniversary-campaign-edit">
+                    <label>
+                      Name
+                      <Input
+                        value={campaignDraft.name}
+                        onChange={e => setCampaignDraft((d: any) => ({ ...d, name: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Start date
+                      <Input
+                        type="date"
+                        value={campaignDraft.start_date}
+                        onChange={e => setCampaignDraft((d: any) => ({ ...d, start_date: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      End date
+                      <Input
+                        type="date"
+                        value={campaignDraft.end_date}
+                        onChange={e => setCampaignDraft((d: any) => ({ ...d, end_date: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Audience
+                      <Input
+                        value={campaignDraft.audience}
+                        onChange={e => setCampaignDraft((d: any) => ({ ...d, audience: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Objective
+                      <Input
+                        value={campaignDraft.objective}
+                        onChange={e => setCampaignDraft((d: any) => ({ ...d, objective: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Target revenue (₹)
+                      <Input
+                        type="number"
+                        min="0"
+                        value={campaignDraft.target_revenue}
+                        onChange={e => setCampaignDraft((d: any) => ({ ...d, target_revenue: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Notes
+                      <Input
+                        value={campaignDraft.notes || ''}
+                        onChange={e => setCampaignDraft((d: any) => ({ ...d, notes: e.target.value }))}
+                      />
+                    </label>
+                    <Button disabled={savingCampaign} onClick={() => void saveCampaign()}>
+                      {savingCampaign ? 'Saving…' : 'Save changes'}
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        setEditingCampaign(null);
+                        setCampaignDraft(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <strong>{campaign.name}</strong>
+                      <span>
+                        {campaign.start_date}–{campaign.end_date} · {campaign.status} ·{' '}
+                        {money(Number(campaign.target_revenue || 0), true)}
+                      </span>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      icon={<Pencil size={14} />}
+                      onClick={() => {
+                        setEditingCampaign(campaign);
+                        setCampaignDraft({ ...campaign });
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      icon={<Trash2 size={14} />}
+                      disabled={campaign.status === 'active' || campaign.approval_status === 'approved'}
+                      onClick={() => void deleteCampaign(campaign)}
+                    >
+                      Delete
+                    </Button>
+                  </>
+                )}
+              </article>
+            ))}
+            {!data?.campaigns?.length && <p>No April campaigns yet.</p>}
+          </div>
+        </Card>
       )}
       <Card>
         <CardHeader

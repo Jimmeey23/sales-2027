@@ -67,7 +67,8 @@ export default function AnnualPlanner() {
   const { studioId, year, toast, can } = useApp();
   const [basis, setBasis] = useState('proposed');
   const [editing, setEditing] = useState<any>(null),
-    [versions, setVersions] = useState<any>(null);
+    [versions, setVersions] = useState<any>(null),
+    [approvingStudio, setApprovingStudio] = useState<number | null>(null);
   const {
     data: raw,
     setData,
@@ -140,6 +141,27 @@ export default function AnnualPlanner() {
     } catch (error: any) {
       toast(error.message, 'error');
       reload().catch(() => {});
+    }
+  };
+  const approveLocation = async (group: any) => {
+    if (approvingStudio !== null) return;
+    const firstPending = group.months.find((row: any) => row && row.approved_target == null);
+    if (!firstPending) return;
+    if (
+      !window.confirm(
+        `Approve all proposed ${year} monthly targets for ${group.studio}? This will approve ${12 - group.approvedCount} months.`,
+      )
+    )
+      return;
+    setApprovingStudio(firstPending.studio_id);
+    try {
+      const result = await post(`/targets/studio/${firstPending.studio_id}/${year}/approve-all`, {});
+      await reload();
+      toast(`${group.studio}: ${result.approved} monthly target${result.approved === 1 ? '' : 's'} approved.`);
+    } catch (error: any) {
+      toast(error.message || 'Could not approve this location’s targets.', 'error');
+    } finally {
+      setApprovingStudio(null);
     }
   };
   const openVersions = async (row: any) => {
@@ -261,6 +283,18 @@ export default function AnnualPlanner() {
                         <span>
                           {g.city} · {g.approvedCount}/12 approved
                         </span>
+                        {can('target_approve') && g.approvedCount < 12 && g.months.some((row: any) => row) && (
+                          <button
+                            type="button"
+                            className="tm-bulk-approve"
+                            disabled={approvingStudio !== null}
+                            onClick={() => void approveLocation(g)}
+                          >
+                            {approvingStudio !== null && g.months.some((row: any) => row?.studio_id === approvingStudio)
+                              ? 'Approving…'
+                              : 'Approve all months'}
+                          </button>
+                        )}
                       </th>
                       {g.months.map((r: any, i: number) =>
                         r ? (

@@ -12,7 +12,7 @@ import type { Express } from 'express';
 export default function registerWorkspaceRoutes(app: Express) {
   app.get('/api/bootstrap', (req, res) => {
     let studios = db.prepare('SELECT * FROM studios WHERE active=1 ORDER BY city,name').all() as any[];
-    if (['studio_manager', 'sales_associate'].includes(req.user!.role))
+    if (['studio_manager', 'sales_associate'].includes(req.user!.role) && !req.user!.admin_override)
       studios = studios.filter(s => s.id === req.user!.assigned_studio_id);
     const products = db.prepare('SELECT * FROM products WHERE active=1 ORDER BY name').all();
     const years = (
@@ -118,6 +118,7 @@ export default function registerWorkspaceRoutes(app: Express) {
     if (!before) return res.status(404).json({ error: 'Catalogue item not found.' });
     if (
       ['studio_manager', 'sales_associate'].includes(req.user!.role) &&
+      !req.user!.admin_override &&
       before.studio_id !== req.user!.assigned_studio_id
     ) {
       return res.status(403).json({ error: 'You can only edit catalogue items assigned to your location.' });
@@ -170,11 +171,12 @@ export default function registerWorkspaceRoutes(app: Express) {
   });
   app.get('/api/studios-overview', (req, res) => {
     const year = Number(req.query.year || 2026);
-    const allowedIds = ['studio_manager', 'sales_associate'].includes(req.user!.role)
-      ? req.user!.assigned_studio_id
-        ? [req.user!.assigned_studio_id]
-        : []
-      : undefined;
+    const allowedIds =
+      ['studio_manager', 'sales_associate'].includes(req.user!.role) && !req.user!.admin_override
+        ? req.user!.assigned_studio_id
+          ? [req.user!.assigned_studio_id]
+          : []
+        : undefined;
     res.json(studiosOverview(year, allowedIds));
   });
   app.get('/api/studios/:id', (req, res) => {
@@ -182,11 +184,8 @@ export default function registerWorkspaceRoutes(app: Express) {
     const requestedYear = Number(req.query.year || 2026);
     // Default historical queries beyond latest actual year to 2026 unless transactions exist for that year
     const hasYearRows = Boolean(
-      (
-        db
-          .prepare('SELECT 1 ok FROM transactions WHERE substr(month,1,4)=? LIMIT 1')
-          .get(String(requestedYear)) as any
-      )?.ok,
+      (db.prepare('SELECT 1 ok FROM transactions WHERE substr(month,1,4)=? LIMIT 1').get(String(requestedYear)) as any)
+        ?.ok,
     );
     const effectiveYear = hasYearRows ? requestedYear : Math.min(requestedYear, 2026);
     const profile = studioProfile(studioId, effectiveYear);

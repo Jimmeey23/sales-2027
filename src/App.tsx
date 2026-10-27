@@ -29,6 +29,9 @@ interface AppContextValue {
   toast: (message: string, type?: ToastMessage['type']) => void;
   refreshBoot: () => Promise<void>;
   can: (permission: string) => boolean;
+  adminUnlocked: boolean;
+  unlockAdmin: (passcode: string) => Promise<void>;
+  lockAdmin: () => Promise<void>;
   scenario: string;
   setScenario: (scenario: string) => Promise<void>;
   dataVersion: number;
@@ -128,6 +131,15 @@ export default function App() {
       </main>
     );
   const can = (permission: string) => boot.user.permissions.includes(permission);
+  const adminUnlocked = boot.user.permissions.includes('admin_override');
+  const unlockAdmin = async (passcode: string) => {
+    await post('/auth/admin-unlock', { passcode });
+    setBoot(await api<Bootstrap>('/bootstrap'));
+  };
+  const lockAdmin = async () => {
+    await post('/auth/admin-lock', {});
+    setBoot(await api<Bootstrap>('/bootstrap'));
+  };
   // Switching the target scenario rescales every studio-month on the server; pages remount to reload.
   const setScenario = async (scenario: string) => {
     try {
@@ -150,6 +162,9 @@ export default function App() {
         toast,
         refreshBoot: loadBoot,
         can,
+        adminUnlocked,
+        unlockAdmin,
+        lockAdmin,
         scenario: boot.targetScenario || 'standard',
         setScenario,
         dataVersion,

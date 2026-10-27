@@ -72,6 +72,147 @@
   font-weight: 750;
   font-size: 12px;
 }
+.ws-admin-gate {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 34px;
+  padding: 0 6px 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--muted);
+}
+.ws-admin-gate input {
+  width: 82px;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+}
+.ws-admin-gate button {
+  border: 0;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: var(--ink);
+  color: #fff;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.ws-admin-gate button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ws-admin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--green) 55%, var(--line));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--green) 8%, var(--paper));
+  color: var(--ink);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.ws-act-edit-note {
+  margin: -4px 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.ws-act-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+.ws-act-editor {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(16, 24, 19, 0.48);
+}
+.ws-act-editor-card {
+  width: min(720px, 100%);
+  max-height: min(88vh, 900px);
+  overflow: auto;
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 0 24px 80px rgba(18, 28, 21, 0.24);
+}
+.ws-act-editor-card header,
+.ws-act-editor-card footer,
+.ws-act-custom-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.ws-act-editor-card header h3 {
+  margin: 0;
+}
+.ws-act-editor-card header > button {
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 24px;
+  cursor: pointer;
+}
+.ws-act-editor-card fieldset {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.ws-act-editor-card legend {
+  padding: 0 5px;
+  font-weight: 700;
+}
+.ws-act-editor-card label {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 650;
+}
+.ws-act-editor-card label:has(textarea) {
+  grid-column: 1 / -1;
+}
+.ws-act-editor-card input,
+.ws-act-editor-card textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+.ws-act-editor-card textarea {
+  min-height: 64px;
+  resize: vertical;
+}
+.ws-act-custom-head {
+  margin-top: 18px;
+}
+.ws-act-editor-card footer {
+  justify-content: flex-end;
+  margin-top: 16px;
+}
 
 .ws-locations {
   display: flex;
@@ -3386,8 +3527,7 @@
 .mw-hero {
   padding: 16px 22px 18px;
   color: #fff;
-  background:
-    radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--loc) 55%, transparent), transparent 60%),
+  background: radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--loc) 55%, transparent), transparent 60%),
     linear-gradient(135deg, #211e2b, color-mix(in srgb, var(--loc) 40%, #211e2b));
 }
 .mw-hero-top {
@@ -3925,8 +4065,7 @@
 
 /* ---------- Sidebar (modern) ---------- */
 .ws-sidebar {
-  background:
-    radial-gradient(120% 50% at 0% 0%, rgba(104, 87, 229, 0.28), transparent 60%),
+  background: radial-gradient(120% 50% at 0% 0%, rgba(104, 87, 229, 0.28), transparent 60%),
     radial-gradient(90% 40% at 100% 100%, rgba(242, 125, 91, 0.16), transparent 60%),
     linear-gradient(180deg, #1c1926 0%, #15131d 100%);
   border-right: 1px solid rgba(255, 255, 255, 0.06);
@@ -4641,8 +4780,7 @@
   align-items: stretch;
   padding: 30px 32px;
   border-radius: 24px;
-  background:
-    radial-gradient(60% 120% at 100% 0%, rgba(91, 79, 214, 0.45), transparent 60%),
+  background: radial-gradient(60% 120% at 100% 0%, rgba(91, 79, 214, 0.45), transparent 60%),
     linear-gradient(160deg, #221e30, var(--ink-900));
 }
 .ws-hero::after {
@@ -4796,8 +4934,7 @@
 
 /* ---------- Month plan modal ---------- */
 .mw-hero {
-  background:
-    radial-gradient(70% 140% at 100% 0%, rgba(91, 79, 214, 0.5), transparent 60%),
+  background: radial-gradient(70% 140% at 100% 0%, rgba(91, 79, 214, 0.5), transparent 60%),
     linear-gradient(160deg, #221e30, var(--ink-900));
 }
 .mw-stats strong.warn {
@@ -5099,8 +5236,7 @@
 
 /* ---------- Hero takes the location accent ---------- */
 .ws-hero {
-  background:
-    radial-gradient(60% 130% at 100% 0%, var(--a1-glow), transparent 62%),
+  background: radial-gradient(60% 130% at 100% 0%, var(--a1-glow), transparent 62%),
     radial-gradient(40% 80% at 0% 100%, color-mix(in srgb, var(--a1) 22%, transparent), transparent 70%),
     linear-gradient(160deg, color-mix(in srgb, var(--a1) 18%, #1d1a27), #15131c);
   animation: p57-rise 0.5s ease both;
@@ -5168,8 +5304,7 @@
   color: #fff;
 }
 .ws-sidebar {
-  background:
-    radial-gradient(120% 45% at 0% 0%, color-mix(in srgb, var(--a1) 32%, transparent), transparent 60%),
+  background: radial-gradient(120% 45% at 0% 0%, color-mix(in srgb, var(--a1) 32%, transparent), transparent 60%),
     linear-gradient(180deg, #1b1924 0%, #121118 100%);
   transition: background 0.4s;
 }
@@ -5245,8 +5380,7 @@
 }
 .mw-hero {
   padding: 18px 24px 18px;
-  background:
-    radial-gradient(70% 160% at 100% 0%, var(--a1-glow), transparent 62%),
+  background: radial-gradient(70% 160% at 100% 0%, var(--a1-glow), transparent 62%),
     linear-gradient(160deg, color-mix(in srgb, var(--a1) 20%, #1d1a27), #15131c);
 }
 .mw-hero .mw-nav h2 {

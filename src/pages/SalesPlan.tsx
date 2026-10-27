@@ -166,7 +166,7 @@ export default function SalesPlan() {
                 <TargetsTab data={data} onSaved={reload} section="plan" />
               </>
             )}
-            {tab === 'activations' && <CampaignsTab data={data} />}
+            {tab === 'activations' && <CampaignsTab data={data} onSaved={reload} />}
             {tab === 'anniversary' && (
               <React.Suspense fallback={<Loading />}>
                 <Anniversary />

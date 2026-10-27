@@ -43,7 +43,8 @@ export default function CommandPalette({
     return () => cancelAnimationFrame(id);
   }, [open]);
 
-  const scoped = ['studio_manager', 'sales_associate'].includes(boot.user.role);
+  const scoped =
+    ['studio_manager', 'sales_associate'].includes(boot.user.role) && !boot.user.permissions.includes('admin_override');
   const locations = planningLocations(boot.studios);
 
   const items = useMemo<CmdItem[]>(() => {
@@ -159,7 +160,19 @@ export default function CommandPalette({
     }
 
     return [...monthItems, ...locItems, ...actionItems, ...navItems];
-  }, [boot.user.assigned_studio_id, boot.user.role, can, locations, navigate, onClose, onOpenCopilot, scoped, setStudioId, studioId, year]);
+  }, [
+    boot.user.assigned_studio_id,
+    boot.user.role,
+    can,
+    locations,
+    navigate,
+    onClose,
+    onOpenCopilot,
+    scoped,
+    setStudioId,
+    studioId,
+    year,
+  ]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
