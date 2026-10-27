@@ -56,16 +56,32 @@ import { api } from '../../api';
 import { useApp } from '../../App';
 import { Badge, Button } from '../../components/ui';
 import { LOCATION_COLORS, accentFor, locationStudioIds } from '../../data/locations';
-import Marquee from '../../components/Marquee';
 import MarketingCollaterals from '../../components/MarketingCollaterals';
 import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor } from '../../data/keyDates';
 import { MONTHS, money, number, titleCase } from '../../types';
-import type { ActionItem } from '../../data/planDefaults';
+import { locationPlaybook, type ActionItem } from '../../data/planDefaults';
+import { isLegacyTheme, monthChapter, monthStory } from '../../data/monthNarrative';
 import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
+import MonthOverview from './MonthOverview';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
+
+/* The month is read as four pages rather than one long scroll: the story, the numbers,
+   the offers and the work. Every section keeps its id and its edit controls; the page
+   only decides what is on screen at once. */
+type PlanPage = 'overview' | 'targets' | 'offers' | 'execution';
+const PAGE_OF_SECTION: Record<string, PlanPage> = {
+  days: 'overview',
+  focus: 'targets',
+  ai: 'targets',
+  coverage: 'targets',
+  offers: 'offers',
+  acts: 'execution',
+  actions: 'execution',
+  collaterals: 'execution',
+};
 const LIVE = (o: any) => !['archived', 'rejected'].includes(o.status);
 // A month's copy points back at the bank offer it was picked from.
 const bankIdOf = (o: any) => {
@@ -503,6 +519,12 @@ export default function MonthWorkspace({
     [masterCodeError, setMasterCodeError] = useState('');
   // The cover is the first page of a month: it mounts with the workspace and re-animates on month changes.
   const [coverOpen, setCoverOpen] = useState(true);
+  const [page, setPage] = useState<PlanPage>('overview');
+  // Each page opens at its own top rather than inheriting the previous page's scroll.
+  const mainRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0, behavior: 'auto' });
+  }, [page]);
   const plan = data.plans[studioIdx],
     studio = plan.studio,
     row = plan.months[month - 1],
@@ -654,6 +676,7 @@ export default function MonthWorkspace({
   useEffect(() => {
     setEditing(null);
     setCreatingOffer(null);
+    setPage('overview');
   }, [month, studioIdx]);
   useEffect(() => setActiveDay(null), [month, studioIdx]);
   useEffect(() => setMathsOpen(false), [month, studioIdx]);
@@ -1259,16 +1282,16 @@ export default function MonthWorkspace({
     return () => document.removeEventListener('keydown', handler);
   }, [month, onClose, setMonth, coverOpen]);
 
-  const jumpToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   const copyMonthBrief = async () => {
     const lines = [
       `PHYSIQUE 57 · ${MONTHS[month - 1].toUpperCase()} ${year} COMMERCIAL BRIEF — ${studio.name.toUpperCase()}`,
-      `Theme: ${form.theme || row.theme || '—'}`,
+      `Theme: ${displayTheme || '—'}`,
       `Monthly Target: ${lakh(effective)} (New clients ${lakh(form.streams.newClient)} · Renewals ${lakh(form.streams.renewal)} · Comeback ${lakh(form.streams.reactivation)})`,
       form.objective ? `Objective: ${form.objective}` : '',
+      '',
+      story.split,
+      story.leads,
+      story.renewals,
       dates.length
         ? `Key Moments: ${dates.map(d => `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)} (${d.name})`).join(', ')}`
         : '',
@@ -1300,9 +1323,41 @@ export default function MonthWorkspace({
     { key: 'renewal', label: 'Renewals', value: n(form.streams.renewal) },
     { key: 'reactivation', label: 'Comeback', value: n(form.streams.reactivation) },
   ];
+  const chapter = monthChapter(month);
+  // Months planned before the narrative rewrite carry a generic label; the chapter names them now.
+  const displayTheme =
+    isLegacyTheme(form.theme) || isLegacyTheme(row.theme) ? chapter.theme : form.theme || row.theme || chapter.theme;
   const coverPhoto = selected[0]
     ? pickOfferCardPhoto(selected[0], slotOf(selected[0].id), month)
-    : pickOfferCardPhoto({ name: `${form.theme || row.theme} ${MONTHS[month - 1]}`, month }, 'newcomer', month);
+    : pickOfferCardPhoto({ name: `${displayTheme} ${MONTHS[month - 1]}`, month }, 'newcomer', month);
+  const story = monthStory(month, {
+    studio: studio.name,
+    target: effective,
+    lastYear: row.lastYear,
+    streams: {
+      newClient: n(form.streams.newClient),
+      renewal: n(form.streams.renewal),
+      reactivation: n(form.streams.reactivation),
+    },
+    leads: row.leads,
+    trials: row.trials,
+    buyers: row.buyers,
+    renewalsDue: econ?.renewal.projectedExpiries || row.renewalsDue || 0,
+    renewalCoverage: coverage,
+    offers: selected.length,
+    offerRevenue,
+  });
+  const showLibrary = sideOpen && page === 'offers';
+  const showOnPage = (key: string) => isSectionVisible(key) && PAGE_OF_SECTION[key] === page;
+  const pageTabs: Array<{ id: PlanPage; label: string; meta?: string }> = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'targets', label: 'Targets & mix' },
+    { id: 'offers', label: 'Offers', meta: selected.length ? String(selected.length) : undefined },
+    { id: 'execution', label: 'Execution' },
+  ];
+  const pageIdx = pageTabs.findIndex(t => t.id === page);
+  const prevTab = pageIdx > 0 ? pageTabs[pageIdx - 1] : null;
+  const nextTab = pageIdx >= 0 && pageIdx < pageTabs.length - 1 ? pageTabs[pageIdx + 1] : null;
   const coverStatus = locked ? 'approved' : approved ? 'locked' : 'proposed';
   const unlockEditing = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -1355,10 +1410,10 @@ export default function MonthWorkspace({
                 </div>
                 <div className="mw-title-line">
                   <h2>{MONTHS[month - 1]}</h2>
-                  {(form.theme || row.theme) && (
+                  {displayTheme && (
                     <>
                       <i className="mw-title-sep" aria-hidden="true" />
-                      <span className="mw-theme-sub">{form.theme || row.theme}</span>
+                      <span className="mw-theme-sub">{displayTheme}</span>
                     </>
                   )}
                 </div>
@@ -1446,82 +1501,6 @@ export default function MonthWorkspace({
               </button>
             </div>
           </div>
-          <div className="mw-kpis" key={`kpis-${month}-${studio.id}`}>
-            <div className="mw-kpi" style={{ '--kpi-i': 0 } as React.CSSProperties}>
-              <span className="mw-kpi-label">
-                <Target size={12} /> Target
-              </span>
-              <div className="mw-kpi-row">
-                <strong>{lakh(effective)}</strong>
-                <small>
-                  {approved ? 'approved' : 'proposed'} · LY {lakh(row.lastYear)}
-                </small>
-              </div>
-              <i
-                className="mw-kpi-bar"
-                style={
-                  { '--p': row.lastYear ? Math.min(effective / row.lastYear / 2, 1) : 0.62 } as React.CSSProperties
-                }
-              />
-            </div>
-            <div className="mw-kpi" style={{ '--kpi-i': 1 } as React.CSSProperties}>
-              <span className="mw-kpi-label">
-                <Trophy size={12} /> Offers carry
-              </span>
-              <div className="mw-kpi-row">
-                <strong>{lakh(offerRevenue)}</strong>
-                <small>
-                  {selected.length} offers · {effective ? pct(offerRevenue / effective) : '—'}
-                </small>
-              </div>
-              <i
-                className="mw-kpi-bar"
-                style={{ '--p': effective ? Math.min(offerRevenue / effective, 1) : 0 } as React.CSSProperties}
-              />
-            </div>
-            <div
-              className={`mw-kpi ${coverage !== null && coverage < 1 ? 'warn' : ''}`}
-              style={{ '--kpi-i': 2 } as React.CSSProperties}
-            >
-              <span className="mw-kpi-label">
-                <RefreshCcw size={12} /> Renewals covered
-              </span>
-              <div className="mw-kpi-row">
-                <strong>{pct(coverage)}</strong>
-                <small>
-                  {lakh(econ?.renewal.expected)} of {lakh(econ?.renewal.target)}
-                </small>
-              </div>
-              <i className="mw-kpi-bar" style={{ '--p': Math.min(coverage ?? 0, 1) } as React.CSSProperties} />
-            </div>
-            <div className="mw-kpi" style={{ '--kpi-i': 3 } as React.CSSProperties}>
-              <span className="mw-kpi-label">
-                <SlidersHorizontal size={12} /> Funnel
-              </span>
-              <div className="mw-kpi-funnel">
-                <b>
-                  {number(row.leads)}
-                  <em>leads</em>
-                </b>
-                <ChevronRight size={11} />
-                <b>
-                  {number(row.trials)}
-                  <em>trials</em>
-                </b>
-                <ChevronRight size={11} />
-                <b>
-                  {number(row.buyers)}
-                  <em>members</em>
-                </b>
-              </div>
-              <i
-                className="mw-kpi-bar is-funnel"
-                style={
-                  { '--p': row.leads ? Math.min(row.trials / Math.max(1, row.leads), 1) : 0.45 } as React.CSSProperties
-                }
-              />
-            </div>
-          </div>
           {data.plans.length > 1 && (
             <div className="mw-studios" role="tablist" aria-label="Location">
               <span className="mw-studios-eyebrow">Locations</span>
@@ -1559,125 +1538,55 @@ export default function MonthWorkspace({
           )}
         </header>
 
-        <div className="mw-marquee-dock" inert={coverOpen}>
-          <Marquee
-            variant="minimal"
-            tag="MONTH PULSE"
-            items={[
-              ...dates.map(d => ({
-                label: d.name,
-                value: `${formatKeyDate(d)} ${MONTHS[month - 1].slice(0, 3)}`,
-                onClick: () => jumpToSection('mw-sec-days'),
-              })),
-              {
-                label: 'Theme',
-                value: form.theme || row.theme,
-                tone: 'accent' as const,
-                onClick: () => jumpToSection('mw-sec-focus'),
-              },
-              ...(econ
-                ? [
-                    { label: 'Avg first spend', value: money(econ.newClient.firstSpend, true) },
-                    { label: 'Trial → member', value: pct(econ.newClient.trialToMember) },
-                    { label: 'Lead → trial', value: pct(econ.newClient.leadToTrial) },
-                    { label: 'Memberships expiring', value: number(econ.renewal.projectedExpiries) },
-                    { label: 'Renewal rate', value: pct(econ.renewal.renewalRate) },
-                    ...(econ.renewal.gap > 0
-                      ? [
-                          {
-                            label: 'Renewal gap',
-                            value: lakh(econ.renewal.gap),
-                            tone: 'warn' as const,
-                            onClick: () => jumpToSection('mw-sec-coverage'),
-                          },
-                        ]
-                      : []),
-                  ]
-                : []),
-              ...selected.map(o => ({
-                label: o.name,
-                value: money(o.expected_revenue, true),
-                onClick: () => jumpToSection('mw-sec-offers'),
-              })),
-            ]}
-          />
-        </div>
-
         <div
-          className={`mw-body pane-offers ${sideOpen ? 'is-side-open' : 'is-side-collapsed'}`}
-          style={{ gridTemplateColumns: `minmax(0, 1fr) ${sideOpen ? sideW : 48}px` }}
+          className={`mw-body pane-offers ${showLibrary ? 'is-side-open' : 'is-side-collapsed'}${
+            page === 'offers' ? '' : ' is-no-library'
+          }`}
+          style={{ gridTemplateColumns: showLibrary ? `minmax(0, 1fr) ${sideW}px` : 'minmax(0, 1fr)' }}
           inert={coverOpen}
         >
-          <main className={`mw-main ${locked ? 'is-locked' : ''}`}>
-            <nav className="mw-quicknav" aria-label="Jump to section">
-              <div className="mw-quicknav-links">
-                {isSectionVisible('days') && (
-                  <button type="button" onClick={() => jumpToSection('mw-sec-days')}>
-                    Important days
-                  </button>
-                )}
-                {isSectionVisible('focus') && (
-                  <button type="button" onClick={() => jumpToSection('mw-sec-focus')}>
-                    Focus &amp; target
-                  </button>
-                )}
-                {isSectionVisible('ai') && (form.content?.ai || editable) && (
-                  <button type="button" onClick={() => jumpToSection('mw-sec-ai')}>
-                    Reasoning
-                  </button>
-                )}
-                {isSectionVisible('offers') && (
-                  <button type="button" onClick={() => jumpToSection('mw-sec-offers')}>
-                    Offers <em>{selected.length}</em>
-                  </button>
-                )}
-                {isSectionVisible('coverage') && (gapRows.length > 0 || editable) && (
-                  <button type="button" onClick={() => jumpToSection('mw-sec-coverage')}>
-                    Coverage
-                  </button>
-                )}
-                {isSectionVisible('acts') && (
-                  <button type="button" onClick={() => jumpToSection('mw-sec-acts')}>
-                    Activations
-                  </button>
-                )}
-                {isSectionVisible('actions') && (
-                  <button type="button" onClick={() => jumpToSection('mw-sec-actions')}>
-                    Actions
-                  </button>
-                )}
-                {isSectionVisible('collaterals') && (
-                  <button type="button" onClick={() => jumpToSection('mw-sec-collaterals')}>
-                    Collaterals
-                  </button>
-                )}
-                {customSections.map(cs => (
-                  <button key={cs.id} type="button" onClick={() => jumpToSection(`mw-sec-${cs.id}`)}>
-                    {cs.title || 'Custom'}
+          <main ref={mainRef} className={`mw-main ${locked ? 'is-locked' : ''}`}>
+            <nav className="mw-pages" aria-label="Month plan pages">
+              <div className="mw-pages-tabs" role="group" aria-label="Month pages">
+                {pageTabs.map(tab => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    aria-current={page === tab.id ? 'page' : undefined}
+                    className={`mw-page-tab${page === tab.id ? ' is-active' : ''}`}
+                    onClick={() => setPage(tab.id)}
+                  >
+                    <span>{tab.label}</span>
+                    {tab.meta && <em>{tab.meta}</em>}
                   </button>
                 ))}
               </div>
-              <div className="mw-quicknav-tools">
+              <div className="mw-pages-tools">
                 {editable && (
                   <button
                     type="button"
                     className="mw-qtool"
-                    onClick={addCustomSection}
+                    onClick={() => {
+                      setPage('execution');
+                      addCustomSection();
+                    }}
                     title="Add a new custom section to this month's plan"
                   >
                     <Plus size={13} />
                     <span>Add section</span>
                   </button>
                 )}
-                <button
-                  type="button"
-                  className={`mw-qtool${!sideOpen ? ' is-active' : ''}`}
-                  onClick={() => setSideOpen(o => !o)}
-                  title="Toggle right Offer Library sidebar (shortcut: \)"
-                >
-                  <LayoutGrid size={13} />
-                  <span>{sideOpen ? '2-up offers' : 'Show library'}</span>
-                </button>
+                {page === 'offers' && (
+                  <button
+                    type="button"
+                    className={`mw-qtool${!sideOpen ? ' is-active' : ''}`}
+                    onClick={() => setSideOpen(o => !o)}
+                    title="Toggle right Offer Library sidebar (shortcut: \\)"
+                  >
+                    <LayoutGrid size={13} />
+                    <span>{sideOpen ? '2-up offers' : 'Show library'}</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   className="mw-qtool"
@@ -1732,8 +1641,31 @@ export default function MonthWorkspace({
               </div>
             )}
 
+            {page === 'overview' && (
+              <MonthOverview
+                month={month}
+                year={year}
+                chapter={chapter}
+                theme={displayTheme}
+                studioName={studio.name}
+                roomAngle={locationPlaybook(studio.name).theme}
+                story={story}
+                target={effective}
+                lastYear={row.lastYear}
+                leads={row.leads}
+                trials={row.trials}
+                buyers={row.buyers}
+                offers={selected.length}
+                offerRevenue={offerRevenue}
+                renewalsDue={econ?.renewal.projectedExpiries || row.renewalsDue || 0}
+                renewalCoverage={coverage}
+                photo={coverPhoto}
+                status={coverStatus}
+              />
+            )}
+
             {/* ─── Section 1: Important days ─── */}
-            {isSectionVisible('days') &&
+            {showOnPage('days') &&
               (() => {
                 const meta = sectionMeta(
                   'days',
@@ -1998,7 +1930,7 @@ export default function MonthWorkspace({
               })()}
 
             {/* ─── Section 2: Monthly focus & target (ONE Unified Cohesive Canvas) ─── */}
-            {isSectionVisible('focus') &&
+            {showOnPage('focus') &&
               (() => {
                 const meta = sectionMeta(
                   'focus',
@@ -2243,7 +2175,7 @@ export default function MonthWorkspace({
                             <div className="mw-fu-theme is-readonly">
                               <span>Monthly theme</span>
                               <h3 className="mw-fu-theme-display">
-                                {form.theme || row.theme || `${MONTHS[month - 1]} Commercial Plan`}
+                                {displayTheme || `${MONTHS[month - 1]} Commercial Plan`}
                               </h3>
                             </div>
                           )}
@@ -2844,7 +2776,7 @@ export default function MonthWorkspace({
               })()}
 
             {/* ─── Section 3: AI plan & reasoning (Unified Design System) ─── */}
-            {isSectionVisible('ai') &&
+            {showOnPage('ai') &&
               (form.content?.ai || editable) &&
               (() => {
                 const ai = form.content?.ai || { splitRationale: '', reasoning: [], risks: [], generatedAt: null };
@@ -3178,7 +3110,7 @@ export default function MonthWorkspace({
             )}
 
             {/* ─── Section 4: Offers ─── */}
-            {isSectionVisible('offers') &&
+            {showOnPage('offers') &&
               (() => {
                 const meta = sectionMeta(
                   'offers',
@@ -3466,7 +3398,7 @@ export default function MonthWorkspace({
               })()}
 
             {/* ─── Section 5: Offer coverage by revenue stream ─── */}
-            {isSectionVisible('coverage') &&
+            {showOnPage('coverage') &&
               (gapRows.length > 0 || editable) &&
               (() => {
                 const meta = sectionMeta(
@@ -3579,7 +3511,7 @@ export default function MonthWorkspace({
               })()}
 
             {/* ─── Section 6: Activations ─── */}
-            {isSectionVisible('acts') &&
+            {showOnPage('acts') &&
               (() => {
                 const meta = sectionMeta('acts', 'Activations', 'Challenge, event, partner and retention play.');
                 const hidden: string[] = Array.isArray(form.content?.hiddenActivations)
@@ -3745,7 +3677,7 @@ export default function MonthWorkspace({
               })()}
 
             {/* ─── Section 7: Action plan ─── */}
-            {isSectionVisible('actions') &&
+            {showOnPage('actions') &&
               (() => {
                 const meta = sectionMeta('actions', 'Action plan', 'Who does what, week by week.');
                 return (
@@ -3916,7 +3848,7 @@ export default function MonthWorkspace({
               })()}
 
             {/* ─── Section 8: Marketing & collaterals ─── */}
-            {isSectionVisible('collaterals') && (
+            {showOnPage('collaterals') && (
               <MarketingCollaterals
                 id="mw-sec-collaterals"
                 offers={selected}
@@ -3937,121 +3869,125 @@ export default function MonthWorkspace({
             )}
 
             {/* ─── User-Added Custom Sections ─── */}
-            {customSections.map(cs => (
-              <div key={cs.id} id={`mw-sec-${cs.id}`} className="mw-section mw-custom-section">
-                <SectionHead
-                  icon={FileText}
-                  title={cs.title}
-                  hint={cs.hint}
-                  editable={editable}
-                  onTitleChange={v => updateCustomSection(cs.id, { title: v })}
-                  onHintChange={v => updateCustomSection(cs.id, { hint: v })}
-                  onDelete={() => removeCustomSection(cs.id)}
-                  actions={
-                    editable ? (
-                      <button
-                        type="button"
-                        className="mw-mini-btn"
-                        onClick={() =>
-                          updateCustomSection(cs.id, {
-                            items: [
-                              ...cs.items,
-                              {
-                                id: `item-${Date.now()}`,
-                                label: 'Item',
-                                value: 'New entry',
-                                detail: 'Details or owner',
-                              },
-                            ],
-                          })
-                        }
-                      >
-                        <Plus size={12} /> Add item
-                      </button>
-                    ) : undefined
-                  }
-                />
-                {(editable || cs.body) && (
-                  <div className="mw-custom-body">
-                    {editable ? (
-                      <textarea
-                        rows={3}
-                        placeholder="Add section notes, bullet points (- item) or context…"
-                        value={cs.body}
-                        onChange={e => updateCustomSection(cs.id, { body: e.target.value })}
-                      />
-                    ) : (
-                      <RichText text={cs.body} />
-                    )}
-                  </div>
-                )}
-                {cs.items.length > 0 && (
-                  <div className="mw-custom-grid">
-                    {cs.items.map(it => (
-                      <div key={it.id} className="mw-custom-card">
+            {page !== 'execution'
+              ? null
+              : customSections.map(cs => (
+                  <div key={cs.id} id={`mw-sec-${cs.id}`} className="mw-section mw-custom-section">
+                    <SectionHead
+                      icon={FileText}
+                      title={cs.title}
+                      hint={cs.hint}
+                      editable={editable}
+                      onTitleChange={v => updateCustomSection(cs.id, { title: v })}
+                      onHintChange={v => updateCustomSection(cs.id, { hint: v })}
+                      onDelete={() => removeCustomSection(cs.id)}
+                      actions={
+                        editable ? (
+                          <button
+                            type="button"
+                            className="mw-mini-btn"
+                            onClick={() =>
+                              updateCustomSection(cs.id, {
+                                items: [
+                                  ...cs.items,
+                                  {
+                                    id: `item-${Date.now()}`,
+                                    label: 'Item',
+                                    value: 'New entry',
+                                    detail: 'Details or owner',
+                                  },
+                                ],
+                              })
+                            }
+                          >
+                            <Plus size={12} /> Add item
+                          </button>
+                        ) : undefined
+                      }
+                    />
+                    {(editable || cs.body) && (
+                      <div className="mw-custom-body">
                         {editable ? (
-                          <>
-                            <div className="mw-custom-card-top">
-                              <input
-                                aria-label="Item label"
-                                placeholder="Category / label"
-                                value={it.label}
-                                onChange={e =>
-                                  updateCustomSection(cs.id, {
-                                    items: cs.items.map(x => (x.id === it.id ? { ...x, label: e.target.value } : x)),
-                                  })
-                                }
-                              />
-                              <button
-                                type="button"
-                                aria-label="Remove item"
-                                onClick={() =>
-                                  updateCustomSection(cs.id, {
-                                    items: cs.items.filter(x => x.id !== it.id),
-                                  })
-                                }
-                              >
-                                <Trash2 size={12} />
-                              </button>
-                            </div>
-                            <input
-                              className="mw-custom-card-title"
-                              aria-label="Item headline"
-                              placeholder="Headline or metric"
-                              value={it.value}
-                              onChange={e =>
-                                updateCustomSection(cs.id, {
-                                  items: cs.items.map(x => (x.id === it.id ? { ...x, value: e.target.value } : x)),
-                                })
-                              }
-                            />
-                            <textarea
-                              rows={2}
-                              aria-label="Item details"
-                              placeholder="Supporting details, owner or timeline"
-                              value={it.detail}
-                              onChange={e =>
-                                updateCustomSection(cs.id, {
-                                  items: cs.items.map(x => (x.id === it.id ? { ...x, detail: e.target.value } : x)),
-                                })
-                              }
-                            />
-                          </>
+                          <textarea
+                            rows={3}
+                            placeholder="Add section notes, bullet points (- item) or context…"
+                            value={cs.body}
+                            onChange={e => updateCustomSection(cs.id, { body: e.target.value })}
+                          />
                         ) : (
-                          <>
-                            <small>{it.label}</small>
-                            <strong>{it.value}</strong>
-                            {it.detail && <p>{it.detail}</p>}
-                          </>
+                          <RichText text={cs.body} />
                         )}
                       </div>
-                    ))}
+                    )}
+                    {cs.items.length > 0 && (
+                      <div className="mw-custom-grid">
+                        {cs.items.map(it => (
+                          <div key={it.id} className="mw-custom-card">
+                            {editable ? (
+                              <>
+                                <div className="mw-custom-card-top">
+                                  <input
+                                    aria-label="Item label"
+                                    placeholder="Category / label"
+                                    value={it.label}
+                                    onChange={e =>
+                                      updateCustomSection(cs.id, {
+                                        items: cs.items.map(x =>
+                                          x.id === it.id ? { ...x, label: e.target.value } : x,
+                                        ),
+                                      })
+                                    }
+                                  />
+                                  <button
+                                    type="button"
+                                    aria-label="Remove item"
+                                    onClick={() =>
+                                      updateCustomSection(cs.id, {
+                                        items: cs.items.filter(x => x.id !== it.id),
+                                      })
+                                    }
+                                  >
+                                    <Trash2 size={12} />
+                                  </button>
+                                </div>
+                                <input
+                                  className="mw-custom-card-title"
+                                  aria-label="Item headline"
+                                  placeholder="Headline or metric"
+                                  value={it.value}
+                                  onChange={e =>
+                                    updateCustomSection(cs.id, {
+                                      items: cs.items.map(x => (x.id === it.id ? { ...x, value: e.target.value } : x)),
+                                    })
+                                  }
+                                />
+                                <textarea
+                                  rows={2}
+                                  aria-label="Item details"
+                                  placeholder="Supporting details, owner or timeline"
+                                  value={it.detail}
+                                  onChange={e =>
+                                    updateCustomSection(cs.id, {
+                                      items: cs.items.map(x => (x.id === it.id ? { ...x, detail: e.target.value } : x)),
+                                    })
+                                  }
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <small>{it.label}</small>
+                                <strong>{it.value}</strong>
+                                {it.detail && <p>{it.detail}</p>}
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
+                ))}
 
-            {editable && (
+            {editable && page === 'execution' && (
               <div className="mw-add-section-bar">
                 <button type="button" className="mw-add-section-btn" onClick={addCustomSection}>
                   <Plus size={15} />
@@ -4059,9 +3995,32 @@ export default function MonthWorkspace({
                 </button>
               </div>
             )}
+
+            <nav className="mw-page-foot" aria-label="Month pages">
+              {prevTab ? (
+                <button type="button" onClick={() => setPage(prevTab.id)}>
+                  <ChevronLeft size={14} />
+                  <span>
+                    <small>Back to</small>
+                    {prevTab.label}
+                  </span>
+                </button>
+              ) : (
+                <span className="mw-page-foot-gap" />
+              )}
+              {nextTab && (
+                <button type="button" className="is-next" onClick={() => setPage(nextTab.id)}>
+                  <span>
+                    <small>Next</small>
+                    {nextTab.label}
+                  </span>
+                  <ChevronRight size={14} />
+                </button>
+              )}
+            </nav>
           </main>
 
-          {sideOpen ? (
+          {page !== 'offers' ? null : sideOpen ? (
             <aside className="mw-side">
               <div
                 className="mw-side-resize"
@@ -4289,8 +4248,8 @@ export default function MonthWorkspace({
             month={month}
             year={year}
             studioName={studio.name}
-            theme={form.theme || row.theme}
-            brief={form.objective || row.objective}
+            theme={displayTheme}
+            brief={chapter.brief}
             target={effective}
             lastYear={row.lastYear}
             streams={coverStreams}

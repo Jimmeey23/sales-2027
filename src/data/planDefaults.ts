@@ -1,19 +1,9 @@
 import { PLAYBOOKS_2027, type StudioPlaybook } from './2027Playbooks';
+import { MONTH_CHAPTERS } from './monthNarrative';
 
-export const MONTH_THEMES = [
-  'Fresh Start, Strong Finish',
-  'Bring Your Bestie',
-  'Stronger Together',
-  'Anniversary / Community Celebration',
-  'Build Your Base',
-  'Midyear Momentum',
-  'Monsoon Consistency',
-  'Back to Routine',
-  'Power Through Progress',
-  'Member Appreciation',
-  'Gratitude in Motion',
-  'Year-End, Your Way',
-];
+// The twelve campaign chapters live in monthNarrative.ts, together with each month's
+// moment, brief, risk and signature move. The theme list is derived so the two never drift.
+export const MONTH_THEMES = MONTH_CHAPTERS.map(chapter => chapter.theme);
 export const MONTH_ACTIVATIONS = [
   'Newcomer open house + trial follow-up',
   'Referral week with member guest passes',
