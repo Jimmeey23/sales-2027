@@ -3,8 +3,6 @@ import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, X } from 'lucide-r
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
-import CoverNarration from './CoverNarration';
-import type { CoverBeat } from '../../data/coverNarration';
 
 /* The cover that opens before a month plan: the month's focus and brief over its lead
    photograph, then the numbers that define the month — revenue split, lead requirement,
@@ -132,8 +130,6 @@ export default function MonthCover({
   const animate = !reduce;
   // The cover dissolves into the plan rather than cutting straight to it.
   const [leaving, setLeaving] = useState(false);
-  // Which part of the cover the narrator is talking about, set as the voice moves.
-  const [beat, setBeat] = useState<CoverBeat | null>(null);
   const timer = useRef<number | null>(null);
   const root = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -162,8 +158,7 @@ export default function MonthCover({
     <div
       ref={root}
       tabIndex={-1}
-      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}${beat ? ' is-narrating' : ''}`}
-      data-beat={beat ?? ''}
+      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}`}
       role="dialog"
       aria-modal="true"
       aria-label={`${MONTHS[month - 1]} overview`}
@@ -392,8 +387,6 @@ export default function MonthCover({
           </div>
         </footer>
       </div>
-
-      <CoverNarration month={month} onBeat={setBeat} />
     </div>
   );
 }
