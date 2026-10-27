@@ -1,0 +1,739 @@
+/* Sales Plan › Year plan.
+   The month cards grid reads like printed plan cards rather than database rows: a serif month
+   name and theme, one plain-language brief, a large tabular target with its share of the
+   year, the revenue-mix bar with a compact legend, a three-up funnel with micro bars,
+   the month's key dates, its lead offer and a quiet footer. Colour comes from the
+   selected location's accent; approved months keep their colour and gain a green seal.
+   Loaded after every legacy sheet, so it can reset the older .ws-month-card rules. */
+
+.ws-month-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(302px, 1fr));
+  gap: 18px;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.ws-month-grid .ws-month-card {
+  --mc-accent: var(--a1, #5b4fd6);
+  --mc-ink: #191a24;
+  --mc-muted: #6f7484;
+  --mc-line: rgba(25, 26, 36, 0.09);
+  --mc-soft: color-mix(in srgb, var(--mc-accent) 7%, #ffffff);
+  --mc-edge: color-mix(in srgb, var(--mc-accent) 12%, #e9e6ef);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: left;
+  color: var(--mc-ink);
+  cursor: pointer;
+  border: 1px solid var(--mc-edge);
+  border-radius: 22px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--mc-accent) 5%, #ffffff) 0%, #ffffff 26%);
+  box-shadow:
+    0 1px 2px rgba(25, 26, 36, 0.05),
+    0 18px 34px -26px rgba(25, 26, 36, 0.4);
+  animation: p57-rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 30ms);
+  transition:
+    transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 280ms ease;
+}
+
+/* The old card ran a hard accent strip across the top; the new head carries the colour. */
+.ws-month-grid .ws-month-card::before {
+  content: none;
+}
+
+/* A soft accent glow in the upper corner, so the tinted head has depth. */
+.ws-month-grid .ws-month-card::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: -96px;
+  right: -84px;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--mc-accent) 17%, transparent) 0%,
+    transparent 68%
+  );
+  opacity: 0.85;
+  pointer-events: none;
+  transition:
+    opacity 280ms ease,
+    transform 280ms ease;
+}
+.ws-month-grid .ws-month-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ws-month-grid .ws-month-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--mc-accent) 30%, #e9e6ef);
+  box-shadow:
+    0 2px 4px rgba(25, 26, 36, 0.06),
+    0 30px 48px -28px rgba(25, 26, 36, 0.45),
+    0 48px 80px -60px color-mix(in srgb, var(--mc-accent) 55%, transparent);
+}
+.ws-month-grid .ws-month-card:hover::after {
+  opacity: 1;
+  transform: scale(1.12);
+}
+.ws-month-grid .ws-month-card:active {
+  transform: translateY(-1px) scale(0.996);
+}
+.ws-month-grid .ws-month-card:focus-visible {
+  outline: 2px solid var(--mc-accent);
+  outline-offset: 3px;
+}
+
+/* ── Head: index numeral, quarter and status ───────────────────────────────── */
+.ws-month-grid .ws-mc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 15px 16px 0;
+}
+.ws-month-grid .ws-mc-idx {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--mc-accent);
+}
+.ws-month-grid .ws-mc-idx em {
+  font-family: inherit;
+  font-style: normal;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--mc-muted);
+}
+.ws-month-grid .ws-mc-tags {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+.ws-month-grid .ws-mc-q {
+  flex: none;
+  padding: 3px 7px;
+  border: 1px solid var(--mc-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--mc-muted);
+}
+.ws-month-grid .ws-mc-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ws-month-grid .ws-mc-status svg {
+  flex: none;
+}
+.ws-month-grid .ws-mc-status.is-proposed {
+  background: #fbf3e2;
+  border-color: #f0e0bd;
+  color: #8a6316;
+}
+.ws-month-grid .ws-mc-status.is-approved {
+  background: #e8f4ee;
+  border-color: #cfe6da;
+  color: #1c6b50;
+}
+
+/* ── Month name, theme, brief ─────────────────────────────────────────────── */
+.ws-month-grid .ws-mc-title {
+  padding: 12px 16px 0;
+  min-width: 0;
+}
+.ws-month-grid .ws-mc-title h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.024em;
+  color: var(--mc-ink);
+}
+.ws-month-grid .ws-month-theme {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: color-mix(in srgb, var(--mc-accent) 70%, #2b2b38);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ws-month-grid .ws-mc-brief {
+  margin: 8px 16px 0;
+  min-height: 3.1em;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--mc-muted);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ── Target and its share of the year ─────────────────────────────────────── */
+.ws-month-grid .ws-mc-target {
+  margin: 12px 16px 0;
+  padding-top: 11px;
+  border-top: 1px solid var(--mc-line);
+}
+.ws-month-grid .ws-mc-target-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ws-month-grid .ws-mc-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mc-muted);
+}
+.ws-month-grid .ws-mc-yoy {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.ws-month-grid .ws-mc-yoy.pos {
+  color: #1b7357;
+}
+.ws-month-grid .ws-mc-yoy.neg {
+  color: #ac4c3b;
+}
+.ws-month-grid .ws-mc-figure {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 5px;
+}
+.ws-month-grid .ws-month-target {
+  display: block;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 650;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--mc-ink);
+  font-variant-numeric: tabular-nums;
+}
+.ws-month-grid .ws-mc-share-label {
+  flex: none;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--mc-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Revenue mix ──────────────────────────────────────────────────────────── */
+.ws-month-grid .ws-mc-mix {
+  margin: 12px 16px 0;
+}
+.ws-month-grid .ws-mixbar {
+  height: 8px;
+  border-radius: 999px;
+  background: #eef0f4;
+  box-shadow: inset 0 1px 1px rgba(25, 26, 36, 0.05);
+}
+.ws-month-grid .ws-mixbar span + span {
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.55);
+}
+.ws-month-grid .ws-mixbar span:first-child {
+  border-radius: 999px 0 0 999px;
+}
+.ws-month-grid .ws-mixbar span:last-child {
+  border-radius: 0 999px 999px 0;
+}
+.ws-month-grid .ws-mc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 9px;
+  margin-top: 6px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mc-muted);
+}
+.ws-month-grid .ws-mc-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.ws-month-grid .ws-mc-legend i {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+/* ── Funnel: values and micro bars ────────────────────────────────────────── */
+.ws-month-grid .ws-mc-funnel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 12px 16px 0;
+  padding: 10px 0;
+  border-top: 1px solid var(--mc-line);
+  border-bottom: 1px solid var(--mc-line);
+}
+.ws-month-grid .ws-mc-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 0 10px;
+}
+.ws-month-grid .ws-mc-stat:first-child {
+  padding-left: 0;
+}
+.ws-month-grid .ws-mc-stat + .ws-mc-stat {
+  border-left: 1px solid var(--mc-line);
+}
+.ws-month-grid .ws-mc-stat b {
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--mc-ink);
+  font-variant-numeric: tabular-nums;
+}
+.ws-month-grid .ws-mc-stat span {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--mc-muted);
+}
+.ws-month-grid .ws-mc-stat i {
+  display: block;
+  width: var(--w, 100%);
+  min-width: 6px;
+  max-width: 100%;
+  height: 3px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--mc-accent) 55%, #ffffff), var(--mc-accent));
+  opacity: 0.9;
+}
+
+/* ── Key dates: quiet chips with a coloured dot instead of pastel blocks ──── */
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates {
+  gap: 4px;
+  margin: 0;
+  font-size: 10px;
+}
+.ws-month-grid .ws-keydates {
+  margin: 11px 16px 0;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > svg {
+  display: none;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span {
+  position: relative;
+  max-width: 100%;
+  padding: 2px 8px 2px 16px;
+  overflow: hidden;
+  border: 1px solid var(--mc-line, rgba(25, 26, 36, 0.09)) !important;
+  border-radius: 999px;
+  background: #ffffff !important;
+  color: #5e6474 !important;
+  font-size: 10px;
+  line-height: 1.6;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background: var(--kd, #9aa1b0);
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span.kd-festival {
+  --kd: #c9801f;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span.kd-holiday {
+  --kd: #3b7fae;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span.kd-awareness {
+  --kd: #3f8f6b;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span.kd-global {
+  --kd: #16867a;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span.kd-retail {
+  --kd: #c04a72;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span.kd-brand {
+  --kd: #7a52c8;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span.kd-more {
+  padding-left: 8px;
+  background: #f6f5f9 !important;
+  color: var(--mc-muted, #6f7484) !important;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates > span.kd-more::before {
+  content: none;
+}
+:is(.ws-month-grid, .ws-year-timeline) .ws-keydates b {
+  margin-right: 2px;
+  font-weight: 650;
+  color: #3c4252;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Lead offer ───────────────────────────────────────────────────────────── */
+.ws-month-grid .ws-month-offer {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px 16px 0;
+  padding: 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--mc-accent) 13%, #ffffff);
+  border-radius: 13px;
+  background: var(--mc-soft);
+  color: var(--mc-accent);
+}
+.ws-month-grid .ws-month-offer > svg {
+  flex: none;
+  margin-top: 1px;
+  color: color-mix(in srgb, var(--mc-accent) 78%, #4a4657);
+}
+.ws-month-grid .ws-month-offer span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.ws-month-grid .ws-month-offer b {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--mc-ink);
+}
+.ws-month-grid .ws-month-offer em {
+  font-style: normal;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--mc-accent) 65%, #6f7484);
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+.ws-month-grid .ws-month-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding: 12px 16px 13px;
+  border-top: 1px solid var(--mc-line);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--mc-muted);
+}
+.ws-month-grid .ws-mc-promo-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.01em;
+}
+.ws-month-grid .ws-mc-promo-count svg {
+  flex: none;
+  color: color-mix(in srgb, var(--mc-accent) 60%, #6f7484);
+}
+.ws-month-grid .ws-mc-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 700;
+  color: var(--mc-ink);
+}
+.ws-month-grid .ws-mc-open svg {
+  transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ws-month-grid .ws-month-card:hover .ws-mc-open {
+  color: var(--mc-accent);
+}
+.ws-month-grid .ws-month-card:hover .ws-mc-open svg {
+  transform: translateX(3px);
+}
+
+/* ── Approved months stay legible: a green seal, not a grey ghost ─────────── */
+.ws-month-grid .ws-month-card.plan-approved {
+  opacity: 1;
+  filter: none;
+  border-color: color-mix(in srgb, #1f7a5a 20%, #e9e6ef);
+  background: linear-gradient(180deg, color-mix(in srgb, #1f7a5a 6%, #ffffff) 0%, #ffffff 26%);
+}
+.ws-month-grid .ws-month-card.plan-approved::after {
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, #1f7a5a 16%, transparent) 0%, transparent 68%);
+}
+.ws-month-grid .ws-month-card.plan-approved .ws-mc-idx {
+  color: #1f7a5a;
+}
+.ws-month-grid .ws-month-card.plan-approved:hover {
+  opacity: 1;
+}
+
+/* ── Responsive and motion ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ws-month-grid {
+    grid-template-columns: repeat(auto-fill, minmax(252px, 1fr));
+    gap: 14px;
+  }
+  .ws-month-grid .ws-mc-title h3 {
+    font-size: 24px;
+  }
+  .ws-month-grid .ws-month-target {
+    font-size: 27px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-month-grid .ws-month-card,
+  .ws-month-grid .ws-month-card * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ws-month-grid .ws-month-card:hover {
+    transform: none;
+  }
+  .ws-month-grid .ws-month-card:hover .ws-mc-open svg {
+    transform: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Timeline rows — the same language in a list: a serif rail month, an editorial
+   title, a tabular target pill and soft hairline panels for the four facts.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ws-year-timeline {
+  gap: 16px;
+}
+.ws-year-timeline::before {
+  left: 30px;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--a1, #5b4fd6) 32%, #e2e7e3),
+    color-mix(in srgb, var(--a1, #5b4fd6) 8%, #e7e5ee)
+  );
+}
+.ws-year-timeline li {
+  grid-template-columns: 60px minmax(0, 1fr);
+  gap: 16px;
+}
+.ws-year-timeline .yt-rail span {
+  width: 60px;
+  height: 60px;
+  border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 18%, #e7e4ee);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--a1, #5b4fd6) 9%, #ffffff), #ffffff 62%);
+  box-shadow: 0 8px 18px -14px color-mix(in srgb, var(--a1, #5b4fd6) 55%, transparent);
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: color-mix(in srgb, var(--a1, #5b4fd6) 82%, #2b2b38);
+}
+.ws-year-timeline li.approved .yt-rail span {
+  border-color: color-mix(in srgb, #1f7a5a 30%, #e7e4ee);
+  background: linear-gradient(160deg, #eef7f2, #ffffff 62%);
+  color: #1f7a5a;
+}
+
+.ws-year-timeline .yt-card {
+  gap: 13px;
+  padding: 18px 20px 16px;
+  border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 9%, #e7e4ee);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(25, 26, 36, 0.04),
+    0 16px 30px -26px rgba(25, 26, 36, 0.38);
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 260ms ease;
+}
+.ws-year-timeline .yt-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 28%, #e7e4ee);
+  box-shadow:
+    0 2px 4px rgba(25, 26, 36, 0.05),
+    0 26px 42px -30px rgba(25, 26, 36, 0.4);
+}
+/* Approved months keep their colour instead of fading to grey. */
+.ws-year-timeline li.plan-approved .yt-card {
+  opacity: 1;
+  filter: none;
+  background: #ffffff;
+  border-color: color-mix(in srgb, #1f7a5a 22%, #e7e4ee);
+}
+.ws-year-timeline li.plan-approved .yt-card:hover {
+  opacity: 1;
+}
+.ws-year-timeline li.approved .yt-card {
+  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 22%, #e7e4ee);
+  border-left-color: var(--a1, #5b4fd6);
+}
+
+.ws-year-timeline .yt-title em {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--a1, #5b4fd6) 72%, #4a4657);
+}
+.ws-year-timeline .yt-title h3 {
+  margin: 5px 0 6px;
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+}
+.ws-year-timeline .yt-title p {
+  max-width: 72ch;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.ws-year-timeline .yt-target {
+  gap: 6px;
+}
+.ws-year-timeline .yt-target strong {
+  font-size: 29px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+.ws-year-timeline .yt-target small {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #eef6f1;
+  color: #1b7357;
+  font-size: 10.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.ws-year-timeline .yt-target small.neg {
+  background: #fdf0ec;
+  color: #ac4c3b;
+}
+.ws-year-timeline .yt-renew {
+  font-size: 11.5px;
+}
+.ws-year-timeline .yt-renew i {
+  width: 84px;
+  height: 5px;
+  background: color-mix(in srgb, var(--a1, #5b4fd6) 9%, #eef0f4);
+}
+.ws-year-timeline .yt-grid > div {
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 8%, #eeeaf1);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff, color-mix(in srgb, var(--a1, #5b4fd6) 3%, #fbfafd));
+}
+.ws-year-timeline .yt-grid small {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.ws-year-timeline .yt-grid b {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--ink);
+}
+.ws-year-timeline .yt-grid i {
+  font-size: 10.5px;
+}
+
+@media (max-width: 560px) {
+  .ws-month-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ws-year-timeline::before {
+    left: 21px;
+  }
+  .ws-year-timeline li {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 8px;
+  }
+  .ws-year-timeline .yt-rail span {
+    width: 44px;
+    height: 44px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-year-timeline .yt-card {
+    transition: none;
+  }
+  .ws-year-timeline .yt-card:hover {
+    transform: none;
+  }
+}
