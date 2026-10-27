@@ -45,7 +45,9 @@
 .mw .mw-main[class*='is-page-'] > .mw-section > .mw-acts,
 .mw .mw-main[class*='is-page-'] > .mw-section > .mp-run,
 .mw .mw-main[class*='is-page-'] > .mw-section > .mw-notes,
-.mw .mw-main[class*='is-page-'] > .mw-section > .mw-final {
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-final,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-assume-wrap,
+.mw .mw-main[class*='is-page-'] > .mw-section > .mw-econ-body {
   margin-right: 0 !important;
   margin-left: 0 !important;
 }
@@ -126,6 +128,41 @@
   background: #2c2939;
   border-color: #2c2939;
   color: #ffffff;
+}
+
+/* Key dates: small photographic tiles on the same paper, one hairline each. */
+.mw .mw-main[class*='is-page-'] .mw-days-grid {
+  gap: 10px;
+}
+.mw .mw-main[class*='is-page-'] .mw-day {
+  border: 1px solid rgba(25, 26, 36, 0.08);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: none;
+}
+.mw .mw-main[class*='is-page-'] .mw-day:hover {
+  transform: translateY(-1px);
+  border-color: rgba(25, 26, 36, 0.16);
+  box-shadow: 0 14px 26px -24px rgba(18, 16, 26, 0.55);
+}
+.mw .mw-main[class*='is-page-'] .mw-day-body {
+  padding: 9px 11px 11px;
+}
+.mw .mw-main[class*='is-page-'] .mw-day-body strong {
+  font-size: 12px;
+  line-height: 1.3;
+  color: #2c2939;
+}
+.mw .mw-main[class*='is-page-'] .mw-day-meta em {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9a97a6;
+}
+.mw .mw-main[class*='is-page-'] .mw-day-meta i {
+  font-size: 9.5px;
+  color: #8b8a99;
 }
 
 /* ═══ Targets & mix ═══════════════════════════════════════════════════════════ */
@@ -1185,8 +1222,34 @@
 .mw .mw-main.is-page-offers .mw-editor {
   margin: 0 26px 20px;
 }
+/* The copilot is a quiet line on the page, not a violet panel above the cards. */
 .mw .mw-main.is-page-offers .mw-copilot {
-  margin: 0 26px 18px;
+  margin: 0 26px 20px;
+  border: 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  border-radius: 0;
+  background: transparent;
+}
+.mw .mw-main.is-page-offers .mw-cp-bar {
+  gap: 10px;
+  padding: 13px 0;
+}
+.mw .mw-main.is-page-offers .mw-cp-badge {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  color: #8b8a99;
+}
+.mw .mw-main.is-page-offers .mw-cp-bar input {
+  border: 1px solid rgba(25, 26, 36, 0.12);
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 9px 14px;
+  font-size: 12px;
+}
+.mw .mw-main.is-page-offers .mw-cp-results {
+  padding: 0 0 14px;
+  gap: 10px;
 }
 
 /* ═══ Execution: the run of the month ═════════════════════════════════════════ */
@@ -2069,7 +2132,262 @@
   color: #6f6b7c;
 }
 
+/* ═══ Execution › marketing & collaterals ════════════════════════════════════ */
+/* The channel previews stay artboards — they are pictures of printed things — but the
+   chrome around them is the same page: a band head, ruled channel columns, quiet titles. */
+.mw .mw-main.is-page-execution .col-section > .col-head {
+  align-items: flex-start;
+  gap: 10px 22px;
+  margin-bottom: 0 !important;
+  padding: 24px 0 14px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mw .mw-main.is-page-execution .col-head small {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #9a97a6;
+}
+.mw .mw-main.is-page-execution .col-head h4 {
+  margin: 7px 0 5px;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #1b1824;
+}
+.mw .mw-main.is-page-execution .col-head p {
+  max-width: 78ch;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #7b7887;
+}
+.mw .mw-main.is-page-execution .col-edit-heading {
+  border-bottom: 1px solid rgba(25, 26, 36, 0.12);
+  border-radius: 0;
+  background: transparent;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+.mw .mw-main.is-page-execution .col-edit-sub {
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  border-radius: 0;
+  background: transparent;
+  font-size: 11.5px;
+  color: #7b7887;
+}
+.mw .mw-main.is-page-execution .col-head-actions button {
+  height: 28px;
+  padding: 0 11px;
+  border: 1px solid rgba(25, 26, 36, 0.12);
+  border-radius: 999px;
+  background: #ffffff;
+  font-size: 10.5px;
+  font-weight: 650;
+  color: #4a4657;
+  box-shadow: none;
+}
+.mw .mw-main.is-page-execution .col-section > .col-tabs {
+  gap: 24px;
+  margin: 18px 0 4px;
+}
+.mw .mw-main.is-page-execution .col-tab-group {
+  padding: 13px 0 0;
+  border: 0;
+  border-top: 2px solid var(--g, #6ccff6);
+  border-radius: 0;
+  background: transparent;
+}
+.mw .mw-main.is-page-execution .col-tab-group > span {
+  padding: 0 0 7px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  color: #9a97a6;
+}
+.mw .mw-main.is-page-execution .col-section .col-tab-group button {
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.06);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 11.5px;
+  font-weight: 620;
+  color: #4a4657;
+}
+.mw .mw-main.is-page-execution .col-section .col-tab-group button:hover {
+  border-color: rgba(25, 26, 36, 0.16);
+  color: #1b1824;
+}
+.mw .mw-main.is-page-execution .col-section .col-tab-group button.is-on {
+  padding-left: 10px;
+  background: transparent;
+  color: #1b1824;
+  box-shadow: inset 2px 0 0 var(--g, #6ccff6);
+}
+.mw .mw-main.is-page-execution .col-row {
+  padding: 24px 0;
+  border-top-color: rgba(25, 26, 36, 0.07);
+}
+.mw .mw-main.is-page-execution .col-spec header span {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(25, 26, 36, 0.1);
+  background: #faf9f7;
+  color: #6f6b7c;
+}
+.mw .mw-main.is-page-execution .col-spec header b {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #1b1824;
+}
+.mw .mw-main.is-page-execution .col-spec header i {
+  border: 1px solid rgba(25, 26, 36, 0.09);
+  background: #ffffff;
+  color: #6f6b7c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.mw .mw-main.is-page-execution .col-spec ul {
+  gap: 7px;
+  padding-left: 0;
+  list-style: none;
+  font-size: 12px;
+  color: #4a4657;
+}
+.mw .mw-main.is-page-execution .col-spec ul li {
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.55;
+}
+.mw .mw-main.is-page-execution .col-spec ul li::before {
+  content: '';
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 5px;
+  height: 1px;
+  background: rgba(25, 26, 36, 0.28);
+}
+.mw .mw-main.is-page-execution .col-copy {
+  margin-top: 16px;
+  padding: 14px 0 0;
+  border: 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  border-radius: 0;
+  background: transparent;
+}
+.mw .mw-main.is-page-execution .col-copy small {
+  margin-top: 12px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  color: #9a97a6;
+}
+.mw .mw-main.is-page-execution .col-copy p,
+.mw .mw-main.is-page-execution .col-copy pre {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #3f3d4a;
+}
+.mw .mw-main.is-page-execution .col-subjects li {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.06);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+}
+.mw .mw-main.is-page-execution .col-subjects li::before {
+  background: transparent;
+  color: color-mix(in srgb, var(--a1, #5b4fd6) 70%, #7b7887);
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-style: italic;
+  font-size: 12px;
+}
+.mw .mw-main.is-page-execution .col-creative-bar {
+  margin: 0;
+  padding: 16px 0 4px;
+}
+.mw .mw-main.is-page-execution .col-creative-bar label > span {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  color: #9a97a6;
+}
+.mw .mw-main.is-page-execution .col-creative-bar input {
+  border: 0;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.12);
+  border-radius: 0;
+  background: transparent;
+  font-size: 12px;
+  color: #2c2939;
+}
+.mw .mw-main.is-page-execution .cr-stage {
+  gap: 14px;
+}
+
 /* ═══ Responsive and motion ═══════════════════════════════════════════════════ */
+@media (max-width: 760px) {
+  .mw .mw-main[class*='is-page-'] {
+    padding: 14px 14px 30px;
+  }
+  .mw .mw-main[class*='is-page-'] > .mw-section > :not(.mw-sh),
+  .mw .mw-main[class*='is-page-'] > .mw-days > :not(.mw-sh) {
+    margin-right: 18px !important;
+    margin-left: 18px !important;
+  }
+  .mw .mw-main[class*='is-page-'] > .mw-section > .mw-sh,
+  .mw .mw-main[class*='is-page-'] > .mw-days > .mw-sh {
+    padding: 18px 18px 10px;
+  }
+  .mw .mw-main.is-page-execution .mw-acts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw .mw-main.is-page-execution .mw-act {
+    padding: 16px 18px 18px;
+    border-left: 0;
+  }
+  .mw .mw-main.is-page-execution .mw-act:nth-child(2n + 1) {
+    padding-left: 18px;
+  }
+  .mw .mw-main.is-page-execution .mw-acts-kpis {
+    margin: 0 18px;
+    padding: 14px 0 18px;
+  }
+  .mw .mw-maths .mw-assume-wrap,
+  .mw .mw-maths .mw-econ-card {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+  .mw .mw-main.is-page-targets .mw-ai-chart,
+  .mw .mw-main.is-page-targets .mw-ai-rationale,
+  .mw .mw-main.is-page-targets .mw-ai-reasons section,
+  .mw .mw-main.is-page-targets .mw-ai-risks,
+  .mw .mw-main.is-page-targets .mw-ai-weeks-wrap {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+  .mw .mw-main.is-page-targets .mw-ai-rationale {
+    border-left: 0;
+    border-top: 1px solid rgba(25, 26, 36, 0.07);
+  }
+  .mw .mw-main.is-page-execution .mp-run,
+  .mw .mw-main.is-page-offers .mw-offers-board {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+  .mw .mw-main.is-page-offers .mw-copilot,
+  .mw .mw-main.is-page-offers .mw-editor {
+    margin-right: 18px;
+    margin-left: 18px;
+  }
+}
 @media (max-width: 1080px) {
   .mw .mw-main.is-page-targets .mw-fu-top,
   .mw .mw-main.is-page-targets .mw-fu-execution {
