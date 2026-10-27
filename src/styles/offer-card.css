@@ -1,0 +1,759 @@
+/* Sales Plan · month workspace offer cards.
+   A calm paper card: a light hero carries the offer number, status chips, title and a
+   small studio photograph; one sheet below holds the price, forecast and the written
+   mechanic. Colour comes only from the location accent so a card reads like part of
+   the studio's plan rather than a separate widget. */
+
+.mw .oc {
+  --oc-accent: var(--a1, #216657);
+  --oc-line: #e8ede9;
+  --oc-line-soft: #f0f3f0;
+  --oc-ink: #17251f;
+  --oc-muted: #6d7a72;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  border: 1px solid var(--oc-line);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(23, 37, 31, 0.04),
+    0 18px 40px -30px rgba(23, 37, 31, 0.32);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+.mw .oc:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--oc-accent) 22%, var(--oc-line));
+  box-shadow:
+    0 2px 4px rgba(23, 37, 31, 0.05),
+    0 26px 48px -30px rgba(23, 37, 31, 0.38);
+}
+.mw .oc.is-approved {
+  border-color: color-mix(in srgb, #1f8a5f 24%, var(--oc-line));
+  box-shadow:
+    0 1px 2px rgba(23, 37, 31, 0.04),
+    0 18px 40px -30px rgba(16, 72, 50, 0.34);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.mw .oc-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  min-height: 0;
+  padding: 18px 18px 16px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--oc-line);
+  background: radial-gradient(
+      140% 130% at 0% 0%,
+      color-mix(in srgb, var(--oc-accent) 9%, #fff) 0%,
+      rgba(255, 255, 255, 0) 62%
+    ),
+    linear-gradient(180deg, #fdfefd 0%, #f7f9f7 100%);
+}
+.mw .oc-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--oc-accent) 0%, color-mix(in srgb, var(--oc-accent) 26%, #fff) 100%);
+}
+.mw .oc.is-approved .oc-hero::before {
+  background: linear-gradient(90deg, #1f8a5f 0%, #8fd0b1 100%);
+}
+.mw .oc-hero-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.mw .oc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+.mw .oc-num-badge {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid color-mix(in srgb, var(--oc-accent) 30%, #e2e9e3);
+  border-radius: 9px;
+  background: linear-gradient(160deg, #ffffff 0%, color-mix(in srgb, var(--oc-accent) 10%, #fff) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.mw .oc-num-badge > span {
+  font-family: inherit;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--oc-accent) 88%, #10231b);
+  transform: none;
+}
+.mw .oc.is-approved .oc-num-badge {
+  border-color: color-mix(in srgb, #1f8a5f 34%, #e2e9e3);
+  background: linear-gradient(160deg, #ffffff 0%, #eaf6ef 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.mw .oc.is-approved .oc-num-badge > span {
+  color: #14684a;
+}
+
+.mw .oc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 9px;
+  border: 1px solid var(--oc-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #5e6b63;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  backdrop-filter: none;
+}
+.mw .oc-chip svg {
+  flex: none;
+  color: color-mix(in srgb, var(--oc-accent) 62%, #8b978f);
+}
+.mw .oc-chip.is-slot {
+  border-color: color-mix(in srgb, var(--oc-accent) 26%, #e2e9e3);
+  background: color-mix(in srgb, var(--oc-accent) 8%, #fff);
+  color: color-mix(in srgb, var(--oc-accent) 80%, #1b2a23);
+  font-weight: 700;
+}
+.mw .oc-chip.is-stream {
+  border-color: #e3e9ef;
+  background: #f5f8fa;
+  color: #4d5c68;
+}
+.mw .oc-chip.is-linked {
+  border-color: #dceee4;
+  background: #f2faf5;
+  color: #2b7a58;
+}
+.mw .oc-chip.is-linked svg {
+  color: #2b8a63;
+}
+.mw .oc-chip.is-solo {
+  border-color: #f0dfc8;
+  background: #fdf7ee;
+  color: #95631f;
+}
+.mw .oc-chip.is-solo svg {
+  color: #c08a2d;
+}
+.mw .oc-chip.is-icon {
+  padding: 0 7px;
+}
+
+.mw .oc h3.oc-title {
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(19px, 2.05cqi, 23px);
+  font-weight: 760;
+  line-height: 1.16;
+  letter-spacing: -0.027em;
+  color: var(--oc-ink);
+}
+.mw .oc-title-accent {
+  color: color-mix(in srgb, var(--oc-accent) 88%, #10241c);
+}
+.mw .oc .oc-job {
+  margin: 0;
+  font-size: 12.8px;
+  font-style: normal;
+  font-weight: 470;
+  line-height: 1.45;
+  color: var(--oc-muted);
+}
+
+.mw .oc-hero-side {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.mw .oc-hero-thumb {
+  width: 138px;
+  height: 92px;
+  border: 1px solid rgba(19, 39, 30, 0.09);
+  border-radius: 12px;
+  background-color: #eef2ee;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow:
+    0 8px 18px -14px rgba(19, 39, 30, 0.7),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.mw .oc:hover .oc-hero-thumb {
+  transform: scale(1.02);
+}
+
+/* Corner controls sit above the photograph, in the card's own palette. */
+.mw .oc-toolbar {
+  position: static;
+  top: auto;
+  right: auto;
+  z-index: 4;
+}
+.mw .oc-toolbar .oc-icon-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--oc-line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 2px rgba(23, 37, 31, 0.05);
+}
+.mw .oc-toolbar .oc-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #63736a;
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+.mw .oc-toolbar .oc-icon-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--oc-accent) 10%, #fff);
+  color: color-mix(in srgb, var(--oc-accent) 85%, #14251d);
+}
+.mw .oc-toolbar .oc-icon-btn.ai {
+  color: color-mix(in srgb, var(--oc-accent) 78%, #3a7f6a);
+}
+.mw .oc-toolbar .oc-icon-btn.danger:hover:not(:disabled) {
+  background: #fdeeea;
+  color: #b3402f;
+}
+.mw .oc-toolbar .oc-icon-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* ── Sheet ────────────────────────────────────────────────────────────────── */
+.mw .oc-sheet {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 0;
+  padding: 14px 16px 0;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+}
+
+.mw .oc-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 720;
+  letter-spacing: 0.095em;
+  text-transform: uppercase;
+  color: #748179;
+}
+
+/* Price · client value · share of the month, on one quiet band. */
+.mw .oc-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--oc-line);
+  border-radius: 12px;
+  background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--oc-accent) 5%, #ffffff) 0%,
+      color-mix(in srgb, var(--oc-accent) 2%, #fcfdfc) 100%
+    ),
+    #fbfcfb;
+}
+.mw .oc-band-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 9px 13px;
+}
+.mw .oc-band-cell + .oc-band-cell {
+  border-left: 1px solid var(--oc-line-soft);
+}
+.mw .oc-price-line {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+}
+.mw .oc-price-line strong {
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--oc-ink);
+}
+.mw .oc-price-line s {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #9aa49d;
+}
+.mw .oc-band-value {
+  font-size: 15px;
+  font-weight: 730;
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+  color: var(--oc-ink);
+}
+.mw .oc-band-note {
+  overflow: hidden;
+  font-size: 10.8px;
+  line-height: 1.35;
+  color: #6d7a72;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .oc-band-share .oc-band-value {
+  color: color-mix(in srgb, var(--oc-accent) 78%, #17301f);
+}
+.mw .oc-share-bar {
+  position: relative;
+  display: block;
+  height: 4px;
+  margin-top: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eef2ee;
+}
+.mw .oc-share-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--oc-accent) 42%, #fff) 0%, var(--oc-accent) 100%);
+}
+
+.mw .oc-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--oc-line);
+  border-radius: 12px;
+}
+.mw .oc-kpis > div {
+  min-width: 0;
+  padding: 8px 12px;
+  background: #fff;
+}
+.mw .oc-kpis > div + div {
+  border-left: 1px solid var(--oc-line-soft);
+}
+.mw .oc-kpis dt {
+  margin: 0;
+  font-size: 9px;
+  font-weight: 720;
+  letter-spacing: 0.095em;
+  text-transform: uppercase;
+  color: #748179;
+}
+.mw .oc-kpis dd {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 3px 0 0;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 720;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--oc-ink);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .oc-kpis dd small {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #8b968f;
+}
+.mw .oc-kpis dd.is-muted {
+  font-size: 12.5px;
+  font-weight: 580;
+  color: #85918a;
+}
+
+/* The written mechanic — the bit that actually explains the offer. */
+.mw .oc-how {
+  padding: 9px 12px 10px 13px;
+  border-left: 2px solid color-mix(in srgb, var(--oc-accent) 52%, #cfe0d6);
+  border-radius: 2px 10px 10px 2px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--oc-accent) 5%, #fbfdfb) 0%, #fdfefd 74%);
+}
+.mw .oc-how-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.mw .oc-how .oc-label {
+  color: color-mix(in srgb, var(--oc-accent) 45%, #6f7d74);
+}
+.mw .oc-how-tag {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 9.5px;
+  font-style: normal;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9aa49d;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .oc-how p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  margin: 4px 0 0;
+  font-size: 12.3px;
+  line-height: 1.5;
+  color: #3c4a42;
+}
+
+.mw .oc-rows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+  margin: 0;
+}
+.mw .oc-rows > div {
+  display: block;
+  min-width: 0;
+  padding: 0;
+}
+.mw .oc-rows > div + div {
+  border-top: 0;
+}
+.mw .oc-rows dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  font-size: 9px;
+  font-weight: 720;
+  letter-spacing: 0.095em;
+  text-transform: uppercase;
+  color: #748179;
+}
+.mw .oc-rows dt svg {
+  color: color-mix(in srgb, var(--oc-accent) 42%, #9aa49d);
+}
+.mw .oc-rows dd {
+  margin: 3px 0 0;
+  font-size: 12.3px;
+  line-height: 1.45;
+  color: #2a352f;
+}
+
+/* ── Footer & approvals ───────────────────────────────────────────────────── */
+.mw .oc-footer {
+  margin: 0 -16px;
+  border-top: 1px solid var(--oc-line);
+  background: #fcfdfc;
+}
+.mw .oc-footer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding: 8px 16px 9px;
+}
+.mw .oc-why-btn {
+  padding: 4px 8px 4px 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 680;
+  color: color-mix(in srgb, var(--oc-accent) 78%, #2a6a55);
+  cursor: pointer;
+  transition: color 140ms ease;
+}
+.mw .oc-why-btn:hover {
+  color: color-mix(in srgb, var(--oc-accent) 92%, #14352a);
+}
+.mw .oc-why-tags {
+  margin-left: 4px;
+  padding-left: 8px;
+  border-left: 1px solid var(--oc-line);
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 560;
+  letter-spacing: 0.02em;
+  color: #75827a;
+}
+
+.mw .oc .oc-actions .oc-icon-btn {
+  border-color: var(--oc-line);
+  border-radius: 9px;
+  background: #fff;
+  color: #5f6d65;
+}
+.mw .oc .oc-actions .oc-icon-btn:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--oc-accent) 28%, #dfe6e0);
+  background: color-mix(in srgb, var(--oc-accent) 7%, #fff);
+  color: color-mix(in srgb, var(--oc-accent) 85%, #14251d);
+}
+.mw .oc .oc-actions .oc-icon-btn.ai {
+  color: color-mix(in srgb, var(--oc-accent) 78%, #3a7f6a);
+}
+.mw .oc .oc-actions .oc-check {
+  height: 28px;
+  border-color: color-mix(in srgb, var(--oc-accent) 24%, #dfe6e0);
+  background: #fff;
+  color: #26332b;
+}
+.mw .oc .oc-actions .oc-check > i {
+  border-color: color-mix(in srgb, var(--oc-accent) 32%, #cfd9d3);
+}
+.mw .oc .oc-actions .oc-check:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--oc-accent) 55%, #cfd9d3);
+  background: color-mix(in srgb, var(--oc-accent) 7%, #fff);
+  color: color-mix(in srgb, var(--oc-accent) 88%, #14251d);
+}
+.mw .oc .oc-actions .oc-check.is-on {
+  border-color: #177a53;
+  background: #177a53;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(23, 122, 83, 0.22);
+}
+.mw .oc .oc-actions .oc-check.is-on > i {
+  border-color: #fff;
+  background: #fff;
+  color: #177a53;
+}
+.mw .oc-status-approved {
+  border-color: #bfe3d1;
+  background: #ecf8f2;
+  color: #126b4a;
+}
+
+/* Drawer — white panel under the quiet action bar. */
+.mw .oc-details-body {
+  padding: 10px 16px 15px;
+  border-top: 1px solid var(--oc-line-soft);
+  background: #fff;
+}
+.mw .oc-quote {
+  border-color: color-mix(in srgb, var(--oc-accent) 16%, #e6ebe6);
+  border-left: 3px solid color-mix(in srgb, var(--oc-accent) 60%, #cfe0d6);
+  background: color-mix(in srgb, var(--oc-accent) 5%, #fbfdfb);
+  color: #31423a;
+}
+.mw .oc-rationale-row > span {
+  color: color-mix(in srgb, var(--oc-accent) 76%, #2a6a55);
+}
+.mw .oc-rationale-row > p,
+.mw .oc-rationale-plain {
+  color: #33423a;
+}
+.mw .oc-terms-grid {
+  border-top-color: var(--oc-line);
+}
+.mw .oc-terms-grid dd {
+  color: #33423a;
+}
+
+/* Keep the four-cell strip together until the card is genuinely narrow; the
+   legacy sheet used a 3+1 split at 680px which left one figure stranded. */
+@container (max-width: 680px) {
+  .mw .oc-hero {
+    min-height: 0;
+    padding: 16px 16px 14px;
+  }
+  .mw .oc-sheet {
+    padding: 13px 15px 0;
+  }
+  .mw .oc-kpis {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .mw .oc-kpis > div {
+    border-top: 0;
+  }
+  .mw .oc-kpis > div:nth-child(3),
+  .mw .oc-kpis > div:nth-child(4) {
+    border-left: 1px solid var(--oc-line-soft);
+  }
+}
+
+/* ── Narrow cards: keep the same hierarchy, drop the photograph ───────────── */
+@container (max-width: 620px) {
+  .mw .oc-hero {
+    gap: 12px;
+    padding: 16px 14px 14px;
+  }
+  .mw .oc-hero-side {
+    align-items: center;
+  }
+  .mw .oc-hero-thumb {
+    display: none;
+  }
+  .mw .oc h3.oc-title {
+    font-size: 18.5px;
+  }
+  .mw .oc-sheet {
+    padding: 12px 14px 0;
+  }
+  .mw .oc-band {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .mw .oc-band-cell.oc-band-share {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--oc-line-soft);
+    border-left: 0;
+  }
+  .mw .oc-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .mw .oc-kpis > div:nth-child(3) {
+    border-left: 0;
+  }
+  .mw .oc-kpis > div:nth-child(n + 3) {
+    border-top: 1px solid var(--oc-line-soft);
+  }
+  .mw .oc-rows {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+  .mw .oc-footer {
+    margin: 0 -14px;
+  }
+  .mw .oc-footer-bar {
+    padding: 8px 14px 9px;
+  }
+  .mw .oc-details-body {
+    padding: 8px 14px 14px;
+  }
+}
+
+/* Two-up cards are laid out as a subgrid, so they opt out of container queries;
+   mirror the compact spacing here instead. */
+.mw .mw-offer-list.is-two-up .oc-hero {
+  flex-direction: row;
+  min-height: 0;
+  height: auto;
+  padding: 16px 14px 14px;
+}
+.mw .mw-offer-list.is-two-up .oc-hero-thumb {
+  display: none;
+}
+.mw .mw-offer-list.is-two-up .oc-num-badge {
+  width: 28px;
+  height: 28px;
+}
+.mw .mw-offer-list.is-two-up .oc-num-badge > span {
+  font-size: 12px;
+}
+.mw .mw-offer-list.is-two-up .oc h3.oc-title {
+  font-size: 18.5px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-job {
+  font-size: 12.5px;
+}
+.mw .mw-offer-list.is-two-up .oc-sheet {
+  padding: 12px 14px 0;
+}
+.mw .mw-offer-list.is-two-up .oc-band {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.mw .mw-offer-list.is-two-up .oc-band-cell.oc-band-share {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--oc-line-soft);
+  border-left: 0;
+}
+.mw .mw-offer-list.is-two-up .oc-kpis {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mw .mw-offer-list.is-two-up .oc-kpis > div:nth-child(3) {
+  border-left: 0;
+}
+.mw .mw-offer-list.is-two-up .oc-kpis > div:nth-child(n + 3) {
+  border-top: 1px solid var(--oc-line-soft);
+}
+.mw .mw-offer-list.is-two-up .oc-rows {
+  grid-template-columns: 1fr;
+  gap: 9px;
+}
+.mw .mw-offer-list.is-two-up .oc-footer {
+  /* Keep the footer pinned to the bottom of the taller of the two aligned cards. */
+  margin: auto -14px 0;
+}
+.mw .mw-offer-list.is-two-up .oc-footer-bar {
+  padding: 8px 14px 9px;
+}
+.mw .mw-offer-list.is-two-up .oc-details-body {
+  padding: 8px 14px 14px;
+}
+
+/* ── Offer-list chrome around the cards ───────────────────────────────────── */
+.mw .mw-offer-group-title {
+  color: #5d6b63;
+}
+.mw .mw-offer-group-count {
+  border-color: color-mix(in srgb, var(--a1, #216657) 18%, #e2e9e3);
+  background: color-mix(in srgb, var(--a1, #216657) 8%, #fff);
+  color: color-mix(in srgb, var(--a1, #216657) 80%, #1c2a24);
+}
+.mw .mw-offer-group-head > i {
+  background: linear-gradient(90deg, #e4eae5 0%, rgba(228, 234, 229, 0.2) 100%);
+}
+.mw .mw-offer-group-sum {
+  border-color: #e6ebe6;
+  background: #f7f9f7;
+  color: #1b2a23;
+}
+.mw .mw-offer-stream-pill {
+  border-color: #e6ebe6;
+  background: linear-gradient(180deg, #ffffff 0%, #fafcfa 100%);
+  box-shadow: 0 1px 3px rgba(23, 37, 31, 0.04);
+}
+.mw .mw-offer-stream-pill .mw-offer-group-sum {
+  border-color: #e2e9e3;
+  background: color-mix(in srgb, var(--a1, #216657) 6%, #fff);
+}
