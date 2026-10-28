@@ -82,6 +82,8 @@ export const INTENTS: IntentSpec[] = [
       /outlook|projection|what does (?:the )?year/,
       /\b20\d{2}\b.*\byear\b|\byear\b.*\b20\d{2}\b/,
       /annual (?:target|plan|outlook|summary)|twelve months|12 months/,
+      /^(?:summary|overview|snapshot)\b/, /how are we doing|how(?:'s| is) (?:it|the year|business)/,
+      /on track|will we (?:hit|make)|are we going to (?:hit|make)/,
     ],
     boost: [/year|annual|quarter|months?/],
     examples: ['Which months in 2027 look hardest and why?', 'Give me the Q2 outlook'],
@@ -152,6 +154,7 @@ export const INTENTS: IntentSpec[] = [
       /who are our (?:best|most valuable|loyal)/,
       /high.?value|vip|top members?/,
       /at.?risk (?:members?|clients?)/,
+      /how many (?:active )?members|member count|how big is (?:the )?(?:base|membership|member base)/,
     ],
     boost: [/segment|cohort|members?|clients?/],
     examples: ['Break the member base into segments'],
@@ -165,6 +168,7 @@ export const INTENTS: IntentSpec[] = [
       /memberships? vs|packs? vs|retail/,
       /what (?:carries|drives|makes|brings) (?:the )?(?:revenue|sales|money)/,
       /revenue mix|sales mix|top products?|which products?/,
+      /^revenue\b|recurring revenue|\bmrr\b|\barr\b|where does (?:the )?revenue come from/,
     ],
     boost: [/product|category|mix|sell/],
     examples: ['What is carrying revenue at Kenkere House?'],
@@ -225,6 +229,7 @@ export const INTENTS: IntentSpec[] = [
       /(?:raise|increase|cut|drop|lower) (?:the )?(?:price|discount|fee) /,
       /break.?even/,
       /if we (?:raise|cut|sell|convert|get)/,
+      /should we (?:discount|raise|cut|lower|increase)/,
     ],
     boost: [/if|scenario|simulate|break.?even/],
     weight: 1.2,
@@ -247,6 +252,7 @@ export const INTENTS: IntentSpec[] = [
       /what(?:s| is) (?:the )?plan/,
       /month plan|monthly plan/,
       /brief|playbook/,
+      /what should we (?:do|focus on)|where should we focus|priorit/,
     ],
     boost: [/plan|theme|strategy|objective/],
     examples: ['What is the plan for April?'],
@@ -346,11 +352,16 @@ export function classify(input: string): Classification {
     if (score) scores.set(spec.id, score * (spec.weight ?? 1));
   }
 
-  // Question-shape heuristics that keep short follow-ups on topic.
-  if (/^(why|how|and|what about|ok|then)\b/.test(text) && wordTokens.length <= 4) {
+  // Question-shape heuristics that keep very short follow-ups on topic ("why?", "and Bandra?").
+  // Deliberately narrow: "how many members do we have" is a real question, not a follow-up.
+  if (/^(why|how come|and|what about|ok|then|go on|more)\b/.test(text) && wordTokens.length <= 2) {
     scores.set('explain', Math.max(scores.get('explain') ?? 0, 1.4));
   }
   if (/\b(?:hi|hello|hey)\b/.test(text) && wordTokens.length <= 2) scores.set('help', 1.5);
+
+  // A studio name on its own ("kemps?", "bandra") is a request to see that studio.
+  const slot = extractSlots(text);
+  if (!scores.size && slot.studioHint && wordTokens.length <= 3) scores.set('compare_studios', 1.2);
 
   const ranked = [...scores.entries()]
     .map(([id, score]) => ({ id, score }))

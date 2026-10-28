@@ -63,6 +63,14 @@ describe('copilot intent routing', () => {
     ['key days in october', 'key_days'],
     ['open the offer bank', 'navigate'],
     ['hi', 'help'],
+    ['summary', 'year_outlook'],
+    ['how are we doing', 'year_outlook'],
+    ['are we going to hit the year', 'year_outlook'],
+    ['how many members do we have', 'segments'],
+    ['monthly recurring revenue', 'products'],
+    ['should we discount in january', 'what_if'],
+    ['what should we do in october', 'plan_summary'],
+    ['kemps', 'compare_studios'],
   ];
   it.each(cases)('%s → %s', (question, intent) => {
     expect(classify(question).intent).toBe(intent);

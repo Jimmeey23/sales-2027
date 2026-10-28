@@ -465,10 +465,14 @@ const compareStudios: Tool = ctx => {
   rows.sort((a, b) => b.target - a.target);
   const leader = rows[0];
   const steepest = [...rows].filter(row => row.growth != null).sort((a, b) => (b.growth ?? 0) - (a.growth ?? 0))[0];
+  const focus = ctx.studio ? rows.find(row => row.studio.id === ctx.studio?.id) : null;
 
   return {
     type: 'analysis',
-    content: headline(`Studio benchmark · ${ctx.year}`, [
+    content: headline(`Studio benchmark · ${ctx.scopeLabel} · ${ctx.year}`, [
+      focus
+        ? `**${focus.studio.name}**: ${money(focus.target)} target (${focus.growth == null ? 'n/a' : delta(focus.growth)} vs last year), observed AOV ${focus.aov == null ? 'n/a' : money(focus.aov)}, discount depth ${focus.discountRate == null ? 'n/a' : pct(focus.discountRate)}, check-in ${focus.checkinRate == null ? 'n/a' : pct(focus.checkinRate)}.`
+        : '',
       `**${leader?.studio.name}** carries the largest target (${money(leader?.target)}), ${pct(safeDiv(leader?.target ?? 0, rows.reduce((sum, row) => sum + row.target, 0)) ?? 0, 0)} of the group.`,
       `Steepest growth requirement: **${steepest?.studio.name}** at ${steepest?.growth == null ? 'n/a' : delta(steepest.growth)}.`,
       `Observed AOV is ${money(Math.min(...rows.map(row => row.aov ?? Infinity)))}–${money(Math.max(...rows.map(row => row.aov ?? 0)))}; discount depth ranges ${pct(Math.min(...rows.map(row => row.discountRate ?? 1)))}–${pct(Math.max(...rows.map(row => row.discountRate ?? 0)))}.`,
