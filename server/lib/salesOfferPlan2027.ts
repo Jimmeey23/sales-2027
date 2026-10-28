@@ -15,6 +15,10 @@ interface PlanOffer {
   panelPick: boolean;
   name: string;
   tagline: string;
+  /** One plain line: what is sold, at what discount, with what included. */
+  plain?: string;
+  /** The key date this offer is built around, if any. */
+  moment?: string | null;
   'Commercial job': string;
   Mechanics: string;
   'Featured product'?: string;
@@ -49,6 +53,15 @@ const slug = (s: string) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
+
+const safeJson = (value: unknown): Record<string, any> => {
+  try {
+    const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+    return parsed && typeof parsed === 'object' ? (parsed as Record<string, any>) : {};
+  } catch {
+    return {};
+  }
+};
 
 function load(): PlanMonth[] {
   return JSON.parse(fs.readFileSync(path.resolve('server/data/sales-offer-plan-2027.json'), 'utf8'));
@@ -186,6 +199,8 @@ export function applySalesOfferPlan(year: number, userId: number | null) {
                 selected: o.selected,
                 panelPick: o.panelPick,
                 pricing: pricingOf(o),
+                plainUsage: o.plain,
+                moment: o.moment || undefined,
               }),
               userId,
             ).lastInsertRowid as number;
@@ -198,9 +213,36 @@ export function applySalesOfferPlan(year: number, userId: number | null) {
           );
           counts.created++;
         }
-        // Reused rows carry a month from an earlier run, so the month is asserted every time
-        // rather than only when a row is created.
-        db.prepare('UPDATE offers SET month=?, plan_slot=?, plan_rank=?, updated_at=CURRENT_TIMESTAMP WHERE id=?').run(
+        // A reused row is refreshed, not just re-dated: edited names, plain lines and moments in
+        // the plan have to reach the database without clearing every offer and re-inserting it.
+        const prior = db.prepare('SELECT provenance FROM offers WHERE id=?').get(id) as any;
+        const merged = {
+          ...(prior ? safeJson(prior.provenance) : {}),
+          sourceKey,
+          source: SOURCE,
+          linkGroup: group,
+          selected: o.selected,
+          panelPick: o.panelPick,
+          plainUsage: o.plain,
+          moment: o.moment || undefined,
+        };
+        if (merged.moment === null) delete merged.moment;
+        db.prepare(
+          `UPDATE offers SET name=?, headline=?, benefit=?, customer_copy=?, rationale=?,
+             provenance=?, month=?, plan_slot=?, plan_rank=?, updated_at=CURRENT_TIMESTAMP WHERE id=?`,
+        ).run(
+          o.name,
+          o['Commercial job'],
+          o.Mechanics,
+          o.tagline,
+          [
+            `Why: ${o['Why it works']}`,
+            o['What to watch'] ? `Watch: ${o['What to watch']}` : '',
+            o.Model ? `Model: ${o.Model}` : '',
+          ]
+            .filter(Boolean)
+            .join('\n'),
+          JSON.stringify(merged),
           o.selected || o.include ? m.month : null,
           o.stream,
           o.selected ? 1 : 2,

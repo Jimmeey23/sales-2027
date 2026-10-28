@@ -30,7 +30,7 @@ export const MONTH_COVER_PHOTOS: HeroPhoto[] = [
   { url: '/p57/pro/p01.jpg', pos: '50% 32%' }, // January — under the lights
   { url: '/p57/pro/p15.jpg', pos: '50% 26%' }, // February — the pair
   { url: '/p57/pro/p03.jpg', pos: '50% 34%' }, // March — the clean return
-  { url: '/p57/pro/n09.jpg', pos: '50% 24%' }, // April — shimmer, for the gold treatment
+  { url: '/p57/april-anniversary.jpg', pos: '50% 46%' }, // April — the studio at night, in gold
   { url: '/p57/pro/p21.jpg', pos: '50% 46%' }, // May — the room after
   { url: '/p57/pro/p12.jpg', pos: '50% 30%' }, // June — cool light, the freeze
   { url: '/p57/pro/n17.jpg', pos: '50% 40%' }, // July — rows, attendance

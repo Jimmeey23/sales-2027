@@ -1454,3 +1454,15 @@
     transform: scale(1.02);
   }
 }
+
+/* The moment a card is built around — the key date from the month's calendar. */
+.mw .oc-chip.is-moment {
+  border: 1px solid color-mix(in srgb, var(--a1) 34%, transparent);
+  background: color-mix(in srgb, var(--a1) 12%, #ffffff);
+  color: color-mix(in srgb, var(--a1) 72%, #1b1824);
+  font-weight: 650;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

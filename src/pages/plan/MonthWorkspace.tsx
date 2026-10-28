@@ -5135,7 +5135,12 @@ function OfferCard({
         .replace(/\s*\([^)]*\)/g, '')
         .replace(/\s+/g, ' ')
         .trim();
-    const description = firstSentences(o.customer_copy || plain(o.benefit) || plain(mechanicsText), 140);
+    // The plan writes one plain line per offer ("3-month unlimited at 15% off + 2 freezes");
+    // that sentence is the description. Marketing copy is only a fallback.
+    const written = String(o.provenance?.plainUsage || '').trim();
+    const description = written
+      ? written
+      : firstSentences(o.customer_copy || plain(o.benefit) || plain(mechanicsText), 140);
 
     const lead = [headline, discount].filter(Boolean).join(', ');
     const parts = [lead ? (/[.!?]$/.test(lead) ? lead : `${lead}.`) : '', description].filter(Boolean);
@@ -5288,6 +5293,12 @@ function OfferCard({
               </span>
             )}
             {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
+            {o.provenance?.moment && (
+              <span className="oc-chip is-moment" title={`Built around ${o.provenance.moment} this month`}>
+                <CalendarHeart size={10} />
+                {o.provenance.moment}
+              </span>
+            )}
             <span
               className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
               title={linked ? 'Runs at all locations' : 'This location only'}

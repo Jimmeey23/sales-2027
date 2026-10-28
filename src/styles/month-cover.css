@@ -1461,14 +1461,6 @@
   filter: drop-shadow(0 22px 48px rgba(230, 193, 106, 0.28));
 }
 
-/* ── Smaller screens ──────────────────────────────────────────────────────── */
-/* Text keeps clear of the medallion on wide screens instead of running underneath it. */
-@media (min-width: 1181px) {
-  .mw-monthcover.is-birthday .mc-hero {
-    padding-right: 232px;
-  }
-}
-
 @media (max-width: 1180px) {
   .mc-medallion {
     width: 168px;
@@ -1545,73 +1537,230 @@
   pointer-events: none;
 }
 
-/* ═══ April · the garland band ════════════════════════════════════════════════
-   The decorations must never sit on top of the month navigation. Bunting and the
-   crest therefore live in a real band above the sheet — a flex row with its own
-   height — instead of floating over the page. The navigation starts below it, so
-   it cannot be covered at rest or while the sheet scrolls. */
-.mc-garland {
-  position: relative;
-  z-index: 3;
-  flex: 0 0 auto;
-  height: 92px;
-  pointer-events: none;
+/* ═══ April · the anniversary cover, second cut ═══════════════════════════════
+   The month navigation lives at the top right of the sheet and must stay there.
+   Nothing here is allowed into that corner: the bunting stops short of it, the
+   medallion sits behind the title, and the crest is a badge in the hero's own flow.
+   Everything is decorative, so all of it is pointer-events: none. */
+
+/* The crest, now a badge in the hero rather than a floating chip. */
+.mw-monthcover.is-birthday .mc-crest {
+  position: static;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 4px;
+  padding: 6px 15px 6px 7px;
+  border: 1px solid rgba(230, 193, 106, 0.45);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(66, 26, 80, 0.66), rgba(30, 12, 42, 0.74));
+  backdrop-filter: blur(12px) saturate(130%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 18px 40px -28px rgba(0, 0, 0, 0.9);
+  animation: mc-rise 0.8s 0.14s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
-.mc-garland .mc-bunting {
-  position: absolute;
-  inset: 0;
-  height: auto;
-}
-.mc-garland .mc-bunting::before {
-  top: 26px;
-}
-.mc-garland .mc-bunting i {
-  top: 26px;
-}
-/* The crest hangs in the gap left for it in the middle of the garland. */
-.mc-garland .mc-crest {
-  top: 18px;
-  right: 0;
+
+/* Bunting pinned to the top edge, stopping where the controls begin. */
+.mw-monthcover.is-birthday .mc-bunting {
+  top: 0;
   left: 0;
-  width: fit-content;
-  margin-inline: auto;
-  pointer-events: none;
+  right: auto;
+  width: min(58%, 640px);
+  height: 56px;
+  -webkit-mask: linear-gradient(90deg, #000 62%, transparent 100%);
+  mask: linear-gradient(90deg, #000 62%, transparent 100%);
 }
-/* Nothing decorative may intercept a click meant for the controls. */
-.mc-crest,
-.mc-bunting,
-.mc-frame,
-.mc-garland {
-  pointer-events: none;
+.mw-monthcover.is-birthday .mc-bunting::before {
+  top: 9px;
 }
-/* Leave a gap in the garland for the crest to hang in. */
-.mc-bunting i:nth-child(8),
-.mc-bunting i:nth-child(9),
-.mc-bunting i:nth-child(10) {
-  display: none;
+.mw-monthcover.is-birthday .mc-bunting i {
+  top: 9px;
+  left: calc(3% + var(--i) * 8.2%);
+  border-top-width: 20px;
+  border-left-width: 7px;
+  border-right-width: 7px;
 }
 
+/* Type keeps clear of the medallion on wide screens rather than running under it. */
+@media (min-width: 1181px) {
+  .mw-monthcover.is-birthday .mc-hero {
+    padding-right: 208px;
+  }
+}
+
+/* The medallion sits behind the title, clear of the header row above it. */
+.mw-monthcover.is-birthday .mc-medallion {
+  top: 4px;
+  right: 0;
+}
+
+/* ── Motion ────────────────────────────────────────────────────────────────
+   A slow push on the photograph, a light sweeping the gold type, the seal
+   breathing, and the confetti tumbling in three dimensions. */
+
+/* 1. The photograph drifts, so the cover is alive before anything else moves. */
+.mw-monthcover.is-birthday .mc-photo {
+  animation: mc-kenburns 26s ease-in-out infinite alternate;
+  transform-origin: 50% 46%;
+}
+@keyframes mc-kenburns {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.4%, -1.8%, 0);
+  }
+}
+
+/* 2. A gold light sweeps across the month name, once every few seconds. */
+.mw-monthcover.is-birthday .mc-hero h2 {
+  background: linear-gradient(
+    100deg,
+    #fff8e3 0%,
+    var(--mc-gold) 18%,
+    #fff8e3 30%,
+    var(--mc-gold) 42%,
+    var(--mc-gold-deep) 78%,
+    #fff8e3 100%
+  );
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation:
+    mc-rise 1s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    mc-sheen 9s 1.2s linear infinite;
+}
+@keyframes mc-sheen {
+  0% {
+    background-position: 190% 0;
+  }
+  55%,
+  100% {
+    background-position: -40% 0;
+  }
+}
+
+/* 3. The medallion turns slowly and its crown breathes. */
+.mw-monthcover.is-birthday .mc-med-ring {
+  animation: mc-coin 14s ease-in-out infinite;
+}
+@keyframes mc-coin {
+  0%,
+  100% {
+    transform: rotate(-1.6deg) scale(1);
+  }
+  50% {
+    transform: rotate(1.6deg) scale(1.03);
+  }
+}
+.mw-monthcover.is-birthday .mc-med-crown {
+  animation: mc-crown-bob 4.4s ease-in-out infinite;
+}
+@keyframes mc-crown-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+}
+
+/* 4. Confetti tumbles in three dimensions rather than sliding down a page. */
+.mw-monthcover.is-birthday .mc-confetti i {
+  animation-name: mc-tumble;
+  animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+}
+@keyframes mc-tumble {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -14vh, 0) rotate3d(1, 1, 0.4, 0deg);
+  }
+  8% {
+    opacity: 0.95;
+  }
+  48% {
+    transform: translate3d(calc(var(--dr, 0px) * 0.5), 50vh, 0) rotate3d(1, 1, 0.4, calc(var(--spin, 360deg) * 0.55));
+  }
+  92% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dr, 0px), 114vh, 0) rotate3d(1, 1, 0.4, var(--spin, 360deg));
+  }
+}
+
+/* 5. The seal pulls at the eye a little more than a button normally would. */
+.mw-monthcover.is-birthday .mc-open {
+  animation: mc-seal 3.6s ease-in-out infinite;
+}
+@keyframes mc-seal {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(230, 193, 106, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(230, 193, 106, 0.14);
+  }
+}
+
+/* 6. The story band lifts in after the numbers rather than with them. */
+.mw-monthcover.is-birthday .mc-story-col {
+  animation: mc-rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mw-monthcover.is-birthday .mc-story-col:nth-child(1) {
+  animation-delay: 0.75s;
+}
+.mw-monthcover.is-birthday .mc-story-col:nth-child(2) {
+  animation-delay: 0.87s;
+}
+.mw-monthcover.is-birthday .mc-story-col:nth-child(3) {
+  animation-delay: 0.99s;
+}
+
+/* ── Narrower screens ─────────────────────────────────────────────────────── */
+@media (max-width: 1180px) {
+  .mw-monthcover.is-birthday .mc-medallion {
+    width: 158px;
+    height: 158px;
+    top: 10px;
+  }
+  .mw-monthcover.is-birthday .mc-med-ring b {
+    font-size: 68px;
+  }
+}
 @media (max-width: 900px) {
-  .mc-garland {
-    height: 78px;
+  .mw-monthcover.is-birthday .mc-bunting {
+    width: 46%;
   }
 }
-@media (max-width: 560px) {
-  .mc-garland {
-    height: 68px;
+@media (max-width: 640px) {
+  .mw-monthcover.is-birthday .mc-bunting,
+  .mw-monthcover.is-birthday .mc-medallion {
+    display: none;
   }
-  .mc-garland .mc-crest {
-    top: 14px;
-    padding: 5px 11px 5px 6px;
-  }
-  .mc-garland .mc-bunting::before,
-  .mc-garland .mc-bunting i {
-    top: 22px;
+  .mw-monthcover.is-birthday .mc-hero h2 {
+    font-size: clamp(52px, 16vw, 76px);
   }
 }
 
-/* The garland takes real height, so the sheet must not also claim a full 100%:
-   together they would overflow the cover and clip the footer. */
-.mw-monthcover.is-birthday .mc-scroll {
-  min-height: 0;
+/* ── Motion off ───────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mw-monthcover.is-birthday .mc-photo,
+  .mw-monthcover.is-birthday .mc-hero h2,
+  .mw-monthcover.is-birthday .mc-med-ring,
+  .mw-monthcover.is-birthday .mc-med-crown,
+  .mw-monthcover.is-birthday .mc-open,
+  .mw-monthcover.is-birthday .mc-story-col {
+    animation: none;
+  }
+  .mw-monthcover.is-birthday .mc-hero h2 {
+    color: var(--mc-gold);
+    -webkit-text-fill-color: var(--mc-gold);
+    background: none;
+  }
 }

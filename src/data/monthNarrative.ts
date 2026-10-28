@@ -61,7 +61,8 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
   {
     theme: 'The Re-Up',
     kicker: 'The renewal book',
-    moment: 'The annual book signed a year ago comes due in one block, while trial demand converts without paid media.',
+    moment:
+      'New Year sets the intent; the annual book signed a year ago comes due in one block just as trial demand converts without paid media.',
     objective:
       'Re-sign the expiring annual book at full value and convert trial demand at list — with no discount anchor set for the year.',
     brief:
@@ -74,7 +75,7 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
     theme: 'The Second Seat',
     kicker: 'Referral, not discount',
     moment:
-      'New clients arrive in pairs — one member brings another — so the second seat is the product the month sells.',
+      'Valentine’s Day arrives on the 14th, and it prices the second seat: new clients arrive in pairs, so the pair is the product the month sells.',
     objective:
       'Grow new clients through the second seat: a duo rate that prices the companion membership, a referral credit paid in classes, and a winback for members who left as a pair.',
     brief:
@@ -86,7 +87,7 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
     theme: 'The Homecoming',
     kicker: 'The winback',
     moment:
-      'The oldest cohort on the book — the launch-year members — is the largest reactivation pool the studio has.',
+      'International Women’s Day on the 8th is the day the whole audience is already talking about itself, and the oldest cohort on the book is waiting to be invited back.',
     objective:
       'Rebuild the reactivation stream: bring the lapsed launch cohort home, and close trials inside the month instead of letting them slide.',
     brief:
@@ -98,7 +99,7 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
     theme: 'Still Shaking',
     kicker: 'The anniversary',
     moment:
-      'The brand turns nine. The flagship is a numbered annual, and the month around it is a birthday programme that fills the room.',
+      'The brand turns nine on the 18th. The flagship is a numbered annual, and the month around it is a birthday programme that fills the room.',
     objective:
       'Sell the flagship of the year — fifty-seven numbered annuals in three tiers, capped and hard-closed — inside a month of anniversary events.',
     brief:
@@ -110,7 +111,8 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
   {
     theme: 'The Afterparty',
     kicker: 'The second purchase',
-    moment: 'April sold the membership. The next thirty days decide whether it becomes a habit or a receipt.',
+    moment:
+      'Mother’s Day on the 9th gifts the second seat, inside a month that April’s buyers decide will be a habit or a receipt.',
     objective: 'Turn the anniversary cohort into a habit: eight classes inside thirty days, then the second purchase.',
     brief:
       'May is the month that makes April real. Every coronation member gets a thirty-day plan — a call in the first week, eight classes by month end, one hosted class — and the ask at the end of it is the second purchase. Upgrades take whoever is ready for a longer term, and a winback catches the buyers who never came back, because an April receipt with no visits is churn with better stationery.',
@@ -121,7 +123,7 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
     theme: 'The Freeze',
     kicker: 'Retention',
     moment:
-      'The book is under pressure from cancellation intent — and a cancellation is a decision that can still be dated instead of taken.',
+      'Father’s Day on the 20th is the month’s one open door; behind it the book is under pressure from cancellation intent, and a cancellation can still be dated instead of taken.',
     objective:
       'Protect the book: convert cancellation intent into dated freezes, keep the direct debits alive, and hold intake with a low-commitment newcomer offer.',
     brief:
@@ -132,7 +134,8 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
   {
     theme: 'The Attendance Book',
     kicker: 'Engagement',
-    moment: 'Renewal is decided weeks after attendance moves, which makes attendance the month’s revenue lever.',
+    moment:
+      'The monsoon settles in and decides attendance, and attendance is what decides renewal — so attendance is the month’s revenue lever.',
     objective: 'Hold attendance so the renewals that fall due actually land, and price the renewal before the drop.',
     brief:
       'July works on behaviour rather than price. A streak makes showing up visible, a small grace on late cancels removes the excuse that ends a habit, and a leaderboard turns consistency into a small status symbol. The renewal ladder is offered to people who are still coming, because a renewal argued while the habit is alive is a different conversation from one argued after it has died.',
@@ -142,7 +145,8 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
   {
     theme: 'The Upgrade',
     kicker: 'The term ladder',
-    moment: 'The one-month book is the largest pool of members whose commitment can be lengthened.',
+    moment:
+      'Friendship Day on the first Sunday brings the friend, and Women’s Day on the 9th brings the room; the one-month book is the pool whose commitment can be lengthened.',
     objective:
       'Move the one-month book onto longer terms — one to three to six — priced on commitment, and fill the new seats by referral.',
     brief:
@@ -153,7 +157,8 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
   {
     theme: 'The Comeback Cohort',
     kicker: 'Reactivation at scale',
-    moment: 'The lapsed book is large enough to reactivate as a single cohort with one start date.',
+    moment:
+      'World Heart Day on the 29th gives the cohort its start date, and the lapsed book is large enough to come back as one.',
     objective:
       'Reactivate the lapsed book at scale — one cohort, one start date, one finish line — and step the book into the final quarter.',
     brief:
@@ -164,7 +169,8 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
   {
     theme: 'The Gifting Window',
     kicker: 'Gifting as revenue',
-    moment: 'Gift cards and gift annuals are a revenue stream that costs no discount — if they are priced and banked.',
+    moment:
+      'Diwali on the 29th is the one window a year people buy a membership for someone else: gift cards and gift annuals are a revenue stream that costs no discount, if they are priced and banked.',
     objective:
       'Add revenue that survives the month — gift cards, gifting annuals and a second annual wave — with no promo-code discounting.',
     brief:
@@ -180,14 +186,15 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
     objective:
       'Take the year’s biggest commitment window without discounting the year: capped numbered annuals, a closed date, and a renewal ladder on the expiring book.',
     brief:
-      'November sells time, at the moment the market is willing to buy it. The second wave of numbered annuals opens to the list first and closes on a date, the renewal ladder re-signs whatever comes due, and the winback catches anyone who let a membership lapse during the year. The discipline is the same as April: cap the seats, close the date, hold the price.',
+      'Black Friday on the 26th, with Singles’ Day on the 11th ahead of it, is when November sells time — at the moment the market is willing to buy it. The second wave of numbered annuals opens to the list first and closes on a date, the renewal ladder re-signs whatever comes due, and the winback catches anyone who let a membership lapse during the year. The discipline is the same as April: cap the seats, close the date, hold the price.',
     risk: 'A discount week that discounts the year. An annual sold at forty percent off is sold at forty percent off forever.',
     signature: 'A second numbered-annual wave: remaining seats only, opening on the list and closing on a date.',
   },
   {
     theme: 'Wrapped, Then Renewed',
     kicker: 'Data-led renewal',
-    moment: 'Every member’s own year of attendance is the argument for the next one — and it is already in the data.',
+    moment:
+      'Christmas on the 25th closes the gifting tail, and every member’s own year of attendance is the argument for the next one — already in the data.',
     objective:
       'Renew on usage: a personal year-in-review ending in a renewal prescription, then pre-sell January before the calendar resets.',
     brief:

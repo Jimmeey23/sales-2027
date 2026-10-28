@@ -254,32 +254,18 @@ export default function MonthCover({
           </div>
 
           {/* Bunting strung across the top of the sheet. */}
+          {/* Bunting across the top edge, stopping well before the controls at the right. */}
+          <div className="mc-bunting" aria-hidden="true">
+            {Array.from({ length: 11 }).map((_, i) => (
+              <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
+            ))}
+          </div>
+
           {/* A gilded frame, so the whole page reads as an invitation. */}
           <div className="mc-frame" aria-hidden="true">
             <span />
           </div>
         </>
-      )}
-
-      {/* The garland band. It is a real flex row above the sheet, not an overlay, so the
-          month navigation below it can never be covered - not at rest, not while scrolling. */}
-      {birthday && (
-        <div className="mc-garland" aria-hidden="true">
-          <div className="mc-bunting">
-            {Array.from({ length: 17 }).map((_, i) => (
-              <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
-            ))}
-          </div>
-          <div className="mc-crest">
-            <span className="mc-crest-crown">
-              <Crown size={15} />
-            </span>
-            <span className="mc-crest-copy">
-              <b>The Anniversary</b>
-              <em>Still Shaking · {YEARS_WORD} years</em>
-            </span>
-          </div>
-        </div>
       )}
 
       <div className="mc-scroll">
@@ -321,6 +307,17 @@ export default function MonthCover({
         </header>
 
         <div className="mc-hero">
+          {birthday && (
+            <p className="mc-crest">
+              <span className="mc-crest-crown">
+                <Crown size={15} />
+              </span>
+              <span className="mc-crest-copy">
+                <b>The Anniversary</b>
+                <em>Still Shaking · {YEARS_WORD} years</em>
+              </span>
+            </p>
+          )}
           {birthday && (
             <>
               {/* The year medallion: a struck coin behind the title. */}
