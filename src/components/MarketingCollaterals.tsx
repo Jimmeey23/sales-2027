@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowRight,
   CalendarClock,
@@ -555,7 +555,46 @@ export default function MarketingCollaterals({
   const waLead = ov.waLead ?? 10;
   const emailLead = ov.emailLead ?? 12;
   const tentLead = ov.tentLead ?? 15;
-  const tentFront = ov.tentFront ?? headline;
+  // A tent card is read standing up: it takes the shortest line the voice offers,
+  // so the print stays one confident line the way the studio's own card does.
+  const cardHeadline = [...v.headlines].sort((a, b) => a.length - b.length)[0];
+  const tentFront = ov.tentFront ?? cardHeadline;
+  // One confident line, sized to the measure — a poster fits its line, it never wraps it.
+  const tentHeadSize = Math.min(7.2, 152 / Math.max(8, tentFront.length));
+  const tentKickSize = Math.min(4.05, 100 / Math.max(12, kicker.length));
+  // The card is a fixed print: copy that runs long shrinks the type block instead of
+  // spilling into the foot. Scaled together, so the hierarchy never changes.
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+  const fitCard = useCallback(() => {
+    const el = bodyRef.current;
+    if (!el) return;
+    // Line-clamped boxes report their clamped height to scrollHeight, so measure the
+    // children's real print extent instead.
+    const printed = () => {
+      let bottom = 0;
+      for (const child of Array.from(el.children)) {
+        const c = child as HTMLElement;
+        bottom = Math.max(bottom, c.offsetTop + c.offsetHeight);
+      }
+      return bottom;
+    };
+    let scale = 1;
+    el.style.setProperty('--ct-fit', '1');
+    for (let i = 0; i < 16; i += 1) {
+      if (printed() <= el.clientHeight + 1) break;
+      scale = Math.max(0.68, scale - 0.04);
+      el.style.setProperty('--ct-fit', scale.toFixed(3));
+    }
+  }, []);
+  useEffect(() => {
+    fitCard();
+    const el = bodyRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => fitCard());
+    ro.observe(el);
+    document.fonts?.ready.then(() => fitCard()).catch(() => undefined);
+    return () => ro.disconnect();
+  }, [fitCard, tentFront, kicker, detail, month]);
   const tentBack = ov.tentBack ?? v.closing.join(' ');
   // The back card states the offer in three clauses and closes with two short lines.
   const perks = tentPerks(
@@ -1005,98 +1044,43 @@ export default function MarketingCollaterals({
         </div>
       )}
 
-      {/* Tent card: the printed A-frame, standing on the front desk */}
+      {/* Tent card: the printed face laid onto the card in the studio photograph */}
       {!hiddenChannels.includes('tent') && (
         <div className="col-row is-tent">
           <div className="cr-stage">
             <div className="cr-tent-stage">
-              <div className="ct-depth" aria-hidden="true" />
-              <div className="ct-desk" aria-hidden="true" />
-              <div className="ct-pair">
-                {/* Front: photograph, month seal, then the offer in three sizes of voice. */}
-                <figure className={`cr-tent cr-tent-front is-${layout('tent')}`}>
-                  <span className="ct-fold" aria-hidden="true" />
-                  <div className="ct-sheet">
-                    <div className="ct-photo" style={bg(shots[2])}>
-                      <span className="ct-seal">
-                        <b>{monthName.slice(0, 3)}</b>
-                        <em>only</em>
-                      </span>
-                    </div>
-                    <div className="ct-body">
-                      <img className="ct-logo" src="/p57/logo.png" alt="Physique 57 India" />
-                      <span className="ct-kicker">{kicker}</span>
-                      <h3 className="ct-headline">{tentFront}</h3>
-                      <p className="ct-detail">
-                        {!bare(detail).startsWith(bare(offerName).slice(0, 14)) && <b>{offerName}. </b>}
-                        {cardLine(detail, 148, true)}
-                      </p>
-                    </div>
-                    <div className="ct-foot">
-                      <div className="cr-qr" aria-hidden="true">
-                        {Array.from({ length: 49 }, (_, i) => (
-                          <i key={i} className={(i * 7 + month * 3 + i * i) % 3 ? '' : 'on'} />
-                        ))}
-                      </div>
-                      <div>
-                        <b>Scan to claim</b>
-                        <span>Or ask at reception · {closes}</span>
-                      </div>
-                    </div>
+              <figure className={`cr-tent cr-tent-front is-${layout('tent')}`}>
+                <div className="ct-sheet">
+                  <div className="ct-photo" style={bg(shots[2])}>
+                    <span className="ct-seal">
+                      <b>{monthName.slice(0, 3)}</b>
+                      <em>only</em>
+                    </span>
                   </div>
-                </figure>
-
-                {/* Back: the same offer stated as three perks, closed with the studio's line. */}
-                <figure className="cr-tent cr-tent-back">
-                  <span className="ct-fold" aria-hidden="true" />
-                  <div className="ct-sheet">
-                    <div className="ct-back-head">
-                      <img className="ct-logo is-large" src="/p57/logo.png" alt="Physique 57 India" />
-                      <span className="ct-tagline">Stronger · Leaner · Happier</span>
-                    </div>
-                    <span className="ct-back-label">Your {monthName} perk</span>
-                    <div className="ct-perks">
-                      {perks.map((perk, i) => (
-                        <div key={`${perk.label}-${i}`} className="ct-perk">
-                          <span className="ct-perk-icon">
-                            {perk.icon === 'dumbbell' ? (
-                              <Dumbbell size={16} />
-                            ) : perk.icon === 'clock' ? (
-                              <Clock size={16} />
-                            ) : (
-                              <Star size={16} />
-                            )}
-                          </span>
-                          <b>{perk.label}</b>
-                          <small>{perk.note}</small>
-                        </div>
+                  <div className="ct-body" ref={bodyRef}>
+                    <img className="ct-logo" src="/p57/logo.png" alt="Physique 57 India" />
+                    <span className="ct-kicker" style={{ fontSize: `${tentKickSize.toFixed(2)}cqw` }}>{kicker}</span>
+                    <h3 className="ct-headline" style={{ fontSize: `calc(${tentHeadSize.toFixed(2)}cqw * var(--ct-fit, 1))` }}>
+                      {tentFront}
+                    </h3>
+                    <p className="ct-detail">
+                      {!bare(detail).startsWith(bare(offerName).slice(0, 14)) && <b>{offerName}. </b>}
+                      {cardLine(detail, 104, true)}
+                    </p>
+                  </div>
+                  <div className="ct-foot">
+                    <div className="cr-qr" aria-hidden="true">
+                      {Array.from({ length: 49 }, (_, i) => (
+                        <i key={i} className={(i * 7 + month * 3 + i * i) % 3 ? '' : 'on'} />
                       ))}
                     </div>
-                    <p className="ct-quote">
-                      {backQuote[0]}
-                      {backQuote[1] && (
-                        <>
-                          <br />
-                          {backQuote[1]}
-                        </>
-                      )}
-                    </p>
-                    <div className="ct-back-foot">
-                      <div className="cr-qr" aria-hidden="true">
-                        {Array.from({ length: 49 }, (_, i) => (
-                          <i key={i} className={(i * 5 + month * 7 + i * i) % 3 ? '' : 'on'} />
-                        ))}
-                      </div>
-                      <div>
-                        <b>Scan to claim</b>
-                        <span>Or ask at reception</span>
-                        <span>· {closes}</span>
-                      </div>
-                      <em>physique57.com</em>
+                    <div>
+                      <b>Scan to claim</b>
+                      <span>Or ask at reception · {closes}</span>
                     </div>
                   </div>
-                </figure>
-              </div>
+                </div>
+              </figure>
             </div>
             <Layouts piece="tent" />
           </div>

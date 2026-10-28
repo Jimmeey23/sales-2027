@@ -632,6 +632,14 @@
 .mw .col-section > .col-row.is-custom {
   grid-template-columns: minmax(0, 1fr);
 }
+/* The studio shot is the proof itself, so it is mounted edge to edge. */
+.mw .col-row.is-tent > .cr-stage {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #ece9e4;
+  box-shadow: 0 18px 40px -22px rgba(16, 43, 66, 0.5), inset 0 0 0 1px rgba(16, 43, 66, 0.06);
+}
 .mw .col-section > .col-row > .cr-stage {
   justify-self: center;
   width: 100%;
@@ -924,505 +932,245 @@
   color: #22262c;
 }
 /* ═════════════════════════════════════════════════════════════════════════════
-   The tent card — the studio's printed A-frame, standing on the front desk
-   Photographed: the room falls out of focus behind, a pale marble counter runs
-   across the bottom of the frame, and the two faces of the card stand on it —
-   the front one forward, the back one turned a little away.
-   Each card is its own container, so every measurement inside it is a `cqw` of
-   that card and the whole object scales without redrawing.
+   The tent card — printed on the studio's own front desk
+   The reference is the studio photograph itself (public/p57/tent-scene.jpg):
+   the room behind, the marble counter, the A-frame standing on it and throwing
+   its reflection. The stage is that photograph at its own aspect ratio, and the
+   printed face is laid back onto the card in the shot, at the exact quad its
+   corners trace — solved from the four measured corners, so the print and the
+   photograph are the same object:
+
+     perspective 220.61cqw · rotateX 12.44° · rotateY 7.59° · rotateZ −2.44°
+     left 28.11cqw · top 31.23cqw · width 47.04cqw · height 64.62cqw
+
+   Everything printed inside the face is measured off that card in cqw of the
+   card itself, so the whole piece scales without redrawing.
    ═════════════════════════════════════════════════════════════════════════════ */
 
-/* ── Stage: the room, the counter, the cards ─────────────────────────────── */
+/* ── The stage is the photograph ─────────────────────────────────────────── */
 .mw .col-section > .col-row.is-tent .cr-tent-stage {
   position: relative;
   display: block;
   width: 100%;
   max-width: none;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 1145 / 1374;
   margin: 0 auto;
   padding: 0;
   overflow: hidden;
   border-radius: 14px;
-  background: #eff1f2;
+  background: #ece9e4 url(/p57/tent-scene.jpg) center / 100% 100% no-repeat;
   container-type: inline-size;
   perspective: none;
 }
 
-.mw .col-row.is-tent .ct-depth {
+/* ── The card: laid back onto the one in the photograph ──────────────────── */
+.mw .col-row.is-tent .cr-tent,
+.mw .col-row.is-tent .cr-tent-front {
   position: absolute;
-  inset: 0 0 34% 0;
-  /* The studio's own reception, from public/p57/tent-scene.jpg. Only the band
-     above the printed card in that photograph is used, so nothing of the old
-     print shows: the wall, the wall logo, the arches and the plant. */
-  background: url(/p57/tent-scene.jpg) 50% 0 / 100% auto no-repeat;
-  filter: saturate(0.97) brightness(1.03);
-}
-.mw .col-row.is-tent .ct-depth::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(253, 252, 250, 0.22) 0%, rgba(253, 252, 250, 0.02) 46%, rgba(248, 246, 243, 0.5) 74%, rgba(248, 246, 243, 0.86) 100%);
-}
-
-/* The marble: a pale stone top with a soft sheen, its far edge out of true. */
-.mw .col-row.is-tent .ct-desk {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 34%;
-  /* The same marble, from the band below the card in that photograph, so the
-     top the cards stand on is the studio's own front desk. */
-  background:
-    radial-gradient(70% 130% at 50% 0%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 66%),
-    url(/p57/tent-scene.jpg) 50% 100% / 132cqw auto no-repeat,
-    #e9e5de;
-}
-/* The far edge of the slab: a catch of light, then its own soft shadow. */
-.mw .col-row.is-tent .ct-desk::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 26%;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0 1.5px, rgba(255, 255, 255, 0.2) 2px, rgba(255, 255, 255, 0) 100%),
-    linear-gradient(180deg, rgba(120, 114, 104, 0.14) 0%, rgba(120, 114, 104, 0) 62%);
-  filter: blur(0.7px);
-}
-/* The near lip of the slab, at the bottom of the frame. */
-.mw .col-row.is-tent .ct-desk::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 9%;
-  background: linear-gradient(180deg, rgba(150, 144, 133, 0.16) 0%, rgba(206, 200, 190, 0.28) 46%, rgba(255, 255, 255, 0.5) 100%);
-}
-
-/* ── The pair ────────────────────────────────────────────────────────────── */
-.mw .col-row.is-tent .ct-pair {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 8%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 2.4%;
-  perspective: 2200px;
-  perspective-origin: 50% 68%;
-}
-.mw .col-row.is-tent .ct-pair::before {
-  content: '';
-  position: absolute;
-  left: 14%;
-  right: 14%;
-  bottom: -1.4%;
-  height: 4%;
-  filter: blur(4px);
-  background:
-    radial-gradient(44% 60% at 32% 50%, rgba(44, 40, 33, 0.3) 0%, rgba(44, 40, 33, 0) 74%),
-    radial-gradient(44% 60% at 70% 50%, rgba(44, 40, 33, 0.26) 0%, rgba(44, 40, 33, 0) 74%);
-  pointer-events: none;
-}
-
-/* One card: a printed face with the other leg of the A-frame just showing past
-   its near edge. */
-.mw .col-row.is-tent .cr-tent {
-  position: relative;
-  flex: none;
-  width: 36cqw;
-  max-width: none;
-  aspect-ratio: 210 / 297;
-  height: auto;
+  left: 28.11cqw;
+  top: 31.23cqw;
+  width: 47.04cqw;
+  height: 64.62cqw;
   margin: 0;
+  padding: 0;
   overflow: visible;
   border: 0;
   border-radius: 0;
   background: none;
   box-shadow: none;
   container-type: inline-size;
-  transform-origin: 50% 100%;
+  transform-origin: 0 0;
+  transform: perspective(220.61cqw) rotateX(12.44deg) rotateY(7.59deg) rotateZ(-2.44deg);
   transition: transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.mw .col-row.is-tent .cr-tent:hover { transform: none; }
-
-.mw .col-row.is-tent .cr-tent-front { z-index: 2; transform: rotateY(7deg) rotate(-0.6deg); }
-.mw .col-row.is-tent .cr-tent-back { width: 34.4cqw; z-index: 1; transform: rotateY(-9deg) rotate(-1.1deg); }
-
-/* The stand's second panel: the board's edge, broad at the base, hidden behind
-   the printed face at the top — what tells the eye this is an A-frame. */
-.mw .col-row.is-tent .ct-fold {
-  position: absolute;
-  z-index: 0;
-  top: 46%;
-  bottom: -0.4%;
-  left: -5.2cqw;
-  width: 5.6cqw;
-  clip-path: polygon(100% 0, 100% 100%, 0 100%, 12% 24%);
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0 3%, rgba(255, 255, 255, 0) 9%),
-    linear-gradient(94deg, #e6e0d4 0%, #eeeae0 44%, #f7f4ee 78%, #fdfcf8 100%);
-  box-shadow:
-    inset -0.35cqw 0 0 rgba(122, 114, 100, 0.16),
-    0 0.6cqw 1.2cqw -0.6cqw rgba(60, 52, 40, 0.35);
-}
-/* The crease: a hairline where the near panel turns away from the face. */
-.mw .col-row.is-tent .cr-tent::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 44%;
-  bottom: 0;
-  width: 0.5cqw;
-  background: linear-gradient(180deg, rgba(120, 112, 96, 0) 0%, rgba(120, 112, 96, 0.14) 34%, rgba(120, 112, 96, 0.06) 100%);
-  pointer-events: none;
-}
-.mw .col-row.is-tent .cr-tent-back::after {
-  left: auto;
-  right: 0;
-}
-.mw .col-row.is-tent .cr-tent-back .ct-fold {
-  left: auto;
-  right: -5.2cqw;
-  transform: scaleX(-1);
+/* Hovering only lifts the print a hair — the photograph underneath is the set. */
+.mw .col-row.is-tent .cr-tent:hover,
+.mw .col-row.is-tent .cr-tent-front:hover {
+  transform: perspective(220.61cqw) rotateX(12.44deg) rotateY(7.59deg) rotateZ(-2.44deg);
 }
 
+/* The sheet: the printed panel only. The photograph keeps its own lower flap
+   and shadow below it, so the print stops where the paper in the shot stops. */
 .mw .col-row.is-tent .ct-sheet {
-  position: relative;
+  position: absolute;
+  top: -0.2cqw;
+  right: -0.3cqw;
+  bottom: 5.4%;
+  left: -0.3cqw;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
-  border-radius: 0.6cqw;
-  background: #fff;
-  box-shadow:
-    0 0.2cqw 0.4cqw rgba(24, 28, 33, 0.1),
-    0 1.2cqw 2.2cqw -0.8cqw rgba(38, 33, 26, 0.26),
-    0 4cqw 6cqw -2cqw rgba(38, 33, 26, 0.2);
-  -webkit-box-reflect: below 0.3cqw linear-gradient(to bottom, rgba(38, 42, 48, 0.34), rgba(38, 42, 48, 0.13) 14%, rgba(38, 42, 48, 0.03) 30%, rgba(38, 42, 48, 0) 44%);
-}
-/* The paper's own light: brightest at the top left, shading to the right. */
-.mw .col-row.is-tent .ct-sheet::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(118deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 42%, rgba(122, 112, 96, 0.045) 100%);
+  /* room reserved for the printed foot, so copy can never slide under it */
+  padding-bottom: 23.6cqw;
+  background: #fcfaf6;
+  box-shadow: 0 0.12cqw 0.4cqw rgba(52, 46, 38, 0.1);
 }
 
 /* ── Front face ──────────────────────────────────────────────────────────── */
 .mw .col-row.is-tent .cr-tent-front .ct-photo {
   position: relative;
   flex: none;
-  height: 52cqw;
-  margin: 4.4cqw 4.4cqw 0;
+  height: 51.2cqw;
+  margin: 5.6cqw 4cqw 0;
   background: #d7dce0 no-repeat center / cover;
 }
 
-/* The month seal, printed over the corner of the photograph. */
+/* The month seal: printed over the corner of the photograph. */
 .mw .col-row.is-tent .cr-tent-front .ct-seal {
   position: absolute;
   z-index: 3;
   top: 100%;
-  right: -1.4cqw;
-  transform: translateY(-52%);
+  right: 4.6cqw;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 17cqw;
-  height: 17cqw;
+  width: 19.5cqw;
+  height: 19.5cqw;
   border-radius: 50%;
-  background: #18a3dc;
-  color: #fff;
+  background: #00ace4;
+  color: #ffffff;
   line-height: 1;
   text-align: center;
 }
 .mw .col-row.is-tent .ct-seal b {
   font-family: 'Bodoni Moda', Didot, Georgia, serif;
-  font-size: 6.9cqw;
+  font-size: 7.4cqw;
   font-weight: 500;
 }
 .mw .col-row.is-tent .ct-seal em {
-  margin-top: 1.2cqw;
+  margin-top: 1.5cqw;
   font-style: normal;
-  font-size: 2.1cqw;
+  font-size: 2.55cqw;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .mw .col-row.is-tent .cr-tent-front .ct-body {
+  position: relative; /* offsetTop of the children is measured from here by the print fit */
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   flex-direction: column;
   min-height: 0;
-  padding: 5.6cqw 7cqw 0;
+  overflow: hidden;
+  padding: 0.8cqw 8.9cqw 0;
 }
 .mw .col-row.is-tent .ct-logo {
   display: block;
   flex: none;
-  width: 13.4cqw;
+  width: 10.6cqw;
   height: auto;
-  margin: 0 0 3.6cqw;
+  margin-left: -0.7cqw;
 }
 .mw .col-row.is-tent .ct-kicker {
   display: block;
   flex: none;
-  font-size: 2.9cqw;
+  margin-top: 3.1cqw;
+  overflow: hidden;
+  font-size: 4.05cqw;
   font-weight: 600;
-  letter-spacing: 0.23em;
+  letter-spacing: 0.13em;
   line-height: 1;
   text-transform: uppercase;
-  color: #6d7883;
+  white-space: nowrap;
+  color: #6f7a84;
 }
 .mw .col-row.is-tent .ct-headline {
+  display: block;
   flex: none;
-  margin: 2.1cqw 0 0;
+  margin: 1.9cqw 0 0;
+  overflow: hidden;
+  white-space: nowrap;
   font-family: 'Bodoni Moda', Didot, Georgia, serif;
-  font-size: 7.2cqw;
+  font-size: calc(7.2cqw * var(--ct-fit, 1));
   font-weight: 500;
-  line-height: 1.03;
+  line-height: 1.04;
   letter-spacing: -0.004em;
-  color: #0e141a;
+  color: #0c1116;
 }
 .mw .col-row.is-tent .ct-detail {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-  flex: 0 1 auto;
-  min-height: 0;
-  margin: 2cqw 0 0;
-  overflow: hidden;
-  font-size: 3.25cqw;
-  line-height: 1.38;
-  color: #4f5b66;
-}
-.mw .col-row.is-tent .ct-detail b { font-weight: 700; color: #0e141a; }
-
-/* The foot: a hairline rule, the code, and the line that closes the offer. */
-.mw .col-row.is-tent .cr-tent-front .ct-foot {
-  display: flex;
   flex: none;
-  align-items: center;
-  gap: 4cqw;
-  margin: auto 7cqw 0;
-  padding: 3.8cqw 0 4.8cqw;
-  border-top: 0.26cqw solid #0e141a;
+  min-height: 0;
+  margin: 1.2cqw 0 0;
+  overflow: hidden;
+  font-size: calc(4.05cqw * var(--ct-fit, 1));
+  line-height: 1.26;
+  color: #5a6570;
 }
+.mw .col-row.is-tent .ct-detail b { font-weight: 700; color: #11171d; }
+
+/* The foot: hairline rule, the code, and the line that closes the offer. */
+.mw .col-row.is-tent .cr-tent-front .ct-foot {
+  position: absolute;
+  right: 8.9cqw;
+  bottom: 3cqw;
+  left: 8.9cqw;
+  display: flex;
+  align-items: flex-start;
+  gap: 3.1cqw;
+  padding-top: 2.6cqw;
+  border-top: 0.36cqw solid #0c1116;
+}
+.mw .col-row.is-tent .ct-foot > div:last-child { padding-top: 4.4cqw; }
 .mw .col-row.is-tent .ct-foot b {
   display: block;
-  font-size: 3.3cqw;
+  font-size: 3.9cqw;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
   line-height: 1.1;
   text-transform: uppercase;
-  color: #0e141a;
+  color: #0c1116;
 }
 .mw .col-row.is-tent .ct-foot span {
   display: block;
-  margin-top: 1cqw;
-  font-size: 2.85cqw;
-  line-height: 1.25;
-  color: #6d7883;
+  margin-top: 1.5cqw;
+  font-size: 3.5cqw;
+  line-height: 1.15;
+  color: #6f7a84;
 }
 
 /* ── The QR, printed as part of the sheet ────────────────────────────────── */
 .mw .col-row.is-tent .cr-tent .cr-qr {
   flex: none;
   display: grid;
-  grid-template-columns: repeat(7, 2.35cqw);
-  gap: 0.26cqw;
-  padding: 0.95cqw;
+  grid-template-columns: repeat(7, 2.12cqw);
+  gap: 0.2cqw;
+  padding: 0.66cqw;
   border: 0;
-  background: #fff;
-  box-shadow: 0 0 0 0.26cqw #0e141a;
+  background: #ffffff;
+  box-shadow: 0 0 0 0.34cqw #0c1116;
 }
 .mw .col-row.is-tent .cr-tent .cr-qr i {
-  width: 2.35cqw;
-  height: 2.35cqw;
-  background: #fff;
+  width: 2.12cqw;
+  height: 2.12cqw;
+  background: #ffffff;
 }
-.mw .col-row.is-tent .cr-tent .cr-qr i.on { background: #0e141a; }
+.mw .col-row.is-tent .cr-tent .cr-qr i.on { background: #0c1116; }
 
-/* ── Back face ───────────────────────────────────────────────────────────── */
-/* The back is set as one column: logo, rule, perks, quote, band — the slack
-   spread evenly between them, the way the printed sheet breathes. */
-.mw .col-row.is-tent .cr-tent-back .ct-sheet { justify-content: space-between; }
-.mw .col-row.is-tent .ct-back-head {
-  display: flex;
-  flex: none;
-  flex-direction: column;
-  align-items: center;
-  padding: 6.4cqw 6cqw 0;
-}
-.mw .col-row.is-tent .ct-logo.is-large {
-  width: 30cqw;
-  margin: 0;
-}
-.mw .col-row.is-tent .ct-tagline {
-  margin-top: 2.8cqw;
-  font-size: 2.2cqw;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  line-height: 1;
-  text-transform: uppercase;
-  color: #5f6a75;
-}
-.mw .col-row.is-tent .ct-back-label {
-  position: relative;
-  display: block;
-  flex: none;
-  margin: 4.4cqw 6cqw 0;
-  padding-top: 4.2cqw;
-  font-size: 3cqw;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  line-height: 1;
-  text-align: center;
-  text-transform: uppercase;
-  color: #18a3dc;
-}
-.mw .col-row.is-tent .ct-back-label::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  border-top: 0.22cqw solid #c6ced5;
-}
-
-.mw .col-row.is-tent .ct-perks {
-  display: grid;
-  flex: none;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 4.6cqw 5.2cqw 0;
-  padding-bottom: 4.4cqw;
-  border-bottom: 0.22cqw solid #c6ced5;
-}
-.mw .col-row.is-tent .ct-perk {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 1.2cqw;
-  min-width: 0;
-  text-align: center;
-}
-.mw .col-row.is-tent .ct-perk + .ct-perk { border-left: 0.22cqw solid #dbe2e8; }
-.mw .col-row.is-tent .ct-perk-icon {
-  display: grid;
-  place-items: center;
-  width: 11cqw;
-  height: 11cqw;
-  margin-bottom: 3cqw;
-  border-radius: 50%;
-  background: #e8f4fa;
-  color: #303b45;
-}
-.mw .col-row.is-tent .ct-perk-icon svg { width: 5.4cqw; height: 5.4cqw; stroke-width: 1.7; }
-.mw .col-row.is-tent .ct-perk b {
-  font-size: 2.55cqw;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  color: #0e141a;
-}
-.mw .col-row.is-tent .ct-perk small {
-  margin-top: 1.3cqw;
-  font-size: 2.4cqw;
-  line-height: 1.32;
-  color: #626e79;
-}
-
-.mw .col-row.is-tent .ct-quote {
-  flex: none;
-  margin: 0;
-  padding: 3.8cqw 6cqw;
-  border-bottom: 0.22cqw solid #c6ced5;
-  font-family: 'Bodoni Moda', Didot, Georgia, serif;
-  font-size: 3.8cqw;
-  font-style: italic;
-  line-height: 1.28;
-  text-align: center;
-  color: #16202a;
-}
-
-.mw .col-row.is-tent .ct-back-foot {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 3cqw;
-  padding: 4.2cqw 4.6cqw;
-  background: #e4f3fa;
-}
-.mw .col-row.is-tent .ct-back-foot > div:nth-child(2) { flex: none; }
-.mw .col-row.is-tent .ct-back-foot b {
-  display: block;
-  font-size: 3.1cqw;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  line-height: 1.1;
-  text-transform: uppercase;
-  color: #0e141a;
-}
-.mw .col-row.is-tent .ct-back-foot span {
-  display: block;
-  margin-top: 1cqw;
-  font-size: 2.7cqw;
-  line-height: 1.22;
-  color: #5f6b77;
-}
-.mw .col-row.is-tent .ct-back-foot em {
-  margin-left: auto;
-  font-style: normal;
-  font-size: 1.95cqw;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  line-height: 1.25;
-  text-align: right;
-  text-transform: uppercase;
-  color: #7c8792;
-}
-
-/* ── The other two cuts ──────────────────────────────────────────────────── */
+/* ── Full bleed: the photograph runs to the paper's edge ─────────────────── */
 .mw .col-row.is-tent .cr-tent-front.is-full .ct-photo {
-  height: 56cqw;
+  height: 57cqw;
   margin: 0;
 }
-.mw .col-row.is-tent .cr-tent-front.is-full .ct-seal { right: 5cqw; }
-.mw .col-row.is-tent .cr-tent-front.is-full .ct-body { padding-top: 6.4cqw; }
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-seal { right: 5.4cqw; }
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-body { padding-top: 4.4cqw; }
 
+/* ── Arch: the photograph set in an arch, copy centred beneath ───────────── */
 .mw .col-row.is-tent .cr-tent-front.is-arch .ct-photo {
-  height: 50cqw;
-  border-radius: 27cqw 27cqw 0 0;
+  height: 51.2cqw;
+  border-radius: 25.6cqw 25.6cqw 0 0;
 }
 .mw .col-row.is-tent .cr-tent-front.is-arch .ct-body {
   align-items: center;
-  padding-top: 9.6cqw;
   text-align: center;
 }
 .mw .col-row.is-tent .cr-tent-front.is-arch .ct-headline { font-style: italic; }
 .mw .col-row.is-tent .cr-tent-front.is-arch .ct-foot { align-self: stretch; text-align: left; }
-
-/* ── Narrow columns: the front face carries the offer alone ──────────────── */
-@container (max-width: 620px) {
-  .mw .col-row.is-tent .cr-tent-stage { aspect-ratio: 4 / 5; }
-  .mw .col-row.is-tent .ct-pair { bottom: 6%; height: 80%; }
-  /* Sized by the height it has to stand in, so the card can never be clipped. */
-  .mw .col-row.is-tent .cr-tent-front {
-    width: auto;
-    height: 100%;
-    max-width: 100%;
-  }
-  .mw .col-row.is-tent .cr-tent-back { display: none; }
-  .mw .col-row.is-tent .cr-tent-front .ct-fold { display: none; }
-}
 
 /* ═════════════════════════════════════════════════════════════════════════════
    WhatsApp — one screen, set like the message that actually lands
