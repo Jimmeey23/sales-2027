@@ -3545,7 +3545,8 @@ export default function MonthWorkspace({
                     </div>
                     <div className="mw-gp-cols" aria-hidden="true">
                       <span>Revenue stream</span>
-                      <span>Offer forecast · target</span>
+                      <span>Forecast · target</span>
+                      <span>Share of target</span>
                       <span>Coverage</span>
                     </div>
                     <div className="mw-gp-rows">
