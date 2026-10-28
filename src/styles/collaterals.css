@@ -1130,3 +1130,418 @@
 .mw .col-section .col-row.is-tent .cr-badge em {
   font-size: 1.2cqw;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 23 — the tent card, printed like the studio's own A-frame
+   Two cards stand on the reception counter: the front carries the photograph,
+   the month seal and the offer in three sizes of voice; the back states the same
+   offer as three perks and closes with the studio's line. Everything inside a
+   card is sized in cqw against the card itself, so the pair scales as one object.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* The set: a soft studio behind, a marble counter underfoot. */
+.mw .col-section > .col-row.is-tent .cr-tent-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 16 / 11.5;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #eef1f3;
+  container-type: inline-size;
+  perspective: none;
+}
+
+.mw .col-row.is-tent .ct-scene {
+  position: absolute;
+  inset: 0;
+  background: url(/p57/reception.jpg) center 38% / cover no-repeat;
+  filter: blur(6px) saturate(0.72) brightness(1.16);
+  transform: scale(1.06);
+}
+.mw .col-row.is-tent .ct-scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.3) 46%, rgba(248, 249, 250, 0.9) 100%);
+}
+
+.mw .col-row.is-tent .ct-counter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 21%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0 1px, transparent 1px),
+    radial-gradient(120% 180% at 24% 0%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 46%),
+    linear-gradient(178deg, #f4f2ef 0%, #eae7e2 44%, #e2ded8 100%);
+  box-shadow: 0 -18px 34px -22px rgba(40, 46, 54, 0.35);
+}
+.mw .col-row.is-tent .ct-counter::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(96deg, transparent 22%, rgba(160, 152, 142, 0.16) 24%, transparent 27%, transparent 61%, rgba(160, 152, 142, 0.13) 64%, transparent 68%),
+    linear-gradient(174deg, transparent 44%, rgba(160, 152, 142, 0.12) 46%, transparent 49%);
+  opacity: 0.9;
+}
+
+/* The pair stands on the counter, front card forward. */
+.mw .col-row.is-tent .ct-pair {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: 6%;
+  bottom: 20.5%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4%;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent {
+  position: relative;
+  flex: 0 1 40%;
+  max-width: 320px;
+  width: auto;
+  height: auto;
+  aspect-ratio: 210 / 297;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 2px;
+  background: #ffffff;
+  container-type: inline-size;
+  box-shadow:
+    0 1px 1px rgba(20, 26, 33, 0.08),
+    0 2px 4px rgba(20, 26, 33, 0.06),
+    0 26px 40px -26px rgba(20, 26, 33, 0.5);
+  -webkit-box-reflect: below 4px linear-gradient(to bottom, rgba(30, 36, 44, 0.13), rgba(30, 36, 44, 0) 30%);
+  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.mw .col-section .col-row.is-tent .cr-tent:hover {
+  transform: none;
+}
+.mw .col-row.is-tent .cr-tent-front {
+  transform: perspective(2600px) rotateY(2.4deg) translateY(-1.5%);
+  z-index: 2;
+}
+.mw .col-row.is-tent .cr-tent-back {
+  transform: perspective(2600px) rotateY(-2.4deg);
+  z-index: 1;
+}
+
+/* ── Front card ──────────────────────────────────────────────────────────── */
+.mw .col-row.is-tent .cr-tent-front .ct-photo {
+  position: relative;
+  flex: none;
+  height: 40%;
+  background: #d8dde2 no-repeat center / cover;
+}
+.mw .col-row.is-tent .cr-tent-front .ct-seal {
+  position: absolute;
+  z-index: 3;
+  top: 100%;
+  right: 6%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 20cqw;
+  height: 20cqw;
+  border: 0.8cqw solid #ffffff;
+  border-radius: 50%;
+  background: #14a0d8;
+  color: #ffffff;
+  line-height: 1;
+  text-align: center;
+  box-shadow: 0 2px 10px -2px rgba(11, 60, 84, 0.35);
+}
+.mw .col-row.is-tent .ct-seal b {
+  font-family: 'Bodoni Moda', Didot, Georgia, serif;
+  font-size: 7cqw;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.mw .col-row.is-tent .ct-seal em {
+  margin-top: 0.6cqw;
+  font: 700 2.5cqw/1 var(--sans);
+  font-style: normal;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.mw .col-row.is-tent .cr-tent-front .ct-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 4.6cqw 6.6cqw 4.4cqw;
+  background: #ffffff;
+}
+.mw .col-row.is-tent .ct-logo {
+  display: block;
+  flex: none;
+  width: auto;
+  height: 6.6cqw;
+  margin: 0 0 3cqw;
+}
+.mw .col-row.is-tent .ct-kicker {
+  display: block;
+  flex: none;
+  margin: 0 0 1.8cqw;
+  font: 700 2.7cqw/1.2 var(--sans);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #5d6a76;
+}
+.mw .col-row.is-tent .ct-headline {
+  flex: none;
+  margin: 0 0 2.4cqw;
+  font-family: 'Bodoni Moda', Didot, Georgia, serif;
+  font-size: 8.2cqw;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #12161b;
+  text-wrap: balance;
+}
+.mw .col-row.is-tent .ct-detail {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  margin: 0 0 3cqw;
+  font: 400 3.2cqw/1.45 var(--sans);
+  color: #55616d;
+}
+.mw .col-row.is-tent .ct-detail b {
+  font-weight: 700;
+  color: #12161b;
+}
+
+.mw .col-row.is-tent .cr-tent-front .ct-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 3.2cqw;
+  margin-top: auto;
+  padding-top: 3cqw;
+  border-top: 1px solid #12161b;
+}
+.mw .col-row.is-tent .ct-foot b,
+.mw .col-row.is-tent .ct-back-foot b {
+  display: block;
+  font: 700 2.9cqw/1.1 var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #12161b;
+}
+.mw .col-row.is-tent .ct-foot span,
+.mw .col-row.is-tent .ct-back-foot span {
+  display: block;
+  margin-top: 0.7cqw;
+  font: 400 2.7cqw/1.35 var(--sans);
+  color: #6b7783;
+}
+.mw .col-row.is-tent .cr-tent .cr-qr {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(7, 2.1cqw);
+  gap: 0.3cqw;
+  padding: 0.8cqw;
+  border: 1px solid #12161b;
+  background: #ffffff;
+}
+.mw .col-row.is-tent .cr-tent .cr-qr i {
+  width: 2.1cqw;
+  height: 2.1cqw;
+  background: transparent;
+}
+.mw .col-row.is-tent .cr-tent .cr-qr i.on {
+  background: #12161b;
+}
+
+/* ── Back card ───────────────────────────────────────────────────────────── */
+.mw .col-row.is-tent .cr-tent-back {
+  padding: 7.6cqw 6.4cqw 0;
+  text-align: center;
+  overflow: hidden;
+}
+.mw .col-row.is-tent .ct-back-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.6cqw;
+  padding-bottom: 4.4cqw;
+  border-bottom: 1px solid #d9dee3;
+}
+.mw .col-row.is-tent .ct-logo.is-large {
+  height: 12cqw;
+  margin: 0;
+}
+.mw .col-row.is-tent .ct-tagline {
+  font: 700 2.5cqw/1 var(--sans);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #5d6a76;
+}
+.mw .col-row.is-tent .ct-back-label {
+  display: block;
+  margin: 5cqw 0 4.6cqw;
+  font: 700 3.4cqw/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #14a0d8;
+}
+.mw .col-row.is-tent .ct-perks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+}
+.mw .col-row.is-tent .ct-perk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5cqw;
+  min-width: 0;
+  padding: 0 1.6cqw;
+}
+.mw .col-row.is-tent .ct-perk + .ct-perk {
+  border-left: 1px solid #e3e8ec;
+}
+.mw .col-row.is-tent .ct-perk-icon {
+  display: grid;
+  place-items: center;
+  width: 11.4cqw;
+  height: 11.4cqw;
+  margin-bottom: 0.8cqw;
+  border: 1px solid #cfe4ef;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #14a0d8;
+}
+.mw .col-row.is-tent .ct-perk-icon svg {
+  width: 4.6cqw;
+  height: 4.6cqw;
+}
+.mw .col-row.is-tent .ct-perk b {
+  font: 700 2.5cqw/1.2 var(--sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #12161b;
+}
+.mw .col-row.is-tent .ct-perk small {
+  font: 400 2.5cqw/1.35 var(--sans);
+  color: #6b7783;
+}
+.mw .col-row.is-tent .ct-quote {
+  margin: 5.4cqw 0 0;
+  padding: 4.6cqw 0;
+  border-top: 1px solid #d9dee3;
+  font-family: 'Bodoni Moda', Didot, Georgia, serif;
+  font-size: 4.4cqw;
+  font-style: italic;
+  line-height: 1.32;
+  color: #12161b;
+}
+.mw .col-row.is-tent .ct-back-foot {
+  display: flex;
+  align-items: center;
+  gap: 2.6cqw;
+  margin: auto -6.4cqw 0;
+  padding: 3.4cqw 6.4cqw 3.6cqw;
+  background: #e9f6fc;
+  text-align: left;
+}
+.mw .col-row.is-tent .ct-back-foot > div {
+  flex: 1;
+  min-width: 0;
+}
+.mw .col-row.is-tent .ct-back-foot em {
+  align-self: flex-end;
+  font: 700 2cqw/1 var(--sans);
+  font-style: normal;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7783;
+  white-space: nowrap;
+}
+
+/* ── The three cuts ─────────────────────────────────────────────────────── */
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-photo {
+  height: 50%;
+}
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-seal {
+  top: 100%;
+  right: 5.4%;
+  width: 17cqw;
+  height: 17cqw;
+}
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-seal b {
+  font-size: 6cqw;
+}
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-body {
+  padding-top: 4.4cqw;
+}
+
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-photo {
+  height: 39%;
+  margin: 3.6cqw 3.6cqw 0;
+  border-radius: 40cqw 40cqw 0 0;
+}
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-body {
+  padding-top: 7.4cqw;
+  text-align: center;
+}
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-logo {
+  margin-inline: auto;
+}
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-headline {
+  font-style: italic;
+}
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-foot {
+  text-align: left;
+}
+
+/* Small screens: the front card carries the offer on its own. */
+@container (max-width: 560px) {
+  .mw .col-row.is-tent .ct-pair {
+    left: 8%;
+    right: 8%;
+    gap: 0;
+    justify-content: center;
+  }
+  .mw .col-section .col-row.is-tent .cr-tent {
+    flex-basis: 76%;
+    max-width: none;
+  }
+  .mw .col-row.is-tent .cr-tent-back {
+    display: none;
+  }
+}
+
+/* The docket's back-card summary. */
+.mw .col-spec .ct-back-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 11.5px;
+  color: #4a4657;
+}
+.mw .col-spec .ct-back-list b {
+  font-weight: 650;
+  color: #22262c;
+}
