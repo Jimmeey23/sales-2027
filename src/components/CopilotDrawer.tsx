@@ -1,10 +1,37 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowUp, Bot, CheckCircle2, MessageSquarePlus, Sparkles, Trash2, X } from 'lucide-react';
+import {
+  ArrowUp,
+  ArrowUpRight,
+  Bot,
+  CheckCircle2,
+  ChevronDown,
+  Gauge,
+  MessageSquarePlus,
+  Send,
+  Sparkles,
+  Trash2,
+  X,
+} from 'lucide-react';
 import { api, post } from '../api';
 import { useApp } from '../App';
 import { money, number } from '../types';
 import { Badge, Button, Callout, IconButton, Loading, Select } from './ui';
+
+type Tone = 'good' | 'bad' | 'neutral' | 'warn';
+type Card =
+  | { kind: 'kpi'; items: { label: string; value: string; delta?: string; tone?: Tone; hint?: string }[] }
+  | { kind: 'bars'; title?: string; format?: string; rows: { label: string; value: number; display?: string; tone?: Tone }[] }
+  | { kind: 'table'; title?: string; columns: string[]; rows: (string | number)[][]; align?: ('l' | 'r')[] }
+  | { kind: 'list'; title?: string; rows: { title: string; meta?: string; detail?: string; tone?: Tone }[] }
+  | { kind: 'note'; tone: 'info' | 'warn' | 'success'; text: string };
+
+const TONE_CLASS: Record<string, string> = {
+  good: 'is-good',
+  bad: 'is-bad',
+  warn: 'is-warn',
+  neutral: 'is-neutral',
+};
 
 export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
   const { boot, studioId: globalStudio, year, toast } = useApp(),
@@ -21,7 +48,8 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
     [creating, setCreating] = useState(false),
     [error, setError] = useState('');
   const endRef = useRef<HTMLDivElement>(null);
-  const loadIndex = async () => {
+
+  const loadIndex = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -34,19 +62,22 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
     } finally {
       setLoading(false);
     }
-  };
-  const selectConversation = async (id: number) => {
-    setConversationId(id);
-    setError('');
-    const detail = await api(`/copilot/conversations/${id}`);
-    setMessages(detail.messages);
-    if (detail.studio_id) setStudioId(detail.studio_id);
-  };
+  }, []);
+  const selectConversation = useCallback(
+    async (id: number) => {
+      setConversationId(id);
+      setError('');
+      const detail = await api(`/copilot/conversations/${id}`);
+      setMessages(detail.messages);
+      if (detail.studio_id) setStudioId(detail.studio_id);
+    },
+    [],
+  );
   useEffect(() => {
     loadIndex().catch(() => {});
-  }, []);
+  }, [loadIndex]);
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
+    endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [messages, sending]);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -70,34 +101,63 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
       setCreating(false);
     }
   };
-  const send = async (preset?: string) => {
-    const text = (preset ?? input).trim();
-    if (!text || sending || creating) return;
-    setSending(true);
-    setError('');
-    setInput('');
-    try {
-      let id = conversationId;
-      if (!id) {
-        const created = await post('/copilot/conversations', { studioId, title: 'New commercial conversation' });
-        id = created.id;
-        setConversationId(id);
+  const send = useCallback(
+    async (preset?: string) => {
+      const text = (preset ?? input).trim();
+      if (!text) return;
+      setSending(true);
+      setError('');
+      setInput('');
+      try {
+        let id = conversationId;
+        if (!id) {
+          const created = await post('/copilot/conversations', { studioId, title: 'New commercial conversation' });
+          id = created.id;
+          setConversationId(id);
+        }
+        const optimistic = { id: `local-${Date.now()}`, role: 'user', content: text, attachments: {} };
+        setMessages(current => [...current, optimistic]);
+        const response = await post(`/copilot/conversations/${id}/messages`, { message: text, mode, studioId });
+        setMessages(current => [...current, response.message]);
+        api('/copilot/conversations')
+          .then(index => setConversations(index.rows))
+          .catch(() => {});
+        if (response.savedOffer) toast(`Draft offer #${response.savedOffer.id} saved.`);
+      } catch (e: any) {
+        setError(e.message);
+        setMessages(current => current.filter(item => !String(item.id).startsWith('local-')));
+        setInput(text);
+      } finally {
+        setSending(false);
       }
-      const optimistic = { id: `local-${Date.now()}`, role: 'user', content: text, attachments: {} };
-      setMessages(current => [...current, optimistic]);
-      const response = await post(`/copilot/conversations/${id}/messages`, { message: text, mode, studioId });
-      setMessages(current => [...current, response.message]);
-      const index = await api('/copilot/conversations');
-      setConversations(index.rows);
-      if (response.savedOffer) toast(`Draft offer #${response.savedOffer.id} saved.`);
-    } catch (e: any) {
-      setError(e.message);
-      setMessages(current => current.filter(item => !String(item.id).startsWith('local-')));
-      setInput(text);
-    } finally {
-      setSending(false);
-    }
-  };
+    },
+    [conversationId, input, mode, studioId, toast],
+  );
+  const openOffer = useCallback(
+    (id: number) => {
+      onClose();
+      navigate(`/offers/${id}/edit`);
+    },
+    [navigate, onClose],
+  );
+  const buildConcept = useCallback(
+    (concept: any) => {
+      onClose();
+      navigate('/sales-plan/offers?view=manual', {
+        state: {
+          concept: { ...concept, studioId: concept.studioId || studioId || boot.studios[0]?.id, year },
+        },
+      });
+    },
+    [boot.studios, navigate, onClose, studioId, year],
+  );
+  const openRoute = useCallback(
+    (action: { route: string; label?: string }) => {
+      onClose();
+      navigate(action.route);
+    },
+    [navigate, onClose],
+  );
   const remove = async () => {
     if (
       !conversationId ||
@@ -114,12 +174,22 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
     }
   };
   const studioName = boot.studios.find(s => s.id === studioId)?.name || 'all locations';
-  const prompts = [
-    `Give me 5 innovative offers for ${studioName} in January ${year}`,
-    `How do we hit the April ${year} target at ${studioName}?`,
-    `Which months in ${year} look hardest for ${studioName} and why?`,
-    'Plan a monsoon challenge that lifts attendance and renewals',
-  ];
+  const suggestions = useMemo(() => {
+    const fromServer: { text: string; label?: string }[] = (capability?.intents ?? [])
+      .filter((intent: any) => intent.examples?.length && intent.id !== 'help')
+      .slice(0, 12)
+      .map((intent: any) => ({ text: intent.examples[0], label: intent.label }));
+    const fallback = [
+      { text: `How do we close the April ${year} gap?`, label: 'Gap to target' },
+      { text: 'Where is the funnel leaking?', label: 'Funnel diagnosis' },
+      { text: 'Which lead sources convert best?', label: 'Channel quality' },
+      { text: `Show renewals due next month at ${studioName}`, label: 'Renewal risk' },
+      { text: `Compare the studios for ${year}`, label: 'Studio benchmark' },
+      { text: `Build a 3-for-2 offer for April`, label: 'Build an offer' },
+    ];
+    return (fromServer.length >= 6 ? fromServer : fallback).slice(0, 6);
+  }, [capability, studioName, year]);
+  const engine = capability?.engineInfo ?? capability;
   return (
     <div className="copilot-backdrop" onMouseDown={e => e.target === e.currentTarget && onClose()}>
       <aside className="copilot-panel" role="dialog" aria-modal="true" aria-label="P57 Copilot">
@@ -132,8 +202,8 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
               <h2>P57 Copilot</h2>
               <p>
                 {capability?.providerConfigured
-                  ? `AI strategist · uses your ${year} plan, prices and offer history`
-                  : 'Rules-based mode · AI not configured on the server'}
+                  ? `AI strategist · grounded in your ${year} plan, prices and history`
+                  : `Deterministic engine ${engine?.engine ?? '2027'} · ${engine?.tools?.length ?? 19} tools · every number sourced`}
               </p>
             </div>
           </div>
@@ -202,55 +272,41 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
                   </span>
                   <h3>Ask anything about the {year} plan.</h3>
                   <p>
-                    Offer ideas, how to close a month’s gap, campaign concepts, renewals due or studio performance.
-                    Answers use this location’s real targets, prices and history. Nothing is approved or published by
-                    chatting.
+                    Targets and gaps, funnel and channels, renewals and segments, price ladders, policy-checked offer
+                    drafts and labelled scenarios. Answers are computed from your imported data, and every one lists
+                    its sources. Nothing is approved or published by chatting.
                   </p>
                   <div className="copilot-prompts">
-                    {prompts.map(prompt => (
-                      <button key={prompt} onClick={() => send(prompt)} disabled={creating || sending}>
-                        {prompt}
+                    {suggestions.map(suggestion => (
+                      <button
+                        key={suggestion.text}
+                        onClick={() => send(suggestion.text)}
+                        disabled={creating || sending}
+                      >
+                        <span>{suggestion.label}</span>
+                        {suggestion.text}
                       </button>
                     ))}
                   </div>
                 </div>
               )}
               {messages.map(message => (
-                <article key={message.id} className={`copilot-message ${message.role}`}>
-                  <div className="copilot-message-label">
-                    {message.role === 'user'
-                      ? 'You'
-                      : message.mode === 'deterministic'
-                        ? 'Copilot · rules'
-                        : message.mode === 'user'
-                          ? 'You'
-                          : 'P57 Copilot'}
-                  </div>
-                  <div className="copilot-message-content">
-                    {message.role === 'user' ? message.content : <Markdown text={message.content} />}
-                  </div>
-                  <Attachment
-                    attachments={message.attachments}
-                    onOpenOffer={id => {
-                      onClose();
-                      navigate(`/offers/${id}/edit`);
-                    }}
-                    onBuild={concept => {
-                      onClose();
-                      navigate('/sales-plan/offers?view=manual', {
-                        state: {
-                          concept: { ...concept, studioId: concept.studioId || studioId || boot.studios[0]?.id, year },
-                        },
-                      });
-                    }}
-                  />
-                </article>
+                <CopilotMessage
+                  key={message.id}
+                  message={message}
+                  onFollowUp={send}
+                  onOpenOffer={openOffer}
+                  onBuild={buildConcept}
+                  onOpenRoute={openRoute}
+                  disabled={sending}
+                />
               ))}
               {sending && (
                 <div className="copilot-thinking">
                   <span />
                   <span />
-                  <span /> Reading the plan and thinking…
+                  <span />
+                  Reading the plan and calculating…
                 </div>
               )}
               {loading && <Loading label="Loading saved conversations…" />}
@@ -267,7 +323,7 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
               <textarea
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                placeholder="Name a studio, month and outcome…"
+                placeholder="Ask about a month, a studio, a metric or an offer…"
                 rows={2}
                 onKeyDown={e => {
                   if (e.key === 'Enter' && !e.shiftKey) {
@@ -282,7 +338,7 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
             </form>
             <p className="copilot-disclaimer">
               {mode === 'deterministic'
-                ? 'Rules and database calculations only'
+                ? 'Rules and database calculations only · no model writes the numbers'
                 : 'AI answers from your plan data · check numbers before acting'}{' '}
               · Conversations are saved.
             </p>
@@ -293,22 +349,217 @@ export default function CopilotDrawer({ onClose }: { onClose: () => void }) {
   );
 }
 
-// Minimal markdown: paragraphs, "- " bullets and **bold**.
+const CopilotMessage = React.memo(function CopilotMessage({
+  message,
+  onFollowUp,
+  onOpenOffer,
+  onBuild,
+  onOpenRoute,
+  disabled,
+}: {
+  message: any;
+  onFollowUp: (text: string) => void;
+  onOpenOffer: (id: number) => void;
+  onBuild: (concept: any) => void;
+  onOpenRoute: (action: { route: string; label?: string }) => void;
+  disabled: boolean;
+}) {
+  const attachments = message.attachments || {};
+  const cards: Card[] = Array.isArray(attachments.cards) ? attachments.cards : [];
+  const intent = attachments.intent;
+  const perf = attachments.performance;
+  const followUps: string[] = attachments.followUps ?? [];
+  const calculation = attachments.calculation ?? [];
+  const sources = attachments.sources ?? [];
+  const isUser = message.role === 'user';
+  return (
+    <article className={`copilot-message ${message.role}`}>
+      <div className="copilot-message-label">
+        {isUser ? 'You' : message.mode === 'deterministic' ? 'Copilot · rules' : 'P57 Copilot'}
+      </div>
+      <div className="copilot-message-content">
+        {isUser ? message.content : <Markdown text={message.content} />}
+      </div>
+      {!isUser && (cards.length > 0 || intent) && (
+        <div className="copilot-answer">
+          {intent && (
+            <div className="copilot-meta">
+              <Badge>{intent.label}</Badge>
+              {typeof intent.confidence === 'number' && (
+                <span className={`copilot-confidence ${intent.confident ? 'is-confident' : ''}`}>
+                  {Math.round(intent.confidence * 100)}% match
+                </span>
+              )}
+              {perf?.ms != null && (
+                <span className="copilot-speed">
+                  <Gauge size={12} /> {perf.ms} ms
+                </span>
+              )}
+              {attachments.scope?.assumed && <span className="copilot-assumed">studio assumed</span>}
+            </div>
+          )}
+          {cards.map((card, index) => (
+            <AnswerBlock key={index} card={card} />
+          ))}
+          {attachments.action?.route && (
+            <button className="copilot-action" onClick={() => onOpenRoute(attachments.action)}>
+              <ArrowUpRight size={14} /> Open {attachments.action.label || attachments.action.route}
+            </button>
+          )}
+          {attachments.nextActions?.length ? (
+            <div className="copilot-next">
+              <strong>Next steps</strong>
+              <ol>
+                {attachments.nextActions.map((action: string, index: number) => (
+                  <li key={index}>{action}</li>
+                ))}
+              </ol>
+            </div>
+          ) : null}
+          {(sources.length > 0 || calculation.length > 0) && (
+            <details className="copilot-working">
+              <summary>
+                Where this came from <ChevronDown size={13} />
+              </summary>
+              {calculation.length > 0 && (
+                <dl>
+                  {calculation.map((item: any, index: number) => (
+                    <div key={index}>
+                      <dt>{item.label}</dt>
+                      <dd>
+                        <code>{item.formula}</code> <b>{item.value}</b>
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              {sources.length > 0 && (
+                <ul>
+                  {sources.map((source: any, index: number) => (
+                    <li key={index}>
+                      <strong>{source.label}</strong>
+                      {source.table ? <code>{source.table}</code> : null}
+                      {source.detail ? <span>{source.detail}</span> : null}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </details>
+          )}
+          {followUps.length > 0 && (
+            <div className="copilot-chips">
+              {followUps.slice(0, 4).map(text => (
+                <button key={text} onClick={() => onFollowUp(text)} disabled={disabled}>
+                  <Send size={11} /> {text}
+                </button>
+              ))}
+              {calculation.length > 0 && (
+                <button onClick={() => onFollowUp('why?')} disabled={disabled}>
+                  Why?
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+      <Attachment attachments={attachments} onOpenOffer={onOpenOffer} onBuild={onBuild} />
+    </article>
+  );
+});
+
+function AnswerBlock({ card }: { card: Card }) {
+  if (card.kind === 'kpi')
+    return (
+      <div className="copilot-kpis">
+        {card.items.map((item, index) => (
+          <div key={index} className={`copilot-kpi ${TONE_CLASS[item.tone || 'neutral']}`}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+            {item.delta ? <em>{item.delta}</em> : null}
+            {item.hint ? <small>{item.hint}</small> : null}
+          </div>
+        ))}
+      </div>
+    );
+  if (card.kind === 'bars') {
+    const max = Math.max(...card.rows.map(row => Math.abs(row.value)), 1);
+    return (
+      <div className="copilot-bars">
+        {card.title && <strong className="copilot-block-title">{card.title}</strong>}
+        {card.rows.map((row, index) => (
+          <div key={index} className={`copilot-bar ${TONE_CLASS[row.tone || 'neutral']}`}>
+            <span className="copilot-bar-label">{row.label}</span>
+            <span className="copilot-bar-track">
+              <i style={{ width: `${Math.max(2, (Math.abs(row.value) / max) * 100)}%` }} />
+            </span>
+            <span className="copilot-bar-value">{row.display}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  if (card.kind === 'table')
+    return (
+      <div className="copilot-table-wrap">
+        {card.title && <strong className="copilot-block-title">{card.title}</strong>}
+        <table className="copilot-table">
+          <thead>
+            <tr>
+              {card.columns.map(column => (
+                <th key={column}>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {card.rows.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex} className={card.align?.[cellIndex] === 'r' ? 'is-num' : ''}>
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  if (card.kind === 'list')
+    return (
+      <div className="copilot-list">
+        {card.title && <strong className="copilot-block-title">{card.title}</strong>}
+        {card.rows.map((row, index) => (
+          <div key={index} className={`copilot-list-row ${TONE_CLASS[row.tone || 'neutral']}`}>
+            <div>
+              <strong>{row.title}</strong>
+              {row.meta ? <span>{row.meta}</span> : null}
+            </div>
+            {row.detail ? <p>{row.detail}</p> : null}
+          </div>
+        ))}
+      </div>
+    );
+  if (card.kind === 'note')
+    return <div className={`copilot-note is-${card.tone}`}>{card.text}</div>;
+  return null;
+}
+
+// Minimal markdown: paragraphs, "- " bullets, **bold** and _italics_.
 function Markdown({ text }: { text: string }) {
   const inline = (line: string) =>
-    line
-      .split(/(\*\*[^*]+\*\*)/g)
-      .map((part, i) =>
-        part.startsWith('**') && part.endsWith('**') ? <strong key={i}>{part.slice(2, -2)}</strong> : part,
-      );
+    line.split(/(\*\*[^*]+\*\*|_[^_]+_)/g).map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) return <strong key={i}>{part.slice(2, -2)}</strong>;
+      if (part.startsWith('_') && part.endsWith('_') && part.length > 2) return <em key={i}>{part.slice(1, -1)}</em>;
+      return part;
+    });
   const blocks: React.ReactNode[] = [];
   let list: string[] = [];
   const flush = () => {
     if (list.length)
       blocks.push(
         <ul key={blocks.length}>
-          {list.map((l, i) => (
-            <li key={i}>{inline(l)}</li>
+          {list.map((item, index) => (
+            <li key={index}>{inline(item)}</li>
           ))}
         </ul>,
       );
@@ -382,39 +633,16 @@ function Attachment({
       ))}
     </div>
   ) : null;
-  const actions = attachments.nextActions?.length ? (
-    <div className="copilot-next">
-      <strong>Next steps</strong>
-      <ol>
-        {attachments.nextActions.map((a: string, i: number) => (
-          <li key={i}>{a}</li>
-        ))}
-      </ol>
-    </div>
-  ) : null;
-  if (
-    attachments.type === 'ai_answer' ||
-    attachments.type === 'unrecognised' ||
-    attachments.type === 'studio_required' ||
-    attachments.type === 'help'
-  )
-    return (
-      <>
-        {ideas}
-        {actions}
-      </>
-    );
   return (
     <>
       {ideas}
-      {actions}
       <LegacyAttachment attachments={attachments} onOpenOffer={onOpenOffer} />
     </>
   );
 }
 
 function LegacyAttachment({ attachments, onOpenOffer }: { attachments: any; onOpenOffer: (id: number) => void }) {
-  if (attachments.type === 'offer_concept') {
+  if (attachments.type === 'offer_concept' && attachments.concept) {
     const offer = attachments.concept,
       result = offer?.financials;
     return (
@@ -445,7 +673,7 @@ function LegacyAttachment({ attachments, onOpenOffer }: { attachments: any; onOp
       </div>
     );
   }
-  if (attachments.type === 'sales_plan')
+  if (attachments.type === 'sales_plan' && attachments.plan)
     return (
       <div className="copilot-attachment">
         <strong>Sales plan · {attachments.plan.workstreams.length} workstreams</strong>
@@ -454,7 +682,7 @@ function LegacyAttachment({ attachments, onOpenOffer }: { attachments: any; onOp
         </span>
       </div>
     );
-  if (attachments.type === 'renewal_report')
+  if (attachments.type === 'renewal_report' && attachments.report)
     return (
       <div className="copilot-attachment">
         <strong>{number(attachments.report.summary.duePackages)} open packages due</strong>

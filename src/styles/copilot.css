@@ -1,0 +1,500 @@
+/* P57 Copilot drawer — rich answer blocks, sources and follow-up chips.
+   Imported last so it can refine the drawer without touching the shell. */
+
+.copilot-panel {
+  width: min(1040px, 97vw);
+  background: #f7f6fa;
+}
+.copilot-title p {
+  font-size: 10.5px;
+  letter-spacing: 0.01em;
+}
+.copilot-messages {
+  padding: 20px 6px 14px;
+}
+.copilot-message {
+  max-width: 94%;
+}
+.copilot-message.assistant {
+  max-width: 100%;
+}
+.copilot-message-content {
+  font-size: 12px;
+  line-height: 1.62;
+}
+.copilot-md p {
+  margin: 0 0 7px;
+}
+.copilot-md p:last-child {
+  margin-bottom: 0;
+}
+.copilot-md ul {
+  margin: 2px 0 8px;
+  padding-left: 17px;
+}
+.copilot-md li {
+  margin-bottom: 3px;
+}
+
+/* ── answer shell ─────────────────────────────────────────────── */
+
+.copilot-answer {
+  margin-top: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.copilot-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.copilot-confidence,
+.copilot-speed,
+.copilot-assumed {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.copilot-confidence.is-confident {
+  border-color: #cfe3d9;
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+.copilot-assumed {
+  border-color: #f0dcb4;
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+.copilot-block-title {
+  display: block;
+  margin: 0 0 7px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* ── KPI tiles ────────────────────────────────────────────────── */
+
+.copilot-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 7px;
+}
+.copilot-kpi {
+  position: relative;
+  padding: 10px 11px 9px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+.copilot-kpi::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
+  background: var(--line);
+}
+.copilot-kpi.is-good::after {
+  background: var(--green);
+}
+.copilot-kpi.is-bad::after {
+  background: var(--coral);
+}
+.copilot-kpi.is-warn::after {
+  background: var(--amber, #a86d16);
+}
+.copilot-kpi span {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.copilot-kpi strong {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--display);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.copilot-kpi em {
+  display: inline-block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+}
+.copilot-kpi.is-good em {
+  color: var(--green-dark);
+}
+.copilot-kpi.is-bad em {
+  color: #a8493f;
+}
+.copilot-kpi small {
+  display: block;
+  margin-top: 3px;
+  color: var(--subtle);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+/* ── bars ─────────────────────────────────────────────────────── */
+
+.copilot-bars {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.copilot-bar {
+  display: grid;
+  grid-template-columns: minmax(84px, 1.15fr) minmax(60px, 2fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 3px 0;
+}
+.copilot-bar-label {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.copilot-bar-track {
+  height: 7px;
+  border-radius: 999px;
+  background: #f0eef5;
+  overflow: hidden;
+}
+.copilot-bar-track i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), #a396ff);
+  transition: width 0.35s ease;
+}
+.copilot-bar.is-good .copilot-bar-track i {
+  background: linear-gradient(90deg, #2f8a71, #6cc2a4);
+}
+.copilot-bar.is-bad .copilot-bar-track i {
+  background: linear-gradient(90deg, #d5654a, #f2a186);
+}
+.copilot-bar.is-warn .copilot-bar-track i {
+  background: linear-gradient(90deg, #c08a2c, #e8c079);
+}
+.copilot-bar-value {
+  color: var(--ink);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ── tables ───────────────────────────────────────────────────── */
+
+.copilot-table-wrap {
+  padding: 10px 12px 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  overflow-x: auto;
+}
+.copilot-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+}
+.copilot-table th {
+  padding: 0 8px 6px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.copilot-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #f2f0f6;
+  vertical-align: top;
+}
+.copilot-table tr:last-child td {
+  border-bottom: 0;
+}
+.copilot-table th:first-child,
+.copilot-table td:first-child {
+  padding-left: 0;
+}
+.copilot-table th:last-child,
+.copilot-table td:last-child {
+  padding-right: 0;
+}
+.copilot-table td.is-num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ── lists ────────────────────────────────────────────────────── */
+
+.copilot-list {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.copilot-list-row {
+  padding: 7px 0;
+  border-bottom: 1px solid #f2f0f6;
+}
+.copilot-list-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.copilot-list-row > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.copilot-list-row strong {
+  font-size: 11px;
+}
+.copilot-list-row span {
+  color: var(--muted);
+  font-size: 9.5px;
+  white-space: nowrap;
+}
+.copilot-list-row p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* ── notes ────────────────────────────────────────────────────── */
+
+.copilot-note {
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+.copilot-note.is-warn {
+  border-left-color: #c08a2c;
+  background: var(--amber-soft, #fbf2df);
+  color: #6f4c11;
+}
+.copilot-note.is-success {
+  border-left-color: var(--green);
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+/* ── working + chips ──────────────────────────────────────────── */
+
+.copilot-working {
+  border: 1px dashed var(--line-strong);
+  border-radius: 10px;
+  background: #fbfaff;
+  padding: 7px 10px;
+}
+.copilot-working summary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent-dark);
+  cursor: pointer;
+  font-size: 9.5px;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.copilot-working[open] summary {
+  margin-bottom: 6px;
+}
+.copilot-working dl {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 7px;
+}
+.copilot-working dl > div {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 8px;
+}
+.copilot-working dt {
+  color: var(--muted);
+  font-size: 9.5px;
+  font-weight: 700;
+}
+.copilot-working dd {
+  margin: 0;
+  font-size: 9.5px;
+}
+.copilot-working dd code {
+  color: var(--muted);
+}
+.copilot-working dd b {
+  margin-left: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.copilot-working ul {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.copilot-working li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 9.5px;
+}
+.copilot-working li strong {
+  font-weight: 750;
+}
+.copilot-working li code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: #f0edfa;
+  color: var(--accent-dark);
+  font-size: 9px;
+}
+.copilot-working li span {
+  color: var(--muted);
+}
+
+.copilot-next {
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+.copilot-next strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.copilot-next ol {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+.copilot-next li + li {
+  margin-top: 3px;
+}
+
+.copilot-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.copilot-chips button,
+.copilot-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent-dark);
+  font-size: 9.5px;
+  font-weight: 650;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+.copilot-chips button:hover,
+.copilot-action:hover {
+  border-color: #bdb4ef;
+  background: var(--accent-soft);
+  transform: translateY(-1px);
+}
+.copilot-action {
+  align-self: flex-start;
+  padding: 6px 11px;
+  border-radius: 9px;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.copilot-action:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  color: #fff;
+}
+
+/* ── welcome ──────────────────────────────────────────────────── */
+
+.copilot-welcome {
+  max-width: 600px;
+}
+.copilot-welcome p {
+  font-size: 11.5px;
+}
+.copilot-prompts {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+.copilot-prompts button {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+.copilot-prompts button span {
+  color: var(--accent);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copilot-bar-track i,
+  .copilot-chips button,
+  .copilot-action {
+    transition: none;
+  }
+  .copilot-chips button:hover,
+  .copilot-action:hover {
+    transform: none;
+  }
+}
