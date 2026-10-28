@@ -516,27 +516,31 @@ export default function MarketingCollaterals({
   }) => (
     <aside className="col-spec">
       <header>
-        <span><Icon size={15} /></span>
-        <b>{title}</b>
-        <i>
-          <CalendarClock size={12} /> Final by {due(lead)}
-          {editable && onLeadChange && (
-            <input
-              type="number"
-              min={1}
-              max={45}
-              className="col-lead-input"
-              aria-label={`${title} lead days`}
-              title="Lead days before month start"
-              value={lead}
-              onChange={e => onLeadChange(Math.max(1, Number(e.target.value) || 1))}
-            />
-          )}
-        </i>
+        <span className="col-spec-icon">
+          <Icon size={15} />
+        </span>
+        <div className="col-spec-id">
+          <b>{title}</b>
+          <i>
+            <CalendarClock size={11} /> Final by {due(lead)}
+            {editable && onLeadChange && (
+              <input
+                type="number"
+                min={1}
+                max={45}
+                className="col-lead-input"
+                aria-label={`${title} lead days`}
+                title="Lead days before month start"
+                value={lead}
+                onChange={e => onLeadChange(Math.max(1, Number(e.target.value) || 1))}
+              />
+            )}
+          </i>
+        </div>
         {editable && (
           <button
             type="button"
-            className="mw-mini-icon is-danger"
+            className="mw-mini-icon is-danger col-spec-hide"
             title={`Remove ${title} from this month`}
             aria-label={`Remove ${title}`}
             onClick={() => hideChannel(channelKey)}

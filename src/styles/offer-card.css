@@ -1469,17 +1469,17 @@
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Iteration 20 — offer spec sheet
-   The commercial record of an offer, set as ruled label → value lines instead of
-   hidden inside a drawer. Approval lives in the sheet header so the card has one
-   dense information block, not five stacked ones.
+   The commercial record of an offer, printed under the figures. It borrows the
+   card's own type: Bodoni for the panel title, the .oc-label caps for the row
+   labels, and the same 12px body ink the who / when / how strip uses.
    ───────────────────────────────────────────────────────────────────────────── */
 .mw .oc-spec {
   flex: none;
-  margin: 14px 0 0;
-  border: 1px solid var(--oc-line);
+  margin: 15px 0 0;
+  padding: 14px 16px 15px;
+  border: 1px solid rgba(25, 26, 36, 0.07);
   border-radius: 14px;
-  background: #ffffff;
-  overflow: hidden;
+  background: #faf9f7;
 }
 
 .mw .oc-spec-head {
@@ -1487,86 +1487,83 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 44px;
-  padding: 7px 12px 7px 14px;
-  border-bottom: 1px solid var(--oc-line);
-  background: linear-gradient(180deg, #f7fafc 0%, #ffffff 100%);
+  min-height: 34px;
+  margin-bottom: 8px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
 }
 
 .mw .oc-spec-title {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 9.5px;
-  font-weight: 780;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
-  color: #5f6f7d;
+  gap: 8px;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #1b1824;
 }
 
 .mw .oc-spec-title svg {
-  color: color-mix(in srgb, var(--oc-accent) 70%, #33475b);
+  color: #8b8898;
 }
 
 .mw .oc-spec-row {
   display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
+  grid-template-columns: 116px minmax(0, 1fr);
   align-items: baseline;
   gap: 14px;
-  padding: 9px 14px;
+  padding: 8px 0;
 }
 
 .mw .oc-spec-row + .oc-spec-row {
-  border-top: 1px solid var(--oc-line-soft);
+  border-top: 1px solid rgba(25, 26, 36, 0.055);
 }
 
 .mw .oc-spec-label {
-  font-size: 9.5px;
+  font-size: 8.5px;
   font-weight: 750;
-  line-height: 1.55;
-  letter-spacing: 0.09em;
+  line-height: 1.6;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--oc-accent) 38%, #7b8995);
+  color: #9a97a6;
 }
 
-.mw .oc-spec-value {
+.mw .oc .oc-spec-value {
   margin: 0;
   min-width: 0;
-  font-size: 12.7px;
+  font-size: 12px;
   line-height: 1.55;
-  color: #2b3742;
+  color: #4a4657;
   overflow-wrap: anywhere;
 }
 
-.mw .oc-spec-value b {
+.mw .oc .oc-spec-value b {
   font-weight: 650;
-  color: #14202b;
+  color: #2a2735;
   font-variant-numeric: tabular-nums;
 }
 
-/* Two-up cards are narrower: the label column collapses above the value. */
-@container (max-width: 520px) {
-  .mw .oc-spec-row {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 3px;
-    padding: 8px 13px;
-  }
-  .mw .oc-spec-label {
-    font-size: 9px;
-    letter-spacing: 0.13em;
-  }
-  .mw .oc-spec-value {
-    font-size: 12.2px;
-  }
-  .mw .oc-spec-head {
-    min-height: 40px;
-    padding: 6px 10px 6px 13px;
-  }
+.mw .oc .oc-spec-value i {
+  font-style: normal;
+  color: #2a2735;
 }
 
-@media (max-width: 640px) {
+/* In a two-up card the label sits above its value so the text keeps its width. */
+@container (max-width: 560px) {
+  .mw .oc-spec {
+    padding: 12px 13px 13px;
+  }
   .mw .oc-spec-row {
     grid-template-columns: minmax(0, 1fr);
-    gap: 3px;
+    gap: 2px;
+    padding: 7px 0;
+  }
+  .mw .oc-spec-label {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+  }
+  .mw .oc .oc-spec-value {
+    font-size: 11.7px;
   }
 }

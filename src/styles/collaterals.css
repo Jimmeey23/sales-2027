@@ -628,33 +628,52 @@
 
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Iteration 20 — the collateral tab as a deliverables board
-   The section reads as a run sheet: a header, a compact offer rail, a ledger of
-   what this month owes, then one numbered card per channel with the production
-   spec on the left and the finished artwork proofed on the right.
+   Iteration 20 — the collateral tab as a production sheet
+   One card per channel: the artwork is proofed on a mat, the brief sits beside
+   it as a docket. The mock creatives keep their own designed scale, so nothing
+   inside a proof is re-flowed by the page layout.
    ───────────────────────────────────────────────────────────────────────────── */
 .mw .mw-main > .col-section {
-  counter-reset: colcard;
   background: linear-gradient(180deg, #f8fafb 0%, #f4f7f8 100%);
 }
 
-/* Header: kicker, serif title, one-line rationale, then the run-sheet ledger. */
+/* ── Head: kicker, short title, two lines of rationale ───────────────────── */
 .mw .col-section > .col-head {
   align-items: flex-end;
   gap: 18px;
-  padding-bottom: 0;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+}
+.mw .col-section > .col-head small {
+  font: 700 9.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  color: color-mix(in srgb, var(--a1) 62%, #55636f);
+}
+.mw .col-section > .col-head h4 {
+  margin: 6px 0 4px;
+  font: 500 19px/1.15 'Bodoni Moda', Georgia, serif;
+  letter-spacing: -0.008em;
+  color: #1b1824;
+}
+.mw .col-section > .col-head p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 640px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #6f7b87;
 }
 
+/* ── The production clock ────────────────────────────────────────────────── */
 .mw .col-section .col-ledger {
   display: inline-flex;
   flex-wrap: wrap;
   width: fit-content;
-  align-items: center;
-  gap: 0;
-  padding: 0;
-  border: 1px solid #eaeef1;
-  border-radius: 12px;
+  margin: 0 0 14px;
+  border: 1px solid #e6ebee;
+  border-radius: 11px;
   background: #ffffff;
   overflow: hidden;
 }
@@ -662,10 +681,9 @@
   display: inline-flex;
   align-items: baseline;
   gap: 6px;
-  padding: 9px 15px;
+  padding: 8px 14px;
   font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-weight: 500;
   color: #6a7783;
   white-space: nowrap;
 }
@@ -673,65 +691,61 @@
   border-left: 1px solid #eef1f4;
 }
 .mw .col-section .col-ledger b {
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #16222d;
+  letter-spacing: -0.005em;
+  color: #1b1824;
   font-variant-numeric: tabular-nums;
 }
 
-/* Offer rail: one compact cluster per audience, chips instead of boxes. */
+/* ── Offer rail: audience label then chips, all on one ruled line ────────── */
 .mw .col-section > .col-tabs {
   display: flex;
   flex-wrap: wrap;
-  align-items: stretch;
-  gap: 10px;
+  align-items: center;
+  gap: 6px 8px;
   max-width: none;
-  justify-content: flex-start;
-  padding: 10px;
-  border: 1px solid #e7ecef;
-  border-radius: 14px;
+  margin: 0 0 14px;
+  padding: 9px 12px;
+  border: 1px solid #e6ebee;
+  border-radius: 12px;
   background: #ffffff;
+  justify-content: flex-start;
 }
 .mw .col-section .col-tab-group {
-  flex: 1 1 240px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 4px;
-  background: none;
-  border-top: 0;
-  border-radius: 0;
+  display: contents;
 }
 .mw .col-section .col-tab-group > span {
-  flex: 1 0 100%;
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 0 2px 4px;
-  font: 700 9px/1 var(--sans);
+  padding: 0 2px 0 12px;
+  font: 700 8.5px/1 var(--sans);
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #7b8794;
+  color: #93a0ab;
+}
+.mw .col-section .col-tab-group:first-child > span {
+  padding-left: 2px;
 }
 .mw .col-section .col-tab-group > span::before {
   content: '';
   flex: none;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--g, #6ccff6);
 }
 .mw .col-section .col-tab-group button {
   display: inline-block;
   width: auto;
-  max-width: 100%;
-  padding: 7px 12px;
+  max-width: 320px;
+  padding: 6px 12px;
   border: 1px solid #e4e9ee;
   border-radius: 999px;
   background: #ffffff;
-  font: 600 11.5px/1.25 var(--sans);
+  font: 550 11.5px/1.3 var(--sans);
   color: #26313b;
   text-align: left;
   box-shadow: none;
@@ -740,270 +754,253 @@
   text-overflow: ellipsis;
 }
 .mw .col-section .col-tab-group button:hover {
-  border-color: var(--g, #6ccff6);
+  border-color: #b9c6d1;
+  background: #f7f9fa;
 }
 .mw .col-section .col-tab-group button.is-on {
   background: #10161d;
   border-color: #10161d;
   color: #ffffff;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
-/* One numbered card per channel: spec left, proof right. */
+/* ── One card per channel: proof on the mat, docket beside it ────────────── */
 .mw .col-section > .col-row {
   display: grid;
-  grid-template-columns: minmax(272px, 338px) minmax(0, 1fr);
-  align-items: stretch;
-  gap: 22px;
-  padding: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(292px, 336px);
+  align-items: start;
+  gap: 18px;
+  margin: 0;
+  padding: 18px;
   border: 1px solid #e6ebee;
   border-radius: 18px;
   background: #ffffff;
-  box-shadow: 0 18px 34px -30px rgba(11, 20, 32, 0.5);
-  counter-increment: colcard;
+  box-shadow: 0 16px 34px -32px rgba(11, 20, 32, 0.5);
 }
 .mw .col-section > .col-row.is-custom {
   grid-template-columns: minmax(0, 1fr);
-  background: #ffffff;
-}
-.mw .col-section > .col-row > .col-spec {
-  order: -1;
 }
 .mw .col-section > .col-row > .cr-stage {
-  order: 0;
-  align-content: start;
+  justify-self: center;
+  width: 100%;
+  max-width: 720px;
   padding: 16px;
-  border: 1px solid #edf0f3;
   border-radius: 14px;
-  background:
-    radial-gradient(130% 130% at 50% 0%, #ffffff 0%, #f5f7f9 58%, #eef1f4 100%);
+  background: radial-gradient(120% 100% at 50% 0%, #fbfcfd 0%, #f4f7f8 72%, #eef2f4 100%);
+  box-shadow: inset 0 0 0 1px rgba(16, 43, 66, 0.05);
 }
 
-/* The spec column is a printed brief: number, channel, due date, ruled lines. */
+/* The docket: what to make, how big, what copy, and when it is due. */
 .mw .col-row > .col-spec {
   display: flex;
   flex-direction: column;
-  gap: 13px;
+  gap: 12px;
   min-width: 0;
   padding: 15px 16px 16px;
-  border: 1px solid #e8edf1;
+  border: 1px solid #e6ebee;
   border-radius: 14px;
   background: #ffffff;
-  box-shadow: 0 1px 2px rgba(11, 20, 32, 0.04);
 }
 .mw .col-row > .col-spec > header {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
-  margin-bottom: 0;
+  margin: 0;
 }
-.mw .col-row:not(.is-custom) > .col-spec > header::before {
-  content: counter(colcard, decimal-leading-zero);
-  flex: none;
-  font: 700 10.5px/1 var(--sans);
-  letter-spacing: 0.12em;
-  color: #a7b3be;
+.mw .col-spec-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #10161d;
+  color: color-mix(in srgb, var(--a1) 46%, #dbe6ef);
 }
-.mw .col-row > .col-spec > header span {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
+.mw .col-spec-icon svg {
+  width: 16px;
+  height: 16px;
 }
-.mw .col-row > .col-spec > header b {
-  font-size: 17px;
-  letter-spacing: -0.01em;
+.mw .col-spec-id {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
 }
-.mw .col-row > .col-spec > header i {
-  margin-left: auto;
-  padding: 4px 9px;
-  background: #f2f6f8;
-  color: #4d6473;
-  font-size: 10px;
+.mw .col-spec-id b {
+  font: 500 15.5px/1.15 'Bodoni Moda', Georgia, serif;
+  letter-spacing: -0.005em;
+  color: #1b1824;
+}
+.mw .col-spec-id i {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: #8b97a2;
+  font: 600 10.5px/1.2 var(--sans);
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+.mw .col-spec-hide {
+  align-self: start;
+}
+.mw .col-spec .col-lead-input {
+  width: 42px;
+  padding: 0 4px;
+  border: 0 !important;
+  border-bottom: 1px solid #dbe2e8 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  font-size: 10.5px;
   font-weight: 700;
-  letter-spacing: 0.03em;
-  border-radius: 999px;
+  color: #3d4a55;
 }
 
 .mw .col-spec-cap {
   display: block;
-  font: 700 8.5px/1 var(--sans);
-  letter-spacing: 0.18em;
+  font: 750 8.5px/1 var(--sans);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #9aa6b1;
+  color: #9a97a6;
 }
 
-/* Deliverables become ruled lines rather than a bulleted block. */
+/* Deliverables read as ruled lines, not as bullets. */
 .mw .col-spec ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: block;
-  font-size: 12.2px;
+  font-size: 12px;
 }
 .mw .col-spec ul li {
   position: relative;
-  padding: 8px 0 8px 14px;
-  border-top: 1px solid #f1f4f6;
+  padding: 7px 0 7px 13px;
+  border-top: 1px solid rgba(25, 26, 36, 0.06);
   line-height: 1.5;
-  color: #36404a;
+  color: #4a4657;
 }
 .mw .col-spec ul li:first-child {
   border-top: 0;
-  padding-top: 2px;
+  padding-top: 1px;
 }
 .mw .col-spec ul li::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 14px;
-  width: 4px;
-  height: 4px;
+  left: 1px;
+  top: 13px;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
   background: #c3ced7;
 }
 .mw .col-spec ul li:first-child::before {
-  top: 8px;
+  top: 7px;
 }
 
-/* Copy panel sits flush with the foot of the brief. */
+/* Copy to use: a quiet paper panel at the foot of the docket. */
 .mw .col-spec .col-copy {
-  margin-top: auto;
+  margin: 0;
   padding: 12px 13px;
-  border: 1px solid #eff2f5;
-  border-left: 1px solid #eff2f5;
-  border-radius: 11px;
-  background: #f8fafb;
+  border: 0;
+  border-left: 0;
+  border-radius: 10px;
+  background: #f7f8f9;
 }
 .mw .col-spec .col-copy > .col-spec-cap {
-  margin-bottom: 6px;
+  margin-bottom: 7px;
+  color: #9a97a6;
+}
+.mw .col-spec .col-copy > small {
+  display: block;
+  margin-top: 9px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a4b0ba;
 }
 .mw .col-spec .col-copy > .col-spec-cap + small {
   margin-top: 0;
 }
-.mw .col-spec .col-copy-edit > label > small:first-child {
-  margin-top: 0;
+.mw .col-spec .col-copy p,
+.mw .col-spec .col-copy pre {
+  max-width: 68ch;
+  margin: 3px 0 0;
+  font: 500 12px/1.55 var(--sans);
+  color: #3b3a47;
+  white-space: pre-wrap;
+}
+.mw .col-spec .col-subjects li {
+  border-top: 1px solid rgba(25, 26, 36, 0.06);
+  padding: 6px 0 6px 26px;
+  border-radius: 0;
+  background: none;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  font-size: 12px;
+  font-weight: 500;
+}
+.mw .col-spec .col-subjects li::before {
+  top: 4px;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background: #10161d;
+  color: #ffffff;
+  font-size: 9px;
+}
+.mw .col-spec .col-edit-list {
+  margin: 0;
 }
 
-/* Artwork: keep proofs at print scale, centred on the mat. */
+/* The proofs keep their own scale; the mat only frames them. */
 .mw .col-row > .cr-stage > .cr-email {
-  width: 100%;
   max-width: 468px;
-  justify-self: center;
+  margin-inline: auto;
 }
 .mw .col-row > .cr-stage > .cr-tent-stage {
   justify-self: center;
+  width: 100%;
 }
-.mw .col-row > .cr-stage > .cr-layouts {
-  margin-top: 2px;
+.mw .col-row > .cr-stage .wa-pair {
+  align-items: flex-start;
+  gap: 26px;
 }
 
-@media (max-width: 1080px) {
-  .mw .col-section > .col-row {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
-  }
-  .mw .col-section > .col-row > .cr-stage {
-    order: 2;
-  }
+/* WhatsApp is a pair of phones, not a portrait: it keeps the full width with its
+   docket underneath, as it did before, so neither phone is squeezed. */
+.mw .col-section > .col-row.is-wa {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
 }
-
-/* WhatsApp proofs sit side by side at any width: two chat shots, fluid phones. */
-.mw .col-row.is-wa .wa-pair {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 18px;
+.mw .col-section > .col-row.is-wa > .cr-stage {
+  max-width: 900px;
+}
+.mw .col-section > .col-row.is-wa > .col-spec {
+  max-width: 780px;
   width: 100%;
-  max-width: 720px;
-  margin-inline: auto;
-}
-.mw .col-row.is-wa .wa-send {
-  min-width: 0;
-  justify-items: stretch;
-}
-.mw .col-row.is-wa .wa-send .wa-phone {
-  width: 100%;
-  justify-self: stretch;
-}
-.mw .col-row.is-wa .wa-label {
   justify-self: center;
 }
-.mw .col-row.is-wa .wa-bubble {
-  width: auto;
-  max-width: 100%;
-}
-.mw .col-row.is-wa .wa-bubble .cr-square {
-  width: 100%;
-  zoom: 1;
-}
-.mw .col-row.is-wa .wa-buttons {
-  width: auto;
-  max-width: 100%;
-}
-@media (max-width: 640px) {
-  .mw .col-row.is-wa .wa-pair {
+
+@media (max-width: 1180px) {
+  .mw .col-section > .col-row {
     grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .mw .col-section > .col-row > .cr-stage {
+    max-width: none;
   }
 }
-
-/* Iteration 20, pass 2 — neutral chrome: the tab uses the workspace greys, not the old blue tints. */
-.mw .col-section .col-creative-bar {
-  margin: 12px 0 4px;
-  padding: 11px 13px;
-  border: 1px solid #e7ecef;
-  border-radius: 13px;
-  background: #ffffff;
-}
-.mw .col-section .col-creative-bar > label > span {
-  font-size: 8.5px;
-  letter-spacing: 0.17em;
-  color: #93a0ab;
-}
-.mw .col-section .col-creative-bar > label > input {
-  border: 1px solid #e3e9ed;
-  border-radius: 9px;
-  background: #fbfcfd;
-  font-size: 12px;
-  color: #26313b;
-}
-.mw .col-section .col-creative-bar > label > input:focus {
-  border-color: #b9c6d1;
-  background: #ffffff;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(120, 138, 155, 0.12);
-}
-.mw .col-section .col-edit-list > .col-edit-item > input,
-.mw .col-section .col-inline-title,
-.mw .col-section .col-edit-heading,
-.mw .col-section .col-edit-sub {
-  border: 1px solid #e3e9ed;
-  background: #fbfcfd;
-}
-.mw .col-section .col-row.is-custom {
-  background: #fbfcfd;
-}
-.mw .col-section .col-spec blockquote,
-.mw .col-section .col-copy p {
-  color: #303c47;
-}
-
-/* Tie the tab to the workspace accent, without repainting the mock creatives. */
-.mw .col-section > .col-head small {
-  color: color-mix(in srgb, var(--a1) 70%, #26313b);
-  font-size: 9.5px;
-  letter-spacing: 0.18em;
-}
-.mw .col-section > .col-head h4 {
-  margin: 5px 0 3px;
-  font-size: 17px;
-  letter-spacing: -0.008em;
-}
-.mw .col-section > .col-head p {
-  max-width: 520px;
-  font-size: 11.9px;
-  line-height: 1.55;
-  color: #7b8794;
-}
-.mw .col-row > .col-spec > header span {
-  background: #10161d;
-  color: color-mix(in srgb, var(--a1) 52%, #c3d6ea);
+@media (max-width: 760px) {
+  .mw .col-section > .col-row {
+    padding: 12px;
+  }
+  .mw .col-section > .col-row > .cr-stage {
+    padding: 10px;
+  }
+  .mw .col-row > .col-spec {
+    padding: 13px;
+  }
 }

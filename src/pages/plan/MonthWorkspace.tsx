@@ -34,7 +34,6 @@ import {
   RotateCcw,
   Save,
   Search,
-  ShieldCheck,
   ShoppingBag,
   Square,
   Sigma,
@@ -5199,42 +5198,81 @@ function OfferCard({
         .trim();
     const cut = (value: string, max: number) =>
       value.length > max ? `${value.slice(0, max).replace(/[\s,;:.]+$/, '')}\u2026` : value;
+    const line = (names: string[]) => {
+      const hit = reasons.find(entry => names.some(name => new RegExp(name, 'i').test(entry[1])));
+      return tidy(hit?.[2]);
+    };
+    // Never print the same sentence twice: the hero brief and the stat bar already carry
+    // their own copy, so a row only lands when it adds something.
+    const fresh = (value: string) => value && !offerDescription.includes(value.slice(0, 60));
 
-    // The hero already explains the deal in plain words; the sheet only repeats it when the
-    // benefit says something the brief does not.
-    const proposition = tidy(mechanicsText) || tidy(o.benefit) || tidy(o.headline);
-    if (proposition && !offerDescription.includes(proposition.slice(0, 60))) {
-      rows.push({ label: 'The offer', value: cut(proposition, 280) });
+    const audience = [
+      tidy(o.audience),
+      tidy(o.excluded_audience) && `excludes ${tidy(o.excluded_audience).toLowerCase()}`,
+    ]
+      .filter(Boolean)
+      .join(' · ');
+    if (audience) rows.push({ label: 'Audience', value: cut(audience, 200) });
+
+    const mechanicRow = tidy(mechanicsText);
+    if (mechanicRow && fresh(mechanicRow)) rows.push({ label: 'The offer', value: cut(mechanicRow, 300) });
+
+    const included = tidy(o.benefit);
+    if (included && included !== mechanicRow && fresh(included)) {
+      rows.push({ label: "What's included", value: cut(included, 260) });
     }
 
-    const quote = tidy(o.customer_copy);
-    if (quote && quote !== proposition && !offerDescription.includes(quote.slice(0, 60))) {
-      rows.push({ label: 'In their words', value: `\u201c${cut(quote, 150)}\u201d` });
-    }
+    const why = line(['why']);
+    if (why) rows.push({ label: 'Why it works', value: cut(why, 300) });
 
-    const terms = tidy(o.redemption_conditions);
-    rows.push({
-      label: 'Terms',
-      value: terms ? cut(terms, 220) : 'One offer per client; the approval covers this month only.',
-    });
+    // How the number is actually sold: the play, the pace it needs, and what it carries.
+    const salesLogic = [
+      objectiveLabel || slotLabel,
+      units ? `${number(units)} buyers over ${days} days` : '',
+      perWeek ? `~${number(perWeek)} a week` : '',
+      sharePct !== null ? `${fmtPct(sharePct)} of the month's target` : '',
+    ]
+      .filter(Boolean)
+      .join(' · ');
+    if (salesLogic) rows.push({ label: 'Sales logic', value: salesLogic });
 
-    const moment = tidy(o.provenance?.moment);
-    if (moment) rows.push({ label: 'Tied to', value: `${moment} \u00b7 ${windowText}` });
+    const model = line(['model', 'revenue', 'logic']);
+    const arithmetic =
+      units && offerPrice && revenue !== null
+        ? `${number(units)} × ${money(offerPrice)} = ${lakh(revenue)}${sharePct !== null ? ` (${fmtPct(sharePct)} of the month)` : ''}`
+        : '';
+    if (model) rows.push({ label: 'Revenue logic', value: cut(model, 320) });
+    else if (arithmetic) rows.push({ label: 'Revenue logic', value: arithmetic });
 
-    if (units && offerPrice && revenue !== null) {
+    const kpis = metrics.length ? metrics.slice(0, 4).join(' · ') : line(['kpi']);
+    if (kpis) rows.push({ label: 'Success metrics', value: cut(kpis, 300) });
+    else if (units && revenue !== null) {
       rows.push({
-        label: 'Plan arithmetic',
-        value: (
-          <>
-            <b>{number(units)}</b> buyers × <b>{money(offerPrice)}</b> = <b>{lakh(revenue)}</b>
-            {sharePct !== null ? ` \u00b7 ${fmtPct(sharePct)} of the month` : ''}
-          </>
-        ),
+        label: 'Success metrics',
+        value: `${number(units)} buyers and ${lakh(revenue)} booked inside the ${days}-day window`,
       });
     }
 
-    if (metrics.length) rows.push({ label: 'Success metrics', value: cut(metrics.slice(0, 3).join(' \u00b7 '), 240) });
-    if (risks.length) rows.push({ label: 'Risk & mitigation', value: cut(risks.slice(0, 3).join(' \u00b7 '), 240) });
+    const watch = line(['watch']);
+    if (watch) rows.push({ label: 'What to watch', value: cut(watch, 260) });
+
+    if (risks.length) rows.push({ label: 'Risk & mitigation', value: cut(risks.slice(0, 3).join(' · '), 260) });
+
+    rows.push({
+      label: 'Terms',
+      value: tidy(o.redemption_conditions)
+        ? cut(tidy(o.redemption_conditions), 240)
+        : 'One per client; no cash discount beyond the campaign rate.',
+    });
+
+    const moment = tidy(o.provenance?.moment);
+    if (moment) rows.push({ label: 'Tied to', value: `${moment} · ${windowText}` });
+
+    const quote = tidy(o.customer_copy);
+    if (quote && fresh(quote) && quote !== included) {
+      rows.push({ label: 'In their words', value: `\u201c${cut(quote, 160)}\u201d` });
+    }
+
     return rows;
   })();
 
@@ -5541,7 +5579,7 @@ function OfferCard({
         <div className="oc-spec">
           <div className="oc-spec-head">
             <span className="oc-spec-title">
-              <FileText size={12} />
+              <FileText size={13} />
               Offer spec
             </span>
             <div className="oc-actions">
@@ -5575,47 +5613,6 @@ function OfferCard({
             </div>
           ))}
         </div>
-
-        {(reasons.length > 0 || o.rationale || metrics.length > 0 || risks.length > 0) &&
-          (() => {
-            // Three evenly weighted columns: the written reasoning first, then the watch-list.
-            const columns: Array<{ key: string; value: string; icon: typeof Target }> = reasons.length
-              ? reasons.slice(0, 3).map(([, key, value]) => ({
-                  key: titleCase(key),
-                  value,
-                  icon: /why|logic/i.test(key) ? Target : /watch|kpi/i.test(key) ? TrendingUp : Package,
-                }))
-              : [
-                  {
-                    key: 'Why',
-                    value: o.rationale || 'Add the reasoning behind this offer so the team can defend it in the room.',
-                    icon: Target,
-                  },
-                  ...(metrics.length ? [{ key: 'Watch', value: metrics.join(' · '), icon: TrendingUp }] : []),
-                  ...(risks.length ? [{ key: 'Risk', value: risks.join(' · '), icon: ShieldCheck }] : []),
-                ];
-            return (
-              <div className="oc-why">
-                <span className="oc-why-heading">Why it works</span>
-                <div
-                  className="oc-why-grid"
-                  style={{ '--oc-why-cols': Math.min(columns.length, 3) } as React.CSSProperties}
-                >
-                  {columns.map(({ key, value, icon: Icon }, index) => (
-                    <div key={`${key}-${index}`} className="oc-why-col">
-                      <div className="oc-why-head">
-                        <span className="oc-why-icon">
-                          <Icon size={14} />
-                        </span>
-                        <span className="oc-label">{key}</span>
-                      </div>
-                      <p title={value}>{value}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })()}
 
         <div className="oc-sign">
           <span>{[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}</span>
