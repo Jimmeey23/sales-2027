@@ -1197,17 +1197,32 @@
   left: 5%;
   right: 5%;
   top: 6%;
-  bottom: 20.5%;
+  bottom: 17%;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   gap: 4%;
 }
+/* Contact shadows where the two card feet meet the marble. */
+.mw .col-row.is-tent .ct-pair::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.6%;
+  height: 7%;
+  z-index: 0;
+  background:
+    radial-gradient(46% 62% at 27% 50%, rgba(28, 34, 42, 0.3) 0%, rgba(28, 34, 42, 0) 72%),
+    radial-gradient(46% 62% at 73% 50%, rgba(28, 34, 42, 0.3) 0%, rgba(28, 34, 42, 0) 72%);
+  filter: blur(7px);
+  pointer-events: none;
+}
 
 .mw .col-section .col-row.is-tent .cr-tent {
   position: relative;
-  flex: 0 1 40%;
-  max-width: 320px;
+  flex: 0 1 41.5%;
+  max-width: 330px;
   width: auto;
   height: auto;
   aspect-ratio: 210 / 297;
@@ -1517,13 +1532,16 @@
 /* Small screens: the front card carries the offer on its own. */
 @container (max-width: 560px) {
   .mw .col-row.is-tent .ct-pair {
-    left: 8%;
-    right: 8%;
+    left: 6%;
+    right: 6%;
     gap: 0;
     justify-content: center;
   }
+  /* A single card, sized by the height it has to stand in — never clipped. */
   .mw .col-section .col-row.is-tent .cr-tent {
-    flex-basis: 76%;
+    flex: 0 1 auto;
+    width: auto;
+    height: 100%;
     max-width: none;
   }
   .mw .col-row.is-tent .cr-tent-back {
