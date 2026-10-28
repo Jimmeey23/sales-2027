@@ -20,6 +20,19 @@ const SalesPlan = lazy(() => import('./pages/SalesPlan'));
 const Memberships = lazy(() => import('./pages/Memberships'));
 const Insights = lazy(() => import('./pages/InsightsHome'));
 
+/* Permissions that put an editing control on screen. Administrators hold all of them,
+   which is exactly why they are held back until the passcode is given. */
+const EDITING_PERMISSIONS = new Set([
+  'target_edit',
+  'target_approve',
+  'offer_create',
+  'offer_edit',
+  'offer_approve',
+  'product_edit',
+  'campaign_edit',
+  'campaign_approve',
+]);
+
 interface AppContextValue {
   boot: Bootstrap;
   studioId: number | null;
@@ -130,8 +143,16 @@ export default function App() {
         <Button onClick={() => window.location.reload()}>Reconnect to the workspace</Button>
       </main>
     );
-  const can = (permission: string) => boot.user.permissions.includes(permission);
   const adminUnlocked = boot.user.permissions.includes('admin_override');
+  // An administrator reads the plan like everyone else: the pencils, add buttons and approve
+  // controls stay out of sight until the editing passcode is entered, and the session is
+  // refreshed by the unlock so this flag flips with it.
+  const isAdministrator = boot.user.role === 'administrator';
+  const can = (permission: string) => {
+    if (!boot.user.permissions.includes(permission)) return false;
+    if (isAdministrator && !adminUnlocked && EDITING_PERMISSIONS.has(permission)) return false;
+    return true;
+  };
   const unlockAdmin = async (passcode: string) => {
     await post('/auth/admin-unlock', { passcode });
     setBoot(await api<Bootstrap>('/bootstrap'));

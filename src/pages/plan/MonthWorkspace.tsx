@@ -513,16 +513,19 @@ export default function MonthWorkspace({
     row = plan.months[month - 1],
     econ = plan.economics.months[month - 1],
     combinedRow = data.months[month - 1];
+  // An administrator holds every editing permission but sees none of its controls until the
+  // passcode is entered; `can` already enforces that, and this mirrors it for the copy.
+  const isAdministrator = boot.user.role === 'administrator';
   const canEditPlan = can('target_edit');
   const canApprovePlan = can('target_approve');
   const canApproveOffers = can('offer_approve');
   const targetRow = plan.detail.targets.find((t: any) => t.month === month);
   const saved = plan.detail.plans.find((p: any) => p.month === month);
   const locked = saved?.status === 'approved';
-  // Editing is a permission, not a password: anyone who may edit the plan edits it directly,
-  // from the pencil on the thing they want to change.
+  // Editing is a permission and, for an administrator, a passcode. Once either door is open the
+  // pencil on the thing they want to change is the only extra control the page adds.
   const editable = canEditPlan && !locked;
-  // The passcode is kept for the one thing that spends money and writes copy on its own: the AI.
+  // The passcode opens the AI for everyone, and the editing controls for an administrator.
   const aiReady = masterUnlocked;
   // Adding, removing and swapping offers needs no passcode.
   const offersEditable = (canEditPlan || can('offer_edit')) && !locked;
@@ -1471,11 +1474,12 @@ export default function MonthWorkspace({
                   <span>Maths</span>
                 </button>
               )}
-              {/* One passcode, one purpose: the AI. Everything else is edited in place. */}
+              {/* One passcode: for an administrator it uncovers the editing controls as well
+                  as the AI; for everyone else it still only unlocks the AI. */}
               {aiReady ? (
                 <div className="mw-edit-status is-ai">
                   <span>
-                    <Sparkles size={11} /> AI unlocked
+                    <Sparkles size={11} /> {isAdministrator ? 'Editing unlocked' : 'AI unlocked'}
                   </span>
                   <Button variant="secondary" icon={<LockKeyhole size={13} />} onClick={lockEditing}>
                     Lock
@@ -1485,7 +1489,7 @@ export default function MonthWorkspace({
                 <form className="mw-hero-gate" onSubmit={unlockEditing}>
                   <LockKeyhole size={13} />
                   <input
-                    aria-label="AI passcode"
+                    aria-label={isAdministrator ? 'Editing passcode' : 'AI passcode'}
                     type="password"
                     inputMode="numeric"
                     autoComplete="one-time-code"
@@ -1496,7 +1500,7 @@ export default function MonthWorkspace({
                       setMasterCode(e.target.value.replace(/\D/g, '').slice(0, 4));
                       setMasterCodeError('');
                     }}
-                    placeholder="AI passcode"
+                    placeholder={isAdministrator ? 'Editing passcode' : 'AI passcode'}
                   />
                   <button type="submit" disabled={masterCode.length !== 4}>
                     Unlock
@@ -1516,9 +1520,18 @@ export default function MonthWorkspace({
                   )}
                 </form>
               ) : (
-                <button type="button" className="mw-ai-gate-btn" onClick={() => setAiGateOpen(true)}>
-                  <Sparkles size={13} />
-                  <span>Unlock AI</span>
+                <button
+                  type="button"
+                  className="mw-ai-gate-btn"
+                  title={
+                    isAdministrator
+                      ? 'Enter the passcode to show this month’s editing controls and unlock the AI'
+                      : 'Enter the passcode to unlock the AI'
+                  }
+                  onClick={() => setAiGateOpen(true)}
+                >
+                  {isAdministrator ? <LockKeyhole size={13} /> : <Sparkles size={13} />}
+                  <span>{isAdministrator ? 'Unlock editing' : 'Unlock AI'}</span>
                 </button>
               )}
               {editable && (
@@ -3502,6 +3515,8 @@ export default function MonthWorkspace({
                   'Compares selected offer forecasts with each allocated target. Approval requires every stream to be covered.',
                 );
                 const covNotes: Record<string, string> = form.content?.coverageNotes || {};
+                const covered = gapRows.filter(r => r.gap <= 1).length;
+                const short = gapRows.reduce((sum, r) => sum + r.gap, 0);
                 return (
                   <div id="mw-sec-coverage" className="mw-section mw-gapplan">
                     <SectionHead
@@ -3516,6 +3531,23 @@ export default function MonthWorkspace({
                       onHintChange={v => patchSectionMeta('coverage', { hint: v })}
                       onDelete={() => hideSection('coverage')}
                     />
+                    {/* The reading, before the detail: how many streams are carried, and what is left. */}
+                    <div className={`mw-gp-summary${short > 1 ? ' is-short' : ' is-covered'}`}>
+                      <span>
+                        <b>
+                          {covered}/{gapRows.length}
+                        </b>{' '}
+                        streams covered
+                      </span>
+                      <span className="mw-gp-summary-gap">
+                        {short > 1 ? `${lakh(short)} still to find` : 'every stream carries its target'}
+                      </span>
+                    </div>
+                    <div className="mw-gp-cols" aria-hidden="true">
+                      <span>Revenue stream</span>
+                      <span>Offer forecast · target</span>
+                      <span>Coverage</span>
+                    </div>
                     <div className="mw-gp-rows">
                       {gapRows.map(r => {
                         const ratio = r.target ? r.offer / r.target : 0;
@@ -3524,65 +3556,65 @@ export default function MonthWorkspace({
                         const note = covNotes[r.label] || '';
                         return (
                           <div key={r.label} className={`mw-gp-row ${state}`}>
-                            <div className="mw-gp-head">
-                              <strong>{r.label}</strong>
-                              <em>
-                                {state === 'short'
-                                  ? `${lakh(r.gap)} short`
-                                  : state === 'over'
-                                    ? `${lakh(r.offer - r.target)} over`
-                                    : 'Covered'}
-                              </em>
-                            </div>
-                            <div className="mw-gp-figs">
-                              <div>
-                                <small>Offer forecast</small>
+                            <div className="mw-gp-line">
+                              <span className="mw-gp-name">
+                                <i aria-hidden="true" />
+                                {r.label}
+                              </span>
+                              <span className="mw-gp-vals">
                                 <b>{lakh(r.offer)}</b>
-                              </div>
-                              <div>
-                                <small>Stream target</small>
-                                <b>{lakh(r.target)}</b>
-                              </div>
-                              <div>
-                                <small>Coverage</small>
-                                <b>{Math.round(ratio * 100)}%</b>
-                              </div>
-                            </div>
-                            <div className="mw-gp-bar">
-                              <i style={{ width: `${(r.offer / scale) * 100}%` }} />
-                              <b style={{ left: `${(r.target / scale) * 100}%` }} title="Target" />
-                            </div>
-                            {r.gap > 0 && (
-                              <div className="mw-gp-plan">
-                                {r.picks.map(o => (
-                                  <div key={o.id} className="mw-gp-pick">
-                                    <span>{o.name}</span>
-                                    <b>+{lakh(forecastRevenue(o))}</b>
-                                  </div>
-                                ))}
-                                {r.left > 0 && (
-                                  <p>
-                                    {r.picks.length ? 'Still ' : ''}
-                                    <b>{lakh(r.left)}</b> to find.{' '}
-                                    {r.lead && r.extra
-                                      ? `Sell ${number(r.extra)} more of “${r.lead.name}” (${money(n(r.lead.expected_asp), true)} each), or add a new ${r.label.toLowerCase()} offer.`
-                                      : 'No offer carries this stream yet — create or add one above.'}
-                                  </p>
-                                )}
-                              </div>
-                            )}
-                            {(sectionEditable('coverage') || note) && (
-                              <div className="mw-gp-note">
-                                {sectionEditable('coverage') ? (
-                                  <input
-                                    placeholder={`Plan note for ${r.label.toLowerCase()} coverage…`}
-                                    value={note}
-                                    onChange={e =>
-                                      updateContent({ coverageNotes: { ...covNotes, [r.label]: e.target.value } })
-                                    }
-                                  />
+                                <em>of {lakh(r.target)}</em>
+                              </span>
+                              <span className="mw-gp-bar" aria-hidden="true">
+                                <i style={{ width: `${Math.min(100, (r.offer / scale) * 100)}%` }} />
+                                <b style={{ left: `${Math.min(100, (r.target / scale) * 100)}%` }} title="Target" />
+                              </span>
+                              <span className={`mw-gp-state ${state}`}>
+                                {Math.round(ratio * 100)}%
+                                {state === 'short' ? (
+                                  <em>{lakh(r.gap)} short</em>
+                                ) : state === 'over' ? (
+                                  <em>{lakh(r.offer - r.target)} over</em>
                                 ) : (
-                                  <small>{note}</small>
+                                  <em>covered</em>
+                                )}
+                              </span>
+                            </div>
+                            {(r.gap > 0 || note || sectionEditable('coverage')) && (
+                              <div className="mw-gp-detail">
+                                {r.gap > 0 && (
+                                  <div className="mw-gp-plan">
+                                    {r.picks.map(o => (
+                                      <span key={o.id} className="mw-gp-pick">
+                                        {o.name}
+                                        <b>+{lakh(forecastRevenue(o))}</b>
+                                      </span>
+                                    ))}
+                                    {r.left > 0 && (
+                                      <p>
+                                        {r.picks.length ? 'Still ' : ''}
+                                        <b>{lakh(r.left)}</b> to find.{' '}
+                                        {r.lead && r.extra
+                                          ? `Sell ${number(r.extra)} more of “${r.lead.name}” (${money(n(r.lead.expected_asp), true)} each), or add a new ${r.label.toLowerCase()} offer.`
+                                          : 'No offer carries this stream yet — create or add one above.'}
+                                      </p>
+                                    )}
+                                  </div>
+                                )}
+                                {(sectionEditable('coverage') || note) && (
+                                  <div className="mw-gp-note">
+                                    {sectionEditable('coverage') ? (
+                                      <input
+                                        placeholder={`Plan note for ${r.label.toLowerCase()} coverage…`}
+                                        value={note}
+                                        onChange={e =>
+                                          updateContent({ coverageNotes: { ...covNotes, [r.label]: e.target.value } })
+                                        }
+                                      />
+                                    ) : (
+                                      <small>{note}</small>
+                                    )}
+                                  </div>
                                 )}
                               </div>
                             )}
@@ -3718,25 +3750,76 @@ export default function MonthWorkspace({
 
                       return (
                         <div className="mp-run">
+                          {/* The plan as an infographic: four figures, a completion metre and a
+                              week ribbon across the top, then the work itself underneath. */}
                           <header className="mp-run-head">
                             <div className="mp-run-summary">
-                              <span className="mp-run-kicker">Run of the month</span>
+                              <span className="mp-run-kicker">
+                                Action plan · {MONTHS[month - 1]} {year}
+                              </span>
                               <strong>{total ? `${done} of ${total} steps done` : 'The month, week by week'}</strong>
+                            </div>
+                            <div className="mp-run-figures">
+                              <span>
+                                <b>{total}</b>
+                                <small>steps</small>
+                              </span>
+                              <span>
+                                <b>{phases.filter(phase => phase.items.length > 0).length}</b>
+                                <small>weeks in play</small>
+                              </span>
+                              <span>
+                                <b>{new Set(form.actions.map(a => a.owner).filter(Boolean)).size}</b>
+                                <small>owners</small>
+                              </span>
+                              <span>
+                                <b>{dates.length}</b>
+                                <small>key dates</small>
+                              </span>
                             </div>
                             <div className="mp-run-meter" aria-hidden="true">
                               <i style={{ width: `${total ? (done / total) * 100 : 0}%` }} />
+                              <em>{total ? `${Math.round((done / total) * 100)}%` : '0%'}</em>
                             </div>
-                            {dates.length > 0 && (
+                          </header>
+
+                          {/* One segment per week, filled to the share of that week's steps already done. */}
+                          <ol className="mp-ribbon" aria-label={`${MONTHS[month - 1]} week by week`}>
+                            {PHASES.map(phase => {
+                              const weekItems = form.actions.filter(a => a.week === phase.week);
+                              const finished = weekItems.filter(a => a.done).length;
+                              const fill = weekItems.length ? (finished / weekItems.length) * 100 : 0;
+                              return (
+                                <li
+                                  key={phase.week}
+                                  className={weekItems.length ? 'has-work' : 'is-empty'}
+                                  style={{ '--fill': `${fill}%` } as React.CSSProperties}
+                                  title={`${phase.label} — ${weekItems.length} steps, ${finished} done`}
+                                >
+                                  <span>W{phase.week}</span>
+                                  <em>{span(phase.week) || '—'}</em>
+                                  <i aria-hidden="true">
+                                    <b />
+                                  </i>
+                                  <small>{weekItems.length ? `${finished}/${weekItems.length}` : '—'}</small>
+                                </li>
+                              );
+                            })}
+                          </ol>
+
+                          {dates.length > 0 && (
+                            <div className="mp-run-calendar">
+                              <span className="mp-run-calendar-label">Dates that move the month</span>
                               <div className="mp-run-dates">
-                                {dates.slice(0, 4).map(d => (
+                                {dates.slice(0, 5).map(d => (
                                   <span key={`${d.day}-${d.name}`} className={`kd-${d.kind}`}>
                                     <b>{formatKeyDate(d)}</b>
                                     {d.name}
                                   </span>
                                 ))}
                               </div>
-                            )}
-                          </header>
+                            </div>
+                          )}
 
                           {!total && (
                             <p className="mp-run-empty">
@@ -3756,7 +3839,10 @@ export default function MonthWorkspace({
                                   style={{ '--i': gi } as React.CSSProperties}
                                 >
                                   <div className="mp-phase-rail" aria-hidden="true">
-                                    <span>W{phase.week}</span>
+                                    <span>
+                                      <i>W</i>
+                                      {String(phase.week).padStart(2, '0')}
+                                    </span>
                                     {phase.range && <em>{phase.range}</em>}
                                   </div>
                                   <div className="mp-phase-body">
