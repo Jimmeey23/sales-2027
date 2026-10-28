@@ -1,141 +1,256 @@
-// Festivals, public holidays and marketing moments that shape demand in Mumbai and Bengaluru.
-// Lunar-calendar festivals move every year; `approx` dates should be confirmed against the official
-// holiday list before campaign dates are locked.
+/* The dates that actually move a Physique 57 month.
+
+   This is deliberately not a holiday list. A studio plan only needs the handful of days
+   that change how a woman in Mumbai or Bengaluru feels about booking a class — the
+   gifting moments, the body-image and mental-health moments, the two months the brand
+   itself owns, and the retail windows worth building an offer around. Everything else
+   (World Braille Day, World Toilet Day, statehood days) is noise in a sales plan.
+
+   Dates are computed per year rather than hard-coded to one, so Mother's Day is always
+   the second Sunday of May, Black Friday always follows the fourth Thursday of November,
+   and the shift-aware years do not silently drift. Only the lunar festivals carry a
+   per-year table, and those are flagged `approx` until the official list is published. */
+
 export type KeyDateKind = 'festival' | 'holiday' | 'awareness' | 'global' | 'retail' | 'brand';
+
 export interface KeyDate {
   day: number;
+  /** Last day of a month-long observance. */
   end?: number;
   name: string;
   kind: KeyDateKind;
+  /** Lunar or notification-dependent date: confirm before locking campaign dates. */
   approx?: boolean;
+  /** Why this one is on the list, in the studio's language. */
+  note?: string;
 }
 
 export const KEY_DATE_LABELS: Record<KeyDateKind, string> = {
   festival: 'Festival',
   holiday: 'Holiday',
-  awareness: 'Wellness day',
-  global: 'International day',
+  awareness: 'Wellness moment',
+  global: 'Awareness day',
   retail: 'Retail moment',
   brand: 'P57 moment',
 };
 
-const KEY_DATES: Record<number, KeyDate[][]> = {
-  2027: [
-    [
-      { day: 1, name: 'New Year’s Day', kind: 'holiday' },
-      { day: 4, name: 'World Braille Day', kind: 'global' },
-      { day: 14, name: 'Makar Sankranti / Pongal', kind: 'festival' },
-      { day: 24, name: 'International Day of Education', kind: 'global' },
-      { day: 26, name: 'Republic Day', kind: 'holiday' },
-    ],
-    [
-      { day: 4, name: 'World Cancer Day', kind: 'global' },
-      { day: 11, name: 'Vasant Panchami', kind: 'festival', approx: true },
-      { day: 11, name: 'International Day of Women and Girls in Science', kind: 'global' },
-      { day: 14, name: 'Valentine’s Day', kind: 'retail' },
-      { day: 20, name: 'World Day of Social Justice', kind: 'global' },
-      { day: 19, name: 'Shivaji Jayanti (MH)', kind: 'holiday' },
-      { day: 21, name: 'International Mother Language Day', kind: 'global' },
-    ],
-    [
-      { day: 6, name: 'Maha Shivaratri', kind: 'festival', approx: true },
-      { day: 8, name: 'International Women’s Day', kind: 'global' },
-      { day: 20, name: 'International Day of Happiness', kind: 'global' },
-      { day: 21, name: 'World Down Syndrome Day', kind: 'global' },
-      { day: 22, name: 'World Water Day', kind: 'global' },
-      { day: 10, name: 'Eid al-Fitr', kind: 'festival', approx: true },
-      { day: 22, name: 'Holi', kind: 'festival', approx: true },
-    ],
-    [
-      { day: 7, name: 'Gudi Padwa / Ugadi', kind: 'festival', approx: true },
-      { day: 2, name: 'World Autism Awareness Day', kind: 'global' },
-      { day: 7, name: 'World Health Day', kind: 'global' },
-      { day: 15, name: 'Ram Navami', kind: 'festival', approx: true },
-      { day: 22, name: 'International Mother Earth Day', kind: 'global' },
-      { day: 23, name: 'World Book and Copyright Day', kind: 'global' },
-      { day: 1, end: 30, name: 'Physique 57 anniversary month', kind: 'brand' },
-    ],
-    [
-      { day: 1, name: 'Maharashtra Day', kind: 'holiday' },
-      { day: 9, name: 'Mother’s Day', kind: 'retail' },
-      { day: 15, name: 'International Day of Families', kind: 'global' },
-      { day: 22, name: 'International Day for Biological Diversity', kind: 'global' },
-      { day: 31, name: 'World No-Tobacco Day', kind: 'global' },
-      { day: 17, name: 'Eid al-Adha (Bakri Eid)', kind: 'festival', approx: true },
-      { day: 28, name: 'Menstrual Hygiene Day', kind: 'awareness' },
-    ],
-    [
-      { day: 5, name: 'World Environment Day', kind: 'global' },
-      { day: 3, name: 'World Bicycle Day', kind: 'global' },
-      { day: 8, name: 'World Oceans Day', kind: 'global' },
-      { day: 11, name: 'International Day of Play', kind: 'global' },
-      { day: 14, name: 'World Blood Donor Day', kind: 'global' },
-      { day: 20, name: 'Father’s Day', kind: 'retail' },
-      { day: 21, name: 'International Yoga Day', kind: 'global' },
-      { day: 10, end: 30, name: 'Monsoon arrives (Mumbai)', kind: 'brand' },
-    ],
-    [
-      { day: 1, name: 'Doctors’ Day', kind: 'awareness' },
-      { day: 11, name: 'World Population Day', kind: 'global' },
-      { day: 18, name: 'Nelson Mandela International Day', kind: 'global' },
-      { day: 16, name: 'Muharram', kind: 'festival', approx: true },
-      { day: 30, name: 'International Day of Friendship', kind: 'global' },
-    ],
-    [
-      { day: 1, name: 'Friendship Day (India)', kind: 'retail' },
-      { day: 9, name: 'International Day of the World’s Indigenous Peoples', kind: 'global' },
-      { day: 12, name: 'International Youth Day', kind: 'global' },
-      { day: 19, name: 'World Humanitarian Day', kind: 'global' },
-      { day: 15, name: 'Independence Day', kind: 'holiday' },
-      { day: 17, name: 'Raksha Bandhan', kind: 'festival', approx: true },
-      { day: 25, name: 'Janmashtami', kind: 'festival', approx: true },
-    ],
-    [
-      { day: 4, end: 14, name: 'Ganesh Chaturthi → Anant Chaturdashi', kind: 'festival', approx: true },
-      { day: 8, name: 'International Literacy Day', kind: 'global' },
-      { day: 21, name: 'International Day of Peace', kind: 'global' },
-      { day: 27, name: 'World Tourism Day', kind: 'global' },
-      { day: 29, name: 'World Heart Day', kind: 'global' },
-      { day: 30, name: 'Navratri begins', kind: 'festival', approx: true },
-    ],
-    [
-      { day: 2, name: 'Gandhi Jayanti', kind: 'holiday' },
-      { day: 9, name: 'Dussehra', kind: 'festival', approx: true },
-      { day: 1, name: 'International Day of Older Persons', kind: 'global' },
-      { day: 10, name: 'World Mental Health Day', kind: 'global' },
-      { day: 11, name: 'International Day of the Girl Child', kind: 'global' },
-      { day: 16, name: 'World Food Day', kind: 'global' },
-      { day: 18, name: 'Karva Chauth', kind: 'festival', approx: true },
-      { day: 29, name: 'Diwali', kind: 'festival', approx: true },
-    ],
-    [
-      { day: 1, name: 'Kannada Rajyotsava (KA)', kind: 'holiday' },
-      { day: 14, name: 'Guru Nanak Jayanti', kind: 'festival', approx: true },
-      { day: 14, name: 'World Diabetes Day', kind: 'global' },
-      { day: 19, name: 'World Toilet Day', kind: 'global' },
-      { day: 25, name: 'International Day for the Elimination of Violence against Women', kind: 'global' },
-      { day: 26, name: 'Black Friday', kind: 'retail' },
-      { day: 29, name: 'Cyber Monday', kind: 'retail' },
-    ],
-    [
-      { day: 1, end: 31, name: 'Wedding & party season', kind: 'brand' },
-      { day: 1, name: 'World AIDS Day', kind: 'global' },
-      { day: 3, name: 'International Day of Persons with Disabilities', kind: 'global' },
-      { day: 10, name: 'Human Rights Day', kind: 'global' },
-      { day: 21, name: 'World Meditation Day', kind: 'global' },
-      { day: 25, name: 'Christmas', kind: 'holiday' },
-      { day: 31, name: 'New Year’s Eve', kind: 'retail' },
-    ],
-  ],
+/** The brand's founding month, used to count the anniversary rather than assume it. */
+const FOUNDED_YEAR = 2018;
+
+/** Lunar festivals, which move every year and cannot be computed from a weekday rule. */
+const LUNAR: Record<string, Record<number, number>> = {
+  // Diwali (Lakshmi Puja). Confirmed against the 2027 Department of Personnel & Training
+  // holiday order, which lists Friday 29 October 2027 as the gazetted date.
+  diwali: { 2026: 8, 2027: 29, 2028: 17 },
 };
 
-// Years without a curated list fall back to the closest one we have (fixed-date days still line up).
+/** Day of the nth given weekday in a month: nthWeekday(2027, 5, 0, 2) is the 2nd Sunday. */
+function nthWeekday(year: number, month: number, weekday: number, n: number): number {
+  const first = new Date(year, month - 1, 1).getDay();
+  const offset = (weekday - first + 7) % 7;
+  return 1 + offset + (n - 1) * 7;
+}
+
+interface Rule {
+  month: number;
+  /** Month-long observance: spans the whole month. */
+  span?: boolean;
+  day?: (year: number) => number | undefined;
+  end?: (year: number) => number;
+  name: string;
+  kind: KeyDateKind;
+  approx?: boolean;
+  note?: string;
+}
+
+const RULES: Rule[] = [
+  // ── January ───────────────────────────────────────────────────────────────
+  {
+    month: 1,
+    day: () => 1,
+    name: 'New Year',
+    kind: 'retail',
+    note: 'The single biggest resolution month for a fitness studio. Sell the restart.',
+  },
+
+  // ── February ──────────────────────────────────────────────────────────────
+  {
+    month: 2,
+    span: true,
+    name: 'Pride Month',
+    kind: 'awareness',
+    note: 'Mumbai and Bengaluru Pride season. Community classes, not a discount.',
+  },
+  {
+    month: 2,
+    day: () => 14,
+    name: 'Valentine’s Day',
+    kind: 'retail',
+    note: 'The pair offer: bring someone, both train. Gifted classes enter the encore flow.',
+  },
+
+  // ── March ─────────────────────────────────────────────────────────────────
+  {
+    month: 3,
+    day: () => 8,
+    name: 'International Women’s Day',
+    kind: 'global',
+    note: 'The studio’s core audience. Programme the room, not the price.',
+  },
+
+  // ── April ─────────────────────────────────────────────────────────────────
+  {
+    month: 4,
+    day: () => 7,
+    name: 'World Health Day',
+    kind: 'awareness',
+    note: 'Justifies the health-led message that opens the anniversary month.',
+  },
+  {
+    month: 4,
+    day: () => 18,
+    name: 'Physique 57 anniversary',
+    kind: 'brand',
+    note: 'The brand’s own birthday. The flagship offer closes on this night.',
+  },
+
+  // ── May ───────────────────────────────────────────────────────────────────
+  {
+    month: 5,
+    span: true,
+    name: 'Mental Health Awareness Month',
+    kind: 'awareness',
+    note: 'Movement as a mental-health practice: the most honest retention story there is.',
+  },
+  {
+    month: 5,
+    day: year => nthWeekday(year, 5, 0, 2),
+    name: 'Mother’s Day',
+    kind: 'retail',
+    note: 'The second seat: daughters buying for mothers, and mothers for daughters.',
+  },
+
+  // ── June ──────────────────────────────────────────────────────────────────
+  {
+    month: 6,
+    day: year => nthWeekday(year, 6, 0, 3),
+    name: 'Father’s Day',
+    kind: 'retail',
+    note: 'A low-effort pairing window. Strength Lab for two.',
+  },
+
+  // ── July ──────────────────────────────────────────────────────────────────
+  {
+    month: 7,
+    span: true,
+    name: 'Monsoon',
+    kind: 'brand',
+    note: 'Attendance dips for six weeks. Sell short terms and freeze the long ones.',
+  },
+
+  // ── August ────────────────────────────────────────────────────────────────
+  {
+    month: 8,
+    day: year => nthWeekday(year, 8, 0, 1),
+    name: 'Friendship Day',
+    kind: 'retail',
+    note: 'The referral engine: a member brings a friend, the friend gets a first class.',
+  },
+  {
+    month: 8,
+    day: () => 9,
+    name: 'Women’s Day',
+    kind: 'global',
+    note: 'A second women-led moment in the quietest stretch of the year.',
+  },
+
+  // ── September ─────────────────────────────────────────────────────────────
+  {
+    month: 9,
+    day: () => 29,
+    name: 'World Heart Day',
+    kind: 'awareness',
+    note: 'Cardio and cycle formats get a reason to be talked about.',
+  },
+
+  // ── October ───────────────────────────────────────────────────────────────
+  {
+    month: 10,
+    day: () => 19,
+    name: 'Breast Cancer Awareness',
+    kind: 'awareness',
+    note: 'Marked with the community, never sold on. Screening information in the studio.',
+  },
+  {
+    month: 10,
+    day: year => LUNAR.diwali[year],
+    name: 'Diwali',
+    kind: 'festival',
+    approx: true,
+    note: 'The gifting window: the one month a year people buy a membership for someone else.',
+  },
+  {
+    month: 10,
+    day: () => 31,
+    name: 'Halloween',
+    kind: 'retail',
+    note: 'A themed class night. Cheap to run, strong on stories.',
+  },
+
+  // ── November ──────────────────────────────────────────────────────────────
+  {
+    month: 11,
+    day: () => 11,
+    name: 'Singles’ Day (11.11)',
+    kind: 'retail',
+    note: 'A second 11.11 window, read in India as a self-purchase day.',
+  },
+  {
+    // The day after the fourth Thursday of November.
+    month: 11,
+    day: year => nthWeekday(year, 11, 4, 4) + 1,
+    name: 'Black Friday',
+    kind: 'retail',
+    note: 'The annual-plan window. Capped seat count, never an open discount.',
+  },
+
+  // ── December ──────────────────────────────────────────────────────────────
+  {
+    month: 12,
+    day: () => 25,
+    name: 'Christmas',
+    kind: 'holiday',
+    note: 'The gifting close and the last quiet week to sell the next year.',
+  },
+];
+
+/** The brand-relevant days for one month, in date order. */
 export function keyDatesFor(year: number, month: number): KeyDate[] {
-  const years = Object.keys(KEY_DATES).map(Number),
-    closest = years.reduce((a, b) => (Math.abs(b - year) < Math.abs(a - year) ? b : a));
-  return [...(KEY_DATES[closest][month - 1] || [])]
-    .map(d => (closest === year ? d : { ...d, approx: true }))
-    .sort((a, b) => a.day - b.day);
+  const days: KeyDate[] = [];
+  for (const rule of RULES) {
+    if (rule.month !== month) continue;
+    if (rule.span) {
+      const lastDay = new Date(year, month, 0).getDate();
+      days.push({ day: 1, end: lastDay, name: rule.name, kind: rule.kind, note: rule.note });
+      continue;
+    }
+    const day = rule.day?.(year);
+    if (!day || day < 1 || day > 31) continue;
+    days.push({
+      day,
+      name: rule.name,
+      kind: rule.kind,
+      approx: rule.approx,
+      note: rule.note,
+    });
+  }
+  if (month === 4) {
+    // The anniversary is counted, not assumed: the cover and the day card must agree.
+    const n = year - FOUNDED_YEAR;
+    const card = days.find(d => d.kind === 'brand');
+    if (card) card.name = `Physique 57 anniversary · ${n} years`;
+  }
+  return days.sort((a, b) => a.day - b.day);
 }
 
 export const formatKeyDate = (d: KeyDate) => (d.end ? `${d.day}–${d.end}` : String(d.day));

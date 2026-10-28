@@ -3,6 +3,7 @@ import { useApp } from '../../App';
 import { useLoad } from '../../hooks';
 import { locationStudioIds, planningLocations } from '../../data/locations';
 import { MONTH_THEMES, studioPlaybook } from '../../data/planDefaults';
+import { isLegacyTheme, monthChapter } from '../../data/monthNarrative';
 import type { Studio } from '../../types';
 
 export interface MonthRow {
@@ -149,14 +150,16 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
     const newClient = Math.max(0, target - renewal - reactivation - other);
     // The lead offer is the month's first pick from the offer bank, never a written default.
     const leadOffer: string = plan?.offers?.[0]?.name || 'No offer picked yet';
-    const objective = pb.objective || src?.objective || plan?.objective || MONTH_THEMES[i];
+    const objective = pb.objective || src?.objective || plan?.objective || monthChapter(i + 1).objective;
     // Bottom-up economics take priority when unit economics are resolved; fall back to stored funnel/playbook counts if ever zeroed.
     const e = economics.months[i];
     const fallbackBuyers = num(f.requiredNewBuyers ?? pb.buyers ?? src?.buyers ?? wb.newPaying);
     const fallbackTrials = num(f.requiredCompletedTrials ?? pb.trials ?? src?.trials ?? wb.trials);
     const fallbackLeads = num(f.requiredLeads ?? pb.leads ?? src?.leads ?? wb.leads);
     const fallbackRenDue = num(pb.renewalsDue ?? src?.renewalsDue ?? wb.renewalsDue);
-    const fallbackRenPurchases = num(pb.renewalPurchases ?? src?.renewalPurchases ?? wb.renewalPurchases ?? wb.existingPaying);
+    const fallbackRenPurchases = num(
+      pb.renewalPurchases ?? src?.renewalPurchases ?? wb.renewalPurchases ?? wb.existingPaying,
+    );
     const fallbackReactivated = num(pb.reactivated ?? src?.reactivated ?? wb.reactivated);
     const fallbackLapsed = num(pb.lapsedTouches ?? src?.lapsedTouches ?? wb.lapsedTouches);
     const hasNewEcon = Boolean(e && e.newClient.firstSpend > 0);
@@ -183,7 +186,13 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
       lapsedTouches: e && e.reactivation.lapsedPool > 0 ? e.reactivation.lapsedPool : fallbackLapsed,
       objective,
       leadOffer,
-      theme: plan?.theme || detail.themes?.[month] || MONTH_THEMES[i],
+      // Months planned before the narrative chapters carry a generic label ("Fresh Start",
+      // "Stronger Together"). Those fall back to the month's chapter theme, so the year plan
+      // cards, the cover and the workspace all name the month the same way.
+      theme: (() => {
+        const planned = plan?.theme || detail.themes?.[month];
+        return planned && !isLegacyTheme(planned) ? planned : MONTH_THEMES[i];
+      })(),
       renewalTarget: e?.renewal.target ?? renewal,
       expectedRenewal: e?.renewal.expected || 0,
       renewalGap: e?.renewal.gap || 0,
@@ -237,7 +246,8 @@ function combine(rows: MonthRow[][]): MonthRow[] {
           projectedExpiries: sum.projectedExpiries + r.projectedExpiries,
           bookedExpiries: sum.bookedExpiries + r.bookedExpiries,
           feasibility: worstFeasibility,
-          stretchPct: nextLastYear > 0 ? Math.round(((nextTarget - nextLastYear) / nextLastYear) * 100) : sum.stretchPct,
+          stretchPct:
+            nextLastYear > 0 ? Math.round(((nextTarget - nextLastYear) / nextLastYear) * 100) : sum.stretchPct,
           bottleneck: sum.bottleneck || r.bottleneck,
           clients2026: sum.clients2026 + r.clients2026,
           newClients2026: sum.newClients2026 + r.newClients2026,

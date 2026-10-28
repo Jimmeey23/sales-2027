@@ -67,6 +67,10 @@ export default function Layout() {
     links: item.links.filter(l => !l.permission || can(l.permission)),
   })).filter(item => item.id === 'overview' || item.links.length);
   const scoped = ['studio_manager', 'sales_associate'].includes(boot.user.role) && !adminUnlocked;
+  // The passcode is offered to the people it changes something for: the administrator, whose
+  // editing controls it uncovers, and the scoped studio roles, whose location limits it lifts.
+  const adminGateVisible =
+    boot.user.role === 'administrator' || ['studio_manager', 'sales_associate'].includes(boot.user.role);
   const locations = planningLocations(boot.studios);
   const active = boot.studios.find(s => s.id === studioId);
   const yearOptions = [...new Set([...(boot.years || []), boot.planningYear])].sort();
@@ -79,7 +83,7 @@ export default function Layout() {
     try {
       await unlockAdmin(adminPasscode);
       setAdminPasscode('');
-      toast('Admin edit mode unlocked for this session.');
+      toast('Editing unlocked for this session.');
     } catch (error: any) {
       setAdminPasscode('');
       toast(error.message || 'Could not unlock admin edit mode.', 'error');
@@ -256,33 +260,39 @@ export default function Layout() {
               <Bot size={17} />
               <span>Ask Copilot</span>
             </button>
-            <button className="ws-new" onClick={() => navigate('/offers?view=manual')} title="Create an offer">
-              <Plus size={17} />
-              <span>New offer</span>
-            </button>
-            {adminUnlocked ? (
-              <button className="ws-admin-status" title="Lock admin edit mode" onClick={() => void lockAdmin()}>
-                <LockKeyhole size={15} />
-                <span>Admin edit · Lock</span>
+            {can('offer_create') && (
+              <button className="ws-new" onClick={() => navigate('/offers?view=manual')} title="Create an offer">
+                <Plus size={17} />
+                <span>New offer</span>
               </button>
-            ) : (
-              <form className="ws-admin-gate" onSubmit={submitAdminPasscode}>
+            )}
+            {adminGateVisible && adminUnlocked ? (
+              <button className="ws-admin-status" title="Lock editing again" onClick={() => void lockAdmin()}>
+                <LockKeyhole size={15} />
+                <span>Editing · Lock</span>
+              </button>
+            ) : adminGateVisible ? (
+              <form
+                className="ws-admin-gate"
+                onSubmit={submitAdminPasscode}
+                title="Enter the passcode to show the editing controls"
+              >
                 <LockKeyhole size={14} aria-hidden="true" />
                 <input
-                  aria-label="Admin passcode"
+                  aria-label="Editing passcode"
                   type="password"
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   maxLength={4}
                   value={adminPasscode}
                   onChange={event => setAdminPasscode(event.target.value.replace(/\D/g, '').slice(0, 4))}
-                  placeholder="Admin code"
+                  placeholder="Edit code"
                 />
                 <button type="submit" disabled={adminPasscode.length !== 4}>
                   Unlock
                 </button>
               </form>
-            )}
+            ) : null}
             <button className="icon-btn" title="Sign out" aria-label="Sign out" onClick={signOut}>
               <LogOut size={15} />
             </button>

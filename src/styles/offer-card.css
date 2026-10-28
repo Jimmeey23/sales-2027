@@ -54,7 +54,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 18px;
-  min-height: 214px;
+  min-height: 232px;
   padding: 16px 20px 15px;
   cursor: pointer;
   overflow: hidden;
@@ -106,14 +106,14 @@
   inset: 0;
   z-index: 1;
   background: linear-gradient(
-      95deg,
-      rgba(8, 16, 26, 0.97) 0%,
-      rgba(8, 16, 26, 0.94) 34%,
-      rgba(8, 16, 26, 0.62) 56%,
-      rgba(8, 16, 26, 0.16) 78%,
-      rgba(8, 16, 26, 0.3) 100%
+      96deg,
+      rgba(8, 16, 26, 0.95) 0%,
+      rgba(8, 16, 26, 0.88) 30%,
+      rgba(8, 16, 26, 0.44) 60%,
+      rgba(8, 16, 26, 0.06) 84%,
+      rgba(8, 16, 26, 0.18) 100%
     ),
-    linear-gradient(180deg, rgba(6, 13, 22, 0.66) 0%, rgba(6, 13, 22, 0.05) 34%, rgba(5, 12, 20, 0.82) 100%);
+    linear-gradient(180deg, rgba(6, 13, 22, 0.54) 0%, rgba(6, 13, 22, 0.02) 32%, rgba(5, 12, 20, 0.86) 100%);
 }
 
 .mw .oc-hero-top {
@@ -446,34 +446,6 @@
   font-size: 16.5px;
   font-weight: 600;
   color: #a7b3bd;
-}
-.mw .oc-bar {
-  --oc-fill: 0%;
-  --oc-cash: 0%;
-  order: 3;
-  position: relative;
-  display: block;
-  height: 3px;
-  margin: 2px 0 1px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #eaeff4;
-}
-.mw .oc-bar::after {
-  content: '';
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--oc-fill);
-  border-radius: inherit;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--oc-accent) 34%, #dce8f1) 0%, var(--oc-accent) 100%);
-  transition: width 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.mw .oc-bar.is-stacked::after {
-  background: linear-gradient(
-    90deg,
-    var(--oc-accent) 0 var(--oc-cash),
-    color-mix(in srgb, var(--oc-accent) 28%, #d3e2ee) var(--oc-cash) var(--oc-fill)
-  );
 }
 .mw .oc-stat-note {
   order: 4;
@@ -895,8 +867,8 @@
 /* Two-up cards sit on a shared subgrid, so the hero row already matches; these rules keep
    every section below it on the same baseline by fixing each block's line budget. */
 .mw .mw-offer-list.is-two-up .oc-hero {
-  padding: 15px 15px 13px;
-  min-height: 208px;
+  padding: 16px 16px 14px;
+  min-height: 244px;
   height: 100%;
 }
 .mw .mw-offer-list.is-two-up .oc-sheet {
@@ -987,7 +959,7 @@
   display: none;
 }
 .mw .oc.is-collapsed .oc-hero {
-  min-height: 196px;
+  min-height: 212px;
 }
 
 /* The full card is the collapse target. */
@@ -1029,3 +1001,707 @@
   align-items: center;
   gap: 6px;
 }
+
+/* ═══ Refinement: an offer card reads like a page of the plan, not a dashboard ══ */
+/* Same photograph, serif and hairlines as the page heroes. Everything that was a tile is
+   now a ruled cell, so the card has one surface and one type voice. */
+
+.mw .oc {
+  border-radius: 20px;
+  box-shadow:
+    0 1px 2px rgba(11, 20, 32, 0.05),
+    0 20px 40px -30px rgba(11, 20, 32, 0.34);
+}
+.mw .oc:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 2px 5px rgba(11, 20, 32, 0.07),
+    0 30px 54px -30px rgba(11, 20, 32, 0.44);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.mw .oc-hero {
+  min-height: 288px;
+  padding: 18px 22px 17px;
+  gap: 14px;
+}
+.mw .oc-hero-image {
+  transform: scale(1.02);
+  filter: saturate(1.04) contrast(1.04);
+}
+.mw .oc:hover .oc-hero-image {
+  transform: scale(1.05);
+}
+/* Keep the photograph readable: the navy stays on the left third and at the foot. */
+.mw .oc-hero-scrim {
+  background: linear-gradient(
+      96deg,
+      rgba(8, 16, 26, 0.9) 0%,
+      rgba(8, 16, 26, 0.72) 34%,
+      rgba(8, 16, 26, 0.2) 68%,
+      rgba(8, 16, 26, 0.04) 88%
+    ),
+    linear-gradient(180deg, rgba(6, 13, 22, 0.5) 0%, rgba(6, 13, 22, 0.02) 34%, rgba(5, 12, 20, 0.9) 100%);
+}
+.mw .oc-hero-copy {
+  gap: 6px;
+  max-width: min(54ch, 100%);
+}
+.mw .oc h3.oc-title {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: clamp(26px, 3.2cqi, 34px);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.026em;
+  text-wrap: balance;
+}
+.mw .oc-title-accent {
+  color: #ffffff;
+  font-style: italic;
+}
+.mw .oc .oc-job {
+  max-width: 46ch;
+  font-size: 13px;
+  font-weight: 550;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.82);
+}
+.mw .oc .oc-brief {
+  max-width: 52ch;
+  font-size: 12.4px;
+  line-height: 1.5;
+  color: rgba(219, 232, 243, 0.74);
+}
+.mw .oc-hero-bottom {
+  gap: 12px;
+}
+.mw .oc-chip {
+  height: 24px;
+  padding: 0 10px;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(11, 20, 32, 0.34);
+  font-size: 10.5px;
+  font-weight: 550;
+  letter-spacing: 0.01em;
+}
+.mw .oc-hero-top .oc-num-badge,
+.mw .oc-num-badge {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* ── The sheet: one rail of figures, then the who/when/how line ───────────── */
+.mw .oc-sheet {
+  padding: 0 22px 15px;
+}
+.mw .oc-stats {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 -22px;
+  padding: 17px 22px 15px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  background: transparent;
+}
+.mw .oc-stat {
+  gap: 6px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.mw .oc:hover .oc-stat {
+  border: 0;
+  box-shadow: none;
+}
+.mw .oc-stat:first-child {
+  padding-left: 0;
+}
+.mw .oc-stat + .oc-stat {
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mw .oc-stat-label {
+  gap: 5px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  color: #9a97a6;
+}
+.mw .oc-stat-label svg {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #b4b1be;
+}
+.mw .oc-stat-value {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #1b1824;
+}
+.mw .oc-stat-value.is-muted {
+  font-size: 19px;
+  font-weight: 500;
+  color: #b4b1be;
+}
+.mw .oc-stat-value s {
+  font-family: inherit;
+  font-size: 11px;
+  color: #b4b1be;
+}
+.mw .oc-stat-value em {
+  font-family: inherit;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #9a97a6;
+}
+.mw .oc-stat-note {
+  font-size: 9.4px;
+  line-height: 1.35;
+  color: #9a97a6;
+}
+.mw .oc-meta {
+  padding: 14px 0 15px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+}
+.mw .oc-meta-icon svg {
+  width: 13px;
+  height: 13px;
+}
+.mw .oc-meta-icon {
+  margin-top: 2px;
+  color: #b4b1be;
+}
+.mw .oc-meta-item {
+  gap: 8px;
+  padding: 0 16px;
+}
+.mw .oc-meta-item + .oc-meta-item {
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mw .oc-label {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  color: #9a97a6;
+}
+.mw .oc-meta-item b {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #4a4657;
+}
+
+/* ── Details: paper, not a blue panel ─────────────────────────────────────── */
+.mw .oc-details {
+  margin: 15px 0 0;
+  padding: 14px 16px 15px;
+  border: 1px solid rgba(25, 26, 36, 0.07);
+  border-radius: 14px;
+  background: #faf9f7;
+}
+.mw .oc-details-toggle {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #1b1824;
+}
+.mw .oc .oc-actions .oc-check {
+  height: 32px;
+  padding: 0 15px;
+  border-color: #1b1824;
+  border-radius: 999px;
+  background: #1b1824;
+  font-size: 11.5px;
+  font-weight: 650;
+}
+.mw .oc .oc-actions .oc-check:hover:not(:disabled),
+.mw .oc .oc-actions .oc-check:focus-visible,
+.mw .oc .oc-actions .oc-check:active {
+  background: #2c2939;
+  border-color: #2c2939;
+  color: #ffffff;
+}
+.mw .oc .oc-actions .oc-check.is-on {
+  border-color: #147a55;
+  background: #147a55;
+  box-shadow: none;
+}
+.mw .oc-details-body {
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top-color: rgba(25, 26, 36, 0.08);
+}
+.mw .oc-term-icon {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(25, 26, 36, 0.07);
+  background: #ffffff;
+  box-shadow: none;
+  color: #6f6b7c;
+}
+.mw .oc-term b {
+  color: #4a4657;
+}
+.mw .oc-drawer-row p {
+  color: #4a4657;
+}
+.mw .oc-quote {
+  border: 1px solid rgba(25, 26, 36, 0.07);
+  background: #ffffff;
+  color: #2c2939;
+}
+.mw .oc-drawer-row + .oc-drawer-row {
+  border-top-color: rgba(25, 26, 36, 0.07);
+}
+
+/* ── Why it works: ruled columns under a serif heading ────────────────────── */
+.mw .oc-why {
+  padding: 17px 0 15px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+}
+.mw .oc-why-heading {
+  margin-bottom: 12px;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #4a4657;
+}
+.mw .oc-why-col + .oc-why-col {
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mw .oc-why-icon {
+  color: #b4b1be;
+}
+.mw .oc-why-head span {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9a97a6;
+}
+.mw .oc-why-col p {
+  font-size: 11.8px;
+  line-height: 1.6;
+  color: #6f6b7c;
+}
+
+/* ── Two-up: a tighter version of the same card ───────────────────────────── */
+.mw .mw-offer-list.is-two-up .oc-hero {
+  min-height: 262px;
+  padding: 16px 17px 15px;
+}
+.mw .mw-offer-list.is-two-up .oc-sheet {
+  padding: 0 17px 14px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 0;
+  margin: 0 -17px;
+  padding: 15px 17px 13px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-stat {
+  padding: 0 11px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-stat:nth-child(3n + 1) {
+  padding-left: 0;
+  border-left: 0;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-stat:nth-child(n + 4) {
+  padding-top: 12px;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mw .mw-offer-list.is-two-up .oc h3.oc-title {
+  font-size: 25px;
+}
+.mw .mw-offer-list.is-two-up .oc-hero-copy {
+  max-width: 100%;
+}
+.mw .mw-offer-list.is-two-up .oc-details {
+  padding: 12px 13px 13px;
+}
+
+/* ── One-up: the full read ────────────────────────────────────────────────── */
+.mw .mw-offer-list.is-one-up {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  margin-bottom: 0;
+}
+.mw .mw-offer-list.is-one-up > .oc {
+  display: grid;
+  grid-template-rows: auto auto;
+  margin-bottom: 0;
+}
+.mw .mw-offer-list.is-one-up .oc-hero {
+  min-height: 330px;
+  padding: 22px 26px 20px;
+}
+.mw .mw-offer-list.is-one-up .oc h3.oc-title {
+  font-size: clamp(30px, 3vw, 40px);
+}
+.mw .mw-offer-list.is-one-up .oc .oc-jobs,
+.mw .mw-offer-list.is-one-up .oc .oc-job {
+  font-size: 14px;
+}
+.mw .mw-offer-list.is-one-up .oc .oc-brief {
+  font-size: 13px;
+  max-width: 68ch;
+}
+.mw .mw-offer-list.is-one-up .oc-sheet {
+  padding: 0 26px 18px;
+}
+.mw .mw-offer-list.is-one-up .oc .oc-stats {
+  margin: 0 -26px;
+  padding: 19px 26px 16px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat-value {
+  font-size: 21px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat {
+  padding: 0 18px;
+}
+.mw .mw-offer-list.is-one-up .oc-meta {
+  padding: 16px 0 17px;
+}
+.mw .mw-offer-list.is-one-up .oc-details {
+  padding: 16px 18px 17px;
+}
+.mw .mw-offer-list.is-one-up .oc-why {
+  padding: 19px 0 17px;
+}
+
+@media (max-width: 900px) {
+  .mw .mw-offer-list.is-one-up .oc-hero {
+    min-height: 268px;
+    padding: 18px;
+  }
+  .mw .mw-offer-list.is-one-up .oc-sheet {
+    padding: 0 18px 16px;
+  }
+  .mw .mw-offer-list.is-one-up .oc .oc-stats {
+    margin: 0 -18px;
+    padding: 16px 18px 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 0;
+  }
+  .mw .mw-offer-list.is-one-up .oc-stat {
+    padding: 0 11px;
+  }
+  .mw .mw-offer-list.is-one-up .oc-stat:nth-child(3n + 1) {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .mw .mw-offer-list.is-one-up .oc-stat:nth-child(n + 4) {
+    padding-top: 12px;
+    border-top: 1px solid rgba(25, 26, 36, 0.07);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc,
+  .mw .oc-hero-image,
+  .mw .oc-hero-copy {
+    transition: none;
+  }
+  .mw .oc:hover {
+    transform: none;
+  }
+  .mw .oc:hover .oc-hero-image {
+    transform: scale(1.02);
+  }
+}
+
+/* The moment a card is built around — the key date from the month's calendar. */
+.mw .oc-chip.is-moment {
+  border: 1px solid color-mix(in srgb, var(--a1) 34%, transparent);
+  background: color-mix(in srgb, var(--a1) 12%, #ffffff);
+  color: color-mix(in srgb, var(--a1) 72%, #1b1824);
+  font-weight: 650;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 20 — offer spec sheet
+   The commercial record of an offer, printed under the figures. It borrows the
+   card's own type: Bodoni for the panel title, the .oc-label caps for the row
+   labels, and the same 12px body ink the who / when / how strip uses.
+   ───────────────────────────────────────────────────────────────────────────── */
+.mw .oc-spec {
+  flex: none;
+  margin: 15px 0 0;
+  padding: 14px 16px 15px;
+  border: 1px solid rgba(25, 26, 36, 0.07);
+  border-radius: 14px;
+  background: #faf9f7;
+}
+
+.mw .oc-spec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 34px;
+  margin-bottom: 8px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+}
+
+.mw .oc-spec-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #1b1824;
+}
+
+.mw .oc-spec-title svg {
+  color: #8b8898;
+}
+
+.mw .oc-spec-row {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 14px;
+  padding: 8px 0;
+}
+
+.mw .oc-spec-row + .oc-spec-row {
+  border-top: 1px solid rgba(25, 26, 36, 0.055);
+}
+
+.mw .oc-spec-label {
+  font-size: 8.5px;
+  font-weight: 750;
+  line-height: 1.6;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9a97a6;
+}
+
+.mw .oc .oc-spec-value {
+  margin: 0;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #4a4657;
+  overflow-wrap: anywhere;
+}
+
+.mw .oc .oc-spec-value b {
+  font-weight: 650;
+  color: #2a2735;
+  font-variant-numeric: tabular-nums;
+}
+
+.mw .oc .oc-spec-value i {
+  font-style: normal;
+  color: #2a2735;
+}
+
+/* In a two-up card the label sits above its value so the text keeps its width. */
+@container (max-width: 560px) {
+  .mw .oc-spec {
+    padding: 12px 13px 13px;
+  }
+  .mw .oc-spec-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    padding: 7px 0;
+  }
+  .mw .oc-spec-label {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+  }
+  .mw .oc .oc-spec-value {
+    font-size: 11.7px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 22 — the figures as gauges
+   Six dials on one rail: each figure is an arc that fills to its own value, with
+   the number beside it, so the plate reads as a dashboard rather than six boxes
+   of text. Where an offer carries cash plus perk value, the arc is nested.
+   ───────────────────────────────────────────────────────────────────────────── */
+.mw .oc-stats {
+  align-items: stretch;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 -22px;
+  padding: 14px 22px 12px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  background: linear-gradient(180deg, #fbfcfd 0%, #ffffff 72%);
+}
+
+.mw .oc-stat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  grid-template-areas:
+    'label gauge'
+    'value gauge'
+    'note gauge';
+  align-content: start;
+  gap: 0;
+  min-width: 0;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.mw .oc-stat:first-child {
+  padding-left: 0;
+}
+.mw .oc-stat + .oc-stat {
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+}
+
+.mw .oc-gauge {
+  grid-area: gauge;
+  align-self: center;
+  justify-self: end;
+  display: block;
+  width: 38px;
+  height: 38px;
+}
+
+.mw .oc-gauge svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+
+.mw .oc-gauge circle {
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dasharray 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.mw .oc-gauge-track {
+  stroke: #e9eef3;
+  stroke-width: 3.4;
+}
+
+.mw .oc-gauge-arc {
+  stroke: var(--oc-accent);
+  stroke-width: 3.4;
+}
+
+.mw .oc-gauge-soft {
+  stroke: color-mix(in srgb, var(--oc-accent) 34%, #dfe9f1);
+  stroke-width: 2.6;
+}
+
+.mw .oc-stat-label {
+  grid-area: label;
+  min-height: 14px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  color: #9a97a6;
+}
+
+.mw .oc-stat-value {
+  grid-area: value;
+  margin-top: 4px;
+  font-size: 19px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.015em;
+  color: #1b1824;
+}
+
+.mw .oc-stat-note {
+  grid-area: note;
+  margin-top: 5px;
+  font-size: 9.2px;
+  line-height: 1.35;
+  color: #9a97a6;
+}
+
+/* The one-up card has room for a bigger dial; two-up keeps it tight. */
+.mw .mw-offer-list.is-one-up .oc-stat {
+  grid-template-columns: minmax(0, 1fr) 46px;
+}
+.mw .mw-offer-list.is-one-up .oc-gauge {
+  width: 46px;
+  height: 46px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat-value {
+  font-size: 21px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat {
+  padding: 0 18px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-stat {
+  grid-template-columns: minmax(0, 1fr) 30px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-gauge {
+  width: 30px;
+  height: 30px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-stat-value {
+  font-size: 17px;
+}
+
+@container (max-width: 520px) {
+  .mw .oc-stat {
+    grid-template-columns: minmax(0, 1fr) 28px;
+  }
+  .mw .oc-gauge {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc-gauge circle {
+    transition: none;
+  }
+}
+
+/* Who / when / how sit under the record as one ruled strip. */
+.mw .oc-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 14px 0 0;
+  padding: 12px 0 1px;
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
+  border-bottom: 0;
+}
+.mw .oc-meta-item {
+  gap: 8px;
+  padding: 0 15px;
+}
+.mw .oc-meta-item:nth-child(3n + 1) {
+  padding-left: 0;
+}
+.mw .oc-meta-item b {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #4a4657;
+}
+.mw .oc-meta-icon {
+  margin-top: 1px;
+  color: #b4b1be;
+}
+

@@ -1,0 +1,1324 @@
+/* Sales Plan › month pages.
+   The month is read as four pages — Overview, Targets & mix, Offers, Execution — instead
+   of one long scroll. The tab bar borrows the cover's vocabulary (accent dot, letterspaced
+   micro-kickers, a pill for the live page) and the Overview page opens on a poster of the
+   month: photograph, scrim, serif theme and the night's brief, beside the four numbers that
+   define it and the prose that explains them. */
+
+/* ── Page tabs ─────────────────────────────────────────────────────────────── */
+/* The tab bar is a rule across the page, not another card on top of it. */
+.mw .mw-pages {
+  position: sticky;
+  top: -20px;
+  z-index: 6;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  margin: -8px 0 2px;
+  padding: 10px 26px 9px;
+  border: 0;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px) saturate(1.1);
+  box-shadow: none;
+}
+.mw .mw-pages-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}
+.mw .mw-page-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 31px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #5b6157;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+.mw .mw-page-tab:hover {
+  background: var(--a1-soft, #efedfc);
+  color: var(--a1-dark, #3f35a8);
+}
+.mw .mw-page-tab:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--a1, #5b4fd6) 55%, white);
+  outline-offset: 1px;
+}
+.mw .mw-page-tab.is-active {
+  background: var(--a1, #5b4fd6);
+  color: #ffffff;
+  box-shadow: 0 8px 18px -12px color-mix(in srgb, var(--a1, #5b4fd6) 75%, transparent);
+}
+.mw .mw-page-tab em {
+  font-style: normal;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(25, 26, 36, 0.07);
+  color: inherit;
+  font-size: 9.5px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+.mw .mw-page-tab.is-active em {
+  background: rgba(255, 255, 255, 0.22);
+}
+.mw .mw-pages-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Overview: one sheet ────────────────────────────────────────────────────── */
+/* The page is a single document, not a stack of cards: the photograph and title open it,
+   then the brief, three narrative notes and the chapter close follow on the same paper,
+   divided by hairlines. */
+.mw .mw-overview {
+  display: block;
+  animation: mo-page-in 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+/* The sheet is the page itself, so it carries no frame — only the hero's photograph and
+   the hairlines between the bands below it. */
+.mo-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.mo-body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The brief: the month's job in prose, at the width of a paragraph. */
+.mo-brief {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 26px 26px 22px;
+}
+.mo-brief > p {
+  margin: 0;
+  max-width: 88ch;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.68;
+  color: #2c2939;
+  text-wrap: pretty;
+}
+.mo-brief-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 14px;
+  margin-top: 2px;
+  padding-top: 11px;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mo-brief-foot > span {
+  font-size: 10.5px;
+  font-weight: 620;
+  letter-spacing: 0.02em;
+  color: #6f6b7c;
+}
+.mo-brief-foot em {
+  font-style: italic;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 12px;
+  color: #8b8a99;
+}
+
+/* Status pill, shared by the overview hero and the cover. */
+.mp-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 25px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--a1, #5b4fd6) 22%, #e4e7e2);
+  background: #ffffff;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6f6b7c;
+  white-space: nowrap;
+}
+.mp-status.is-approved {
+  border-color: rgba(31, 138, 95, 0.32);
+  background: #eef8f2;
+  color: #15734c;
+}
+.mp-status.is-locked {
+  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 26%, #e4e7e2);
+  background: var(--a1-soft, #efedfc);
+  color: var(--a1-dark, #3f35a8);
+}
+
+/* The small label shared by the brief and the chapter columns. */
+.mo-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8b8a99;
+}
+.mo-label svg {
+  flex: none;
+  color: var(--a1, #5b4fd6);
+  opacity: 0.85;
+}
+
+/* Three notes on one rule: where the money comes from, who walks in, who stays. */
+.mo-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
+}
+.mo-note {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 22px 26px 24px;
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mo-note:first-child {
+  border-left: 0;
+}
+.mo-note-head {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+.mo-note-head i {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--a1, #5b4fd6);
+}
+.mo-note-head span {
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8b8a99;
+}
+.mo-note p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.64;
+  color: #3f3d4a;
+  text-wrap: pretty;
+}
+.mo-funnel {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(25, 26, 36, 0.06);
+}
+.mo-funnel b {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #1b1824;
+  font-variant-numeric: tabular-nums;
+}
+.mo-funnel em {
+  font-style: normal;
+  font-family: inherit;
+  font-size: 8.5px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8b8a99;
+}
+.mo-funnel > i {
+  flex: 1 1 0;
+  height: 1px;
+  margin-bottom: 9px;
+  background: linear-gradient(90deg, rgba(25, 26, 36, 0.18), rgba(25, 26, 36, 0.04));
+}
+.mo-cover-note {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(25, 26, 36, 0.06);
+}
+.mo-cover-note small {
+  font-size: 9.5px;
+  line-height: 1.45;
+  color: #8b8a99;
+}
+.mo-meter {
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(25, 26, 36, 0.08);
+}
+.mo-meter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--a1, #5b4fd6) 82%, #ffffff);
+}
+
+/* The chapter: what goes wrong, the move, and what this room is built on. */
+.mo-chapter {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
+  background: #faf9f7;
+}
+.mo-chapter article {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+  padding: 20px 26px 22px;
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+}
+.mo-chapter article:first-child {
+  border-left: 0;
+}
+.mo-chapter p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.62;
+  color: #4a4657;
+  text-wrap: pretty;
+}
+.mo-chapter em {
+  margin-top: auto;
+  padding-top: 2px;
+  font-style: italic;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 11.5px;
+  color: #8b8a99;
+}
+
+@keyframes mo-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .mo-notes,
+  .mo-chapter {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mo-note,
+  .mo-chapter article {
+    border-left: 0;
+    border-top: 1px solid rgba(25, 26, 36, 0.07);
+  }
+  .mo-note:first-child,
+  .mo-chapter article:first-child {
+    border-top: 0;
+  }
+  .mo-chapter {
+    display: grid;
+  }
+}
+
+@media (max-width: 760px) {
+  .mw .mw-pages {
+    position: static;
+    margin-top: 0;
+  }
+  .mw .mw-page-tab {
+    height: 29px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+  .mo-brief {
+    padding: 20px 18px 18px;
+  }
+  .mo-brief > p {
+    font-size: 15px;
+  }
+  .mo-note,
+  .mo-chapter article {
+    padding: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw .mw-overview {
+    animation: none;
+  }
+}
+
+/* ── Page foot ─────────────────────────────────────────────────────────────── */
+/* The end of a long page is the moment to move on: a quiet pair of page links. */
+.mw .mw-page-foot {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+  padding: 16px 26px 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
+}
+.mw .mw-page-foot button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 6px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #4a4657;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 620;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    color 0.18s ease,
+    gap 0.18s ease;
+}
+.mw .mw-page-foot button:hover {
+  color: var(--a1-dark, #3f35a8);
+  gap: 12px;
+}
+.mw .mw-page-foot button svg {
+  flex: none;
+  color: color-mix(in srgb, var(--a1, #5b4fd6) 70%, #4a4657);
+}
+.mw .mw-page-foot button span {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.mw .mw-page-foot small {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #8b8a99;
+}
+.mw .mw-page-foot .is-next {
+  margin-left: auto;
+  text-align: right;
+}
+.mw .mw-page-foot .is-next span {
+  align-items: flex-end;
+}
+.mw-page-foot-gap {
+  flex: 1 1 auto;
+}
+
+/* Counts inside the page tools: the library, the offer tally. */
+.mw .mw-qtool em,
+.mw .mw-mini-btn em {
+  font-style: normal;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--a1, #5b4fd6) 10%, #ffffff);
+  color: var(--a1-dark, #3f35a8);
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The drawer and the cover both live inside the modal's own frame. */
+.mw {
+  position: relative;
+}
+
+/* The library is a drawer now, so the reading column owns the whole body width. */
+.mw .mw-body {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ── Page hero ─────────────────────────────────────────────────────────────── */
+/* One photograph, one title, one foot — the same object as an offer card's hero and the
+   month cover: a scrimmed photograph, a white serif title, the numbers that page is about
+   along the bottom rule. `is-sheet` merges it into the Overview's paper. */
+.mp-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 318px;
+  padding: 26px 26px 22px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(25, 26, 36, 0.09);
+  border-radius: 20px;
+  background: #0b1420;
+  box-shadow: 0 30px 60px -52px rgba(8, 16, 26, 0.9);
+  animation: mo-page-in 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mp-hero.is-sheet {
+  min-height: 300px;
+}
+.mp-hero-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #0b1420;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: scale(1.015);
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.mp-hero:hover .mp-hero-img {
+  transform: scale(1.04);
+}
+.mp-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(6, 13, 22, 0.62) 0%, rgba(6, 13, 22, 0.12) 36%, rgba(5, 11, 19, 0.92) 100%),
+    linear-gradient(92deg, rgba(6, 13, 22, 0.66) 0%, rgba(6, 13, 22, 0.2) 54%, rgba(6, 13, 22, 0) 82%);
+}
+.mp-hero-mark {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  z-index: 2;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(38px, 4.4vw, 58px);
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.3);
+}
+.mp-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 1040px;
+}
+.mp-hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.74);
+}
+.mp-hero-kicker i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.62);
+}
+.mp-hero h2 {
+  margin: 0;
+  max-width: 26ch;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+.mp-hero-lede {
+  margin: 0;
+  max-width: 66ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  text-wrap: pretty;
+}
+.mp-hero-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 20px;
+  width: 100%;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+.mp-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 26px;
+  margin: 0;
+}
+.mp-hero-meta div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.mp-hero-meta dt {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.52);
+}
+.mp-hero-meta dd {
+  margin: 0;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+.mp-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+/* Status pills sit on glass when they ride the photograph. */
+.mp-hero-actions .mp-status {
+  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px) saturate(130%);
+}
+.mp-hero-actions .mp-status.is-approved {
+  border-color: rgba(126, 232, 184, 0.4);
+  background: rgba(21, 122, 85, 0.34);
+  color: #dff7ec;
+}
+.mp-hero-actions .mp-status.is-locked {
+  border-color: rgba(196, 190, 255, 0.38);
+  background: rgba(91, 79, 214, 0.34);
+  color: #edebff;
+}
+.mp-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 650;
+  cursor: pointer;
+  backdrop-filter: blur(10px) saturate(130%);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+.mp-hero-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.mp-hero-btn em {
+  font-style: normal;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 9.5px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Offer coverage check ───────────────────────────────────────────────────── */
+/* One quiet sentence and a hairline meter, tinted only where it matters, instead of a
+   pastel alert box with a coloured strip down its side. */
+.mw .mw-rev-check {
+  grid-template-columns: minmax(0, 1fr) minmax(140px, 226px);
+  gap: 18px;
+  padding: 13px 17px;
+  border: 1px solid rgba(25, 26, 36, 0.08);
+  border-left-width: 1px;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 14px 30px -32px rgba(18, 26, 22, 0.6);
+}
+.mw .mw-rev-check.is-ok {
+  --rc: #1f8a5f;
+  border-color: color-mix(in srgb, #1f8a5f 22%, #e4e7e2);
+  background: linear-gradient(180deg, color-mix(in srgb, #1f8a5f 4%, #ffffff), #ffffff);
+  color: #1b1824;
+}
+.mw .mw-rev-check.is-under {
+  --rc: #c26431;
+  border-color: color-mix(in srgb, #c26431 22%, #e4e7e2);
+  background: linear-gradient(180deg, color-mix(in srgb, #c26431 4%, #ffffff), #ffffff);
+  color: #1b1824;
+}
+.mw .mw-rev-check.is-over {
+  --rc: #b23c3c;
+  border-color: color-mix(in srgb, #b23c3c 22%, #e4e7e2);
+  background: linear-gradient(180deg, color-mix(in srgb, #b23c3c 4%, #ffffff), #ffffff);
+  color: #1b1824;
+}
+.mw .mw-rev-check-text strong {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 15.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #1b1824;
+}
+.mw .mw-rev-check-text strong::before {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--rc, #8b8a99);
+}
+.mw .mw-rev-check-text span {
+  margin-top: 3px;
+  color: #6f6b7c;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.mw .mw-rev-check-meter {
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--rc, #8b8a99) 12%, #eef0ec);
+}
+.mw .mw-rev-check-meter i {
+  background: var(--rc, #8b8a99);
+  border-radius: inherit;
+}
+.mw .mw-rev-check-meter b {
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: #2c2939;
+  opacity: 0.7;
+}
+
+/* ── Offer board: one revenue band per stream, cards beneath it ─────────────── */
+.mw-offers-board {
+  display: grid;
+  gap: 14px;
+  margin-top: 15px;
+}
+.mp-offer-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 4px 0 12px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+}
+.mp-offer-divider > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #4a4657;
+}
+.mp-offer-divider > span::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--a1, #5b4fd6);
+}
+.mp-offer-divider em {
+  font-style: normal;
+  font-size: 10px;
+  color: #9a97a6;
+}
+.mp-offer-divider i {
+  flex: 1 1 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(25, 26, 36, 0.12), rgba(25, 26, 36, 0.02));
+}
+.mp-offer-divider b {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1b1824;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Cards per row ─────────────────────────────────────────────────────────── */
+/* A two-segment switch in the band head: the month can be scanned two-up, or read one
+   offer at a time without losing the plan's shape. */
+.mw .mw-card-cols {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid rgba(25, 26, 36, 0.12);
+  border-radius: 999px;
+  background: #ffffff;
+}
+.mw .mw-card-cols button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #9a97a6;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease;
+}
+.mw .mw-card-cols button:hover {
+  color: #4a4657;
+}
+.mw .mw-card-cols button.is-on {
+  background: #1b1824;
+  color: #ffffff;
+}
+.mw .mw-card-cols button svg {
+  flex: none;
+  opacity: 0.75;
+}
+
+/* ── Offer library drawer ──────────────────────────────────────────────────── */
+/* The library is a place you go to, not a column that eats the page: a sheet that slides
+   over the workspace, with the studio's photograph on its masthead and one scannable row
+   per offer. */
+.mp-drawer-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(14, 12, 24, 0.44);
+  backdrop-filter: blur(2px);
+  animation: mp-fade 0.2s ease both;
+}
+.mp-drawer {
+  display: flex;
+  flex-direction: column;
+  width: min(580px, 100%);
+  height: 100%;
+  overflow: hidden;
+  background: #faf9f7;
+  border-left: 1px solid rgba(25, 26, 36, 0.1);
+  box-shadow: -34px 0 90px -46px rgba(18, 26, 22, 0.65);
+  animation: mp-slide 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mp-drawer-head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 158px;
+  padding: 20px;
+  overflow: hidden;
+  isolation: isolate;
+  color: #ffffff;
+  background: #0b1119;
+}
+.mp-drawer-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #0b1119;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.mp-drawer-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(8, 16, 26, 0.42) 0%, rgba(8, 16, 26, 0.9) 100%);
+}
+.mp-drawer-title {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: min(44ch, 100%);
+}
+.mp-drawer-kicker {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+.mp-drawer-title h3 {
+  margin: 0;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+.mp-drawer-title p {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.74);
+}
+.mp-drawer-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  background: rgba(12, 18, 28, 0.32);
+  color: #ffffff;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease;
+}
+.mp-drawer-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.mp-drawer-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  background: #ffffff;
+}
+.mp-drawer-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1 1 190px;
+  height: 32px;
+  padding: 0 11px;
+  border: 1px solid rgba(25, 26, 36, 0.12);
+  border-radius: 999px;
+  background: #faf9f7;
+  color: #9a97a6;
+}
+.mp-drawer-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: #1b1824;
+  outline: none;
+}
+.mp-drawer-search button {
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #9a97a6;
+  cursor: pointer;
+}
+.mp-drawer-scopes {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 999px;
+  background: #f4f3f0;
+}
+.mp-drawer-scopes button {
+  height: 26px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #6f6b7c;
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease;
+}
+.mp-drawer-scopes button:hover {
+  color: var(--a1-dark, #3f35a8);
+}
+.mp-drawer-scopes button.is-on {
+  background: #ffffff;
+  color: var(--a1-dark, #3f35a8);
+  box-shadow: 0 2px 6px rgba(18, 26, 22, 0.08);
+}
+.mp-drawer-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 18px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mp-drawer-empty {
+  margin: 26px 0;
+  text-align: center;
+  font-size: 12px;
+  color: #8b8a99;
+}
+
+.mp-lib-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mp-lib-group > h5 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 4px 0 2px;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8b8a99;
+}
+.mp-lib-group > h5 em {
+  font-style: normal;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #f0eeea;
+  color: #6f6b7c;
+  font-size: 9px;
+  letter-spacing: 0;
+}
+.mp-lib-row {
+  border: 1px solid rgba(25, 26, 36, 0.08);
+  border-radius: 13px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 12px 26px -26px rgba(18, 26, 22, 0.6);
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+.mp-lib-row:hover,
+.mp-lib-row.is-open {
+  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 28%, #e4e7e2);
+  box-shadow: 0 16px 34px -28px rgba(18, 26, 22, 0.6);
+}
+.mp-lib-main {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 9px;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mp-lib-thumb {
+  width: 54px;
+  height: 58px;
+  border-radius: 9px;
+  background-color: #0b1119;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.mp-lib-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.mp-lib-slot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #9a97a6;
+}
+.mp-lib-slot b {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #edf7f1;
+  color: #1f8a5f;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+}
+.mp-lib-copy strong {
+  font-size: 12.5px;
+  font-weight: 680;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #1b1824;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mp-lib-copy em {
+  font-style: normal;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: #7b7887;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.mp-lib-side {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #9a97a6;
+}
+.mp-lib-side b {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #1b1824;
+  font-variant-numeric: tabular-nums;
+}
+.mp-lib-side svg {
+  transition: transform 0.2s ease;
+}
+.mp-lib-side svg.is-flipped {
+  transform: rotate(180deg);
+}
+.mp-lib-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 12px 14px 13px;
+  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  background: color-mix(in srgb, var(--a1, #5b4fd6) 3%, #ffffff);
+}
+.mp-lib-detail > p {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.58;
+  color: #4a4657;
+  text-wrap: pretty;
+}
+.mp-lib-detail dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0;
+}
+.mp-lib-detail dt {
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #9a97a6;
+}
+.mp-lib-detail dd {
+  margin: 2px 0 0;
+  font-size: 11px;
+  font-weight: 620;
+  line-height: 1.35;
+  color: #2c2939;
+}
+.mp-lib-fine {
+  font-size: 10px;
+  line-height: 1.5;
+  color: #8b8a99;
+}
+.mp-lib-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.mp-lib-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--a1, #5b4fd6);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -12px color-mix(in srgb, var(--a1, #5b4fd6) 80%, transparent);
+  transition:
+    filter 0.16s ease,
+    transform 0.16s ease;
+}
+.mp-lib-add:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.mp-lib-add:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.mp-lib-swap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 9px;
+  border: 1px solid rgba(25, 26, 36, 0.12);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #6f6b7c;
+}
+.mp-lib-swap select {
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 620;
+  color: #4a4657;
+  outline: none;
+  cursor: pointer;
+}
+.mp-lib-approved {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 620;
+  color: #1f8a5f;
+}
+
+@keyframes mp-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mp-slide {
+  from {
+    opacity: 0;
+    transform: translateX(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .mp-hero {
+    min-height: 280px;
+    padding: 22px 24px 20px;
+  }
+  .mp-hero h2 {
+    max-width: 34ch;
+    font-size: clamp(26px, 4vw, 34px);
+  }
+}
+
+@media (max-width: 760px) {
+  .mp-hero {
+    min-height: 250px;
+    padding: 18px 18px 16px;
+  }
+  .mp-hero-mark {
+    top: 12px;
+    right: 16px;
+    font-size: 34px;
+  }
+  .mp-hero-foot {
+    align-items: flex-start;
+  }
+  .mp-hero-meta {
+    gap: 4px 18px;
+  }
+  .mp-hero-meta dd {
+    font-size: 16px;
+  }
+  .mp-drawer {
+    width: 100%;
+  }
+  .mp-drawer-head {
+    min-height: 138px;
+    padding: 16px;
+  }
+  .mp-drawer-title h3 {
+    font-size: 21px;
+  }
+  .mp-drawer-tools,
+  .mp-drawer-body {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+  .mp-lib-detail dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-hero,
+  .mp-drawer-scrim,
+  .mp-drawer {
+    animation: none;
+  }
+  .mp-lib-side svg {
+    transition: none;
+  }
+}

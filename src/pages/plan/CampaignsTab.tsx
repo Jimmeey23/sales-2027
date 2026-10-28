@@ -33,9 +33,10 @@ export default function CampaignsTab({ data, onSaved }: { data: PlanData; onSave
     [editMonth, setEditMonth] = useState<number | null>(null),
     [draft, setDraft] = useState<any>(null),
     [saving, setSaving] = useState(false);
-  const { year, can, adminUnlocked, toast } = useApp();
+  const { year, can, toast } = useApp();
   const selectedPlan = data.plans.length === 1 ? data.plans[0] : null;
-  const canEdit = Boolean(selectedPlan && can('target_edit') && adminUnlocked);
+  // Editing activations is a permission, not a passcode. The passcode is only for AI.
+  const canEdit = Boolean(selectedPlan && can('target_edit'));
   const campaignsIn = (month: number) => data.campaigns.filter(c => Number(String(c.start_date).slice(5, 7)) === month);
   const openEditor = (month: number, base: any) => {
     const saved = selectedPlan?.detail.plans.find((p: any) => p.month === month);
@@ -117,11 +118,8 @@ export default function CampaignsTab({ data, onSaved }: { data: PlanData; onSave
           ))}
         </div>
       </div>
-      {adminUnlocked && !selectedPlan && (
+      {can('target_edit') && !selectedPlan && (
         <p className="ws-act-edit-note">Choose a location from the location bar to add or edit its activations.</p>
-      )}
-      {can('target_edit') && !adminUnlocked && (
-        <p className="ws-act-edit-note">Enter the admin passcode in the top bar to manage activations.</p>
       )}
       <div className={layout === 'timeline' ? 'ws-timeline' : 'ws-camp-grid'}>
         {data.months.map(m => {

@@ -626,3 +626,507 @@
   }
 }
 
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 21 — the collateral tab as a compact proof board
+   Every channel is one row: the artwork proofed on the left at its designed
+   scale, and its brief — deliverables, then the copy to use — ruled beside it.
+   Nothing is stacked under the artwork, so the whole month fits in less scroll.
+   ───────────────────────────────────────────────────────────────────────────── */
+.mw .mw-main > .col-section {
+  counter-reset: colcard;
+  background: linear-gradient(180deg, #f8fafb 0%, #f3f6f7 100%);
+}
+
+/* ── Head: one compact block, actions on the right ───────────────────────── */
+.mw .col-section > .col-head {
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+.mw .col-section > .col-head small {
+  font: 700 9px/1 var(--sans);
+  letter-spacing: 0.18em;
+  color: color-mix(in srgb, var(--a1) 62%, #55636f);
+}
+.mw .col-section > .col-head h4 {
+  margin: 5px 0 3px;
+  font: 500 17px/1.15 'Bodoni Moda', Georgia, serif;
+  letter-spacing: -0.008em;
+  color: #1b1824;
+}
+.mw .col-section > .col-head p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 620px;
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #6f7b87;
+}
+
+/* ── The production clock, on the same line as the offer rail ────────────── */
+.mw .col-section .col-ledger {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  margin: 0 0 10px;
+  border: 1px solid #e6ebee;
+  border-radius: 9px;
+  background: #ffffff;
+  overflow: hidden;
+}
+.mw .col-section .col-ledger > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 6px 11px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #6a7783;
+  white-space: nowrap;
+}
+.mw .col-section .col-ledger > span + span {
+  border-left: 1px solid #eef1f4;
+}
+.mw .col-section .col-ledger b {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  color: #1b1824;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Offer rail: audience label then chips, one rule ─────────────────────── */
+.mw .col-section > .col-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 7px;
+  max-width: none;
+  margin: 0 0 10px;
+  padding: 7px 10px;
+  border: 1px solid #e6ebee;
+  border-radius: 10px;
+  background: #ffffff;
+  justify-content: flex-start;
+}
+.mw .col-section .col-tab-group {
+  display: contents;
+}
+.mw .col-section .col-tab-group > span {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 2px 0 10px;
+  font: 700 8px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #93a0ab;
+}
+.mw .col-section .col-tab-group:first-child > span {
+  padding-left: 2px;
+}
+.mw .col-section .col-tab-group > span::before {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--g, #6ccff6);
+}
+.mw .col-section .col-tab-group button {
+  display: inline-block;
+  width: auto;
+  max-width: 300px;
+  padding: 5px 10px;
+  border: 1px solid #e4e9ee;
+  border-radius: 999px;
+  background: #ffffff;
+  font: 550 11px/1.3 var(--sans);
+  color: #26313b;
+  text-align: left;
+  box-shadow: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mw .col-section .col-tab-group button:hover {
+  border-color: #b9c6d1;
+  background: #f7f9fa;
+}
+.mw .col-section .col-tab-group button.is-on {
+  background: #10161d;
+  border-color: #10161d;
+  color: #ffffff;
+}
+
+/* ── One row per channel: proof left, brief right — always side by side ──── */
+.mw .col-section > .col-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(264px, 312px);
+  align-items: start;
+  gap: 12px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #e6ebee;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 14px 30px -30px rgba(11, 20, 32, 0.55);
+  counter-increment: colcard;
+}
+.mw .col-section > .col-row.is-custom {
+  grid-template-columns: minmax(0, 1fr);
+}
+.mw .col-section > .col-row > .cr-stage {
+  justify-self: center;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  background: radial-gradient(120% 100% at 50% 0%, #fbfcfd 0%, #f4f7f8 74%, #eef2f4 100%);
+  box-shadow: inset 0 0 0 1px rgba(16, 43, 66, 0.05);
+}
+
+/* The brief: a ruled docket, top-aligned with the proof. */
+.mw .col-row > .col-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+  padding: 11px 12px 12px;
+  border: 1px solid #e6ebee;
+  border-radius: 10px;
+  background: #ffffff;
+}
+.mw .col-row > .col-spec > header {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.mw .col-spec-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: #10161d;
+  color: color-mix(in srgb, var(--a1) 46%, #dbe6ef);
+}
+.mw .col-spec-icon svg {
+  width: 15px;
+  height: 15px;
+}
+.mw .col-spec-id {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.mw .col-row:not(.is-custom) .col-spec-id::before {
+  content: counter(colcard, decimal-leading-zero);
+  font: 700 8px/1 var(--sans);
+  letter-spacing: 0.16em;
+  color: #b6c0c9;
+}
+.mw .col-spec-id b {
+  font: 500 14.5px/1.15 'Bodoni Moda', Georgia, serif;
+  letter-spacing: -0.005em;
+  color: #1b1824;
+}
+.mw .col-spec-id i {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: #8b97a2;
+  font: 600 10px/1.2 var(--sans);
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+.mw .col-spec-hide {
+  align-self: start;
+}
+.mw .col-spec .col-lead-input {
+  width: 38px;
+  padding: 0 4px;
+  border: 0 !important;
+  border-bottom: 1px solid #dbe2e8 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  font-size: 10px;
+  font-weight: 700;
+  color: #3d4a55;
+}
+
+.mw .col-spec-cap {
+  display: block;
+  margin-top: 2px;
+  font: 750 8px/1 var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9a97a6;
+}
+
+/* Deliverables as ruled lines. */
+.mw .col-spec ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 11.5px;
+}
+.mw .col-spec ul li {
+  position: relative;
+  padding: 5px 0 5px 11px;
+  border-top: 1px solid rgba(25, 26, 36, 0.06);
+  line-height: 1.45;
+  color: #4a4657;
+}
+.mw .col-spec ul li:first-child {
+  border-top: 0;
+  padding-top: 1px;
+}
+.mw .col-spec ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #c3ced7;
+}
+.mw .col-spec ul li:first-child::before {
+  top: 7px;
+}
+
+/* Copy to use, immediately under the deliverables it belongs to. */
+.mw .col-spec .col-copy {
+  margin: 4px 0 0;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+.mw .col-spec .col-copy > .col-spec-cap {
+  margin: 0 0 5px;
+  color: #9a97a6;
+}
+.mw .col-spec .col-copy > small {
+  display: block;
+  margin-top: 7px;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a4b0ba;
+}
+.mw .col-spec .col-copy > .col-spec-cap + small {
+  margin-top: 0;
+}
+.mw .col-spec .col-copy p,
+.mw .col-spec .col-copy pre {
+  max-width: 62ch;
+  margin: 2px 0 0;
+  font: 500 11.5px/1.5 var(--sans);
+  color: #3b3a47;
+  white-space: pre-wrap;
+}
+.mw .col-spec .col-subjects {
+  gap: 0;
+}
+.mw .col-spec .col-subjects li {
+  padding: 5px 0 5px 22px;
+  border: 0;
+  border-top: 1px solid rgba(25, 26, 36, 0.06);
+  border-radius: 0;
+  background: none;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+.mw .col-spec .col-subjects li:first-child {
+  border-top: 0;
+}
+.mw .col-spec .col-subjects li::before {
+  top: 4px;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  background: #10161d;
+  color: #ffffff;
+  font-size: 8.5px;
+}
+.mw .col-spec .col-edit-list {
+  margin: 0;
+}
+
+/* ── WhatsApp keeps its pair beside the brief, at a proof-board scale ────── */
+.mw .col-section > .col-row.is-wa {
+  grid-template-columns: minmax(0, 1fr) minmax(264px, 312px);
+  gap: 12px;
+}
+.mw .col-row.is-wa .wa-pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+.mw .col-row.is-wa .wa-send {
+  gap: 7px;
+}
+.mw .col-row.is-wa .wa-send .wa-phone {
+  width: 300px;
+  border-width: 8px;
+  border-radius: 34px;
+}
+.mw .col-row.is-wa .wa-bubble .cr-square {
+  width: 430px;
+  zoom: 0.58;
+}
+.mw .col-row.is-wa .wa-buttons {
+  width: calc(430px * 0.58 + 8px);
+}
+.mw .col-row.is-wa .wa-label {
+  justify-self: center;
+  padding: 4px 10px;
+  font-size: 9px;
+}
+
+/* The email and tent proofs keep their designed proportions inside the mat. */
+.mw .col-row > .cr-stage > .cr-email {
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+}
+.mw .col-row > .cr-stage > .cr-tent-stage {
+  justify-self: center;
+  width: 100%;
+}
+.mw .col-section .col-row.is-tent .cr-tent-stage {
+  min-height: 0;
+  max-width: 520px;
+  margin-inline: auto;
+  aspect-ratio: 4 / 3;
+  padding-bottom: 12%;
+}
+
+@media (max-width: 1240px) {
+  .mw .col-section > .col-row {
+    grid-template-columns: minmax(0, 1fr) 264px;
+  }
+}
+@media (max-width: 1040px) {
+  .mw .col-section > .col-row,
+  .mw .col-section > .col-row.is-wa {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .mw .col-section > .col-row > .cr-stage {
+    padding: 8px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 22 — the tent card is a printed sheet, not a floating panel
+   The photograph bleeds edge to edge and the copy sits flush beneath it, inside
+   the paper mount. Nothing overlaps, so the card reads as one printed object
+   standing on the desk rather than a white box stuck onto a picture.
+   ───────────────────────────────────────────────────────────────────────────── */
+.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+/* The photograph runs the full width and sets the card's rhythm. */
+.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-photo {
+  flex: none;
+  height: 40%;
+  margin: 0;
+  border-radius: 0;
+}
+.mw .col-section .col-row.is-tent .cr-tent.is-arch:not(.cr-tent-rear) .cr-tent-photo {
+  height: 38%;
+  margin: 2.6cqw 2.6cqw 0;
+  border-radius: 60cqw 60cqw 0 0;
+}
+
+/* Copy block: flush under the photograph, pinned footer, even padding. */
+.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 3.1cqw 3.6cqw 2.6cqw;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-body .cr-logo {
+  height: 3.6cqw;
+  margin: 0 0 1.6cqw;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-body small {
+  display: block;
+  margin: 0 0 1.5cqw;
+  font-size: 1.3cqw;
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: 0.26em;
+  color: #0f6f95;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-body h3 {
+  margin: 0 0 1.2cqw;
+  font-size: 3.5cqw;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-body p {
+  margin: 0;
+  font-size: 1.62cqw;
+  line-height: 1.5;
+  color: #4d5763;
+}
+.mw .col-section .col-row.is-tent .cr-tent-body p b {
+  color: #0b0c0e;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-foot {
+  margin-top: auto;
+  padding-top: 2cqw;
+  border-top: 1px solid rgba(11, 12, 14, 0.16);
+}
+
+/* The month badge sits inside the photograph, not across its edge. */
+.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-badge {
+  top: 3cqw;
+  right: 3cqw;
+  bottom: auto;
+  left: auto;
+  width: 9.2cqw;
+  height: 9.2cqw;
+  border-width: 0.5cqw;
+  box-shadow: 0 1cqw 2.2cqw -1cqw rgba(10, 14, 18, 0.45);
+}
+.mw .col-section .col-row.is-tent .cr-badge b {
+  font-size: 3.2cqw;
+}
+.mw .col-section .col-row.is-tent .cr-badge em {
+  font-size: 1.2cqw;
+}

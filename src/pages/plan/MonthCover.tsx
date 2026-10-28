@@ -1,5 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import {
+  ArrowRight,
+  Cake,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  Crown,
+  PartyPopper,
+  Sparkles,
+  X,
+} from 'lucide-react';
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
@@ -15,7 +25,46 @@ export interface CoverStream {
   value: number;
 }
 
+/** One week of the month's action plan, shortened for the cover. */
+export interface CoverPlanWeek {
+  week: number;
+  /** What the step is called: a week number, or the strategy's own label (Hook, Moment…). */
+  label?: string;
+  text: string;
+  /** How many further steps that week carries. */
+  extra?: number;
+}
+
 const TONES = ['var(--mc-a)', 'var(--mc-b)', 'var(--mc-c)'];
+
+/* The anniversary cover's confetti is scattered by arithmetic rather than by hand: a
+   fractional hash spreads each piece across the width, with its own delay, fall time and
+   drift, so nothing lines up into columns. Purely decorative, all of it CSS-driven. */
+const CONFETTI = ['#e6c16a', '#f3a9c9', '#c9a6ff', '#ffe9a8', '#8fe0c5', '#ffd7a8', '#ffffff'];
+/** The anniversary the studio is keeping this year. Named once, used everywhere on the cover. */
+const ANNIVERSARY_YEARS = 9;
+const YEARS_WORD = 'nine';
+const YEARS_TITLE = 'Nine';
+const frac = (i: number, seed: number) => {
+  const x = Math.sin((i + 1) * seed) * 10000;
+  return x - Math.floor(x);
+};
+const scatter = (i: number) =>
+  ({
+    '--x': `${(frac(i, 12.9898) * 98).toFixed(1)}%`,
+    '--dl': `${(frac(i, 4.1414) * 9).toFixed(2)}s`,
+    '--du': `${(11 + frac(i, 7.771) * 9).toFixed(2)}s`,
+    '--dr': `${Math.round(frac(i, 3.31) * 120 - 60)}px`,
+    '--spin': `${Math.round(frac(i, 9.7) * 720 - 360)}deg`,
+    '--y': `${(frac(i, 6.61) * 88).toFixed(1)}%`,
+  }) as React.CSSProperties;
+const BALLOONS = [0, 1, 2, 3, 4].map(i => ({
+  left: `${6 + frac(i, 5.13) * 84}%`,
+  delay: `${(frac(i, 2.77) * 12).toFixed(2)}s`,
+  duration: `${(18 + frac(i, 6.19) * 10).toFixed(1)}s`,
+  size: 34 + Math.round(frac(i, 8.03) * 22),
+  tone: CONFETTI[i % CONFETTI.length],
+}));
 const int = (v: number) => Math.round(v).toLocaleString('en-IN');
 const pct = (v: number | null | undefined) =>
   v === null || v === undefined || !Number.isFinite(v) ? '—' : `${(v * 100).toFixed(0)}%`;
@@ -73,6 +122,9 @@ export default function MonthCover({
   studioName,
   theme,
   brief,
+  risk,
+  signature,
+  plan,
   target,
   lastYear,
   streams,
@@ -95,6 +147,9 @@ export default function MonthCover({
   studioName: string;
   theme: string;
   brief: string;
+  risk?: string;
+  signature?: string;
+  plan?: CoverPlanWeek[];
   target: number;
   lastYear: number;
   streams: CoverStream[];
@@ -114,6 +169,8 @@ export default function MonthCover({
 }) {
   const reduce = useReducedMotion();
   const animate = !reduce;
+  // April is the anniversary: the cover dresses for it — royal ground, gold rules, confetti.
+  const birthday = month === 4;
   // The cover dissolves into the plan rather than cutting straight to it.
   const [leaving, setLeaving] = useState(false);
   const timer = useRef<number | null>(null);
@@ -144,7 +201,8 @@ export default function MonthCover({
     <div
       ref={root}
       tabIndex={-1}
-      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}`}
+      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}${birthday ? ' is-birthday' : ''}`}
+      data-month={month}
       role="dialog"
       aria-modal="true"
       aria-label={`${MONTHS[month - 1]} overview`}
@@ -155,6 +213,60 @@ export default function MonthCover({
         aria-hidden="true"
       />
       <div className="mc-scrim" aria-hidden="true" />
+
+      {birthday && (
+        <>
+          {/* Birthday confetti: thirty-six pieces in four shapes, each on its own fall.
+              Decorative only — frozen entirely when motion is reduced. */}
+          <div className="mc-confetti" aria-hidden="true">
+            {Array.from({ length: 36 }).map((_, i) => (
+              <i
+                key={i}
+                data-shape={i % 4}
+                style={
+                  {
+                    ...scatter(i),
+                    ['--c' as string]: CONFETTI[i % CONFETTI.length],
+                  } as React.CSSProperties
+                }
+              />
+            ))}
+          </div>
+
+          {/* Rising balloons, the slowest layer of the stack. */}
+          <div className="mc-balloons" aria-hidden="true">
+            {BALLOONS.map((b, i) => (
+              <span
+                key={i}
+                style={
+                  {
+                    '--x': b.left,
+                    '--dl': b.delay,
+                    '--du': b.duration,
+                    '--size': `${b.size}px`,
+                    ['--c' as string]: b.tone,
+                  } as React.CSSProperties
+                }
+              >
+                <i />
+              </span>
+            ))}
+          </div>
+
+          {/* Bunting strung across the top of the sheet. */}
+          {/* Bunting across the top edge, stopping well before the controls at the right. */}
+          <div className="mc-bunting" aria-hidden="true">
+            {Array.from({ length: 11 }).map((_, i) => (
+              <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
+            ))}
+          </div>
+
+          {/* A gilded frame, so the whole page reads as an invitation. */}
+          <div className="mc-frame" aria-hidden="true">
+            <span />
+          </div>
+        </>
+      )}
 
       <div className="mc-scroll">
         <header className="mc-top">
@@ -195,6 +307,45 @@ export default function MonthCover({
         </header>
 
         <div className="mc-hero">
+          {birthday && (
+            <p className="mc-crest">
+              <span className="mc-crest-crown">
+                <Crown size={15} />
+              </span>
+              <span className="mc-crest-copy">
+                <b>The Anniversary</b>
+                <em>Still Shaking · {YEARS_WORD} years</em>
+              </span>
+            </p>
+          )}
+          {birthday && (
+            <>
+              {/* The year medallion: a struck coin behind the title. */}
+              <div className="mc-medallion" aria-hidden="true">
+                <span className="mc-med-halo" />
+                <span className="mc-med-ring">
+                  <b>{ANNIVERSARY_YEARS}</b>
+                  <em>years</em>
+                </span>
+                <span className="mc-med-crown">
+                  <Crown size={17} />
+                </span>
+                <span className="mc-med-rays" />
+              </div>
+              {/* A slow sparkle field over the title block. */}
+              <div className="mc-sparkle-field" aria-hidden="true">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <Sparkles key={i} size={i % 3 === 0 ? 15 : 10} style={scatter(i * 3 + 1)} />
+                ))}
+              </div>
+            </>
+          )}
+          {birthday && (
+            <p className="mc-royal">
+              <Sparkles size={13} />
+              57 numbered memberships · crowned this month
+            </p>
+          )}
           {theme && (
             <p className="mc-focus">
               <span>Focus</span>
@@ -202,6 +353,13 @@ export default function MonthCover({
             </p>
           )}
           <h2>{MONTHS[month - 1]}</h2>
+          {birthday && (
+            <p className="mc-ribbon">
+              <PartyPopper size={13} />
+              <span>{YEARS_TITLE} years of Physique 57 India</span>
+              <Cake size={13} />
+            </p>
+          )}
           {brief && <p className="mc-brief">{brief}</p>}
         </div>
 
@@ -305,6 +463,50 @@ export default function MonthCover({
             )}
           </section>
         </div>
+
+        {/* The argument in three columns — what breaks, what we do, and the four weeks —
+            which the narration walks through in order, lighting each one as it speaks. */}
+        {(risk || signature || (plan && plan.length > 0)) && (
+          <section className="mc-story" aria-label="The month's argument and action plan">
+            {risk && (
+              <article className="mc-story-col is-risk">
+                <span className="mc-label">
+                  <i aria-hidden="true" />
+                  What goes wrong
+                </span>
+                <p>{risk}</p>
+              </article>
+            )}
+            {signature && (
+              <article className="mc-story-col is-move">
+                <span className="mc-label">
+                  <i aria-hidden="true" />
+                  The move
+                </span>
+                <p>{signature}</p>
+              </article>
+            )}
+            {plan && plan.length > 0 && (
+              <article className="mc-story-col is-plan">
+                <span className="mc-label">
+                  <i aria-hidden="true" />
+                  The plan
+                </span>
+                <ol className="mc-weeks">
+                  {plan.map(w => (
+                    <li key={`${w.week}-${w.label || ''}`} className="mc-week" data-week={w.week}>
+                      <b>{w.label || `W${w.week}`}</b>
+                      <span>
+                        {w.text || 'To be planned'}
+                        {!!w.extra && <em>+{w.extra}</em>}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </article>
+            )}
+          </section>
+        )}
 
         <footer className="mc-foot">
           <div className="mc-dates">

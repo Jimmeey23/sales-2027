@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, CalendarClock, Mail, Megaphone, MessageCircle, Plus, Printer, RotateCcw, Trash2 } from 'lucide-react';
+import { ArrowRight, CalendarClock, Mail, Megaphone, MessageCircle, Pencil, Plus, Printer, RotateCcw, Trash2 } from 'lucide-react';
 import { MONTHS } from '../types';
 
 // Marketing & collaterals for one studio-month: one row per channel (WhatsApp, email, in-studio tent card), each
@@ -92,6 +92,8 @@ const LAYOUTS = {
   tent: [['classic', 'Classic'], ['full', 'Full bleed'], ['arch', 'Arch']],
 } as const;
 type Piece = keyof typeof LAYOUTS;
+// The house cut for each piece. A team that picks another layout still gets it, per offer.
+const HOUSE_LAYOUT: Record<Piece, string> = { square: 'overlay', email: 'overlay', tent: 'full' };
 
 // Offer wording → the kind of picture that sells it.
 const THEMES: [RegExp, string][] = [
@@ -241,6 +243,8 @@ export default function MarketingCollaterals({
 }) {
   const [pickId, setPickId] = useState<number | null>(null);
   const [layoutPick, setLayoutPick] = useState<Record<string, string>>({});
+  // The header reads as a heading; the pencil opens it for renaming.
+  const [renaming, setRenaming] = useState(false);
   const offer = offers.find(o => o.id === pickId) || offers[0];
   const slot = (offer?.plan_slot as keyof typeof VOICE) in VOICE ? (offer.plan_slot as keyof typeof VOICE) : 'newcomer';
   const shots = useMemo(() => (offer ? pickPhotos(offer, slot, month, studioName) : []), [offer, slot, month, studioName]);
@@ -277,7 +281,7 @@ export default function MarketingCollaterals({
       <div id={id} className="mw-section col-section">
         <div className="col-head">
           <div>
-            {editable ? (
+            {editable && renaming ? (
               <>
                 <input
                   className="col-edit-heading"
@@ -298,6 +302,15 @@ export default function MarketingCollaterals({
           </div>
           {editable && (
             <div className="col-head-actions">
+              <button
+                type="button"
+                className={`mw-mini-btn${renaming ? ' is-active' : ''}`}
+                onClick={() => setRenaming(v => !v)}
+                title={renaming ? 'Done renaming' : 'Rename this section'}
+                aria-pressed={renaming}
+              >
+                <Pencil size={12} /> {renaming ? 'Done' : 'Rename'}
+              </button>
               <button type="button" className="mw-mini-btn" onClick={addCustomChannel}>
                 <Plus size={13} /> Add channel
               </button>
@@ -409,6 +422,15 @@ export default function MarketingCollaterals({
   const defaultHeadline = tagline && tagline.length <= 46 ? tagline : v.headlines[seed % v.headlines.length];
   const defaultAltHead = v.headlines[(seed + 1) % v.headlines.length];
   const detail = noPrice(String(offer.benefit || offer.headline || ''));
+  // A tent card is read standing up: one whole line, cut at a sentence or a clause boundary.
+  const cardLine = (value: string, max: number) => {
+    const clean = String(value || '').replace(/\s+/g, ' ').trim();
+    if (clean.length <= max) return clean;
+    const head = clean.slice(0, max);
+    const stop = Math.max(head.lastIndexOf('. '), head.lastIndexOf('; '), head.lastIndexOf(', '));
+    if (stop > max * 0.45) return head.slice(0, stop + 1).trim();
+    return `${head.replace(/[\s,;:.]+\S*$/, '')}.`;
+  };
   const offerName = clip(String(offer.name), 44);
   const defaultKicker = `${SLOT_LABEL[slot]} · ${monthName}`;
   const kicker = ov.kicker ?? defaultKicker;
@@ -422,7 +444,6 @@ export default function MarketingCollaterals({
   const preheader = ov.preheader ?? v.preheaders.join(' / ');
   const emailCta = ov.emailCta ?? v.cta;
   const defaultWaCopy = `Hi {first_name} ✨\n\n*${defaultHeadline}*\n*${offer.name}*: ${clip(detail, 110)}\n\n${v.wa} Until ${fmtDay(end)}, ${studioName}.\n\n— Team Physique 57\nReply STOP to opt out`;
-  const sqLayouts = LAYOUTS.square.map(([k]) => k);
   const defaultReminderCopy = `Hi {first_name} ⏳\n\n*Last call: ${offer.name}* closes ${fmtDay(end)}.\n\n${v.wa}\n\n— Team Physique 57\nReply STOP to opt out`;
 
   const waLaunchText = ov.waLaunchText ?? defaultWaCopy;
@@ -465,13 +486,9 @@ export default function MarketingCollaterals({
   ];
   const bg = (p: Photo) => ({ backgroundImage: `url(/p57/pro/${p.id}.jpg)`, backgroundPosition: p.pos });
   const Photo = ({ p }: { p: Photo }) => <div className="cr-photo" style={bg(p)} />;
-  const layout = (piece: Piece) =>
-    layoutPick[`${offer.id}:${piece}`] ??
-    (piece === 'email'
-      ? 'arch'
-      : LAYOUTS[piece][(seed + month + Object.keys(LAYOUTS).indexOf(piece)) % LAYOUTS[piece].length][0]);
+  const layout = (piece: Piece) => layoutPick[`${offer.id}:${piece}`] ?? HOUSE_LAYOUT[piece];
   waSends[0].layout = layout('square');
-  waSends[1].layout = sqLayouts[(sqLayouts.indexOf(layout('square') as any) + 1) % sqLayouts.length];
+  waSends[1].layout = layout('square');
   const Layouts = ({ piece }: { piece: Piece }) => (
     <div className="cr-layouts" role="radiogroup" aria-label="Layout">
       {LAYOUTS[piece].map(([k, label]) => (
@@ -505,27 +522,31 @@ export default function MarketingCollaterals({
   }) => (
     <aside className="col-spec">
       <header>
-        <span><Icon size={15} /></span>
-        <b>{title}</b>
-        <i>
-          <CalendarClock size={12} /> Final by {due(lead)}
-          {editable && onLeadChange && (
-            <input
-              type="number"
-              min={1}
-              max={45}
-              className="col-lead-input"
-              aria-label={`${title} lead days`}
-              title="Lead days before month start"
-              value={lead}
-              onChange={e => onLeadChange(Math.max(1, Number(e.target.value) || 1))}
-            />
-          )}
-        </i>
+        <span className="col-spec-icon">
+          <Icon size={15} />
+        </span>
+        <div className="col-spec-id">
+          <b>{title}</b>
+          <i>
+            <CalendarClock size={11} /> Final by {due(lead)}
+            {editable && onLeadChange && (
+              <input
+                type="number"
+                min={1}
+                max={45}
+                className="col-lead-input"
+                aria-label={`${title} lead days`}
+                title="Lead days before month start"
+                value={lead}
+                onChange={e => onLeadChange(Math.max(1, Number(e.target.value) || 1))}
+              />
+            )}
+          </i>
+        </div>
         {editable && (
           <button
             type="button"
-            className="mw-mini-icon is-danger"
+            className="mw-mini-icon is-danger col-spec-hide"
             title={`Remove ${title} from this month`}
             aria-label={`Remove ${title}`}
             onClick={() => hideChannel(channelKey)}
@@ -534,6 +555,7 @@ export default function MarketingCollaterals({
           </button>
         )}
       </header>
+      <span className="col-spec-cap">Deliverables</span>
       {editable && onItemsChange ? (
         <div className="col-edit-list">
           {items.map((t, idx) => (
@@ -563,7 +585,12 @@ export default function MarketingCollaterals({
       ) : (
         <ul>{items.map((t, idx) => <li key={idx}>{t}</li>)}</ul>
       )}
-      {copy && <div className="col-copy">{copy}</div>}
+      {copy && (
+        <div className="col-copy">
+          <span className="col-spec-cap">Copy to use</span>
+          {copy}
+        </div>
+      )}
     </aside>
   );
 
@@ -578,7 +605,7 @@ export default function MarketingCollaterals({
       <div className="col-head">
         <div style={{ flex: '1 1 320px', minWidth: 0 }}>
           <small>{theme || monthName} · {studioName}</small>
-          {editable ? (
+          {editable && renaming ? (
             <div className="col-head-edit-fields">
               <input
                 className="col-edit-heading"
@@ -602,6 +629,15 @@ export default function MarketingCollaterals({
         </div>
         {editable && (
           <div className="col-head-actions">
+            <button
+              type="button"
+              className={`mw-mini-btn${renaming ? ' is-active' : ''}`}
+              onClick={() => setRenaming(v => !v)}
+              title={renaming ? 'Done renaming' : 'Rename this section'}
+              aria-pressed={renaming}
+            >
+              <Pencil size={12} /> {renaming ? 'Done' : 'Rename'}
+            </button>
             <button type="button" className="mw-mini-btn" onClick={addCustomChannel}>
               <Plus size={13} /> Add channel
             </button>
@@ -626,6 +662,29 @@ export default function MarketingCollaterals({
           </div>
         )}
       </div>
+
+      {/* The production clock, in the one place the page hero above does not already cover it. */}
+      {(() => {
+        const live = (['whatsapp', 'email', 'tent'] as const).filter(c => !hiddenChannels.includes(c));
+        const lock = due(Math.max(waLead, emailLead, tentLead));
+        return (
+          <div className="col-ledger">
+            <span>
+              Artwork locks <b>{lock}</b>
+            </span>
+            {live.includes('tent') && (
+              <span>
+                Print at desk <b>{due(tentLead)}</b>
+              </span>
+            )}
+            {live.includes('whatsapp') && (
+              <span>
+                First send <b>1 {monthName.slice(0, 3)}</b>
+              </span>
+            )}
+          </div>
+        );
+      })()}
 
       {editable && hiddenChannels.length > 0 && (
         <div className="mw-restore-strip">
@@ -860,7 +919,9 @@ export default function MarketingCollaterals({
                   <Logo />
                   <small>{kicker}</small>
                   <h3>{tentFront}</h3>
-                  <p><b>{offerName}.</b> {clip(detail, 80)}</p>
+                  <p>
+                    <b>{offerName}.</b> {cardLine(detail, 96)}
+                  </p>
                   <div className="cr-tent-foot">
                     <div className="cr-qr" aria-hidden="true">{Array.from({ length: 49 }, (_, i) => <i key={i} className={(i * 7 + month * 3 + i * i) % 3 ? '' : 'on'} />)}</div>
                     <div><b>Scan to claim</b><span>Or ask at reception · {closes}</span></div>
