@@ -1567,3 +1567,147 @@
     font-size: 11.7px;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 21 — the figures as a chart, and the who/when/how strip under the record
+   Each of the six figures is a column standing on one baseline: label over value
+   over a plotted column over its note, so the plate reads as a chart rather than
+   six boxes of text.
+   ───────────────────────────────────────────────────────────────────────────── */
+.mw .oc-stats {
+  align-items: stretch;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 -22px;
+  padding: 15px 22px 13px;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  background: linear-gradient(180deg, #fbfcfd 0%, #ffffff 72%);
+}
+
+.mw .oc-stat {
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  align-content: start;
+  gap: 0;
+  min-width: 0;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.mw .oc-stat:first-child {
+  padding-left: 0;
+}
+.mw .oc-stat + .oc-stat {
+  border-left: 1px solid rgba(25, 26, 36, 0.07);
+}
+
+.mw .oc-stat-label {
+  order: 1;
+  min-height: 15px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  color: #9a97a6;
+}
+
+.mw .oc-stat-value {
+  order: 2;
+  margin-top: 5px;
+  font-size: 20px;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.015em;
+  color: #1b1824;
+}
+
+/* The plot: a column rising off a shared baseline. */
+.mw .oc-bar {
+  order: 3;
+  position: relative;
+  height: 46px;
+  margin: 9px 0 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+  border-bottom: 1px solid rgba(25, 26, 36, 0.16);
+}
+
+.mw .oc-bar::after {
+  inset: auto auto 0 0;
+  width: min(100%, 60px);
+  height: var(--oc-fill);
+  min-height: 2px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--oc-accent) 26%, #dfe9f1) 0%,
+    var(--oc-accent) 100%
+  );
+  transition: height 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.mw .oc-bar.is-stacked::after {
+  background: linear-gradient(
+    0deg,
+    var(--oc-accent) 0 var(--oc-cash),
+    color-mix(in srgb, var(--oc-accent) 24%, #dbe7f1) var(--oc-cash) var(--oc-fill)
+  );
+}
+
+.mw .oc-stat-note {
+  order: 4;
+  margin-top: 7px;
+  font-size: 9.4px;
+  line-height: 1.35;
+  color: #9a97a6;
+}
+
+/* A tall card earns a taller plot. */
+.mw .mw-offer-list.is-one-up .oc-stat-value {
+  font-size: 22px;
+}
+.mw .mw-offer-list.is-one-up .oc-bar {
+  height: 58px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat {
+  padding: 0 18px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-bar {
+  height: 38px;
+}
+
+/* Who / when / how sit under the record as one ruled strip. */
+.mw .oc-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 14px 0 0;
+  padding: 12px 0 1px;
+  border-top: 1px solid rgba(25, 26, 36, 0.08);
+  border-bottom: 0;
+}
+.mw .oc-meta-item {
+  gap: 8px;
+  padding: 0 15px;
+}
+.mw .oc-meta-item:nth-child(3n + 1) {
+  padding-left: 0;
+}
+.mw .oc-meta-item b {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #4a4657;
+}
+.mw .oc-meta-icon {
+  margin-top: 1px;
+  color: #b4b1be;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc-bar::after {
+    transition: none;
+  }
+}

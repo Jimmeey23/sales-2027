@@ -628,30 +628,30 @@
 
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Iteration 20 — the collateral tab as a production sheet
-   One card per channel: the artwork is proofed on a mat, the brief sits beside
-   it as a docket. The mock creatives keep their own designed scale, so nothing
-   inside a proof is re-flowed by the page layout.
+   Iteration 21 — the collateral tab as a compact proof board
+   Every channel is one row: the artwork proofed on the left at its designed
+   scale, and its brief — deliverables, then the copy to use — ruled beside it.
+   Nothing is stacked under the artwork, so the whole month fits in less scroll.
    ───────────────────────────────────────────────────────────────────────────── */
 .mw .mw-main > .col-section {
   counter-reset: colcard;
-  background: linear-gradient(180deg, #f8fafb 0%, #f4f7f8 100%);
+  background: linear-gradient(180deg, #f8fafb 0%, #f3f6f7 100%);
 }
 
-/* ── Head: kicker, short title, two lines of rationale ───────────────────── */
+/* ── Head: one compact block, actions on the right ───────────────────────── */
 .mw .col-section > .col-head {
   align-items: flex-end;
-  gap: 18px;
-  margin-bottom: 14px;
+  gap: 16px;
+  margin-bottom: 10px;
 }
 .mw .col-section > .col-head small {
-  font: 700 9.5px/1 var(--sans);
+  font: 700 9px/1 var(--sans);
   letter-spacing: 0.18em;
   color: color-mix(in srgb, var(--a1) 62%, #55636f);
 }
 .mw .col-section > .col-head h4 {
-  margin: 6px 0 4px;
-  font: 500 19px/1.15 'Bodoni Moda', Georgia, serif;
+  margin: 5px 0 3px;
+  font: 500 17px/1.15 'Bodoni Moda', Georgia, serif;
   letter-spacing: -0.008em;
   color: #1b1824;
 }
@@ -660,30 +660,30 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  max-width: 640px;
+  max-width: 620px;
   margin: 0;
-  font-size: 12px;
-  line-height: 1.55;
+  font-size: 11.5px;
+  line-height: 1.5;
   color: #6f7b87;
 }
 
-/* ── The production clock ────────────────────────────────────────────────── */
+/* ── The production clock, on the same line as the offer rail ────────────── */
 .mw .col-section .col-ledger {
   display: inline-flex;
   flex-wrap: wrap;
   width: fit-content;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   border: 1px solid #e6ebee;
-  border-radius: 11px;
+  border-radius: 9px;
   background: #ffffff;
   overflow: hidden;
 }
 .mw .col-section .col-ledger > span {
   display: inline-flex;
   align-items: baseline;
-  gap: 6px;
-  padding: 8px 14px;
-  font-size: 11.5px;
+  gap: 5px;
+  padding: 6px 11px;
+  font-size: 10.5px;
   font-weight: 500;
   color: #6a7783;
   white-space: nowrap;
@@ -692,24 +692,24 @@
   border-left: 1px solid #eef1f4;
 }
 .mw .col-section .col-ledger b {
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: -0.005em;
   color: #1b1824;
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Offer rail: audience label then chips, all on one ruled line ────────── */
+/* ── Offer rail: audience label then chips, one rule ─────────────────────── */
 .mw .col-section > .col-tabs {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px 8px;
+  gap: 5px 7px;
   max-width: none;
-  margin: 0 0 14px;
-  padding: 9px 12px;
+  margin: 0 0 10px;
+  padding: 7px 10px;
   border: 1px solid #e6ebee;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #ffffff;
   justify-content: flex-start;
 }
@@ -720,9 +720,9 @@
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 2px 0 12px;
-  font: 700 8.5px/1 var(--sans);
+  gap: 5px;
+  padding: 0 2px 0 10px;
+  font: 700 8px/1 var(--sans);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #93a0ab;
@@ -741,12 +741,12 @@
 .mw .col-section .col-tab-group button {
   display: inline-block;
   width: auto;
-  max-width: 320px;
-  padding: 6px 12px;
+  max-width: 300px;
+  padding: 5px 10px;
   border: 1px solid #e4e9ee;
   border-radius: 999px;
   background: #ffffff;
-  font: 550 11.5px/1.3 var(--sans);
+  font: 550 11px/1.3 var(--sans);
   color: #26313b;
   text-align: left;
   box-shadow: none;
@@ -764,18 +764,18 @@
   color: #ffffff;
 }
 
-/* ── One card per channel: proof on the mat, docket beside it ────────────── */
+/* ── One row per channel: proof left, brief right — always side by side ──── */
 .mw .col-section > .col-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(292px, 336px);
+  grid-template-columns: minmax(0, 1fr) minmax(264px, 312px);
   align-items: start;
-  gap: 18px;
+  gap: 12px;
   margin: 0;
-  padding: 18px;
+  padding: 12px;
   border: 1px solid #e6ebee;
-  border-radius: 18px;
+  border-radius: 14px;
   background: #ffffff;
-  box-shadow: 0 16px 34px -32px rgba(11, 20, 32, 0.5);
+  box-shadow: 0 14px 30px -30px rgba(11, 20, 32, 0.55);
   counter-increment: colcard;
 }
 .mw .col-section > .col-row.is-custom {
@@ -784,70 +784,71 @@
 .mw .col-section > .col-row > .cr-stage {
   justify-self: center;
   width: 100%;
-  max-width: 720px;
-  padding: 16px;
-  border-radius: 14px;
-  background: radial-gradient(120% 100% at 50% 0%, #fbfcfd 0%, #f4f7f8 72%, #eef2f4 100%);
+  padding: 10px;
+  border-radius: 10px;
+  background: radial-gradient(120% 100% at 50% 0%, #fbfcfd 0%, #f4f7f8 74%, #eef2f4 100%);
   box-shadow: inset 0 0 0 1px rgba(16, 43, 66, 0.05);
 }
 
-/* The docket: what to make, how big, what copy, and when it is due. */
+/* The brief: a ruled docket, top-aligned with the proof. */
 .mw .col-row > .col-spec {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 9px;
   min-width: 0;
-  padding: 15px 16px 16px;
+  width: 100%;
+  max-width: none;
+  padding: 11px 12px 12px;
   border: 1px solid #e6ebee;
-  border-radius: 14px;
+  border-radius: 10px;
   background: #ffffff;
 }
 .mw .col-row > .col-spec > header {
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin: 0;
 }
 .mw .col-spec-icon {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
   background: #10161d;
   color: color-mix(in srgb, var(--a1) 46%, #dbe6ef);
 }
 .mw .col-spec-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 .mw .col-spec-id {
   display: grid;
-  gap: 3px;
+  gap: 2px;
   min-width: 0;
 }
 .mw .col-row:not(.is-custom) .col-spec-id::before {
   content: counter(colcard, decimal-leading-zero);
-  font: 700 8.5px/1 var(--sans);
+  font: 700 8px/1 var(--sans);
   letter-spacing: 0.16em;
   color: #b6c0c9;
 }
 .mw .col-spec-id b {
-  font: 500 15.5px/1.15 'Bodoni Moda', Georgia, serif;
+  font: 500 14.5px/1.15 'Bodoni Moda', Georgia, serif;
   letter-spacing: -0.005em;
   color: #1b1824;
 }
 .mw .col-spec-id i {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   margin: 0;
   padding: 0;
   border-radius: 0;
   background: none;
   color: #8b97a2;
-  font: 600 10.5px/1.2 var(--sans);
+  font: 600 10px/1.2 var(--sans);
   font-style: normal;
   letter-spacing: 0.02em;
 }
@@ -855,37 +856,38 @@
   align-self: start;
 }
 .mw .col-spec .col-lead-input {
-  width: 42px;
+  width: 38px;
   padding: 0 4px;
   border: 0 !important;
   border-bottom: 1px solid #dbe2e8 !important;
   border-radius: 0 !important;
   background: transparent !important;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
   color: #3d4a55;
 }
 
 .mw .col-spec-cap {
   display: block;
-  font: 750 8.5px/1 var(--sans);
+  margin-top: 2px;
+  font: 750 8px/1 var(--sans);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #9a97a6;
 }
 
-/* Deliverables read as ruled lines, not as bullets. */
+/* Deliverables as ruled lines. */
 .mw .col-spec ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 12px;
+  font-size: 11.5px;
 }
 .mw .col-spec ul li {
   position: relative;
-  padding: 7px 0 7px 13px;
+  padding: 5px 0 5px 11px;
   border-top: 1px solid rgba(25, 26, 36, 0.06);
-  line-height: 1.5;
+  line-height: 1.45;
   color: #4a4657;
 }
 .mw .col-spec ul li:first-child {
@@ -895,8 +897,8 @@
 .mw .col-spec ul li::before {
   content: '';
   position: absolute;
-  left: 1px;
-  top: 13px;
+  left: 0;
+  top: 11px;
   width: 3px;
   height: 3px;
   border-radius: 50%;
@@ -906,23 +908,22 @@
   top: 7px;
 }
 
-/* Copy to use: a quiet paper panel at the foot of the docket. */
+/* Copy to use, immediately under the deliverables it belongs to. */
 .mw .col-spec .col-copy {
-  margin: 0;
-  padding: 12px 13px;
+  margin: 4px 0 0;
+  padding: 9px 10px;
   border: 0;
-  border-left: 0;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #f7f8f9;
 }
 .mw .col-spec .col-copy > .col-spec-cap {
-  margin-bottom: 7px;
+  margin: 0 0 5px;
   color: #9a97a6;
 }
 .mw .col-spec .col-copy > small {
   display: block;
-  margin-top: 9px;
-  font-size: 8.5px;
+  margin-top: 7px;
+  font-size: 8px;
   font-weight: 750;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -933,82 +934,103 @@
 }
 .mw .col-spec .col-copy p,
 .mw .col-spec .col-copy pre {
-  max-width: 68ch;
-  margin: 3px 0 0;
-  font: 500 12px/1.55 var(--sans);
+  max-width: 62ch;
+  margin: 2px 0 0;
+  font: 500 11.5px/1.5 var(--sans);
   color: #3b3a47;
   white-space: pre-wrap;
 }
+.mw .col-spec .col-subjects {
+  gap: 0;
+}
 .mw .col-spec .col-subjects li {
+  padding: 5px 0 5px 22px;
+  border: 0;
   border-top: 1px solid rgba(25, 26, 36, 0.06);
-  padding: 6px 0 6px 26px;
   border-radius: 0;
   background: none;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 0;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 500;
+}
+.mw .col-spec .col-subjects li:first-child {
+  border-top: 0;
 }
 .mw .col-spec .col-subjects li::before {
   top: 4px;
   left: 0;
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   background: #10161d;
   color: #ffffff;
-  font-size: 9px;
+  font-size: 8.5px;
 }
 .mw .col-spec .col-edit-list {
   margin: 0;
 }
 
-/* The proofs keep their own scale; the mat only frames them. */
+/* ── WhatsApp keeps its pair beside the brief, at a proof-board scale ────── */
+.mw .col-section > .col-row.is-wa {
+  grid-template-columns: minmax(0, 1fr) minmax(264px, 312px);
+  gap: 12px;
+}
+.mw .col-row.is-wa .wa-pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+.mw .col-row.is-wa .wa-send {
+  gap: 7px;
+}
+.mw .col-row.is-wa .wa-send .wa-phone {
+  width: 300px;
+  border-width: 8px;
+  border-radius: 34px;
+}
+.mw .col-row.is-wa .wa-bubble .cr-square {
+  width: 430px;
+  zoom: 0.58;
+}
+.mw .col-row.is-wa .wa-buttons {
+  width: calc(430px * 0.58 + 8px);
+}
+.mw .col-row.is-wa .wa-label {
+  justify-self: center;
+  padding: 4px 10px;
+  font-size: 9px;
+}
+
+/* The email and tent proofs keep their designed proportions inside the mat. */
 .mw .col-row > .cr-stage > .cr-email {
-  max-width: 468px;
+  width: 100%;
+  max-width: 420px;
   margin-inline: auto;
 }
 .mw .col-row > .cr-stage > .cr-tent-stage {
   justify-self: center;
   width: 100%;
 }
-.mw .col-row > .cr-stage .wa-pair {
-  align-items: flex-start;
-  gap: 26px;
+.mw .col-section .col-row.is-tent .cr-tent-stage {
+  min-height: 0;
+  max-width: 520px;
+  margin-inline: auto;
+  aspect-ratio: 4 / 3;
+  padding-bottom: 12%;
 }
 
-/* WhatsApp is a pair of phones, not a portrait: it keeps the full width with its
-   docket underneath, as it did before, so neither phone is squeezed. */
-.mw .col-section > .col-row.is-wa {
-  grid-template-columns: minmax(0, 1fr);
-  gap: 14px;
-}
-.mw .col-section > .col-row.is-wa > .cr-stage {
-  max-width: 900px;
-}
-.mw .col-section > .col-row.is-wa > .col-spec {
-  max-width: 780px;
-  width: 100%;
-  justify-self: center;
-}
-
-@media (max-width: 1180px) {
+@media (max-width: 1240px) {
   .mw .col-section > .col-row {
+    grid-template-columns: minmax(0, 1fr) 264px;
+  }
+}
+@media (max-width: 1040px) {
+  .mw .col-section > .col-row,
+  .mw .col-section > .col-row.is-wa {
     grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
+    gap: 10px;
   }
   .mw .col-section > .col-row > .cr-stage {
-    max-width: none;
-  }
-}
-@media (max-width: 760px) {
-  .mw .col-section > .col-row {
-    padding: 12px;
-  }
-  .mw .col-section > .col-row > .cr-stage {
-    padding: 10px;
-  }
-  .mw .col-row > .col-spec {
-    padding: 13px;
+    padding: 8px;
   }
 }

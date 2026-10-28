@@ -5540,38 +5540,6 @@ function OfferCard({
           </div>
         </div>
 
-        <div className="oc-meta">
-          <div className="oc-meta-item">
-            <span className="oc-meta-icon">
-              <Users size={15} />
-            </span>
-            <div>
-              <span className="oc-label">Who</span>
-              <b>{o.audience || 'All clients'}</b>
-            </div>
-          </div>
-          <div className="oc-meta-item">
-            <span className="oc-meta-icon">
-              <Calendar size={15} />
-            </span>
-            <div>
-              <span className="oc-label">When</span>
-              <b>
-                {windowText} · {days} days
-              </b>
-            </div>
-          </div>
-          <div className="oc-meta-item">
-            <span className="oc-meta-icon">
-              <Tag size={15} />
-            </span>
-            <div>
-              <span className="oc-label">How</span>
-              <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
-            </div>
-          </div>
-        </div>
-
         {/* Spec sheet: the commercial record as ruled label → value lines, so the whole offer
             reads without opening anything. Approval sits in its header. */}
         <div className="oc-spec">
@@ -5610,6 +5578,38 @@ function OfferCard({
               <p className="oc-spec-value">{row.value}</p>
             </div>
           ))}
+        </div>
+
+        <div className="oc-meta">
+          <div className="oc-meta-item">
+            <span className="oc-meta-icon">
+              <Users size={15} />
+            </span>
+            <div>
+              <span className="oc-label">Who</span>
+              <b>{o.audience || 'All clients'}</b>
+            </div>
+          </div>
+          <div className="oc-meta-item">
+            <span className="oc-meta-icon">
+              <Calendar size={15} />
+            </span>
+            <div>
+              <span className="oc-label">When</span>
+              <b>
+                {windowText} · {days} days
+              </b>
+            </div>
+          </div>
+          <div className="oc-meta-item">
+            <span className="oc-meta-icon">
+              <Tag size={15} />
+            </span>
+            <div>
+              <span className="oc-label">How</span>
+              <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
+            </div>
+          </div>
         </div>
 
         <div className="oc-sign">
