@@ -500,13 +500,14 @@ export default function MarketingCollaterals({
   const defaultAltHead = v.headlines[(seed + 1) % v.headlines.length];
   const detail = noPrice(String(offer.benefit || offer.headline || ''));
   // A tent card is read standing up: one whole line, cut at a sentence or a clause boundary.
-  const cardLine = (value: string, max: number) => {
+  const cardLine = (value: string, max: number, ellipsis = false) => {
     const clean = String(value || '').replace(/\s+/g, ' ').trim();
     if (clean.length <= max) return clean;
     const head = clean.slice(0, max);
+    const tail = ellipsis ? '…' : '.';
     const stop = Math.max(head.lastIndexOf('. '), head.lastIndexOf('; '), head.lastIndexOf(', '));
-    if (stop > max * 0.45) return head.slice(0, stop + 1).trim();
-    return `${head.replace(/[\s,;:.]+\S*$/, '')}.`;
+    if (stop > max * 0.45) return head.slice(0, stop).trim() + tail;
+    return `${head.replace(/[\s,;:.]+\S*$/, '')}${tail}`;
   };
   const offerName = clip(String(offer.name), 44);
   const defaultKicker = `${SLOT_LABEL[slot]} · ${monthName}`;
@@ -826,10 +827,12 @@ export default function MarketingCollaterals({
       {!hiddenChannels.includes('whatsapp') && (
         <div className="col-row is-wa">
           <div className="cr-stage">
-            <div className="wa-pair">
-              {waSends.map(w => (
+            <div className="wa-pair is-single">
+              {/* One screen: the message as it lands in a chat. The follow-up
+                  send is described beneath it rather than shown twice. */}
+              {waSends.slice(0, 1).map(w => (
                 <div key={w.label} className="wa-send">
-                  <span className="wa-label">{w.label}</span>
+                  <span className="wa-label">{w.label} · {w.day}, {w.time}</span>
                   <div className="wa-phone">
                     <div className="wa-bar">
                       <span className="wa-back">‹</span>
@@ -859,6 +862,11 @@ export default function MarketingCollaterals({
                       <div className="wa-buttons"><span>{w.button}</span><span>Stop promotions</span></div>
                     </div>
                     <div className="wa-input"><span>Message</span><i /></div>
+                  </div>
+                  <div className="wa-followup">
+                    <span>Then, 48 hours before close</span>
+                    <b>{waReminderHeadline}</b>
+                    <em>{waReminderButton}</em>
                   </div>
                 </div>
               ))}
@@ -997,30 +1005,33 @@ export default function MarketingCollaterals({
         </div>
       )}
 
-      {/* Tent card: A4 portrait, shown standing on the reception counter */}
+      {/* Tent card: the printed A-frame, standing on the front desk */}
       {!hiddenChannels.includes('tent') && (
         <div className="col-row is-tent">
           <div className="cr-stage">
             <div className="cr-tent-stage">
-              <div className="ct-scene" aria-hidden="true" />
-              <div className="ct-counter" aria-hidden="true" />
+              <div className="ct-depth" aria-hidden="true" />
+              <div className="ct-desk" aria-hidden="true" />
               <div className="ct-pair">
                 {/* Front: photograph, month seal, then the offer in three sizes of voice. */}
                 <figure className={`cr-tent cr-tent-front is-${layout('tent')}`}>
-                  <div className="ct-photo" style={bg(shots[2])}>
-                    <span className="ct-seal">
-                      <b>{monthName.slice(0, 3)}</b>
-                      <em>only</em>
-                    </span>
-                  </div>
-                  <div className="ct-body">
-                    <img className="ct-logo" src="/p57/logo.png" alt="Physique 57 India" />
-                    <span className="ct-kicker">{kicker}</span>
-                    <h3 className="ct-headline">{tentFront}</h3>
-                    <p className="ct-detail">
-                      {!bare(detail).startsWith(bare(offerName).slice(0, 14)) && <b>{offerName}. </b>}
-                      {cardLine(detail, 148)}
-                    </p>
+                  <span className="ct-fold" aria-hidden="true" />
+                  <div className="ct-sheet">
+                    <div className="ct-photo" style={bg(shots[2])}>
+                      <span className="ct-seal">
+                        <b>{monthName.slice(0, 3)}</b>
+                        <em>only</em>
+                      </span>
+                    </div>
+                    <div className="ct-body">
+                      <img className="ct-logo" src="/p57/logo.png" alt="Physique 57 India" />
+                      <span className="ct-kicker">{kicker}</span>
+                      <h3 className="ct-headline">{tentFront}</h3>
+                      <p className="ct-detail">
+                        {!bare(detail).startsWith(bare(offerName).slice(0, 14)) && <b>{offerName}. </b>}
+                        {cardLine(detail, 148, true)}
+                      </p>
+                    </div>
                     <div className="ct-foot">
                       <div className="cr-qr" aria-hidden="true">
                         {Array.from({ length: 49 }, (_, i) => (
@@ -1037,49 +1048,52 @@ export default function MarketingCollaterals({
 
                 {/* Back: the same offer stated as three perks, closed with the studio's line. */}
                 <figure className="cr-tent cr-tent-back">
-                  <div className="ct-back-head">
-                    <img className="ct-logo is-large" src="/p57/logo.png" alt="Physique 57 India" />
-                    <span className="ct-tagline">Stronger · Leaner · Happier</span>
-                  </div>
-                  <span className="ct-back-label">Your {monthName} perk</span>
-                  <div className="ct-perks">
-                    {perks.map((perk, i) => (
-                      <div key={`${perk.label}-${i}`} className="ct-perk">
-                        <span className="ct-perk-icon">
-                          {perk.icon === 'dumbbell' ? (
-                            <Dumbbell size={16} />
-                          ) : perk.icon === 'clock' ? (
-                            <Clock size={16} />
-                          ) : (
-                            <Star size={16} />
-                          )}
-                        </span>
-                        <b>{perk.label}</b>
-                        <small>{perk.note}</small>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="ct-quote">
-                    {backQuote[0]}
-                    {backQuote[1] && (
-                      <>
-                        <br />
-                        {backQuote[1]}
-                      </>
-                    )}
-                  </p>
-                  <div className="ct-back-foot">
-                    <div className="cr-qr" aria-hidden="true">
-                      {Array.from({ length: 49 }, (_, i) => (
-                        <i key={i} className={(i * 5 + month * 7 + i * i) % 3 ? '' : 'on'} />
+                  <span className="ct-fold" aria-hidden="true" />
+                  <div className="ct-sheet">
+                    <div className="ct-back-head">
+                      <img className="ct-logo is-large" src="/p57/logo.png" alt="Physique 57 India" />
+                      <span className="ct-tagline">Stronger · Leaner · Happier</span>
+                    </div>
+                    <span className="ct-back-label">Your {monthName} perk</span>
+                    <div className="ct-perks">
+                      {perks.map((perk, i) => (
+                        <div key={`${perk.label}-${i}`} className="ct-perk">
+                          <span className="ct-perk-icon">
+                            {perk.icon === 'dumbbell' ? (
+                              <Dumbbell size={16} />
+                            ) : perk.icon === 'clock' ? (
+                              <Clock size={16} />
+                            ) : (
+                              <Star size={16} />
+                            )}
+                          </span>
+                          <b>{perk.label}</b>
+                          <small>{perk.note}</small>
+                        </div>
                       ))}
                     </div>
-                    <div>
-                      <b>Scan to claim</b>
-                      <span>Or ask at reception</span>
-                      <span>· {closes}</span>
+                    <p className="ct-quote">
+                      {backQuote[0]}
+                      {backQuote[1] && (
+                        <>
+                          <br />
+                          {backQuote[1]}
+                        </>
+                      )}
+                    </p>
+                    <div className="ct-back-foot">
+                      <div className="cr-qr" aria-hidden="true">
+                        {Array.from({ length: 49 }, (_, i) => (
+                          <i key={i} className={(i * 5 + month * 7 + i * i) % 3 ? '' : 'on'} />
+                        ))}
+                      </div>
+                      <div>
+                        <b>Scan to claim</b>
+                        <span>Or ask at reception</span>
+                        <span>· {closes}</span>
+                      </div>
+                      <em>physique57.com</em>
                     </div>
-                    <em>physique57.com</em>
                   </div>
                 </figure>
               </div>

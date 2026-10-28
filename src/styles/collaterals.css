@@ -71,12 +71,12 @@
 .col-subjects li::before { content: counter(s); flex: none; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--ink); color: var(--cyan); font-size: 10px; font-weight: 800; }
 
 /* Shared creative type: Bodoni Moda headlines, Montserrat everything else */
-.cr-square, .cr-email, .cr-tent { font-family: var(--sans); }
-.col-section .cr-square h3, .col-section .cr-hero h3, .col-section .cr-tent h3, .cr-offer-box h4 { font-family: var(--serif); font-weight: 500; letter-spacing: -.015em; }
+.cr-square, .cr-email { font-family: var(--sans); }
+.col-section .cr-square h3, .col-section .cr-hero h3, .cr-offer-box h4 { font-family: var(--serif); font-weight: 500; letter-spacing: -.015em; }
 .cr-logo { display: block; height: 38px; width: auto; }
 .cr-square .cr-logo, .cr-hero .cr-logo { filter: drop-shadow(0 1px 8px rgba(0,0,0,.4)); }
 .cr-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,8,10,.5) 0%, rgba(6,8,10,0) 24%, rgba(6,8,10,0) 46%, rgba(6,8,10,.88) 100%); }
-.cr-square small, .cr-hero small, .cr-tent-body small, .cr-offer-box small { display: inline-flex; align-items: center; gap: 8px; font: 700 9.5px/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; }
+.cr-square small, .cr-hero small, .cr-offer-box small { display: inline-flex; align-items: center; gap: 8px; font: 700 9.5px/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; }
 .cr-square small::before, .cr-hero small::before { content: ''; width: 22px; height: 1.5px; background: var(--cyan); }
 .cr-value { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: var(--cyan); color: var(--ink); line-height: 1; }
 .cr-value b { font: 500 19px/1 var(--serif); }
@@ -96,19 +96,6 @@
 .cr-square > footer span { font-size: 10.5px; color: #5c6670; }
 
 /* Tent card */
-.cr-tent-stage { display: grid; place-items: center; padding: 28px 20px 36px; border-radius: 18px; background: radial-gradient(ellipse at 50% 100%, #d6dce1, #f3f5f7 70%); perspective: 1000px; }
-.cr-tent { width: min(100%, 300px); margin: 0; overflow: hidden; border-radius: 4px; background: #fff; transform: rotateX(7deg); transform-origin: bottom; box-shadow: 0 34px 34px -18px rgba(13,15,18,.5); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
-.cr-tent:hover { transform: rotateX(0) translateY(-4px); }
-.cr-tent-photo { position: relative; aspect-ratio: 148 / 118; background: #111 no-repeat; background-size: cover; }
-.cr-badge { position: absolute; right: 14px; bottom: -26px; width: 60px; height: 60px; border: 3px solid #fff; }
-.cr-tent-body { padding: 16px 20px 14px; }
-.cr-tent-body .cr-logo { height: 30px; margin-bottom: 10px; }
-.cr-tent-body small { color: var(--cyan-d); }
-.col-section .cr-tent-body h3 { margin: 8px 0 8px; font-size: 24px; line-height: 1.06; color: var(--ink); }
-.cr-tent-body p { margin: 0 0 12px; font-size: 11px; line-height: 1.5; color: #46505a; }
-.cr-tent-body p b { color: var(--ink); }
-.cr-tent-foot { display: flex; align-items: center; gap: 10px; padding-top: 10px; border-top: 1.5px solid var(--ink); }
-.cr-tent-foot b { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; } .cr-tent-foot span { font-size: 9.5px; color: #7a8590; }
 .cr-qr { flex: none; display: grid; grid-template-columns: repeat(7, 6px); gap: 1px; padding: 3px; border: 1px solid var(--ink); }
 .cr-qr i { width: 6px; height: 6px; } .cr-qr i.on { background: var(--ink); }
 
@@ -215,20 +202,8 @@
 .cr-square.is-duotone > footer .cr-value { width: 40px; height: 40px; }
 
 /* Tent · full bleed: tall photo with a floating white card */
-.cr-tent.is-full { background: var(--ink); }
-.cr-tent.is-full .cr-tent-photo { aspect-ratio: 148 / 140; }
-.cr-tent.is-full .cr-tent-body { position: relative; margin: -74px 12px 12px; border-radius: 3px; background: #fff; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
-.cr-tent.is-full .cr-badge { top: 14px; bottom: auto; right: 14px; }
 
 /* Tent · arch: paper card, arched photo, centred type */
-.cr-tent.is-arch { background: #f4efe8; }
-.cr-tent.is-arch .cr-tent-photo { margin: 18px 22px 0; aspect-ratio: 148 / 112; border-radius: 200px 200px 4px 4px; }
-.cr-tent.is-arch .cr-badge { right: -8px; bottom: -14px; width: 54px; height: 54px; border-color: #f4efe8; }
-.cr-tent.is-arch .cr-tent-body { text-align: center; }
-.cr-tent.is-arch .cr-tent-body .cr-logo { margin: 0 auto 10px; }
-.cr-tent.is-arch .cr-tent-body small { color: #b0753f; }
-.col-section .cr-tent.is-arch .cr-tent-body h3 { font-style: italic; }
-.cr-tent.is-arch .cr-tent-foot { justify-content: center; text-align: left; border-top-color: #cdbfae; }
 
 
 
@@ -314,131 +289,8 @@
 .wa-input span { flex: 1; padding: 8px 14px; border-radius: 18px; background: #fff; border: 1px solid #e2e2e2; font-size: 13px; color: #aaa; }
 .wa-input i { width: 32px; height: 32px; border-radius: 50%; background: #25d366; }
 
-/* ---- Tent card on a table top ---- */
-.col-section .cr-tent-stage { position: relative; display: grid; place-items: end center; min-height: 560px; padding: 40px 20px 92px; overflow: hidden; border-radius: 18px; background: linear-gradient(180deg, #e9e4dc 0%, #ddd6cb 62%, transparent 62%); perspective: 1200px; }
-.cr-table { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: repeating-linear-gradient(92deg, rgba(255,255,255,.05) 0 3px, transparent 3px 11px), linear-gradient(180deg, #a8774f, #7f5435); box-shadow: inset 0 10px 18px rgba(0,0,0,.18); }
-.cr-table::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 8px; background: linear-gradient(180deg, #c49268, #a8774f); }
-.col-section .cr-tent { position: relative; z-index: 1; width: min(100%, 290px); aspect-ratio: 210 / 297; display: flex; flex-direction: column; transform: rotateX(4deg); transform-origin: bottom; box-shadow: 0 2px 0 rgba(0,0,0,.08), 26px 30px 26px -12px rgba(40,22,10,.45); }
-.col-section .cr-tent:hover { transform: rotateX(0) translateY(-3px); }
-.cr-tent-stage::after { content: ''; position: absolute; z-index: 0; bottom: 84px; left: 50%; width: 300px; height: 26px; transform: translateX(-46%); border-radius: 50%; background: radial-gradient(ellipse, rgba(40,22,10,.45), transparent 70%); filter: blur(4px); }
-.cr-tent .cr-tent-photo { flex: none; aspect-ratio: 210 / 150; }
-.cr-tent .cr-tent-body { flex: 1; display: flex; flex-direction: column; }
-.cr-tent .cr-tent-foot { margin-top: auto; }
-.cr-tent.is-full .cr-tent-photo { aspect-ratio: 210 / 210; }
-.col-section .cr-tent-stage { min-height: 0; padding: 36px 20px 64px; background: linear-gradient(180deg, #ebe6de 0%, #ddd6cb calc(100% - 120px), transparent calc(100% - 120px)); }
-.cr-table { height: 120px; }
-.cr-tent-stage::after { bottom: 56px; }
-.col-section .cr-tent { width: min(100%, 300px); }
-.cr-tent .cr-tent-photo { aspect-ratio: 210 / 128; }
-.cr-tent.is-full .cr-tent-photo { aspect-ratio: 210 / 170; }
-.cr-tent .cr-tent-body { padding: 14px 18px 12px; min-height: 0; }
-.cr-tent .cr-tent-body .cr-logo { align-self: flex-start; width: auto !important; height: 26px; margin-bottom: 8px; }
-.cr-tent.is-arch .cr-tent-body .cr-logo { align-self: center; }
-.col-section .cr-tent .cr-tent-body h3 { font-size: 22px; margin: 6px 0; }
-.cr-tent .cr-tent-body p { font-size: 10.5px; margin-bottom: 10px; }
-.cr-tent.is-full .cr-tent-body { margin-top: -54px; }
-.cr-tent.is-full .cr-tent-photo { aspect-ratio: 210 / 140; }
-.cr-tent.is-full .cr-tent-body { margin: -40px 12px 12px; }
-.cr-tent.is-full .cr-tent-body h3 { font-size: 20px; }
-
-/* ---- Tent card on the reception counter ---- */
-.col-section .cr-tent-stage { position: relative; display: grid; place-items: end center; min-height: 0; padding: 44px 24px 54px; overflow: hidden; border-radius: 18px; background: #f3f1ee; perspective: none; }
-.cr-tent-stage::after { display: none; }
-.cr-scene { position: absolute; inset: -20px; background: url(/p57/pro/p21.jpg) center 40% / cover no-repeat; filter: blur(7px) brightness(1.12) saturate(.85); }
-.cr-scene::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.55)); }
-.cr-counter { position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,.9), transparent 55%), linear-gradient(115deg, transparent 40%, rgba(170,165,160,.18) 41%, transparent 44%, transparent 70%, rgba(170,165,160,.14) 71%, transparent 73%), linear-gradient(180deg, #f7f5f2, #e6e2dc); box-shadow: 0 -1px 0 rgba(255,255,255,.9), 0 -8px 18px rgba(0,0,0,.06); }
-.cr-tent-wrap { position: relative; z-index: 1; width: min(100%, 290px); }
-.cr-tent-back { position: absolute; top: 0; bottom: 0; left: -42px; width: 60px; background: linear-gradient(90deg, #d9d6d1, #f1efeb); transform: skewY(-6deg); transform-origin: top right; box-shadow: -8px 18px 18px rgba(0,0,0,.12); }
-.col-section .cr-tent { width: 100%; border: 12px solid #f8f7f4; border-radius: 2px; background: #fff; transform: none; box-shadow: 18px 22px 24px -12px rgba(30,28,24,.35), 0 1px 0 rgba(0,0,0,.04); -webkit-box-reflect: below 2px linear-gradient(transparent 82%, rgba(255,255,255,.22)); }
-.col-section .cr-tent:hover { transform: translateY(-3px); }
-.cr-tent.is-full { border-color: #f8f7f4; }
-.cr-tent.is-arch { border-color: #f4efe8; }
-
-/* Tent row spans the width so front and back stand side by side; specs below */
+/* ---- Tent card: the printed A-frame, standing on the front desk ---- */
 .col-row.is-tent { grid-template-columns: 1fr; }
-.col-row.is-tent .cr-tent-stage { grid-auto-flow: column; justify-content: center; gap: 70px; padding: 48px 70px 54px; }
-.col-row.is-tent .cr-tent-wrap { width: 290px; }
-.cr-tent-wrap.is-back .cr-tent-back { left: auto; right: -40px; transform: skewY(6deg); transform-origin: top left; background: linear-gradient(270deg, #d9d6d1, #f1efeb); }
-.cr-tent-rear { aspect-ratio: 210 / 297; display: flex; flex-direction: column; align-items: center; padding: 26px 18px 0; text-align: center; color: var(--ink); }
-.cr-tent-rear .cr-logo { height: 44px; }
-.cr-rear-tag { margin: 10px 0 0 !important; padding-bottom: 14px; width: 100%; border-bottom: 1px solid #d8dde1; font: 600 9px/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; color: #5c6670; }
-.col-section .cr-tent-rear h5 { margin: 16px 0 12px; font: 700 11px/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--cyan-fill); }
-.cr-perks { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; padding-bottom: 14px; border-bottom: 1px solid #d8dde1; }
-.cr-perks div { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0 5px; min-width: 0; }
-.cr-perks div + div { border-left: 1px solid #e3e7ea; }
-.cr-perks span { display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 4px; border-radius: 50%; background: #e3f4fb; color: var(--cyan-fill); }
-.cr-perks b { font-size: 8.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-.cr-perks small { font-size: 8.5px; line-height: 1.35; color: #5c6670; }
-.cr-rear-quote { margin: 14px 0 !important; font: italic 500 16px/1.3 var(--serif); }
-.cr-rear-foot { display: flex; align-items: center; gap: 10px; width: calc(100% + 36px); margin-top: auto; padding: 12px 18px; background: #e3f4fb; text-align: left; }
-.cr-rear-foot b { display: block; font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-.cr-rear-foot span { display: block; font-size: 8.5px; color: #5c6670; }
-.cr-rear-foot em { margin-left: auto; font-style: normal; font-size: 7.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #5c6670; }
-@media (max-width: 760px) { .col-row.is-tent .cr-tent-stage { grid-auto-flow: row; } }
-.col-row.is-tent .cr-tent-wrap { width: 320px; }
-.col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-photo { aspect-ratio: 210 / 120; }
-.col-row.is-tent .cr-tent.is-arch:not(.cr-tent-rear) .cr-tent-photo { aspect-ratio: 210 / 130; margin: 14px 16px 0; }
-.col-row.is-tent .cr-tent .cr-tent-body { padding: 12px 18px 14px; }
-.col-row.is-tent .cr-tent .cr-tent-body p { margin-bottom: 8px; }
-.cr-tent-rear { padding-top: 22px; }
-.cr-tent-rear .cr-logo { height: 36px; }
-.cr-rear-tag { font-size: 7.5px !important; letter-spacing: .2em !important; white-space: nowrap; padding-bottom: 12px; }
-.col-section .cr-tent-rear h5 { margin: 14px 0 10px; }
-.cr-rear-quote { margin: 12px 0 !important; font-size: 14px !important; }
-.cr-rear-foot { margin-left: -18px; margin-right: -18px; }
-.cr-rear-foot { flex-wrap: wrap; row-gap: 4px; }
-.cr-rear-foot > div:not(.cr-qr) { flex: 1; min-width: 0; }
-.cr-rear-foot b, .cr-rear-foot span { white-space: nowrap; }
-.cr-rear-foot em { flex-basis: 100%; margin: 2px 0 0; text-align: center; }
-
-/* ---- Tent cards standing on the Physique 57 front desk ---- */
-.col-row.is-tent .cr-tent-stage { display: flex; align-items: flex-end; justify-content: center; gap: 0; aspect-ratio: 3 / 2; padding: 0 0 18.6%; background: #eceae7; }
-.col-row.is-tent .cr-scene { inset: 0; background: url(/p57/reception.jpg) 50% 25% / 100% auto no-repeat; filter: blur(2.5px) brightness(1.04); }
-.col-row.is-tent .cr-scene::after { background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,0) 60%); }
-.col-row.is-tent .cr-counter { display: none; }
-.col-row.is-tent .cr-tent-wrap { zoom: .66; margin: 0 28px; }
-.col-row.is-tent .cr-tent { -webkit-box-reflect: unset; box-shadow: 14px 6px 14px -6px rgba(30,28,24,.32); }
-.col-row.is-tent .cr-tent-wrap::after { content: ''; position: absolute; left: -46px; right: -10px; bottom: -6px; height: 12px; border-radius: 50%; background: radial-gradient(ellipse, rgba(30,28,24,.38), transparent 70%); filter: blur(3px); }
-.col-row.is-tent .cr-tent-wrap.is-back::after { left: -10px; right: -46px; }
-.col-row.is-tent .cr-tent-back { top: 6px; transform: skewY(-4deg); }
-.col-row.is-tent .cr-tent-wrap.is-back .cr-tent-back { transform: skewY(4deg); }
-@media (max-width: 760px) { .col-row.is-tent .cr-tent-stage { flex-direction: row; } .col-row.is-tent .cr-tent-wrap { zoom: .4; margin: 0 14px; } }
-.col-row.is-tent .cr-tent-stage { padding-bottom: 19%; }
-.col-row.is-tent .cr-scene { background-position: 50% 41%; filter: blur(1.5px) brightness(1.03); }
-.col-row.is-tent .cr-tent-stage { padding-bottom: 17.6%; }
-
-/* ---- Tent card: placed into the reception photo (public/p57/tent-scene.jpg), over the card in the shot ---- */
-.col-row.is-tent .cr-tent-stage { position: relative; display: block; width: min(100%, 560px); aspect-ratio: 1145 / 1374; margin: 0 auto; padding: 0; overflow: hidden; border-radius: 18px; background: url(/p57/tent-scene.jpg) center / cover no-repeat; container-type: inline-size; }
-.col-row.is-tent .cr-tent-stage::after { display: none; }
-.col-row.is-tent .cr-tent { position: absolute; left: 28.8%; top: 25.9%; width: 49.8%; height: 55.6%; aspect-ratio: auto; border: 1.6cqw solid #f6f5f2; border-radius: 1px; background: #fff; transform: none; box-shadow: 1px 0 0 rgba(0,0,0,.05), 3cqw 1cqw 3cqw -1.5cqw rgba(40,36,30,.28); -webkit-box-reflect: below 1px linear-gradient(transparent 84%, rgba(255,255,255,.2)); }
-.col-row.is-tent .cr-tent:hover { transform: none; }
-.col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-photo { aspect-ratio: auto; height: 36%; }
-.col-row.is-tent .cr-tent.is-arch .cr-tent-photo { height: 34%; margin: 3cqw 3cqw 0; }
-.col-row.is-tent .cr-tent.is-full .cr-tent-photo { height: 44%; }
-.col-row.is-tent .cr-tent .cr-tent-body { padding: 2.4cqw 3.4cqw 2.6cqw; }
-.col-row.is-tent .cr-tent-body .cr-logo { height: 4.6cqw; margin-bottom: 1.4cqw; }
-.col-row.is-tent .cr-tent-body small { font-size: 1.75cqw; letter-spacing: .2em; }
-.col-section .col-row.is-tent .cr-tent-body h3 { margin: 1cqw 0; font-size: 4.1cqw; }
-.col-row.is-tent .cr-tent-body p { margin-bottom: 1.6cqw; font-size: 1.95cqw; line-height: 1.5; }
-.col-row.is-tent .cr-tent-foot { gap: 2cqw; padding-top: 1.8cqw; }
-.col-row.is-tent .cr-tent-foot b { font-size: 2cqw; } .col-row.is-tent .cr-tent-foot span { font-size: 1.7cqw; }
-.col-row.is-tent .cr-qr { grid-template-columns: repeat(7, 1.15cqw); gap: .2cqw; padding: .5cqw; }
-.col-row.is-tent .cr-qr i { width: 1.15cqw; height: 1.15cqw; }
-.col-row.is-tent .cr-badge { width: 10.5cqw; height: 10.5cqw; right: 2.4cqw; bottom: -4.6cqw; border-width: .5cqw; }
-.col-row.is-tent .cr-badge b { font-size: 3.4cqw; } .col-row.is-tent .cr-badge em { font-size: 1.3cqw; }
-.col-row.is-tent .cr-tent.is-full .cr-badge { top: 2.4cqw; bottom: auto; }
-.col-row.is-tent .cr-tent.is-full .cr-tent-body { margin: -7cqw 2cqw 2cqw; }
-.col-row.is-tent .cr-tent.is-arch .cr-badge { right: -1cqw; bottom: -2.4cqw; }
-.col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-photo { height: 33%; }
-.col-row.is-tent .cr-tent.is-arch .cr-tent-photo { height: 30%; }
-.col-row.is-tent .cr-tent.is-full .cr-tent-photo { height: 36%; }
-.col-row.is-tent .cr-tent .cr-tent-body { padding: 2cqw 3.2cqw 2.2cqw; }
-.col-row.is-tent .cr-tent-body .cr-logo { height: 3.8cqw; margin-bottom: 1cqw; }
-.col-row.is-tent .cr-tent-body small { font-size: 1.5cqw; }
-.col-section .col-row.is-tent .cr-tent-body h3 { font-size: 3.5cqw; margin: .8cqw 0; }
-.col-row.is-tent .cr-tent-body p { font-size: 1.7cqw; margin-bottom: 1.2cqw; }
-.col-row.is-tent .cr-tent.is-full .cr-tent-body { margin-top: -5cqw; }
-.col-row.is-tent .cr-tent-body .cr-logo { height: 5.2cqw; }
 
 /* ---- WhatsApp: launch + reminder phones side by side, specs below ---- */
 .col-row.is-wa { grid-template-columns: 1fr; }
@@ -469,7 +321,6 @@
 /* Tent card: creative on the left, print copy alongside it. */
 .col-row.is-tent { grid-template-columns: minmax(0, 520px) minmax(0, 1fr); gap: 32px; align-items: start; }
 .col-row.is-tent > .cr-stage { min-width: 0; }
-.col-row.is-tent .cr-tent-stage { width: 100%; }
 @media (max-width: 1100px) { .col-row.is-tent { grid-template-columns: 1fr; } }
 
 /* ---- Collaterals Edit Mode Controls ---- */
@@ -1007,17 +858,6 @@
   max-width: 420px;
   margin-inline: auto;
 }
-.mw .col-row > .cr-stage > .cr-tent-stage {
-  justify-self: center;
-  width: 100%;
-}
-.mw .col-section .col-row.is-tent .cr-tent-stage {
-  min-height: 0;
-  max-width: 520px;
-  margin-inline: auto;
-  aspect-ratio: 4 / 3;
-  padding-bottom: 12%;
-}
 
 @media (max-width: 1240px) {
   .mw .col-section > .col-row {
@@ -1041,95 +881,12 @@
    the paper mount. Nothing overlaps, so the card reads as one printed object
    standing on the desk rather than a white box stuck onto a picture.
    ───────────────────────────────────────────────────────────────────────────── */
-.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) {
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
-}
 
 /* The photograph runs the full width and sets the card's rhythm. */
-.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-photo {
-  flex: none;
-  height: 40%;
-  margin: 0;
-  border-radius: 0;
-}
-.mw .col-section .col-row.is-tent .cr-tent.is-arch:not(.cr-tent-rear) .cr-tent-photo {
-  height: 38%;
-  margin: 2.6cqw 2.6cqw 0;
-  border-radius: 60cqw 60cqw 0 0;
-}
 
 /* Copy block: flush under the photograph, pinned footer, even padding. */
-.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-body {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  padding: 3.1cqw 3.6cqw 2.6cqw;
-  border-radius: 0;
-  background: #ffffff;
-  box-shadow: none;
-}
-
-.mw .col-section .col-row.is-tent .cr-tent-body .cr-logo {
-  height: 3.6cqw;
-  margin: 0 0 1.6cqw;
-}
-
-.mw .col-section .col-row.is-tent .cr-tent-body small {
-  display: block;
-  margin: 0 0 1.5cqw;
-  font-size: 1.3cqw;
-  font-weight: 750;
-  line-height: 1.2;
-  letter-spacing: 0.26em;
-  color: #0f6f95;
-}
-
-.mw .col-section .col-row.is-tent .cr-tent-body h3 {
-  margin: 0 0 1.2cqw;
-  font-size: 3.5cqw;
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-}
-
-.mw .col-section .col-row.is-tent .cr-tent-body p {
-  margin: 0;
-  font-size: 1.62cqw;
-  line-height: 1.5;
-  color: #4d5763;
-}
-.mw .col-section .col-row.is-tent .cr-tent-body p b {
-  color: #0b0c0e;
-}
-
-.mw .col-section .col-row.is-tent .cr-tent-foot {
-  margin-top: auto;
-  padding-top: 2cqw;
-  border-top: 1px solid rgba(11, 12, 14, 0.16);
-}
 
 /* The month badge sits inside the photograph, not across its edge. */
-.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-badge {
-  top: 3cqw;
-  right: 3cqw;
-  bottom: auto;
-  left: auto;
-  width: 9.2cqw;
-  height: 9.2cqw;
-  border-width: 0.5cqw;
-  box-shadow: 0 1cqw 2.2cqw -1cqw rgba(10, 14, 18, 0.45);
-}
-.mw .col-section .col-row.is-tent .cr-badge b {
-  font-size: 3.2cqw;
-}
-.mw .col-section .col-row.is-tent .cr-badge em {
-  font-size: 1.2cqw;
-}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Iteration 23 — the tent card, printed like the studio's own A-frame
@@ -1140,414 +897,17 @@
    ───────────────────────────────────────────────────────────────────────────── */
 
 /* The set: a soft studio behind, a marble counter underfoot. */
-.mw .col-section > .col-row.is-tent .cr-tent-stage {
-  position: relative;
-  display: block;
-  width: 100%;
-  max-width: none;
-  aspect-ratio: 16 / 11.5;
-  margin: 0 auto;
-  padding: 0;
-  overflow: hidden;
-  border-radius: 14px;
-  background: #eef1f3;
-  container-type: inline-size;
-  perspective: none;
-}
-
-.mw .col-row.is-tent .ct-scene {
-  position: absolute;
-  inset: 0;
-  background: url(/p57/reception.jpg) center 38% / cover no-repeat;
-  filter: blur(6px) saturate(0.72) brightness(1.16);
-  transform: scale(1.06);
-}
-.mw .col-row.is-tent .ct-scene::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.3) 46%, rgba(248, 249, 250, 0.9) 100%);
-}
-
-.mw .col-row.is-tent .ct-counter {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 21%;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0 1px, transparent 1px),
-    radial-gradient(120% 180% at 24% 0%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 46%),
-    linear-gradient(178deg, #f4f2ef 0%, #eae7e2 44%, #e2ded8 100%);
-  box-shadow: 0 -18px 34px -22px rgba(40, 46, 54, 0.35);
-}
-.mw .col-row.is-tent .ct-counter::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(96deg, transparent 22%, rgba(160, 152, 142, 0.16) 24%, transparent 27%, transparent 61%, rgba(160, 152, 142, 0.13) 64%, transparent 68%),
-    linear-gradient(174deg, transparent 44%, rgba(160, 152, 142, 0.12) 46%, transparent 49%);
-  opacity: 0.9;
-}
 
 /* The pair stands on the counter, front card forward. */
-.mw .col-row.is-tent .ct-pair {
-  position: absolute;
-  left: 5%;
-  right: 5%;
-  top: 6%;
-  bottom: 17%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 4%;
-}
 /* Contact shadows where the two card feet meet the marble. */
-.mw .col-row.is-tent .ct-pair::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.6%;
-  height: 7%;
-  z-index: 0;
-  background:
-    radial-gradient(46% 62% at 27% 50%, rgba(28, 34, 42, 0.3) 0%, rgba(28, 34, 42, 0) 72%),
-    radial-gradient(46% 62% at 73% 50%, rgba(28, 34, 42, 0.3) 0%, rgba(28, 34, 42, 0) 72%);
-  filter: blur(7px);
-  pointer-events: none;
-}
-
-.mw .col-section .col-row.is-tent .cr-tent {
-  position: relative;
-  flex: 0 1 41.5%;
-  max-width: 330px;
-  width: auto;
-  height: auto;
-  aspect-ratio: 210 / 297;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  overflow: hidden;
-  border: 0;
-  border-radius: 2px;
-  background: #ffffff;
-  container-type: inline-size;
-  box-shadow:
-    0 1px 1px rgba(20, 26, 33, 0.08),
-    0 2px 4px rgba(20, 26, 33, 0.06),
-    0 26px 40px -26px rgba(20, 26, 33, 0.5);
-  -webkit-box-reflect: below 4px linear-gradient(to bottom, rgba(30, 36, 44, 0.13), rgba(30, 36, 44, 0) 30%);
-  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.mw .col-section .col-row.is-tent .cr-tent:hover {
-  transform: none;
-}
-.mw .col-row.is-tent .cr-tent-front {
-  transform: perspective(2600px) rotateY(2.4deg) translateY(-1.5%);
-  z-index: 2;
-}
-.mw .col-row.is-tent .cr-tent-back {
-  transform: perspective(2600px) rotateY(-2.4deg);
-  z-index: 1;
-}
 
 /* ── Front card ──────────────────────────────────────────────────────────── */
-.mw .col-row.is-tent .cr-tent-front .ct-photo {
-  position: relative;
-  flex: none;
-  height: 40%;
-  background: #d8dde2 no-repeat center / cover;
-}
-.mw .col-row.is-tent .cr-tent-front .ct-seal {
-  position: absolute;
-  z-index: 3;
-  top: 100%;
-  right: 6%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 20cqw;
-  height: 20cqw;
-  border: 0.8cqw solid #ffffff;
-  border-radius: 50%;
-  background: #14a0d8;
-  color: #ffffff;
-  line-height: 1;
-  text-align: center;
-  box-shadow: 0 2px 10px -2px rgba(11, 60, 84, 0.35);
-}
-.mw .col-row.is-tent .ct-seal b {
-  font-family: 'Bodoni Moda', Didot, Georgia, serif;
-  font-size: 7cqw;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-.mw .col-row.is-tent .ct-seal em {
-  margin-top: 0.6cqw;
-  font: 700 2.5cqw/1 var(--sans);
-  font-style: normal;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.mw .col-row.is-tent .cr-tent-front .ct-body {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  padding: 4.6cqw 6.6cqw 4.4cqw;
-  background: #ffffff;
-}
-.mw .col-row.is-tent .ct-logo {
-  display: block;
-  flex: none;
-  width: auto;
-  height: 6.6cqw;
-  margin: 0 0 3cqw;
-}
-.mw .col-row.is-tent .ct-kicker {
-  display: block;
-  flex: none;
-  margin: 0 0 1.8cqw;
-  font: 700 2.7cqw/1.2 var(--sans);
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: #5d6a76;
-}
-.mw .col-row.is-tent .ct-headline {
-  flex: none;
-  margin: 0 0 2.4cqw;
-  font-family: 'Bodoni Moda', Didot, Georgia, serif;
-  font-size: 8.2cqw;
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  color: #12161b;
-  text-wrap: balance;
-}
-.mw .col-row.is-tent .ct-detail {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  flex: 0 1 auto;
-  min-height: 0;
-  overflow: hidden;
-  margin: 0 0 3cqw;
-  font: 400 3.2cqw/1.45 var(--sans);
-  color: #55616d;
-}
-.mw .col-row.is-tent .ct-detail b {
-  font-weight: 700;
-  color: #12161b;
-}
-
-.mw .col-row.is-tent .cr-tent-front .ct-foot {
-  flex: none;
-  display: flex;
-  align-items: center;
-  gap: 3.2cqw;
-  margin-top: auto;
-  padding-top: 3cqw;
-  border-top: 1px solid #12161b;
-}
-.mw .col-row.is-tent .ct-foot b,
-.mw .col-row.is-tent .ct-back-foot b {
-  display: block;
-  font: 700 2.9cqw/1.1 var(--sans);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #12161b;
-}
-.mw .col-row.is-tent .ct-foot span,
-.mw .col-row.is-tent .ct-back-foot span {
-  display: block;
-  margin-top: 0.7cqw;
-  font: 400 2.7cqw/1.35 var(--sans);
-  color: #6b7783;
-}
-.mw .col-row.is-tent .cr-tent .cr-qr {
-  flex: none;
-  display: grid;
-  grid-template-columns: repeat(7, 2.1cqw);
-  gap: 0.3cqw;
-  padding: 0.8cqw;
-  border: 1px solid #12161b;
-  background: #ffffff;
-}
-.mw .col-row.is-tent .cr-tent .cr-qr i {
-  width: 2.1cqw;
-  height: 2.1cqw;
-  background: transparent;
-}
-.mw .col-row.is-tent .cr-tent .cr-qr i.on {
-  background: #12161b;
-}
 
 /* ── Back card ───────────────────────────────────────────────────────────── */
-.mw .col-row.is-tent .cr-tent-back {
-  padding: 7.6cqw 6.4cqw 0;
-  text-align: center;
-  overflow: hidden;
-}
-.mw .col-row.is-tent .ct-back-head {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2.6cqw;
-  padding-bottom: 4.4cqw;
-  border-bottom: 1px solid #d9dee3;
-}
-.mw .col-row.is-tent .ct-logo.is-large {
-  height: 12cqw;
-  margin: 0;
-}
-.mw .col-row.is-tent .ct-tagline {
-  font: 700 2.5cqw/1 var(--sans);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: #5d6a76;
-}
-.mw .col-row.is-tent .ct-back-label {
-  display: block;
-  margin: 5cqw 0 4.6cqw;
-  font: 700 3.4cqw/1 var(--sans);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #14a0d8;
-}
-.mw .col-row.is-tent .ct-perks {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-}
-.mw .col-row.is-tent .ct-perk {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5cqw;
-  min-width: 0;
-  padding: 0 1.6cqw;
-}
-.mw .col-row.is-tent .ct-perk + .ct-perk {
-  border-left: 1px solid #e3e8ec;
-}
-.mw .col-row.is-tent .ct-perk-icon {
-  display: grid;
-  place-items: center;
-  width: 11.4cqw;
-  height: 11.4cqw;
-  margin-bottom: 0.8cqw;
-  border: 1px solid #cfe4ef;
-  border-radius: 50%;
-  background: #ffffff;
-  color: #14a0d8;
-}
-.mw .col-row.is-tent .ct-perk-icon svg {
-  width: 4.6cqw;
-  height: 4.6cqw;
-}
-.mw .col-row.is-tent .ct-perk b {
-  font: 700 2.5cqw/1.2 var(--sans);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #12161b;
-}
-.mw .col-row.is-tent .ct-perk small {
-  font: 400 2.5cqw/1.35 var(--sans);
-  color: #6b7783;
-}
-.mw .col-row.is-tent .ct-quote {
-  margin: 5.4cqw 0 0;
-  padding: 4.6cqw 0;
-  border-top: 1px solid #d9dee3;
-  font-family: 'Bodoni Moda', Didot, Georgia, serif;
-  font-size: 4.4cqw;
-  font-style: italic;
-  line-height: 1.32;
-  color: #12161b;
-}
-.mw .col-row.is-tent .ct-back-foot {
-  display: flex;
-  align-items: center;
-  gap: 2.6cqw;
-  margin: auto -6.4cqw 0;
-  padding: 3.4cqw 6.4cqw 3.6cqw;
-  background: #e9f6fc;
-  text-align: left;
-}
-.mw .col-row.is-tent .ct-back-foot > div {
-  flex: 1;
-  min-width: 0;
-}
-.mw .col-row.is-tent .ct-back-foot em {
-  align-self: flex-end;
-  font: 700 2cqw/1 var(--sans);
-  font-style: normal;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #6b7783;
-  white-space: nowrap;
-}
 
 /* ── The three cuts ─────────────────────────────────────────────────────── */
-.mw .col-row.is-tent .cr-tent-front.is-full .ct-photo {
-  height: 50%;
-}
-.mw .col-row.is-tent .cr-tent-front.is-full .ct-seal {
-  top: 100%;
-  right: 5.4%;
-  width: 17cqw;
-  height: 17cqw;
-}
-.mw .col-row.is-tent .cr-tent-front.is-full .ct-seal b {
-  font-size: 6cqw;
-}
-.mw .col-row.is-tent .cr-tent-front.is-full .ct-body {
-  padding-top: 4.4cqw;
-}
-
-.mw .col-row.is-tent .cr-tent-front.is-arch .ct-photo {
-  height: 39%;
-  margin: 3.6cqw 3.6cqw 0;
-  border-radius: 40cqw 40cqw 0 0;
-}
-.mw .col-row.is-tent .cr-tent-front.is-arch .ct-body {
-  padding-top: 7.4cqw;
-  text-align: center;
-}
-.mw .col-row.is-tent .cr-tent-front.is-arch .ct-logo {
-  margin-inline: auto;
-}
-.mw .col-row.is-tent .cr-tent-front.is-arch .ct-headline {
-  font-style: italic;
-}
-.mw .col-row.is-tent .cr-tent-front.is-arch .ct-foot {
-  text-align: left;
-}
 
 /* Small screens: the front card carries the offer on its own. */
-@container (max-width: 560px) {
-  .mw .col-row.is-tent .ct-pair {
-    left: 6%;
-    right: 6%;
-    gap: 0;
-    justify-content: center;
-  }
-  /* A single card, sized by the height it has to stand in — never clipped. */
-  .mw .col-section .col-row.is-tent .cr-tent {
-    flex: 0 1 auto;
-    width: auto;
-    height: 100%;
-    max-width: none;
-  }
-  .mw .col-row.is-tent .cr-tent-back {
-    display: none;
-  }
-}
 
 /* The docket's back-card summary. */
 .mw .col-spec .ct-back-list {
@@ -1562,4 +922,629 @@
 .mw .col-spec .ct-back-list b {
   font-weight: 650;
   color: #22262c;
+}
+/* ═════════════════════════════════════════════════════════════════════════════
+   The tent card — the studio's printed A-frame, standing on the front desk
+   Photographed: the room falls out of focus behind, a pale marble counter runs
+   across the bottom of the frame, and the two faces of the card stand on it —
+   the front one forward, the back one turned a little away.
+   Each card is its own container, so every measurement inside it is a `cqw` of
+   that card and the whole object scales without redrawing.
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Stage: the room, the counter, the cards ─────────────────────────────── */
+.mw .col-section > .col-row.is-tent .cr-tent-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 16 / 10;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #eff1f2;
+  container-type: inline-size;
+  perspective: none;
+}
+
+.mw .col-row.is-tent .ct-depth {
+  position: absolute;
+  inset: 0 0 34% 0;
+  /* The studio's own reception, from public/p57/tent-scene.jpg. Only the band
+     above the printed card in that photograph is used, so nothing of the old
+     print shows: the wall, the wall logo, the arches and the plant. */
+  background: url(/p57/tent-scene.jpg) 50% 0 / 100% auto no-repeat;
+  filter: saturate(0.97) brightness(1.03);
+}
+.mw .col-row.is-tent .ct-depth::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(253, 252, 250, 0.22) 0%, rgba(253, 252, 250, 0.02) 46%, rgba(248, 246, 243, 0.5) 74%, rgba(248, 246, 243, 0.86) 100%);
+}
+
+/* The marble: a pale stone top with a soft sheen, its far edge out of true. */
+.mw .col-row.is-tent .ct-desk {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 34%;
+  /* The same marble, from the band below the card in that photograph, so the
+     top the cards stand on is the studio's own front desk. */
+  background:
+    radial-gradient(70% 130% at 50% 0%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 66%),
+    url(/p57/tent-scene.jpg) 50% 100% / 132cqw auto no-repeat,
+    #e9e5de;
+}
+/* The far edge of the slab: a catch of light, then its own soft shadow. */
+.mw .col-row.is-tent .ct-desk::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 26%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0 1.5px, rgba(255, 255, 255, 0.2) 2px, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(180deg, rgba(120, 114, 104, 0.14) 0%, rgba(120, 114, 104, 0) 62%);
+  filter: blur(0.7px);
+}
+/* The near lip of the slab, at the bottom of the frame. */
+.mw .col-row.is-tent .ct-desk::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 9%;
+  background: linear-gradient(180deg, rgba(150, 144, 133, 0.16) 0%, rgba(206, 200, 190, 0.28) 46%, rgba(255, 255, 255, 0.5) 100%);
+}
+
+/* ── The pair ────────────────────────────────────────────────────────────── */
+.mw .col-row.is-tent .ct-pair {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2.4%;
+  perspective: 2200px;
+  perspective-origin: 50% 68%;
+}
+.mw .col-row.is-tent .ct-pair::before {
+  content: '';
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: -1.4%;
+  height: 4%;
+  filter: blur(4px);
+  background:
+    radial-gradient(44% 60% at 32% 50%, rgba(44, 40, 33, 0.3) 0%, rgba(44, 40, 33, 0) 74%),
+    radial-gradient(44% 60% at 70% 50%, rgba(44, 40, 33, 0.26) 0%, rgba(44, 40, 33, 0) 74%);
+  pointer-events: none;
+}
+
+/* One card: a printed face with the other leg of the A-frame just showing past
+   its near edge. */
+.mw .col-row.is-tent .cr-tent {
+  position: relative;
+  flex: none;
+  width: 36cqw;
+  max-width: none;
+  aspect-ratio: 210 / 297;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  container-type: inline-size;
+  transform-origin: 50% 100%;
+  transition: transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.mw .col-row.is-tent .cr-tent:hover { transform: none; }
+
+.mw .col-row.is-tent .cr-tent-front { z-index: 2; transform: rotateY(7deg) rotate(-0.6deg); }
+.mw .col-row.is-tent .cr-tent-back { width: 34.4cqw; z-index: 1; transform: rotateY(-9deg) rotate(-1.1deg); }
+
+/* The stand's second panel: the board's edge, broad at the base, hidden behind
+   the printed face at the top — what tells the eye this is an A-frame. */
+.mw .col-row.is-tent .ct-fold {
+  position: absolute;
+  z-index: 0;
+  top: 46%;
+  bottom: -0.4%;
+  left: -5.2cqw;
+  width: 5.6cqw;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 12% 24%);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0 3%, rgba(255, 255, 255, 0) 9%),
+    linear-gradient(94deg, #e6e0d4 0%, #eeeae0 44%, #f7f4ee 78%, #fdfcf8 100%);
+  box-shadow:
+    inset -0.35cqw 0 0 rgba(122, 114, 100, 0.16),
+    0 0.6cqw 1.2cqw -0.6cqw rgba(60, 52, 40, 0.35);
+}
+/* The crease: a hairline where the near panel turns away from the face. */
+.mw .col-row.is-tent .cr-tent::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 44%;
+  bottom: 0;
+  width: 0.5cqw;
+  background: linear-gradient(180deg, rgba(120, 112, 96, 0) 0%, rgba(120, 112, 96, 0.14) 34%, rgba(120, 112, 96, 0.06) 100%);
+  pointer-events: none;
+}
+.mw .col-row.is-tent .cr-tent-back::after {
+  left: auto;
+  right: 0;
+}
+.mw .col-row.is-tent .cr-tent-back .ct-fold {
+  left: auto;
+  right: -5.2cqw;
+  transform: scaleX(-1);
+}
+
+.mw .col-row.is-tent .ct-sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.6cqw;
+  background: #fff;
+  box-shadow:
+    0 0.2cqw 0.4cqw rgba(24, 28, 33, 0.1),
+    0 1.2cqw 2.2cqw -0.8cqw rgba(38, 33, 26, 0.26),
+    0 4cqw 6cqw -2cqw rgba(38, 33, 26, 0.2);
+  -webkit-box-reflect: below 0.3cqw linear-gradient(to bottom, rgba(38, 42, 48, 0.34), rgba(38, 42, 48, 0.13) 14%, rgba(38, 42, 48, 0.03) 30%, rgba(38, 42, 48, 0) 44%);
+}
+/* The paper's own light: brightest at the top left, shading to the right. */
+.mw .col-row.is-tent .ct-sheet::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(118deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 42%, rgba(122, 112, 96, 0.045) 100%);
+}
+
+/* ── Front face ──────────────────────────────────────────────────────────── */
+.mw .col-row.is-tent .cr-tent-front .ct-photo {
+  position: relative;
+  flex: none;
+  height: 52cqw;
+  margin: 4.4cqw 4.4cqw 0;
+  background: #d7dce0 no-repeat center / cover;
+}
+
+/* The month seal, printed over the corner of the photograph. */
+.mw .col-row.is-tent .cr-tent-front .ct-seal {
+  position: absolute;
+  z-index: 3;
+  top: 100%;
+  right: -1.4cqw;
+  transform: translateY(-52%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 17cqw;
+  height: 17cqw;
+  border-radius: 50%;
+  background: #18a3dc;
+  color: #fff;
+  line-height: 1;
+  text-align: center;
+}
+.mw .col-row.is-tent .ct-seal b {
+  font-family: 'Bodoni Moda', Didot, Georgia, serif;
+  font-size: 6.9cqw;
+  font-weight: 500;
+}
+.mw .col-row.is-tent .ct-seal em {
+  margin-top: 1.2cqw;
+  font-style: normal;
+  font-size: 2.1cqw;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mw .col-row.is-tent .cr-tent-front .ct-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  padding: 5.6cqw 7cqw 0;
+}
+.mw .col-row.is-tent .ct-logo {
+  display: block;
+  flex: none;
+  width: 13.4cqw;
+  height: auto;
+  margin: 0 0 3.6cqw;
+}
+.mw .col-row.is-tent .ct-kicker {
+  display: block;
+  flex: none;
+  font-size: 2.9cqw;
+  font-weight: 600;
+  letter-spacing: 0.23em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #6d7883;
+}
+.mw .col-row.is-tent .ct-headline {
+  flex: none;
+  margin: 2.1cqw 0 0;
+  font-family: 'Bodoni Moda', Didot, Georgia, serif;
+  font-size: 7.2cqw;
+  font-weight: 500;
+  line-height: 1.03;
+  letter-spacing: -0.004em;
+  color: #0e141a;
+}
+.mw .col-row.is-tent .ct-detail {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  flex: 0 1 auto;
+  min-height: 0;
+  margin: 2cqw 0 0;
+  overflow: hidden;
+  font-size: 3.25cqw;
+  line-height: 1.38;
+  color: #4f5b66;
+}
+.mw .col-row.is-tent .ct-detail b { font-weight: 700; color: #0e141a; }
+
+/* The foot: a hairline rule, the code, and the line that closes the offer. */
+.mw .col-row.is-tent .cr-tent-front .ct-foot {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4cqw;
+  margin: auto 7cqw 0;
+  padding: 3.8cqw 0 4.8cqw;
+  border-top: 0.26cqw solid #0e141a;
+}
+.mw .col-row.is-tent .ct-foot b {
+  display: block;
+  font-size: 3.3cqw;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #0e141a;
+}
+.mw .col-row.is-tent .ct-foot span {
+  display: block;
+  margin-top: 1cqw;
+  font-size: 2.85cqw;
+  line-height: 1.25;
+  color: #6d7883;
+}
+
+/* ── The QR, printed as part of the sheet ────────────────────────────────── */
+.mw .col-row.is-tent .cr-tent .cr-qr {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(7, 2.35cqw);
+  gap: 0.26cqw;
+  padding: 0.95cqw;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 0 0 0.26cqw #0e141a;
+}
+.mw .col-row.is-tent .cr-tent .cr-qr i {
+  width: 2.35cqw;
+  height: 2.35cqw;
+  background: #fff;
+}
+.mw .col-row.is-tent .cr-tent .cr-qr i.on { background: #0e141a; }
+
+/* ── Back face ───────────────────────────────────────────────────────────── */
+/* The back is set as one column: logo, rule, perks, quote, band — the slack
+   spread evenly between them, the way the printed sheet breathes. */
+.mw .col-row.is-tent .cr-tent-back .ct-sheet { justify-content: space-between; }
+.mw .col-row.is-tent .ct-back-head {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 6.4cqw 6cqw 0;
+}
+.mw .col-row.is-tent .ct-logo.is-large {
+  width: 30cqw;
+  margin: 0;
+}
+.mw .col-row.is-tent .ct-tagline {
+  margin-top: 2.8cqw;
+  font-size: 2.2cqw;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #5f6a75;
+}
+.mw .col-row.is-tent .ct-back-label {
+  position: relative;
+  display: block;
+  flex: none;
+  margin: 4.4cqw 6cqw 0;
+  padding-top: 4.2cqw;
+  font-size: 3cqw;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  color: #18a3dc;
+}
+.mw .col-row.is-tent .ct-back-label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: 0.22cqw solid #c6ced5;
+}
+
+.mw .col-row.is-tent .ct-perks {
+  display: grid;
+  flex: none;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 4.6cqw 5.2cqw 0;
+  padding-bottom: 4.4cqw;
+  border-bottom: 0.22cqw solid #c6ced5;
+}
+.mw .col-row.is-tent .ct-perk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.2cqw;
+  min-width: 0;
+  text-align: center;
+}
+.mw .col-row.is-tent .ct-perk + .ct-perk { border-left: 0.22cqw solid #dbe2e8; }
+.mw .col-row.is-tent .ct-perk-icon {
+  display: grid;
+  place-items: center;
+  width: 11cqw;
+  height: 11cqw;
+  margin-bottom: 3cqw;
+  border-radius: 50%;
+  background: #e8f4fa;
+  color: #303b45;
+}
+.mw .col-row.is-tent .ct-perk-icon svg { width: 5.4cqw; height: 5.4cqw; stroke-width: 1.7; }
+.mw .col-row.is-tent .ct-perk b {
+  font-size: 2.55cqw;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #0e141a;
+}
+.mw .col-row.is-tent .ct-perk small {
+  margin-top: 1.3cqw;
+  font-size: 2.4cqw;
+  line-height: 1.32;
+  color: #626e79;
+}
+
+.mw .col-row.is-tent .ct-quote {
+  flex: none;
+  margin: 0;
+  padding: 3.8cqw 6cqw;
+  border-bottom: 0.22cqw solid #c6ced5;
+  font-family: 'Bodoni Moda', Didot, Georgia, serif;
+  font-size: 3.8cqw;
+  font-style: italic;
+  line-height: 1.28;
+  text-align: center;
+  color: #16202a;
+}
+
+.mw .col-row.is-tent .ct-back-foot {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 3cqw;
+  padding: 4.2cqw 4.6cqw;
+  background: #e4f3fa;
+}
+.mw .col-row.is-tent .ct-back-foot > div:nth-child(2) { flex: none; }
+.mw .col-row.is-tent .ct-back-foot b {
+  display: block;
+  font-size: 3.1cqw;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #0e141a;
+}
+.mw .col-row.is-tent .ct-back-foot span {
+  display: block;
+  margin-top: 1cqw;
+  font-size: 2.7cqw;
+  line-height: 1.22;
+  color: #5f6b77;
+}
+.mw .col-row.is-tent .ct-back-foot em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 1.95cqw;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  text-align: right;
+  text-transform: uppercase;
+  color: #7c8792;
+}
+
+/* ── The other two cuts ──────────────────────────────────────────────────── */
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-photo {
+  height: 56cqw;
+  margin: 0;
+}
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-seal { right: 5cqw; }
+.mw .col-row.is-tent .cr-tent-front.is-full .ct-body { padding-top: 6.4cqw; }
+
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-photo {
+  height: 50cqw;
+  border-radius: 27cqw 27cqw 0 0;
+}
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-body {
+  align-items: center;
+  padding-top: 9.6cqw;
+  text-align: center;
+}
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-headline { font-style: italic; }
+.mw .col-row.is-tent .cr-tent-front.is-arch .ct-foot { align-self: stretch; text-align: left; }
+
+/* ── Narrow columns: the front face carries the offer alone ──────────────── */
+@container (max-width: 620px) {
+  .mw .col-row.is-tent .cr-tent-stage { aspect-ratio: 4 / 5; }
+  .mw .col-row.is-tent .ct-pair { bottom: 6%; height: 80%; }
+  /* Sized by the height it has to stand in, so the card can never be clipped. */
+  .mw .col-row.is-tent .cr-tent-front {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+  }
+  .mw .col-row.is-tent .cr-tent-back { display: none; }
+  .mw .col-row.is-tent .cr-tent-front .ct-fold { display: none; }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   WhatsApp — one screen, set like the message that actually lands
+   A single broadcast is enough to read the work: the creative, the copy and the
+   buttons in the order the member meets them. The follow-up send is described
+   beneath the phone instead of being drawn a second time.
+   ═════════════════════════════════════════════════════════════════════════════ */
+.mw .col-section > .col-row.is-wa > .cr-stage {
+  container-type: inline-size;
+  justify-self: center;
+  width: 100%;
+  max-width: 430px;
+  padding: 22px 18px 18px;
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 82% at 50% -8%, #ffffff 0%, #f4f8fa 58%, #eaf0f3 100%);
+  box-shadow: inset 0 0 0 1px rgba(16, 43, 66, 0.06);
+}
+.mw .col-row.is-wa .wa-pair.is-single {
+  display: block;
+  width: 100%;
+}
+.mw .col-row.is-wa .wa-pair.is-single .wa-send {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: start;
+  gap: 13px;
+  min-height: 0;
+  padding: 6px 0 10px;
+}
+.mw .col-row.is-wa .wa-pair.is-single .wa-label { grid-row: 1; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-phone { grid-row: 2; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-followup { grid-row: 3; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-label {
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: #101a20;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  box-shadow: 0 6px 14px -8px rgba(11, 20, 32, 0.6);
+}
+.mw .col-row.is-wa .wa-pair.is-single .wa-phone {
+  width: 314px;
+  max-width: 100%;
+  border-width: 8px;
+  border-radius: 34px;
+  box-shadow: 0 34px 50px -28px rgba(10, 14, 18, 0.55), 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.mw .col-row.is-wa .wa-pair.is-single .wa-bar { padding: 18px 10px 8px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-av { width: 28px; height: 28px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-av img { width: 21px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-bar b { font-size: 12px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-bar small { font-size: 9.5px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-back { font-size: 21px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-day { padding: 3px 9px; font-size: 9.5px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-chat { padding: 9px 8px 11px; gap: 4px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-bubble { padding: 4px 4px 5px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-bubble .cr-square {
+  width: 430px;
+  zoom: 0.51;
+}
+.mw .col-row.is-wa .wa-pair.is-single .wa-buttons {
+  width: calc(430px * 0.51 + 7px);
+}
+.mw .col-row.is-wa .wa-pair.is-single .wa-time { font-size: 9.5px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-text {
+  margin: 5px 4px 0 !important;
+  font-size: 9.9px;
+  line-height: 1.3;
+}
+.mw .col-row.is-wa .wa-pair.is-single .wa-buttons span { padding: 6px; font-size: 10.5px; border-radius: 8px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-buttons { gap: 3px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-input { padding: 5px 8px 9px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-input span { padding: 6px 10px; font-size: 10.5px; }
+.mw .col-row.is-wa .wa-pair.is-single .wa-input i { width: 26px; height: 26px; }
+
+/* The follow-up: a small card, not a second screen. */
+.mw .col-row.is-wa .wa-followup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 8px;
+  width: min(100%, 314px);
+  padding: 9px 12px 10px;
+  border: 1px solid #e2eaee;
+  border-radius: 10px;
+  background: #fafcfd;
+  text-align: center;
+}
+.mw .col-row.is-wa .wa-followup > span {
+  flex-basis: 100%;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #86939d;
+}
+.mw .col-row.is-wa .wa-followup > b {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: #14202a;
+}
+.mw .col-row.is-wa .wa-followup > b::after {
+  content: '·';
+  margin-left: 8px;
+  color: #b6c2ca;
+}
+.mw .col-row.is-wa .wa-followup > em {
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: #107a9f;
+}
+
+@container (max-width: 700px) {
+  .mw .col-row.is-wa .wa-pair.is-single .wa-send { gap: 11px; }
+  .mw .col-row.is-wa .wa-pair.is-single .wa-phone { width: 292px; }
+  .mw .col-row.is-wa .wa-pair.is-single .wa-bubble .cr-square { zoom: 0.55; }
+  .mw .col-row.is-wa .wa-pair.is-single .wa-buttons { width: calc(430px * 0.55 + 8px); }
 }
