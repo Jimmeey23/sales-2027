@@ -2881,14 +2881,6 @@ export default function MonthWorkspace({
                     ? `How ${MONTHS[month - 1]} reaches ${lakh(effective)} · ${ai.mode === 'synthesised' ? 'synthesised' : 'AI-generated'} ${new Date(ai.generatedAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`
                     : `Strategic rationale, stream logic and risk mitigations for ${MONTHS[month - 1]}.`,
                 );
-                const rows = STREAMS.map(s => ({
-                  ...s,
-                  target: n(form.streams[s.key]),
-                  offer: selected
-                    .filter(o => STREAM_KEY[STREAM_OF[o.objective] || ''] === s.key)
-                    .reduce((sum, o) => sum + forecastRevenue(o), 0),
-                }));
-                const max = Math.max(1, ...rows.flatMap(r => [r.target, r.offer]));
                 return (
                   <div id="mw-sec-ai" className="mw-section mw-ai-plan">
                     <SectionHead
@@ -2934,53 +2926,6 @@ export default function MonthWorkspace({
                     />
                     <div className="mw-ai-unified">
                       <div className="mw-ai-split">
-                        <div
-                          className="mw-ai-chart"
-                          role="img"
-                          aria-label="Target versus offer forecast by revenue stream"
-                        >
-                          <div className="mw-ai-card-head">
-                            <span className="mw-fu-band-kicker">Stream coverage vs target</span>
-                            <div className="mw-ai-legend">
-                              <span>
-                                <i className="t" /> Target
-                              </span>
-                              <span>
-                                <i className="o" /> Offer forecast
-                              </span>
-                            </div>
-                          </div>
-                          {rows.map(r => (
-                            <div
-                              key={r.key}
-                              className="mw-ai-bar-row"
-                              style={{ '--c': r.color } as React.CSSProperties}
-                            >
-                              <span className="lbl">{r.label}</span>
-                              <div className="bars">
-                                <i className="t" style={{ width: `${(r.target / max) * 100}%` }} />
-                                <i className="o" style={{ width: `${(r.offer / max) * 100}%` }} />
-                              </div>
-                              <span className="val">
-                                <b>{lakh(r.target)}</b>
-                                <em className={r.offer >= r.target - 500 ? 'ok' : 'short'}>
-                                  {r.offer >= r.target - 500 ? `${lakh(r.offer)} ✓` : `${lakh(r.offer)}`}
-                                </em>
-                              </span>
-                            </div>
-                          ))}
-                          <div className="mw-ai-donut">
-                            {rows.map(r => (
-                              <span
-                                key={r.key}
-                                style={{ flexGrow: Math.max(r.target, 0.0001), background: r.color }}
-                                title={`${r.label} ${lakh(r.target)}`}
-                              >
-                                {effective ? `${Math.round((r.target / effective) * 100)}%` : ''}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
                         {(ai.splitRationale || sectionEditable('ai')) && (
                           <div className="mw-ai-rationale">
                             <div className="mw-ai-card-head">

@@ -948,6 +948,18 @@
   letter-spacing: -0.025em;
 }
 
+/* The rationale is the whole band now: the stream chart above already carries the
+   target-versus-forecast reading, so the AI section adds the argument, not a second
+   copy of the same figure. */
+.mw .mw-main.is-page-targets .mw-ai-split {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+.mw .mw-main.is-page-targets .mw-ai-rationale {
+  border-left: 0;
+}
+
 /* ── The autosave note closes the canvas ──────────────────────────────────── */
 .mw .mw-main.is-page-targets .mw-focus-note {
   display: flex;
