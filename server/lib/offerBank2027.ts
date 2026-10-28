@@ -59,7 +59,9 @@ export function ensureOfferBank2027() {
   const done = db.prepare('SELECT value FROM settings WHERE key=?').get(FLAG) as any;
   if (done?.value === '1') return null;
   const plannedStudios = db
-    .prepare('SELECT DISTINCT p.studio_id id, s.name FROM monthly_plans p JOIN studios s ON s.id=p.studio_id WHERE p.year=?')
+    .prepare(
+      'SELECT DISTINCT p.studio_id id, s.name FROM monthly_plans p JOIN studios s ON s.id=p.studio_id WHERE p.year=?',
+    )
     .all(YEAR) as Array<{ id: number; name: string }>;
   if (!plannedStudios.length) return null;
 
@@ -144,6 +146,10 @@ export function ensureOfferBank2027() {
       pb.months.forEach((m: any, i: number) => {
         const month = i + 1;
         const { slots, ids } = selectedIds(studio.id, month);
+        // A month the sales plan has already filled keeps exactly what the plan chose —
+        // two offers per stream. The playbook's picks stay in the bank, where the offer
+        // drawer can still reach them, instead of being appended over the top of the plan.
+        if ([...Object.values(slots), ...ids].filter(Boolean).length > 0) return;
         for (const name of m.offers as string[]) {
           let bankId = pbBank.get(name.toLowerCase()) || pbBank.get(baseName(name).toLowerCase());
           if (!bankId) {
@@ -179,7 +185,8 @@ export function ensureOfferBank2027() {
     }
 
     // 3. Remove every other 2027 offer, unless a campaign still points at it.
-    for (const r of db.prepare('SELECT offer_id id FROM campaigns WHERE offer_id IS NOT NULL').all() as any[]) keep.add(r.id);
+    for (const r of db.prepare('SELECT offer_id id FROM campaigns WHERE offer_id IS NOT NULL').all() as any[])
+      keep.add(r.id);
     const drop = (db.prepare('SELECT id FROM offers WHERE year=?').all(YEAR) as any[])
       .map(r => r.id as number)
       .filter(id => !keep.has(id));
