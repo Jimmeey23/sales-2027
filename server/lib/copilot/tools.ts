@@ -292,25 +292,25 @@ const monthGap: Tool = ctx => {
 
   const levers = [
     {
-      label: 'Converting more trials (+2 pts trial → buyer)',
+      label: 'Trials +2 pts',
       extraBuyers: trials * 0.02,
       revenue: trials * 0.02 * spendPerBuyer,
       detail: `${count(trials)} required trials × 2 pts × ${money(spendPerBuyer)} first-month spend`,
     },
     {
-      label: 'More first visits (+2 pts lead → trial)',
+      label: 'Leads +2 pts',
       extraBuyers: leads * 0.02 * buyerPerTrial,
       revenue: leads * 0.02 * buyerPerTrial * spendPerBuyer,
       detail: `${count(leads)} required leads × 2 pts × ${pct(buyerPerTrial)} trial → buyer`,
     },
     {
-      label: 'Lifting repeat value (+5% on the non-new-client share)',
+      label: 'Repeat value +5%',
       extraBuyers: 0,
       revenue: Math.max(0, target - newClientRevenue) * 0.05,
       detail: `5% of the ${money(Math.max(0, target - newClientRevenue))} that renewals and repeats carry`,
     },
     {
-      label: 'Recovering renewal value at risk',
+      label: 'Renewals +10%',
       extraBuyers: 0,
       revenue: due.summary.paidDueValue * 0.1,
       detail: `10% of ${money(due.summary.paidDueValue)} known paid value expiring — an assumption, not a forecast`,
@@ -329,7 +329,12 @@ const monthGap: Tool = ctx => {
         { label: 'Per trading day', value: money(perDay), hint: `${days} days in ${roll.label}` },
       ],
     },
-    { kind: 'bars', title: 'Where the gap can come from (scenario, not a forecast)', format: 'money', rows: levers.map(lever => ({ label: lever.label, value: Math.round(lever.revenue), display: money(lever.revenue) })) },
+    {
+      kind: 'bars',
+      title: 'Where the gap can come from (scenario, not a forecast)',
+      format: 'money',
+      rows: levers.map(lever => ({ label: lever.label, value: Math.round(lever.revenue), display: money(lever.revenue) })),
+    },
     {
       kind: 'kpi',
       items: [
@@ -351,7 +356,14 @@ const monthGap: Tool = ctx => {
       `Target **${money(target)}** (${roll.basis}); last year **${money(historical)}**. The gap is **${money(gap)}**${growth == null ? '' : ` (${delta(growth)} growth)`}, or **${money(perDay)} a day**.`,
       planLine,
       `The cheapest mix, in order:`,
-      bullets(levers.slice(0, 3).map(lever => `**${money(lever.revenue)}** — ${lever.label.toLowerCase()} (${lever.shareOfGap == null ? 'n/a' : pct(lever.shareOfGap, 0)} of the gap)`)),
+      bullets(
+        levers
+          .slice(0, 3)
+          .map(
+            lever =>
+              `**${money(lever.revenue)}** — ${lever.detail} (${lever.shareOfGap == null ? 'n/a' : pct(lever.shareOfGap, 0)} of the gap)`,
+          ),
+      ),
       `Renewals due: **${count(due.summary.duePackages)} packages**, ${money(due.summary.paidDueValue)} known paid value. Every figure above is a labelled scenario on real inputs, not a forecast.`,
     ]),
     cards,

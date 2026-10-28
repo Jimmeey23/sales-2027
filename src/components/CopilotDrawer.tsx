@@ -488,7 +488,9 @@ function AnswerBlock({ card }: { card: Card }) {
         {card.title && <strong className="copilot-block-title">{card.title}</strong>}
         {card.rows.map((row, index) => (
           <div key={index} className={`copilot-bar ${TONE_CLASS[row.tone || 'neutral']}`}>
-            <span className="copilot-bar-label">{row.label}</span>
+            <span className="copilot-bar-label" title={row.label}>
+              {row.label}
+            </span>
             <span className="copilot-bar-track">
               <i style={{ width: `${Math.max(2, (Math.abs(row.value) / max) * 100)}%` }} />
             </span>
