@@ -28,6 +28,8 @@ export interface CoverStream {
 /** One week of the month's action plan, shortened for the cover. */
 export interface CoverPlanWeek {
   week: number;
+  /** What the step is called: a week number, or the strategy's own label (Hook, Moment…). */
+  label?: string;
   text: string;
   /** How many further steps that week carries. */
   extra?: number;
@@ -495,10 +497,10 @@ export default function MonthCover({
                 </span>
                 <ol className="mc-weeks">
                   {plan.map(w => (
-                    <li key={w.week} className="mc-week" data-week={w.week}>
-                      <b>W{w.week}</b>
+                    <li key={`${w.week}-${w.label || ''}`} className="mc-week" data-week={w.week}>
+                      <b>{w.label || `W${w.week}`}</b>
                       <span>
-                        {w.text || 'Not planned yet'}
+                        {w.text || 'To be planned'}
                         {!!w.extra && <em>+{w.extra}</em>}
                       </span>
                     </li>

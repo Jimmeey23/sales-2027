@@ -66,7 +66,7 @@ import { isLegacyTheme, monthChapter, monthStory } from '../../data/monthNarrati
 import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
 import PageHero from './PageHero';
-import { PAGE_PHOTOS } from '../../data/pagePhotos';
+import { PAGE_PHOTOS, coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
@@ -499,6 +499,9 @@ export default function MonthWorkspace({
     [aiGateOpen, setAiGateOpen] = useState(false);
   // The cover is the first page of a month: it mounts with the workspace and re-animates on month changes.
   const [coverOpen, setCoverOpen] = useState(true);
+  // Editing is turned on one section at a time, from the pencil in that section's header.
+  // Being able to edit never changes how a section is drawn — only what its pencil unlocks.
+  const [editSection, setEditSection] = useState<string | null>(null);
   const [page, setPage] = useState<PlanPage>('overview');
   // Each page opens at its own top rather than inheriting the previous page's scroll.
   const mainRef = useRef<HTMLElement | null>(null);
@@ -523,6 +526,9 @@ export default function MonthWorkspace({
   const aiReady = masterUnlocked;
   // Adding, removing and swapping offers needs no passcode.
   const offersEditable = (canEditPlan || can('offer_edit')) && !locked;
+  // A section is editable only while its own pencil is on.
+  const sectionEditable = (key: string) => editable && editSection === key;
+  const toggleSection = (key: string) => setEditSection(current => (current === key ? null : key));
   const others = 3;
 
   useEffect(() => {
@@ -1325,9 +1331,35 @@ export default function MonthWorkspace({
   // Months planned before the narrative rewrite carry a generic label; the chapter names them now.
   const displayTheme =
     isLegacyTheme(form.theme) || isLegacyTheme(row.theme) ? chapter.theme : form.theme || row.theme || chapter.theme;
-  const coverPhoto = selected[0]
-    ? pickOfferCardPhoto(selected[0], slotOf(selected[0].id), month)
-    : pickOfferCardPhoto({ name: `${displayTheme} ${MONTHS[month - 1]}`, month }, 'newcomer', month);
+  // A different cover photograph every month, from a set the offer cards never draw on.
+  const coverPhoto = coverPhotoFor(month);
+
+  /* The cover has to carry the month's argument, not an empty schedule. Action plan
+     weeks win when they exist; when they do not, the execution page's strategy is read
+     line by line, keeping its own labels (Hook, Moment, ...) instead of inventing weeks.
+     The chapter signature is the last resort, so the cover is never blank. */
+  const coverPlan = (() => {
+    const weeks = [1, 2, 3, 4]
+      .map(week => {
+        const steps = form.actions.filter((a: any) => a.week === week && a.text);
+        return { week, label: `W${week}`, text: steps[0]?.text ?? '', extra: Math.max(0, steps.length - 1) };
+      })
+      .filter(step => step.text);
+    if (weeks.length) return weeks;
+
+    const lines = parseStrategyLines(form.strategy).filter(Boolean);
+    if (lines.length) {
+      return lines.slice(0, 4).map((line, i) => {
+        const labelled = line.match(/^(Hook|Moment|Play|Build|Close|Risk|Move)\s*:\s*(.+)$/i);
+        return {
+          week: i + 1,
+          label: labelled ? labelled[1] : String(i + 1).padStart(2, '0'),
+          text: labelled ? labelled[2] : line,
+        };
+      });
+    }
+    return chapter.signature ? [{ week: 1, label: 'The move', text: chapter.signature }] : [];
+  })();
   const story = monthStory(month, {
     studio: studio.name,
     target: effective,
@@ -1775,11 +1807,14 @@ export default function MonthWorkspace({
                       title={meta.title}
                       hint={meta.hint}
                       editable={editable}
+                      canEdit={editable}
+                      editOn={sectionEditable('days')}
+                      onToggleEdit={() => toggleSection('days')}
                       onTitleChange={v => patchSectionMeta('days', { title: v })}
                       onHintChange={v => patchSectionMeta('days', { hint: v })}
                       onDelete={() => hideSection('days')}
                       actions={
-                        editable ? (
+                        sectionEditable('days') ? (
                           <>
                             <button
                               type="button"
@@ -1818,127 +1853,62 @@ export default function MonthWorkspace({
                           return (
                             <article
                               key={`${d.day}-${di}`}
-                              className={`mw-day kd-${d.kind}${open ? ' is-open' : ''}`}
-                              role={editable ? undefined : 'button'}
-                              tabIndex={editable ? undefined : 0}
-                              aria-expanded={editable ? undefined : open}
-                              onClick={editable ? undefined : () => setActiveDay(open ? null : di)}
-                              onKeyDown={
-                                editable
-                                  ? undefined
-                                  : e =>
-                                      (e.key === 'Enter' || e.key === ' ') &&
-                                      (e.preventDefault(), setActiveDay(open ? null : di))
+                              className={`mw-day kd-${d.kind}${open ? ' is-open' : ''}${sectionEditable('days') ? ' is-editing' : ''}`}
+                              role="button"
+                              tabIndex={0}
+                              aria-expanded={open}
+                              onClick={() => setActiveDay(open ? null : di)}
+                              onKeyDown={e =>
+                                (e.key === 'Enter' || e.key === ' ') &&
+                                (e.preventDefault(), setActiveDay(open ? null : di))
                               }
                             >
-                              <div
-                                className="mw-day-art"
-                                onClick={editable ? () => setActiveDay(open ? null : di) : undefined}
-                                style={editable ? { cursor: 'pointer' } : undefined}
-                                title={editable ? 'Click to edit play & channel details' : undefined}
-                              >
+                              <div className="mw-day-art">
                                 {(() => {
                                   const Icon = DAY_KIND_ICONS[d.kind as keyof typeof DAY_KIND_ICONS] || CalendarHeart;
                                   return <Icon size={17} strokeWidth={1.6} />;
                                 })()}
                               </div>
                               <div className="mw-day-body">
-                                {editable ? (
-                                  <div className="mw-inline-edit">
-                                    <input
-                                      aria-label="Important day name"
-                                      placeholder="Holiday or moment"
-                                      value={d.name}
-                                      onChange={e =>
-                                        setDates(
-                                          dates.map((x: any, i: number) =>
-                                            i === di ? { ...x, name: e.target.value } : x,
-                                          ),
-                                        )
-                                      }
-                                    />
-                                    <div>
-                                      <select
-                                        aria-label="Important day type"
-                                        value={d.kind}
-                                        onChange={e =>
-                                          setDates(
-                                            dates.map((x: any, i: number) =>
-                                              i === di ? { ...x, kind: e.target.value } : x,
-                                            ),
-                                          )
-                                        }
-                                      >
-                                        {Object.entries(KEY_DATE_LABELS).map(([key, label]) => (
-                                          <option key={key} value={key}>
-                                            {label}
-                                          </option>
-                                        ))}
-                                      </select>
-                                      <input
-                                        aria-label="Day of month"
-                                        type="number"
-                                        min={1}
-                                        max={31}
-                                        value={d.day}
-                                        onChange={e =>
-                                          setDates(
-                                            dates.map((x: any, i: number) =>
-                                              i === di
-                                                ? { ...x, day: Math.min(31, Math.max(1, Number(e.target.value) || 1)) }
-                                                : x,
-                                            ),
-                                          )
-                                        }
-                                      />
-                                      <label>
-                                        <input
-                                          type="checkbox"
-                                          checked={!!d.approx}
-                                          onChange={e =>
-                                            setDates(
-                                              dates.map((x: any, i: number) =>
-                                                i === di ? { ...x, approx: e.target.checked } : x,
-                                              ),
-                                            )
-                                          }
-                                        />{' '}
-                                        Approx.
-                                      </label>
-                                      <button
-                                        type="button"
-                                        title="Edit play & channels"
-                                        aria-label={`Edit details for ${d.name || 'day'}`}
-                                        onClick={() => setActiveDay(open ? null : di)}
-                                      >
-                                        <Pencil size={12} />
-                                      </button>
-                                      <button
-                                        type="button"
-                                        aria-label={`Remove ${d.name}`}
-                                        onClick={() => {
-                                          if (activeDay === di) setActiveDay(null);
-                                          setDates(dates.filter((_: any, i: number) => i !== di));
-                                        }}
-                                      >
-                                        <Trash2 size={13} />
-                                      </button>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  <>
-                                    <strong>{d.name}</strong>
-                                    <span className="mw-day-meta">
-                                      <em>
-                                        {formatKeyDate(d)} {MONTHS[month - 1].slice(0, 3)}
-                                      </em>
-                                      <i className={left < 0 ? 'is-past' : left <= 14 ? 'is-soon' : ''}>
-                                        {left < 0 ? 'Passed' : left === 0 ? 'Today' : `in ${left}d`}
-                                      </i>
-                                    </span>
-                                  </>
-                                )}
+                                <strong>{d.name}</strong>
+                                <span className="mw-day-meta">
+                                  <em>
+                                    {formatKeyDate(d)} {MONTHS[month - 1].slice(0, 3)}
+                                  </em>
+                                  <i className={left < 0 ? 'is-past' : left <= 14 ? 'is-soon' : ''}>
+                                    {left < 0 ? 'Passed' : left === 0 ? 'Today' : `in ${left}d`}
+                                  </i>
+                                </span>
                               </div>
+                              {/* The controls ride on top of the card instead of replacing its
+                                  contents, so editing never reshapes the grid. */}
+                              {sectionEditable('days') && (
+                                <div className="mw-day-tools">
+                                  <button
+                                    type="button"
+                                    title="Edit play & channels"
+                                    aria-label={`Edit details for ${d.name || 'day'}`}
+                                    onClick={e => {
+                                      e.stopPropagation();
+                                      setActiveDay(di);
+                                    }}
+                                  >
+                                    <Pencil size={11.5} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="is-danger"
+                                    aria-label={`Remove ${d.name}`}
+                                    onClick={e => {
+                                      e.stopPropagation();
+                                      if (activeDay === di) setActiveDay(null);
+                                      setDates(dates.filter((_: any, i: number) => i !== di));
+                                    }}
+                                  >
+                                    <Trash2 size={12.5} />
+                                  </button>
+                                </div>
+                              )}
                             </article>
                           );
                         })}
@@ -1966,7 +1936,8 @@ export default function MonthWorkspace({
                                 {d.approx ? ' · date to confirm' : ''}
                               </small>
                               <h5>{d.name || 'Untitled moment'}</h5>
-                              {editable ? (
+                              {d.note && <p className="mw-day-note">{d.note}</p>}
+                              {sectionEditable('days') ? (
                                 <textarea
                                   className="mw-day-detail-input"
                                   rows={2}
@@ -1981,7 +1952,7 @@ export default function MonthWorkspace({
                             <ul>
                               <li>
                                 <b>Go live</b>{' '}
-                                {editable ? (
+                                {sectionEditable('days') ? (
                                   <span className="mw-day-inline-num">
                                     <input
                                       type="number"
@@ -1998,7 +1969,7 @@ export default function MonthWorkspace({
                               </li>
                               <li>
                                 <b>Channel</b>{' '}
-                                {editable ? (
+                                {sectionEditable('days') ? (
                                   <input
                                     className="mw-day-inline-text"
                                     value={channelText}
@@ -2160,6 +2131,9 @@ export default function MonthWorkspace({
                       title={meta.title}
                       hint={meta.hint}
                       editable={editable}
+                      canEdit={editable}
+                      editOn={sectionEditable('focus')}
+                      onToggleEdit={() => toggleSection('focus')}
                       onTitleChange={v => patchSectionMeta('focus', { title: v })}
                       onHintChange={v => patchSectionMeta('focus', { hint: v })}
                       onDelete={() => hideSection('focus')}
@@ -2256,7 +2230,7 @@ export default function MonthWorkspace({
                             </span>
                           </div>
 
-                          {editable ? (
+                          {sectionEditable('focus') ? (
                             <label className="mw-fu-theme">
                               <span>Monthly theme</span>
                               <input
@@ -2279,7 +2253,7 @@ export default function MonthWorkspace({
                             <span className="mw-fu-label">
                               <Target size={12.5} /> Commercial objective
                             </span>
-                            {editable ? (
+                            {sectionEditable('focus') ? (
                               <textarea
                                 aria-label="Commercial objective"
                                 rows={2}
@@ -2308,7 +2282,7 @@ export default function MonthWorkspace({
                             )}
                           </div>
 
-                          {editable ? (
+                          {sectionEditable('focus') ? (
                             <div className="mw-fu-target-input-wrap">
                               <div className="mw-money big">
                                 <em className="cur">₹</em>
@@ -2364,7 +2338,7 @@ export default function MonthWorkspace({
                                 {streamsMismatch ? (
                                   <>
                                     {`${lakh(Math.abs(effective - streamTotal))} ${streamTotal > effective ? 'over' : 'unallocated'}`}
-                                    {editable && (
+                                    {sectionEditable('focus') && (
                                       <>
                                         {' · '}
                                         <button
@@ -2414,7 +2388,7 @@ export default function MonthWorkspace({
                               <span className="mw-fu-count-pill">
                                 {strategyLines.length} {strategyLines.length === 1 ? 'play' : 'plays'}
                               </span>
-                              {editable && (
+                              {sectionEditable('focus') && (
                                 <>
                                   {!strategyRawMode && (
                                     <button
@@ -2442,7 +2416,7 @@ export default function MonthWorkspace({
                             </div>
                           </div>
 
-                          {editable ? (
+                          {sectionEditable('focus') ? (
                             strategyRawMode ? (
                               <textarea
                                 className="mw-fu-raw-strategy"
@@ -2518,7 +2492,7 @@ export default function MonthWorkspace({
                             </span>
                             <div className="mw-subgrid-tools">
                               <span className="mw-fu-count-pill">{points.length} priorities</span>
-                              {editable && (
+                              {sectionEditable('focus') && (
                                 <button
                                   type="button"
                                   className="mw-mini-btn"
@@ -2531,9 +2505,9 @@ export default function MonthWorkspace({
                           </div>
                           <ol className="mw-fu-points-list">
                             {points.map((t, i) => (
-                              <li key={i} className={editable ? 'is-editing' : ''}>
+                              <li key={i} className={sectionEditable('focus') ? 'is-editing' : ''}>
                                 <b>{String(i + 1).padStart(2, '0')}</b>
-                                {editable ? (
+                                {sectionEditable('focus') ? (
                                   <>
                                     <textarea
                                       rows={2}
@@ -2635,7 +2609,7 @@ export default function MonthWorkspace({
                                       <b className="is-forecast" style={{ width: w(r.forecast) }} />
                                     </div>
                                     <div className="mw-streamchart-value">
-                                      {editable ? (
+                                      {sectionEditable('focus') ? (
                                         <div className="mw-money">
                                           <em className="cur">₹</em>
                                           <input
@@ -2681,7 +2655,7 @@ export default function MonthWorkspace({
                           )}
                         </div>
 
-                        {(allVols.length > 0 || editable) && (
+                        {(allVols.length > 0 || sectionEditable('focus')) && (
                           <div className="mw-funnel-targets">
                             <div className="mw-subgrid-head">
                               <span className="mw-fu-band-kicker">
@@ -2710,7 +2684,7 @@ export default function MonthWorkspace({
                                     {mathsOpen ? 'Unit math ↓' : 'Unit math ↘'}
                                   </button>
                                 )}
-                                {editable && (
+                                {sectionEditable('focus') && (
                                   <>
                                     <button
                                       type="button"
@@ -2746,8 +2720,8 @@ export default function MonthWorkspace({
                                 )}
                               </div>
                             </div>
-                            {!editable && <VolumesChart vols={allVols} />}
-                            {editable && (
+                            {!sectionEditable('focus') && <VolumesChart vols={allVols} />}
+                            {sectionEditable('focus') && (
                               <div className="mw-volumes-grid is-full">
                                 {allVols.map(k => (
                                   <div
@@ -2755,7 +2729,7 @@ export default function MonthWorkspace({
                                     className={`mw-vol-card is-${k.kind}`}
                                     title={`${k.label}: ${k.value} · ${k.hint}`}
                                   >
-                                    {editable ? (
+                                    {sectionEditable('focus') ? (
                                       <div className="mw-vol-edit">
                                         <div className="mw-vol-edit-top">
                                           <input
@@ -2853,7 +2827,7 @@ export default function MonthWorkspace({
                         )}
                       </div>
 
-                      {editable && (
+                      {sectionEditable('focus') && (
                         <small className="mw-focus-note">
                           <Sparkles size={12} /> Everything in this brief autosaves
                           {autoState === 'saving'
@@ -2872,7 +2846,7 @@ export default function MonthWorkspace({
 
             {/* ─── Section 3: AI plan & reasoning (Unified Design System) ─── */}
             {showOnPage('ai') &&
-              (form.content?.ai || editable) &&
+              (form.content?.ai || sectionEditable('ai')) &&
               (() => {
                 const ai = form.content?.ai || { splitRationale: '', reasoning: [], risks: [], generatedAt: null };
                 const patchAi = (patch: Record<string, any>) =>
@@ -2909,11 +2883,14 @@ export default function MonthWorkspace({
                       title={meta.title}
                       hint={meta.hint}
                       editable={editable}
+                      canEdit={editable}
+                      editOn={sectionEditable('ai')}
+                      onToggleEdit={() => toggleSection('ai')}
                       onTitleChange={v => patchSectionMeta('ai', { title: v })}
                       onHintChange={v => patchSectionMeta('ai', { hint: v })}
                       onDelete={() => hideSection('ai')}
                       actions={
-                        editable ? (
+                        sectionEditable('ai') ? (
                           <>
                             <button
                               type="button"
@@ -2991,12 +2968,12 @@ export default function MonthWorkspace({
                             ))}
                           </div>
                         </div>
-                        {(ai.splitRationale || editable) && (
+                        {(ai.splitRationale || sectionEditable('ai')) && (
                           <div className="mw-ai-rationale">
                             <div className="mw-ai-card-head">
                               <span className="mw-fu-band-kicker">Stream allocation rationale</span>
                             </div>
-                            {editable ? (
+                            {sectionEditable('ai') ? (
                               <textarea
                                 rows={5}
                                 placeholder="- **New clients:** Explain why revenue is weighted across new clients, renewals and reactivation…"
@@ -3010,13 +2987,13 @@ export default function MonthWorkspace({
                         )}
                       </div>
 
-                      {(reasoningList.length > 0 || editable) && (
+                      {(reasoningList.length > 0 || sectionEditable('ai')) && (
                         <div className="mw-ai-reasons">
                           {reasoningList.map((sec, i) => (
                             <section key={i}>
                               <h5>
                                 <span>{String(i + 1).padStart(2, '0')}</span>
-                                {editable ? (
+                                {sectionEditable('ai') ? (
                                   <>
                                     <input
                                       aria-label={`Reasoning heading ${i + 1}`}
@@ -3044,7 +3021,7 @@ export default function MonthWorkspace({
                                   sec.heading
                                 )}
                               </h5>
-                              {editable ? (
+                              {sectionEditable('ai') ? (
                                 <div className="mw-list-editor">
                                   {sec.points.map((p, j) => (
                                     <div key={j} className="mw-list-editor-row">
@@ -3109,12 +3086,12 @@ export default function MonthWorkspace({
                         </div>
                       )}
 
-                      {(risksList.length > 0 || editable) && (
+                      {(risksList.length > 0 || sectionEditable('ai')) && (
                         <div className="mw-ai-risks">
                           <div className="mw-ai-card-head">
                             <span className="mw-fu-band-kicker is-risk">Commercial watchpoints &amp; mitigations</span>
                           </div>
-                          {editable ? (
+                          {sectionEditable('ai') ? (
                             <div className="mw-list-editor">
                               {risksList.map((r, i) => (
                                 <div key={i} className="mw-list-editor-row">
@@ -3248,6 +3225,9 @@ export default function MonthWorkspace({
                       title={meta.title}
                       hint={meta.hint}
                       editable={editable}
+                      canEdit={editable}
+                      editOn={sectionEditable('offers')}
+                      onToggleEdit={() => toggleSection('offers')}
                       onTitleChange={v => patchSectionMeta('offers', { title: v })}
                       onHintChange={v => patchSectionMeta('offers', { hint: v })}
                       onDelete={() => hideSection('offers')}
@@ -3297,7 +3277,7 @@ export default function MonthWorkspace({
                             <LayoutGrid size={12} /> Offer library
                             <em>{alternates.length}</em>
                           </button>
-                          {(editable || offersEditable) && (
+                          {(sectionEditable('offers') || offersEditable) && (
                             <button type="button" className="mw-mini-btn is-primary" onClick={() => openNewOffer()}>
                               <Plus size={12} /> New offer
                             </button>
@@ -3389,7 +3369,7 @@ export default function MonthWorkspace({
                               busy={busy}
                               onCancel={() => setEditing(null)}
                               onDelete={
-                                editable
+                                sectionEditable('offers')
                                   ? async () => {
                                       if (await offerChange({ op: 'delete', offerId: o.id }, `“${o.name}” deleted`)) {
                                         setEditing(null);
@@ -3514,7 +3494,7 @@ export default function MonthWorkspace({
 
             {/* ─── Section 5: Offer coverage by revenue stream ─── */}
             {showOnPage('coverage') &&
-              (gapRows.length > 0 || editable) &&
+              (gapRows.length > 0 || sectionEditable('coverage')) &&
               (() => {
                 const meta = sectionMeta(
                   'coverage',
@@ -3529,6 +3509,9 @@ export default function MonthWorkspace({
                       title={meta.title}
                       hint={meta.hint}
                       editable={editable}
+                      canEdit={editable}
+                      editOn={sectionEditable('coverage')}
+                      onToggleEdit={() => toggleSection('coverage')}
                       onTitleChange={v => patchSectionMeta('coverage', { title: v })}
                       onHintChange={v => patchSectionMeta('coverage', { hint: v })}
                       onDelete={() => hideSection('coverage')}
@@ -3588,9 +3571,9 @@ export default function MonthWorkspace({
                                 )}
                               </div>
                             )}
-                            {(editable || note) && (
+                            {(sectionEditable('coverage') || note) && (
                               <div className="mw-gp-note">
-                                {editable ? (
+                                {sectionEditable('coverage') ? (
                                   <input
                                     placeholder={`Plan note for ${r.label.toLowerCase()} coverage…`}
                                     value={note}
@@ -3640,11 +3623,14 @@ export default function MonthWorkspace({
                       title={meta.title}
                       hint={meta.hint}
                       editable={editable}
+                      canEdit={editable}
+                      editOn={sectionEditable('actions')}
+                      onToggleEdit={() => toggleSection('actions')}
                       onTitleChange={v => patchSectionMeta('actions', { title: v })}
                       onHintChange={v => patchSectionMeta('actions', { hint: v })}
                       onDelete={() => hideSection('actions')}
                       actions={
-                        editable ? (
+                        sectionEditable('actions') ? (
                           <>
                             <button
                               type="button"
@@ -3726,7 +3712,7 @@ export default function MonthWorkspace({
                         items: form.actions
                           .map((action, index) => ({ action, index }))
                           .filter(entry => entry.action.week === phase.week),
-                      })).filter(phase => phase.items.length > 0 || (editable && phase.week < 5));
+                      })).filter(phase => phase.items.length > 0 || (sectionEditable('actions') && phase.week < 5));
                       const patchAt = (i: number, patch: Partial<ActionItem>) =>
                         set({ actions: form.actions.map((x, j) => (j === i ? { ...x, ...patch } : x)) });
 
@@ -3834,7 +3820,7 @@ export default function MonthWorkspace({
                                                 </select>
                                               </div>
                                             </div>
-                                            {editable && (
+                                            {sectionEditable('actions') && (
                                               <button
                                                 type="button"
                                                 className="mp-step-del"
@@ -3851,7 +3837,7 @@ export default function MonthWorkspace({
                                       </div>
                                     )}
 
-                                    {editable && (
+                                    {sectionEditable('actions') && (
                                       <button
                                         type="button"
                                         className="mp-phase-add"
@@ -3884,7 +3870,7 @@ export default function MonthWorkspace({
                         {...fieldProps}
                       />
                     </label>
-                    {editable && (
+                    {sectionEditable('actions') && (
                       <label className="mw-final">
                         <input
                           type="checkbox"
@@ -3958,11 +3944,14 @@ export default function MonthWorkspace({
                       title={meta.title}
                       hint={meta.hint}
                       editable={editable}
+                      canEdit={editable}
+                      editOn={sectionEditable('acts')}
+                      onToggleEdit={() => toggleSection('acts')}
                       onTitleChange={v => patchSectionMeta('acts', { title: v })}
                       onHintChange={v => patchSectionMeta('acts', { hint: v })}
                       onDelete={() => hideSection('acts')}
                       actions={
-                        editable ? (
+                        sectionEditable('acts') ? (
                           <>
                             <button
                               type="button"
@@ -4027,7 +4016,7 @@ export default function MonthWorkspace({
                     </div>
                     <div className="mw-acts-kpis">
                       <span className="mw-fu-label">Activation KPIs</span>
-                      {editable ? (
+                      {sectionEditable('acts') ? (
                         <div className="mw-list-editor">
                           {kpiList.map((k, idx) => (
                             <div key={idx} className="mw-list-editor-row">
@@ -4456,10 +4445,7 @@ export default function MonthWorkspace({
             brief={chapter.brief}
             risk={chapter.risk}
             signature={chapter.signature}
-            plan={[1, 2, 3, 4].map(week => {
-              const steps = form.actions.filter((a: any) => a.week === week && a.text);
-              return { week, text: steps[0]?.text ?? '', extra: Math.max(0, steps.length - 1) };
-            })}
+            plan={coverPlan}
             target={effective}
             lastYear={row.lastYear}
             streams={coverStreams}
@@ -6259,6 +6245,9 @@ function SectionHead({
   onHintChange,
   actions,
   onDelete,
+  editOn = false,
+  canEdit = false,
+  onToggleEdit,
 }: {
   icon: any;
   title: React.ReactNode;
@@ -6268,12 +6257,17 @@ function SectionHead({
   onHintChange?: (next: string) => void;
   actions?: React.ReactNode;
   onDelete?: () => void;
+  /** This section's own edit mode. */
+  editOn?: boolean;
+  canEdit?: boolean;
+  onToggleEdit?: () => void;
 }) {
   // A section reads as a heading until someone asks to rename it: the pencil is the door,
   // not a permanent pair of text boxes sitting in the header.
   const [renaming, setRenaming] = useState(false);
   const canRename = editable && Boolean(onTitleChange) && typeof title === 'string';
-  const showActions = Boolean(actions) || (editable && Boolean(onDelete)) || canRename;
+  const showActions =
+    Boolean(actions) || (editable && Boolean(onDelete)) || canRename || (canEdit && Boolean(onToggleEdit));
   return (
     <header className={`mw-sh${showActions ? ' has-actions' : ''}${renaming ? ' is-renaming' : ''}`}>
       <span className="mw-sh-icon">
@@ -6309,6 +6303,21 @@ function SectionHead({
       </div>
       {showActions && (
         <div className="mw-sh-actions">
+          {canEdit && onToggleEdit && (
+            <button
+              type="button"
+              className={`mw-sh-edit${editOn ? ' is-on' : ''}`}
+              aria-pressed={editOn}
+              title={
+                editOn ? `Done editing ${typeof title === 'string' ? title : 'this section'}` : 'Edit this section'
+              }
+              aria-label={editOn ? 'Done editing this section' : 'Edit this section'}
+              onClick={onToggleEdit}
+            >
+              {editOn ? <Check size={13} /> : <Pencil size={13} />}
+              <span>{editOn ? 'Done' : 'Edit'}</span>
+            </button>
+          )}
           {actions}
           {canRename && (
             <button
