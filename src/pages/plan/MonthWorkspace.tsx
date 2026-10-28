@@ -30,7 +30,6 @@ import {
   Pencil,
   Percent,
   Plus,
-  Quote,
   RefreshCcw,
   RotateCcw,
   Save,
@@ -5087,7 +5086,6 @@ function OfferCard({
 
   // Optimistic approval: the tick flips immediately and settles once the month reloads.
   const [pending, setPending] = useState<boolean | null>(null);
-  const [whyOpen, setWhyOpen] = useState(false);
   useEffect(() => setPending(null), [approved]);
   const shown = pending ?? !!approved;
   // The whole card is the collapse target; controls, links and text selection are left alone.
@@ -5191,11 +5189,58 @@ function OfferCard({
   const marginPct = contribution !== null && revenue ? (contribution / revenue) * 100 : null;
   const marginBar = marginPct !== null ? clampPct(marginPct) : 0;
 
+  // The spec sheet: what the offer is, in the client's own words, on what terms, and the arithmetic
+  // behind its forecast. Every line is derived from the offer record or its plan provenance.
+  const specRows = (() => {
+    const rows: Array<{ label: string; value: React.ReactNode }> = [];
+    const tidy = (value: unknown) =>
+      String(value ?? '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const cut = (value: string, max: number) =>
+      value.length > max ? `${value.slice(0, max).replace(/[\s,;:.]+$/, '')}\u2026` : value;
+
+    // The hero already explains the deal in plain words; the sheet only repeats it when the
+    // benefit says something the brief does not.
+    const proposition = tidy(mechanicsText) || tidy(o.benefit) || tidy(o.headline);
+    if (proposition && !offerDescription.includes(proposition.slice(0, 60))) {
+      rows.push({ label: 'The offer', value: cut(proposition, 280) });
+    }
+
+    const quote = tidy(o.customer_copy);
+    if (quote && quote !== proposition && !offerDescription.includes(quote.slice(0, 60))) {
+      rows.push({ label: 'In their words', value: `\u201c${cut(quote, 150)}\u201d` });
+    }
+
+    const terms = tidy(o.redemption_conditions);
+    rows.push({
+      label: 'Terms',
+      value: terms ? cut(terms, 220) : 'One offer per client; the approval covers this month only.',
+    });
+
+    const moment = tidy(o.provenance?.moment);
+    if (moment) rows.push({ label: 'Tied to', value: `${moment} \u00b7 ${windowText}` });
+
+    if (units && offerPrice && revenue !== null) {
+      rows.push({
+        label: 'Plan arithmetic',
+        value: (
+          <>
+            <b>{number(units)}</b> buyers × <b>{money(offerPrice)}</b> = <b>{lakh(revenue)}</b>
+            {sharePct !== null ? ` \u00b7 ${fmtPct(sharePct)} of the month` : ''}
+          </>
+        ),
+      });
+    }
+
+    if (metrics.length) rows.push({ label: 'Success metrics', value: cut(metrics.slice(0, 3).join(' \u00b7 '), 240) });
+    if (risks.length) rows.push({ label: 'Risk & mitigation', value: cut(risks.slice(0, 3).join(' \u00b7 '), 240) });
+    return rows;
+  })();
+
   return (
     <article
-      className={`oc${shown ? ' is-approved' : ''}${whyOpen ? ' is-expanded' : ''}${
-        slot ? ` slot-${slot}` : ''
-      }${collapsed ? ' is-collapsed' : ''}`}
+      className={`oc${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}${collapsed ? ' is-collapsed' : ''}`}
       onClick={handleCardClick}
     >
       <div className="oc-hero">
@@ -5491,17 +5536,14 @@ function OfferCard({
           </div>
         </div>
 
-        <div className={`oc-details${whyOpen ? ' is-open' : ''}`}>
-          <div className="oc-details-head">
-            <button
-              type="button"
-              className={`oc-details-toggle${whyOpen ? ' is-open' : ''}`}
-              aria-expanded={whyOpen}
-              onClick={() => setWhyOpen(v => !v)}
-            >
-              <span>Details &amp; why it works</span>
-              <ChevronDown size={15} className="oc-chevron" />
-            </button>
+        {/* Spec sheet: the commercial record as ruled label → value lines, so the whole offer
+            reads without opening anything. Approval sits in its header. */}
+        <div className="oc-spec">
+          <div className="oc-spec-head">
+            <span className="oc-spec-title">
+              <FileText size={12} />
+              Offer spec
+            </span>
             <div className="oc-actions">
               {canApprove ? (
                 <button
@@ -5526,53 +5568,12 @@ function OfferCard({
               ) : null}
             </div>
           </div>
-
-          <div className="oc-details-body">
-            <div className="oc-term">
-              <span className="oc-term-icon">
-                <Lightbulb size={16} />
-              </span>
-              <div>
-                <span className="oc-label">Terms</span>
-                <b>{o.redemption_conditions || 'One offer per purchase; not stackable with standing perks.'}</b>
-              </div>
+          {specRows.map(row => (
+            <div key={row.label} className="oc-spec-row">
+              <span className="oc-spec-label">{row.label}</span>
+              <p className="oc-spec-value">{row.value}</p>
             </div>
-
-            {whyOpen && (
-              <div className="oc-drawer">
-                {mechanicsText && (
-                  <div className="oc-drawer-row">
-                    <span className="oc-label">How it works</span>
-                    <p>{mechanicsText}</p>
-                  </div>
-                )}
-                {o.excluded_audience && (
-                  <div className="oc-drawer-row">
-                    <span className="oc-label">Excludes</span>
-                    <p>{o.excluded_audience}</p>
-                  </div>
-                )}
-                {o.cta && (
-                  <div className="oc-drawer-row">
-                    <span className="oc-label">Call to action</span>
-                    <p>{o.cta}</p>
-                  </div>
-                )}
-                {o.customer_copy && o.customer_copy !== o.benefit && o.customer_copy !== o.headline && (
-                  <p className="oc-quote">
-                    <Quote size={14} /> {o.customer_copy}
-                  </p>
-                )}
-                {editable && (
-                  <div className="oc-drawer-actions">
-                    <button type="button" className="mw-mini-btn is-primary" onClick={onEdit}>
-                      <Pencil size={12} /> Edit all offer details
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          ))}
         </div>
 
         {(reasons.length > 0 || o.rationale || metrics.length > 0 || risks.length > 0) &&

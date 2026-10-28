@@ -626,3 +626,332 @@
   }
 }
 
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 20 — the collateral tab as a deliverables board
+   The section reads as a run sheet: a header, a compact offer rail, a ledger of
+   what this month owes, then one numbered card per channel with the production
+   spec on the left and the finished artwork proofed on the right.
+   ───────────────────────────────────────────────────────────────────────────── */
+.mw .mw-main > .col-section {
+  counter-reset: colcard;
+  background: linear-gradient(180deg, #f8fafb 0%, #f4f7f8 100%);
+}
+
+/* Header: kicker, serif title, one-line rationale, then the run-sheet ledger. */
+.mw .col-section > .col-head {
+  align-items: flex-end;
+  gap: 18px;
+  padding-bottom: 0;
+  margin-bottom: 12px;
+}
+.mw .col-section > .col-head h4 {
+  margin: 5px 0 3px;
+  font-size: 19.5px;
+  letter-spacing: -0.012em;
+}
+.mw .col-section > .col-head p {
+  max-width: 620px;
+  font-size: 12.4px;
+  line-height: 1.55;
+  color: #5f6b76;
+}
+
+.mw .col-section .col-ledger {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border: 1px solid #eaeef1;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+.mw .col-section .col-ledger > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 9px 15px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #6a7783;
+  white-space: nowrap;
+}
+.mw .col-section .col-ledger > span + span {
+  border-left: 1px solid #eef1f4;
+}
+.mw .col-section .col-ledger b {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #16222d;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Offer rail: one compact cluster per audience, chips instead of boxes. */
+.mw .col-section > .col-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
+  max-width: none;
+  justify-content: flex-start;
+  padding: 10px;
+  border: 1px solid #e7ecef;
+  border-radius: 14px;
+  background: #ffffff;
+}
+.mw .col-section .col-tab-group {
+  flex: 1 1 240px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 4px;
+  background: none;
+  border-top: 0;
+  border-radius: 0;
+}
+.mw .col-section .col-tab-group > span {
+  flex: 1 0 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 2px 4px;
+  font: 700 9px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7b8794;
+}
+.mw .col-section .col-tab-group > span::before {
+  content: '';
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--g, #6ccff6);
+}
+.mw .col-section .col-tab-group button {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  padding: 7px 12px;
+  border: 1px solid #e4e9ee;
+  border-radius: 999px;
+  background: #ffffff;
+  font: 600 11.5px/1.25 var(--sans);
+  color: #26313b;
+  text-align: left;
+  box-shadow: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mw .col-section .col-tab-group button:hover {
+  border-color: var(--g, #6ccff6);
+}
+.mw .col-section .col-tab-group button.is-on {
+  background: #10161d;
+  border-color: #10161d;
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* One numbered card per channel: spec left, proof right. */
+.mw .col-section > .col-row {
+  display: grid;
+  grid-template-columns: minmax(272px, 338px) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 22px;
+  padding: 16px;
+  border: 1px solid #e6ebee;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 34px -30px rgba(11, 20, 32, 0.5);
+  counter-increment: colcard;
+}
+.mw .col-section > .col-row.is-custom {
+  grid-template-columns: minmax(0, 1fr);
+  background: #ffffff;
+}
+.mw .col-section > .col-row > .col-spec {
+  order: -1;
+}
+.mw .col-section > .col-row > .cr-stage {
+  order: 0;
+  align-content: start;
+  padding: 16px;
+  border: 1px solid #edf0f3;
+  border-radius: 14px;
+  background:
+    radial-gradient(130% 130% at 50% 0%, #ffffff 0%, #f5f7f9 58%, #eef1f4 100%);
+}
+
+/* The spec column is a printed brief: number, channel, due date, ruled lines. */
+.mw .col-row > .col-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  min-width: 0;
+  padding: 15px 16px 16px;
+  border: 1px solid #e8edf1;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(11, 20, 32, 0.04);
+}
+.mw .col-row > .col-spec > header {
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0;
+}
+.mw .col-row:not(.is-custom) > .col-spec > header::before {
+  content: counter(colcard, decimal-leading-zero);
+  flex: none;
+  font: 700 10.5px/1 var(--sans);
+  letter-spacing: 0.12em;
+  color: #a7b3be;
+}
+.mw .col-row > .col-spec > header span {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+}
+.mw .col-row > .col-spec > header b {
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+.mw .col-row > .col-spec > header i {
+  margin-left: auto;
+  padding: 4px 9px;
+  background: #f2f6f8;
+  color: #4d6473;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border-radius: 999px;
+}
+
+.mw .col-spec-cap {
+  display: block;
+  font: 700 8.5px/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9aa6b1;
+}
+
+/* Deliverables become ruled lines rather than a bulleted block. */
+.mw .col-spec ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+  font-size: 12.2px;
+}
+.mw .col-spec ul li {
+  position: relative;
+  padding: 8px 0 8px 14px;
+  border-top: 1px solid #f1f4f6;
+  line-height: 1.5;
+  color: #36404a;
+}
+.mw .col-spec ul li:first-child {
+  border-top: 0;
+  padding-top: 2px;
+}
+.mw .col-spec ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #c3ced7;
+}
+.mw .col-spec ul li:first-child::before {
+  top: 8px;
+}
+
+/* Copy panel sits flush with the foot of the brief. */
+.mw .col-spec .col-copy {
+  margin-top: auto;
+  padding: 12px 13px;
+  border: 1px solid #eff2f5;
+  border-left: 1px solid #eff2f5;
+  border-radius: 11px;
+  background: #f8fafb;
+}
+.mw .col-spec .col-copy > .col-spec-cap {
+  margin-bottom: 6px;
+}
+.mw .col-spec .col-copy > .col-spec-cap + small {
+  margin-top: 0;
+}
+.mw .col-spec .col-copy-edit > label > small:first-child {
+  margin-top: 0;
+}
+
+/* Artwork: keep proofs at print scale, centred on the mat. */
+.mw .col-row > .cr-stage > .cr-email {
+  width: 100%;
+  max-width: 468px;
+  justify-self: center;
+}
+.mw .col-row > .cr-stage > .cr-tent-stage {
+  justify-self: center;
+}
+.mw .col-row > .cr-stage > .cr-layouts {
+  margin-top: 2px;
+}
+
+@media (max-width: 1080px) {
+  .mw .col-section > .col-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .mw .col-section > .col-row > .cr-stage {
+    order: 2;
+  }
+}
+
+/* WhatsApp proofs sit side by side at any width: two chat shots, fluid phones. */
+.mw .col-row.is-wa .wa-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 18px;
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+}
+.mw .col-row.is-wa .wa-send {
+  min-width: 0;
+  justify-items: stretch;
+}
+.mw .col-row.is-wa .wa-send .wa-phone {
+  width: 100%;
+  justify-self: stretch;
+}
+.mw .col-row.is-wa .wa-label {
+  justify-self: center;
+}
+.mw .col-row.is-wa .wa-bubble {
+  width: auto;
+  max-width: 100%;
+}
+.mw .col-row.is-wa .wa-bubble .cr-square {
+  width: 100%;
+  zoom: 1;
+}
+.mw .col-row.is-wa .wa-buttons {
+  width: auto;
+  max-width: 100%;
+}
+@media (max-width: 640px) {
+  .mw .col-row.is-wa .wa-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

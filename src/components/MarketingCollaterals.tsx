@@ -545,6 +545,7 @@ export default function MarketingCollaterals({
           </button>
         )}
       </header>
+      <span className="col-spec-cap">Deliverables</span>
       {editable && onItemsChange ? (
         <div className="col-edit-list">
           {items.map((t, idx) => (
@@ -574,7 +575,12 @@ export default function MarketingCollaterals({
       ) : (
         <ul>{items.map((t, idx) => <li key={idx}>{t}</li>)}</ul>
       )}
-      {copy && <div className="col-copy">{copy}</div>}
+      {copy && (
+        <div className="col-copy">
+          <span className="col-spec-cap">Copy to use</span>
+          {copy}
+        </div>
+      )}
     </aside>
   );
 
@@ -646,6 +652,29 @@ export default function MarketingCollaterals({
           </div>
         )}
       </div>
+
+      {/* The production clock, in the one place the page hero above does not already cover it. */}
+      {(() => {
+        const live = (['whatsapp', 'email', 'tent'] as const).filter(c => !hiddenChannels.includes(c));
+        const lock = due(Math.max(waLead, emailLead, tentLead));
+        return (
+          <div className="col-ledger">
+            <span>
+              Artwork locks <b>{lock}</b>
+            </span>
+            {live.includes('tent') && (
+              <span>
+                Print at desk <b>{due(tentLead)}</b>
+              </span>
+            )}
+            {live.includes('whatsapp') && (
+              <span>
+                First send <b>1 {monthName.slice(0, 3)}</b>
+              </span>
+            )}
+          </div>
+        );
+      })()}
 
       {editable && hiddenChannels.length > 0 && (
         <div className="mw-restore-strip">

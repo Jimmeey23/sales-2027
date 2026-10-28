@@ -1466,3 +1466,107 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 20 — offer spec sheet
+   The commercial record of an offer, set as ruled label → value lines instead of
+   hidden inside a drawer. Approval lives in the sheet header so the card has one
+   dense information block, not five stacked ones.
+   ───────────────────────────────────────────────────────────────────────────── */
+.mw .oc-spec {
+  flex: none;
+  margin: 14px 0 0;
+  border: 1px solid var(--oc-line);
+  border-radius: 14px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.mw .oc-spec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 7px 12px 7px 14px;
+  border-bottom: 1px solid var(--oc-line);
+  background: linear-gradient(180deg, #f7fafc 0%, #ffffff 100%);
+}
+
+.mw .oc-spec-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9.5px;
+  font-weight: 780;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: #5f6f7d;
+}
+
+.mw .oc-spec-title svg {
+  color: color-mix(in srgb, var(--oc-accent) 70%, #33475b);
+}
+
+.mw .oc-spec-row {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 14px;
+  padding: 9px 14px;
+}
+
+.mw .oc-spec-row + .oc-spec-row {
+  border-top: 1px solid var(--oc-line-soft);
+}
+
+.mw .oc-spec-label {
+  font-size: 9.5px;
+  font-weight: 750;
+  line-height: 1.55;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #83919d;
+}
+
+.mw .oc-spec-value {
+  margin: 0;
+  min-width: 0;
+  font-size: 12.7px;
+  line-height: 1.55;
+  color: #2b3742;
+  overflow-wrap: anywhere;
+}
+
+.mw .oc-spec-value b {
+  font-weight: 650;
+  color: #14202b;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Two-up cards are narrower: the label column collapses above the value. */
+@container (max-width: 520px) {
+  .mw .oc-spec-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+    padding: 8px 13px;
+  }
+  .mw .oc-spec-label {
+    font-size: 9px;
+    letter-spacing: 0.13em;
+  }
+  .mw .oc-spec-value {
+    font-size: 12.2px;
+  }
+  .mw .oc-spec-head {
+    min-height: 40px;
+    padding: 6px 10px 6px 13px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mw .oc-spec-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+}
