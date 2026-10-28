@@ -1,5 +1,19 @@
-import React, { useMemo, useState } from 'react';
-import { ArrowRight, CalendarClock, Mail, Megaphone, MessageCircle, Pencil, Plus, Printer, RotateCcw, Trash2 } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ArrowRight,
+  CalendarClock,
+  Clock,
+  Dumbbell,
+  Mail,
+  Megaphone,
+  MessageCircle,
+  Pencil,
+  Plus,
+  Printer,
+  RotateCcw,
+  Star,
+  Trash2,
+} from 'lucide-react';
 import { MONTHS } from '../types';
 
 // Marketing & collaterals for one studio-month: one row per channel (WhatsApp, email, in-studio tent card), each
@@ -93,7 +107,7 @@ const LAYOUTS = {
 } as const;
 type Piece = keyof typeof LAYOUTS;
 // The house cut for each piece. A team that picks another layout still gets it, per offer.
-const HOUSE_LAYOUT: Record<Piece, string> = { square: 'overlay', email: 'overlay', tent: 'full' };
+const HOUSE_LAYOUT: Record<Piece, string> = { square: 'overlay', email: 'overlay', tent: 'classic' };
 
 // Offer wording → the kind of picture that sells it.
 const THEMES: [RegExp, string][] = [
@@ -113,6 +127,7 @@ const VOICE = {
     preheaders: ['Small moves, serious results — your first step is sorted.', 'Book your spot before the month runs out.'],
     cta: 'Book my first class',
     wa: 'Reply YES and we’ll save your spot at the barre.',
+    closing: ['Fifty-seven minutes.', 'Everything else follows.'],
   },
   lapsed: {
     headlines: ['Your spot at the barre is waiting.', 'Missed you at the barre.', 'Back to the shake.', 'Pick up where you left off.'],
@@ -122,6 +137,7 @@ const VOICE = {
     preheaders: ['A comeback offer, made for returning members.', 'Same studio, same shake, a softer way back in.'],
     cta: 'Claim my comeback',
     wa: 'Reply YES and we’ll hold a mat for your first class back.',
+    closing: ['Same energy. New goals.', 'Let’s make it happen.'],
   },
   renewal: {
     headlines: ['Keep the shake going.', 'Stronger, every single month.', 'Your results are just getting started.', 'Thank you for showing up.'],
@@ -131,6 +147,7 @@ const VOICE = {
     preheaders: ['A members-only thank-you for renewing early.', 'Lock in your next chapter at the barre.'],
     cta: 'Renew my membership',
     wa: 'Reply YES and we’ll renew you before your plan runs out.',
+    closing: ['Thank you for showing up.', 'Now let’s go further.'],
   },
 } as const;
 
@@ -149,6 +166,61 @@ const noPrice = (s: string) =>
     .replace(/\s{2,}/g, ' ')
     .trim();
 const clip = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
+
+// The back of a tent card states the offer in three clauses, each with a short caption and a
+// qualifier — "standing perk / on an 8-class pack or bigger". The clauses come from the offer's
+// own wording, so the card never says anything the plan does not.
+type TentPerk = { label: string; note: string; icon: 'dumbbell' | 'star' | 'clock' };
+const SPLIT_AT = /\s+(on|of|for|at|with|to|in)\s+/i;
+const perkIcon = (text: string, index: number): TentPerk['icon'] => {
+  if (/day|freeze|week|month|valid|until/i.test(text)) return 'clock';
+  if (/class|pack|session|private|pt\b|duo|guest/i.test(text)) return 'dumbbell';
+  return index === 0 ? 'star' : index === 1 ? 'dumbbell' : 'clock';
+};
+function tentPerks(sources: string[], tail: { studio: string; month: string }): TentPerk[] {
+  const seen = new Set<string>();
+  const out: TentPerk[] = [];
+  // A modifier opener reads as its own caption: "free / comeback class", "bonus / guest passes".
+  const MODIFIER = /^(free|bonus|extra|complimentary|annual|plus)$/i;
+  for (const source of sources) {
+    for (const raw of String(source || '').split(/(?:\s\+\s|\s·\s|\s+and\s+|;\s|\.\s|,\s(?=[a-z]))/)) {
+      const clause = raw.replace(/^[+\-–—\s]+/, '').replace(/[.\s]+$/, '').trim();
+      if (clause.length < 3 || clause.length > 74) continue;
+      const hit = clause.match(SPLIT_AT);
+      const at = hit && hit.index && hit.index > 2 ? hit.index : -1;
+      let label = at > 0 ? clause.slice(0, at).trim() : clause;
+      let note = at > 0 ? clause.slice(at + 1).trim() : '';
+      if (!note) {
+        const words = label.split(/\s+/);
+        if (words.length > 1 && MODIFIER.test(words[0])) {
+          label = words[0];
+          note = words.slice(1).join(' ');
+        }
+      }
+      if (!note) note = ['at the studio', `this ${tail.month.toLowerCase()}`, 'ask at reception'][out.length] || '';
+      const key = `${label}|${note}`.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({
+        label: clip(label, 26),
+        note: clip(note, 38),
+        icon: perkIcon(`${label} ${note}`, out.length),
+      });
+      if (out.length === 3) return out;
+    }
+  }
+  const fillers: TentPerk[] = [
+    { label: 'At the studio', note: tail.studio, icon: 'dumbbell' },
+    { label: `${tail.month} only`, note: 'while places last', icon: 'star' },
+    { label: 'Ask at reception', note: 'we will set it up', icon: 'clock' },
+  ];
+  for (const filler of fillers) {
+    if (out.length === 3) break;
+    if (out.some(p => p.label.toLowerCase() === filler.label.toLowerCase())) continue;
+    out.push(filler);
+  }
+  return out.slice(0, 3);
+}
 
 // Three different photos for one offer: matched to what the offer is about, then its audience, rotated by month and
 // studio so each month's creatives look different.
@@ -419,17 +491,23 @@ export default function MarketingCollaterals({
       },
     });
 
-  const defaultHeadline = tagline && tagline.length <= 46 ? tagline : v.headlines[seed % v.headlines.length];
+  // The client-facing line makes the best headline — unless it simply repeats the offer's name,
+  // which would print the same words twice on the card.
+  const bare = (value: string) => String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const headlineIsName = !!tagline && bare(tagline) === bare(String(offer.name || ''));
+  const defaultHeadline =
+    tagline && !headlineIsName && tagline.length <= 46 ? tagline : v.headlines[seed % v.headlines.length];
   const defaultAltHead = v.headlines[(seed + 1) % v.headlines.length];
   const detail = noPrice(String(offer.benefit || offer.headline || ''));
   // A tent card is read standing up: one whole line, cut at a sentence or a clause boundary.
-  const cardLine = (value: string, max: number) => {
+  const cardLine = (value: string, max: number, ellipsis = false) => {
     const clean = String(value || '').replace(/\s+/g, ' ').trim();
     if (clean.length <= max) return clean;
     const head = clean.slice(0, max);
+    const tail = ellipsis ? '…' : '.';
     const stop = Math.max(head.lastIndexOf('. '), head.lastIndexOf('; '), head.lastIndexOf(', '));
-    if (stop > max * 0.45) return head.slice(0, stop + 1).trim();
-    return `${head.replace(/[\s,;:.]+\S*$/, '')}.`;
+    if (stop > max * 0.45) return head.slice(0, stop).trim() + tail;
+    return `${head.replace(/[\s,;:.]+\S*$/, '')}${tail}`;
   };
   const offerName = clip(String(offer.name), 44);
   const defaultKicker = `${SLOT_LABEL[slot]} · ${monthName}`;
@@ -477,8 +555,61 @@ export default function MarketingCollaterals({
   const waLead = ov.waLead ?? 10;
   const emailLead = ov.emailLead ?? 12;
   const tentLead = ov.tentLead ?? 15;
-  const tentFront = ov.tentFront ?? headline;
-  const tentBack = ov.tentBack ?? `${offer.name}. ${detail} ${v.wa.replace('Reply YES and', 'Ask at reception and')}`;
+  // A tent card is read standing up: it takes the shortest line the voice offers,
+  // so the print stays one confident line the way the studio's own card does.
+  const cardHeadline = [...v.headlines].sort((a, b) => a.length - b.length)[0];
+  const tentFront = ov.tentFront ?? cardHeadline;
+  // One confident line, sized to the measure — a poster fits its line, it never wraps it.
+  const tentHeadSize = Math.min(7.2, 152 / Math.max(8, tentFront.length));
+  const tentKickSize = Math.min(4.05, 100 / Math.max(12, kicker.length));
+  // The card is a fixed print: copy that runs long shrinks the type block instead of
+  // spilling into the foot. Scaled together, so the hierarchy never changes.
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+  const fitCard = useCallback(() => {
+    const el = bodyRef.current;
+    if (!el) return;
+    // Line-clamped boxes report their clamped height to scrollHeight, so measure the
+    // children's real print extent instead.
+    const printed = () => {
+      let bottom = 0;
+      for (const child of Array.from(el.children)) {
+        const c = child as HTMLElement;
+        bottom = Math.max(bottom, c.offsetTop + c.offsetHeight);
+      }
+      return bottom;
+    };
+    let scale = 1;
+    el.style.setProperty('--ct-fit', '1');
+    for (let i = 0; i < 16; i += 1) {
+      if (printed() <= el.clientHeight + 1) break;
+      scale = Math.max(0.68, scale - 0.04);
+      el.style.setProperty('--ct-fit', scale.toFixed(3));
+    }
+  }, []);
+  useEffect(() => {
+    fitCard();
+    const el = bodyRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => fitCard());
+    ro.observe(el);
+    document.fonts?.ready.then(() => fitCard()).catch(() => undefined);
+    return () => ro.disconnect();
+  }, [fitCard, tentFront, kicker, detail, month]);
+  const tentBack = ov.tentBack ?? v.closing.join(' ');
+  // The back card states the offer in three clauses and closes with two short lines.
+  const perks = tentPerks(
+    [detail, String(offer.provenance?.pricing?.mechanic || ''), String(offer.benefit || '')],
+    { studio: studioName, month: monthName },
+  );
+  const closingLines = [v.closing[0], v.closing[1]];
+  const backQuote = (() => {
+    const written = String(ov.tentBack || '').trim();
+    if (written) {
+      const parts = written.split(/(?<=[.!?])\s+/).filter(Boolean);
+      return [parts[0] || written, parts.slice(1).join(' ')].filter(Boolean) as string[];
+    }
+    return closingLines;
+  })();
 
   const waSends = [
     { label: 'Launch broadcast', day: `1 ${monthName.slice(0, 3)}`, time: '9:00 AM', layout: '', photo: shots[0], kicker, headline, text: waLaunchText, button: waLaunchButton },
@@ -735,10 +866,12 @@ export default function MarketingCollaterals({
       {!hiddenChannels.includes('whatsapp') && (
         <div className="col-row is-wa">
           <div className="cr-stage">
-            <div className="wa-pair">
-              {waSends.map(w => (
+            <div className="wa-pair is-single">
+              {/* One screen: the message as it lands in a chat. The follow-up
+                  send is described beneath it rather than shown twice. */}
+              {waSends.slice(0, 1).map(w => (
                 <div key={w.label} className="wa-send">
-                  <span className="wa-label">{w.label}</span>
+                  <span className="wa-label">{w.label} · {w.day}, {w.time}</span>
                   <div className="wa-phone">
                     <div className="wa-bar">
                       <span className="wa-back">‹</span>
@@ -768,6 +901,11 @@ export default function MarketingCollaterals({
                       <div className="wa-buttons"><span>{w.button}</span><span>Stop promotions</span></div>
                     </div>
                     <div className="wa-input"><span>Message</span><i /></div>
+                  </div>
+                  <div className="wa-followup">
+                    <span>Then, 48 hours before close</span>
+                    <b>{waReminderHeadline}</b>
+                    <em>{waReminderButton}</em>
                   </div>
                 </div>
               ))}
@@ -906,25 +1044,40 @@ export default function MarketingCollaterals({
         </div>
       )}
 
-      {/* Tent card: A4 portrait, shown standing on the reception counter */}
+      {/* Tent card: the printed face laid onto the card in the studio photograph */}
       {!hiddenChannels.includes('tent') && (
         <div className="col-row is-tent">
           <div className="cr-stage">
             <div className="cr-tent-stage">
-              <figure className={`cr-tent is-${layout('tent')}`}>
-                <div className="cr-tent-photo" style={bg(shots[2])}>
-                  <span className="cr-badge cr-value"><b>{monthName.slice(0, 3)}</b><em>only</em></span>
-                </div>
-                <div className="cr-tent-body">
-                  <Logo />
-                  <small>{kicker}</small>
-                  <h3>{tentFront}</h3>
-                  <p>
-                    <b>{offerName}.</b> {cardLine(detail, 96)}
-                  </p>
-                  <div className="cr-tent-foot">
-                    <div className="cr-qr" aria-hidden="true">{Array.from({ length: 49 }, (_, i) => <i key={i} className={(i * 7 + month * 3 + i * i) % 3 ? '' : 'on'} />)}</div>
-                    <div><b>Scan to claim</b><span>Or ask at reception · {closes}</span></div>
+              <figure className={`cr-tent cr-tent-front is-${layout('tent')}`}>
+                <div className="ct-sheet">
+                  <div className="ct-photo" style={bg(shots[2])}>
+                    <span className="ct-seal">
+                      <b>{monthName.slice(0, 3)}</b>
+                      <em>only</em>
+                    </span>
+                  </div>
+                  <div className="ct-body" ref={bodyRef}>
+                    <img className="ct-logo" src="/p57/logo.png" alt="Physique 57 India" />
+                    <span className="ct-kicker" style={{ fontSize: `${tentKickSize.toFixed(2)}cqw` }}>{kicker}</span>
+                    <h3 className="ct-headline" style={{ fontSize: `calc(${tentHeadSize.toFixed(2)}cqw * var(--ct-fit, 1))` }}>
+                      {tentFront}
+                    </h3>
+                    <p className="ct-detail">
+                      {!bare(detail).startsWith(bare(offerName).slice(0, 14)) && <b>{offerName}. </b>}
+                      {cardLine(detail, 104, true)}
+                    </p>
+                  </div>
+                  <div className="ct-foot">
+                    <div className="cr-qr" aria-hidden="true">
+                      {Array.from({ length: 49 }, (_, i) => (
+                        <i key={i} className={(i * 7 + month * 3 + i * i) % 3 ? '' : 'on'} />
+                      ))}
+                    </div>
+                    <div>
+                      <b>Scan to claim</b>
+                      <span>Or ask at reception · {closes}</span>
+                    </div>
                   </div>
                 </div>
               </figure>
@@ -947,8 +1100,8 @@ export default function MarketingCollaterals({
                     <input value={tentFront} onChange={e => patchOfferOv({ tentFront: e.target.value })} />
                   </label>
                   <label>
-                    <small>Back copy</small>
-                    <textarea rows={3} value={tentBack} onChange={e => patchOfferOv({ tentBack: e.target.value })} />
+                    <small>Back pull-quote (one line per sentence)</small>
+                    <textarea rows={2} value={tentBack} onChange={e => patchOfferOv({ tentBack: e.target.value })} />
                   </label>
                 </div>
               ) : (
@@ -956,7 +1109,15 @@ export default function MarketingCollaterals({
                   <small>Front</small>
                   <p>{tentFront}</p>
                   <small>Back</small>
-                  <p>{tentBack}</p>
+                  <ul className="ct-back-list">
+                    {perks.map((perk, i) => (
+                      <li key={`${perk.label}-${i}`}>
+                        <b>{perk.label}</b>
+                        {perk.note ? ` — ${perk.note}` : ''}
+                      </li>
+                    ))}
+                  </ul>
+                  <p>{backQuote.join(' ')}</p>
                 </>
               )
             }

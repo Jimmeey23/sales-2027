@@ -3,6 +3,8 @@ import { db, audit } from '../db.js';
 import { permission, canAccessStudio } from '../lib/auth.js';
 import { renewalReport } from '../lib/renewals.js';
 import { aiCopilot, copilotCapability, deterministicCopilot } from '../lib/copilot.js';
+import { answerQuestion, engineCapability, warmCopilot } from '../lib/copilot/engine.js';
+import { cacheStats, invalidateCopilotCache } from '../lib/copilot/context.js';
 import { asyncRoute, bodyError, id, studioFilter } from '../http.js';
 import { persistOffer } from './offers.js';
 import type { Express } from 'express';
@@ -25,7 +27,10 @@ export default function registerCopilotRoutes(app: Express) {
       ),
     );
   });
-  app.get('/api/copilot/capability', (_req, res) => res.json(copilotCapability()));
+  app.get('/api/copilot/capability', (_req, res) => {
+    warmCopilot();
+    res.json({ ...copilotCapability(), engineInfo: engineCapability(), cache: cacheStats() });
+  });
   app.get('/api/copilot/conversations', (req, res) => {
     const rows = db
       .prepare(
@@ -97,12 +102,22 @@ export default function registerCopilotRoutes(app: Express) {
       )
         .reverse()
         .map(item => ({ ...item, attachments: JSON.parse(item.attachments || '{}') }));
-      const deterministic = await deterministicCopilot(message, studioId, history);
+      // Engine v2 answers deterministically from the database; the legacy planner stays as a fallback.
+      let answer: any = null,
+        engineMeta: any = null;
+      try {
+        const result = answerQuestion({ message, studioId, history });
+        answer = result.answer;
+        engineMeta = result.meta;
+      } catch (error: any) {
+        if (error?.status) throw error;
+        answer = await deterministicCopilot(message, studioId, history);
+      }
       const resolvedStudioId =
-        deterministic.attachments?.concept?.studioId ||
-        deterministic.attachments?.plan?.studioId ||
-        deterministic.attachments?.report?.studioId ||
-        deterministic.attachments?.studioId ||
+        answer.attachments?.studioId ||
+        answer.attachments?.concept?.studioId ||
+        answer.attachments?.plan?.studioId ||
+        answer.attachments?.report?.studioId ||
         studioId;
       if (resolvedStudioId && !canAccessStudio(req.user, resolvedStudioId))
         throw bodyError('The resolved studio is outside your access scope.', 403);
@@ -112,15 +127,20 @@ export default function registerCopilotRoutes(app: Express) {
           'AI provider is not configured. Choose Deterministic Copilot; no AI response has been fabricated.',
           503,
         );
-      // AI answers every question when configured; a matched deterministic workflow is passed in as validated facts.
-      const matched = !['unrecognised', 'studio_required', 'help'].includes(deterministic.attachments?.type);
-      let answer: any = deterministic;
+      // AI answers every question when configured; the deterministic answer is passed in as validated facts.
+      const matched = !['unrecognised', 'studio_required', 'help', 'explain', 'navigation'].includes(
+        answer.attachments?.type,
+      );
+      const deterministicAnswer = answer;
       if (process.env.OPENAI_API_KEY && requestedMode !== 'deterministic') {
         try {
-          answer = await aiCopilot(message, resolvedStudioId, history, matched ? deterministic : null);
+          answer = await aiCopilot(message, resolvedStudioId, history, matched ? deterministicAnswer : null);
         } catch (error: any) {
           if (requestedMode === 'ai') throw error;
-          answer = { ...deterministic, content: `${deterministic.content}\n\n(AI was unavailable: ${error.message})` };
+          answer = {
+            ...deterministicAnswer,
+            content: `${deterministicAnswer.content}\n\n(AI was unavailable: ${error.message})`,
+          };
         }
       }
       let savedOffer: any = null;
@@ -141,6 +161,7 @@ export default function registerCopilotRoutes(app: Express) {
             savedOfferId: savedOffer.id,
             savedOfferUid: savedOffer.offer_uid,
           };
+          invalidateCopilotCache();
           answer.content = answer.content
             .replace(
               'This concept is ready to save as a draft; it will not be approved or published automatically.',
@@ -174,7 +195,13 @@ export default function registerCopilotRoutes(app: Express) {
         entityType: 'copilot_conversation',
         entityId: conversation.id,
         studioId: resolvedStudioId,
-        after: { mode: answer.mode, savedOfferId: savedOffer?.id || null, assistantMessageId: assistantId },
+        after: {
+          mode: answer.mode,
+          savedOfferId: savedOffer?.id || null,
+          assistantMessageId: assistantId,
+          intent: engineMeta?.intent ?? answer.attachments?.intent?.id ?? null,
+          engineMs: engineMeta?.timings?.total ?? null,
+        },
       });
       res
         .status(201)
@@ -188,6 +215,7 @@ export default function registerCopilotRoutes(app: Express) {
             mode: answer.mode,
           },
           savedOffer,
+          meta: engineMeta,
         });
     }),
   );
