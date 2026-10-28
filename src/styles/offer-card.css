@@ -1526,7 +1526,7 @@
   line-height: 1.55;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: #83919d;
+  color: color-mix(in srgb, var(--oc-accent) 38%, #7b8995);
 }
 
 .mw .oc-spec-value {
