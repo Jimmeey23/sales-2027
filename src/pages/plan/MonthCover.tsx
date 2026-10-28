@@ -39,6 +39,10 @@ const TONES = ['var(--mc-a)', 'var(--mc-b)', 'var(--mc-c)'];
    fractional hash spreads each piece across the width, with its own delay, fall time and
    drift, so nothing lines up into columns. Purely decorative, all of it CSS-driven. */
 const CONFETTI = ['#e6c16a', '#f3a9c9', '#c9a6ff', '#ffe9a8', '#8fe0c5', '#ffd7a8', '#ffffff'];
+/** The anniversary the studio is keeping this year. Named once, used everywhere on the cover. */
+const ANNIVERSARY_YEARS = 9;
+const YEARS_WORD = 'nine';
+const YEARS_TITLE = 'Nine';
 const frac = (i: number, seed: number) => {
   const x = Math.sin((i + 1) * seed) * 10000;
   return x - Math.floor(x);
@@ -248,27 +252,32 @@ export default function MonthCover({
           </div>
 
           {/* Bunting strung across the top of the sheet. */}
-          <div className="mc-bunting" aria-hidden="true">
-            {Array.from({ length: 17 }).map((_, i) => (
-              <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
-            ))}
-          </div>
-
           {/* A gilded frame, so the whole page reads as an invitation. */}
           <div className="mc-frame" aria-hidden="true">
             <span />
           </div>
+        </>
+      )}
 
-          <div className="mc-crest" aria-hidden="true">
+      {/* The garland band. It is a real flex row above the sheet, not an overlay, so the
+          month navigation below it can never be covered - not at rest, not while scrolling. */}
+      {birthday && (
+        <div className="mc-garland" aria-hidden="true">
+          <div className="mc-bunting">
+            {Array.from({ length: 17 }).map((_, i) => (
+              <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
+            ))}
+          </div>
+          <div className="mc-crest">
             <span className="mc-crest-crown">
               <Crown size={15} />
             </span>
             <span className="mc-crest-copy">
               <b>The Anniversary</b>
-              <em>Still Shaking · one year</em>
+              <em>Still Shaking · {YEARS_WORD} years</em>
             </span>
           </div>
-        </>
+        </div>
       )}
 
       <div className="mc-scroll">
@@ -316,8 +325,8 @@ export default function MonthCover({
               <div className="mc-medallion" aria-hidden="true">
                 <span className="mc-med-halo" />
                 <span className="mc-med-ring">
-                  <b>1</b>
-                  <em>year</em>
+                  <b>{ANNIVERSARY_YEARS}</b>
+                  <em>years</em>
                 </span>
                 <span className="mc-med-crown">
                   <Crown size={17} />
@@ -348,7 +357,7 @@ export default function MonthCover({
           {birthday && (
             <p className="mc-ribbon">
               <PartyPopper size={13} />
-              <span>One year of Physique 57 India</span>
+              <span>{YEARS_TITLE} years of Physique 57 India</span>
               <Cake size={13} />
             </p>
           )}

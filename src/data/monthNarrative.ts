@@ -98,7 +98,7 @@ export const MONTH_CHAPTERS: MonthChapter[] = [
     theme: 'Still Shaking',
     kicker: 'The anniversary',
     moment:
-      'The brand turns a year older. The flagship is a numbered annual, and the month around it is a birthday programme that fills the room.',
+      'The brand turns nine. The flagship is a numbered annual, and the month around it is a birthday programme that fills the room.',
     objective:
       'Sell the flagship of the year — fifty-seven numbered annuals in three tiers, capped and hard-closed — inside a month of anniversary events.',
     brief:

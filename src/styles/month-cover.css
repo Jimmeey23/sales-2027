@@ -826,7 +826,7 @@
 }
 
 /* ═══ April · the anniversary cover ═══════════════════════════════════════════
-   The month the brand turns a year older dresses for it: a royal plum ground under
+   The month the brand turns nine dresses for it: a royal plum ground under
    the photograph, gold rules, a crown crest, confetti, and the month name set in
    gold foil. Everything here is scoped to `.is-birthday`, so the other eleven covers
    are untouched. */
@@ -1284,7 +1284,8 @@
 }
 .mc-medallion {
   position: absolute;
-  top: -46px;
+  /* Starts level with the hero, clear of the navigation band above it. */
+  top: 0;
   right: -4%;
   z-index: -1;
   display: grid;
@@ -1473,7 +1474,7 @@
     width: 168px;
     height: 168px;
     right: -2%;
-    top: -34px;
+    top: 0;
     opacity: 0.9;
   }
   .mc-med-ring b {
@@ -1536,10 +1537,81 @@
 .mw-monthcover.is-birthday .mc-hero::before {
   content: '';
   position: absolute;
-  inset: -48px -64px -32px -40px;
+  inset: -20px -64px -32px -40px;
   z-index: -1;
   border-radius: 50%;
   background: radial-gradient(58% 66% at 26% 46%, rgba(230, 193, 106, 0.16) 0%, transparent 70%),
     radial-gradient(40% 50% at 74% 30%, rgba(201, 166, 255, 0.14) 0%, transparent 72%);
   pointer-events: none;
+}
+
+/* ═══ April · the garland band ════════════════════════════════════════════════
+   The decorations must never sit on top of the month navigation. Bunting and the
+   crest therefore live in a real band above the sheet — a flex row with its own
+   height — instead of floating over the page. The navigation starts below it, so
+   it cannot be covered at rest or while the sheet scrolls. */
+.mc-garland {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 auto;
+  height: 92px;
+  pointer-events: none;
+}
+.mc-garland .mc-bunting {
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+.mc-garland .mc-bunting::before {
+  top: 26px;
+}
+.mc-garland .mc-bunting i {
+  top: 26px;
+}
+/* The crest hangs in the gap left for it in the middle of the garland. */
+.mc-garland .mc-crest {
+  top: 18px;
+  right: 0;
+  left: 0;
+  width: fit-content;
+  margin-inline: auto;
+  pointer-events: none;
+}
+/* Nothing decorative may intercept a click meant for the controls. */
+.mc-crest,
+.mc-bunting,
+.mc-frame,
+.mc-garland {
+  pointer-events: none;
+}
+/* Leave a gap in the garland for the crest to hang in. */
+.mc-bunting i:nth-child(8),
+.mc-bunting i:nth-child(9),
+.mc-bunting i:nth-child(10) {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .mc-garland {
+    height: 78px;
+  }
+}
+@media (max-width: 560px) {
+  .mc-garland {
+    height: 68px;
+  }
+  .mc-garland .mc-crest {
+    top: 14px;
+    padding: 5px 11px 5px 6px;
+  }
+  .mc-garland .mc-bunting::before,
+  .mc-garland .mc-bunting i {
+    top: 22px;
+  }
+}
+
+/* The garland takes real height, so the sheet must not also claim a full 100%:
+   together they would overflow the cover and clip the footer. */
+.mw-monthcover.is-birthday .mc-scroll {
+  min-height: 0;
 }
