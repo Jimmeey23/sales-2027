@@ -4448,3 +4448,18 @@
     padding-top: 26px;
   }
 }
+
+/* ── The AI gate ────────────────────────────────────────────────────────────
+   The passcode now opens one door: the AI. Everything else in the month is edited
+   in place, so the header carries a quiet "Unlock AI" affordance rather than a
+   passcode box standing over the whole page. */
+.mw .mw-head-actions .mw-ai-gate-btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 13px; border: 1px solid rgba(255,255,255,0.14); border-radius: 9px; background: rgba(255,255,255,0.05); color: rgba(226,232,240,0.72); font-size: 11.5px; font-weight: 600; letter-spacing: 0.01em; cursor: pointer; transition: border-color 150ms ease, background 150ms ease, color 150ms ease; }
+.mw .mw-head-actions .mw-ai-gate-btn:hover { border-color: rgba(255,255,255,0.26); background: rgba(255,255,255,0.1); color: #fff; }
+.mw .mw-head-actions .mw-ai-gate-btn svg { color: var(--a1); }
+.mw-hero-gate .mw-gate-dismiss { display: grid; place-items: center; width: 22px; height: 22px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; }
+.mw-hero-gate .mw-gate-dismiss:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.mw .mw-edit-status.is-ai > span svg { color: var(--a1); }
+
+/* The section rename pencil, beside the delete control. */
+.mw .mw-sh-actions .mw-sh-rename.is-on { background: color-mix(in srgb, var(--a1) 18%, transparent); color: var(--a1); }
+.mw .mw-sh.is-renaming .mw-sh-title-in { font-weight: 600; }

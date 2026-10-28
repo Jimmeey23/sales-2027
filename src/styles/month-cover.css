@@ -1088,3 +1088,458 @@
     transform: none;
   }
 }
+
+/* ═══ April · the grand anniversary treatment ═════════════════════════════════
+   The second pass on the birthday cover: a deeper confetti layer in four shapes, rising
+   balloons, bunting across the top, a gilded frame around the sheet, a struck year
+   medallion behind the title, and a ribbon under it. Every rule is scoped to
+   `.is-birthday`, and all of the movement is switched off under reduced motion. */
+
+/* ── Confetti: four shapes, scattered, drifting ───────────────────────────── */
+.mw-monthcover.is-birthday .mc-confetti i {
+  left: var(--x, 50%);
+  top: -8vh;
+  width: 7px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--c, var(--mc-gold));
+  opacity: 0;
+  animation: mc-fall var(--du, 12s) linear var(--dl, 0s) infinite;
+  will-change: transform, opacity;
+}
+/* Shapes: foil strip, dot, star-ish diamond, thin ribbon. */
+.mw-monthcover.is-birthday .mc-confetti i[data-shape='1'] {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.mw-monthcover.is-birthday .mc-confetti i[data-shape='2'] {
+  width: 9px;
+  height: 9px;
+  border-radius: 1px;
+  transform: rotate(45deg);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.mw-monthcover.is-birthday .mc-confetti i[data-shape='3'] {
+  width: 3px;
+  height: 16px;
+  border-radius: 999px;
+}
+.mw-monthcover.is-birthday .mc-confetti i[data-shape='0'] {
+  box-shadow: 0 0 8px rgba(255, 233, 168, 0.35);
+}
+
+@keyframes mc-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+  }
+  6% {
+    opacity: 0.95;
+  }
+  50% {
+    transform: translate3d(calc(var(--dr, 0px) * 0.6), 52vh, 0) rotate(calc(var(--spin, 180deg) * 0.5));
+  }
+  92% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dr, 0px), 112vh, 0) rotate(var(--spin, 360deg));
+  }
+}
+
+/* ── Balloons: the slowest layer ──────────────────────────────────────────── */
+.mc-balloons {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mc-balloons > span {
+  position: absolute;
+  bottom: -22vh;
+  left: var(--x, 50%);
+  width: var(--size, 42px);
+  height: calc(var(--size, 42px) * 1.22);
+  animation: mc-balloon-rise var(--du, 22s) linear var(--dl, 0s) infinite;
+  will-change: transform;
+}
+.mc-balloons > span > i {
+  position: absolute;
+  inset: 0;
+  border-radius: 50% 50% 46% 46%;
+  background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.72) 0 8%, transparent 46%),
+    linear-gradient(160deg, var(--c, var(--mc-gold)) 0%, rgba(42, 16, 53, 0.86) 128%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 18px 38px -26px rgba(0, 0, 0, 0.85);
+}
+/* The string. */
+.mc-balloons > span::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1px;
+  height: 58px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0));
+}
+
+@keyframes mc-balloon-rise {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-4deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(16px, -64vh, 0) rotate(5deg);
+  }
+  92% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(-10px, -128vh, 0) rotate(-3deg);
+    opacity: 0;
+  }
+}
+
+/* ── Bunting across the top ───────────────────────────────────────────────── */
+.mc-bunting {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 74px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mc-bunting::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: -2%;
+  right: -2%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--mc-gold-soft) 12%, var(--mc-gold-soft) 88%, transparent);
+}
+.mc-bunting i {
+  position: absolute;
+  top: 12px;
+  left: calc(2% + var(--i) * 5.75%);
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 26px solid var(--mc-gold);
+  transform-origin: 50% 0;
+  opacity: 0.72;
+  animation: mc-sway calc(5.2s + var(--i) * 0.09s) ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.31s);
+}
+.mc-bunting i:nth-child(3n) {
+  border-top-color: #f3a9c9;
+  opacity: 0.6;
+}
+.mc-bunting i:nth-child(3n + 2) {
+  border-top-color: #c9a6ff;
+  opacity: 0.58;
+}
+.mc-bunting i:nth-child(4n) {
+  border-top-width: 20px;
+}
+
+@keyframes mc-sway {
+  from {
+    transform: rotate(-3.5deg);
+  }
+  to {
+    transform: rotate(3.5deg);
+  }
+}
+
+/* ── Gilded frame ─────────────────────────────────────────────────────────── */
+.mc-frame {
+  position: absolute;
+  inset: 13px;
+  z-index: 5;
+  border: 1px solid rgba(230, 193, 106, 0.3);
+  border-radius: 15px;
+  pointer-events: none;
+}
+.mc-frame > span {
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(230, 193, 106, 0.13);
+  border-radius: 11px;
+}
+
+/* ── Year medallion ───────────────────────────────────────────────────────── */
+.mw-monthcover.is-birthday .mc-hero {
+  position: relative;
+}
+.mc-medallion {
+  position: absolute;
+  top: -46px;
+  right: -4%;
+  z-index: -1;
+  display: grid;
+  place-items: center;
+  width: 216px;
+  height: 216px;
+  pointer-events: none;
+  animation: mc-rise 1.1s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mc-med-halo {
+  position: absolute;
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(230, 193, 106, 0.3) 0%, rgba(230, 193, 106, 0.08) 42%, transparent 68%);
+  animation: mc-halo 6.5s ease-in-out infinite;
+}
+.mc-med-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(230, 193, 106, 0.55);
+  background: radial-gradient(circle at 34% 26%, rgba(255, 248, 227, 0.22), transparent 52%),
+    linear-gradient(160deg, rgba(74, 30, 90, 0.86), rgba(28, 11, 38, 0.94));
+  box-shadow:
+    0 0 0 7px rgba(230, 193, 106, 0.07),
+    0 0 0 8px rgba(230, 193, 106, 0.24) inset,
+    0 30px 70px -40px rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(6px);
+}
+.mc-med-ring b {
+  font-family: 'Bodoni Moda', 'Iowan Old Style', Georgia, serif;
+  font-size: 96px;
+  font-weight: 500;
+  line-height: 0.8;
+  margin-top: 12px;
+  background: linear-gradient(176deg, #fff8e3 8%, var(--mc-gold) 52%, var(--mc-gold-deep) 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.mc-med-ring em {
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(230, 193, 106, 0.86);
+}
+.mc-med-crown {
+  position: absolute;
+  top: -8px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--mc-gold), var(--mc-gold-deep));
+  color: #2a1035;
+  box-shadow:
+    0 0 0 3px rgba(23, 10, 32, 0.7),
+    0 10px 24px -12px rgba(0, 0, 0, 0.9);
+}
+.mc-med-rays {
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(230, 193, 106, 0.16) 0deg 2deg, transparent 2deg 16deg);
+  -webkit-mask: radial-gradient(circle, transparent 46%, #000 62%, transparent 78%);
+  mask: radial-gradient(circle, transparent 46%, #000 62%, transparent 78%);
+  animation: mc-rays 44s linear infinite;
+  opacity: 0.55;
+}
+
+@keyframes mc-rays {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes mc-halo {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(0.97);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* ── Sparkle field over the title ─────────────────────────────────────────── */
+.mc-sparkle-field {
+  position: absolute;
+  inset: -18px -10px;
+  z-index: -1;
+  pointer-events: none;
+}
+.mc-sparkle-field svg {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 40%);
+  color: var(--mc-gold);
+  opacity: 0;
+  animation: mc-twinkle 4.2s ease-in-out infinite;
+  animation-delay: calc(var(--dl, 0s) * 0.8);
+}
+.mc-sparkle-field svg:nth-child(2n) {
+  top: 62%;
+  color: #f3a9c9;
+}
+.mc-sparkle-field svg:nth-child(3n) {
+  top: 24%;
+}
+
+@keyframes mc-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  45% {
+    opacity: 0.9;
+    transform: scale(1) rotate(35deg);
+  }
+  70% {
+    opacity: 0.25;
+  }
+}
+
+/* ── Ribbon under the month name ──────────────────────────────────────────── */
+.mc-ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+  margin: 6px 0 0;
+  padding: 7px 16px;
+  border: 1px solid rgba(230, 193, 106, 0.5);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(230, 193, 106, 0.16), rgba(230, 193, 106, 0.04)), rgba(23, 10, 32, 0.5);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--mc-gold);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  animation: mc-rise 0.9s 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mc-ribbon svg {
+  color: var(--mc-gold);
+  opacity: 0.9;
+}
+.mc-ribbon span {
+  background: linear-gradient(90deg, var(--mc-gold) 0%, #fff8e3 42%, var(--mc-gold) 78%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: mc-shine 6s linear infinite;
+}
+
+@keyframes mc-shine {
+  to {
+    background-position: 220% 0;
+  }
+}
+
+/* ── A deeper glow behind the gilded title ────────────────────────────────── */
+.mw-monthcover.is-birthday .mc-hero h2 {
+  filter: drop-shadow(0 22px 48px rgba(230, 193, 106, 0.28));
+}
+
+/* ── Smaller screens ──────────────────────────────────────────────────────── */
+/* Text keeps clear of the medallion on wide screens instead of running underneath it. */
+@media (min-width: 1181px) {
+  .mw-monthcover.is-birthday .mc-hero {
+    padding-right: 232px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .mc-medallion {
+    width: 168px;
+    height: 168px;
+    right: -2%;
+    top: -34px;
+    opacity: 0.9;
+  }
+  .mc-med-ring b {
+    font-size: 74px;
+  }
+}
+@media (max-width: 900px) {
+  .mc-medallion {
+    display: none;
+  }
+  .mc-balloons > span:nth-child(n + 4) {
+    display: none;
+  }
+  .mc-bunting i:nth-child(n + 12) {
+    display: none;
+  }
+}
+@media (max-width: 560px) {
+  .mc-frame {
+    inset: 7px;
+  }
+  .mc-bunting {
+    height: 52px;
+  }
+  .mc-bunting i {
+    border-top-width: 18px;
+  }
+  .mc-ribbon {
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    padding: 6px 12px;
+  }
+}
+
+/* ── Motion off ───────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mc-balloons,
+  .mc-bunting,
+  .mc-sparkle-field {
+    display: none;
+  }
+  .mc-med-rays,
+  .mc-med-halo {
+    animation: none;
+  }
+  .mc-ribbon span {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--mc-gold);
+  }
+}
+
+/* ── April's title sits a size above the rest of the year ─────────────────── */
+.mw-monthcover.is-birthday .mc-hero h2 {
+  font-size: clamp(64px, 9.4vw, 132px);
+  letter-spacing: -0.015em;
+}
+/* A warm bloom behind the title, so the gold type sits in light rather than on a photo. */
+.mw-monthcover.is-birthday .mc-hero::before {
+  content: '';
+  position: absolute;
+  inset: -48px -64px -32px -40px;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(58% 66% at 26% 46%, rgba(230, 193, 106, 0.16) 0%, transparent 70%),
+    radial-gradient(40% 50% at 74% 30%, rgba(201, 166, 255, 0.14) 0%, transparent 72%);
+  pointer-events: none;
+}

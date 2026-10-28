@@ -75,16 +75,17 @@ const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
 /* The month is read as four pages rather than one long scroll: the story, the numbers,
    the offers and the work. Every section keeps its id and its edit controls; the page
    only decides what is on screen at once. */
-type PlanPage = 'overview' | 'targets' | 'offers' | 'execution';
+type PlanPage = 'overview' | 'targets' | 'offers' | 'collaterals' | 'execution';
 const PAGE_OF_SECTION: Record<string, PlanPage> = {
   days: 'overview',
   focus: 'targets',
   ai: 'targets',
   coverage: 'targets',
   offers: 'offers',
+  // Collateral has its own page: it is the list the studio actually produces from.
+  collaterals: 'collaterals',
   acts: 'execution',
   actions: 'execution',
-  collaterals: 'execution',
 };
 const LIVE = (o: any) => !['archived', 'rejected'].includes(o.status);
 // A month's copy points back at the bank offer it was picked from.
@@ -492,7 +493,10 @@ export default function MonthWorkspace({
     [mathsOpen, setMathsOpen] = useState(false),
     [prices, setPrices] = useState<Prices | null>(null),
     [masterCode, setMasterCode] = useState(''),
-    [masterCodeError, setMasterCodeError] = useState('');
+    [masterCodeError, setMasterCodeError] = useState(''),
+    // The passcode now opens one door only: the AI. It is asked for when an AI control is
+    // used, not before the month can be edited.
+    [aiGateOpen, setAiGateOpen] = useState(false);
   // The cover is the first page of a month: it mounts with the workspace and re-animates on month changes.
   const [coverOpen, setCoverOpen] = useState(true);
   const [page, setPage] = useState<PlanPage>('overview');
@@ -512,7 +516,11 @@ export default function MonthWorkspace({
   const targetRow = plan.detail.targets.find((t: any) => t.month === month);
   const saved = plan.detail.plans.find((p: any) => p.month === month);
   const locked = saved?.status === 'approved';
-  const editable = canEditPlan && masterUnlocked && !locked;
+  // Editing is a permission, not a password: anyone who may edit the plan edits it directly,
+  // from the pencil on the thing they want to change.
+  const editable = canEditPlan && !locked;
+  // The passcode is kept for the one thing that spends money and writes copy on its own: the AI.
+  const aiReady = masterUnlocked;
   // Adding, removing and swapping offers needs no passcode.
   const offersEditable = (canEditPlan || can('offer_edit')) && !locked;
   const others = 3;
@@ -905,6 +913,11 @@ export default function MonthWorkspace({
   const [strategyRawMode, setStrategyRawMode] = useState(false);
 
   const generateFocus = async () => {
+    if (!aiReady) {
+      toast('Unlock the AI passcode to generate the brief.', 'error');
+      setAiGateOpen(true);
+      return;
+    }
     setGenerating(true);
     try {
       // Split the target across streams in proportion to the revenue each stream's offers carry.
@@ -1123,6 +1136,11 @@ export default function MonthWorkspace({
   const [regenerating, setRegenerating] = useState<number | null>(null);
   // "Generate with AI" on a card: a new, better-optimised offer replaces this one in the same card.
   const regenerateOffer = async (o: any) => {
+    if (!aiReady) {
+      toast('Unlock the AI passcode to generate offers.', 'error');
+      setAiGateOpen(true);
+      return;
+    }
     setRegenerating(o.id);
     try {
       const r = await api<{ offerId: number; proposal: { name: string } }>(
@@ -1332,6 +1350,7 @@ export default function MonthWorkspace({
     { id: 'overview', label: 'Overview' },
     { id: 'targets', label: 'Targets & mix' },
     { id: 'offers', label: 'Offers', meta: selected.length ? String(selected.length) : undefined },
+    { id: 'collaterals', label: 'Collaterals' },
     { id: 'execution', label: 'Execution' },
   ];
   const heroPhoto = (offset: number) => PAGE_PHOTOS[(month + offset) % PAGE_PHOTOS.length];
@@ -1347,6 +1366,7 @@ export default function MonthWorkspace({
       await unlockAdmin(masterCode);
       setMasterCode('');
       setMasterCodeError('');
+      setAiGateOpen(false);
     } catch (error: any) {
       setMasterCodeError(error.message || 'That passcode is incorrect.');
       setMasterCode('');
@@ -1419,42 +1439,56 @@ export default function MonthWorkspace({
                   <span>Maths</span>
                 </button>
               )}
-              {canEditPlan &&
-                (masterUnlocked ? (
-                  <div className="mw-edit-status">
-                    <span>
-                      <Pencil size={11} /> Edit mode
+              {/* One passcode, one purpose: the AI. Everything else is edited in place. */}
+              {aiReady ? (
+                <div className="mw-edit-status is-ai">
+                  <span>
+                    <Sparkles size={11} /> AI unlocked
+                  </span>
+                  <Button variant="secondary" icon={<LockKeyhole size={13} />} onClick={lockEditing}>
+                    Lock
+                  </Button>
+                </div>
+              ) : aiGateOpen ? (
+                <form className="mw-hero-gate" onSubmit={unlockEditing}>
+                  <LockKeyhole size={13} />
+                  <input
+                    aria-label="AI passcode"
+                    type="password"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={4}
+                    autoFocus
+                    value={masterCode}
+                    onChange={e => {
+                      setMasterCode(e.target.value.replace(/\D/g, '').slice(0, 4));
+                      setMasterCodeError('');
+                    }}
+                    placeholder="AI passcode"
+                  />
+                  <button type="submit" disabled={masterCode.length !== 4}>
+                    Unlock
+                  </button>
+                  <button
+                    type="button"
+                    className="mw-gate-dismiss"
+                    onClick={() => setAiGateOpen(false)}
+                    aria-label="Cancel"
+                  >
+                    <X size={12} />
+                  </button>
+                  {masterCodeError && (
+                    <span className="mw-hero-gate-error" role="alert">
+                      {masterCodeError}
                     </span>
-                    <Button variant="secondary" icon={<LockKeyhole size={13} />} onClick={lockEditing}>
-                      Lock
-                    </Button>
-                  </div>
-                ) : (
-                  <form className="mw-hero-gate" onSubmit={unlockEditing}>
-                    <LockKeyhole size={13} />
-                    <input
-                      aria-label="Master passcode"
-                      type="password"
-                      inputMode="numeric"
-                      autoComplete="one-time-code"
-                      maxLength={4}
-                      value={masterCode}
-                      onChange={e => {
-                        setMasterCode(e.target.value.replace(/\D/g, '').slice(0, 4));
-                        setMasterCodeError('');
-                      }}
-                      placeholder="Passcode"
-                    />
-                    <button type="submit" disabled={masterCode.length !== 4}>
-                      Unlock
-                    </button>
-                    {masterCodeError && (
-                      <span className="mw-hero-gate-error" role="alert">
-                        {masterCodeError}
-                      </span>
-                    )}
-                  </form>
-                ))}
+                  )}
+                </form>
+              ) : (
+                <button type="button" className="mw-ai-gate-btn" onClick={() => setAiGateOpen(true)}>
+                  <Sparkles size={13} />
+                  <span>Unlock AI</span>
+                </button>
+              )}
               {editable && (
                 <label className={`mw-solo ${solo ? 'on' : ''}`} title="When off, offer changes copy to every location">
                   <input type="checkbox" checked={solo} onChange={e => setSolo(e.target.checked)} />
@@ -1463,7 +1497,7 @@ export default function MonthWorkspace({
                   {solo ? `Solo: ${studio.name} only` : 'Synced to all locations'}
                 </label>
               )}
-              {canApprovePlan && masterUnlocked && (
+              {canApprovePlan && (
                 <Button
                   variant={locked ? 'secondary' : 'dark'}
                   icon={locked ? <RotateCcw size={14} /> : <CheckCircle2 size={14} />}
@@ -1661,12 +1695,39 @@ export default function MonthWorkspace({
               />
             )}
 
-            {page === 'execution' && (
+            {page === 'collaterals' && (
               <PageHero
                 index="04"
+                label="Collaterals"
+                title="What has to be made, and by when"
+                description="Every asset the studio owes this month's offers — channel by channel, with the copy, the sizes and the date it is due at the desk."
+                photo={heroPhoto(4)}
+                meta={[
+                  {
+                    label: 'Channels',
+                    value: `${Math.max(
+                      0,
+                      3 -
+                        (Array.isArray(form.content?.collaterals?.hiddenChannels)
+                          ? form.content!.collaterals!.hiddenChannels!.length
+                          : 0) +
+                        (Array.isArray(form.content?.collaterals?.customChannels)
+                          ? form.content!.collaterals!.customChannels!.length
+                          : 0),
+                    )}`,
+                  },
+                  { label: 'Offers covered', value: `${selected.length}` },
+                  { label: 'Creatives', value: `${selected.length * 3}` },
+                ]}
+              />
+            )}
+
+            {page === 'execution' && (
+              <PageHero
+                index="05"
                 label="Execution"
                 title="How the month actually runs"
-                description="The week-by-week run of the month, the activations that create demand, and the marketing that makes it visible."
+                description="The week-by-week run of the month and the activations that create demand."
                 photo={heroPhoto(3)}
                 meta={[
                   { label: 'Actions', value: `${form.actions.length}` },
@@ -2117,7 +2178,7 @@ export default function MonthWorkspace({
                               })}
                             </span>
                           )}
-                          {editable && (
+                          {aiReady && (
                             <>
                               <button
                                 type="button"
@@ -2148,7 +2209,7 @@ export default function MonthWorkspace({
                       }
                     />
 
-                    {editable && steerOpen && (
+                    {aiReady && steerOpen && (
                       <div className="mw-fu-steer-bar">
                         <Sparkles size={13} className="mw-fu-steer-ic" />
                         <input
@@ -3263,7 +3324,7 @@ export default function MonthWorkspace({
                       />
                     )}
 
-                    {offersEditable && (
+                    {aiReady && (
                       <OfferCopilot
                         state={copilot}
                         steer={steer}
@@ -3356,7 +3417,7 @@ export default function MonthWorkspace({
                               productLabel={prices?.keys[o.provenance?.pricing?.product]}
                               slot={slotOf(o.id)}
                               editable={editable}
-                              canSwap={offersEditable}
+                              canSwap={aiReady}
                               approved={o.approval_status === 'approved'}
                               canApprove={canApproveOffers}
                               busy={busy}
@@ -6208,23 +6269,33 @@ function SectionHead({
   actions?: React.ReactNode;
   onDelete?: () => void;
 }) {
+  // A section reads as a heading until someone asks to rename it: the pencil is the door,
+  // not a permanent pair of text boxes sitting in the header.
+  const [renaming, setRenaming] = useState(false);
+  const canRename = editable && Boolean(onTitleChange) && typeof title === 'string';
+  const showActions = Boolean(actions) || (editable && Boolean(onDelete)) || canRename;
   return (
-    <header className={`mw-sh${actions || (editable && onDelete) ? ' has-actions' : ''}`}>
+    <header className={`mw-sh${showActions ? ' has-actions' : ''}${renaming ? ' is-renaming' : ''}`}>
       <span className="mw-sh-icon">
         <Icon size={16} />
       </span>
       <div className="mw-sh-copy">
-        {editable && onTitleChange && typeof title === 'string' ? (
+        {canRename && renaming ? (
           <input
             className="mw-sh-title-in"
             aria-label="Section title"
-            value={title}
-            onChange={e => onTitleChange(e.target.value)}
+            autoFocus
+            value={title as string}
+            onChange={e => onTitleChange!(e.target.value)}
+            onBlur={() => setRenaming(false)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === 'Escape') setRenaming(false);
+            }}
           />
         ) : (
           <h4>{title}</h4>
         )}
-        {editable && onHintChange && (typeof hint === 'string' || hint === undefined) ? (
+        {canRename && renaming && onHintChange && (typeof hint === 'string' || hint === undefined) ? (
           <input
             className="mw-sh-hint-in"
             aria-label="Section subtitle"
@@ -6236,9 +6307,21 @@ function SectionHead({
           hint && <p>{hint}</p>
         )}
       </div>
-      {(actions || (editable && onDelete)) && (
+      {showActions && (
         <div className="mw-sh-actions">
           {actions}
+          {canRename && (
+            <button
+              type="button"
+              className={`mw-mini-icon mw-sh-rename${renaming ? ' is-on' : ''}`}
+              title={renaming ? 'Done renaming' : 'Rename this section'}
+              aria-label={renaming ? 'Done renaming section' : 'Rename this section'}
+              aria-pressed={renaming}
+              onClick={() => setRenaming(v => !v)}
+            >
+              <Pencil size={12.5} />
+            </button>
+          )}
           {editable && onDelete && (
             <button
               type="button"

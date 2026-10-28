@@ -1,5 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Crown, Sparkles, X } from 'lucide-react';
+import {
+  ArrowRight,
+  Cake,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  Crown,
+  PartyPopper,
+  Sparkles,
+  X,
+} from 'lucide-react';
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
@@ -24,6 +34,31 @@ export interface CoverPlanWeek {
 }
 
 const TONES = ['var(--mc-a)', 'var(--mc-b)', 'var(--mc-c)'];
+
+/* The anniversary cover's confetti is scattered by arithmetic rather than by hand: a
+   fractional hash spreads each piece across the width, with its own delay, fall time and
+   drift, so nothing lines up into columns. Purely decorative, all of it CSS-driven. */
+const CONFETTI = ['#e6c16a', '#f3a9c9', '#c9a6ff', '#ffe9a8', '#8fe0c5', '#ffd7a8', '#ffffff'];
+const frac = (i: number, seed: number) => {
+  const x = Math.sin((i + 1) * seed) * 10000;
+  return x - Math.floor(x);
+};
+const scatter = (i: number) =>
+  ({
+    '--x': `${(frac(i, 12.9898) * 98).toFixed(1)}%`,
+    '--dl': `${(frac(i, 4.1414) * 9).toFixed(2)}s`,
+    '--du': `${(11 + frac(i, 7.771) * 9).toFixed(2)}s`,
+    '--dr': `${Math.round(frac(i, 3.31) * 120 - 60)}px`,
+    '--spin': `${Math.round(frac(i, 9.7) * 720 - 360)}deg`,
+    '--y': `${(frac(i, 6.61) * 88).toFixed(1)}%`,
+  }) as React.CSSProperties;
+const BALLOONS = [0, 1, 2, 3, 4].map(i => ({
+  left: `${6 + frac(i, 5.13) * 84}%`,
+  delay: `${(frac(i, 2.77) * 12).toFixed(2)}s`,
+  duration: `${(18 + frac(i, 6.19) * 10).toFixed(1)}s`,
+  size: 34 + Math.round(frac(i, 8.03) * 22),
+  tone: CONFETTI[i % CONFETTI.length],
+}));
 const int = (v: number) => Math.round(v).toLocaleString('en-IN');
 const pct = (v: number | null | undefined) =>
   v === null || v === undefined || !Number.isFinite(v) ? '—' : `${(v * 100).toFixed(0)}%`;
@@ -175,12 +210,55 @@ export default function MonthCover({
 
       {birthday && (
         <>
-          {/* Birthday confetti: eighteen slow pieces, purely decorative, frozen by reduced motion. */}
+          {/* Birthday confetti: thirty-six pieces in four shapes, each on its own fall.
+              Decorative only — frozen entirely when motion is reduced. */}
           <div className="mc-confetti" aria-hidden="true">
-            {Array.from({ length: 18 }).map((_, i) => (
+            {Array.from({ length: 36 }).map((_, i) => (
+              <i
+                key={i}
+                data-shape={i % 4}
+                style={
+                  {
+                    ...scatter(i),
+                    ['--c' as string]: CONFETTI[i % CONFETTI.length],
+                  } as React.CSSProperties
+                }
+              />
+            ))}
+          </div>
+
+          {/* Rising balloons, the slowest layer of the stack. */}
+          <div className="mc-balloons" aria-hidden="true">
+            {BALLOONS.map((b, i) => (
+              <span
+                key={i}
+                style={
+                  {
+                    '--x': b.left,
+                    '--dl': b.delay,
+                    '--du': b.duration,
+                    '--size': `${b.size}px`,
+                    ['--c' as string]: b.tone,
+                  } as React.CSSProperties
+                }
+              >
+                <i />
+              </span>
+            ))}
+          </div>
+
+          {/* Bunting strung across the top of the sheet. */}
+          <div className="mc-bunting" aria-hidden="true">
+            {Array.from({ length: 17 }).map((_, i) => (
               <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
             ))}
           </div>
+
+          {/* A gilded frame, so the whole page reads as an invitation. */}
+          <div className="mc-frame" aria-hidden="true">
+            <span />
+          </div>
+
           <div className="mc-crest" aria-hidden="true">
             <span className="mc-crest-crown">
               <Crown size={15} />
@@ -233,6 +311,28 @@ export default function MonthCover({
 
         <div className="mc-hero">
           {birthday && (
+            <>
+              {/* The year medallion: a struck coin behind the title. */}
+              <div className="mc-medallion" aria-hidden="true">
+                <span className="mc-med-halo" />
+                <span className="mc-med-ring">
+                  <b>1</b>
+                  <em>year</em>
+                </span>
+                <span className="mc-med-crown">
+                  <Crown size={17} />
+                </span>
+                <span className="mc-med-rays" />
+              </div>
+              {/* A slow sparkle field over the title block. */}
+              <div className="mc-sparkle-field" aria-hidden="true">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <Sparkles key={i} size={i % 3 === 0 ? 15 : 10} style={scatter(i * 3 + 1)} />
+                ))}
+              </div>
+            </>
+          )}
+          {birthday && (
             <p className="mc-royal">
               <Sparkles size={13} />
               57 numbered memberships · crowned this month
@@ -245,6 +345,13 @@ export default function MonthCover({
             </p>
           )}
           <h2>{MONTHS[month - 1]}</h2>
+          {birthday && (
+            <p className="mc-ribbon">
+              <PartyPopper size={13} />
+              <span>One year of Physique 57 India</span>
+              <Cake size={13} />
+            </p>
+          )}
           {brief && <p className="mc-brief">{brief}</p>}
         </div>
 

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, CalendarClock, Mail, Megaphone, MessageCircle, Plus, Printer, RotateCcw, Trash2 } from 'lucide-react';
+import { ArrowRight, CalendarClock, Mail, Megaphone, MessageCircle, Pencil, Plus, Printer, RotateCcw, Trash2 } from 'lucide-react';
 import { MONTHS } from '../types';
 
 // Marketing & collaterals for one studio-month: one row per channel (WhatsApp, email, in-studio tent card), each
@@ -241,6 +241,8 @@ export default function MarketingCollaterals({
 }) {
   const [pickId, setPickId] = useState<number | null>(null);
   const [layoutPick, setLayoutPick] = useState<Record<string, string>>({});
+  // The header reads as a heading; the pencil opens it for renaming.
+  const [renaming, setRenaming] = useState(false);
   const offer = offers.find(o => o.id === pickId) || offers[0];
   const slot = (offer?.plan_slot as keyof typeof VOICE) in VOICE ? (offer.plan_slot as keyof typeof VOICE) : 'newcomer';
   const shots = useMemo(() => (offer ? pickPhotos(offer, slot, month, studioName) : []), [offer, slot, month, studioName]);
@@ -277,7 +279,7 @@ export default function MarketingCollaterals({
       <div id={id} className="mw-section col-section">
         <div className="col-head">
           <div>
-            {editable ? (
+            {editable && renaming ? (
               <>
                 <input
                   className="col-edit-heading"
@@ -298,6 +300,15 @@ export default function MarketingCollaterals({
           </div>
           {editable && (
             <div className="col-head-actions">
+              <button
+                type="button"
+                className={`mw-mini-btn${renaming ? ' is-active' : ''}`}
+                onClick={() => setRenaming(v => !v)}
+                title={renaming ? 'Done renaming' : 'Rename this section'}
+                aria-pressed={renaming}
+              >
+                <Pencil size={12} /> {renaming ? 'Done' : 'Rename'}
+              </button>
               <button type="button" className="mw-mini-btn" onClick={addCustomChannel}>
                 <Plus size={13} /> Add channel
               </button>
@@ -578,7 +589,7 @@ export default function MarketingCollaterals({
       <div className="col-head">
         <div style={{ flex: '1 1 320px', minWidth: 0 }}>
           <small>{theme || monthName} · {studioName}</small>
-          {editable ? (
+          {editable && renaming ? (
             <div className="col-head-edit-fields">
               <input
                 className="col-edit-heading"
@@ -602,6 +613,15 @@ export default function MarketingCollaterals({
         </div>
         {editable && (
           <div className="col-head-actions">
+            <button
+              type="button"
+              className={`mw-mini-btn${renaming ? ' is-active' : ''}`}
+              onClick={() => setRenaming(v => !v)}
+              title={renaming ? 'Done renaming' : 'Rename this section'}
+              aria-pressed={renaming}
+            >
+              <Pencil size={12} /> {renaming ? 'Done' : 'Rename'}
+            </button>
             <button type="button" className="mw-mini-btn" onClick={addCustomChannel}>
               <Plus size={13} /> Add channel
             </button>
