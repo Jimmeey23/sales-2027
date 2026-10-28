@@ -1034,3 +1034,99 @@
     padding: 8px;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Iteration 22 — the tent card is a printed sheet, not a floating panel
+   The photograph bleeds edge to edge and the copy sits flush beneath it, inside
+   the paper mount. Nothing overlaps, so the card reads as one printed object
+   standing on the desk rather than a white box stuck onto a picture.
+   ───────────────────────────────────────────────────────────────────────────── */
+.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+/* The photograph runs the full width and sets the card's rhythm. */
+.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-photo {
+  flex: none;
+  height: 40%;
+  margin: 0;
+  border-radius: 0;
+}
+.mw .col-section .col-row.is-tent .cr-tent.is-arch:not(.cr-tent-rear) .cr-tent-photo {
+  height: 38%;
+  margin: 2.6cqw 2.6cqw 0;
+  border-radius: 60cqw 60cqw 0 0;
+}
+
+/* Copy block: flush under the photograph, pinned footer, even padding. */
+.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-tent-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 3.1cqw 3.6cqw 2.6cqw;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-body .cr-logo {
+  height: 3.6cqw;
+  margin: 0 0 1.6cqw;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-body small {
+  display: block;
+  margin: 0 0 1.5cqw;
+  font-size: 1.3cqw;
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: 0.26em;
+  color: #0f6f95;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-body h3 {
+  margin: 0 0 1.2cqw;
+  font-size: 3.5cqw;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-body p {
+  margin: 0;
+  font-size: 1.62cqw;
+  line-height: 1.5;
+  color: #4d5763;
+}
+.mw .col-section .col-row.is-tent .cr-tent-body p b {
+  color: #0b0c0e;
+}
+
+.mw .col-section .col-row.is-tent .cr-tent-foot {
+  margin-top: auto;
+  padding-top: 2cqw;
+  border-top: 1px solid rgba(11, 12, 14, 0.16);
+}
+
+/* The month badge sits inside the photograph, not across its edge. */
+.mw .col-section .col-row.is-tent .cr-tent:not(.cr-tent-rear) .cr-badge {
+  top: 3cqw;
+  right: 3cqw;
+  bottom: auto;
+  left: auto;
+  width: 9.2cqw;
+  height: 9.2cqw;
+  border-width: 0.5cqw;
+  box-shadow: 0 1cqw 2.2cqw -1cqw rgba(10, 14, 18, 0.45);
+}
+.mw .col-section .col-row.is-tent .cr-badge b {
+  font-size: 3.2cqw;
+}
+.mw .col-section .col-row.is-tent .cr-badge em {
+  font-size: 1.2cqw;
+}

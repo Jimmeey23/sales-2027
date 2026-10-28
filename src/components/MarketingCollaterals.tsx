@@ -92,6 +92,8 @@ const LAYOUTS = {
   tent: [['classic', 'Classic'], ['full', 'Full bleed'], ['arch', 'Arch']],
 } as const;
 type Piece = keyof typeof LAYOUTS;
+// The house cut for each piece. A team that picks another layout still gets it, per offer.
+const HOUSE_LAYOUT: Record<Piece, string> = { square: 'overlay', email: 'overlay', tent: 'full' };
 
 // Offer wording → the kind of picture that sells it.
 const THEMES: [RegExp, string][] = [
@@ -420,6 +422,15 @@ export default function MarketingCollaterals({
   const defaultHeadline = tagline && tagline.length <= 46 ? tagline : v.headlines[seed % v.headlines.length];
   const defaultAltHead = v.headlines[(seed + 1) % v.headlines.length];
   const detail = noPrice(String(offer.benefit || offer.headline || ''));
+  // A tent card is read standing up: one whole line, cut at a sentence or a clause boundary.
+  const cardLine = (value: string, max: number) => {
+    const clean = String(value || '').replace(/\s+/g, ' ').trim();
+    if (clean.length <= max) return clean;
+    const head = clean.slice(0, max);
+    const stop = Math.max(head.lastIndexOf('. '), head.lastIndexOf('; '), head.lastIndexOf(', '));
+    if (stop > max * 0.45) return head.slice(0, stop + 1).trim();
+    return `${head.replace(/[\s,;:.]+\S*$/, '')}.`;
+  };
   const offerName = clip(String(offer.name), 44);
   const defaultKicker = `${SLOT_LABEL[slot]} · ${monthName}`;
   const kicker = ov.kicker ?? defaultKicker;
@@ -433,7 +444,6 @@ export default function MarketingCollaterals({
   const preheader = ov.preheader ?? v.preheaders.join(' / ');
   const emailCta = ov.emailCta ?? v.cta;
   const defaultWaCopy = `Hi {first_name} ✨\n\n*${defaultHeadline}*\n*${offer.name}*: ${clip(detail, 110)}\n\n${v.wa} Until ${fmtDay(end)}, ${studioName}.\n\n— Team Physique 57\nReply STOP to opt out`;
-  const sqLayouts = LAYOUTS.square.map(([k]) => k);
   const defaultReminderCopy = `Hi {first_name} ⏳\n\n*Last call: ${offer.name}* closes ${fmtDay(end)}.\n\n${v.wa}\n\n— Team Physique 57\nReply STOP to opt out`;
 
   const waLaunchText = ov.waLaunchText ?? defaultWaCopy;
@@ -476,13 +486,9 @@ export default function MarketingCollaterals({
   ];
   const bg = (p: Photo) => ({ backgroundImage: `url(/p57/pro/${p.id}.jpg)`, backgroundPosition: p.pos });
   const Photo = ({ p }: { p: Photo }) => <div className="cr-photo" style={bg(p)} />;
-  const layout = (piece: Piece) =>
-    layoutPick[`${offer.id}:${piece}`] ??
-    (piece === 'email'
-      ? 'arch'
-      : LAYOUTS[piece][(seed + month + Object.keys(LAYOUTS).indexOf(piece)) % LAYOUTS[piece].length][0]);
+  const layout = (piece: Piece) => layoutPick[`${offer.id}:${piece}`] ?? HOUSE_LAYOUT[piece];
   waSends[0].layout = layout('square');
-  waSends[1].layout = sqLayouts[(sqLayouts.indexOf(layout('square') as any) + 1) % sqLayouts.length];
+  waSends[1].layout = layout('square');
   const Layouts = ({ piece }: { piece: Piece }) => (
     <div className="cr-layouts" role="radiogroup" aria-label="Layout">
       {LAYOUTS[piece].map(([k, label]) => (
@@ -913,7 +919,9 @@ export default function MarketingCollaterals({
                   <Logo />
                   <small>{kicker}</small>
                   <h3>{tentFront}</h3>
-                  <p><b>{offerName}.</b> {clip(detail, 80)}</p>
+                  <p>
+                    <b>{offerName}.</b> {cardLine(detail, 96)}
+                  </p>
                   <div className="cr-tent-foot">
                     <div className="cr-qr" aria-hidden="true">{Array.from({ length: 49 }, (_, i) => <i key={i} className={(i * 7 + month * 3 + i * i) % 3 ? '' : 'on'} />)}</div>
                     <div><b>Scan to claim</b><span>Or ask at reception · {closes}</span></div>

@@ -447,34 +447,6 @@
   font-weight: 600;
   color: #a7b3bd;
 }
-.mw .oc-bar {
-  --oc-fill: 0%;
-  --oc-cash: 0%;
-  order: 3;
-  position: relative;
-  display: block;
-  height: 3px;
-  margin: 2px 0 1px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #eaeff4;
-}
-.mw .oc-bar::after {
-  content: '';
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--oc-fill);
-  border-radius: inherit;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--oc-accent) 34%, #dce8f1) 0%, var(--oc-accent) 100%);
-  transition: width 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.mw .oc-bar.is-stacked::after {
-  background: linear-gradient(
-    90deg,
-    var(--oc-accent) 0 var(--oc-cash),
-    color-mix(in srgb, var(--oc-accent) 28%, #d3e2ee) var(--oc-cash) var(--oc-fill)
-  );
-}
 .mw .oc-stat-note {
   order: 4;
   overflow: hidden;
@@ -1188,14 +1160,6 @@
   font-weight: 600;
   color: #9a97a6;
 }
-.mw .oc-bar {
-  height: 2px;
-  margin: 3px 0 1px;
-  background: rgba(25, 26, 36, 0.09);
-}
-.mw .oc-bar::after {
-  background: var(--oc-accent);
-}
 .mw .oc-stat-note {
   font-size: 9.4px;
   line-height: 1.35;
@@ -1569,28 +1533,32 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Iteration 21 — the figures as a chart, and the who/when/how strip under the record
-   Each of the six figures is a column standing on one baseline: label over value
-   over a plotted column over its note, so the plate reads as a chart rather than
-   six boxes of text.
+   Iteration 22 — the figures as gauges
+   Six dials on one rail: each figure is an arc that fills to its own value, with
+   the number beside it, so the plate reads as a dashboard rather than six boxes
+   of text. Where an offer carries cash plus perk value, the arc is nested.
    ───────────────────────────────────────────────────────────────────────────── */
 .mw .oc-stats {
   align-items: stretch;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0;
   margin: 0 -22px;
-  padding: 15px 22px 13px;
+  padding: 14px 22px 12px;
   border-bottom: 1px solid rgba(25, 26, 36, 0.08);
   background: linear-gradient(180deg, #fbfcfd 0%, #ffffff 72%);
 }
 
 .mw .oc-stat {
   display: grid;
-  grid-template-rows: auto auto auto auto;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  grid-template-areas:
+    'label gauge'
+    'value gauge'
+    'note gauge';
   align-content: start;
   gap: 0;
   min-width: 0;
-  padding: 0 15px;
+  padding: 0 14px;
   border: 0;
   border-radius: 0;
   background: none;
@@ -1604,9 +1572,47 @@
   border-left: 1px solid rgba(25, 26, 36, 0.07);
 }
 
+.mw .oc-gauge {
+  grid-area: gauge;
+  align-self: center;
+  justify-self: end;
+  display: block;
+  width: 38px;
+  height: 38px;
+}
+
+.mw .oc-gauge svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+
+.mw .oc-gauge circle {
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dasharray 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.mw .oc-gauge-track {
+  stroke: #e9eef3;
+  stroke-width: 3.4;
+}
+
+.mw .oc-gauge-arc {
+  stroke: var(--oc-accent);
+  stroke-width: 3.4;
+}
+
+.mw .oc-gauge-soft {
+  stroke: color-mix(in srgb, var(--oc-accent) 34%, #dfe9f1);
+  stroke-width: 2.6;
+}
+
 .mw .oc-stat-label {
-  order: 1;
-  min-height: 15px;
+  grid-area: label;
+  min-height: 14px;
   font-size: 8.5px;
   font-weight: 750;
   letter-spacing: 0.13em;
@@ -1614,69 +1620,62 @@
 }
 
 .mw .oc-stat-value {
-  order: 2;
-  margin-top: 5px;
-  font-size: 20px;
-  line-height: 1.15;
+  grid-area: value;
+  margin-top: 4px;
+  font-size: 19px;
+  line-height: 1.1;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.015em;
   color: #1b1824;
 }
 
-/* The plot: a column rising off a shared baseline. */
-.mw .oc-bar {
-  order: 3;
-  position: relative;
-  height: 46px;
-  margin: 9px 0 0;
-  border-radius: 0;
-  background: transparent;
-  overflow: visible;
-  border-bottom: 1px solid rgba(25, 26, 36, 0.16);
-}
-
-.mw .oc-bar::after {
-  inset: auto auto 0 0;
-  width: min(100%, 60px);
-  height: var(--oc-fill);
-  min-height: 2px;
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--oc-accent) 26%, #dfe9f1) 0%,
-    var(--oc-accent) 100%
-  );
-  transition: height 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.mw .oc-bar.is-stacked::after {
-  background: linear-gradient(
-    0deg,
-    var(--oc-accent) 0 var(--oc-cash),
-    color-mix(in srgb, var(--oc-accent) 24%, #dbe7f1) var(--oc-cash) var(--oc-fill)
-  );
-}
-
 .mw .oc-stat-note {
-  order: 4;
-  margin-top: 7px;
-  font-size: 9.4px;
+  grid-area: note;
+  margin-top: 5px;
+  font-size: 9.2px;
   line-height: 1.35;
   color: #9a97a6;
 }
 
-/* A tall card earns a taller plot. */
-.mw .mw-offer-list.is-one-up .oc-stat-value {
-  font-size: 22px;
+/* The one-up card has room for a bigger dial; two-up keeps it tight. */
+.mw .mw-offer-list.is-one-up .oc-stat {
+  grid-template-columns: minmax(0, 1fr) 46px;
 }
-.mw .mw-offer-list.is-one-up .oc-bar {
-  height: 58px;
+.mw .mw-offer-list.is-one-up .oc-gauge {
+  width: 46px;
+  height: 46px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat-value {
+  font-size: 21px;
 }
 .mw .mw-offer-list.is-one-up .oc-stat {
   padding: 0 18px;
 }
-.mw .mw-offer-list.is-two-up .oc .oc-bar {
-  height: 38px;
+.mw .mw-offer-list.is-two-up .oc .oc-stat {
+  grid-template-columns: minmax(0, 1fr) 30px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-gauge {
+  width: 30px;
+  height: 30px;
+}
+.mw .mw-offer-list.is-two-up .oc .oc-stat-value {
+  font-size: 17px;
+}
+
+@container (max-width: 520px) {
+  .mw .oc-stat {
+    grid-template-columns: minmax(0, 1fr) 28px;
+  }
+  .mw .oc-gauge {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc-gauge circle {
+    transition: none;
+  }
 }
 
 /* Who / when / how sit under the record as one ruled strip. */
@@ -1706,8 +1705,3 @@
   color: #b4b1be;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .mw .oc-bar::after {
-    transition: none;
-  }
-}

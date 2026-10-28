@@ -4942,6 +4942,40 @@ function pickOfferCardPhoto(o: any, slot?: string, no?: number): CardPhoto {
   return pool[idx];
 }
 
+// The figure's gauge: an arc that fills to the value, drawn with pathLength=100 so the
+// dash array is the number itself. When an offer carries both cash and perk value, the
+// cash portion is drawn as an inner arc, so the two read as nested rings.
+function StatGauge({ value, soft = 0 }: { value: number; soft?: number }) {
+  const clamp = (v: number) => Math.max(0, Math.min(100, Number.isFinite(v) ? v : 0));
+  const fill = clamp(value);
+  const cash = clamp(Math.min(soft, fill));
+  return (
+    <span className="oc-gauge" aria-hidden="true">
+      <svg viewBox="0 0 36 36">
+        <circle className="oc-gauge-track" cx="18" cy="18" r="15.5" />
+        {cash > 0 && (
+          <circle
+            className="oc-gauge-soft"
+            cx="18"
+            cy="18"
+            r="10.5"
+            pathLength={100}
+            style={{ strokeDasharray: `${cash} 100` }}
+          />
+        )}
+        <circle
+          className="oc-gauge-arc"
+          cx="18"
+          cy="18"
+          r="15.5"
+          pathLength={100}
+          style={{ strokeDasharray: `${fill} 100` }}
+        />
+      </svg>
+    </span>
+  );
+}
+
 function OfferCard({
   offer: o,
   no,
@@ -5436,11 +5470,7 @@ function OfferCard({
               {offerPrice ? money(offerPrice) : '—'}
               {strikePrice && <s>{money(strikePrice)}</s>}
             </span>
-            <span
-              className="oc-bar"
-              aria-hidden="true"
-              style={{ '--oc-fill': `${ticketBar}%` } as React.CSSProperties}
-            />
+            <StatGauge value={ticketBar} />
             <small className="oc-stat-note">
               {strikePrice
                 ? `of ${money(strikePrice)} list`
@@ -5457,11 +5487,7 @@ function OfferCard({
               Client gets
             </span>
             <span className="oc-stat-value">{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</span>
-            <span
-              className="oc-bar"
-              aria-hidden="true"
-              style={{ '--oc-fill': `${valueBar}%` } as React.CSSProperties}
-            />
+            <StatGauge value={valueBar} />
             <small className="oc-stat-note">
               {hasCashDiscount ? 'Off the list price' : effPct > 0 ? 'In perks & extras' : 'No price cut'}
             </small>
@@ -5475,11 +5501,7 @@ function OfferCard({
               {number(units)}
               {perWeek > 0 && <em>~{perWeek}/wk</em>}
             </span>
-            <span
-              className="oc-bar"
-              aria-hidden="true"
-              style={{ '--oc-fill': `${unitsBar}%` } as React.CSSProperties}
-            />
+            <StatGauge value={unitsBar} />
             <small className="oc-stat-note">
               {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
             </small>
@@ -5490,11 +5512,7 @@ function OfferCard({
               Revenue
             </span>
             <span className="oc-stat-value">{revenue !== null ? lakh(revenue) : '—'}</span>
-            <span
-              className="oc-bar"
-              aria-hidden="true"
-              style={{ '--oc-fill': `${revenueBar}%` } as React.CSSProperties}
-            />
+            <StatGauge value={revenueBar} />
             <small className="oc-stat-note">
               {sharePct !== null
                 ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}% of ${monthTarget ? lakh(monthTarget) : 'the'} target`
@@ -5509,11 +5527,7 @@ function OfferCard({
             <span className={effPct > 0 ? 'oc-stat-value' : 'oc-stat-value is-muted'}>
               {effPct > 0 ? fmtPct(effPct) : 'None'}
             </span>
-            <span
-              className="oc-bar is-stacked"
-              aria-hidden="true"
-              style={{ '--oc-fill': `${valueBar}%`, '--oc-cash': `${cashBar}%` } as React.CSSProperties}
-            />
+            <StatGauge value={valueBar} soft={cashBar} />
             <small className="oc-stat-note">
               {cashBar > 0 ? 'Cash + perk value' : effPct > 0 ? 'Perk value only' : 'No discount'}
             </small>
@@ -5529,11 +5543,7 @@ function OfferCard({
             >
               {contribution === null ? '—' : lakh(contribution)}
             </span>
-            <span
-              className="oc-bar"
-              aria-hidden="true"
-              style={{ '--oc-fill': `${marginBar}%` } as React.CSSProperties}
-            />
+            <StatGauge value={marginBar} />
             <small className="oc-stat-note">
               {marginPct !== null ? `${marginPct.toFixed(0)}% margin` : 'Costs pending'}
             </small>
