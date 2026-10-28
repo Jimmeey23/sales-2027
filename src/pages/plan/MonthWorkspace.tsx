@@ -5206,13 +5206,9 @@ function OfferCard({
     // their own copy, so a row only lands when it adds something.
     const fresh = (value: string) => value && !offerDescription.includes(value.slice(0, 60));
 
-    const audience = [
-      tidy(o.audience),
-      tidy(o.excluded_audience) && `excludes ${tidy(o.excluded_audience).toLowerCase()}`,
-    ]
-      .filter(Boolean)
-      .join(' · ');
-    if (audience) rows.push({ label: 'Audience', value: cut(audience, 200) });
+    // Who is eligible is already the "Who" column above; only the exclusion needs saying.
+    const excluded = tidy(o.excluded_audience);
+    if (excluded) rows.push({ label: 'Excludes', value: cut(excluded, 200) });
 
     const mechanicRow = tidy(mechanicsText);
     if (mechanicRow && fresh(mechanicRow)) rows.push({ label: 'The offer', value: cut(mechanicRow, 300) });
@@ -5227,7 +5223,7 @@ function OfferCard({
 
     // How the number is actually sold: the play, the pace it needs, and what it carries.
     const salesLogic = [
-      objectiveLabel || slotLabel,
+      OFFER_OBJECTIVES.find(([key]) => key === o.objective)?.[1] || objectiveLabel || slotLabel,
       units ? `${number(units)} buyers over ${days} days` : '',
       perWeek ? `~${number(perWeek)} a week` : '',
       sharePct !== null ? `${fmtPct(sharePct)} of the month's target` : '',
@@ -5247,9 +5243,12 @@ function OfferCard({
     const kpis = metrics.length ? metrics.slice(0, 4).join(' · ') : line(['kpi']);
     if (kpis) rows.push({ label: 'Success metrics', value: cut(kpis, 300) });
     else if (units && revenue !== null) {
+      const closeLabel = o.month ? `${monthEndDay} ${MONTHS[o.month - 1].slice(0, 3)}` : 'month end';
       rows.push({
         label: 'Success metrics',
-        value: `${number(units)} buyers and ${lakh(revenue)} booked inside the ${days}-day window`,
+        value: `${number(units)} buyers and ${lakh(revenue)} booked by ${closeLabel}${
+          effPct > 0 ? ` · hold the effective discount at ${fmtPct(effPct)}` : ''
+        }`,
       });
     }
 
@@ -5265,8 +5264,7 @@ function OfferCard({
         : 'One per client; no cash discount beyond the campaign rate.',
     });
 
-    const moment = tidy(o.provenance?.moment);
-    if (moment) rows.push({ label: 'Tied to', value: `${moment} · ${windowText}` });
+    if (o.validity_start) rows.push({ label: 'Window', value: `${windowText} · ${days} days` });
 
     const quote = tidy(o.customer_copy);
     if (quote && fresh(quote) && quote !== included) {
