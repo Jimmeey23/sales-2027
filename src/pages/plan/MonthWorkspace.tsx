@@ -112,14 +112,14 @@ const STREAMS = [
     field: 'renewal_target',
     body: 'renewalTarget',
     label: 'Renewals',
-    color: 'color-mix(in srgb, var(--a1) 66%, #0284c7)',
+    color: 'color-mix(in srgb, var(--a1) 66%, #307299)',
   },
   {
     key: 'reactivation',
     field: 'reactivation_target',
     body: 'reactivationTarget',
     label: 'Comeback / reactivation',
-    color: 'color-mix(in srgb, var(--a1) 46%, #0d9488)',
+    color: 'color-mix(in srgb, var(--a1) 46%, #277a6f)',
   },
 ] as const;
 const fullCoverageStreams = (target: number, renewal: number, reactivation: number) => {

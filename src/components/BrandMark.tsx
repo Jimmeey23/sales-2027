@@ -8,8 +8,8 @@ export default function BrandMark({ large = false }: { large?: boolean }) {
       <svg viewBox="0 0 52 52" role="img" aria-hidden="true">
         <defs>
           <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" style={{ stopColor: 'color-mix(in srgb, var(--a1, #6d4fd8) 70%, #fff)' }} />
-            <stop offset="1" style={{ stopColor: 'color-mix(in srgb, var(--a1, #6d4fd8) 85%, #000)' }} />
+            <stop offset="0" style={{ stopColor: 'color-mix(in srgb, var(--a1, #1f6a57) 70%, #fff)' }} />
+            <stop offset="1" style={{ stopColor: 'color-mix(in srgb, var(--a1, #1f6a57) 85%, #000)' }} />
           </linearGradient>
         </defs>
         <rect className="p57-mark-bg" x="1" y="1" width="50" height="50" rx="15" fill={`url(#${id}-bg)`} />

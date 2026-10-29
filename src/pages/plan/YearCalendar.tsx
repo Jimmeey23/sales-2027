@@ -10,12 +10,12 @@ import { lakh, type MonthRow, type PlanData } from './usePlanData';
 import { selectedForPlan, selectedInMonth } from './TargetsTab';
 
 const KIND_COLOR: Record<KeyDateKind, string> = {
-  festival: '#e0a02a',
-  holiday: '#3f8f6b',
-  awareness: '#3d7fd0',
-  global: '#16867a',
-  retail: '#d4567e',
-  brand: '#7a52c8',
+  festival: '#b07a2e',
+  holiday: '#3f8f73',
+  awareness: '#3886b2',
+  global: '#25776c',
+  retail: '#b23859',
+  brand: '#6f5a86',
 };
 const STREAMS = [
   { key: 'newClient', label: 'New clients', shade: 1 },

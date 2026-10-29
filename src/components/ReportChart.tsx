@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 import { money, number, percent } from '../types';
 
-const colours = ['#6857e5', '#f27d5b', '#237a67', '#9b7bc8', '#d6a524', '#4c8dc9', '#a85b75', '#7f8b96'];
+const colours = ['#1f6a57', '#ad5b3e', '#a2803c', '#2b5c85', '#a06b8b', '#6d7d5a', '#8a5a3f', '#64707a'];
 const format = (value: any, type: string, compact = true) =>
   value === null || value === undefined
     ? '—'
@@ -43,20 +43,20 @@ export default function ReportChart({
   const axisFormat = (value: any) => (primaryType === 'currency' ? money(value, true) : number(value, 0));
   const content = (
     <>
-      <CartesianGrid stroke="#e9e5ee" vertical={false} />
+      <CartesianGrid stroke="#eae4e0" vertical={false} />
       <XAxis
         dataKey={chart.x}
         tickLine={false}
         axisLine={false}
         minTickGap={16}
-        tick={{ fontSize: 10, fill: '#716d7c' }}
+        tick={{ fontSize: 10, fill: '#8a8376' }}
         tickFormatter={value => (String(value).length > 18 ? `${String(value).slice(0, 16)}…` : String(value))}
       />
       <YAxis
         tickLine={false}
         axisLine={false}
         width={62}
-        tick={{ fontSize: 10, fill: '#716d7c' }}
+        tick={{ fontSize: 10, fill: '#8a8376' }}
         tickFormatter={axisFormat}
       />
       <Tooltip
@@ -71,8 +71,8 @@ export default function ReportChart({
         labelStyle={{ fontWeight: 700, marginBottom: 6 }}
         contentStyle={{
           borderRadius: 12,
-          border: '1px solid #e6e2eb',
-          boxShadow: '0 12px 32px rgba(34,27,53,.12)',
+          border: '1px solid #e8e2d6',
+          boxShadow: '0 12px 32px rgba(26,23,16,.12)',
           fontSize: 11,
         }}
       />

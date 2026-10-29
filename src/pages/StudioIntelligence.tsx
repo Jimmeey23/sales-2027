@@ -88,39 +88,29 @@ export default function StudioIntelligence() {
   const simBridgeCoveragePct = Math.min(200, Math.round((simTotalLeverage / bridgeGap) * 100));
 
   return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: 10,
-          marginBottom: 8,
-        }}
-      >
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}></div>
-        <div className="ws-segmented" role="group" aria-label="Historical evidence year">
-          {(data.availableActualYears || [2026, 2025]).map((yr: number) => (
-            <button
-              key={yr}
-              type="button"
-              className={activeYear === yr ? 'active' : ''}
-              onClick={() => setEvidenceYear(yr)}
-            >
-              {yr} actuals
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="ws-page studio-intel">
       <PageHeader
         eyebrow={`${s.city.toUpperCase()} · STUDIO INTELLIGENCE`}
         title={s.name}
         description="Historical evidence, commercial opportunities and target guidance for this location."
         actions={
-          <Button onClick={() => navigate('/sales-plan/targets')}>
-            Plan 2027 <ArrowRight size={15} />
-          </Button>
+          <>
+            <div className="ws-segmented" role="group" aria-label="Historical evidence year">
+              {(data.availableActualYears || [2026, 2025]).map((yr: number) => (
+                <button
+                  key={yr}
+                  type="button"
+                  className={activeYear === yr ? 'active' : ''}
+                  onClick={() => setEvidenceYear(yr)}
+                >
+                  {yr} actuals
+                </button>
+              ))}
+            </div>
+            <Button variant="secondary" onClick={() => navigate('/sales-plan/targets')}>
+              Plan 2027 <ArrowRight size={15} />
+            </Button>
+          </>
         }
         meta={
           <>
@@ -178,7 +168,7 @@ export default function StudioIntelligence() {
               <div className="chart-box">
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={data.monthly}>
-                    <CartesianGrid stroke="#e8e4ef" vertical={false} />
+                    <CartesianGrid stroke="#e7e0db" vertical={false} />
                     <XAxis dataKey="month" tickFormatter={m => MONTHS_SHORT[m - 1]} tickLine={false} axisLine={false} />
                     <YAxis
                       tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`}
@@ -193,8 +183,8 @@ export default function StudioIntelligence() {
                       ]}
                       labelFormatter={m => MONTHS_SHORT[Number(m) - 1]}
                     />
-                    <Line dataKey="revenue" stroke="#6857e5" strokeWidth={2.5} dot={false} />
-                    <Line dataKey="prior_revenue" stroke="#a9b1ac" strokeDasharray="5 4" dot={false} />
+                    <Line dataKey="revenue" stroke="#245f57" strokeWidth={2.5} dot={false} />
+                    <Line dataKey="prior_revenue" stroke="#c9bcb2" strokeDasharray="5 4" dot={false} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -515,7 +505,7 @@ export default function StudioIntelligence() {
               <div className="chart-box">
                 <ResponsiveContainer width="100%" height={280}>
                   <BarChart data={data.attendance.monthly}>
-                    <CartesianGrid stroke="#e8e4ef" vertical={false} />
+                    <CartesianGrid stroke="#e7e0db" vertical={false} />
                     <XAxis
                       dataKey="month"
                       tickFormatter={m => MONTHS_SHORT[Number(String(m).slice(5, 7)) - 1]}
@@ -530,8 +520,8 @@ export default function StudioIntelligence() {
                       ]}
                       labelFormatter={m => m}
                     />
-                    <Bar dataKey="checkins" fill="#6857e5" radius={[5, 5, 0, 0]} maxBarSize={28} />
-                    <Bar dataKey="late_cancellations" fill="#ed9a83" radius={[5, 5, 0, 0]} maxBarSize={28} />
+                    <Bar dataKey="checkins" fill="#245f57" radius={[5, 5, 0, 0]} maxBarSize={28} />
+                    <Bar dataKey="late_cancellations" fill="#b25938" radius={[5, 5, 0, 0]} maxBarSize={28} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

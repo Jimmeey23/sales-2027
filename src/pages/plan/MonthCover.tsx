@@ -40,7 +40,7 @@ const TONES = ['var(--mc-a)', 'var(--mc-b)', 'var(--mc-c)'];
 /* The anniversary cover's confetti is scattered by arithmetic rather than by hand: a
    fractional hash spreads each piece across the width, with its own delay, fall time and
    drift, so nothing lines up into columns. Purely decorative, all of it CSS-driven. */
-const CONFETTI = ['#e6c16a', '#f3a9c9', '#c9a6ff', '#ffe9a8', '#8fe0c5', '#ffd7a8', '#ffffff'];
+const CONFETTI = ['#d9b25f', '#c98a94', '#a8c4b4', '#efe0bb', '#d9a878', '#c3b2cf', '#ffffff'];
 /** The anniversary the studio is keeping this year. Named once, used everywhere on the cover. */
 const ANNIVERSARY_YEARS = 9;
 const YEARS_WORD = 'nine';

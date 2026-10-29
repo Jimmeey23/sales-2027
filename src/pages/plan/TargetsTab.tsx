@@ -89,10 +89,10 @@ function ScenarioControl({ compact = false }: { compact?: boolean }) {
 }
 
 export const SOURCES = [
-  { key: 'newClient', label: 'New clients', color: '#4b3fc4' },
-  { key: 'renewal', label: 'Renewals / existing', color: '#7d72e6' },
-  { key: 'reactivation', label: 'Reactivation', color: '#b3acf2' },
-  { key: 'other', label: 'Other (gifts, privates, retail)', color: '#dcd8f7' },
+  { key: 'newClient', label: 'New clients', color: '#3892b2' },
+  { key: 'renewal', label: 'Renewals / existing', color: '#3892b2' },
+  { key: 'reactivation', label: 'Reactivation', color: '#bdd8e1' },
+  { key: 'other', label: 'Other (gifts, privates, retail)', color: '#e3eaec' },
 ] as const;
 // Revenue streams as shades of the selected location's accent.
 export function useSources() {
@@ -721,7 +721,7 @@ export default function TargetsTab({
                         style={
                           {
                             '--w': `${Math.min(100, cover * 100)}%`,
-                            '--c': cover >= 1 ? '#5b4fd6' : '#e8704f',
+                            '--c': cover >= 1 ? '#3892b2' : '#b25938',
                           } as React.CSSProperties
                         }
                       >
@@ -965,7 +965,7 @@ export default function TargetsTab({
               <div style={{ height: 380 }}>
                 <ResponsiveContainer>
                   <ComposedChart data={data.months.map(m => ({ ...m, name: MONTHS_SHORT[m.month - 1] }))}>
-                    <CartesianGrid stroke="#eceaf1" vertical={false} />
+                    <CartesianGrid stroke="#ebe6e1" vertical={false} />
                     <XAxis dataKey="name" tickLine={false} axisLine={false} />
                     <YAxis
                       tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`}
@@ -985,7 +985,7 @@ export default function TargetsTab({
                         radius={s.key === 'other' ? [5, 5, 0, 0] : 0}
                       />
                     ))}
-                    <Line dataKey="lastYear" name="Last year" stroke="#211e2b" strokeDasharray="5 4" dot={{ r: 3 }} />
+                    <Line dataKey="lastYear" name="Last year" stroke="#1b1916" strokeDasharray="5 4" dot={{ r: 3 }} />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
@@ -1027,7 +1027,7 @@ export default function TargetsTab({
             <div className="ws-studios-view">
               <div className="ws-loc-cards">
                 {data.plans.map(p => {
-                  const locColor = LOCATION_COLORS[p.studio.name] || '#3563d9';
+                  const locColor = LOCATION_COLORS[p.studio.name] || '#3886b2';
                   const share = data.annual ? Math.round((p.annual / data.annual) * 100) : 0;
                   const newRev = p.months.reduce((n, m) => n + ((m as any).newClient || 0), 0);
                   const renRev = p.months.reduce((n, m) => n + ((m as any).renewal || 0), 0);
@@ -1120,7 +1120,7 @@ export default function TargetsTab({
                         ...Object.fromEntries(m.byStudio.map(s => [s.name, s.target])),
                       }))}
                     >
-                      <CartesianGrid stroke="#eceaf1" vertical={false} />
+                      <CartesianGrid stroke="#ebe6e1" vertical={false} />
                       <XAxis dataKey="name" tickLine={false} axisLine={false} />
                       <YAxis
                         tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`}

@@ -3,7 +3,7 @@
 
 .copilot-panel {
   width: min(1040px, 97vw);
-  background: #f7f6fa;
+  background: #f7f8f9;
 }
 .copilot-title p {
   font-size: 10.5px;
@@ -66,12 +66,12 @@
   letter-spacing: 0.03em;
 }
 .copilot-confidence.is-confident {
-  border-color: #cfe3d9;
+  border-color: #cfe3dc;
   background: var(--green-soft);
   color: var(--green-dark);
 }
 .copilot-assumed {
-  border-color: #f0dcb4;
+  border-color: #e9d0bb;
   background: var(--amber-soft);
   color: var(--amber);
 }
@@ -114,7 +114,7 @@
   background: var(--coral);
 }
 .copilot-kpi.is-warn::after {
-  background: var(--amber, #a86d16);
+  background: var(--amber, #905a2e);
 }
 .copilot-kpi span {
   display: block;
@@ -145,7 +145,7 @@
   color: var(--green-dark);
 }
 .copilot-kpi.is-bad em {
-  color: #a8493f;
+  color: #b05737;
 }
 .copilot-kpi small {
   display: block;
@@ -180,24 +180,24 @@
 .copilot-bar-track {
   height: 7px;
   border-radius: 999px;
-  background: #f0eef5;
+  background: #eff3f4;
   overflow: hidden;
 }
 .copilot-bar-track i {
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent), #a396ff);
+  background: linear-gradient(90deg, var(--accent), #498aa2);
   transition: width 0.35s ease;
 }
 .copilot-bar.is-good .copilot-bar-track i {
-  background: linear-gradient(90deg, #2f8a71, #6cc2a4);
+  background: linear-gradient(90deg, #2c8d80, #38b288);
 }
 .copilot-bar.is-bad .copilot-bar-track i {
-  background: linear-gradient(90deg, #d5654a, #f2a186);
+  background: linear-gradient(90deg, #b25938, #b25938);
 }
 .copilot-bar.is-warn .copilot-bar-track i {
-  background: linear-gradient(90deg, #c08a2c, #e8c079);
+  background: linear-gradient(90deg, #b37039, #b26f38);
 }
 .copilot-bar-value {
   color: var(--ink);
@@ -235,7 +235,7 @@
 }
 .copilot-table td {
   padding: 5px 8px;
-  border-bottom: 1px solid #f2f0f6;
+  border-bottom: 1px solid #f1f4f5;
   vertical-align: top;
 }
 .copilot-table tr:last-child td {
@@ -266,7 +266,7 @@
 }
 .copilot-list-row {
   padding: 7px 0;
-  border-bottom: 1px solid #f2f0f6;
+  border-bottom: 1px solid #f1f4f5;
 }
 .copilot-list-row:last-child {
   border-bottom: 0;
@@ -306,9 +306,9 @@
   line-height: 1.5;
 }
 .copilot-note.is-warn {
-  border-left-color: #c08a2c;
-  background: var(--amber-soft, #fbf2df);
-  color: #6f4c11;
+  border-left-color: #b37039;
+  background: var(--amber-soft, #f1ede9);
+  color: #5c3a1f;
 }
 .copilot-note.is-success {
   border-left-color: var(--green);
@@ -321,7 +321,7 @@
 .copilot-working {
   border: 1px dashed var(--line-strong);
   border-radius: 10px;
-  background: #fbfaff;
+  background: #fcfdfd;
   padding: 7px 10px;
 }
 .copilot-working summary {
@@ -385,7 +385,7 @@
 .copilot-working li code {
   padding: 1px 5px;
   border-radius: 5px;
-  background: #f0edfa;
+  background: #f1f5f6;
   color: var(--accent-dark);
   font-size: 9px;
 }
@@ -442,7 +442,7 @@
 }
 .copilot-chips button:hover,
 .copilot-action:hover {
-  border-color: #bdb4ef;
+  border-color: #c0dae3;
   background: var(--accent-soft);
   transform: translateY(-1px);
 }

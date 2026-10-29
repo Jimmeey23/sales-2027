@@ -19,3 +19,5 @@
 @import './page-canvas.css';
 @import './plan-infographics.css';
 @import './copilot.css';
+/* Atelier — final design language: tokens, type scale, shell, surfaces. */
+@import './atelier.css';

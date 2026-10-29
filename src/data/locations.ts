@@ -4,13 +4,15 @@ import type { Studio } from '../types';
 export const LOCATION_NAMES = ['Kemps Corner', 'Bandra', 'Kenkere House', 'Pop-up'] as const;
 export const POPUP_VENUES = ['Copper + Cloves', 'Plash Pilates'];
 // Each location's accent; the whole workspace takes on the selected location's colour.
+// Deep jewel tones: each location reads distinctly, and all of them sit comfortably
+// beside the ivory canvas and the gold accent of the shell.
 export const LOCATION_COLORS: Record<string, string> = {
-  'Kemps Corner': '#6d4fd8',
-  Bandra: '#0b8a8f',
-  'Kenkere House': '#c23a6e',
-  'Pop-up': '#cf8417',
+  'Kemps Corner': '#1f6a57',
+  Bandra: '#2b5c85',
+  'Kenkere House': '#7a3b56',
+  'Pop-up': '#a2712f',
 };
-export const ALL_LOCATIONS_COLOR = '#3563d9';
+export const ALL_LOCATIONS_COLOR = '#3c3830';
 export const accentFor = (name?: string | null) => (name && LOCATION_COLORS[name]) || ALL_LOCATIONS_COLOR;
 
 export function planningLocations(studios: Studio[]) {

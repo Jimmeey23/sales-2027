@@ -188,7 +188,7 @@ export default function Anniversary() {
           <div className="chart-box">
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={chart}>
-                <CartesianGrid stroke="#e8e4ef" vertical={false} />
+                <CartesianGrid stroke="#e7e0db" vertical={false} />
                 <XAxis dataKey="year" />
                 <YAxis tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`} />
                 <Tooltip
@@ -197,8 +197,8 @@ export default function Anniversary() {
                     n === 'revenue' ? 'April actual' : 'Ordinary-month average',
                   ]}
                 />
-                <Bar dataKey="ordinary" fill="#d8dfda" name="Ordinary-month average" />
-                <Bar dataKey="revenue" fill="#f27d5b" name="April actual" />
+                <Bar dataKey="ordinary" fill="#ddd1c8" name="Ordinary-month average" />
+                <Bar dataKey="revenue" fill="#b35938" name="April actual" />
               </BarChart>
             </ResponsiveContainer>
           </div>

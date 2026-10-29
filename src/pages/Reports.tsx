@@ -719,7 +719,7 @@ export default function Reports() {
                             >
                               <i
                                 style={{
-                                  background: ['#6857e5', '#f27d5b', '#237a67', '#9b7bc8', '#d6a524', '#4c8dc9'][
+                                  background: ['#1f6a57', '#ad5b3e', '#a2803c', '#2b5c85', '#a06b8b', '#6d7d5a'][
                                     index % 6
                                   ],
                                 }}

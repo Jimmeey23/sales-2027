@@ -141,7 +141,7 @@ export default function Layout() {
         </div>
         <div
           className="ws-sidebar-context"
-          style={{ '--loc': active ? LOCATION_COLORS[active.name] || '#c7e17c' : '#c7e17c' } as React.CSSProperties}
+          style={{ '--loc': active ? LOCATION_COLORS[active.name] || '#e6d5ae' : '#e6d5ae' } as React.CSSProperties}
         >
           <span>
             Workspace <em>{year}</em>

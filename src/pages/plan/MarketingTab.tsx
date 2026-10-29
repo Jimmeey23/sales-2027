@@ -72,17 +72,17 @@ export default function MarketingTab({ data }: { data: PlanData }) {
         </div>
       </div>
       <div className="ws-kpis">
-        <div className="ws-kpi" style={{ '--c': '#6857e5' } as React.CSSProperties}>
+        <div className="ws-kpi" style={{ '--c': '#3892b2' } as React.CSSProperties}>
           <span>Annual paid media</span>
           <strong>{lakh(annual)}</strong>
           <small>{data.annual ? `${((annual / data.annual) * 100).toFixed(1)}% of revenue target` : ''}</small>
         </div>
-        <div className="ws-kpi" style={{ '--c': '#237a67' } as React.CSSProperties}>
+        <div className="ws-kpi" style={{ '--c': '#26776c' } as React.CSSProperties}>
           <span>Paid leads</span>
           <strong>{number(budget.reduce((n, b) => n + b.paidLeads, 0))}</strong>
           <small>{paidShare}% of all leads</small>
         </div>
-        <div className="ws-kpi" style={{ '--c': '#f27d5b' } as React.CSSProperties}>
+        <div className="ws-kpi" style={{ '--c': '#b25938' } as React.CSSProperties}>
           <span>Scenario ROAS (new clients)</span>
           <strong>
             {annual
@@ -91,7 +91,7 @@ export default function MarketingTab({ data }: { data: PlanData }) {
           </strong>
           <small>assumes paid leads earn the same revenue share as their lead share</small>
         </div>
-        <div className="ws-kpi" style={{ '--c': '#c2932b' } as React.CSSProperties}>
+        <div className="ws-kpi" style={{ '--c': '#b47039' } as React.CSSProperties}>
           <span>CPL planning assumption</span>
           <strong>
             {cplOverride === '' ? `₹${CPL_BY_CITY.Mumbai} / ₹${CPL_BY_CITY.Bengaluru}` : `₹${cplOverride}`}
@@ -107,11 +107,11 @@ export default function MarketingTab({ data }: { data: PlanData }) {
               data={budget}
               onClick={(e: any) => e?.activeLabel && setMonth(MONTHS_SHORT.indexOf(e.activeLabel) + 1)}
             >
-              <CartesianGrid stroke="#eceaf1" vertical={false} />
+              <CartesianGrid stroke="#ebe6e1" vertical={false} />
               <XAxis dataKey="name" tickLine={false} axisLine={false} />
               <YAxis tickFormatter={v => `₹${(v / 1000).toFixed(0)}k`} tickLine={false} axisLine={false} width={52} />
               <Tooltip formatter={(v: any) => money(v)} />
-              <Bar dataKey="spend" name="Paid media" fill="#6857e5" radius={[5, 5, 0, 0]} />
+              <Bar dataKey="spend" name="Paid media" fill="#245f57" radius={[5, 5, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
