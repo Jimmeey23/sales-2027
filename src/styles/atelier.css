@@ -6499,6 +6499,100 @@ details.membership-terms > summary {
   }
 }
 
+/* ── 24. The keyboard ────────────────────────────────────────────────────────
+   A quiet key icon in the header and one sheet that lists only the keys that are
+   wired. It opens with "?" from anywhere the cursor is not in a field. */
+.ws-keys {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    color 0.16s ease,
+    background 0.16s ease;
+}
+.ws-keys:hover,
+.ws-keys:focus-visible {
+  border-color: color-mix(in srgb, var(--gold) 45%, var(--line));
+  background: var(--paper-warm);
+  color: var(--ink-900);
+  outline: none;
+}
+.keys-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.keys-sheet section {
+  display: grid;
+  gap: 8px;
+}
+.keys-sheet h4 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.keys-sheet ul {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.keys-sheet li {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.keys-sheet kbd {
+  justify-self: start;
+  padding: 4px 9px;
+  border: 1px solid var(--line-strong, #d9d1c1);
+  border-bottom-width: 2px;
+  border-radius: 7px;
+  background: var(--paper-warm);
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-900);
+  white-space: nowrap;
+}
+.keys-sheet li span {
+  font-size: 12.4px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.keys-note {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--subtle);
+}
+@media (max-width: 620px) {
+  .keys-sheet li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+}
+
 /* ── 17. Responsive ───────────────────────────────────────────────────────── */
 @media (max-width: 1280px) {
   .ws-content {

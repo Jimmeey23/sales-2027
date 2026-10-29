@@ -76,6 +76,7 @@ const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
    the offers and the work. Every section keeps its id and its edit controls; the page
    only decides what is on screen at once. */
 type PlanPage = 'overview' | 'targets' | 'offers' | 'collaterals' | 'execution';
+const PAGES: PlanPage[] = ['overview', 'targets', 'offers', 'collaterals', 'execution'];
 const PAGE_OF_SECTION: Record<string, PlanPage> = {
   days: 'overview',
   focus: 'targets',
@@ -1286,15 +1287,20 @@ export default function MonthWorkspace({
       const el = e.target as HTMLElement | null;
       if (!el || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName) || el.isContentEditable || e.metaKey || e.ctrlKey)
         return;
-      if (e.key === '[' && month > 1) {
+      // The cover is a full page: arrow keys belong to it, not to month navigation.
+      if (!coverOpen && (e.key === 'ArrowLeft' || e.key === '[') && month > 1) {
         e.preventDefault();
         setMonth(month - 1);
-      } else if (e.key === ']' && month < 12) {
+      } else if (!coverOpen && (e.key === 'ArrowRight' || e.key === ']') && month < 12) {
         e.preventDefault();
         setMonth(month + 1);
       } else if (e.key === '\\' && page === 'offers' && !coverOpen) {
         e.preventDefault();
         setLibraryOpen(o => !o);
+      } else if (!coverOpen && /^[1-5]$/.test(e.key)) {
+        // The five pages, in the order the tabs are drawn.
+        e.preventDefault();
+        setPage(PAGES[Number(e.key) - 1]);
       }
     };
     document.addEventListener('keydown', handler);

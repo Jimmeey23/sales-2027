@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-do
 import {
   Bot,
   ChevronDown,
+  Keyboard,
   LockKeyhole,
   LogOut,
   MapPin,
@@ -18,7 +19,7 @@ import LocationSwitcher from './LocationSwitcher';
 import CommandPalette from './CommandPalette';
 import CopilotDrawer from './CopilotDrawer';
 import { useApp } from '../App';
-import { Select } from './ui';
+import { Modal, Select } from './ui';
 import { ALL_LOCATIONS_COLOR, LOCATION_COLORS, accentFor, planningLocations } from '../data/locations';
 import { NAV, linkMatches, locate } from '../app/navigation';
 import { post } from '../api';
@@ -28,6 +29,7 @@ export default function Layout() {
     useApp();
   const [copilotOpen, setCopilotOpen] = useState(false),
     [cmdOpen, setCmdOpen] = useState(false),
+    [keysOpen, setKeysOpen] = useState(false),
     [sidebarOpen, setSidebarOpen] = useState(false),
     [adminPasscode, setAdminPasscode] = useState(''),
     [locOpen, setLocOpen] = useState(false),
@@ -70,9 +72,16 @@ export default function Layout() {
   }, [locOpen]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const typing = /^(input|textarea|select)$/i.test((e.target as HTMLElement)?.tagName || '');
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setCmdOpen(v => !v);
+        return;
+      }
+      // "?" is the studio's help key; it never fires while a field has focus.
+      if (!typing && !e.metaKey && !e.ctrlKey && e.key === '?') {
+        e.preventDefault();
+        setKeysOpen(v => !v);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -278,6 +287,15 @@ export default function Layout() {
               <span>Jump…</span>
               <kbd>⌘K</kbd>
             </button>
+            <button
+              type="button"
+              className="ws-keys"
+              onClick={() => setKeysOpen(true)}
+              title="Keyboard shortcuts (?)"
+              aria-label="Keyboard shortcuts"
+            >
+              <Keyboard size={15} />
+            </button>
             <label className="ws-control">
               <span>Year</span>
               <Select value={year} onChange={e => setYear(Number(e.target.value))}>
@@ -380,7 +398,67 @@ export default function Layout() {
         <Outlet />
       </main>
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} onOpenCopilot={() => setCopilotOpen(true)} />
+      {keysOpen && <ShortcutsSheet onClose={() => setKeysOpen(false)} />}
       {copilotOpen && <CopilotDrawer onClose={() => setCopilotOpen(false)} />}
     </div>
+  );
+}
+
+/* The studio's own keyboard map, kept to the handful of keys that actually exist.
+   It is opened with "?" and lists only what is wired: nothing aspirational. */
+const KEYS: { group: string; rows: [string, string][] }[] = [
+  {
+    group: 'Anywhere',
+    rows: [
+      ['⌘ K / Ctrl K', 'Jump to a month, location or page'],
+      ['?', 'Open this sheet'],
+      ['Esc', 'Close the palette, a drawer or a panel'],
+    ],
+  },
+  {
+    group: 'Month plan',
+    rows: [
+      ['← / →', 'Previous or next month (also [ and ])'],
+      ['1 – 5', 'Overview, targets, offers, collateral, execution'],
+      ['\\', 'Open the offer library on the offers page'],
+      ['Esc', 'Leave the month plan'],
+    ],
+  },
+  {
+    group: 'Studio intelligence',
+    rows: [
+      ['⌘ K → type “intelligence”', 'Open the audit for a month'],
+      ['Tab', 'Move between the five tools'],
+    ],
+  },
+];
+
+function ShortcutsSheet({ onClose }: { onClose: () => void }) {
+  return (
+    <Modal
+      title="Keyboard shortcuts"
+      subtitle="The keys the studio actually answers to."
+      onClose={onClose}
+      width="560px"
+    >
+      <div className="keys-sheet">
+        {KEYS.map(section => (
+          <section key={section.group}>
+            <h4>{section.group}</h4>
+            <ul>
+              {section.rows.map(([key, what]) => (
+                <li key={key + what}>
+                  <kbd>{key}</kbd>
+                  <span>{what}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+        <p className="keys-note">
+          Shortcuts never fire while you are typing in a field, and nothing here changes a plan on its own.
+        </p>
+      </div>
+    </Modal>
   );
 }
