@@ -94,7 +94,7 @@
 }
 
 .mw .mp-run-summary strong {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(22px, 2.4vw, 30px);
   font-weight: 500;
   line-height: 1.08;
@@ -118,7 +118,7 @@
 }
 
 .mw .mp-run-figures b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 22px;
   font-weight: 500;
   line-height: 1;
@@ -400,7 +400,7 @@
   border-radius: 0;
   background: none;
   box-shadow: none;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: normal;
   font-size: 26px;
   font-weight: 500;
@@ -915,7 +915,7 @@
 .mw .mw-main.is-page-targets .mw-volchart-row strong {
   grid-area: value;
   justify-self: end;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 500;
   line-height: 1;
@@ -1003,7 +1003,7 @@
 }
 
 .mw .mw-gapplan .mw-gp-summary b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -1124,7 +1124,7 @@
 }
 
 .mw .mw-gapplan .mw-gp-vals b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -1179,7 +1179,7 @@
   justify-items: end;
   gap: 1px;
   text-align: right;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.02em;

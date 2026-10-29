@@ -134,7 +134,7 @@
   border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 14px;
   font-weight: 500;
@@ -1048,7 +1048,7 @@
   max-width: min(54ch, 100%);
 }
 .mw .oc h3.oc-title {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(26px, 3.2cqi, 34px);
   font-weight: 500;
   line-height: 1.04;
@@ -1087,7 +1087,7 @@
 }
 .mw .oc-hero-top .oc-num-badge,
 .mw .oc-num-badge {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
 }
@@ -1138,7 +1138,7 @@
   color: #b2babd;
 }
 .mw .oc-stat-value {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 19px;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -1205,7 +1205,7 @@
   background: #f9f8f8;
 }
 .mw .oc-details-toggle {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -1267,7 +1267,7 @@
 }
 .mw .oc-why-heading {
   margin-bottom: 12px;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 15px;
   font-style: italic;
   font-weight: 500;
@@ -1461,7 +1461,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.01em;

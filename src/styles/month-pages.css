@@ -113,7 +113,7 @@
 .mo-brief > p {
   margin: 0;
   max-width: 88ch;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 16px;
   line-height: 1.68;
   color: #283236;
@@ -137,7 +137,7 @@
 }
 .mo-brief-foot em {
   font-style: italic;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 12px;
   color: #98948b;
 }
@@ -210,7 +210,7 @@
   gap: 9px;
 }
 .mo-note-head i {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 13px;
   color: var(--a1, #3892b2);
@@ -241,7 +241,7 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 500;
   line-height: 1.1;
@@ -319,7 +319,7 @@
   margin-top: auto;
   padding-top: 2px;
   font-style: italic;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 11.5px;
   color: #98948b;
 }
@@ -517,7 +517,7 @@
   top: 16px;
   right: 24px;
   z-index: 2;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: clamp(38px, 4.4vw, 58px);
   line-height: 0.8;
@@ -552,7 +552,7 @@
 .mp-hero h2 {
   margin: 0;
   max-width: 26ch;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(28px, 3vw, 40px);
   font-weight: 500;
   line-height: 1.04;
@@ -600,7 +600,7 @@
 }
 .mp-hero-meta dd {
   margin: 0;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 18px;
   font-weight: 500;
   line-height: 1.15;
@@ -697,7 +697,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 15.5px;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -777,7 +777,7 @@
   background: linear-gradient(90deg, rgba(26, 23, 16, 0.12), rgba(26, 23, 16, 0.02));
 }
 .mp-offer-divider b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 13px;
   font-weight: 500;
   color: #181f22;
@@ -894,7 +894,7 @@
 }
 .mp-drawer-title h3 {
   margin: 0;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 25px;
   font-weight: 500;
   line-height: 1.08;
@@ -1136,7 +1136,7 @@
   color: #a5a198;
 }
 .mp-lib-side b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 13.5px;
   font-weight: 500;
   color: #181f22;
