@@ -66,4 +66,10 @@ Defined once in `src/data/locations.ts`.
 | Offer card | `pages/plan/MonthWorkspace.tsx` (`.oc*`), styled last in `atelier.css` §19 | Photographed hero closed by a gold hairline, six figures on a paper rail, then the printed spec. Off-plan rows in the offer studio (`.os-offer`) share the type and rules. |
 | Target breakdown | `pages/plan/TargetBreakdown.tsx` | The complete 12-month table. It renders in the month plan's **Targets & mix** page (scoped with the `studio` prop) as well as on its own route. |
 | WhatsApp proofs | `components/MarketingCollaterals.tsx` (`.wa-pair.is-duo`) | Both sends — launch broadcast and the 48-hour reminder — sit side by side on one proof board. |
-| Month plan | `pages/plan/MonthWorkspace.tsx` | Opened per month from Offers › Planned promotions, so the target, the mix and the offers live in one place.
+| Month plan | `pages/plan/MonthWorkspace.tsx` | Opened per month from Offers › Planned promotions, so the target, the mix and the offers live in one place. Arrow keys and `1`–`5` move between months and pages. |
+| Month overview | `pages/plan/MonthOverview.tsx` (`.mo2*`, `atelier.css` §22) | The month's opening page: photograph, the four figures that decide it, the split / funnel / renewal gap as drawn cards, then the prose. |
+| Year calendar | `pages/plan/YearCalendar.tsx` (`.yc*`, `yearcal.css`) | A season curve over a filmstrip of twelve month covers; each tile opens its month. |
+| Studio intelligence | `components/StudioAi.tsx` (`.ai*`, `atelier.css` §23) + `server/lib/studioAi.ts` | Five deterministic tools over one month: audit, copy, names, actions, goals. Nothing is written back until the reader copies it in. |
+| Loaders | `components/ui.tsx` (`Loading`, `LoadingRows`), `atelier.css` §21 | Three gold arcs around a breathing core, with a shimmering label; skeleton rows for lists still arriving. |
+| Keyboard | `components/Layout.tsx` (`ShortcutsSheet`), `atelier.css` §24 | `⌘K` palette, `?` for the key map, `Esc` to close. Shortcuts never fire while a field has focus. |
+| Offer studio density | `pages/plan/OffersTab.tsx` (`.os-density`, `atelier.css` §25) | Comfortable or compact rows, remembered per browser. |
