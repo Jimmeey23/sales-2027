@@ -130,13 +130,17 @@ export default function TargetBreakdown({
   onSaved,
   switcher,
   children,
+  studio,
 }: {
   onMonth: (month: number) => void;
   onSaved: () => Promise<unknown>;
   switcher?: React.ReactNode;
   children?: React.ReactNode;
+  /* Embeddings inside a month plan pass their own studio so the table matches the plan on screen. */
+  studio?: number | null;
 }) {
-  const { studioId, year, scenario, can } = useApp();
+  const { studioId: workspaceStudio, year, scenario, can } = useApp();
+  const studioId = studio === undefined ? workspaceStudio : studio;
   const { data, loading, error, reload } = useLoad<BResponse>(
     () => api(`/targets/breakdown?year=${year}${studioId ? `&studio=${studioId}` : ''}`),
     [studioId, year, scenario],

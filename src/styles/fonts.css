@@ -1,0 +1,47 @@
+/* Self-hosted type. The Google Fonts CDN is not reachable from the preview
+   sandbox, so the three families the design depends on ship with the app as
+   variable woff2 subsets: Bodoni Moda (display serif), Inter (interface) and
+   Montserrat (creative/marketing artboards). */
+
+@font-face {
+  font-family: 'Bodoni Moda';
+  src: url('/fonts/bodoni-moda-latin-normal.woff2') format('woff2-variations');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bodoni Moda';
+  src: url('/fonts/bodoni-moda-latin-italic.woff2') format('woff2-variations');
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-latin-normal.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-latin-italic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-latin-normal.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* The families are variable: ask for optical sizing where the axis exists and
+   keep the interface family's contextual alternates on. */
+:root {
+  --font-feature-ui: 'cv05' 1, 'cv08' 1, 'cv11' 1, 'ss03' 1;
+  --font-feature-num: 'tnum' 1, 'cv05' 1;
+}

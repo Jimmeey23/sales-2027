@@ -4,6 +4,7 @@ import {
   BookOpen,
   CalendarRange,
   Check,
+  ClipboardList,
   Dices,
   Edit3,
   ExternalLink,
@@ -28,6 +29,7 @@ import { MONTH_OBJECTIVES } from '../../data/planDefaults';
 import { useLoad } from '../../hooks';
 import { lakh, type PlanData } from './usePlanData';
 import { selectedInMonth } from './TargetsTab';
+import MonthWorkspace from './MonthWorkspace';
 
 const OfferBuilder = lazy(() => import('../OfferBuilder'));
 const OfferBank = lazy(() => import('../OfferBank'));
@@ -78,7 +80,7 @@ export default function OffersTab({ data, reload }: { data: PlanData; reload: ()
           );
         })}
       </nav>
-      {view === 'planned' && <Planned data={data} />}
+      {view === 'planned' && <Planned data={data} reload={reload} />}
       {view === 'library' && embed(<OfferBank />)}
       {view === 'generate' && <Generator data={data} onSaved={() => reload().catch(() => {})} />}
       {view === 'gap' && embed(<GoalBuilder />)}
@@ -167,11 +169,14 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
   );
 }
 
-function Planned({ data }: { data: PlanData }) {
+function Planned({ data, reload }: { data: PlanData; reload: () => Promise<any> }) {
   const navigate = useNavigate();
   const [month, setMonth] = useState(0),
     [status, setStatus] = useState(''),
-    [q, setQ] = useState('');
+    [q, setQ] = useState(''),
+    // The month plan opens over the offer studio: its Targets & mix page carries the
+    // complete year breakdown, so the target, the mix and the offers are read together.
+    [planMonth, setPlanMonth] = useState(0);
   const all = data.months.flatMap(m => selectedInMonth(data, m.month));
   const statuses = [...new Set(all.map(o => o.status).filter(Boolean))] as string[];
   const match = (o: any) =>
@@ -235,6 +240,15 @@ function Planned({ data }: { data: PlanData }) {
                 <h3>{m.leadOffer}</h3>
                 <em>{m.objective}</em>
               </div>
+              <button
+                type="button"
+                className="os-month-plan"
+                onClick={() => setPlanMonth(m.month)}
+                title="Open the full month plan — target breakdown, mix, offers and collaterals"
+              >
+                <ClipboardList size={13} />
+                Month plan
+              </button>
               <div className="os-month-nums">
                 <div>
                   <span className="os-label">Target</span>
@@ -267,6 +281,17 @@ function Planned({ data }: { data: PlanData }) {
           </section>
         );
       })}
+      {planMonth > 0 && (
+        <MonthWorkspace
+          data={data}
+          month={planMonth}
+          setMonth={setPlanMonth}
+          onClose={() => setPlanMonth(0)}
+          onSaved={async () => {
+            await reload();
+          }}
+        />
+      )}
     </div>
   );
 }

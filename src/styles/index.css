@@ -1,5 +1,6 @@
 /* Cascade order matters: later files override earlier ones.
    base → redesign (visual refresh) → studio-plan (plan pages) → workspace (current shell & nav). */
+@import './fonts.css';
 @import './base.css';
 @import './redesign.css';
 @import './studio-plan.css';

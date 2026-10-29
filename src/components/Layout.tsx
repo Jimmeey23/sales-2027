@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react';
 import BrandMark from './BrandMark';
+import LocationSwitcher from './LocationSwitcher';
 import CommandPalette from './CommandPalette';
 import CopilotDrawer from './CopilotDrawer';
 import { useApp } from '../App';
@@ -29,6 +30,7 @@ export default function Layout() {
     [cmdOpen, setCmdOpen] = useState(false),
     [sidebarOpen, setSidebarOpen] = useState(false),
     [adminPasscode, setAdminPasscode] = useState(''),
+    [locOpen, setLocOpen] = useState(false),
     [collapsed, setCollapsed] = useState(() => {
       try {
         return localStorage.getItem('p57-sidebar') === 'collapsed';
@@ -48,6 +50,15 @@ export default function Layout() {
   const location = useLocation(),
     navigate = useNavigate();
   useEffect(() => setSidebarOpen(false), [location.pathname]);
+  useEffect(() => setLocOpen(false), [location.pathname]);
+  useEffect(() => {
+    if (!locOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLocOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [locOpen]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -89,29 +100,39 @@ export default function Layout() {
       toast(error.message || 'Could not unlock admin edit mode.', 'error');
     }
   };
-  const studioTabs = locations
-    .filter(s => !scoped || s.id === boot.user.assigned_studio_id)
-    .map(s => ({
-      id: s.id as number | null,
-      label: s.name,
-      sub: s.name === 'Pop-up' ? `${s.city} · 2 venues` : s.city,
-      code: s.name
-        .split(/[\s-]+/)
-        .map(w => w[0])
-        .join('')
-        .slice(0, 2)
-        .toUpperCase(),
-      color: LOCATION_COLORS[s.name],
-    }));
-  const rollupTab = scoped
-    ? null
-    : {
-        id: null as number | null,
-        label: 'All locations',
-        sub: `${locations.length} studios · Combined`,
-        code: 'ALL',
-        color: ALL_LOCATIONS_COLOR,
-      };
+  const studioCode = (name: string) =>
+    name
+      .split(/[\s-]+/)
+      .map(w => w[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  const locOptions = [
+    ...(scoped
+      ? []
+      : [
+          {
+            id: null as number | null,
+            label: 'All locations',
+            sub: `${locations.length} studios · combined`,
+            code: 'ALL',
+            color: ALL_LOCATIONS_COLOR,
+          },
+        ]),
+    ...locations
+      .filter(s => !scoped || s.id === boot.user.assigned_studio_id)
+      .map(s => ({
+        id: s.id as number | null,
+        label: s.name,
+        sub: s.name === 'Pop-up' ? `${s.city} · 2 venues` : s.city,
+        code: studioCode(s.name),
+        color: LOCATION_COLORS[s.name],
+      })),
+  ];
+  const locDisabled = scoped
+    ? locations.filter(s => s.id !== boot.user.assigned_studio_id).map(s => s.id as number)
+    : [];
+  const activeLoc = locOptions.find(o => o.id === studioId) || locOptions[0];
   return (
     <div
       className={`ws-shell accented ${collapsed ? 'sidebar-collapsed' : ''}`}
@@ -306,56 +327,51 @@ export default function Layout() {
           </div>
         </div>
         {section?.locationAware !== false && (
-          <nav className="ws-locations" aria-label="Locations">
+          <nav className={`ws-locations ${locOpen ? 'is-open' : ''}`} aria-label="Locations">
             <div className="ws-loc-rail" aria-hidden="true">
               <MapPin size={12} />
               <span>Locations</span>
             </div>
-            <div className="ws-loc-track" role="tablist" aria-label="Select studio location">
-              {rollupTab && (
-                <>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={studioId === null}
-                    className={`ws-loc-tab is-rollup ${studioId === null ? 'active' : ''}`}
-                    style={{ '--loc': rollupTab.color } as React.CSSProperties}
-                    onClick={() => setStudioId(null)}
-                  >
-                    <i className="ws-loc-badge">{rollupTab.code}</i>
-                    <span className="ws-loc-copy">
-                      <strong>{rollupTab.label}</strong>
-                      <small>{rollupTab.sub}</small>
-                    </span>
-                    <em className="ws-loc-dot" aria-hidden="true" />
-                  </button>
-                  <span className="ws-loc-sep" aria-hidden="true" />
-                </>
-              )}
-              {studioTabs.map(tab => {
-                const disabled = scoped && tab.id !== boot.user.assigned_studio_id;
-                const isActive = studioId === tab.id;
-                return (
-                  <button
-                    key={tab.label}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    disabled={disabled}
-                    className={`ws-loc-tab ${isActive ? 'active' : ''}`}
-                    style={{ '--loc': tab.color } as React.CSSProperties}
-                    onClick={() => setStudioId(tab.id)}
-                  >
-                    <i className="ws-loc-badge">{tab.code}</i>
-                    <span className="ws-loc-copy">
-                      <strong>{tab.label}</strong>
-                      <small>{tab.sub}</small>
-                    </span>
-                    <em className="ws-loc-dot" aria-hidden="true" />
-                  </button>
-                );
-              })}
-            </div>
+            <button
+              type="button"
+              className="ws-loc-trigger"
+              aria-haspopup="dialog"
+              aria-expanded={locOpen}
+              onClick={() => setLocOpen(v => !v)}
+              style={{ '--loc': activeLoc?.color || '#e6d5ae' } as React.CSSProperties}
+            >
+              <i className="ws-loc-badge">{activeLoc?.code || 'ALL'}</i>
+              <span className="ws-loc-copy">
+                <strong>{activeLoc?.label || 'All locations'}</strong>
+                <small>{activeLoc?.sub || `${locations.length} studios · combined`}</small>
+              </span>
+              <ChevronDown size={14} className="ws-loc-caret" aria-hidden="true" />
+            </button>
+            <span className="ws-loc-note">
+              <i aria-hidden="true" />
+              5 views · vertical timeline
+            </span>
+            {locOpen && (
+              <>
+                <button
+                  className="ws-loc-scrim"
+                  aria-label="Close location switcher"
+                  onClick={() => setLocOpen(false)}
+                />
+                <div className="ws-loc-pop" role="dialog" aria-label="Switch location">
+                  <LocationSwitcher
+                    options={locOptions}
+                    value={studioId}
+                    year={year}
+                    disabledIds={locDisabled}
+                    onChange={id => {
+                      setStudioId(id);
+                      setLocOpen(false);
+                    }}
+                  />
+                </div>
+              </>
+            )}
           </nav>
         )}
       </header>

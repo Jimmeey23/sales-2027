@@ -66,6 +66,7 @@ import MonthCover from './MonthCover';
 import PageHero from './PageHero';
 import { PAGE_PHOTOS, coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
+import TargetBreakdown from './TargetBreakdown';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
@@ -2020,6 +2021,21 @@ export default function MonthWorkspace({
                   </div>
                 );
               })()}
+
+            {/* The complete, year-wide breakdown the plan's numbers come from. It is the same
+                table the target metrics screen shows, kept inside the month so the target and
+                the mix can be read — and challenged — without leaving the plan. */}
+            {page === 'targets' && (
+              <div className="mw-section mw-target-table" id="mw-sec-target-table">
+                <TargetBreakdown
+                  studio={studio.id}
+                  onMonth={next => setMonth(next)}
+                  onSaved={async () => {
+                    await onSaved();
+                  }}
+                />
+              </div>
+            )}
 
             {/* ─── Section 2: Monthly focus & target (ONE Unified Cohesive Canvas) ─── */}
             {showOnPage('focus') &&
