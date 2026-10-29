@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   Bot,
@@ -48,16 +48,25 @@ export default function Layout() {
       return !c;
     });
   const location = useLocation(),
-    navigate = useNavigate();
+    navigate = useNavigate(),
+    locRef = useRef<HTMLElement | null>(null);
   useEffect(() => setSidebarOpen(false), [location.pathname]);
   useEffect(() => setLocOpen(false), [location.pathname]);
+  // The switcher closes on Escape or on any press outside it — the header keeps no scrim.
   useEffect(() => {
     if (!locOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (locRef.current && !locRef.current.contains(e.target as Node)) setLocOpen(false);
+    };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setLocOpen(false);
     };
+    document.addEventListener('mousedown', onDown);
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      window.removeEventListener('keydown', onKey);
+    };
   }, [locOpen]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -327,7 +336,7 @@ export default function Layout() {
           </div>
         </div>
         {section?.locationAware !== false && (
-          <nav className={`ws-locations ${locOpen ? 'is-open' : ''}`} aria-label="Locations">
+          <nav className={`ws-locations ${locOpen ? 'is-open' : ''}`} aria-label="Locations" ref={locRef}>
             <div className="ws-loc-rail" aria-hidden="true">
               <MapPin size={12} />
               <span>Locations</span>
@@ -348,29 +357,21 @@ export default function Layout() {
               <ChevronDown size={14} className="ws-loc-caret" aria-hidden="true" />
             </button>
             <span className="ws-loc-note">
-              <i aria-hidden="true" />
-              5 views · vertical timeline
+              <i aria-hidden="true" />5 views · vertical timeline
             </span>
             {locOpen && (
-              <>
-                <button
-                  className="ws-loc-scrim"
-                  aria-label="Close location switcher"
-                  onClick={() => setLocOpen(false)}
+              <div className="ws-loc-pop" role="dialog" aria-label="Switch location">
+                <LocationSwitcher
+                  options={locOptions}
+                  value={studioId}
+                  year={year}
+                  disabledIds={locDisabled}
+                  onChange={id => {
+                    setStudioId(id);
+                    setLocOpen(false);
+                  }}
                 />
-                <div className="ws-loc-pop" role="dialog" aria-label="Switch location">
-                  <LocationSwitcher
-                    options={locOptions}
-                    value={studioId}
-                    year={year}
-                    disabledIds={locDisabled}
-                    onChange={id => {
-                      setStudioId(id);
-                      setLocOpen(false);
-                    }}
-                  />
-                </div>
-              </>
+              </div>
             )}
           </nav>
         )}

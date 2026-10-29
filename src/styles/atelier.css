@@ -3417,33 +3417,13 @@ details.membership-terms > summary {
   background: var(--gold);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 14%, transparent);
 }
-.ws-header > .ws-locations button.ws-loc-scrim {
-  position: fixed;
-  inset: 0;
-  z-index: 58;
-  width: auto;
-  height: auto;
-  border: 0;
-  padding: 0;
-  min-width: 0;
-  min-height: 0;
-  border-radius: 0;
-  background: rgba(15, 14, 9, 0.12);
-  box-shadow: none;
-  backdrop-filter: blur(1.5px);
-  cursor: default;
-  transition: none;
-}
-.ws-header > .ws-locations button.ws-loc-scrim:hover:not(:disabled) {
-  transform: none;
-  background: rgba(15, 14, 9, 0.12);
-}
 .ws-loc-pop {
   position: absolute;
   top: calc(100% - 2px);
   left: 34px;
   z-index: 60;
   width: 366px;
+  max-width: calc(100vw - 40px);
   max-height: min(72vh, 620px);
   overflow: auto;
   padding: 14px;
