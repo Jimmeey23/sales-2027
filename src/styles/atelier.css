@@ -5526,14 +5526,16 @@ details.membership-terms > summary {
   color: var(--ink-soft);
   max-width: 92ch;
 }
-.mw .mo2-brief-foot {
-  margin-top: 12px;
+.mw .mo2-moment {
+  margin: 12px 0 0;
   padding-top: 12px;
   border-top: 1px solid var(--line);
-  font-size: 11.5px;
+  max-width: 92ch;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-style: italic;
   line-height: 1.55;
   color: var(--subtle);
-  max-width: 92ch;
 }
 
 .mw .mo2-cards {

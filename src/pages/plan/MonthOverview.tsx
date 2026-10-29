@@ -156,7 +156,7 @@ export default function MonthOverview({
               </em>
             </span>
             <h1>{theme}</h1>
-            <p className="mo2-lede">{chapter.moment}</p>
+            <p className="mo2-lede">{chapter.objective}</p>
             <div className="mo2-hero-figures">
               <div>
                 <span>Revenue target</span>
@@ -188,9 +188,7 @@ export default function MonthOverview({
         <div className="mo2-brief">
           <span className="mo2-label">The brief</span>
           <p>{chapter.brief}</p>
-          <div className="mo2-brief-foot">
-            <span>{story.split}</span>
-          </div>
+          <p className="mo2-moment">{chapter.moment}</p>
         </div>
 
         <div className="mo2-cards">

@@ -15,6 +15,7 @@ import {
 import { api, post } from '../api';
 import { useApp } from '../App';
 import { useLoad } from '../hooks';
+import { LoadingRows } from './ui';
 import { MONTHS, MONTHS_SHORT, money, number, percent, titleCase } from '../types';
 import { selectedInMonth } from '../pages/plan/TargetsTab';
 import type { PlanData } from '../pages/plan/usePlanData';
@@ -212,7 +213,7 @@ export default function OfferBankRail({
 
         <div className="bank-list">
           {loading && !bank ? (
-            <p className="bank-empty">Loading the bank…</p>
+            <LoadingRows rows={3} />
           ) : rows.length === 0 ? (
             <p className="bank-empty">
               {q ? 'Nothing matches that search.' : 'Every matching offer is already on this month.'}
