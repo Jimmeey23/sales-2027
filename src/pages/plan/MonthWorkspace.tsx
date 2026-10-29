@@ -66,6 +66,7 @@ import MonthCover from './MonthCover';
 import PageHero from './PageHero';
 import { PAGE_PHOTOS, coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
+import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 
@@ -500,6 +501,7 @@ export default function MonthWorkspace({
   const [studioIdx, setStudioIdx] = useState(0),
     [solo, setSolo] = useState(false),
     [mathsOpen, setMathsOpen] = useState(false),
+    [studioAiOpen, setStudioAiOpen] = useState(false),
     [prices, setPrices] = useState<Prices | null>(null),
     [masterCode, setMasterCode] = useState(''),
     [masterCodeError, setMasterCodeError] = useState(''),
@@ -1470,6 +1472,18 @@ export default function MonthWorkspace({
               </button>
             </div>
             <div className="mw-head-actions">
+              {/* One drawer over the whole month: the audit, the copy editor, names,
+                  actions and goals all read this month's numbers. */}
+              <button
+                type="button"
+                className={`mw-maths-launch is-ai ${studioAiOpen ? 'active' : ''}`}
+                aria-expanded={studioAiOpen}
+                title="Studio intelligence — audit, copy, names, actions and goals for this month"
+                onClick={() => (aiReady ? setStudioAiOpen(open => !open) : setAiGateOpen(true))}
+              >
+                <Sparkles size={15} />
+                <span>Intelligence</span>
+              </button>
               {econ && (
                 <button
                   type="button"
@@ -4524,6 +4538,28 @@ export default function MonthWorkspace({
           />
         )}
       </section>
+
+      {/* Studio intelligence sits over the month, not inside a section, so it can read
+          every part of the plan and hand text back to the field it came from. */}
+      {studioAiOpen && aiReady && (
+        <StudioAi
+          studioId={studio.id}
+          year={year}
+          month={month}
+          monthName={MONTHS[month - 1]}
+          theme={displayTheme}
+          onClose={() => setStudioAiOpen(false)}
+          onUseCopy={text => {
+            if (!editable) {
+              navigator.clipboard?.writeText(text);
+              toast('Copied — this month is read-only, so it was not written in.');
+              return;
+            }
+            updateContent({ notes: text });
+            toast('Written into the month’s notes.');
+          }}
+        />
+      )}
     </div>
   );
 }

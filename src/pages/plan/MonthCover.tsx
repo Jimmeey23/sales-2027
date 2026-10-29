@@ -196,6 +196,18 @@ export default function MonthCover({
   const leadToTrial = leads ? trials / leads : null;
   const trialToBuyer = trials ? buyers / trials : null;
   const share = (v: number) => `${(Math.max(0, v) / total) * 100}%`;
+  // The same split, read as a ring: arcs are cut from the full circumference in order,
+  // so the three segments close the circle exactly.
+  const RING = 38;
+  const CIRC = 2 * Math.PI * RING;
+  let cursor = 0;
+  const arcs = streams.map((s, i) => {
+    const len = (Math.max(0, s.value) / total) * CIRC;
+    const arc = { key: s.key, len, offset: cursor, tone: TONES[i % TONES.length], i };
+    cursor += len;
+    return arc;
+  });
+  const lead = streams.reduce((a, b) => (b.value > a.value ? b : a), streams[0]);
 
   return (
     <div
@@ -397,18 +409,43 @@ export default function MonthCover({
               ))}
             </div>
 
-            <ul className="mc-legend">
-              {streams.map((s, i) => (
-                <li key={s.key} style={{ ['--i' as string]: i } as React.CSSProperties}>
-                  <i style={{ background: TONES[i % TONES.length] }} aria-hidden="true" />
-                  <span>{s.label}</span>
-                  <b>
-                    <Counter to={s.value} format={lakh} delay={620 + i * 90} animate={animate} />
-                  </b>
-                  <em>{((Math.max(0, s.value) / total) * 100).toFixed(0)}%</em>
-                </li>
-              ))}
-            </ul>
+            <div className="mc-split-figure">
+              <span className="mc-donut" aria-hidden="true">
+                <svg viewBox="0 0 100 100">
+                  <circle className="mc-donut-bg" cx="50" cy="50" r={RING} />
+                  {arcs.map(a => (
+                    <circle
+                      key={a.key}
+                      className={`mc-donut-arc${animate ? ' is-animated' : ''}`}
+                      cx="50"
+                      cy="50"
+                      r={RING}
+                      stroke={a.tone}
+                      strokeDasharray={`${a.len} ${CIRC - a.len}`}
+                      strokeDashoffset={-a.offset}
+                      style={{ ['--i' as string]: a.i } as React.CSSProperties}
+                    />
+                  ))}
+                </svg>
+                <span className="mc-donut-core">
+                  <b>{lead ? Math.round((Math.max(0, lead.value) / total) * 100) : 0}%</b>
+                  <em>{lead ? lead.label.toLowerCase() : 'unset'}</em>
+                </span>
+              </span>
+
+              <ul className="mc-legend">
+                {streams.map((s, i) => (
+                  <li key={s.key} style={{ ['--i' as string]: i } as React.CSSProperties}>
+                    <i style={{ background: TONES[i % TONES.length] }} aria-hidden="true" />
+                    <span>{s.label}</span>
+                    <b>
+                      <Counter to={s.value} format={lakh} delay={620 + i * 90} animate={animate} />
+                    </b>
+                    <em>{((Math.max(0, s.value) / total) * 100).toFixed(0)}%</em>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </section>
 
           <section className="mc-need">
