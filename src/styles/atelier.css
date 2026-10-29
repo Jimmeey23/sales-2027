@@ -14,9 +14,9 @@
 /* ── 1. Tokens ────────────────────────────────────────────────────────────── */
 :root {
   /* Type */
-  --font-sans: 'Inter', 'InterVariable', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
+  --font-sans: 'Instrument Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
     sans-serif;
-  --font-display: 'Bodoni Moda', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-display: 'Fraunces', 'Bodoni Moda', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
   --font-mono: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Consolas, monospace;
   /* Legacy aliases used by the cover and plan stylesheets. */
   --display: var(--font-display);
@@ -229,7 +229,7 @@ html {
 body {
   font-feature-settings: var(--font-feature-ui);
   font-optical-sizing: auto;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.002em;
   text-rendering: optimizeLegibility;
 }
 h1,
@@ -241,15 +241,15 @@ h4 {
   text-wrap: balance;
 }
 h1 {
-  font-size: clamp(30px, 2.9vw, 40px);
-  line-height: 1.06;
-  letter-spacing: -0.032em;
-  font-weight: 600;
+  font-size: clamp(30px, 2.9vw, 41px);
+  line-height: 1.04;
+  letter-spacing: -0.026em;
+  font-weight: 500;
 }
 h2 {
   font-size: clamp(20px, 1.6vw, 25px);
-  line-height: 1.16;
-  letter-spacing: -0.024em;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
 }
 h3 {
   line-height: 1.28;
@@ -268,8 +268,8 @@ p {
 .type-display {
   font-family: var(--font-display);
   font-weight: 500;
-  letter-spacing: -0.028em;
-  line-height: 1.06;
+  letter-spacing: -0.024em;
+  line-height: 1.04;
   font-optical-sizing: auto;
 }
 .type-lede,
@@ -292,8 +292,9 @@ p {
 }
 .type-figure {
   font-family: var(--font-display);
-  font-variant-numeric: tabular-nums lining-nums;
-  letter-spacing: -0.03em;
+  font-optical-sizing: auto;
+  font-variant-numeric: lining-nums;
+  letter-spacing: -0.026em;
   line-height: 1;
   color: var(--ink-900);
 }
@@ -4324,6 +4325,336 @@ details.membership-terms > summary {
 }
 .mw .mw-target-table .tb-table tbody tr:hover td {
   background: var(--paper-warm);
+}
+
+/* ── 19b. Offer card v2 · figures in two tiers ───────────────────────────────
+   The card is always read in full, so it is built as a page rather than a
+   summary: a shorter hero, then the three figures that carry the month on a
+   hairline table with their own meters, then three supporting facts, then the
+   printed spec and the argument. */
+.mw .oc {
+  border-radius: 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow:
+    0 1px 2px rgba(32, 27, 18, 0.05),
+    0 18px 34px -30px rgba(32, 27, 18, 0.36);
+}
+.mw .oc:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 2px 6px rgba(32, 27, 18, 0.07),
+    0 26px 48px -30px rgba(32, 27, 18, 0.44);
+}
+.mw .oc-hero {
+  min-height: 236px;
+  padding: 16px 22px 16px;
+}
+.mw .mw-offer-list.is-one-up .oc-hero {
+  min-height: 268px;
+  padding: 20px 26px 18px;
+}
+.mw .oc h3.oc-title {
+  font-size: clamp(25px, 3cqi, 32px);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+}
+.mw .mw-offer-list.is-one-up .oc h3.oc-title {
+  font-size: clamp(28px, 2.9vw, 37px);
+}
+.mw .oc .oc-brief {
+  font-size: 12.2px;
+  line-height: 1.52;
+  color: rgba(243, 236, 222, 0.72);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.mw .oc-chip {
+  height: 21px;
+  padding: 0 8px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+.mw .oc-num-badge {
+  width: 32px;
+  height: 32px;
+  font-size: 15px;
+}
+
+/* The figures: a hairline table, not a row of pills. */
+.mw .oc-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 -24px;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--line);
+}
+.mw .mw-offer-list.is-one-up .oc .oc-stats {
+  margin: 0 -26px;
+}
+.mw .oc-stat {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'label'
+    'value'
+    'note';
+  gap: 0;
+  padding: 15px 18px 16px;
+  border: 0;
+  background: var(--paper);
+}
+.mw .oc-stat + .oc-stat {
+  border-left: 0;
+}
+.mw .oc-stat.is-primary {
+  grid-template-areas:
+    'label'
+    'value'
+    'note'
+    'meter';
+  background: linear-gradient(180deg, var(--paper-warm) 0%, #fff 82%);
+}
+.mw .oc-stat.is-primary .oc-gauge {
+  display: none;
+}
+.mw .oc-stat-label {
+  min-height: 0;
+  gap: 5px;
+  font-size: 8.8px;
+  font-weight: 620;
+  letter-spacing: 0.17em;
+  color: var(--subtle);
+}
+.mw .oc-stat.is-primary .oc-stat-label {
+  color: var(--gold-deep);
+}
+.mw .oc-stat-value {
+  margin-top: 7px;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  color: var(--ink-900);
+}
+.mw .oc-stat.is-primary .oc-stat-value {
+  font-size: 27px;
+  letter-spacing: -0.028em;
+}
+.mw .oc-stat.is-primary .oc-stat-value em {
+  margin-left: 5px;
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+.mw .oc-stat-value.is-muted {
+  color: color-mix(in srgb, var(--subtle) 55%, #fff);
+}
+.mw .oc-stat-note {
+  margin-top: 6px;
+  font-size: 9.6px;
+  line-height: 1.4;
+  color: var(--subtle);
+}
+.mw .oc-stat.is-primary .oc-stat-note {
+  color: var(--muted);
+}
+.mw .oc-stat.is-support {
+  grid-template-columns: minmax(0, 1fr) 30px;
+  grid-template-areas:
+    'label gauge'
+    'value gauge'
+    'note gauge';
+  padding: 12px 16px 14px;
+}
+.mw .oc-stat.is-support .oc-gauge {
+  width: 30px;
+  height: 30px;
+}
+.mw .oc-stat.is-support .oc-stat-value {
+  font-size: 17px;
+}
+.mw .oc-meter {
+  grid-area: meter;
+  display: block;
+  margin-top: 12px;
+  height: 3px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--line-strong) 55%, #fff);
+  overflow: hidden;
+}
+.mw .oc-meter i {
+  display: block;
+  height: 100%;
+  width: var(--fill, 0%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--oc-accent) 55%, var(--gold)), var(--gold));
+  animation: oc-meter-grow 1.1s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+@keyframes oc-meter-grow {
+  from {
+    width: 0;
+  }
+}
+.mw .oc-stat.is-primary:nth-child(3) .oc-meter i {
+  animation-delay: 0.08s;
+}
+.mw .oc-stat.is-primary:nth-child(6) .oc-meter i {
+  animation-delay: 0.16s;
+}
+
+/* The printed spec sits under the figures as a ruled sheet. */
+.mw .oc-spec {
+  margin: 18px 0 0;
+  padding: 15px 18px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--gold) 24%, transparent);
+}
+.mw .oc-spec-head {
+  min-height: 30px;
+  margin-bottom: 6px;
+  padding-bottom: 10px;
+}
+.mw .oc-spec-row {
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: 16px;
+  padding: 7px 0;
+}
+.mw .oc-spec-row + .oc-spec-row {
+  border-top: 1px solid color-mix(in srgb, var(--line) 62%, #fff);
+}
+.mw .oc-spec-label {
+  font-size: 8.6px;
+  font-weight: 620;
+  letter-spacing: 0.16em;
+  color: var(--subtle);
+}
+.mw .oc .oc-spec-value {
+  font-size: 12.2px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.mw .oc .oc-spec-value b {
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+/* Who / when / how as a three-cell strip under the spec. */
+.mw .oc-meta {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 16px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 0;
+}
+.mw .oc-meta-item {
+  gap: 8px;
+  padding: 0 14px;
+}
+.mw .oc-meta-item:nth-child(3n + 1) {
+  padding-left: 0;
+}
+.mw .oc-meta-icon {
+  color: var(--gold);
+}
+.mw .oc-meta-item b {
+  font-size: 11.6px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.mw .oc-label {
+  font-size: 8.6px;
+  letter-spacing: 0.17em;
+  color: var(--subtle);
+}
+
+/* The argument, then the signature line. */
+.mw .oc-why {
+  margin-top: 16px;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 0;
+}
+.mw .oc-why-heading {
+  margin-bottom: 12px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--muted);
+}
+.mw .oc-sign {
+  margin-top: 14px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+}
+
+/* One-up runs the same table wider, with the figures set larger. */
+.mw .mw-offer-list.is-one-up .oc .oc-stats {
+  padding: 0;
+  gap: 1px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat {
+  padding: 18px 22px 18px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat.is-primary {
+  grid-template-columns: minmax(0, 1fr);
+}
+.mw .mw-offer-list.is-one-up .oc-stat.is-primary .oc-stat-value {
+  font-size: 30px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat.is-support {
+  grid-template-columns: minmax(0, 1fr) 40px;
+  padding: 14px 20px 16px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat.is-support .oc-stat-value {
+  font-size: 18px;
+}
+.mw .mw-offer-list.is-one-up .oc-stat.is-support .oc-gauge {
+  width: 40px;
+  height: 40px;
+}
+
+/* Two-up keeps the same hierarchy at a smaller scale. */
+.mw .mw-offer-list.is-two-up .oc .oc-stats {
+  margin: 0 -17px;
+  padding: 0;
+  gap: 1px;
+}
+.mw .mw-offer-list.is-two-up .oc-stat {
+  padding: 12px 12px 13px;
+}
+.mw .mw-offer-list.is-two-up .oc-stat.is-primary .oc-stat-value {
+  font-size: 22px;
+}
+.mw .mw-offer-list.is-two-up .oc-stat.is-support {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'label'
+    'value'
+    'note';
+}
+.mw .mw-offer-list.is-two-up .oc-stat.is-support .oc-gauge {
+  display: none;
+}
+.mw .mw-offer-list.is-two-up .oc-stat.is-support .oc-stat-value {
+  font-size: 15px;
+}
+@container (max-width: 520px) {
+  .mw .oc-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc-meter i {
+    animation: none;
+  }
 }
 
 /* ── 17. Responsive ───────────────────────────────────────────────────────── */

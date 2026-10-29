@@ -690,17 +690,13 @@ export default function MonthWorkspace({
   const updateContent = (patch: Record<string, unknown>) =>
     setForm(f => ({ ...f, content: { ...(f.content || {}), ...patch } }));
   const hiddenSections: string[] = Array.isArray(form.content?.hiddenSections) ? form.content.hiddenSections : [];
-  // Offer cards start collapsed to their hero, and the open ones persist with the month plan
-  // (so the layout survives reloads and rides the existing autosave).
-  const expandedOffers: number[] = Array.isArray(form.content?.expandedOffers)
-    ? (form.content.expandedOffers as number[])
-    : [];
+  // Offer cards are always shown in full: the numbers, the spec and the why-it-works are the
+  // point of the card, so nothing is folded away. Only the 1-up / 2-up reading preference
+  // below persists with the month.
   // One card per row or two is a reading preference, so it rides the plan content like the
   // expanded set: it survives reloads and autosaves with the month.
   const offerColumns: 1 | 2 = form.content?.offerColumns === 1 ? 1 : 2;
   const setOfferColumns = (next: 1 | 2) => updateContent({ offerColumns: next });
-  const allOffersExpanded = selected.length > 0 && selected.every(o => expandedOffers.includes(o.id));
-  const toggleAllOffers = () => updateContent({ expandedOffers: allOffersExpanded ? [] : selected.map(o => o.id) });
   const isSectionVisible = (secKey: string) => !hiddenSections.includes(secKey);
   const hideSection = (secKey: string) => updateContent({ hiddenSections: [...new Set([...hiddenSections, secKey])] });
   const restoreSection = (secKey: string) =>
@@ -3244,17 +3240,6 @@ export default function MonthWorkspace({
                               </button>
                             </div>
                           )}
-                          {selected.length > 0 && (
-                            <button
-                              type="button"
-                              className="mw-mini-btn"
-                              onClick={toggleAllOffers}
-                              title={allOffersExpanded ? 'Collapse every offer card' : 'Expand every offer card'}
-                            >
-                              {allOffersExpanded ? <ChevronsDownUp size={12} /> : <ChevronsUpDown size={12} />}
-                              {allOffersExpanded ? 'Collapse all' : 'Expand all'}
-                            </button>
-                          )}
                           <button
                             type="button"
                             className="mw-mini-btn"
@@ -3318,31 +3303,6 @@ export default function MonthWorkspace({
                           (sum, { offer }) => sum + (forecastRevenue(offer) > 0 ? n(offer.target_purchases) || 0 : 0),
                           0,
                         );
-                        // In the 2-up grid each row is a pair: expanding one card expands its neighbour so
-                        // the two columns keep the same height and the shared subgrid rows stay aligned.
-                        // Pairs restart at every revenue stream band, so they are read off the groups
-                        // rather than from the card's running number.
-                        const pairOf = new Map<number, number>();
-                        activeGroups.forEach(group => {
-                          for (let i = 0; i + 1 < group.offers.length; i += 2) {
-                            const a = group.offers[i],
-                              b = group.offers[i + 1];
-                            pairOf.set(a.id, b.id);
-                            pairOf.set(b.id, a.id);
-                          }
-                        });
-                        const toggleCardPair = (offerId: number) => {
-                          // In a one-up list the neighbour is a whole card away — do not open it.
-                          const partnerId = offerColumns === 2 ? pairOf.get(offerId) : undefined;
-                          const ids = partnerId ? [offerId, partnerId] : [offerId];
-                          const anyClosed = ids.some(id => !expandedOffers.includes(id));
-                          updateContent({
-                            expandedOffers: anyClosed
-                              ? Array.from(new Set([...expandedOffers, ...ids]))
-                              : expandedOffers.filter(id => !ids.includes(id)),
-                          });
-                        };
-
                         const renderItem = (o: any, no: number, stream?: string) =>
                           editing === o.id ? (
                             <OfferEditor
@@ -3409,8 +3369,6 @@ export default function MonthWorkspace({
                               monthTarget={effective}
                               monthUnits={monthUnitsTotal}
                               photo={photoById.get(o.id)}
-                              collapsed={!expandedOffers.includes(o.id)}
-                              onToggleCollapse={() => toggleCardPair(o.id)}
                             />
                           );
 
@@ -5067,8 +5025,6 @@ function OfferCard({
   monthTarget = 0,
   monthUnits = 0,
   photo,
-  collapsed = false,
-  onToggleCollapse,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
   const parseList = (value: any) => {
@@ -5190,15 +5146,6 @@ function OfferCard({
   const [pending, setPending] = useState<boolean | null>(null);
   useEffect(() => setPending(null), [approved]);
   const shown = pending ?? !!approved;
-  // The whole card is the collapse target; controls, links and text selection are left alone.
-  const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (!onToggleCollapse) return;
-    const target = event.target as HTMLElement;
-    if (target.closest('button, a, input, select, textarea, label, [role="checkbox"], [contenteditable="true"]'))
-      return;
-    if (typeof window !== 'undefined' && window.getSelection()?.toString()) return;
-    onToggleCollapse();
-  };
   const revenue = hasValidForecast(o) ? n(o.expected_revenue) : null;
   const contribution = margin != null && Number.isFinite(Number(margin)) ? Number(margin) : null;
   const sharePct = monthTarget && monthTarget > 0 && revenue !== null ? (revenue / monthTarget) * 100 : null;
@@ -5378,10 +5325,7 @@ function OfferCard({
   })();
 
   return (
-    <article
-      className={`oc${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}${collapsed ? ' is-collapsed' : ''}`}
-      onClick={handleCardClick}
-    >
+    <article className={`oc${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}>
       <div className="oc-hero">
         <div
           className="oc-hero-image"
@@ -5395,18 +5339,6 @@ function OfferCard({
             {offerNum}
           </span>
           <div className="oc-toolbar">
-            {onToggleCollapse && (
-              <button
-                type="button"
-                className="oc-collapse"
-                aria-expanded={!collapsed}
-                aria-label={collapsed ? `Expand ${o.name}` : `Collapse ${o.name}`}
-                title={collapsed ? 'Expand this offer card' : 'Collapse to the photo only'}
-                onClick={onToggleCollapse}
-              >
-                <ChevronDown size={14} className={collapsed ? 'is-flipped' : undefined} />
-              </button>
-            )}
             {(editable || (canSwap && !shown)) && (
               <div className="oc-icon-group">
                 {canSwap && !shown && (
@@ -5527,10 +5459,62 @@ function OfferCard({
       </div>
 
       <div className="oc-sheet">
-        {/* Six figures on one bar, each with its own icon, so the card scans at a glance. */}
-        {/* Six figures, each closed with a bar so the numbers read as a chart, not as prose. */}
+        {/* The figures, in two tiers. The three that carry the month — revenue, units and
+            contribution — sit on the first row as large serif figures over their own meter;
+            price, client value and discount follow as smaller supporting facts. */}
         <div className="oc-stats">
-          <div className="oc-stat">
+          <div className="oc-stat is-primary" style={{ ['--fill' as string]: `${Math.round(revenueBar)}%` }}>
+            <span className="oc-stat-label">
+              <TrendingUp size={12} />
+              Revenue
+            </span>
+            <span className="oc-stat-value">{revenue !== null ? lakh(revenue) : '—'}</span>
+            <small className="oc-stat-note">
+              {sharePct !== null
+                ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}% of ${monthTarget ? lakh(monthTarget) : 'the'} target`
+                : 'No forecast'}
+            </small>
+            <span className="oc-meter" aria-hidden="true">
+              <i />
+            </span>
+          </div>
+          <div className="oc-stat is-primary" style={{ ['--fill' as string]: `${Math.round(unitsBar)}%` }}>
+            <span className="oc-stat-label">
+              <Package size={12} />
+              Units
+            </span>
+            <span className="oc-stat-value">
+              {number(units)}
+              {perWeek > 0 && <em>~{perWeek}/wk</em>}
+            </span>
+            <small className="oc-stat-note">
+              {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
+            </small>
+            <span className="oc-meter" aria-hidden="true">
+              <i />
+            </span>
+          </div>
+          <div
+            className="oc-stat is-primary"
+            style={{ ['--fill' as string]: `${Math.round(marginBar)}%` }}
+            title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
+          >
+            <span className="oc-stat-label">
+              <Wallet size={12} />
+              Contribution
+            </span>
+            <span className={contribution === null ? 'oc-stat-value is-muted' : 'oc-stat-value'}>
+              {contribution === null ? '—' : lakh(contribution)}
+            </span>
+            <small className="oc-stat-note">
+              {marginPct !== null ? `${marginPct.toFixed(0)}% margin` : 'Costs pending'}
+            </small>
+            <span className="oc-meter" aria-hidden="true">
+              <i />
+            </span>
+          </div>
+
+          <div className="oc-stat is-support">
             <span className="oc-stat-label">
               <Tag size={12} />
               {offerColLabel}
@@ -5550,7 +5534,7 @@ function OfferCard({
                     : 'No list comparison'}
             </small>
           </div>
-          <div className="oc-stat">
+          <div className="oc-stat is-support">
             <span className="oc-stat-label">
               <Users size={12} />
               Client gets
@@ -5561,34 +5545,7 @@ function OfferCard({
               {hasCashDiscount ? 'Off the list price' : effPct > 0 ? 'In perks & extras' : 'No price cut'}
             </small>
           </div>
-          <div className="oc-stat">
-            <span className="oc-stat-label">
-              <Package size={12} />
-              Units
-            </span>
-            <span className="oc-stat-value">
-              {number(units)}
-              {perWeek > 0 && <em>~{perWeek}/wk</em>}
-            </span>
-            <StatGauge value={unitsBar} />
-            <small className="oc-stat-note">
-              {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
-            </small>
-          </div>
-          <div className="oc-stat">
-            <span className="oc-stat-label">
-              <TrendingUp size={12} />
-              Revenue
-            </span>
-            <span className="oc-stat-value">{revenue !== null ? lakh(revenue) : '—'}</span>
-            <StatGauge value={revenueBar} />
-            <small className="oc-stat-note">
-              {sharePct !== null
-                ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}% of ${monthTarget ? lakh(monthTarget) : 'the'} target`
-                : 'No forecast'}
-            </small>
-          </div>
-          <div className="oc-stat">
+          <div className="oc-stat is-support">
             <span className="oc-stat-label">
               <Percent size={12} />
               Eff. discount
@@ -5599,22 +5556,6 @@ function OfferCard({
             <StatGauge value={valueBar} soft={cashBar} />
             <small className="oc-stat-note">
               {cashBar > 0 ? 'Cash + perk value' : effPct > 0 ? 'Perk value only' : 'No discount'}
-            </small>
-          </div>
-          <div className="oc-stat">
-            <span className="oc-stat-label">
-              <Wallet size={12} />
-              Contribution
-            </span>
-            <span
-              className={contribution === null ? 'oc-stat-value is-muted' : 'oc-stat-value'}
-              title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
-            >
-              {contribution === null ? '—' : lakh(contribution)}
-            </span>
-            <StatGauge value={marginBar} />
-            <small className="oc-stat-note">
-              {marginPct !== null ? `${marginPct.toFixed(0)}% margin` : 'Costs pending'}
             </small>
           </div>
         </div>
