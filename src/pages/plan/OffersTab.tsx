@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
+  AlignJustify,
   BookOpen,
   CalendarRange,
   Check,
@@ -14,6 +15,7 @@ import {
   Package,
   PenLine,
   Save,
+  Rows3,
   Search,
   Sparkles,
   Target,
@@ -66,6 +68,24 @@ export default function OffersTab({ data, reload }: { data: PlanData; reload: ()
   // The month the studio is looking at — shared by the plan list and the bank rail,
   // so an offer is always added to (or swapped into) the month on screen.
   const [month, setMonth] = useState(0);
+  // How much of the list fits on a screen is the reader's call, and it stays theirs.
+  const [dense, setDense] = useState(() => {
+    try {
+      return window.localStorage.getItem('p57.offerDensity') === 'compact';
+    } catch {
+      return false;
+    }
+  });
+  const toggleDense = () => {
+    setDense(current => {
+      try {
+        window.localStorage.setItem('p57.offerDensity', current ? 'comfortable' : 'compact');
+      } catch {
+        /* A blocked storage API should not break the toggle. */
+      }
+      return !current;
+    });
+  };
   const railMonth = month || new Date().getMonth() + 1;
   const showRail = view === 'planned' || view === 'generate' || view === 'gap';
   const body = (
@@ -85,6 +105,16 @@ export default function OffersTab({ data, reload }: { data: PlanData; reload: ()
             </button>
           );
         })}
+        <button
+          type="button"
+          className={`os-density${dense ? ' on' : ''}`}
+          aria-pressed={dense}
+          onClick={toggleDense}
+          title={dense ? 'Comfortable rows' : 'Compact rows — more offers per screen'}
+        >
+          {dense ? <AlignJustify size={14} /> : <Rows3 size={14} />}
+          {dense ? 'Compact' : 'Comfortable'}
+        </button>
       </nav>
       {view === 'planned' && <Planned data={data} reload={reload} month={month} setMonth={setMonth} />}
       {view === 'library' && embed(<OfferBank />)}
@@ -94,7 +124,7 @@ export default function OffersTab({ data, reload }: { data: PlanData; reload: ()
     </>
   );
   return (
-    <div className={`os-root os-shell${showRail ? ' has-rail' : ''}`}>
+    <div className={`os-root os-shell${showRail ? ' has-rail' : ''}${dense ? ' is-compact' : ''}`}>
       <div className="os-main">{body}</div>
       {showRail && <OfferBankRail data={data} reload={reload} month={railMonth} onMonth={m => setMonth(m)} />}
     </div>

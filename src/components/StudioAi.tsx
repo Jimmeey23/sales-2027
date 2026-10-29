@@ -212,15 +212,28 @@ export default function StudioAi({
                     {review.sentiment?.score})
                   </p>
                 </div>
-                <button
-                  type="button"
-                  className="ai-ghost"
-                  onClick={() => run('review').then(r => r && setReview(r))}
-                  disabled={busy}
-                >
-                  <RefreshCw size={13} className={busy ? 'is-spinning' : ''} />
-                  Re-run
-                </button>
+                <div className="ai-verdict-tools">
+                  <CopyButton
+                    id="audit"
+                    label="Copy the audit"
+                    text={[
+                      `${monthName} ${year} — audit ${review.score}/100. ${review.verdict}`,
+                      ...review.findings.map(
+                        (f: any, i: number) => `${i + 1}. [${f.severity}] ${f.title}\n   ${f.detail}\n   Fix: ${f.fix}`,
+                      ),
+                      `Sentiment: ${review.sentiment.label} (${review.sentiment.score}).`,
+                    ].join('\n')}
+                  />
+                  <button
+                    type="button"
+                    className="ai-ghost"
+                    onClick={() => run('review').then(r => r && setReview(r))}
+                    disabled={busy}
+                  >
+                    <RefreshCw size={13} className={busy ? 'is-spinning' : ''} />
+                    Re-run
+                  </button>
+                </div>
               </header>
 
               <section className="ai-block">

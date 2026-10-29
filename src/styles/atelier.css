@@ -6000,6 +6000,13 @@ details.membership-terms > summary {
   text-transform: uppercase;
   color: var(--subtle);
 }
+.ai-verdict-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
 .ai-ghost {
   display: inline-flex;
   align-items: center;
@@ -6592,6 +6599,67 @@ details.membership-terms > summary {
   .keys-sheet li {
     grid-template-columns: minmax(0, 1fr);
     gap: 6px;
+  }
+}
+
+/* ── 25. Offer studio density ────────────────────────────────────────────────
+   The reader decides how many offers fit on a screen. Compact tightens the rows,
+   the month heads and the gaps; it never changes what is on the page. */
+.offer-studio .os-nav .os-density {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    color 0.16s ease,
+    background 0.16s ease;
+}
+.offer-studio .os-nav .os-density:hover {
+  border-color: color-mix(in srgb, var(--gold) 45%, var(--line));
+  color: var(--ink-900);
+}
+.offer-studio .os-nav .os-density.on {
+  background: var(--ink-900);
+  border-color: var(--ink-900);
+  color: var(--champagne);
+}
+.os-shell.is-compact .os-month {
+  padding-bottom: 12px;
+}
+.os-shell.is-compact .os-month-head {
+  padding: 10px 0 8px;
+}
+.os-shell.is-compact .os-month-head em,
+.os-shell.is-compact .os-month-head h3 {
+  display: none;
+}
+.os-shell.is-compact .os-offer-list {
+  gap: 4px;
+}
+.os-shell.is-compact .os-offer {
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+.os-shell.is-compact .os-offer-kicker small,
+.os-shell.is-compact .os-offer-meta {
+  display: none;
+}
+@media (max-width: 760px) {
+  .offer-studio .os-nav .os-density {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
   }
 }
 
