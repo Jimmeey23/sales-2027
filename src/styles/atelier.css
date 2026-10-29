@@ -5088,6 +5088,751 @@ details.membership-terms > summary {
   }
 }
 
+/* ── 21. Loaders ─────────────────────────────────────────────────────────────
+   The waiting state is an orbital mark: three gold arcs at different radii and
+   speeds around a breathing core, so a slow fetch reads as machinery turning
+   over rather than a spinner. Everything stills when motion is reduced. */
+.p57-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 220px;
+  padding: 24px;
+  color: var(--muted);
+}
+.p57-loader .atl-orbit {
+  position: relative;
+  display: block;
+  width: 62px;
+  height: 62px;
+}
+.p57-loader .atl-orbit-arc {
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  border: 1.6px solid transparent;
+  border-top-color: var(--gold);
+  border-right-color: color-mix(in srgb, var(--gold) 34%, transparent);
+  animation: atl-spin 1.35s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+}
+.p57-loader .atl-orbit-arc.is-inner {
+  inset: 20px;
+  border-top-color: color-mix(in srgb, var(--a1, #45403a) 80%, var(--gold));
+  border-right-color: transparent;
+  animation-duration: 0.95s;
+  animation-direction: reverse;
+}
+.p57-loader .atl-orbit-arc.is-outer {
+  inset: 3px;
+  border-top-color: color-mix(in srgb, var(--gold) 45%, transparent);
+  border-right-color: transparent;
+  animation-duration: 2.1s;
+}
+.p57-loader .atl-orbit-core {
+  position: absolute;
+  inset: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--champagne) 65%, var(--gold) 130%);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 12%, transparent);
+  animation: atl-core 1.8s ease-in-out infinite;
+}
+.p57-loader .atl-loader-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  background: linear-gradient(100deg, var(--subtle) 30%, var(--ink) 46%, var(--subtle) 62%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: atl-shimmer 2.4s linear infinite;
+}
+.p57-loader .atl-loader-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+.p57-loader .atl-loader-dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.35;
+  animation: atl-dot 1.25s ease-in-out infinite;
+}
+.p57-loader .atl-loader-dots i:nth-child(2) {
+  animation-delay: 0.14s;
+}
+.p57-loader .atl-loader-dots i:nth-child(3) {
+  animation-delay: 0.28s;
+}
+.p57-loader svg {
+  display: none;
+}
+@keyframes atl-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes atl-core {
+  0%,
+  100% {
+    transform: scale(0.86);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 10%, transparent);
+  }
+  50% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--gold) 6%, transparent);
+  }
+}
+@keyframes atl-shimmer {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -120% 0;
+  }
+}
+@keyframes atl-dot {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+/* The boot screen: brand, ring and label on the warm canvas. */
+.app-loading {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 22px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #fdfbf7 0%, var(--canvas) 46%, var(--canvas-deep) 100%);
+}
+.app-loading .loading-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: atl-rise 0.7s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+.app-loading .loading-brand span {
+  font-size: 9.5px;
+  font-weight: 620;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.app-loading .p57-loader {
+  min-height: 0;
+  padding: 0;
+}
+@keyframes atl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Skeleton rows for lists that are still arriving. */
+.atl-skeleton {
+  display: grid;
+  gap: 10px;
+  padding: 6px 0;
+}
+.atl-skeleton > span {
+  display: grid;
+  grid-template-columns: 40% 24% 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--paper);
+  animation: atl-skeleton-in 0.5s ease both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+.atl-skeleton > span > i {
+  height: 9px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--canvas-deep) 20%, #fff 42%, var(--canvas-deep) 64%);
+  background-size: 220% 100%;
+  animation: atl-shimmer 1.9s linear infinite;
+}
+@keyframes atl-skeleton-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p57-loader .atl-orbit-arc,
+  .p57-loader .atl-orbit-core,
+  .p57-loader .atl-loader-label,
+  .p57-loader .atl-loader-dots i,
+  .atl-skeleton > span,
+  .atl-skeleton > span > i,
+  .app-loading .loading-brand {
+    animation: none;
+  }
+  .p57-loader .atl-loader-label {
+    -webkit-text-fill-color: currentColor;
+    color: var(--subtle);
+  }
+}
+
+/* ── 22. The month overview ──────────────────────────────────────────────────
+   One sheet, four bands: the month and what it promises over its photograph; the
+   four figures that decide it; the split, the funnel and the renewal gap as
+   drawn cards; then the prose and the argument. */
+.mw .mo2 {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 26px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow:
+    0 1px 2px rgba(32, 27, 18, 0.04),
+    0 26px 50px -40px rgba(32, 27, 18, 0.4);
+  animation: mo2-in 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes mo2-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Band 1 — the month over its photograph. */
+.mw .mo2-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #14120c;
+  color: #fdfaf1;
+}
+.mw .mo2-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: scale(1.02);
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.mw .mo2:hover .mo2-photo {
+  transform: scale(1.05);
+}
+.mw .mo2-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(96deg, rgba(14, 13, 9, 0.94) 0%, rgba(14, 13, 9, 0.78) 42%, rgba(14, 13, 9, 0.18) 78%, rgba(14, 13, 9, 0.42) 100%),
+    linear-gradient(180deg, rgba(14, 13, 9, 0.5) 0%, rgba(14, 13, 9, 0.06) 40%, rgba(14, 13, 9, 0.72) 100%);
+}
+.mw .mo2-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 22px;
+  padding: 30px 32px 26px;
+}
+.mw .mo2-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9.5px;
+  font-weight: 620;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--champagne);
+}
+.mw .mo2-kicker i {
+  width: 22px;
+  height: 1px;
+  background: var(--gold);
+}
+.mw .mo2-status {
+  margin-left: 4px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 213, 174, 0.4);
+  font-size: 8.5px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  color: rgba(253, 250, 241, 0.9);
+}
+.mw .mo2-status.is-approved {
+  border-color: color-mix(in srgb, #6fbf9a 60%, transparent);
+  color: #cdebdc;
+}
+.mw .mo2-hero h1 {
+  margin: 12px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 3.2vw, 44px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.024em;
+  color: #fdfaf1;
+  text-wrap: balance;
+}
+.mw .mo2-lede {
+  max-width: 62ch;
+  margin: 10px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.2vw, 17px);
+  font-style: italic;
+  line-height: 1.45;
+  color: rgba(243, 236, 222, 0.82);
+}
+.mw .mo2-hero-figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 34px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(230, 213, 174, 0.24);
+}
+.mw .mo2-hero-figures > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.mw .mo2-hero-figures span {
+  font-size: 8.8px;
+  font-weight: 620;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(230, 213, 174, 0.72);
+}
+.mw .mo2-hero-figures strong {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #fdfaf1;
+}
+.mw .mo2-hero-figures strong em {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  color: rgba(243, 236, 222, 0.66);
+}
+.mw .mo2-hero-figures strong.is-up {
+  color: #b9e3cd;
+}
+.mw .mo2-hero-figures strong.is-down {
+  color: #f0b49e;
+}
+
+/* The dial sits in the photograph's clear right side. */
+.mw .mo2-dial {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+  justify-self: end;
+}
+.mw .mo2-dial svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.mw .mo2-dial circle {
+  fill: none;
+  stroke-linecap: round;
+}
+.mw .mo2-dial-track {
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 4;
+}
+.mw .mo2-dial-arc {
+  stroke: var(--gold);
+  stroke-width: 4;
+}
+.mw .mo2-dial-arc.is-animated {
+  animation: mo2-dial-in 1.2s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+@keyframes mo2-dial-in {
+  from {
+    stroke-dasharray: 0 100;
+  }
+}
+.mw .mo2-dial b {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #fdfaf1;
+}
+.mw .mo2-dial em {
+  position: absolute;
+  bottom: 26px;
+  font-size: 8px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(230, 213, 174, 0.8);
+}
+
+/* Band 2 — the prose, then the drawn cards. */
+.mw .mo2-body {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 32px 26px;
+}
+.mw .mo2-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8.8px;
+  font-weight: 620;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.mw .mo2-brief p {
+  margin: 10px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.3vw, 19px);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.008em;
+  color: var(--ink-soft);
+  max-width: 92ch;
+}
+.mw .mo2-brief-foot {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--subtle);
+  max-width: 92ch;
+}
+
+.mw .mo2-cards {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 14px;
+  margin-top: 22px;
+}
+.mw .mo2-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 17px 17px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--paper-warm), var(--paper) 70%);
+}
+.mw .mo2-stack {
+  display: flex;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--canvas-deep);
+}
+.mw .mo2-stack-seg {
+  display: block;
+  height: 100%;
+  width: var(--w, 0%);
+  background: var(--mc-a, var(--a1));
+  transform-origin: left;
+  animation: mo2-seg 0.9s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+  animation-delay: calc(var(--i) * 110ms);
+}
+.mw .mo2-stack-seg:nth-child(2) {
+  background: var(--mc-b, var(--gold));
+}
+.mw .mo2-stack-seg:nth-child(3) {
+  background: var(--mc-c, var(--terracotta, #ad5b3e));
+}
+@keyframes mo2-seg {
+  from {
+    transform: scaleX(0);
+  }
+}
+.mw .mo2-legend {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mw .mo2-legend li {
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--muted);
+  animation: mo2-row-in 0.5s ease both;
+  animation-delay: calc(var(--i) * 90ms + 120ms);
+}
+@keyframes mo2-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+.mw .mo2-legend li > i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--mc-a, var(--a1));
+}
+.mw .mo2-legend li:nth-child(2) > i {
+  background: var(--mc-b, var(--gold));
+}
+.mw .mo2-legend li:nth-child(3) > i {
+  background: var(--mc-c, var(--terracotta, #ad5b3e));
+}
+.mw .mo2-legend b {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-900);
+  font-variant-numeric: tabular-nums;
+}
+.mw .mo2-legend em {
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--subtle);
+}
+.mw .mo2-legend li.is-empty {
+  grid-template-columns: minmax(0, 1fr);
+  color: var(--subtle);
+}
+.mw .mo2-funnel {
+  display: grid;
+  gap: 9px;
+}
+.mw .mo2-funnel-row {
+  display: grid;
+  grid-template-columns: 54px auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+.mw .mo2-funnel-row span {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.mw .mo2-funnel-row b {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink-900);
+  font-variant-numeric: tabular-nums;
+}
+.mw .mo2-funnel-row i {
+  display: block;
+  height: 6px;
+  width: var(--w, 0%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--a1, #45403a) 45%, var(--gold)), var(--gold));
+  animation: mo2-bar 1s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+@keyframes mo2-bar {
+  from {
+    width: 0;
+  }
+}
+.mw .mo2-funnel-note,
+.mw .mo2-renew-note {
+  margin: 0;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--subtle);
+}
+.mw .mo2-renew-figure {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.mw .mo2-renew-figure b {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+}
+.mw .mo2-renew-figure span {
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--subtle);
+}
+.mw .mo2-meter {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--canvas-deep);
+  overflow: hidden;
+}
+.mw .mo2-meter i {
+  display: block;
+  height: 100%;
+  width: var(--w, 0%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--green, #1d6450), color-mix(in srgb, var(--green, #1d6450) 50%, var(--gold)));
+  animation: mo2-bar 1.1s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+.mw .mo2-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold-deep);
+  cursor: pointer;
+}
+.mw .mo2-link:hover {
+  color: var(--ink);
+}
+
+/* Band 3 — the three notes, then the argument. */
+.mw .mo2-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.mw .mo2-notes article {
+  padding: 0 20px;
+  min-width: 0;
+}
+.mw .mo2-notes article:first-child {
+  padding-left: 0;
+}
+.mw .mo2-notes article + article {
+  border-left: 1px solid var(--line);
+}
+.mw .mo2-note-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.mw .mo2-note-head i {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-style: italic;
+  letter-spacing: 0;
+  color: var(--gold);
+}
+.mw .mo2-notes p {
+  margin: 9px 0 0;
+  font-size: 12.4px;
+  line-height: 1.62;
+  color: var(--muted);
+}
+.mw .mo2-chapter {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+.mw .mo2-chapter article {
+  padding: 14px 16px 15px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--paper-warm);
+}
+.mw .mo2-chapter article.is-room {
+  background: color-mix(in srgb, var(--champagne) 16%, var(--paper));
+  border-color: color-mix(in srgb, var(--gold) 26%, var(--line));
+}
+.mw .mo2-chapter p {
+  margin: 9px 0 0;
+  font-size: 12.2px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.mw .mo2-chapter em {
+  display: block;
+  margin-top: 8px;
+  font-size: 9.5px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+@media (max-width: 1100px) {
+  .mw .mo2-cards,
+  .mw .mo2-notes,
+  .mw .mo2-chapter {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw .mo2-notes article,
+  .mw .mo2-notes article:first-child {
+    padding: 14px 0 0;
+    border-left: 0;
+  }
+  .mw .mo2-notes article + article {
+    border-top: 1px solid var(--line);
+  }
+  .mw .mo2-hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw .mo2-dial {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mw .mo2,
+  .mw .mo2-stack-seg,
+  .mw .mo2-legend li,
+  .mw .mo2-funnel-row i,
+  .mw .mo2-meter i,
+  .mw .mo2-dial-arc,
+  .mw .mo2-photo {
+    animation: none;
+    transition: none;
+  }
+}
+
 /* ── 17. Responsive ───────────────────────────────────────────────────────── */
 @media (max-width: 1280px) {
   .ws-content {

@@ -1809,8 +1809,10 @@ export default function MonthWorkspace({
                 offerRevenue={offerRevenue}
                 renewalsDue={econ?.renewal.projectedExpiries || row.renewalsDue || 0}
                 renewalCoverage={coverage}
+                streams={coverStreams}
                 photo={coverPhoto}
                 status={coverStatus}
+                onOpenOffers={() => setPage('offers')}
               />
             )}
 
