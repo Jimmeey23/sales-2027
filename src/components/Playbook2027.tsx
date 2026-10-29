@@ -120,7 +120,9 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
         const x = bd?.months?.[i];
         return {
           ...m,
-          offers: ((planDetail?.plans || []).find((p: any) => p.month === i + 1)?.offers || []).map((o: any) => o.name) as string[],
+          offers: ((planDetail?.plans || []).find((p: any) => p.month === i + 1)?.offers || []).map(
+            (o: any) => o.name,
+          ) as string[],
           target: Number(x?.target || 0),
           buyers: Number(x?.newPaying || 0),
           visits: Number(x?.firstVisits || 0),
@@ -290,7 +292,7 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
         <div style={{ height: 280 }}>
           <ResponsiveContainer>
             <ComposedChart data={chart} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
-              <CartesianGrid stroke="#e2e7e3" vertical={false} />
+              <CartesianGrid stroke="#e9dfd7" vertical={false} />
               <XAxis dataKey="month" tickLine={false} axisLine={false} fontSize={12} />
               <YAxis
                 tickFormatter={v => `${(v / 1e5).toFixed(liveTarget < 1.2e7 ? 1 : 0)}L`}
@@ -301,9 +303,9 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
               />
               <Tooltip formatter={(v: any) => (v == null ? '—' : lakh(Number(v)))} />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Bar dataKey="2025 actual" fill="#cfd8d3" radius={[3, 3, 0, 0]} />
-              <Bar dataKey="2026 actual" fill="#8fa79c" radius={[3, 3, 0, 0]} />
-              <Line dataKey="2027 target" stroke="var(--a1, #216657)" strokeWidth={2.5} dot={{ r: 3 }} />
+              <Bar dataKey="2025 actual" fill="#d6cac0" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="2026 actual" fill="#8fa79f" radius={[3, 3, 0, 0]} />
+              <Line dataKey="2027 target" stroke="var(--a1, #245e56)" strokeWidth={2.5} dot={{ r: 3 }} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>

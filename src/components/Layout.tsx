@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   Bot,
   ChevronDown,
+  Keyboard,
   LockKeyhole,
   LogOut,
   MapPin,
@@ -14,10 +15,11 @@ import {
   X,
 } from 'lucide-react';
 import BrandMark from './BrandMark';
+import LocationSwitcher from './LocationSwitcher';
 import CommandPalette from './CommandPalette';
 import CopilotDrawer from './CopilotDrawer';
 import { useApp } from '../App';
-import { Select } from './ui';
+import { Modal, Select } from './ui';
 import { ALL_LOCATIONS_COLOR, LOCATION_COLORS, accentFor, planningLocations } from '../data/locations';
 import { NAV, linkMatches, locate } from '../app/navigation';
 import { post } from '../api';
@@ -27,8 +29,10 @@ export default function Layout() {
     useApp();
   const [copilotOpen, setCopilotOpen] = useState(false),
     [cmdOpen, setCmdOpen] = useState(false),
+    [keysOpen, setKeysOpen] = useState(false),
     [sidebarOpen, setSidebarOpen] = useState(false),
     [adminPasscode, setAdminPasscode] = useState(''),
+    [locOpen, setLocOpen] = useState(false),
     [collapsed, setCollapsed] = useState(() => {
       try {
         return localStorage.getItem('p57-sidebar') === 'collapsed';
@@ -46,13 +50,38 @@ export default function Layout() {
       return !c;
     });
   const location = useLocation(),
-    navigate = useNavigate();
+    navigate = useNavigate(),
+    locRef = useRef<HTMLElement | null>(null);
   useEffect(() => setSidebarOpen(false), [location.pathname]);
+  useEffect(() => setLocOpen(false), [location.pathname]);
+  // The switcher closes on Escape or on any press outside it — the header keeps no scrim.
+  useEffect(() => {
+    if (!locOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (locRef.current && !locRef.current.contains(e.target as Node)) setLocOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLocOpen(false);
+    };
+    document.addEventListener('mousedown', onDown);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [locOpen]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const typing = /^(input|textarea|select)$/i.test((e.target as HTMLElement)?.tagName || '');
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setCmdOpen(v => !v);
+        return;
+      }
+      // "?" is the studio's help key; it never fires while a field has focus.
+      if (!typing && !e.metaKey && !e.ctrlKey && e.key === '?') {
+        e.preventDefault();
+        setKeysOpen(v => !v);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -89,29 +118,39 @@ export default function Layout() {
       toast(error.message || 'Could not unlock admin edit mode.', 'error');
     }
   };
-  const studioTabs = locations
-    .filter(s => !scoped || s.id === boot.user.assigned_studio_id)
-    .map(s => ({
-      id: s.id as number | null,
-      label: s.name,
-      sub: s.name === 'Pop-up' ? `${s.city} · 2 venues` : s.city,
-      code: s.name
-        .split(/[\s-]+/)
-        .map(w => w[0])
-        .join('')
-        .slice(0, 2)
-        .toUpperCase(),
-      color: LOCATION_COLORS[s.name],
-    }));
-  const rollupTab = scoped
-    ? null
-    : {
-        id: null as number | null,
-        label: 'All locations',
-        sub: `${locations.length} studios · Combined`,
-        code: 'ALL',
-        color: ALL_LOCATIONS_COLOR,
-      };
+  const studioCode = (name: string) =>
+    name
+      .split(/[\s-]+/)
+      .map(w => w[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  const locOptions = [
+    ...(scoped
+      ? []
+      : [
+          {
+            id: null as number | null,
+            label: 'All locations',
+            sub: `${locations.length} studios · combined`,
+            code: 'ALL',
+            color: ALL_LOCATIONS_COLOR,
+          },
+        ]),
+    ...locations
+      .filter(s => !scoped || s.id === boot.user.assigned_studio_id)
+      .map(s => ({
+        id: s.id as number | null,
+        label: s.name,
+        sub: s.name === 'Pop-up' ? `${s.city} · 2 venues` : s.city,
+        code: studioCode(s.name),
+        color: LOCATION_COLORS[s.name],
+      })),
+  ];
+  const locDisabled = scoped
+    ? locations.filter(s => s.id !== boot.user.assigned_studio_id).map(s => s.id as number)
+    : [];
+  const activeLoc = locOptions.find(o => o.id === studioId) || locOptions[0];
   return (
     <div
       className={`ws-shell accented ${collapsed ? 'sidebar-collapsed' : ''}`}
@@ -141,7 +180,7 @@ export default function Layout() {
         </div>
         <div
           className="ws-sidebar-context"
-          style={{ '--loc': active ? LOCATION_COLORS[active.name] || '#c7e17c' : '#c7e17c' } as React.CSSProperties}
+          style={{ '--loc': active ? LOCATION_COLORS[active.name] || '#e6d5ae' : '#e6d5ae' } as React.CSSProperties}
         >
           <span>
             Workspace <em>{year}</em>
@@ -248,6 +287,15 @@ export default function Layout() {
               <span>Jump…</span>
               <kbd>⌘K</kbd>
             </button>
+            <button
+              type="button"
+              className="ws-keys"
+              onClick={() => setKeysOpen(true)}
+              title="Keyboard shortcuts (?)"
+              aria-label="Keyboard shortcuts"
+            >
+              <Keyboard size={15} />
+            </button>
             <label className="ws-control">
               <span>Year</span>
               <Select value={year} onChange={e => setYear(Number(e.target.value))}>
@@ -306,56 +354,43 @@ export default function Layout() {
           </div>
         </div>
         {section?.locationAware !== false && (
-          <nav className="ws-locations" aria-label="Locations">
+          <nav className={`ws-locations ${locOpen ? 'is-open' : ''}`} aria-label="Locations" ref={locRef}>
             <div className="ws-loc-rail" aria-hidden="true">
               <MapPin size={12} />
               <span>Locations</span>
             </div>
-            <div className="ws-loc-track" role="tablist" aria-label="Select studio location">
-              {rollupTab && (
-                <>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={studioId === null}
-                    className={`ws-loc-tab is-rollup ${studioId === null ? 'active' : ''}`}
-                    style={{ '--loc': rollupTab.color } as React.CSSProperties}
-                    onClick={() => setStudioId(null)}
-                  >
-                    <i className="ws-loc-badge">{rollupTab.code}</i>
-                    <span className="ws-loc-copy">
-                      <strong>{rollupTab.label}</strong>
-                      <small>{rollupTab.sub}</small>
-                    </span>
-                    <em className="ws-loc-dot" aria-hidden="true" />
-                  </button>
-                  <span className="ws-loc-sep" aria-hidden="true" />
-                </>
-              )}
-              {studioTabs.map(tab => {
-                const disabled = scoped && tab.id !== boot.user.assigned_studio_id;
-                const isActive = studioId === tab.id;
-                return (
-                  <button
-                    key={tab.label}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    disabled={disabled}
-                    className={`ws-loc-tab ${isActive ? 'active' : ''}`}
-                    style={{ '--loc': tab.color } as React.CSSProperties}
-                    onClick={() => setStudioId(tab.id)}
-                  >
-                    <i className="ws-loc-badge">{tab.code}</i>
-                    <span className="ws-loc-copy">
-                      <strong>{tab.label}</strong>
-                      <small>{tab.sub}</small>
-                    </span>
-                    <em className="ws-loc-dot" aria-hidden="true" />
-                  </button>
-                );
-              })}
-            </div>
+            <button
+              type="button"
+              className="ws-loc-trigger"
+              aria-haspopup="dialog"
+              aria-expanded={locOpen}
+              onClick={() => setLocOpen(v => !v)}
+              style={{ '--loc': activeLoc?.color || '#e6d5ae' } as React.CSSProperties}
+            >
+              <i className="ws-loc-badge">{activeLoc?.code || 'ALL'}</i>
+              <span className="ws-loc-copy">
+                <strong>{activeLoc?.label || 'All locations'}</strong>
+                <small>{activeLoc?.sub || `${locations.length} studios · combined`}</small>
+              </span>
+              <ChevronDown size={14} className="ws-loc-caret" aria-hidden="true" />
+            </button>
+            <span className="ws-loc-note">
+              <i aria-hidden="true" />5 views · vertical timeline
+            </span>
+            {locOpen && (
+              <div className="ws-loc-pop" role="dialog" aria-label="Switch location">
+                <LocationSwitcher
+                  options={locOptions}
+                  value={studioId}
+                  year={year}
+                  disabledIds={locDisabled}
+                  onChange={id => {
+                    setStudioId(id);
+                    setLocOpen(false);
+                  }}
+                />
+              </div>
+            )}
           </nav>
         )}
       </header>
@@ -363,7 +398,67 @@ export default function Layout() {
         <Outlet />
       </main>
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} onOpenCopilot={() => setCopilotOpen(true)} />
+      {keysOpen && <ShortcutsSheet onClose={() => setKeysOpen(false)} />}
       {copilotOpen && <CopilotDrawer onClose={() => setCopilotOpen(false)} />}
     </div>
+  );
+}
+
+/* The studio's own keyboard map, kept to the handful of keys that actually exist.
+   It is opened with "?" and lists only what is wired: nothing aspirational. */
+const KEYS: { group: string; rows: [string, string][] }[] = [
+  {
+    group: 'Anywhere',
+    rows: [
+      ['⌘ K / Ctrl K', 'Jump to a month, location or page'],
+      ['?', 'Open this sheet'],
+      ['Esc', 'Close the palette, a drawer or a panel'],
+    ],
+  },
+  {
+    group: 'Month plan',
+    rows: [
+      ['← / →', 'Previous or next month (also [ and ])'],
+      ['1 – 5', 'Overview, targets, offers, collateral, execution'],
+      ['\\', 'Open the offer library on the offers page'],
+      ['Esc', 'Leave the month plan'],
+    ],
+  },
+  {
+    group: 'Studio intelligence',
+    rows: [
+      ['⌘ K → type “intelligence”', 'Open the audit for a month'],
+      ['Tab', 'Move between the five tools'],
+    ],
+  },
+];
+
+function ShortcutsSheet({ onClose }: { onClose: () => void }) {
+  return (
+    <Modal
+      title="Keyboard shortcuts"
+      subtitle="The keys the studio actually answers to."
+      onClose={onClose}
+      width="560px"
+    >
+      <div className="keys-sheet">
+        {KEYS.map(section => (
+          <section key={section.group}>
+            <h4>{section.group}</h4>
+            <ul>
+              {section.rows.map(([key, what]) => (
+                <li key={key + what}>
+                  <kbd>{key}</kbd>
+                  <span>{what}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+        <p className="keys-note">
+          Shortcuts never fire while you are typing in a field, and nothing here changes a plan on its own.
+        </p>
+      </div>
+    </Modal>
   );
 }

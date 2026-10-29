@@ -3,6 +3,7 @@ import { CheckCircle2, Gift, Layers, PartyPopper, TrendingUp } from 'lucide-reac
 import '../../styles/yearcal.css';
 import { MONTHS, MONTHS_SHORT, number } from '../../types';
 import { LOCATION_COLORS, accentFor } from '../../data/locations';
+import { coverPhotoFor } from '../../data/pagePhotos';
 import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor, type KeyDateKind } from '../../data/keyDates';
 import FestivalArt from '../../components/FestivalArt';
 import { useApp } from '../../App';
@@ -10,12 +11,12 @@ import { lakh, type MonthRow, type PlanData } from './usePlanData';
 import { selectedForPlan, selectedInMonth } from './TargetsTab';
 
 const KIND_COLOR: Record<KeyDateKind, string> = {
-  festival: '#e0a02a',
-  holiday: '#3f8f6b',
-  awareness: '#3d7fd0',
-  global: '#16867a',
-  retail: '#d4567e',
-  brand: '#7a52c8',
+  festival: '#b07a2e',
+  holiday: '#3f8f73',
+  awareness: '#3886b2',
+  global: '#25776c',
+  retail: '#b23859',
+  brand: '#6f5a86',
 };
 const STREAMS = [
   { key: 'newClient', label: 'New clients', shade: 1 },
@@ -31,6 +32,23 @@ const LAYERS = [
 type Layer = (typeof LAYERS)[number]['id'];
 const n = (v: any) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 
+/* A season curve is easier to read than twelve columns: the year's shape shows in the
+   line, and each month still carries its own dot and hit area for hover and click. */
+function curve(points: { x: number; y: number }[]) {
+  if (!points.length) return '';
+  let d = `M ${points[0].x} ${points[0].y}`;
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[i - 1] || points[i];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = points[i + 2] || p2;
+    d += ` C ${p1.x + (p2.x - p0.x) / 6} ${p1.y + (p2.y - p0.y) / 6}, ${p2.x - (p3.x - p1.x) / 6} ${
+      p2.y - (p3.y - p1.y) / 6
+    }, ${p2.x} ${p2.y}`;
+  }
+  return d;
+}
+
 // Whole-year infographic: a seasonality ribbon over twelve month tiles that switch between revenue, offers and moments.
 export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen: (month: number) => void }) {
   const { year } = useApp();
@@ -42,7 +60,9 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
   const months: MonthRow[] = plan ? plan.months : data.months;
   const annual = plan ? plan.annual : data.annual;
   const lastYear = plan ? plan.lastYear : data.lastYear;
-  const accent = plan ? accentFor(plan.studio.name) : accentFor(data.plans.length === 1 ? data.plans[0].studio.name : undefined);
+  const accent = plan
+    ? accentFor(plan.studio.name)
+    : accentFor(data.plans.length === 1 ? data.plans[0].studio.name : undefined);
   const offersOf = (m: number) => (plan ? selectedForPlan(data, plan, m) : selectedInMonth(data, m));
 
   const view = useMemo(() => {
@@ -85,7 +105,12 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
           {LAYERS.map(l => {
             const Icon = l.icon;
             return (
-              <button key={l.id} className={layer === l.id ? 'on' : ''} aria-pressed={layer === l.id} onClick={() => setLayer(l.id)}>
+              <button
+                key={l.id}
+                className={layer === l.id ? 'on' : ''}
+                aria-pressed={layer === l.id}
+                onClick={() => setLayer(l.id)}
+              >
                 <Icon size={14} />
                 {l.label}
               </button>
@@ -101,7 +126,9 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
             <strong>{lakh(annual)}</strong>
             <span className={growth !== null && growth < 0 ? 'neg' : 'pos'}>
               <TrendingUp size={13} />
-              {growth === null ? 'No prior year' : `${growth >= 0 ? '+' : ''}${Math.round(growth * 100)}% vs ${lakh(lastYear)}`}
+              {growth === null
+                ? 'No prior year'
+                : `${growth >= 0 ? '+' : ''}${Math.round(growth * 100)}% vs ${lakh(lastYear)}`}
             </span>
           </div>
           <div>
@@ -125,46 +152,95 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
             <span>{12 - approvedCount} still open</span>
           </div>
         </div>
-        <svg className="yc-ribbon" viewBox={`0 0 ${W} ${H + 22}`} role="group" aria-label="Monthly target seasonality by month">
-          {[0.25, 0.5, 0.75].map(g => (
-            <line key={g} x1="0" x2={W} y1={H - H * g} y2={H - H * g} className="yc-grid" />
+        <svg className="yc-ribbon" viewBox={`0 0 ${W} ${H + 20}`} role="group" aria-label="Monthly target seasonality">
+          <defs>
+            <linearGradient id="yc-area" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="var(--a1)" stopOpacity="0.34" />
+              <stop offset="100%" stopColor="var(--a1)" stopOpacity="0.02" />
+            </linearGradient>
+            <linearGradient id="yc-stroke" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="var(--a1)" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="var(--a1)" />
+            </linearGradient>
+          </defs>
+          {[0.25, 0.5, 0.75, 1].map(g => (
+            <line key={g} x1="0" x2={W} y1={H - (H - 6) * g} y2={H - (H - 6) * g} className="yc-grid" />
           ))}
-          {months.map((m, i) => {
-            const h = Math.max(4, (m.target / view.max) * (H - 14));
-            const x = i * step + step * 0.16,
-              w = step * 0.68;
+          {[1, 2, 3].map(q => (
+            <line key={q} x1={q * step * 3} x2={q * step * 3} y1="4" y2={H} className="yc-quarter" />
+          ))}
+          {(() => {
+            const pts = months.map((m, i) => ({
+              x: i * step + step / 2,
+              y: H - Math.max(7, (m.target / view.max) * (H - 18)),
+            }));
+            const line = curve(pts);
             return (
-              <g
-                key={m.month}
-                className={`yc-bar q${Math.ceil(m.month / 3)} ${hot === m.month ? 'hot' : ''} ${m.planApproved ? 'done' : ''}`}
-                role="button"
-                tabIndex={0}
-                aria-label={`Open ${MONTHS[m.month - 1]} plan, target ${lakh(m.target)}`}
-                onMouseEnter={() => setHot(m.month)}
-                onMouseLeave={() => setHot(null)}
-                onFocus={() => setHot(m.month)}
-                onBlur={() => setHot(null)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    onOpen(m.month);
-                  }
-                }}
-                onClick={() => onOpen(m.month)}
-              >
-                <rect x={i * step} y="0" width={step} height={H + 22} className="yc-hit" />
-                <rect x={x} y={H - h} width={w} height={h} rx="6" className="yc-fill" />
-                {m.month === view.peak.month && (
-                  <text x={x + w / 2} y={H - h - 5} textAnchor="middle" className="yc-peak">
-                    {lakh(m.target)}
+              <>
+                <path
+                  d={`${line} L ${pts[pts.length - 1].x} ${H} L ${pts[0].x} ${H} Z`}
+                  className="yc-area"
+                  fill="url(#yc-area)"
+                />
+                <path d={line} className="yc-curve" stroke="url(#yc-stroke)" />
+                {months.map((m, i) => (
+                  <g key={m.month}>
+                    <circle
+                      cx={pts[i].x}
+                      cy={pts[i].y}
+                      r={hot === m.month ? 6 : 3.6}
+                      className={`yc-dot ${hot === m.month ? 'hot' : ''} ${m.planApproved ? 'done' : ''}`}
+                    />
+                    {m.month === view.peak.month && hot !== m.month && (
+                      <text x={pts[i].x} y={pts[i].y - 12} textAnchor="middle" className="yc-peak">
+                        {lakh(m.target)}
+                      </text>
+                    )}
+                  </g>
+                ))}
+                {hot !== null && (
+                  <text
+                    x={Math.min(W - 40, Math.max(40, pts[hot - 1].x))}
+                    y={Math.max(16, pts[hot - 1].y - 14)}
+                    textAnchor="middle"
+                    className="yc-tip"
+                  >
+                    {MONTHS_SHORT[hot - 1]} · {lakh(months[hot - 1].target)}
                   </text>
                 )}
-                <text x={x + w / 2} y={H + 15} textAnchor="middle" className="yc-lab">
-                  {MONTHS_SHORT[m.month - 1]}
-                </text>
-              </g>
+              </>
             );
-          })}
+          })()}
+          {months.map((m, i) => (
+            <g
+              key={m.month}
+              className="yc-hitcol"
+              role="button"
+              tabIndex={0}
+              aria-label={`Open ${MONTHS[m.month - 1]} plan, target ${lakh(m.target)}`}
+              onMouseEnter={() => setHot(m.month)}
+              onMouseLeave={() => setHot(null)}
+              onFocus={() => setHot(m.month)}
+              onBlur={() => setHot(null)}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onOpen(m.month);
+                }
+              }}
+              onClick={() => onOpen(m.month)}
+            >
+              <rect x={i * step} y="0" width={step} height={H + 20} fill="transparent" />
+              <text
+                x={i * step + step / 2}
+                y={H + 14}
+                textAnchor="middle"
+                className={`yc-lab ${hot === m.month ? 'hot' : ''}`}
+              >
+                {MONTHS_SHORT[m.month - 1]}
+              </text>
+            </g>
+          ))}
         </svg>
       </div>
 
@@ -175,7 +251,10 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
           const offers = offersOf(m.month);
           const share = annual ? m.target / annual : 0;
           const yoy = m.lastYear ? m.target / m.lastYear - 1 : null;
-          const total = Math.max(1, STREAMS.reduce((s, x) => s + n((m as any)[x.key]), 0));
+          const total = Math.max(
+            1,
+            STREAMS.reduce((s, x) => s + n((m as any)[x.key]), 0),
+          );
           const R = 22,
             C = 2 * Math.PI * R;
           return (
@@ -190,10 +269,21 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
               onClick={() => onOpen(m.month)}
               aria-label={`Open ${MONTHS[m.month - 1]} plan`}
             >
+              {(() => {
+                const ph = coverPhotoFor(m.month);
+                return (
+                  <span
+                    className="yc-band"
+                    style={{ backgroundImage: `url(${ph.url})`, backgroundPosition: ph.pos }}
+                    aria-hidden="true"
+                  >
+                    <em className="yc-q">Q{Math.ceil(m.month / 3)}</em>
+                    <span className="yc-name">{MONTHS[m.month - 1]}</span>
+                  </span>
+                );
+              })()}
               <div className="yc-head">
                 <div>
-                  <span className="yc-q">Q{Math.ceil(m.month / 3)}</span>
-                  <h4>{MONTHS[m.month - 1]}</h4>
                   <p>{m.theme || m.objective || '—'}</p>
                 </div>
                 <div className="yc-ring" aria-hidden="true">
@@ -214,7 +304,9 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
 
               <div className="yc-money">
                 <strong>{lakh(m.target)}</strong>
-                {yoy !== null && <em className={yoy < 0 ? 'neg' : 'pos'}>{`${yoy >= 0 ? '+' : ''}${Math.round(yoy * 100)}%`}</em>}
+                {yoy !== null && (
+                  <em className={yoy < 0 ? 'neg' : 'pos'}>{`${yoy >= 0 ? '+' : ''}${Math.round(yoy * 100)}%`}</em>
+                )}
                 {m.planApproved && (
                   <span className="yc-done">
                     <CheckCircle2 size={12} /> Approved
@@ -228,9 +320,18 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
                   const left = ((d.day - 1) / Math.max(1, days - 1)) * 100;
                   const width = d.end ? ((d.end - d.day) / Math.max(1, days - 1)) * 100 : 0;
                   return d.end ? (
-                    <b key={i} className="span" style={{ left: `${left}%`, width: `${width}%`, background: KIND_COLOR[d.kind] }} title={d.name} />
+                    <b
+                      key={i}
+                      className="span"
+                      style={{ left: `${left}%`, width: `${width}%`, background: KIND_COLOR[d.kind] }}
+                      title={d.name}
+                    />
                   ) : (
-                    <b key={i} style={{ left: `${left}%`, background: KIND_COLOR[d.kind] }} title={`${d.day} ${MONTHS_SHORT[m.month - 1]} · ${d.name}`} />
+                    <b
+                      key={i}
+                      style={{ left: `${left}%`, background: KIND_COLOR[d.kind] }}
+                      title={`${d.day} ${MONTHS_SHORT[m.month - 1]} · ${d.name}`}
+                    />
                   );
                 })}
               </div>

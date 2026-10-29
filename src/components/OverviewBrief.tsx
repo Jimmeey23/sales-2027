@@ -208,7 +208,7 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
             <div className="chart-box">
               <ResponsiveContainer width="100%" height={300}>
                 <ComposedChart data={b.monthly} margin={{ top: 10, right: 8, left: 0, bottom: 0 }}>
-                  <CartesianGrid stroke="#e8e4ef" vertical={false} />
+                  <CartesianGrid stroke="#e7e0db" vertical={false} />
                   <XAxis dataKey="label" tickLine={false} axisLine={false} />
                   <YAxis
                     tickFormatter={v => `₹${(v / 1e5).toFixed(0)}L`}
@@ -218,12 +218,12 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
                   />
                   <Tooltip formatter={(v: any, name: any) => [money(v), name]} />
                   <Legend />
-                  <Bar name="2025 actual" dataKey="actual2025" fill="#b9c7c0" radius={[4, 4, 0, 0]} maxBarSize={22} />
-                  <Bar name="2026 actual" dataKey="actual2026" fill="#216657" radius={[4, 4, 0, 0]} maxBarSize={22} />
+                  <Bar name="2025 actual" dataKey="actual2025" fill="#d8cabf" radius={[4, 4, 0, 0]} maxBarSize={22} />
+                  <Bar name="2026 actual" dataKey="actual2026" fill="#245f57" radius={[4, 4, 0, 0]} maxBarSize={22} />
                   <Line
                     name="2027 target"
                     dataKey="target2027"
-                    stroke="#c4622d"
+                    stroke="#a96935"
                     strokeWidth={2.5}
                     dot={{ r: 3 }}
                     type="monotone"
@@ -231,7 +231,7 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
                   <Line
                     name="2026 target"
                     dataKey="target2026"
-                    stroke="#725079"
+                    stroke="#8a8376"
                     strokeDasharray="4 4"
                     strokeWidth={1.5}
                     dot={false}

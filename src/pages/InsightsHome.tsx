@@ -1,16 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import {
-  ArrowRight,
-  Building2,
-  CheckCircle2,
-  MapPin,
-  Sparkles,
-  Target,
-  TrendingUp,
-  Users,
-} from 'lucide-react';
+import { ArrowRight, Building2, CheckCircle2, MapPin, Sparkles, Target, TrendingUp, Users } from 'lucide-react';
 import { api } from '../api';
 import { useApp } from '../App';
 import { useLoad } from '../hooks';
@@ -103,7 +94,10 @@ export default function InsightsHome() {
       />
 
       {year > 2026 && (
-        <Callout tone="info" title={`Showing ${data.actualYear} historical actuals alongside the 2027 commercial bridge`}>
+        <Callout
+          tone="info"
+          title={`Showing ${data.actualYear} historical actuals alongside the 2027 commercial bridge`}
+        >
           Planning year {year} has no completed sales actuals yet. Historical conversion, attendance, and revenue
           benchmarks below reflect audited {data.actualYear} cohorts through {data.throughCompleteMonth}, paired with
           each studio&apos;s 2027 target step-up.
@@ -146,7 +140,10 @@ export default function InsightsHome() {
       <div className="ws-toolbar" style={{ marginTop: 18, marginBottom: 14 }}>
         <div>
           <h2>Location evidence scorecards</h2>
-          <p>Select any studio to inspect monthly cohorts, product concentration, check-in patterns, and the 2027 plan simulator.</p>
+          <p>
+            Select any studio to inspect monthly cohorts, product concentration, check-in patterns, and the 2027 plan
+            simulator.
+          </p>
         </div>
         <div className="filter-row">
           <div className="ws-segmented" role="tablist" aria-label="Filter by city">
@@ -183,27 +180,15 @@ export default function InsightsHome() {
         {visibleStudios.map(item => {
           const color = LOCATION_COLORS[item.studio.name] || accentFor(item.studio.name);
           return (
-            <Card key={item.studio.id} className="studio-intel-card">
-              <div
-                style={{
-                  borderTop: `3px solid ${color}`,
-                  margin: '-18px -18px 14px -18px',
-                  padding: '16px 18px 12px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  gap: 10,
-                }}
-              >
+            <Card key={item.studio.id} className="studio-intel-card" style={{ '--loc': color } as React.CSSProperties}>
+              <div className="sic-head">
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                    <span className="eyebrow" style={{ margin: 0 }}>
-                      <MapPin size={11} style={{ verticalAlign: '-1px' }} /> {item.studio.city}
-                    </span>
-                    {item.isRollup && <Badge tone="blue">Consolidated rollup</Badge>}
-                    {item.isChildVenue && <Badge tone="neutral">Pop-up venue</Badge>}
-                  </div>
-                  <h3 style={{ margin: 0, fontSize: '1.15rem' }}>{item.studio.name}</h3>
+                  <p className="sic-eyebrow">
+                    <MapPin size={11} /> {item.studio.city}
+                    {item.isRollup && <span className="sic-tag">Consolidated</span>}
+                    {item.isChildVenue && <span className="sic-tag">Pop-up venue</span>}
+                  </p>
+                  <h3>{item.studio.name}</h3>
                 </div>
                 {item.yoyCompletePct !== null && (
                   <Badge tone={item.yoyCompletePct >= 0 ? 'green' : 'amber'}>
@@ -213,32 +198,16 @@ export default function InsightsHome() {
                 )}
               </div>
 
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                  gap: 10,
-                  padding: '10px 12px',
-                  borderRadius: 10,
-                  background: 'var(--bg-subtle, #f7f6fb)',
-                  marginBottom: 12,
-                }}
-              >
+              <div className="sic-figures">
                 <div>
-                  <small style={{ color: 'var(--muted, #69657b)', display: 'block', fontSize: 11 }}>
-                    {data.actualYear} YTD actual
-                  </small>
-                  <strong style={{ fontSize: '1.05rem' }}>{money(item.ytdRevenue, true)}</strong>
-                  <small style={{ display: 'block', fontSize: 11, color: 'var(--muted, #69657b)' }}>
-                    {money(item.completeRevenue, true)} complete (Jan–Sep)
-                  </small>
+                  <span>{data.actualYear} year to date</span>
+                  <strong>{money(item.ytdRevenue, true)}</strong>
+                  <small>{money(item.completeRevenue, true)} complete (Jan–Sep)</small>
                 </div>
                 <div>
-                  <small style={{ color: 'var(--muted, #69657b)', display: 'block', fontSize: 11 }}>
-                    2027 plan target
-                  </small>
-                  <strong style={{ fontSize: '1.05rem' }}>{money(item.target2027, true)}</strong>
-                  <small style={{ display: 'block', fontSize: 11, color: 'var(--muted, #69657b)' }}>
+                  <span>2027 plan target</span>
+                  <strong>{money(item.target2027, true)}</strong>
+                  <small>
                     {item.growthTo2027Pct !== null
                       ? `${item.growthTo2027Pct >= 0 ? '+' : ''}${item.growthTo2027Pct.toFixed(1)}% vs 2026 pace`
                       : 'Annual target'}
@@ -246,62 +215,49 @@ export default function InsightsHome() {
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-                  gap: 8,
-                  marginBottom: 12,
-                  fontSize: 12,
-                }}
-              >
+              <div className="sic-stats">
                 <div>
-                  <span style={{ color: 'var(--muted, #69657b)', display: 'block' }}>Trial → buy</span>
+                  <span>Trial → buy</span>
                   <strong>{percent(item.trialToPurchaseRate, 1, true)}</strong>
                 </div>
                 <div>
-                  <span style={{ color: 'var(--muted, #69657b)', display: 'block' }}>Check-in rate</span>
+                  <span>Check-in rate</span>
                   <strong>{percent(item.checkinRate, 1, true)}</strong>
                 </div>
                 <div>
-                  <span style={{ color: 'var(--muted, #69657b)', display: 'block' }}>Avg ticket</span>
+                  <span>Avg ticket</span>
                   <strong>{item.aov ? money(item.aov, true) : '—'}</strong>
                 </div>
               </div>
 
               {item.topProduct && (
-                <p style={{ margin: '0 0 8px', fontSize: 12.5, lineHeight: 1.45 }}>
-                  <Sparkles size={12} style={{ verticalAlign: '-2px', marginRight: 5, color }} />
-                  <strong>Top revenue driver:</strong> {item.topProduct.name} ({money(item.topProduct.revenue, true)}
-                  {item.topProduct.share !== null ? ` · ${item.topProduct.share}% share` : ''})
+                <p className="sic-note">
+                  <Sparkles size={12} />
+                  <span>
+                    <strong>Top revenue driver:</strong> {item.topProduct.name} ({money(item.topProduct.revenue, true)}
+                    {item.topProduct.share !== null ? ` · ${item.topProduct.share}% share` : ''})
+                  </span>
                 </p>
               )}
 
               {item.priority2027 && (
-                <p style={{ margin: '0 0 12px', fontSize: 12, color: 'var(--muted, #5c586e)', lineHeight: 1.45 }}>
-                  <Target size={12} style={{ verticalAlign: '-2px', marginRight: 5 }} />
-                  {item.priority2027}
+                <p className="sic-note">
+                  <Target size={12} />
+                  <span>{item.priority2027}</span>
                 </p>
               )}
 
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingTop: 10,
-                  borderTop: '1px solid var(--border, #ece9f4)',
-                  gap: 8,
-                }}
-              >
-                <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-                  <Badge tone="green">{item.feasibility.comfortableMonths + item.feasibility.balancedMonths}m on-pace</Badge>
+              <div className="sic-foot">
+                <div className="sic-badges">
+                  <Badge tone="green">
+                    {item.feasibility.comfortableMonths + item.feasibility.balancedMonths}m on-pace
+                  </Badge>
                   {item.feasibility.stretchMonths > 0 && (
                     <Badge tone="amber">{item.feasibility.stretchMonths}m stretch</Badge>
                   )}
                 </div>
-                <Button size="sm" onClick={() => openStudio(item.studio.id)}>
-                  Explore evidence <ArrowRight size={14} />
+                <Button size="sm" variant="secondary" onClick={() => openStudio(item.studio.id)}>
+                  Explore evidence <ArrowRight size={13} />
                 </Button>
               </div>
             </Card>
@@ -318,7 +274,7 @@ export default function InsightsHome() {
           <div className="chart-box">
             <ResponsiveContainer width="100%" height={290}>
               <BarChart data={chartRows} barGap={6}>
-                <CartesianGrid stroke="#e8e4ef" vertical={false} />
+                <CartesianGrid stroke="#e7e0db" vertical={false} />
                 <XAxis dataKey="name" tickLine={false} axisLine={false} />
                 <YAxis
                   tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`}
@@ -328,9 +284,14 @@ export default function InsightsHome() {
                 />
                 <Tooltip formatter={(v: any) => money(Number(v))} />
                 <Legend />
-                <Bar dataKey="prior2025" name={`${data.actualYear - 1} complete`} fill="#c7c2dc" radius={[5, 5, 0, 0]} />
-                <Bar dataKey="annualized2026" name="2026 annualised pace" fill="#7d72e6" radius={[5, 5, 0, 0]} />
-                <Bar dataKey="target2027" name="2027 plan target" fill="#3f33b5" radius={[5, 5, 0, 0]} />
+                <Bar
+                  dataKey="prior2025"
+                  name={`${data.actualYear - 1} complete`}
+                  fill="#d9ccc2"
+                  radius={[4, 4, 0, 0]}
+                />
+                <Bar dataKey="annualized2026" name="2026 annualised pace" fill="#a96935" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="target2027" name="2027 plan target" fill="#245f57" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

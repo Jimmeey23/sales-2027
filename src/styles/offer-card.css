@@ -6,14 +6,14 @@
    location's accent so cards belong to the studio's plan. */
 
 .mw .oc {
-  --oc-accent: var(--a1, #216657);
-  --oc-highlight: color-mix(in srgb, var(--oc-accent) 26%, #8ee0ff);
-  --oc-navy: #0b1420;
-  --oc-line: #e6ebef;
-  --oc-line-soft: #eef2f5;
-  --oc-ink: #101b26;
-  --oc-muted: #6b7885;
-  --oc-panel: #f1f6fb;
+  --oc-accent: var(--a1, #245e56);
+  --oc-highlight: color-mix(in srgb, var(--oc-accent) 26%, #3886b2);
+  --oc-navy: #0c171d;
+  --oc-line: #e6ecef;
+  --oc-line-soft: #eff2f4;
+  --oc-ink: #101d24;
+  --oc-muted: #6b7b85;
+  --oc-panel: #f5f6f7;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -26,9 +26,9 @@
   border-radius: 22px;
   background: #fff;
   box-shadow:
-    0 1px 2px rgba(11, 20, 32, 0.06),
-    0 16px 30px -20px rgba(11, 20, 32, 0.28),
-    0 34px 64px -50px rgba(11, 20, 32, 0.5);
+    0 1px 2px rgba(22, 20, 14, 0.06),
+    0 16px 30px -20px rgba(22, 20, 14, 0.28),
+    0 34px 64px -50px rgba(22, 20, 14, 0.5);
   transition:
     box-shadow 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
     transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -36,9 +36,9 @@
 .mw .oc:hover {
   transform: translateY(-4px);
   box-shadow:
-    0 2px 5px rgba(11, 20, 32, 0.08),
-    0 28px 44px -20px rgba(11, 20, 32, 0.34),
-    0 56px 90px -52px rgba(11, 20, 32, 0.58);
+    0 2px 5px rgba(22, 20, 14, 0.08),
+    0 28px 44px -20px rgba(22, 20, 14, 0.34),
+    0 56px 90px -52px rgba(22, 20, 14, 0.58);
 }
 .mw .oc.is-approved {
   box-shadow:
@@ -107,13 +107,13 @@
   z-index: 1;
   background: linear-gradient(
       96deg,
-      rgba(8, 16, 26, 0.95) 0%,
-      rgba(8, 16, 26, 0.88) 30%,
-      rgba(8, 16, 26, 0.44) 60%,
-      rgba(8, 16, 26, 0.06) 84%,
-      rgba(8, 16, 26, 0.18) 100%
+      rgba(16, 15, 10, 0.95) 0%,
+      rgba(16, 15, 10, 0.88) 30%,
+      rgba(16, 15, 10, 0.44) 60%,
+      rgba(16, 15, 10, 0.06) 84%,
+      rgba(16, 15, 10, 0.18) 100%
     ),
-    linear-gradient(180deg, rgba(6, 13, 22, 0.54) 0%, rgba(6, 13, 22, 0.02) 32%, rgba(5, 12, 20, 0.86) 100%);
+    linear-gradient(180deg, rgba(14, 13, 9, 0.54) 0%, rgba(14, 13, 9, 0.02) 32%, rgba(5, 12, 20, 0.86) 100%);
 }
 
 .mw .oc-hero-top {
@@ -134,7 +134,7 @@
   border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 14px;
   font-weight: 500;
@@ -152,7 +152,7 @@
 }
 .mw .oc.is-approved .oc-num-badge {
   border-color: rgba(150, 232, 194, 0.6);
-  color: #eafff5;
+  color: #f2f7f5;
 }
 
 .mw .oc-hero-bottom {
@@ -238,8 +238,8 @@
   padding: 0 12px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
-  background: rgba(11, 20, 32, 0.4);
-  color: #eaf3fa;
+  background: rgba(22, 20, 14, 0.4);
+  color: #eff3f5;
   font-size: 11px;
   font-weight: 550;
   line-height: 1;
@@ -264,18 +264,18 @@
 .mw .oc-chip.is-linked {
   border-color: rgba(150, 226, 188, 0.36);
   background: rgba(21, 92, 65, 0.36);
-  color: #dcf5e7;
+  color: #e4edea;
 }
 .mw .oc-chip.is-linked svg {
-  color: #b6f0d2;
+  color: #bde9da;
 }
 .mw .oc-chip.is-solo {
   border-color: rgba(246, 199, 112, 0.4);
   background: rgba(104, 70, 16, 0.36);
-  color: #fbe8bf;
+  color: #eedbcc;
 }
 .mw .oc-chip.is-solo svg {
-  color: #f3cd85;
+  color: #b26f38;
 }
 .mw .oc-chip.is-icon {
   padding: 0 8px;
@@ -324,7 +324,7 @@
 }
 .mw .oc-toolbar .oc-icon-btn.danger:hover:not(:disabled) {
   background: rgba(214, 88, 68, 0.36);
-  color: #ffe3dd;
+  color: #f1eceb;
 }
 .mw .oc-toolbar .oc-icon-btn:disabled {
   opacity: 0.38;
@@ -352,7 +352,7 @@
   font-weight: 620;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #7d8b97;
+  color: #7d8d97;
 }
 
 /* Six figures on one rail. Each tile is a softly raised surface with its icon set
@@ -364,7 +364,7 @@
   margin: 0 -20px;
   padding: 15px 20px 14px;
   border-bottom: 1px solid var(--oc-line);
-  background: linear-gradient(180deg, #fbfcfd 0%, #ffffff 78%);
+  background: linear-gradient(180deg, #fcfcfc 0%, #ffffff 78%);
 }
 .mw .oc-stat {
   position: relative;
@@ -373,9 +373,9 @@
   gap: 5px;
   min-width: 0;
   padding: 10px 11px 9px;
-  border: 1px solid #edf1f5;
+  border: 1px solid #eef2f4;
   border-radius: 13px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
   box-shadow:
     0 1px 1px rgba(16, 32, 46, 0.03),
     0 6px 14px -10px rgba(16, 32, 46, 0.18);
@@ -385,7 +385,7 @@
     transform 200ms ease;
 }
 .mw .oc:hover .oc-stat {
-  border-color: #e4eaf0;
+  border-color: #e6ebee;
   box-shadow:
     0 1px 1px rgba(16, 32, 46, 0.04),
     0 10px 20px -12px rgba(16, 32, 46, 0.26);
@@ -400,7 +400,7 @@
   font-weight: 650;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #93a1ad;
+  color: #93a3ad;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -411,8 +411,8 @@
   height: 16px;
   box-sizing: border-box;
   border-radius: 5px;
-  background: color-mix(in srgb, var(--oc-accent) 8%, #f3f6f9);
-  color: color-mix(in srgb, var(--oc-accent) 48%, #8b98a4);
+  background: color-mix(in srgb, var(--oc-accent) 8%, #f5f6f7);
+  color: color-mix(in srgb, var(--oc-accent) 48%, #8b9ba4);
 }
 .mw .oc-stat-value {
   order: 2;
@@ -433,26 +433,26 @@
   font-size: 11.5px;
   font-weight: 500;
   letter-spacing: 0;
-  color: #9fadb8;
+  color: #9fafb8;
 }
 .mw .oc-stat-value em {
   font-size: 10.5px;
   font-style: normal;
   font-weight: 550;
   letter-spacing: 0;
-  color: #93a1ac;
+  color: #93a3ac;
 }
 .mw .oc-stat-value.is-muted {
   font-size: 16.5px;
   font-weight: 600;
-  color: #a7b3bd;
+  color: #a7b5bd;
 }
 .mw .oc-stat-note {
   order: 4;
   overflow: hidden;
   font-size: 9.8px;
   line-height: 1.3;
-  color: #97a4af;
+  color: #97a6af;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -482,7 +482,7 @@
   display: inline-grid;
   place-items: center;
   margin-top: 1px;
-  color: #8d9ca8;
+  color: #8d9ea8;
 }
 .mw .oc-meta-item > div {
   display: flex;
@@ -494,7 +494,7 @@
   font-size: 12.5px;
   font-weight: 500;
   line-height: 1.45;
-  color: #3d4a55;
+  color: #3b4952;
 }
 
 /* Details panel — soft blue, the approval control sits in its header. */
@@ -522,11 +522,11 @@
   font-size: 14.5px;
   font-weight: 660;
   letter-spacing: -0.015em;
-  color: #16222d;
+  color: #15232b;
   cursor: pointer;
 }
 .mw .oc-details-toggle .oc-chevron {
-  color: #7c8b97;
+  color: #7c8d97;
   transition: transform 180ms ease;
 }
 .mw .oc-details-toggle.is-open .oc-chevron {
@@ -545,9 +545,9 @@
   gap: 7px;
   height: 34px;
   padding: 0 16px;
-  border: 1px solid #0e2c46;
+  border: 1px solid #182d38;
   border-radius: 999px;
-  background: #0e2c46;
+  background: #182d38;
   color: #ffffff;
   font-family: inherit;
   font-size: 12.5px;
@@ -561,19 +561,19 @@
 .mw .oc .oc-actions .oc-check:hover:not(:disabled),
 .mw .oc .oc-actions .oc-check:focus-visible,
 .mw .oc .oc-actions .oc-check:active {
-  background: #14405f;
-  border-color: #14405f;
+  background: #213d4d;
+  border-color: #213d4d;
   color: #ffffff;
 }
 .mw .oc .oc-actions .oc-check.is-on {
-  border-color: #147a55;
-  background: #147a55;
+  border-color: #22664e;
+  background: #22664e;
   box-shadow: 0 2px 10px rgba(20, 122, 85, 0.24);
 }
 .mw .oc .oc-actions .oc-check.is-on:hover:not(:disabled),
 .mw .oc .oc-actions .oc-check.is-on:focus-visible {
-  background: #0f6546;
-  border-color: #0f6546;
+  background: #1c5440;
+  border-color: #1c5440;
   color: #ffffff;
 }
 .mw .oc .oc-actions .oc-check.is-saving {
@@ -586,10 +586,10 @@
   gap: 6px;
   height: 32px;
   padding: 0 14px;
-  border: 1px solid #bce3cf;
+  border: 1px solid #bce3d5;
   border-radius: 999px;
-  background: #ecf8f2;
-  color: #116b49;
+  background: #eff5f3;
+  color: #1e5944;
   font-size: 12px;
   font-weight: 650;
 }
@@ -599,7 +599,7 @@
   gap: 0;
   margin-top: 12px;
   padding-top: 13px;
-  border-top: 1px solid rgba(16, 43, 66, 0.08);
+  border-top: 1px solid rgba(20, 32, 28, 0.08);
 }
 .mw .oc-term {
   display: grid;
@@ -615,8 +615,8 @@
   margin-top: 1px;
   border-radius: 50%;
   background: #ffffff;
-  color: #4d6b85;
-  box-shadow: 0 1px 2px rgba(16, 43, 66, 0.08);
+  color: #4d7085;
+  box-shadow: 0 1px 2px rgba(20, 32, 28, 0.08);
 }
 .mw .oc-term > div {
   display: flex;
@@ -628,7 +628,7 @@
   font-size: 12.8px;
   font-weight: 400;
   line-height: 1.55;
-  color: #35434f;
+  color: #33434c;
 }
 
 /* Expanded details: one label-over-value column that lines up with the terms text,
@@ -638,7 +638,7 @@
   gap: 0;
   margin-top: 12px;
   padding-top: 2px;
-  border-top: 1px solid rgba(16, 43, 66, 0.07);
+  border-top: 1px solid rgba(20, 32, 28, 0.07);
 }
 .mw .oc-drawer-row {
   display: grid;
@@ -647,14 +647,14 @@
   padding: 11px 0 11px 36px;
 }
 .mw .oc-drawer-row + .oc-drawer-row {
-  border-top: 1px solid rgba(16, 43, 66, 0.06);
+  border-top: 1px solid rgba(20, 32, 28, 0.06);
 }
 .mw .oc-drawer-row p {
   margin: 0;
   font-size: 12.6px;
   font-weight: 400;
   line-height: 1.58;
-  color: #3c4a58;
+  color: #3a4b54;
 }
 .mw .oc-quote {
   display: flex;
@@ -668,12 +668,12 @@
   font-size: 12.8px;
   font-style: italic;
   line-height: 1.55;
-  color: #24333f;
+  color: #23333c;
 }
 .mw .oc-quote svg {
   flex: none;
   margin-top: 3px;
-  color: #9aa8b4;
+  color: #9aaab4;
 }
 .mw .oc-drawer-actions {
   display: flex;
@@ -694,7 +694,7 @@
   font-size: 13.5px;
   font-weight: 660;
   letter-spacing: -0.01em;
-  color: #16222d;
+  color: #15232b;
 }
 .mw .oc-why-grid {
   display: grid;
@@ -731,13 +731,13 @@
   flex: none;
   width: 26px;
   height: 26px;
-  border: 1px solid #dde4ea;
+  border: 1px solid #dee5e9;
   border-radius: 50%;
   background: #fff;
-  color: #74879a;
+  color: #748c9a;
 }
 .mw .oc-why-head .oc-label {
-  color: #6d7b88;
+  color: #6d7e88;
 }
 .mw .oc-why-col p {
   /* The unscoped `.oc-why p` rule in workspace.css lays paragraphs out as a 56px label
@@ -747,7 +747,7 @@
   margin: 0;
   font-size: 12px;
   line-height: 1.6;
-  color: #495764;
+  color: #5e594f;
   overflow-wrap: break-word;
 }
 
@@ -762,7 +762,7 @@
   font-weight: 620;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #9aa8b4;
+  color: #9aaab4;
 }
 .mw .oc-sign span {
   overflow: hidden;
@@ -775,7 +775,7 @@
   font-size: 12px;
   font-style: normal;
   letter-spacing: 0.08em;
-  color: #c2ccd4;
+  color: #c2cdd4;
 }
 
 /* ── Narrow cards ─────────────────────────────────────────────────────────── */
@@ -1009,14 +1009,14 @@
 .mw .oc {
   border-radius: 20px;
   box-shadow:
-    0 1px 2px rgba(11, 20, 32, 0.05),
-    0 20px 40px -30px rgba(11, 20, 32, 0.34);
+    0 1px 2px rgba(22, 20, 14, 0.05),
+    0 20px 40px -30px rgba(22, 20, 14, 0.34);
 }
 .mw .oc:hover {
   transform: translateY(-3px);
   box-shadow:
-    0 2px 5px rgba(11, 20, 32, 0.07),
-    0 30px 54px -30px rgba(11, 20, 32, 0.44);
+    0 2px 5px rgba(22, 20, 14, 0.07),
+    0 30px 54px -30px rgba(22, 20, 14, 0.44);
 }
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
@@ -1036,19 +1036,19 @@
 .mw .oc-hero-scrim {
   background: linear-gradient(
       96deg,
-      rgba(8, 16, 26, 0.9) 0%,
-      rgba(8, 16, 26, 0.72) 34%,
-      rgba(8, 16, 26, 0.2) 68%,
-      rgba(8, 16, 26, 0.04) 88%
+      rgba(16, 15, 10, 0.9) 0%,
+      rgba(16, 15, 10, 0.72) 34%,
+      rgba(16, 15, 10, 0.2) 68%,
+      rgba(16, 15, 10, 0.04) 88%
     ),
-    linear-gradient(180deg, rgba(6, 13, 22, 0.5) 0%, rgba(6, 13, 22, 0.02) 34%, rgba(5, 12, 20, 0.9) 100%);
+    linear-gradient(180deg, rgba(14, 13, 9, 0.5) 0%, rgba(14, 13, 9, 0.02) 34%, rgba(5, 12, 20, 0.9) 100%);
 }
 .mw .oc-hero-copy {
   gap: 6px;
   max-width: min(54ch, 100%);
 }
 .mw .oc h3.oc-title {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(26px, 3.2cqi, 34px);
   font-weight: 500;
   line-height: 1.04;
@@ -1080,14 +1080,14 @@
   height: 24px;
   padding: 0 10px;
   border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(11, 20, 32, 0.34);
+  background: rgba(22, 20, 14, 0.34);
   font-size: 10.5px;
   font-weight: 550;
   letter-spacing: 0.01em;
 }
 .mw .oc-hero-top .oc-num-badge,
 .mw .oc-num-badge {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
 }
@@ -1101,7 +1101,7 @@
   gap: 0;
   margin: 0 -22px;
   padding: 17px 22px 15px;
-  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
   background: transparent;
 }
 .mw .oc-stat {
@@ -1120,14 +1120,14 @@
   padding-left: 0;
 }
 .mw .oc-stat + .oc-stat {
-  border-left: 1px solid rgba(25, 26, 36, 0.07);
+  border-left: 1px solid rgba(26, 23, 16, 0.07);
 }
 .mw .oc-stat-label {
   gap: 5px;
   font-size: 8.5px;
   font-weight: 750;
   letter-spacing: 0.12em;
-  color: #9a97a6;
+  color: #a5a198;
 }
 .mw .oc-stat-label svg {
   width: 12px;
@@ -1135,39 +1135,39 @@
   padding: 0;
   border-radius: 0;
   background: transparent;
-  color: #b4b1be;
+  color: #b2babd;
 }
 .mw .oc-stat-value {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 19px;
   font-weight: 500;
   letter-spacing: -0.02em;
-  color: #1b1824;
+  color: #181f22;
 }
 .mw .oc-stat-value.is-muted {
   font-size: 19px;
   font-weight: 500;
-  color: #b4b1be;
+  color: #b2babd;
 }
 .mw .oc-stat-value s {
   font-family: inherit;
   font-size: 11px;
-  color: #b4b1be;
+  color: #b2babd;
 }
 .mw .oc-stat-value em {
   font-family: inherit;
   font-size: 9.5px;
   font-weight: 600;
-  color: #9a97a6;
+  color: #a5a198;
 }
 .mw .oc-stat-note {
   font-size: 9.4px;
   line-height: 1.35;
-  color: #9a97a6;
+  color: #a5a198;
 }
 .mw .oc-meta {
   padding: 14px 0 15px;
-  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
 }
 .mw .oc-meta-icon svg {
   width: 13px;
@@ -1175,122 +1175,122 @@
 }
 .mw .oc-meta-icon {
   margin-top: 2px;
-  color: #b4b1be;
+  color: #b2babd;
 }
 .mw .oc-meta-item {
   gap: 8px;
   padding: 0 16px;
 }
 .mw .oc-meta-item + .oc-meta-item {
-  border-left: 1px solid rgba(25, 26, 36, 0.07);
+  border-left: 1px solid rgba(26, 23, 16, 0.07);
 }
 .mw .oc-label {
   font-size: 8.5px;
   font-weight: 750;
   letter-spacing: 0.14em;
-  color: #9a97a6;
+  color: #a5a198;
 }
 .mw .oc-meta-item b {
   font-size: 12px;
   line-height: 1.5;
-  color: #4a4657;
+  color: #555148;
 }
 
 /* ── Details: paper, not a blue panel ─────────────────────────────────────── */
 .mw .oc-details {
   margin: 15px 0 0;
   padding: 14px 16px 15px;
-  border: 1px solid rgba(25, 26, 36, 0.07);
+  border: 1px solid rgba(26, 23, 16, 0.07);
   border-radius: 14px;
-  background: #faf9f7;
+  background: #f9f8f8;
 }
 .mw .oc-details-toggle {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.01em;
-  color: #1b1824;
+  color: #181f22;
 }
 .mw .oc .oc-actions .oc-check {
   height: 32px;
   padding: 0 15px;
-  border-color: #1b1824;
+  border-color: #181f22;
   border-radius: 999px;
-  background: #1b1824;
+  background: #181f22;
   font-size: 11.5px;
   font-weight: 650;
 }
 .mw .oc .oc-actions .oc-check:hover:not(:disabled),
 .mw .oc .oc-actions .oc-check:focus-visible,
 .mw .oc .oc-actions .oc-check:active {
-  background: #2c2939;
-  border-color: #2c2939;
+  background: #283236;
+  border-color: #283236;
   color: #ffffff;
 }
 .mw .oc .oc-actions .oc-check.is-on {
-  border-color: #147a55;
-  background: #147a55;
+  border-color: #22664e;
+  background: #22664e;
   box-shadow: none;
 }
 .mw .oc-details-body {
   margin-top: 13px;
   padding-top: 13px;
-  border-top-color: rgba(25, 26, 36, 0.08);
+  border-top-color: rgba(26, 23, 16, 0.08);
 }
 .mw .oc-term-icon {
   width: 24px;
   height: 24px;
-  border: 1px solid rgba(25, 26, 36, 0.07);
+  border: 1px solid rgba(26, 23, 16, 0.07);
   background: #ffffff;
   box-shadow: none;
-  color: #6f6b7c;
+  color: #7b766c;
 }
 .mw .oc-term b {
-  color: #4a4657;
+  color: #555148;
 }
 .mw .oc-drawer-row p {
-  color: #4a4657;
+  color: #555148;
 }
 .mw .oc-quote {
-  border: 1px solid rgba(25, 26, 36, 0.07);
+  border: 1px solid rgba(26, 23, 16, 0.07);
   background: #ffffff;
-  color: #2c2939;
+  color: #283236;
 }
 .mw .oc-drawer-row + .oc-drawer-row {
-  border-top-color: rgba(25, 26, 36, 0.07);
+  border-top-color: rgba(26, 23, 16, 0.07);
 }
 
 /* ── Why it works: ruled columns under a serif heading ────────────────────── */
 .mw .oc-why {
   padding: 17px 0 15px;
-  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
 }
 .mw .oc-why-heading {
   margin-bottom: 12px;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 15px;
   font-style: italic;
   font-weight: 500;
   letter-spacing: 0;
-  color: #4a4657;
+  color: #555148;
 }
 .mw .oc-why-col + .oc-why-col {
-  border-left: 1px solid rgba(25, 26, 36, 0.07);
+  border-left: 1px solid rgba(26, 23, 16, 0.07);
 }
 .mw .oc-why-icon {
-  color: #b4b1be;
+  color: #b2babd;
 }
 .mw .oc-why-head span {
   font-size: 8.5px;
   font-weight: 750;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #9a97a6;
+  color: #a5a198;
 }
 .mw .oc-why-col p {
   font-size: 11.8px;
   line-height: 1.6;
-  color: #6f6b7c;
+  color: #7b766c;
 }
 
 /* ── Two-up: a tighter version of the same card ───────────────────────────── */
@@ -1316,7 +1316,7 @@
 }
 .mw .mw-offer-list.is-two-up .oc .oc-stat:nth-child(n + 4) {
   padding-top: 12px;
-  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  border-top: 1px solid rgba(26, 23, 16, 0.07);
 }
 .mw .mw-offer-list.is-two-up .oc h3.oc-title {
   font-size: 25px;
@@ -1401,7 +1401,7 @@
   }
   .mw .mw-offer-list.is-one-up .oc-stat:nth-child(n + 4) {
     padding-top: 12px;
-    border-top: 1px solid rgba(25, 26, 36, 0.07);
+    border-top: 1px solid rgba(26, 23, 16, 0.07);
   }
 }
 
@@ -1423,7 +1423,7 @@
 .mw .oc-chip.is-moment {
   border: 1px solid color-mix(in srgb, var(--a1) 34%, transparent);
   background: color-mix(in srgb, var(--a1) 12%, #ffffff);
-  color: color-mix(in srgb, var(--a1) 72%, #1b1824);
+  color: color-mix(in srgb, var(--a1) 72%, #181f22);
   font-weight: 650;
   max-width: 100%;
   overflow: hidden;
@@ -1441,9 +1441,9 @@
   flex: none;
   margin: 15px 0 0;
   padding: 14px 16px 15px;
-  border: 1px solid rgba(25, 26, 36, 0.07);
+  border: 1px solid rgba(26, 23, 16, 0.07);
   border-radius: 14px;
-  background: #faf9f7;
+  background: #f9f8f8;
 }
 
 .mw .oc-spec-head {
@@ -1454,22 +1454,22 @@
   min-height: 34px;
   margin-bottom: 8px;
   padding-bottom: 11px;
-  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
+  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
 }
 
 .mw .oc-spec-title {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.01em;
-  color: #1b1824;
+  color: #181f22;
 }
 
 .mw .oc-spec-title svg {
-  color: #8b8898;
+  color: #979289;
 }
 
 .mw .oc-spec-row {
@@ -1481,7 +1481,7 @@
 }
 
 .mw .oc-spec-row + .oc-spec-row {
-  border-top: 1px solid rgba(25, 26, 36, 0.055);
+  border-top: 1px solid rgba(26, 23, 16, 0.055);
 }
 
 .mw .oc-spec-label {
@@ -1490,7 +1490,7 @@
   line-height: 1.6;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #9a97a6;
+  color: #a5a198;
 }
 
 .mw .oc .oc-spec-value {
@@ -1498,19 +1498,19 @@
   min-width: 0;
   font-size: 12px;
   line-height: 1.55;
-  color: #4a4657;
+  color: #555148;
   overflow-wrap: anywhere;
 }
 
 .mw .oc .oc-spec-value b {
   font-weight: 650;
-  color: #2a2735;
+  color: #322f2a;
   font-variant-numeric: tabular-nums;
 }
 
 .mw .oc .oc-spec-value i {
   font-style: normal;
-  color: #2a2735;
+  color: #322f2a;
 }
 
 /* In a two-up card the label sits above its value so the text keeps its width. */
@@ -1544,8 +1544,8 @@
   gap: 0;
   margin: 0 -22px;
   padding: 14px 22px 12px;
-  border-bottom: 1px solid rgba(25, 26, 36, 0.08);
-  background: linear-gradient(180deg, #fbfcfd 0%, #ffffff 72%);
+  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
+  background: linear-gradient(180deg, #fcfcfc 0%, #ffffff 72%);
 }
 
 .mw .oc-stat {
@@ -1569,7 +1569,7 @@
   padding-left: 0;
 }
 .mw .oc-stat + .oc-stat {
-  border-left: 1px solid rgba(25, 26, 36, 0.07);
+  border-left: 1px solid rgba(26, 23, 16, 0.07);
 }
 
 .mw .oc-gauge {
@@ -1596,7 +1596,7 @@
 }
 
 .mw .oc-gauge-track {
-  stroke: #e9eef3;
+  stroke: #ebeff1;
   stroke-width: 3.4;
 }
 
@@ -1606,7 +1606,7 @@
 }
 
 .mw .oc-gauge-soft {
-  stroke: color-mix(in srgb, var(--oc-accent) 34%, #dfe9f1);
+  stroke: color-mix(in srgb, var(--oc-accent) 34%, #e3e9ed);
   stroke-width: 2.6;
 }
 
@@ -1616,7 +1616,7 @@
   font-size: 8.5px;
   font-weight: 750;
   letter-spacing: 0.13em;
-  color: #9a97a6;
+  color: #a5a198;
 }
 
 .mw .oc-stat-value {
@@ -1626,7 +1626,7 @@
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.015em;
-  color: #1b1824;
+  color: #181f22;
 }
 
 .mw .oc-stat-note {
@@ -1634,7 +1634,7 @@
   margin-top: 5px;
   font-size: 9.2px;
   line-height: 1.35;
-  color: #9a97a6;
+  color: #a5a198;
 }
 
 /* The one-up card has room for a bigger dial; two-up keeps it tight. */
@@ -1685,7 +1685,7 @@
   gap: 0;
   margin: 14px 0 0;
   padding: 12px 0 1px;
-  border-top: 1px solid rgba(25, 26, 36, 0.08);
+  border-top: 1px solid rgba(26, 23, 16, 0.08);
   border-bottom: 0;
 }
 .mw .oc-meta-item {
@@ -1698,10 +1698,10 @@
 .mw .oc-meta-item b {
   font-size: 12px;
   line-height: 1.45;
-  color: #4a4657;
+  color: #555148;
 }
 .mw .oc-meta-icon {
   margin-top: 1px;
-  color: #b4b1be;
+  color: #b2babd;
 }
 

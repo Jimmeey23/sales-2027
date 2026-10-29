@@ -1,5 +1,6 @@
 /* Cascade order matters: later files override earlier ones.
    base → redesign (visual refresh) → studio-plan (plan pages) → workspace (current shell & nav). */
+@import './fonts.css';
 @import './base.css';
 @import './redesign.css';
 @import './studio-plan.css';
@@ -19,3 +20,5 @@
 @import './page-canvas.css';
 @import './plan-infographics.css';
 @import './copilot.css';
+/* Atelier — final design language: tokens, type scale, shell, surfaces. */
+@import './atelier.css';

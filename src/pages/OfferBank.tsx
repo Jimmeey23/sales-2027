@@ -63,7 +63,9 @@ export default function OfferBank() {
     [compare, setCompare] = useState<any[]>([]),
     [clone, setClone] = useState<any>(null),
     [archive, setArchive] = useState<any>(null),
-    [campaignConflict, setCampaignConflict] = useState<any>(null);
+    [campaignConflict, setCampaignConflict] = useState<any>(null),
+    // Adding a bank offer straight into a month plan, from the bank itself.
+    [planAdd, setPlanAdd] = useState<any>(null);
   const query = useMemo(() => {
     const q = new URLSearchParams();
     Object.entries(filters).forEach(([k, v]) => v && q.set(k, String(v)));
@@ -130,6 +132,20 @@ export default function OfferBank() {
     } catch (error: any) {
       if (error.status === 409) setCampaignConflict({ offer, conflicts: error.conflicts });
       else toast(error.message, 'error');
+    }
+  };
+  const addToPlan = async (offer: any, month: number, mirror: boolean) => {
+    const target = offer.studio_id && offer.studio_id === studioId ? offer.studio_id : studioId;
+    if (!target) {
+      toast('Pick a location first — a month plan belongs to one studio.', 'error');
+      return;
+    }
+    try {
+      await post(`/studio-plans/${target}/${year}/${month}/offers`, { op: 'add', offerId: offer.id, solo: !mirror });
+      toast(`“${offer.name}” added to ${MONTHS[month - 1]}${mirror ? ' across locations' : ''}.`);
+      setPlanAdd(null);
+    } catch (error: any) {
+      toast(error.message, 'error');
     }
   };
   const toggleCompare = (offer: any) =>
@@ -354,6 +370,11 @@ export default function OfferBank() {
                                 <Edit3 size={16} />
                               </button>
                             )}
+                            {can('offer_edit') && (
+                              <button title={`Add ${o.name} to a month plan`} onClick={() => setPlanAdd(o)}>
+                                <CalendarPlus size={16} />
+                              </button>
+                            )}
                             <button title="Duplicate" onClick={() => action(o, 'duplicate')}>
                               <Copy size={16} />
                             </button>
@@ -405,6 +426,9 @@ export default function OfferBank() {
                   </Button>
                   <Button variant="secondary" onClick={() => setClone(selected)}>
                     <Copy size={14} /> Clone
+                  </Button>
+                  <Button variant="secondary" onClick={() => setPlanAdd(selected)}>
+                    <CalendarPlus size={14} /> Add to month plan
                   </Button>
                   <Button variant="secondary" onClick={() => addCampaign(selected)}>
                     <CalendarPlus size={14} /> Add to calendar
@@ -544,6 +568,7 @@ export default function OfferBank() {
               </p>
             </Modal>
           )}
+          {planAdd && <AddToPlanModal offer={planAdd} year={year} onClose={() => setPlanAdd(null)} onAdd={addToPlan} />}
           {compare.length === 2 && (
             <Modal title="Offer comparison" onClose={() => setCompare([])} width="900px">
               <table className="data-table">
@@ -673,6 +698,70 @@ function CloneModal({ offer, onClose, onDone }: { offer: any; onClose: () => voi
       </div>
       <Callout tone="info">
         Product price, discount ceiling and financials are rechecked independently for the destination studio.
+      </Callout>
+    </Modal>
+  );
+}
+
+/* Adding a bank offer into a month plan: the month, and whether the change mirrors to the
+   other locations (the plan keeps every location's month in step unless told otherwise). */
+function AddToPlanModal({
+  offer,
+  year,
+  onClose,
+  onAdd,
+}: {
+  offer: any;
+  year: number;
+  onClose: () => void;
+  onAdd: (offer: any, month: number, mirror: boolean) => Promise<void>;
+}) {
+  const [month, setMonth] = useState(Number(offer.month) || new Date().getMonth() + 1);
+  const [mirror, setMirror] = useState(true);
+  const [busy, setBusy] = useState(false);
+  return (
+    <Modal
+      title="Add to a month plan"
+      subtitle={offer.name}
+      onClose={onClose}
+      width="520px"
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            disabled={busy}
+            onClick={async () => {
+              setBusy(true);
+              await onAdd(offer, month, mirror);
+              setBusy(false);
+            }}
+          >
+            <CalendarPlus size={14} /> Add to {MONTHS[month - 1]}
+          </Button>
+        </>
+      }
+    >
+      <div className="form-grid two">
+        <Field label="Month">
+          <Select value={month} onChange={e => setMonth(Number(e.target.value))}>
+            {MONTHS.map((m, i) => (
+              <option key={m} value={i + 1}>
+                {m} {year}
+              </option>
+            ))}
+          </Select>
+        </Field>
+        <Field label="Locations">
+          <label className="check-label">
+            <input type="checkbox" checked={mirror} onChange={e => setMirror(e.target.checked)} />
+            <span>Mirror across every location</span>
+          </label>
+        </Field>
+      </div>
+      <Callout tone="info">
+        The offer keeps this bank record; the month gets its own copy that can be edited without touching the original.
       </Callout>
     </Modal>
   );

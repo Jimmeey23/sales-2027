@@ -8,9 +8,9 @@
   position: relative;
 }
 .mw-monthcover {
-  --mc-a: color-mix(in srgb, var(--a1, #6d4fd8) 58%, #ffffff);
-  --mc-b: color-mix(in srgb, var(--a1, #6d4fd8) 32%, #7cc9ff);
-  --mc-c: color-mix(in srgb, var(--a1, #6d4fd8) 22%, #7fe6c4);
+  --mc-a: color-mix(in srgb, var(--a1, #3892b2) 58%, #ffffff);
+  --mc-b: color-mix(in srgb, var(--a1, #3892b2) 32%, #3886b2);
+  --mc-c: color-mix(in srgb, var(--a1, #3892b2) 22%, #38b2a2);
   position: absolute;
   inset: 0;
   z-index: 60;
@@ -18,7 +18,7 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: inherit;
-  background: #080f1a;
+  background: #0a1217;
   color: #ffffff;
   isolation: isolate;
   animation: mc-enter 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -36,7 +36,7 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-color: #080f1a;
+  background-color: #0a1217;
   background-repeat: no-repeat;
   background-size: cover;
   filter: saturate(1.04) contrast(1.04);
@@ -53,10 +53,10 @@
       rgba(6, 12, 20, 0.74) 0%,
       rgba(6, 12, 20, 0.4) 34%,
       rgba(6, 12, 20, 0.84) 68%,
-      #060c14 100%
+      #070e11 100%
     ),
     linear-gradient(100deg, rgba(6, 12, 20, 0.75) 0%, rgba(6, 12, 20, 0.3) 52%, rgba(6, 12, 20, 0) 80%),
-    radial-gradient(120% 90% at 12% 4%, color-mix(in srgb, var(--a1, #6d4fd8) 34%, transparent) 0%, transparent 58%);
+    radial-gradient(120% 90% at 12% 4%, color-mix(in srgb, var(--a1, #3892b2) 34%, transparent) 0%, transparent 58%);
   pointer-events: none;
 }
 
@@ -99,7 +99,7 @@
   height: 6px;
   border-radius: 50%;
   background: var(--mc-a);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--a1, #6d4fd8) 24%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--a1, #3892b2) 24%, transparent);
 }
 .mc-top-actions {
   display: flex;
@@ -111,7 +111,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 1px;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 15px;
   font-weight: 500;
@@ -143,12 +143,12 @@
 .mc-status.is-approved {
   border-color: rgba(140, 235, 190, 0.46);
   background: rgba(32, 150, 103, 0.24);
-  color: #dcffef;
+  color: #eaf1ef;
 }
 .mc-status.is-proposed {
   border-color: rgba(255, 210, 140, 0.36);
   background: rgba(190, 140, 36, 0.2);
-  color: #ffe9c6;
+  color: #e8e2dd;
 }
 .mc-nav {
   display: inline-flex;
@@ -218,7 +218,7 @@
   font-style: italic;
   font-size: clamp(15px, 1.5vw, 19px);
   line-height: 1.3;
-  color: color-mix(in srgb, var(--a1, #6d4fd8) 22%, #ffffff);
+  color: color-mix(in srgb, var(--a1, #3892b2) 22%, #ffffff);
   animation: mc-rise 0.8s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 .mc-focus span {
@@ -235,7 +235,7 @@
 }
 .mc-hero h2 {
   margin: 0;
-  font-family: 'Bodoni Moda', 'Iowan Old Style', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(56px, 8vw, 108px);
   font-weight: 500;
   line-height: 0.92;
@@ -306,11 +306,11 @@
   font-weight: 700;
   letter-spacing: 0.01em;
   font-variant-numeric: tabular-nums;
-  color: #96f0c9;
+  color: #38b288;
   white-space: nowrap;
 }
 .mc-amount em.neg {
-  color: #ffb3a1;
+  color: #e8c5b9;
 }
 .mc-amount em:not(.pos):not(.neg) {
   color: rgba(255, 255, 255, 0.5);
@@ -472,7 +472,7 @@
   width: var(--w, 0%);
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #9fe8c8, #ffffff);
+  background: linear-gradient(90deg, #38b288, #ffffff);
   transform-origin: left center;
   animation: mc-grow 0.9s 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
@@ -517,7 +517,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--kd, #9aa1b0);
+  background: var(--kd, #9aa8b0);
 }
 .mc-dates > span b {
   font-weight: 700;
@@ -525,22 +525,22 @@
   font-variant-numeric: tabular-nums;
 }
 .mc-dates > span.kd-festival {
-  --kd: #ffc978;
+  --kd: #b26f38;
 }
 .mc-dates > span.kd-holiday {
-  --kd: #93cdfa;
+  --kd: #3886b2;
 }
 .mc-dates > span.kd-awareness {
-  --kd: #8fe6bd;
+  --kd: #38b288;
 }
 .mc-dates > span.kd-global {
-  --kd: #7fe6da;
+  --kd: #38b2a2;
 }
 .mc-dates > span.kd-retail {
-  --kd: #ff9fc2;
+  --kd: #e3bbc6;
 }
 .mc-dates > span.kd-brand {
-  --kd: #c1a6ff;
+  --kd: #c2dae3;
 }
 .mc-dates > span.mc-more {
   color: rgba(255, 255, 255, 0.55) !important;
@@ -571,7 +571,7 @@
   border: 0;
   border-radius: 999px;
   background: #ffffff;
-  color: #0d131c;
+  color: #0c161b;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -587,7 +587,7 @@
 }
 .mc-open:hover {
   transform: translateY(-1px);
-  background: color-mix(in srgb, var(--a1, #6d4fd8) 12%, #ffffff);
+  background: color-mix(in srgb, var(--a1, #3892b2) 12%, #ffffff);
   box-shadow: 0 26px 48px -18px rgba(0, 0, 0, 0.75);
 }
 .mc-open:hover svg {
@@ -747,13 +747,13 @@
   background: rgba(255, 255, 255, 0.34);
 }
 .mc-story-col.is-risk > .mc-label i {
-  background: #ffb27a;
+  background: #b26f38;
 }
 .mc-story-col.is-move > .mc-label i {
   background: var(--mc-a);
 }
 .mc-story-col.is-plan > .mc-label i {
-  background: #8fe6bd;
+  background: #38b288;
 }
 .mc-story-col p {
   margin: 0;
@@ -785,7 +785,7 @@
   padding-top: 2px;
 }
 .mc-week > b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 11.5px;
   font-weight: 500;
@@ -832,12 +832,12 @@
    are untouched. */
 
 .mw-monthcover.is-birthday {
-  --mc-gold: #e6c16a;
-  --mc-gold-deep: #b8912f;
+  --mc-gold: #b26f38;
+  --mc-gold-deep: #b06d37;
   --mc-gold-soft: rgba(230, 193, 106, 0.32);
-  --mc-royal: #2a1035;
-  background: #170a20;
-  color: #fdf6e6;
+  --mc-royal: #2c1620;
+  background: #1b0d14;
+  color: #f4f1ef;
 }
 
 /* The photograph is pushed back and warmed, so gold reads against it. */
@@ -850,7 +850,7 @@
       rgba(23, 10, 32, 0.82) 0%,
       rgba(23, 10, 32, 0.42) 32%,
       rgba(20, 8, 28, 0.9) 68%,
-      #150820 100%
+      #0c171a 100%
     ),
     radial-gradient(120% 90% at 8% 0%, rgba(230, 193, 106, 0.16) 0%, transparent 56%),
     radial-gradient(90% 70% at 100% 8%, rgba(120, 40, 120, 0.3) 0%, transparent 60%);
@@ -882,7 +882,7 @@
   height: 26px;
   border-radius: 50%;
   background: linear-gradient(160deg, var(--mc-gold), var(--mc-gold-deep));
-  color: #2a1035;
+  color: #2c1620;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28) inset;
 }
 .mc-crest-copy {
@@ -898,7 +898,7 @@
   color: var(--mc-gold);
 }
 .mc-crest-copy em {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 12px;
   color: rgba(253, 246, 230, 0.82);
@@ -926,16 +926,16 @@
   animation-delay: calc(var(--i) * 0.62s);
 }
 .mc-confetti i:nth-child(3n) {
-  background: #f0a6c8;
+  background: #a7445e;
   width: 5px;
   height: 5px;
   border-radius: 50%;
 }
 .mc-confetti i:nth-child(3n + 1) {
-  background: #c9a6ff;
+  background: #c2dae3;
 }
 .mc-confetti i:nth-child(4n) {
-  background: #ffe9a8;
+  background: #e9d1be;
   height: 7px;
 }
 @keyframes mc-confetti-fall {
@@ -976,7 +976,7 @@
   color: var(--mc-gold);
 }
 .mw-monthcover.is-birthday .mc-hero h2 {
-  background: linear-gradient(176deg, #fff8e3 8%, var(--mc-gold) 46%, var(--mc-gold-deep) 92%);
+  background: linear-gradient(176deg, #f4f1ee 8%, var(--mc-gold) 46%, var(--mc-gold-deep) 92%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1000,7 +1000,7 @@
 }
 .mw-monthcover.is-birthday .mc-split-head strong,
 .mw-monthcover.is-birthday .mc-count b {
-  color: #fff8e3;
+  color: #f4f1ee;
 }
 .mw-monthcover.is-birthday .mc-story {
   border-top-color: rgba(230, 193, 106, 0.34);
@@ -1027,8 +1027,8 @@
 /* ── The close: a gold seal instead of a plain button ─────────────────────── */
 .mw-monthcover.is-birthday .mc-open {
   border-color: var(--mc-gold);
-  background: linear-gradient(180deg, #f6dfa4 0%, var(--mc-gold) 42%, var(--mc-gold-deep) 100%);
-  color: #2a1035;
+  background: linear-gradient(180deg, #e6cbb4 0%, var(--mc-gold) 42%, var(--mc-gold-deep) 100%);
+  color: #2c1620;
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.5) inset,
     0 18px 40px -18px rgba(230, 193, 106, 0.7);
@@ -1057,7 +1057,7 @@
     90deg,
     transparent,
     var(--mc-gold-deep) 18%,
-    #fff6d8 50%,
+    #efede8 50%,
     var(--mc-gold-deep) 82%,
     transparent
   );
@@ -1242,11 +1242,11 @@
   animation-delay: calc(var(--i) * -0.31s);
 }
 .mc-bunting i:nth-child(3n) {
-  border-top-color: #f3a9c9;
+  border-top-color: #e3b9c4;
   opacity: 0.6;
 }
 .mc-bunting i:nth-child(3n + 2) {
-  border-top-color: #c9a6ff;
+  border-top-color: #c2dae3;
   opacity: 0.58;
 }
 .mc-bunting i:nth-child(4n) {
@@ -1319,12 +1319,12 @@
   backdrop-filter: blur(6px);
 }
 .mc-med-ring b {
-  font-family: 'Bodoni Moda', 'Iowan Old Style', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 96px;
   font-weight: 500;
   line-height: 0.8;
   margin-top: 12px;
-  background: linear-gradient(176deg, #fff8e3 8%, var(--mc-gold) 52%, var(--mc-gold-deep) 96%);
+  background: linear-gradient(176deg, #f4f1ee 8%, var(--mc-gold) 52%, var(--mc-gold-deep) 96%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1346,7 +1346,7 @@
   height: 40px;
   border-radius: 50%;
   background: linear-gradient(160deg, var(--mc-gold), var(--mc-gold-deep));
-  color: #2a1035;
+  color: #2c1620;
   box-shadow:
     0 0 0 3px rgba(23, 10, 32, 0.7),
     0 10px 24px -12px rgba(0, 0, 0, 0.9);
@@ -1397,7 +1397,7 @@
 }
 .mc-sparkle-field svg:nth-child(2n) {
   top: 62%;
-  color: #f3a9c9;
+  color: #e3b9c4;
 }
 .mc-sparkle-field svg:nth-child(3n) {
   top: 24%;
@@ -1442,7 +1442,7 @@
   opacity: 0.9;
 }
 .mc-ribbon span {
-  background: linear-gradient(90deg, var(--mc-gold) 0%, #fff8e3 42%, var(--mc-gold) 78%);
+  background: linear-gradient(90deg, var(--mc-gold) 0%, #f4f1ee 42%, var(--mc-gold) 78%);
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -1618,12 +1618,12 @@
 .mw-monthcover.is-birthday .mc-hero h2 {
   background: linear-gradient(
     100deg,
-    #fff8e3 0%,
+    #f4f1ee 0%,
     var(--mc-gold) 18%,
-    #fff8e3 30%,
+    #f4f1ee 30%,
     var(--mc-gold) 42%,
     var(--mc-gold-deep) 78%,
-    #fff8e3 100%
+    #f4f1ee 100%
   );
   background-size: 260% 100%;
   -webkit-background-clip: text;
@@ -1762,5 +1762,94 @@
     color: var(--mc-gold);
     -webkit-text-fill-color: var(--mc-gold);
     background: none;
+  }
+}
+
+/* ── The split, as a ring ────────────────────────────────────────────────────
+   The three streams are also drawn as one closing circle: the fast read is the
+   ring, the precise read is the legend beside it. */
+.mc-split-figure {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+}
+.mc-donut {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+}
+.mc-donut svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.mc-donut-bg,
+.mc-donut-arc {
+  fill: none;
+  stroke-width: 9;
+}
+.mc-donut-bg {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+.mc-donut-arc {
+  stroke-linecap: butt;
+  transition: stroke-width 0.2s ease;
+}
+.mc-donut-arc.is-animated {
+  animation: mc-donut-draw 1.1s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+  animation-delay: calc(0.5s + var(--i, 0) * 0.12s);
+}
+@keyframes mc-donut-draw {
+  from {
+    stroke-dasharray: 0 239;
+    opacity: 0.2;
+  }
+}
+.mc-donut:hover .mc-donut-arc {
+  stroke-width: 11;
+}
+.mc-donut-core {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  line-height: 1;
+  pointer-events: none;
+}
+.mc-donut-core b {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #fdfaf1;
+}
+.mc-donut-core em {
+  font-size: 7.5px;
+  font-style: normal;
+  font-weight: 620;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(230, 213, 174, 0.78);
+}
+.mw-monthcover.is-birthday .mc-donut-core b {
+  color: #fff6df;
+}
+@media (max-width: 900px) {
+  .mc-split-figure {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .mc-donut {
+    width: 92px;
+    height: 92px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mc-donut-arc.is-animated {
+    animation: none;
   }
 }

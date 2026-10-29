@@ -866,17 +866,26 @@ export default function MarketingCollaterals({
       {!hiddenChannels.includes('whatsapp') && (
         <div className="col-row is-wa">
           <div className="cr-stage">
-            <div className="wa-pair is-single">
-              {/* One screen: the message as it lands in a chat. The follow-up
-                  send is described beneath it rather than shown twice. */}
-              {waSends.slice(0, 1).map(w => (
+            <div className="wa-pair is-duo">
+              {/* Both sends, side by side: the launch broadcast as it lands on the first,
+                  then the reminder two days before the offer closes. */}
+              {waSends.map(w => (
                 <div key={w.label} className="wa-send">
-                  <span className="wa-label">{w.label} · {w.day}, {w.time}</span>
+                  <span className="wa-label">
+                    {w.label} · {w.day}, {w.time}
+                  </span>
                   <div className="wa-phone">
                     <div className="wa-bar">
                       <span className="wa-back">‹</span>
-                      <span className="wa-av"><img src="/p57/logo-light.png" alt="" /></span>
-                      <div><b>Physique 57 India <i className="wa-tick">✓</i></b><small>Business account</small></div>
+                      <span className="wa-av">
+                        <img src="/p57/logo-light.png" alt="" />
+                      </span>
+                      <div>
+                        <b>
+                          Physique 57 India <i className="wa-tick">✓</i>
+                        </b>
+                        <small>Business account</small>
+                      </div>
                     </div>
                     <div className="wa-chat">
                       <span className="wa-day">{w.day}</span>
@@ -884,28 +893,44 @@ export default function MarketingCollaterals({
                         <figure className={`cr-square is-${w.layout}`}>
                           <Photo p={w.photo} />
                           <div className="cr-shade" />
-                          <header><Logo light /><span>{city}</span></header>
+                          <header>
+                            <Logo light />
+                            <span>{city}</span>
+                          </header>
                           <div className="cr-body">
                             <small>{w.kicker}</small>
                             <h3>{w.headline}</h3>
                             <p>{offerName}</p>
                           </div>
                           <footer>
-                            <span className="cr-value"><b>57</b><em>min</em></span>
-                            <div><strong>Reply YES to book</strong><span>{closes} · {studioName}</span></div>
+                            <span className="cr-value">
+                              <b>57</b>
+                              <em>min</em>
+                            </span>
+                            <div>
+                              <strong>Reply YES to book</strong>
+                              <span>
+                                {closes} · {studioName}
+                              </span>
+                            </div>
                           </footer>
                         </figure>
-                        <p className="wa-text">{w.text.split(/(\*[^*]+\*)/).map((t, i) => (t.startsWith('*') ? <b key={i}>{t.slice(1, -1)}</b> : t))}</p>
+                        <p className="wa-text">
+                          {w.text
+                            .split(/(\*[^*]+\*)/)
+                            .map((t, i) => (t.startsWith('*') ? <b key={i}>{t.slice(1, -1)}</b> : t))}
+                        </p>
                         <span className="wa-time">{w.time}</span>
                       </div>
-                      <div className="wa-buttons"><span>{w.button}</span><span>Stop promotions</span></div>
+                      <div className="wa-buttons">
+                        <span>{w.button}</span>
+                        <span>Stop promotions</span>
+                      </div>
                     </div>
-                    <div className="wa-input"><span>Message</span><i /></div>
-                  </div>
-                  <div className="wa-followup">
-                    <span>Then, 48 hours before close</span>
-                    <b>{waReminderHeadline}</b>
-                    <em>{waReminderButton}</em>
+                    <div className="wa-input">
+                      <span>Message</span>
+                      <i />
+                    </div>
                   </div>
                 </div>
               ))}

@@ -10,16 +10,16 @@
 .mw .mp-run,
 .mw .mw-main.is-page-targets,
 .mw .mw-gapplan {
-  --line: rgba(27, 24, 36, 0.1);
-  --line-soft: rgba(27, 24, 36, 0.06);
-  --ink: #1b1824;
-  --muted: #6f6b7c;
-  --faint: #9a97a6;
+  --line: rgba(26, 23, 16, 0.1);
+  --line-soft: rgba(26, 23, 16, 0.06);
+  --ink: #181f22;
+  --muted: #7b766c;
+  --faint: #a5a198;
   --paper: #ffffff;
-  --wash: #faf9f7;
-  --ok: #1f7a52;
-  --warn: #a8641a;
-  --over: #a33a3a;
+  --wash: #f9f8f8;
+  --ok: #257458;
+  --warn: #935c2f;
+  --over: #a85435;
 }
 
 /* Both screens run edge to edge inside their section card, so the rules and the
@@ -94,7 +94,7 @@
 }
 
 .mw .mp-run-summary strong {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(22px, 2.4vw, 30px);
   font-weight: 500;
   line-height: 1.08;
@@ -118,7 +118,7 @@
 }
 
 .mw .mp-run-figures b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 22px;
   font-weight: 500;
   line-height: 1;
@@ -144,7 +144,7 @@
   height: 6px;
   margin-top: 2px;
   border-radius: 999px;
-  background: #f0eeea;
+  background: #f0edea;
   overflow: visible;
 }
 
@@ -152,7 +152,7 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--a1, #5b4fd6) 55%, #b9a9ff), var(--a1, #5b4fd6));
+  background: linear-gradient(90deg, color-mix(in srgb, var(--a1, #3892b2) 55%, #c4dce4), var(--a1, #3892b2));
   animation: mp-meter-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
@@ -231,7 +231,7 @@
   bottom: 0;
   left: 0;
   height: 3px;
-  background: rgba(27, 24, 36, 0.07);
+  background: rgba(26, 23, 16, 0.07);
 }
 
 .mw .mp-ribbon > li > i > b {
@@ -239,14 +239,14 @@
   height: 100%;
   width: var(--fill, 0%);
   border-radius: 0 2px 2px 0;
-  background: var(--a1, #5b4fd6);
+  background: var(--a1, #3892b2);
   transition: width 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .mw .mp-ribbon > li.is-empty > span,
 .mw .mp-ribbon > li.is-empty > em,
 .mw .mp-ribbon > li.is-empty > small {
-  color: #c3c0cc;
+  color: #c1c9cb;
 }
 
 .mw .mp-ribbon > li.is-empty > i > b {
@@ -320,28 +320,28 @@
   background: var(--wash);
   font-size: 9.5px;
   font-weight: 800;
-  color: #4a4657;
+  color: #555148;
   font-variant-numeric: tabular-nums;
 }
 
 .mw .mp-run-dates > span.kd-festival b {
-  background: #fbf1e2;
-  color: #8a6516;
+  background: #f2eeeb;
+  color: #7a4c26;
 }
 
 .mw .mp-run-dates > span.kd-holiday b {
-  background: #edf3f9;
-  color: #2f6b93;
+  background: #f1f4f5;
+  color: #2f6e93;
 }
 
 .mw .mp-run-dates > span.kd-retail b {
-  background: #fbedf2;
-  color: #9c3a60;
+  background: #f6f2f3;
+  color: #a33351;
 }
 
 .mw .mp-run-dates > span.kd-brand b {
-  background: var(--a1-soft, #efedfc);
-  color: var(--a1-dark, #3f35a8);
+  background: var(--a1-soft, #f2f5f7);
+  color: var(--a1-dark, #3589a8);
 }
 
 /* ── The weeks themselves ─────────────────────────────────────────────────── */
@@ -400,7 +400,7 @@
   border-radius: 0;
   background: none;
   box-shadow: none;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-style: normal;
   font-size: 26px;
   font-weight: 500;
@@ -433,11 +433,11 @@
 
 .mw .mp-phase.is-empty .mp-phase-rail span {
   border: 0;
-  color: #c3c0cc;
+  color: #c1c9cb;
 }
 
 .mw .mp-phase.is-empty .mp-phase-rail em {
-  color: #cfccd7;
+  color: #cdd4d6;
 }
 
 .mw .mp-phase-body {
@@ -495,8 +495,8 @@
 
 .mw .mp-phase-count.is-done {
   border-color: rgba(31, 122, 82, 0.25);
-  background: #eef7f1;
-  color: #17674a;
+  background: #f0f5f3;
+  color: #1e5b46;
 }
 
 .mw .mp-steps {
@@ -524,7 +524,7 @@
 
 .mw .mp-step:hover {
   padding-left: 6px;
-  background: color-mix(in srgb, var(--a1, #5b4fd6) 2.6%, #ffffff);
+  background: color-mix(in srgb, var(--a1, #3892b2) 2.6%, #ffffff);
 }
 
 .mw .mp-step.is-done:hover {
@@ -554,7 +554,7 @@
   place-items: center;
   width: 17px;
   height: 17px;
-  border: 1px solid rgba(27, 24, 36, 0.2);
+  border: 1px solid rgba(26, 23, 16, 0.2);
   border-radius: 5px;
   background: var(--paper);
   color: transparent;
@@ -565,17 +565,17 @@
 }
 
 .mw .mp-step-check:hover i {
-  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 50%, #d8d5e2);
+  border-color: color-mix(in srgb, var(--a1, #3892b2) 50%, #d6dee1);
 }
 
 .mw .mp-step-check input:checked + i {
-  border-color: #1f8a5f;
-  background: #1f8a5f;
+  border-color: #298062;
+  background: #298062;
   color: #ffffff;
 }
 
 .mw .mp-step-check input:focus-visible + i {
-  outline: 2px solid color-mix(in srgb, var(--a1, #5b4fd6) 55%, white);
+  outline: 2px solid color-mix(in srgb, var(--a1, #3892b2) 55%, white);
   outline-offset: 2px;
 }
 
@@ -602,7 +602,7 @@
 
 .mw .mw-section .mp-step-text:focus {
   box-shadow: none;
-  outline: 1px dashed color-mix(in srgb, var(--a1, #5b4fd6) 40%, transparent);
+  outline: 1px dashed color-mix(in srgb, var(--a1, #3892b2) 40%, transparent);
   outline-offset: 3px;
 }
 
@@ -635,7 +635,7 @@
 }
 
 .mw .mw-section .mp-step-owner::placeholder {
-  color: #c3c0cc;
+  color: #c1c9cb;
 }
 
 .mw .mw-section .mp-step-meta select {
@@ -659,13 +659,13 @@
   border: 1px solid transparent;
   border-radius: 50%;
   background: transparent;
-  color: #c3c0cc;
+  color: #c1c9cb;
   cursor: pointer;
 }
 
 .mw .mp-step-del:hover {
   border-color: var(--line);
-  color: #ac4c3b;
+  color: #b05737;
 }
 
 .mw .mp-phase-add {
@@ -689,8 +689,8 @@
 }
 
 .mw .mp-phase-add:hover {
-  border-color: color-mix(in srgb, var(--a1, #5b4fd6) 42%, #e4e7e2);
-  color: var(--a1-dark, #3f35a8);
+  border-color: color-mix(in srgb, var(--a1, #3892b2) 42%, #e7e5e2);
+  color: var(--a1-dark, #3589a8);
 }
 
 /* Notes and the final tick read as the board's footer, not another section. */
@@ -810,7 +810,7 @@
 }
 
 .mw .mw-main.is-page-targets .mw-funnel-targets {
-  border-left: 1px solid rgba(25, 26, 36, 0.07);
+  border-left: 1px solid rgba(26, 23, 16, 0.07);
 }
 
 /* The stream rows lose a little height so all three fit beside the volumes. */
@@ -849,20 +849,20 @@
   justify-content: space-between;
   gap: 8px;
   padding-bottom: 5px;
-  border-bottom: 1px solid rgba(25, 26, 36, 0.07);
+  border-bottom: 1px solid rgba(26, 23, 16, 0.07);
   font-family: 'Montserrat', system-ui, sans-serif;
   font-size: 8px;
   font-weight: 750;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #9a97a6;
+  color: #a5a198;
 }
 
 .mw .mw-main.is-page-targets .mw-volchart-title em {
   font-style: normal;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: #1b7357;
+  color: #25635b;
 }
 
 .mw .mw-main.is-page-targets .mw-volchart-row {
@@ -875,7 +875,7 @@
   align-items: center;
   gap: 3px 8px;
   padding: 7px 0;
-  border-bottom: 1px solid rgba(25, 26, 36, 0.05);
+  border-bottom: 1px solid rgba(26, 23, 16, 0.05);
 }
 
 .mw .mw-main.is-page-targets .mw-volchart-row:last-child {
@@ -889,7 +889,7 @@
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: #6f6b7c;
+  color: #7b766c;
 }
 
 .mw .mw-main.is-page-targets .mw-volchart-track {
@@ -897,7 +897,7 @@
   position: relative;
   height: 5px;
   border-radius: 999px;
-  background: rgba(25, 26, 36, 0.07);
+  background: rgba(26, 23, 16, 0.07);
   overflow: hidden;
 }
 
@@ -905,22 +905,22 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--a1, #5b4fd6);
+  background: var(--a1, #3892b2);
 }
 
 .mw .mw-main.is-page-targets .mw-volchart-track.is-share b {
-  background: color-mix(in srgb, var(--a1, #5b4fd6) 62%, #b8912f);
+  background: color-mix(in srgb, var(--a1, #3892b2) 62%, #b06d37);
 }
 
 .mw .mw-main.is-page-targets .mw-volchart-row strong {
   grid-area: value;
   justify-self: end;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #1b1824;
+  color: #181f22;
   font-variant-numeric: tabular-nums;
 }
 
@@ -930,7 +930,7 @@
   font-size: 8px;
   font-weight: 650;
   letter-spacing: 0.05em;
-  color: #b4b1be;
+  color: #b2babd;
 }
 
 .mw .mw-main.is-page-targets .mw-volumes-grid,
@@ -967,9 +967,9 @@
   gap: 6px;
   margin: 0;
   padding: 12px 26px 16px;
-  border-top: 1px solid rgba(25, 26, 36, 0.07);
+  border-top: 1px solid rgba(26, 23, 16, 0.07);
   font-size: 10px;
-  color: #9a97a6;
+  color: #a5a198;
 }
 
 /* ═══ 3. Offer coverage — a compact reading, not three cards ═════════════════ */
@@ -1003,7 +1003,7 @@
 }
 
 .mw .mw-gapplan .mw-gp-summary b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -1024,7 +1024,7 @@
 }
 
 .mw .mw-gapplan .mw-gp-summary.is-covered .mw-gp-summary-gap {
-  color: #17674a;
+  color: #1e5b46;
 }
 
 .mw .mw-gapplan .mw-gp-cols {
@@ -1039,7 +1039,7 @@
   font-weight: 750;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #b4b1be;
+  color: #b2babd;
 }
 
 .mw .mw-gapplan .mw-gp-cols > span:last-child {
@@ -1073,7 +1073,7 @@
 }
 
 .mw .mw-gapplan .mw-gp-row:hover {
-  background: color-mix(in srgb, var(--a1, #5b4fd6) 1.8%, #ffffff);
+  background: color-mix(in srgb, var(--a1, #3892b2) 1.8%, #ffffff);
 }
 
 .mw .mw-gapplan .mw-gp-line {
@@ -1105,15 +1105,15 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #1f8a5f;
+  background: #298062;
 }
 
 .mw .mw-gapplan .mw-gp-row.short .mw-gp-name > i {
-  background: #d9822b;
+  background: #b26f38;
 }
 
 .mw .mw-gapplan .mw-gp-row.over .mw-gp-name > i {
-  background: #c24d4d;
+  background: #b25938;
 }
 
 .mw .mw-gapplan .mw-gp-vals {
@@ -1124,7 +1124,7 @@
 }
 
 .mw .mw-gapplan .mw-gp-vals b {
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -1145,7 +1145,7 @@
   height: 6px;
   margin: 0;
   border-radius: 999px;
-  background: #f0eeea;
+  background: #f0edea;
   overflow: visible;
 }
 
@@ -1153,15 +1153,15 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--a1, #5b4fd6) 55%, #b9a9ff), var(--a1, #5b4fd6));
+  background: linear-gradient(90deg, color-mix(in srgb, var(--a1, #3892b2) 55%, #c4dce4), var(--a1, #3892b2));
 }
 
 .mw .mw-gapplan .mw-gp-row.short .mw-gp-bar i {
-  background: linear-gradient(90deg, #eab584, #cf8033);
+  background: linear-gradient(90deg, #b26f38, #b26f38);
 }
 
 .mw .mw-gapplan .mw-gp-row.over .mw-gp-bar i {
-  background: linear-gradient(90deg, #dd9d9d, #bd5a5a);
+  background: linear-gradient(90deg, #b25938, #b25938);
 }
 
 .mw .mw-gapplan .mw-gp-bar b {
@@ -1179,7 +1179,7 @@
   justify-items: end;
   gap: 1px;
   text-align: right;
-  font-family: 'Bodoni Moda', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -1206,7 +1206,7 @@
 }
 
 .mw .mw-gapplan .mw-gp-state.is-ok em {
-  color: #17674a;
+  color: #1e5b46;
 }
 
 /* The picks and the note hang under the row, indented to the bar's column. */

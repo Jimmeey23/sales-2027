@@ -27,12 +27,8 @@ export const NAV: NavSection[] = [
     icon: Target,
     locationAware: true,
     links: [
-      {
-        to: '/sales-plan/targets',
-        label: 'Target Metrics',
-        detail: 'One target per location and its month-by-month breakdown',
-        match: ['/sales-plan'],
-      },
+      // Target Metrics is no longer a tab of its own: the complete breakdown table now sits
+      // inside the month plan's "Targets & mix" page, reached from Offers › Planned promotions.
       {
         to: '/sales-plan/approvals',
         label: 'Approvals & Calculations',

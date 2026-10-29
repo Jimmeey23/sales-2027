@@ -264,15 +264,39 @@ export function Drawer({
 }
 export function Loading({ label = 'Loading intelligence…' }: { label?: string }) {
   return (
-    <div className="loading p57-loader" role="status">
-      <svg viewBox="0 0 120 40" aria-hidden="true">
-        <path className="p57-loader-track" d="M2 20h34l6-10 10 22 10-30 10 26 8-8h38" pathLength={100} />
-        <path className="p57-loader-line" d="M2 20h34l6-10 10 22 10-30 10 26 8-8h38" pathLength={100} />
-      </svg>
-      <span>{label}</span>
+    <div className="loading p57-loader" role="status" aria-live="polite">
+      <span className="atl-orbit" aria-hidden="true">
+        <i className="atl-orbit-arc" />
+        <i className="atl-orbit-arc is-inner" />
+        <i className="atl-orbit-arc is-outer" />
+        <i className="atl-orbit-core" />
+      </span>
+      <span className="atl-loader-label">{label}</span>
+      <span className="atl-loader-dots" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </span>
     </div>
   );
 }
+
+/* A skeleton row used where a list is about to arrive, so a slow fetch reads as
+   content loading rather than a blank panel. */
+export function LoadingRows({ rows = 4 }: { rows?: number }) {
+  return (
+    <div className="atl-skeleton" role="status" aria-label="Loading list">
+      {Array.from({ length: rows }).map((_, i) => (
+        <span key={i} style={{ ['--i' as string]: i } as React.CSSProperties}>
+          <i />
+          <i />
+          <i />
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function ErrorState({ message, retry }: { message: string; retry?: () => void }) {
   return (
     <div className="empty-state error-state">

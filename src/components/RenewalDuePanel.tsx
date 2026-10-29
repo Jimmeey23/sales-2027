@@ -178,11 +178,11 @@ export default function RenewalDuePanel() {
           <div className="chart-box">
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={report.historicalRenewalRevenue}>
-                <CartesianGrid stroke="#e8e4ef" vertical={false} />
+                <CartesianGrid stroke="#e7e0db" vertical={false} />
                 <XAxis dataKey="month" tickFormatter={value => String(value).slice(5)} />
                 <YAxis tickFormatter={value => `₹${(value / 100000).toFixed(0)}L`} />
                 <Tooltip formatter={(value: any) => money(value)} />
-                <Bar dataKey="revenue" fill="#6857e5" radius={[5, 5, 0, 0]} />
+                <Bar dataKey="revenue" fill="#245f57" radius={[5, 5, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

@@ -68,7 +68,7 @@
   box-shadow: var(--shadow);
 }
 .pb27-kpis > div.pb27-watch {
-  border-color: #ecd9b4;
+  border-color: #e8ceb9;
   background: linear-gradient(0deg, var(--amber-soft), var(--paper) 70%);
 }
 .pb27-kpis span {
@@ -167,7 +167,7 @@
   background: var(--green);
 }
 .pb27-wf-base .pb27-wf-track i {
-  background: #8fa79c;
+  background: #8fa79f;
 }
 .pb27-wf-cut .pb27-wf-track i {
   background: var(--red);
@@ -307,7 +307,7 @@ span.pb27-chip {
   background: linear-gradient(90deg, var(--green-soft) var(--w), transparent var(--w));
 }
 .pb27-meter.hot {
-  background: linear-gradient(90deg, #cfe6b0 var(--w), transparent var(--w));
+  background: linear-gradient(90deg, #3bb087 var(--w), transparent var(--w));
 }
 .pb27-meter.cold {
   background: linear-gradient(90deg, var(--amber-soft) var(--w), transparent var(--w));
