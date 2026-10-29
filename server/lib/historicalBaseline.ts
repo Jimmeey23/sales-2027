@@ -12,7 +12,13 @@ import { applySlotOffers } from './offerCatalog.js';
 import { applySalesOfferPlan } from './salesOfferPlan2027.js';
 import { applyMembershipLibrary } from './membershipLibrary2027.js';
 import { captureStandardBase } from './targetScenarios.js';
-import { ensureOfferBank2027, offerBankReady } from './offerBank2027.js';
+import {
+  applyApprovedAlternatives2027,
+  applyApprovedPlan2027,
+  unapproveImportedPlan2027,
+  curateFinalPlan2027,
+} from './approvedPlan2027.js';
+import { clearMonthPicks2027, resetMonthPlans2027, ensureOfferBank2027, offerBankReady } from './offerBank2027.js';
 
 const readJson = (file: string) => JSON.parse(fs.readFileSync(path.resolve('server/data', file), 'utf8'));
 
@@ -83,7 +89,8 @@ const CANONICAL_PRODUCT_SLOTS: Array<{
 
 function categoryForCatalogueItem(name: string, duration: number, classes: number) {
   const lower = name.toLowerCase();
-  if (lower.includes('newcomer') || lower.includes('intro') || lower.includes('2 for 1')) return 'Introductory Packages';
+  if (lower.includes('newcomer') || lower.includes('intro') || lower.includes('2 for 1'))
+    return 'Introductory Packages';
   if (lower.includes('private')) return 'Private Sessions';
   if (classes >= 999 || lower.includes('unlimited') || lower.includes('membership') || lower.includes('annual'))
     return 'Memberships';
@@ -109,14 +116,7 @@ export function ensureStudiosAndUsers() {
       'INSERT INTO studios(name,code,city,aliases,max_discount_percent,monthly_capacity) VALUES (?,?,?,?,?,?)',
     );
     for (const s of STUDIO_DEFINITIONS) {
-      insertStudio.run(
-        s.name,
-        s.code,
-        s.city,
-        JSON.stringify(s.aliases),
-        20,
-        STUDIO_CAPACITIES[s.name] ?? null,
-      );
+      insertStudio.run(s.name, s.code, s.city, JSON.stringify(s.aliases), 20, STUDIO_CAPACITIES[s.name] ?? null);
     }
   } else {
     db.prepare("UPDATE studios SET city='Bengaluru' WHERE name IN ('Pop-up','Copper + Cloves','Plash Pilates')").run();
@@ -128,7 +128,10 @@ export function ensureStudiosAndUsers() {
   const existingUsers = Number((db.prepare('SELECT COUNT(*) n FROM users').get() as any)?.n || 0);
   if (existingUsers === 0 && process.env.NODE_ENV !== 'production') {
     const studiosByName = new Map(
-      (db.prepare('SELECT id, name FROM studios').all() as Array<{ id: number; name: string }>).map(s => [s.name, s.id]),
+      (db.prepare('SELECT id, name FROM studios').all() as Array<{ id: number; name: string }>).map(s => [
+        s.name,
+        s.id,
+      ]),
     );
     const insertUser = db.prepare(
       'INSERT INTO users(email,name,password_hash,role,assigned_studio_id) VALUES (?,?,?,?,?)',
@@ -137,8 +140,20 @@ export function ensureStudiosAndUsers() {
     insertUser.run('admin@p57.demo', 'Aisha Mehta', pw, 'administrator', null);
     insertUser.run('management@p57.demo', 'Rohan Kapoor', pw, 'senior_management', null);
     insertUser.run('sales@p57.demo', 'Meera Shah', pw, 'sales_manager', null);
-    insertUser.run('studio@p57.demo', 'Kemps Studio Manager', pw, 'studio_manager', studiosByName.get('Kemps Corner') ?? null);
-    insertUser.run('associate@p57.demo', 'Sales Associate', pw, 'sales_associate', studiosByName.get('Kemps Corner') ?? null);
+    insertUser.run(
+      'studio@p57.demo',
+      'Kemps Studio Manager',
+      pw,
+      'studio_manager',
+      studiosByName.get('Kemps Corner') ?? null,
+    );
+    insertUser.run(
+      'associate@p57.demo',
+      'Sales Associate',
+      pw,
+      'sales_associate',
+      studiosByName.get('Kemps Corner') ?? null,
+    );
     insertUser.run('analyst@p57.demo', 'Read-only Analyst', pw, 'read_only_analyst', null);
   }
 }
@@ -203,9 +218,7 @@ export function ensureProductCatalogue() {
             : [blrFlagship, byName.get('Pop-up')].filter(Boolean);
       for (const st of targets) {
         if (!st) continue;
-        const already = db
-          .prepare('SELECT id FROM products WHERE studio_id=? AND name=?')
-          .get(st.id, item.name);
+        const already = db.prepare('SELECT id FROM products WHERE studio_id=? AND name=?').get(st.id, item.name);
         if (already) continue;
         const id = nextFreeId();
         insertWithId.run(id, st.id, item.name, cat, item.priceExGst, sessions, validity);
@@ -239,7 +252,15 @@ type StudioSpec = {
   monthlyCheckinsBase: number;
   expiringPerMonth: number;
   lapsedPoolSize: number;
-  products: Array<{ name: string; category: string; price: number; stream: string; days: number; sessions: number; weight: number }>;
+  products: Array<{
+    name: string;
+    category: string;
+    price: number;
+    stream: string;
+    days: number;
+    sessions: number;
+    weight: number;
+  }>;
   codes: string[];
   trainers: Array<{ ref: string; name: string; share: number; conv: number; ret: number }>;
 };
@@ -263,16 +284,96 @@ const STUDIO_SPECS: StudioSpec[] = [
     expiringPerMonth: 118,
     lapsedPoolSize: 523,
     products: [
-      { name: 'Studio 1 Month Unlimited Membership', category: 'Memberships', price: 19275, stream: 'renewal', days: 30, sessions: 30, weight: 0.28 },
-      { name: 'Studio 3 Month Unlimited Membership', category: 'Memberships', price: 55100, stream: 'renewal', days: 90, sessions: 90, weight: 0.24 },
-      { name: 'Studio 6 Month Unlimited Membership', category: 'Memberships', price: 99750, stream: 'renewal', days: 180, sessions: 180, weight: 0.11 },
-      { name: 'Studio Annual Unlimited Membership', category: 'Memberships', price: 192500, stream: 'renewal', days: 365, sessions: 365, weight: 0.08 },
-      { name: 'Studio 12 Class', category: 'Class Packages', price: 22100, stream: 'new_client', days: 90, sessions: 12, weight: 0.09 },
-      { name: 'Studio 10 Single Class Pack', category: 'Class Packages', price: 18500, stream: 'reactivation', days: 90, sessions: 10, weight: 0.07 },
-      { name: 'Studio 8 Class', category: 'Class Packages', price: 16400, stream: 'new_client', days: 60, sessions: 8, weight: 0.06 },
-      { name: 'Studio 4 Class', category: 'Class Packages', price: 10200, stream: 'reactivation', days: 30, sessions: 4, weight: 0.03 },
-      { name: 'Studio Private Class X 10', category: 'Private Sessions', price: 47250, stream: 'additional', days: 90, sessions: 10, weight: 0.025 },
-      { name: 'Studio Single Class', category: 'Single Classes', price: 1800, stream: 'new_client', days: 14, sessions: 1, weight: 0.015 },
+      {
+        name: 'Studio 1 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 19275,
+        stream: 'renewal',
+        days: 30,
+        sessions: 30,
+        weight: 0.28,
+      },
+      {
+        name: 'Studio 3 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 55100,
+        stream: 'renewal',
+        days: 90,
+        sessions: 90,
+        weight: 0.24,
+      },
+      {
+        name: 'Studio 6 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 99750,
+        stream: 'renewal',
+        days: 180,
+        sessions: 180,
+        weight: 0.11,
+      },
+      {
+        name: 'Studio Annual Unlimited Membership',
+        category: 'Memberships',
+        price: 192500,
+        stream: 'renewal',
+        days: 365,
+        sessions: 365,
+        weight: 0.08,
+      },
+      {
+        name: 'Studio 12 Class',
+        category: 'Class Packages',
+        price: 22100,
+        stream: 'new_client',
+        days: 90,
+        sessions: 12,
+        weight: 0.09,
+      },
+      {
+        name: 'Studio 10 Single Class Pack',
+        category: 'Class Packages',
+        price: 18500,
+        stream: 'reactivation',
+        days: 90,
+        sessions: 10,
+        weight: 0.07,
+      },
+      {
+        name: 'Studio 8 Class',
+        category: 'Class Packages',
+        price: 16400,
+        stream: 'new_client',
+        days: 60,
+        sessions: 8,
+        weight: 0.06,
+      },
+      {
+        name: 'Studio 4 Class',
+        category: 'Class Packages',
+        price: 10200,
+        stream: 'reactivation',
+        days: 30,
+        sessions: 4,
+        weight: 0.03,
+      },
+      {
+        name: 'Studio Private Class X 10',
+        category: 'Private Sessions',
+        price: 47250,
+        stream: 'additional',
+        days: 90,
+        sessions: 10,
+        weight: 0.025,
+      },
+      {
+        name: 'Studio Single Class',
+        category: 'Single Classes',
+        price: 1800,
+        stream: 'new_client',
+        days: 14,
+        sessions: 1,
+        weight: 0.015,
+      },
     ],
     codes: ['WELCOME15', 'APRILANNIV', 'VDAY50', 'COMEBACK15', 'MONSOON10'],
     trainers: [
@@ -300,22 +401,102 @@ const STUDIO_SPECS: StudioSpec[] = [
     expiringPerMonth: 62,
     lapsedPoolSize: 419,
     products: [
-      { name: 'Studio 1 Month Unlimited Membership', category: 'Memberships', price: 19275, stream: 'renewal', days: 30, sessions: 30, weight: 0.33 },
-      { name: 'Studio 3 Month Unlimited Membership', category: 'Memberships', price: 55100, stream: 'renewal', days: 90, sessions: 90, weight: 0.19 },
-      { name: 'Studio 6 Month Unlimited Membership', category: 'Memberships', price: 99750, stream: 'renewal', days: 180, sessions: 180, weight: 0.09 },
-      { name: 'Studio Annual Unlimited Membership', category: 'Memberships', price: 192500, stream: 'renewal', days: 365, sessions: 365, weight: 0.06 },
-      { name: 'Studio 12 Class', category: 'Class Packages', price: 22100, stream: 'new_client', days: 90, sessions: 12, weight: 0.09 },
-      { name: 'Studio 8 Class', category: 'Class Packages', price: 16400, stream: 'new_client', days: 60, sessions: 8, weight: 0.09 },
-      { name: 'Studio 10 Single Class Pack', category: 'Class Packages', price: 18500, stream: 'reactivation', days: 90, sessions: 10, weight: 0.07 },
-      { name: 'Studio 4 Class', category: 'Class Packages', price: 10200, stream: 'reactivation', days: 30, sessions: 4, weight: 0.04 },
-      { name: 'Studio Private Class X 10', category: 'Private Sessions', price: 47250, stream: 'additional', days: 90, sessions: 10, weight: 0.02 },
-      { name: 'Studio Single Class', category: 'Single Classes', price: 1800, stream: 'new_client', days: 14, sessions: 1, weight: 0.02 },
+      {
+        name: 'Studio 1 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 19275,
+        stream: 'renewal',
+        days: 30,
+        sessions: 30,
+        weight: 0.33,
+      },
+      {
+        name: 'Studio 3 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 55100,
+        stream: 'renewal',
+        days: 90,
+        sessions: 90,
+        weight: 0.19,
+      },
+      {
+        name: 'Studio 6 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 99750,
+        stream: 'renewal',
+        days: 180,
+        sessions: 180,
+        weight: 0.09,
+      },
+      {
+        name: 'Studio Annual Unlimited Membership',
+        category: 'Memberships',
+        price: 192500,
+        stream: 'renewal',
+        days: 365,
+        sessions: 365,
+        weight: 0.06,
+      },
+      {
+        name: 'Studio 12 Class',
+        category: 'Class Packages',
+        price: 22100,
+        stream: 'new_client',
+        days: 90,
+        sessions: 12,
+        weight: 0.09,
+      },
+      {
+        name: 'Studio 8 Class',
+        category: 'Class Packages',
+        price: 16400,
+        stream: 'new_client',
+        days: 60,
+        sessions: 8,
+        weight: 0.09,
+      },
+      {
+        name: 'Studio 10 Single Class Pack',
+        category: 'Class Packages',
+        price: 18500,
+        stream: 'reactivation',
+        days: 90,
+        sessions: 10,
+        weight: 0.07,
+      },
+      {
+        name: 'Studio 4 Class',
+        category: 'Class Packages',
+        price: 10200,
+        stream: 'reactivation',
+        days: 30,
+        sessions: 4,
+        weight: 0.04,
+      },
+      {
+        name: 'Studio Private Class X 10',
+        category: 'Private Sessions',
+        price: 47250,
+        stream: 'additional',
+        days: 90,
+        sessions: 10,
+        weight: 0.02,
+      },
+      {
+        name: 'Studio Single Class',
+        category: 'Single Classes',
+        price: 1800,
+        stream: 'new_client',
+        days: 14,
+        sessions: 1,
+        weight: 0.02,
+      },
     ],
     codes: ['SHQWELCOME15', 'APRILANNIV', 'VDAY50', 'BANDRABACK15', 'FLASH15'],
     trainers: [
       { ref: 'TR-BA-01', name: 'Neha S. (Lead Barre)', share: 0.34, conv: 0.21, ret: 0.65 },
       { ref: 'TR-BA-02', name: 'Aarav T. (Strength & Cycle)', share: 0.28, conv: 0.19, ret: 0.62 },
-      { ref: 'TR-BA-03', name: 'Tara V. (Barre & Cardio)', share: 0.21, conv: 0.17, ret: 0.60 },
+      { ref: 'TR-BA-03', name: 'Tara V. (Barre & Cardio)', share: 0.21, conv: 0.17, ret: 0.6 },
       { ref: 'TR-BA-04', name: 'Ishaan P. (PowerCycle)', share: 0.17, conv: 0.16, ret: 0.58 },
     ],
   },
@@ -337,21 +518,101 @@ const STUDIO_SPECS: StudioSpec[] = [
     expiringPerMonth: 44,
     lapsedPoolSize: 254,
     products: [
-      { name: 'Studio 1 Month Unlimited Membership', category: 'Memberships', price: 13900, stream: 'renewal', days: 30, sessions: 30, weight: 0.31 },
-      { name: 'Studio 3 Month Unlimited Membership', category: 'Memberships', price: 40200, stream: 'renewal', days: 90, sessions: 90, weight: 0.18 },
-      { name: 'Studio 6 Month Unlimited Membership', category: 'Memberships', price: 78300, stream: 'renewal', days: 180, sessions: 180, weight: 0.08 },
-      { name: 'Studio Annual Unlimited Membership', category: 'Memberships', price: 148800, stream: 'renewal', days: 365, sessions: 365, weight: 0.05 },
-      { name: 'Studio 12 Class', category: 'Class Packages', price: 15000, stream: 'new_client', days: 90, sessions: 12, weight: 0.10 },
-      { name: 'Studio 8 Class', category: 'Class Packages', price: 10200, stream: 'new_client', days: 60, sessions: 8, weight: 0.11 },
-      { name: 'Studio 2 Week Unlimited', category: 'Introductory Packages', price: 9700, stream: 'new_client', days: 14, sessions: 14, weight: 0.06 },
-      { name: 'Studio 4 Class', category: 'Class Packages', price: 6000, stream: 'reactivation', days: 30, sessions: 4, weight: 0.05 },
-      { name: 'New Client Intro Pack', category: 'Introductory Packages', price: 2999, stream: 'new_client', days: 14, sessions: 3, weight: 0.03 },
-      { name: 'Studio Single Class', category: 'Single Classes', price: 1350, stream: 'additional', days: 14, sessions: 1, weight: 0.03 },
+      {
+        name: 'Studio 1 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 13900,
+        stream: 'renewal',
+        days: 30,
+        sessions: 30,
+        weight: 0.31,
+      },
+      {
+        name: 'Studio 3 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 40200,
+        stream: 'renewal',
+        days: 90,
+        sessions: 90,
+        weight: 0.18,
+      },
+      {
+        name: 'Studio 6 Month Unlimited Membership',
+        category: 'Memberships',
+        price: 78300,
+        stream: 'renewal',
+        days: 180,
+        sessions: 180,
+        weight: 0.08,
+      },
+      {
+        name: 'Studio Annual Unlimited Membership',
+        category: 'Memberships',
+        price: 148800,
+        stream: 'renewal',
+        days: 365,
+        sessions: 365,
+        weight: 0.05,
+      },
+      {
+        name: 'Studio 12 Class',
+        category: 'Class Packages',
+        price: 15000,
+        stream: 'new_client',
+        days: 90,
+        sessions: 12,
+        weight: 0.1,
+      },
+      {
+        name: 'Studio 8 Class',
+        category: 'Class Packages',
+        price: 10200,
+        stream: 'new_client',
+        days: 60,
+        sessions: 8,
+        weight: 0.11,
+      },
+      {
+        name: 'Studio 2 Week Unlimited',
+        category: 'Introductory Packages',
+        price: 9700,
+        stream: 'new_client',
+        days: 14,
+        sessions: 14,
+        weight: 0.06,
+      },
+      {
+        name: 'Studio 4 Class',
+        category: 'Class Packages',
+        price: 6000,
+        stream: 'reactivation',
+        days: 30,
+        sessions: 4,
+        weight: 0.05,
+      },
+      {
+        name: 'New Client Intro Pack',
+        category: 'Introductory Packages',
+        price: 2999,
+        stream: 'new_client',
+        days: 14,
+        sessions: 3,
+        weight: 0.03,
+      },
+      {
+        name: 'Studio Single Class',
+        category: 'Single Classes',
+        price: 1350,
+        stream: 'additional',
+        days: 14,
+        sessions: 1,
+        weight: 0.03,
+      },
     ],
     codes: ['VDAY50', 'BLRINTRO15', 'APRILANNIV', 'KENKERE15', 'STREAK10'],
     trainers: [
       { ref: 'TR-KH-01', name: 'Meghna N. (Lead Barre)', share: 0.38, conv: 0.29, ret: 0.64 },
-      { ref: 'TR-KH-02', name: 'Siddharth R. (Barre & Sculpt)', share: 0.34, conv: 0.25, ret: 0.60 },
+      { ref: 'TR-KH-02', name: 'Siddharth R. (Barre & Sculpt)', share: 0.34, conv: 0.25, ret: 0.6 },
       { ref: 'TR-KH-03', name: 'Kavya G. (Barre)', share: 0.28, conv: 0.22, ret: 0.57 },
     ],
   },
@@ -373,10 +634,42 @@ const STUDIO_SPECS: StudioSpec[] = [
     expiringPerMonth: 22,
     lapsedPoolSize: 103,
     products: [
-      { name: 'Copper + Cloves 8 Class Package', category: 'Class Packages', price: 6600, stream: 'renewal', days: 60, sessions: 8, weight: 0.34 },
-      { name: 'Copper + Cloves 10 Class Package', category: 'Class Packages', price: 8100, stream: 'renewal', days: 75, sessions: 10, weight: 0.22 },
-      { name: 'Copper + Cloves 4 Class Package', category: 'Class Packages', price: 3500, stream: 'new_client', days: 30, sessions: 4, weight: 0.24 },
-      { name: 'Copper + Cloves Single Class Package', category: 'Single Classes', price: 900, stream: 'additional', days: 14, sessions: 1, weight: 0.20 },
+      {
+        name: 'Copper + Cloves 8 Class Package',
+        category: 'Class Packages',
+        price: 6600,
+        stream: 'renewal',
+        days: 60,
+        sessions: 8,
+        weight: 0.34,
+      },
+      {
+        name: 'Copper + Cloves 10 Class Package',
+        category: 'Class Packages',
+        price: 8100,
+        stream: 'renewal',
+        days: 75,
+        sessions: 10,
+        weight: 0.22,
+      },
+      {
+        name: 'Copper + Cloves 4 Class Package',
+        category: 'Class Packages',
+        price: 3500,
+        stream: 'new_client',
+        days: 30,
+        sessions: 4,
+        weight: 0.24,
+      },
+      {
+        name: 'Copper + Cloves Single Class Package',
+        category: 'Single Classes',
+        price: 900,
+        stream: 'additional',
+        days: 14,
+        sessions: 1,
+        weight: 0.2,
+      },
     ],
     codes: ['CCWELCOME15', 'POPUPPACK10', 'SATURDAYSQUAD'],
     trainers: [
@@ -394,7 +687,7 @@ const STUDIO_SPECS: StudioSpec[] = [
     streamShares: { new_client: 0.35, renewal: 0.25, reactivation: 0.12, additional: 0.28 },
     discountShare: 0.34,
     effectiveDiscountRate: 0.14,
-    leadToTrial: 0.30,
+    leadToTrial: 0.3,
     trialToMember: 0.26,
     checkinRate: 0.84,
     lateCancelRate: 0.11,
@@ -402,9 +695,33 @@ const STUDIO_SPECS: StudioSpec[] = [
     expiringPerMonth: 12,
     lapsedPoolSize: 55,
     products: [
-      { name: 'Plash Pilates 8 Class Package', category: 'Class Packages', price: 11000, stream: 'renewal', days: 60, sessions: 8, weight: 0.36 },
-      { name: 'Plash Pilates 4 Class Package', category: 'Class Packages', price: 5800, stream: 'new_client', days: 30, sessions: 4, weight: 0.38 },
-      { name: 'Plash Pilates Single Class Package', category: 'Single Classes', price: 1500, stream: 'additional', days: 14, sessions: 1, weight: 0.26 },
+      {
+        name: 'Plash Pilates 8 Class Package',
+        category: 'Class Packages',
+        price: 11000,
+        stream: 'renewal',
+        days: 60,
+        sessions: 8,
+        weight: 0.36,
+      },
+      {
+        name: 'Plash Pilates 4 Class Package',
+        category: 'Class Packages',
+        price: 5800,
+        stream: 'new_client',
+        days: 30,
+        sessions: 4,
+        weight: 0.38,
+      },
+      {
+        name: 'Plash Pilates Single Class Package',
+        category: 'Single Classes',
+        price: 1500,
+        stream: 'additional',
+        days: 14,
+        sessions: 1,
+        weight: 0.26,
+      },
     ],
     codes: ['PLASHWELCOME15', 'POPUPPACK10'],
     trainers: [{ ref: 'TR-PP-01', name: 'Kavya G. (Plash Barre)', share: 1.0, conv: 0.27, ret: 0.54 }],
@@ -415,12 +732,19 @@ const LEAD_SOURCES = [
   { name: 'Walk-in / Member Referral', share: 0.29, convBoost: 1.25 },
   { name: 'Instagram / Meta Paid & Organic', share: 0.33, convBoost: 0.92 },
   { name: 'Website / Google Search', share: 0.22, convBoost: 0.85 },
-  { name: 'Hosted Community / Brand Event', share: 0.10, convBoost: 0.72 },
+  { name: 'Hosted Community / Brand Event', share: 0.1, convBoost: 0.72 },
   { name: 'Corporate / Neighbourhood Partner', share: 0.06, convBoost: 1.05 },
 ];
 
 const CLASS_FORMATS: Record<string, string[]> = {
-  Mumbai: ['Studio Barre 57', 'Studio PowerCycle', 'Studio Strength Lab', 'Studio Cardio Barre', 'Studio Back Body Blaze', 'Studio Mat 57'],
+  Mumbai: [
+    'Studio Barre 57',
+    'Studio PowerCycle',
+    'Studio Strength Lab',
+    'Studio Cardio Barre',
+    'Studio Back Body Blaze',
+    'Studio Mat 57',
+  ],
   Bengaluru: ['Studio Barre 57', 'Studio Cardio Barre', 'Studio Mat 57', 'Studio Back Body Blaze', 'Barre Express 45'],
 };
 
@@ -437,10 +761,9 @@ export function ensureHistoricalCohorts(adminId: number | null) {
   const blrWorkbook = readJson('bengaluru-plan-2027.json') as any;
 
   const studiosByName = new Map(
-    (db.prepare('SELECT id, name, city FROM studios').all() as Array<{ id: number; name: string; city: string }>).map(s => [
-      s.name,
-      s,
-    ]),
+    (db.prepare('SELECT id, name, city FROM studios').all() as Array<{ id: number; name: string; city: string }>).map(
+      s => [s.name, s],
+    ),
   );
 
   const insertImport = db.prepare(
@@ -758,9 +1081,17 @@ export function ensureHistoricalCohorts(adminId: number | null) {
         '2026-09',
       ];
       let pkgSeq = 0;
-      const renProds = spec.products.filter(pr => pr.category !== 'Single Classes' && pr.category !== 'Introductory Packages');
+      const renProds = spec.products.filter(
+        pr => pr.category !== 'Single Classes' && pr.category !== 'Introductory Packages',
+      );
       const targetRenewalRate =
-        spec.name === 'Kemps Corner' ? 0.658 : spec.name === 'Bandra' ? 0.72 : spec.name === 'Kenkere House' ? 0.64 : 0.48;
+        spec.name === 'Kemps Corner'
+          ? 0.658
+          : spec.name === 'Bandra'
+            ? 0.72
+            : spec.name === 'Kenkere House'
+              ? 0.64
+              : 0.48;
 
       for (let mIdx = 0; mIdx < histPkgMonths.length; mIdx++) {
         const ym = histPkgMonths[mIdx];
@@ -955,7 +1286,14 @@ export function ensureHistoricalCohorts(adminId: number | null) {
       invCheckins = 38;
     db.prepare(
       'UPDATE imports SET total_rows=?, valid_rows=?, invalid_rows=?, duplicate_rows=?, imported_rows=? WHERE id=?',
-    ).run(totalCheckins + dupCheckins + invCheckins, totalCheckins, invCheckins, dupCheckins, totalCheckins, checkinsImportId);
+    ).run(
+      totalCheckins + dupCheckins + invCheckins,
+      totalCheckins,
+      invCheckins,
+      dupCheckins,
+      totalCheckins,
+      checkinsImportId,
+    );
 
     // Reconstruct historical offer performance from discount codes
     const historicalCodes = db
@@ -1000,17 +1338,21 @@ export function ensureHistoricalCohorts(adminId: number | null) {
         'actual',
         'Observed attributed revenue only. Redemptions reflect distinct customer-days.',
         '{}',
-        JSON.stringify([
-          'Attribution is not causal lift',
-          'Audience reach denominator is not observed in POS exports',
-        ]),
+        JSON.stringify(['Attribution is not causal lift', 'Audience reach denominator is not observed in POS exports']),
         adminId,
       );
     }
   })();
 
   recalculateSegments();
-  return { seeded: true, transactions: totalTx, leads: totalLeads, visits: totalVisits, packages: totalPkgs, checkins: totalCheckins };
+  return {
+    seeded: true,
+    transactions: totalTx,
+    leads: totalLeads,
+    visits: totalVisits,
+    packages: totalPkgs,
+    checkins: totalCheckins,
+  };
 }
 
 export function ensureBaselineData() {
@@ -1018,8 +1360,10 @@ export function ensureBaselineData() {
   ensureProductCatalogue();
 
   const adminId =
-    Number((db.prepare("SELECT id FROM users WHERE role='administrator' AND active=1 ORDER BY id LIMIT 1").get() as any)?.id || 0) ||
-    null;
+    Number(
+      (db.prepare("SELECT id FROM users WHERE role='administrator' AND active=1 ORDER BY id LIMIT 1").get() as any)
+        ?.id || 0,
+    ) || null;
 
   const history = ensureHistoricalCohorts(adminId);
 
@@ -1028,10 +1372,14 @@ export function ensureBaselineData() {
   if (segCount === 0) recalculateSegments();
 
   // Ensure 2026 & 2027 commercial plans and offers exist
-  const targets2026 = Number((db.prepare('SELECT COUNT(*) n FROM monthly_targets WHERE year=2026').get() as any)?.n || 0);
+  const targets2026 = Number(
+    (db.prepare('SELECT COUNT(*) n FROM monthly_targets WHERE year=2026').get() as any)?.n || 0,
+  );
   if (targets2026 === 0) generateYearTargets(2026, adminId ?? undefined);
 
-  const targets2027 = Number((db.prepare('SELECT COUNT(*) n FROM monthly_targets WHERE year=2027').get() as any)?.n || 0);
+  const targets2027 = Number(
+    (db.prepare('SELECT COUNT(*) n FROM monthly_targets WHERE year=2027').get() as any)?.n || 0,
+  );
   if (targets2027 === 0) {
     generateYearTargets(2027, adminId ?? undefined);
     applyPlanTargets(2027, adminId);
@@ -1041,7 +1389,8 @@ export function ensureBaselineData() {
   ensureCommercialSeed();
 
   const planOffers2027 = Number(
-    (db.prepare("SELECT COUNT(*) n FROM offers WHERE year=2027 AND generation_source='plan_2027'").get() as any)?.n || 0,
+    (db.prepare("SELECT COUNT(*) n FROM offers WHERE year=2027 AND generation_source='plan_2027'").get() as any)?.n ||
+      0,
   );
   // Once the 2027 offer bank exists it is the only offer source; the old plan imports must never re-run.
   if (planOffers2027 === 0 && !offerBankReady()) {
@@ -1051,7 +1400,68 @@ export function ensureBaselineData() {
     applyMembershipLibrary(2027, adminId);
   }
   const bank = ensureOfferBank2027();
-  if (bank) audit({ userId: adminId, action: 'offer_bank_2027', entityType: 'system', after: bank, reason: 'Merged all 2027 offer sources into one bank per location.' });
+  if (bank)
+    audit({
+      userId: adminId,
+      action: 'offer_bank_2027',
+      entityType: 'system',
+      after: bank,
+      reason: 'Merged all 2027 offer sources into one bank per location.',
+    });
+  const cleared = clearMonthPicks2027();
+  if (cleared)
+    audit({
+      userId: adminId,
+      action: 'offer_month_picks_cleared_2027',
+      entityType: 'system',
+      after: cleared,
+      reason: 'Cleared every 2027 month plan; previously picked bank offers marked recommended.',
+    });
+  const skeleton = resetMonthPlans2027();
+  if (skeleton)
+    audit({
+      userId: adminId,
+      action: 'month_plans_skeleton_2027',
+      entityType: 'system',
+      after: skeleton,
+      reason: 'Reset every 2027 month plan to an empty skeleton.',
+    });
+  const approved = applyApprovedPlan2027();
+  if (approved)
+    audit({
+      userId: adminId,
+      action: 'approved_plan_2027',
+      entityType: 'system',
+      after: approved,
+      reason: 'Loaded the final approved 2027 Sales and Offer Plan (export of 29 Oct 2026).',
+    });
+  const alternatives = applyApprovedAlternatives2027();
+  if (alternatives)
+    audit({
+      userId: adminId,
+      action: 'approved_plan_alternatives_2027',
+      entityType: 'system',
+      after: alternatives,
+      reason: 'Added the alternatives considered in the approved 2027 plan to the offer bank (not picked).',
+    });
+  const unapproved = unapproveImportedPlan2027();
+  if (unapproved)
+    audit({
+      userId: adminId,
+      action: 'approved_plan_unapproved_2027',
+      entityType: 'system',
+      after: unapproved,
+      reason: 'Imported 2027 plan set back to draft for manual approval.',
+    });
+  const curated = curateFinalPlan2027();
+  if (curated)
+    audit({
+      userId: adminId,
+      action: 'final_plan_curated_2027',
+      entityType: 'system',
+      after: curated,
+      reason: 'Replaced older 2027 campaigns and playbook content with the final plan.',
+    });
 
   if (history.seeded) {
     audit({

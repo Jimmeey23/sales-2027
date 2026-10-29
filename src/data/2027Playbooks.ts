@@ -25,23 +25,23 @@ export type StudioPlaybook = {
   actions?: Array<[string, string]>;
 };
 
-// Transcribed from the supplied “P57 India — 2027 Monthly Sales Execution Playbooks” PDF.
-// Mumbai studios only; Bengaluru plans come from Bengaluru_Sales_Plan_2027.xlsx.
-// Values are a separate Base scenario (₹ lakh, incl. GST); they never overwrite app targets.
+// Mumbai studio playbooks. Numbers are a separate Base scenario (₹ lakh, incl. GST) and never
+// overwrite app targets; objectives, lead offers and summaries are from the final approved 2027 plan.
 export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
   'Kemps Corner': {
     sourceName: 'Kwality House (Kemps Corner)',
     annualL: 398.1,
     ttmGrowth: '+21%',
     insight:
-      'Volume and active members are growing, while effective discount rose to 19.5%. April 2026 code buyers renewed at 24.5% versus 61% at full price.',
+      'Final plan: ₹398.0L target, ₹422.2L projected — new clients ₹58.2L, renewals ₹241.6L, reactivation ₹47.9L.',
     priority:
-      'Protect renewal yield and ticket; aim for 20.5% trial-to-commitment, prioritise morning/evening trial slots, and route bonus visits to lower-fill formats.',
+      '1,425 leads → 1,096 trials → 236 new buyers; 968 renewal purchases of 1,420 due; 580 reactivated from 7,258 touches.',
     months: [
       {
         revenueL: 31.2,
-        objective: 'Convert January trial demand quickly',
-        offer: 'Resolution Insurance',
+        objective:
+          'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
+        offer: 'Week Zero',
         leads: 77,
         trials: 59,
         buyers: 14,
@@ -53,8 +53,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 24.3,
-        objective: 'Referral-led acquisition; replace BOGO',
-        offer: 'Plus-One, Minus Excuses',
+        objective:
+          'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
+        offer: 'The Second Date for Two',
         leads: 102,
         trials: 78,
         buyers: 17,
@@ -66,8 +67,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 24.3,
-        objective: 'Protect Q1 renewals; preload April',
-        offer: 'The Pre-Game',
+        objective: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
+        offer: 'The Second Date',
         leads: 96,
         trials: 74,
         buyers: 16,
@@ -79,8 +80,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 57.6,
-        objective: 'Anniversary revenue with protected selling price',
-        offer: 'Still Shaking',
+        objective:
+          "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
+        offer: 'Cloud Nine Intro',
         leads: 113,
         trials: 88,
         buyers: 18,
@@ -92,8 +94,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 27.3,
-        objective: 'Retain the April cohort',
-        offer: 'The Afterparty',
+        objective:
+          'Retain the April cohort (target ≥55% renewal at next expiry vs 24.5% for 2026 anniversary-code buyers at Kwality); duo acquisition.',
+        offer: 'Mother Shaker Second Date',
         leads: 133,
         trials: 103,
         buyers: 22,
@@ -105,8 +108,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 27.2,
-        objective: 'Keep summer travellers engaged',
-        offer: 'Out of Office, Not Out of Shape',
+        objective: 'Stop summer lapses; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.',
+        offer: 'Week Zero: Home for the Summer',
         leads: 151,
         trials: 116,
         buyers: 24,
@@ -118,8 +121,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 31.8,
-        objective: 'Monsoon attendance and renewals',
-        offer: 'Rain Check',
+        objective:
+          'Attendance and late cancels (Kenkere 21–30%); get people on a membership before the race starts on 1 Aug.',
+        offer: 'Kickstart 21: Race Ready Cohort',
         leads: 130,
         trials: 100,
         buyers: 21,
@@ -131,8 +135,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 36.0,
-        objective: 'Upgrade to 3M+ and earn referrals',
-        offer: 'Friends Who Squat Together',
+        objective:
+          'Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; second seasonal peak in Mumbai.',
+        offer: 'Starting Gun Week',
         leads: 141,
         trials: 109,
         buyers: 24,
@@ -144,8 +149,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 37.4,
-        objective: 'Reactivate before the festive season',
-        offer: 'The Return Policy',
+        objective: 'Reactivate before the festive season; carry race momentum into a festive countdown.',
+        offer: '57-Day Proof',
         leads: 124,
         trials: 96,
         buyers: 21,
@@ -157,8 +162,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 47.6,
-        objective: 'Capture late-October demand without codes',
-        offer: 'Gift a Shake',
+        objective:
+          "Gift-led revenue; protect Kenkere's Dasara trough; catch Kwality's late-October surge without codes.",
+        offer: 'Gift a Flight',
         leads: 141,
         trials: 109,
         buyers: 24,
@@ -170,8 +176,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 20.2,
-        objective: 'Lock in longer commitments',
-        offer: 'Black Friday, Strong Monday',
+        objective: 'Long commitments in the softest Mumbai month.',
+        offer: 'Black Friday Week Zero',
         leads: 91,
         trials: 70,
         buyers: 16,
@@ -183,8 +189,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 33.1,
-        objective: 'Pre-sell January and close December renewals',
-        offer: 'The Pre-Solution',
+        objective: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
+        offer: 'Kickstart 21: Pre-Solution Cohort',
         leads: 121,
         trials: 94,
         buyers: 19,
@@ -201,14 +207,15 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
     annualL: 228.1,
     ttmGrowth: '−3%',
     insight:
-      'The only core studio with declining TTM revenue; renewal ticket and yield fell. The lapsed pool is the largest, while 59–68% of revenue is discounted.',
+      'Final plan: ₹228.2L target, ₹243.4L projected — new clients ₹37.0L, renewals ₹151.7L, reactivation ₹23.3L.',
     priority:
-      'Rebuild renewal value and reactivate lapsed clients. Target 3.4% monthly reactivation of the 61–365-day pool; assign website leads within 2 hours and call T−14 renewals.',
+      '2,125 leads → 1,213 trials → 217 new buyers; 692 renewal purchases of 991 due; 369 reactivated from 4,612 touches.',
     months: [
       {
         revenueL: 17.6,
-        objective: 'Convert January trial demand',
-        offer: 'Resolution Insurance',
+        objective:
+          'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
+        offer: 'Week Zero',
         leads: 152,
         trials: 87,
         buyers: 15,
@@ -220,8 +227,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 16.2,
-        objective: 'Referral-led acquisition; replace BOGO',
-        offer: 'Plus-One, Minus Excuses',
+        objective:
+          'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
+        offer: 'The 30-Day Proof',
         leads: 141,
         trials: 81,
         buyers: 14,
@@ -233,8 +241,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 13.6,
-        objective: 'Start reactivation early',
-        offer: 'The Pre-Game + Launch-Cohort Reunion',
+        objective: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
+        offer: 'Kickstart 21: She Moves Cohort',
         leads: 150,
         trials: 86,
         buyers: 15,
@@ -246,8 +254,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 33.0,
-        objective: 'Anniversary revenue with protected selling price',
-        offer: 'Still Shaking',
+        objective:
+          "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
+        offer: 'Cloud Nine Intro',
         leads: 239,
         trials: 136,
         buyers: 24,
@@ -259,8 +268,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 18.7,
-        objective: 'Retain the April cohort',
-        offer: 'The Afterparty',
+        objective:
+          'Retain the April cohort (target ≥55% renewal at next expiry vs 24.5% for 2026 anniversary-code buyers at Kwality); duo acquisition.',
+        offer: 'Mother Shaker Second Date',
         leads: 220,
         trials: 126,
         buyers: 22,
@@ -272,8 +282,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 15.5,
-        objective: 'Keep summer travellers engaged',
-        offer: 'Out of Office, Not Out of Shape',
+        objective: 'Stop summer lapses; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.',
+        offer: 'Golden Hours Flight',
         leads: 204,
         trials: 116,
         buyers: 20,
@@ -285,8 +295,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 21.4,
-        objective: 'Monsoon attendance and renewals',
-        offer: 'Rain Check',
+        objective:
+          'Attendance and late cancels (Kenkere 21–30%); get people on a membership before the race starts on 1 Aug.',
+        offer: 'Kickstart 21: Race Ready Cohort',
         leads: 205,
         trials: 117,
         buyers: 22,
@@ -298,8 +309,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 25.5,
-        objective: 'Upgrade and referral growth',
-        offer: 'Friends Who Squat Together',
+        objective:
+          'Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; second seasonal peak in Mumbai.',
+        offer: 'Starting Gun Week',
         leads: 142,
         trials: 81,
         buyers: 16,
@@ -311,8 +323,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 18.0,
-        objective: 'Reactivate before the festive season',
-        offer: 'The Return Policy',
+        objective: 'Reactivate before the festive season; carry race momentum into a festive countdown.',
+        offer: 'The Second Date',
         leads: 194,
         trials: 111,
         buyers: 20,
@@ -324,8 +336,9 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 16.6,
-        objective: 'Gift-led revenue in a soft month',
-        offer: 'Gift a Shake',
+        objective:
+          "Gift-led revenue; protect Kenkere's Dasara trough; catch Kwality's late-October surge without codes.",
+        offer: 'Festival of Lights Second Date',
         leads: 200,
         trials: 114,
         buyers: 20,
@@ -337,8 +350,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 13.6,
-        objective: 'Lock in longer commitments',
-        offer: 'Black Friday, Strong Monday',
+        objective: 'Long commitments in the softest Mumbai month.',
+        offer: 'Black Friday Week Zero',
         leads: 130,
         trials: 74,
         buyers: 14,
@@ -350,8 +363,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 18.5,
-        objective: 'Pre-sell January',
-        offer: 'The Pre-Solution',
+        objective: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
+        offer: 'Kickstart 21: Pre-Solution Cohort',
         leads: 147,
         trials: 84,
         buyers: 15,
@@ -365,26 +378,15 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
   },
 };
 
+// Each month of the final plan runs three journeys — newcomer, lapsed and renewal — each with
+// a rate of sale and a “what to watch” line; the rhythm tracks those.
 export const EXECUTION_RHYTHM = [
   [
-    'Monday · planning',
-    'Review prior week, T−14 renewals due, trials without a purchase, and lapsed outreach; assign named lists.',
+    'Newcomer journey',
+    "Track leads → trials → new buyers against the month's plan and the newcomer offer's rate of sale.",
   ],
-  ['Daily · follow-up', 'Contact each new lead within 2 hours. Follow up after trials the same day, day 2 and day 3.'],
-  [
-    'Wednesday · funnel',
-    'Review leads, trials and conversions against the weekly target; record one corrective action.',
-  ],
-  [
-    'Friday · close',
-    'Enter revenue, leads, trials, new buyers, renewals and reactivations; mark on track / at risk / behind.',
-  ],
-  [
-    'Days 22–end · closure',
-    'Prioritise warm trials and open renewals; the source reports 35–38% of monthly sales land after day 21.',
-  ],
-  [
-    'Monthly · governance',
-    'Approve next campaign and prepare audience lists/assets 7 days ahead; review discount exposure and reforecast.',
-  ],
+  ['Lapsed journey', "Work the month's lapsed touches; count reactivations against the plan."],
+  ['Renewal journey', 'Work renewals due against planned purchases with the renewal offer, inside its window.'],
+  ['Weekly · what to watch', "Review each offer's “What to watch” measures and record one corrective action."],
+  ['Rules', "Apply each offer's rules as written: who qualifies, when it runs and its credit windows."],
 ];

@@ -77,14 +77,17 @@ export default function OfferBank() {
   const { data, loading, error, reload } = useLoad<any>(() => api(`/offers?${query}`), [query]);
   const rows = useMemo(
     () =>
-      [...(data?.rows || [])].sort((a: any, b: any) =>
-        sort === 'revenue'
-          ? (b.actual_revenue || b.expected_revenue || 0) - (a.actual_revenue || a.expected_revenue || 0)
-          : sort === 'discount'
-            ? (b.effective_discount || 0) - (a.effective_discount || 0)
-            : sort === 'redemptions'
-              ? (b.actual_redemptions || 0) - (a.actual_redemptions || 0)
-              : new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
+      [...(data?.rows || [])].sort(
+        (a: any, b: any) =>
+          // Recommended offers lead whatever the sort.
+          Number(!!b.provenance?.recommended) - Number(!!a.provenance?.recommended) ||
+          (sort === 'revenue'
+            ? (b.actual_revenue || b.expected_revenue || 0) - (a.actual_revenue || a.expected_revenue || 0)
+            : sort === 'discount'
+              ? (b.effective_discount || 0) - (a.effective_discount || 0)
+              : sort === 'redemptions'
+                ? (b.actual_redemptions || 0) - (a.actual_redemptions || 0)
+                : new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()),
       ),
     [data, sort],
   );
@@ -297,6 +300,19 @@ export default function OfferBank() {
                             <span>{o.offer_uid}</span>
                           </button>
                           {o.data_mode === 'demo' && <Badge tone="purple">Demo plan</Badge>}
+                          {o.provenance?.recommended && (
+                            <span
+                              title={
+                                o.provenance.recommendedMonths?.length
+                                  ? `Best fit for ${o.provenance.recommendedMonths.map((m: number) => MONTHS[m - 1]).join(', ')}`
+                                  : 'Best fit for the 2027 plan'
+                              }
+                            >
+                              <Badge tone="green">
+                                <Sparkles size={12} /> Recommended
+                              </Badge>
+                            </span>
+                          )}
                         </td>
                         <td>
                           <strong>{o.studio || 'All studios'}</strong>

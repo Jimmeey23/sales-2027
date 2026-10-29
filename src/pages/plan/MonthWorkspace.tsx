@@ -86,6 +86,16 @@ const PAGE_OF_SECTION: Record<string, PlanPage> = {
   actions: 'execution',
 };
 const LIVE = (o: any) => !['archived', 'rejected'].includes(o.status);
+// Bank offers marked recommended for this month (or for the plan as a whole when no months are named).
+const isRecommended = (o: any, month: number) => {
+  const p = typeof o.provenance === 'string' ? JSON.parse(o.provenance || '{}') : o.provenance || {};
+  return !!p.recommended && (!p.recommendedMonths?.length || p.recommendedMonths.includes(month));
+};
+// Bank offers the approved plan weighed as alternatives for this month (never counted in the month's revenue).
+const alternateFor = (o: any, month: number) => {
+  const p = typeof o.provenance === 'string' ? JSON.parse(o.provenance || '{}') : o.provenance || {};
+  return (p.alternateFor || []).find((a: any) => a.month === month) as { slot: string; for: string } | undefined;
+};
 // A month's copy points back at the bank offer it was picked from.
 const bankIdOf = (o: any) => {
   if (o.month == null) return o.id;
@@ -559,7 +569,12 @@ export default function MonthWorkspace({
   const pickedBank = new Set(selected.map(o => bankIdOf(o)));
   const alternates = ownOffers
     .filter(o => o.year === year && o.month == null && !pickedBank.has(o.id))
-    .sort((a, b) => n(b.expected_revenue) - n(a.expected_revenue));
+    .sort(
+      (a, b) =>
+        Number(isRecommended(b, month)) - Number(isRecommended(a, month)) ||
+        Number(!!alternateFor(b, month)) - Number(!!alternateFor(a, month)) ||
+        n(b.expected_revenue) - n(a.expected_revenue),
+    );
   const [openAlt, setOpenAlt] = useState<number | null>(null);
   const [altQuery, setAltQuery] = useState('');
   const [altScope, setAltScope] = useState<'all' | 'newcomer' | 'lapsed' | 'renewal'>('all');
@@ -3429,9 +3444,41 @@ export default function MonthWorkspace({
                                     <i aria-hidden="true" />
                                     <b>{lakh(total)}</b>
                                   </div>,
-                                  ...g.offers.map(o =>
-                                    renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label),
-                                  ),
+                                  ...g.offers.flatMap(o => {
+                                    // The plan's alternatives for this offer sit beside it; they are never counted in the forecast.
+                                    const alts = alternates.filter(a => alternateFor(a, month)?.for === o.name);
+                                    return [
+                                      renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label),
+                                      ...(alts.length
+                                        ? [
+                                            <div key={`alts-${o.id}`} className="mw-offer-alts">
+                                              {alts.map(a => (
+                                                <div key={a.id} className="mw-offer-alt">
+                                                  <b className="mw-alt-tag">Alternate</b>
+                                                  <span>
+                                                    <strong>{a.name}</strong>
+                                                    <em>{a.headline || a.benefit}</em>
+                                                  </span>
+                                                  <small title="Scenario only — not counted in the month's forecast">
+                                                    {lakh(n(a.expected_revenue))} scenario
+                                                  </small>
+                                                  {o.approval_status !== 'approved' && (
+                                                    <button
+                                                      type="button"
+                                                      disabled={busy}
+                                                      onClick={() => replaceOffer(o.id, a)}
+                                                      title={`Swap ${a.name} in for ${o.name}`}
+                                                    >
+                                                      <RefreshCcw size={12} /> Swap in
+                                                    </button>
+                                                  )}
+                                                </div>
+                                              ))}
+                                            </div>,
+                                          ]
+                                        : []),
+                                    ];
+                                  }),
                                 ];
                               })}
                             </div>
@@ -4361,6 +4408,12 @@ export default function MonthWorkspace({
                                   <span className="mp-lib-slot">
                                     {slotText}
                                     {approved && <b>Approved</b>}
+                                    {isRecommended(o, month) && <b className="mp-lib-rec">Recommended</b>}
+                                    {alternateFor(o, month) && (
+                                      <b className="mp-lib-alt" title={`Alternative to ${alternateFor(o, month)!.for}`}>
+                                        Alternate
+                                      </b>
+                                    )}
                                   </span>
                                   <strong>{o.name}</strong>
                                   <em>{o.benefit || o.headline || titleCase(o.offer_type)}</em>

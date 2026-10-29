@@ -212,3 +212,91 @@ export function ensureOfferBank2027() {
 
 export const offerBankReady = () =>
   (db.prepare('SELECT value FROM settings WHERE key=?').get(FLAG) as any)?.value === '1';
+
+const CLEARED_FLAG = 'offer_month_picks_cleared_2027';
+
+// Empties every 2027 month plan so planners pick offers afresh. The bank offers those months had picked are the
+// most suitable for them, so each is marked `provenance.recommended` with the months it was picked for.
+// Month copies are deleted unless a campaign still points at them. Runs once, guarded by its own setting.
+export function clearMonthPicks2027() {
+  const done = db.prepare('SELECT value FROM settings WHERE key=?').get(CLEARED_FLAG) as any;
+  if (done?.value === '1' || !offerBankReady()) return null;
+  const report = { monthsCleared: 0, copiesDeleted: 0, recommended: 0 };
+  db.transaction(() => {
+    const plans = db
+      .prepare('SELECT studio_id, month, slots, offer_ids FROM monthly_plans WHERE year=?')
+      .all(YEAR) as any[];
+    const months = new Map<number, Set<number>>();
+    const copies = new Set<number>();
+    for (const plan of plans) {
+      const ids = [...Object.values(json(plan.slots, {}) || {}), ...(json(plan.offer_ids, []) || [])].filter(
+        Boolean,
+      ) as number[];
+      if (!ids.length) continue;
+      report.monthsCleared++;
+      for (const id of ids) {
+        const offer = db.prepare('SELECT id, month, provenance FROM offers WHERE id=?').get(id) as any;
+        if (!offer) continue;
+        const bankId = Number(json(offer.provenance, {}).bankId) || (offer.month == null ? offer.id : null);
+        if (bankId) months.set(bankId, (months.get(bankId) || new Set()).add(plan.month));
+        if (offer.month != null) copies.add(offer.id);
+      }
+    }
+    const setProv = db.prepare('UPDATE offers SET provenance=? WHERE id=?');
+    for (const [bankId, set] of months) {
+      const bank = db.prepare('SELECT provenance FROM offers WHERE id=? AND month IS NULL').get(bankId) as any;
+      if (!bank) continue;
+      const prov = json(bank.provenance, {});
+      setProv.run(
+        JSON.stringify({ ...prov, recommended: true, recommendedMonths: [...set].sort((a, b) => a - b) }),
+        bankId,
+      );
+      report.recommended++;
+    }
+    db.prepare(`UPDATE monthly_plans SET slots='{}', offer_ids='[]', updated_at=CURRENT_TIMESTAMP WHERE year=?`).run(
+      YEAR,
+    );
+    const campaigned = new Set(
+      (db.prepare('SELECT offer_id id FROM campaigns WHERE offer_id IS NOT NULL').all() as any[]).map(r => r.id),
+    );
+    for (const id of copies) {
+      if (campaigned.has(id)) continue;
+      db.prepare('UPDATE offers SET original_offer_id=NULL WHERE original_offer_id=?').run(id);
+      db.prepare('DELETE FROM offer_versions WHERE offer_id=?').run(id);
+      db.prepare('DELETE FROM offer_experiments WHERE control_offer_id=? OR variant_offer_id=?').run(id, id);
+      db.prepare('DELETE FROM offers WHERE id=?').run(id);
+      report.copiesDeleted++;
+    }
+    db.prepare(
+      `INSERT INTO settings(key,value) VALUES(?, '1') ON CONFLICT(key) DO UPDATE SET value='1',updated_at=CURRENT_TIMESTAMP`,
+    ).run(CLEARED_FLAG);
+  })();
+  return report;
+}
+
+const SKELETON_FLAG = 'month_plans_skeleton_2027';
+
+// Resets every 2027 month plan to an empty skeleton: the theme, objective, strategy, actions, notes and plan
+// content written around the old offer picks are cleared (empty strings, so the views don't fall back to the
+// written playbook). Calendar key dates stay. Runs once, after the picks are cleared.
+export function resetMonthPlans2027() {
+  const done = db.prepare('SELECT value FROM settings WHERE key=?').get(SKELETON_FLAG) as any;
+  if (done?.value === '1' || !offerBankReady()) return null;
+  let reset = 0;
+  db.transaction(() => {
+    const plans = db.prepare('SELECT id, content FROM monthly_plans WHERE year=?').all(YEAR) as any[];
+    const update = db.prepare(
+      `UPDATE monthly_plans SET theme='', objective='', strategy='', actions='[]', notes='', status='draft',
+       content=?, slots='{}', offer_ids='[]', updated_at=CURRENT_TIMESTAMP WHERE id=?`,
+    );
+    for (const plan of plans) {
+      const content = json(plan.content, {}) || {};
+      update.run(JSON.stringify(content.keyDates ? { keyDates: content.keyDates } : {}), plan.id);
+      reset++;
+    }
+    db.prepare(
+      `INSERT INTO settings(key,value) VALUES(?, '1') ON CONFLICT(key) DO UPDATE SET value='1',updated_at=CURRENT_TIMESTAMP`,
+    ).run(SKELETON_FLAG);
+  })();
+  return { reset };
+}

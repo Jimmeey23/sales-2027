@@ -190,7 +190,9 @@ export function applyPlanTargets(year: number, userId: number | null) {
         };
         const prior = actuals[meta.dataModelId]?.[month];
         const before = db
-          .prepare('SELECT baseline_forecast, assumptions FROM monthly_targets WHERE studio_id=? AND year=? AND month=?')
+          .prepare(
+            'SELECT baseline_forecast, assumptions FROM monthly_targets WHERE studio_id=? AND year=? AND month=?',
+          )
           .get(s.id, year, month) as any;
         const previous = before ? JSON.parse(before.assumptions || '{}') : {};
         const baselineForecast =
@@ -835,112 +837,105 @@ export function applyPlanOffers(year: number, userId: number | null) {
   return counts;
 }
 
-// Bengaluru workbook activations and campaign theme per month, for the studio plan page.
+// Activations, themes and studio notes per month come from the final approved 2027 plan (every location).
+const finalPlan = () => readJson('approved-plan-2027.json') as any[];
+const planStudio = (name: string) => (name === POPUP_PARENT || POPUP_CHILDREN.includes(name) ? POPUP_PARENT : name);
+
 export function bengaluruReference(studioName: string) {
-  const isPopup = studioName === POPUP_PARENT || POPUP_CHILDREN.includes(studioName);
-  if (studioName !== 'Kenkere House' && !isPopup) return { activations: [], themes: {} };
-  const data = readJson('bengaluru-plan-2027.json'),
-    themes: Record<number, string> = {};
-  const key = isPopup ? POPUP_PARENT : 'Kenkere House';
-  for (const o of data.offers) if (o.studio === key && !themes[o.month]) themes[o.month] = o.theme;
+  const months = finalPlan().filter(m => m.studio === planStudio(studioName));
+  const themes: Record<number, string> = {};
+  for (const m of months) themes[m.month] = m.theme;
   return {
-    activations: data.activations.filter((a: any) => a.Month !== 'Always-on'),
+    activations: months.map(m => ({
+      Month: MONTH_ABBR[m.month - 1],
+      Activation: m.theme,
+      Format: /challenge|race|countdown|cohort/i.test(`${m.hook} ${m.moment}`) ? 'Challenge' : 'Event',
+      Mechanics: m.moment,
+      'Primary KPI': m.offers.map((o: any) => `${o.name}: ${(o.fields['What to watch'] || []).join(' ')}`).join(' · '),
+    })),
     themes,
-    insights: data.insights || [],
+    insights: [STUDIO_ROLE[planStudio(studioName)]].filter(Boolean),
   };
 }
 
-const ALWAYS_ON_PDF: Array<[string, string]> = [
-  [
-    '72-hour rule',
-    'Same-day message, day-2 call, day-3 last chance after every trial; 15% first-purchase perk valid 72 hours.',
-  ],
-  [
-    'Encore',
-    'Hosted/outdoor attendees get a QR to book a free second class within 7 days + 15% on a first pack; named associate at the door.',
-  ],
-  [
-    'Renewal at T−14',
-    'Usage-based recommendation (8+ visits/month → 3M; <50% credits used → smaller pack + attendance plan). WhatsApp T−7, T−2; last chance T+7.',
-  ],
-  ['Early-habit check', 'Week-1 welcome call; 10-day attendance check (fewer than 2 visits → trainer nudge).'],
-  [
-    'Lapsed sequence',
-    'Day 61: standing 15% lapsed perk + free comeback class. ≥₹50k lifetime clients get a personal call within 2 weeks.',
-  ],
-  [
-    'Standing perks',
-    '15% first purchase (new / lapsed 60+ days); 10% on 10/20/30-class packs. No campaign stacks on these — an offer must beat them.',
-  ],
-];
-const RECOVERY_PDF: Array<[string, string]> = [
-  [
-    'Revenue vs weekly milestone',
-    '<90% for 2 consecutive weeks → find the short stream and run its rule; <90% at day 21 → Head of Sales.',
-  ],
-  ['Leads vs plan', '<80% of plan → check lead capture, then referral asks and Encore before paid media.'],
-  ['Lead → trial', '5+ pts below the studio rate (45%) → 2-hour first contact; call every lead stuck >48h.'],
-  ['Trial attendance', 'Below 85% → book trials within 72h; T−12h and T−2h reminders.'],
-  [
-    'Trial → commitment',
-    '3+ pts below plan → manager reviews every unconverted trial weekly; top converters take trial classes.',
-  ],
-  ['Ticket', '>7% below plan → usage-based recommendation script; check code usage against guardrails.'],
-  ['Renewal pipeline', '<85% of plan by day 21 → call every unrenewed client; attendance plan, not a price cut.'],
-  ['Reactivation', '<70% of plan by day 21 → work the 61–180-day list first; personal calls to high-value clients.'],
-  [
-    'Discount exposure',
-    'Above guardrail or >50% of revenue on discount → remove discretionary codes; manager approval beyond guardrails.',
-  ],
-  [
-    'Campaign redemptions',
-    '<50% of target at mid-campaign → re-send to the unopened audience; call the top 50; no extension or deeper discount.',
-  ],
-];
-const MUMBAI_ACTIONS: Record<string, Array<[string, string]>> = {
-  'Kemps Corner': [
-    [
-      'Pricing discipline',
-      'Retire PR1V@TE10–20 and ANN-style % codes. Privates sold only as the Teacher’s Pet Pack (≤10% effective). Renewal offers are bonus classes, never % off; the Oct-2026 list-price rise carries the ₹24.0k renewal ticket.',
-    ],
-    [
-      'High-value desk',
-      '174 active + 70 grace-period clients with ≥₹50k lifetime spend get a manager-owned renewal call and first refusal on The Long Game (April) and Black Friday (November).',
-    ],
-    [
-      'Conversion',
-      'Target 20.5% trial→commitment (from 18.7%). Prioritise evening and morning trial slots (14–17%) over afternoons (7%). Pair low-converting instructors with top converters.',
-    ],
-    [
-      'Capacity',
-      'Strength Lab runs at 69% fill — route bonus-class redemptions and upgrades to Barre and powerCycle (41–50% fill).',
-    ],
-    [
-      'Weekly pace',
-      'Weeks 1–3 each carry 19–23% of the month; days 22–end carry 38%. Plan ~17–35 leads and 13–27 trials a week.',
-    ],
-  ],
-  Bandra: [
-    [
-      'Launch-Cohort Reunion',
-      'March, repeated in September: hosted class for the 638 clients lapsed 1–2 years. Standing 15% lapsed perk + 1 bonus class if they rebuy within 7 days. Target 3.4%/month of the 61–365-day pool (from 2.8%).',
-    ],
-    [
-      'Website-lead speed',
-      'Website leads (41%) assigned within 2 hours; “Shared pricing & schedule” capped at 48h before a call (12.9% stall there today).',
-    ],
-    [
-      'Renewal ticket',
-      'Usage-based scripts move 8+-visit 1M clients to 3M. Target ticket ₹21.7k (from ₹21.2k). Standing 10% pack code stays; no other renewal codes.',
-    ],
-    ['Discount exposure', '59–68% of revenue is sold on discount today. Target below 50% by Q3; report monthly.'],
-    [
-      'Coaching & pace',
-      'Pair the lowest-converting associate with the highest. Only 14% of sales land in days 1–7 — front-load T−14 renewal calls. ~30–56 leads and 17–32 trials a week.',
-    ],
-  ],
+const PLAN_SOURCE_FINAL = 'P57 2027 Annual Sales and Offer Plan (final, 29 Oct 2026)';
+const STUDIO_ROLE: Record<string, string> = {
+  'Kemps Corner': 'Retention-led. Protect renewal economics; convert a growing trial base. 2027 target ₹398.0L.',
+  Bandra:
+    'Reactivation-led. Turnaround: win back 1,248 lapsed clients and rebuild the renewal ticket. 2027 target ₹228.2L.',
+  'Kenkere House': 'Conversion-led. Fix the new-client engine; renewals already yield 0.86. 2027 target ₹135.1L.',
+  [POPUP_PARENT]: 'Reach-led. Turn drop-in regulars into pack buyers and feed Kenkere. 2027 target ₹19.4L.',
 };
+const JOURNEYS: Array<[string, string, string[]]> = [
+  [
+    'The Second Date',
+    'Default free entry: free first Barre class; class 2 booked at the desk, free within 7 days; 15% within 72 hours of class 2, 10% until day 14.',
+    ['Kemps Corner', 'Bandra', 'Kenkere House'],
+  ],
+  [
+    'The Tasting Flight',
+    'Paid multi-format entry: 3 classes in 10 days (₹2,499 Mumbai / ₹1,799 Bengaluru), full fee credited on a 72-hour purchase plus the standing 15%.',
+    ['Kemps Corner', 'Bandra', 'Kenkere House'],
+  ],
+  [
+    'Week Zero',
+    'High-intent leads: 7 days unlimited (₹1,999 / ₹1,499), fee credited on a 72-hour purchase plus the standing 15%. One intro per phone number.',
+    ['Kemps Corner', 'Bandra', 'Kenkere House'],
+  ],
+  [
+    'Earn the Lab',
+    'Strength Lab is never free: 3 classes in 14 days unlock a Lab Induction (max 4); included with 1M or a 12-class pack, ₹999 on its own.',
+    ['Kemps Corner', 'Bandra'],
+  ],
+  [
+    'Kickstart 21',
+    'Premium cohort on alternate Mondays: 21 days unlimited, named coach, fitness check on day 1 and 21; graduates get the standing 15% within 7 days.',
+    ['Kemps Corner', 'Bandra', 'Kenkere House'],
+  ],
+  [
+    'The 30-Day Proof',
+    'Results guarantee (test at Bandra in Q1): 12+ classes and no improvement on 2 of 3 measures → next month free.',
+    ['Bandra'],
+  ],
+];
+const RULES: Array<[string, string]> = [
+  ['Book before you leave', 'No new client leaves without class 2 booked by the instructor or desk.'],
+  ['A named owner for 30 days', 'Same-day message, day-2 call, 10-minute post-class chat, day-10 attendance check.'],
+  [
+    'Weekdays first',
+    'Route trials to weekday mornings and evenings (26–31% conversion vs 16–21% at weekends). Weekends are for paid entries.',
+  ],
+  ['A clock on the 15%', '15% within 72 hours of the deciding class, 10% until day 14, nothing after.'],
+  [
+    'No stacking, 25% cap',
+    'Campaign % never stacks on the standing 15% new/lapsed perk or the 10% pack perk; no offer exceeds 25% effective discount. Renewals: no % off except Black Friday 10% on 3M.',
+  ],
+  [
+    'Tag every redemption',
+    'Conversion factors are panel hypotheses with no control group: tag every 2027 redemption by offer to measure them.',
+  ],
+];
+const RECOVERY: Array<[string, string]> = [
+  [
+    'Refunds slower than 3 days',
+    'Pick the Starter Ladder over the money-back offers (Resolution, No Regrets, Love It or Leave It).',
+  ],
+  [
+    'Intro volume above 10% of spare seats',
+    'Close the intro early for that week rather than lowering the commitment price.',
+  ],
+  [
+    'Kenkere trial→member below 20% by March',
+    'Use Swipe Right Week and Streak Starter there before any other newcomer offer.',
+  ],
+  ['April below 55% of target on day 21', 'Push the lapsed and trial lists, not a deeper discount.'],
+  [
+    'Personalised offers without data',
+    'Beat Your Best, Since Day One, We Kept Your Spot and Wrapped need new Momence fields (best month, first-class date, most-booked trainer, year stats); swap to the slot alternate if the field is not ready.',
+  ],
+];
 
+// The Bengaluru workbook and the earlier playbook PDFs are superseded by the final plan.
 export const PLAYBOOK_SECTIONS = ['studio_actions', 'always_on', 'recovery'] as const;
 
 // Seeds a studio's editable playbook items the first time they are requested.
@@ -949,38 +944,16 @@ export function ensurePlaybookItems(studioId: number, year: number, userId: numb
     db.prepare('SELECT COUNT(*) n FROM studio_playbook_items WHERE studio_id=? AND year=?').get(studioId, year) as any
   ).n;
   if (count) return;
-  const name = (db.prepare('SELECT name FROM studios WHERE id=?').get(studioId) as any)?.name;
-  const items: Array<[string, string, string, string]> = [];
-  if (MUMBAI_ACTIONS[name]) {
-    MUMBAI_ACTIONS[name].forEach(([t, b]) => items.push(['studio_actions', t, b, PLAN_SOURCE]));
-    ALWAYS_ON_PDF.forEach(([t, b]) => items.push(['always_on', t, b, PLAN_SOURCE]));
-    RECOVERY_PDF.forEach(([t, b]) => items.push(['recovery', t, b, PLAN_SOURCE]));
-  } else if (name === 'Kenkere House' || name === POPUP_PARENT || POPUP_CHILDREN.includes(name)) {
-    const wb = readJson('bengaluru-plan-2027.json'),
-      isPopup = name !== 'Kenkere House';
-    wb.insights
-      .filter((x: string) => (isPopup ? /pop-up/i.test(x) : !/^6\./.test(x)))
-      .forEach((x: string) => {
-        const text = x.replace(/^\d\.\s*/, '');
-        const [title, ...rest] = text.split(/[;:—]|\.\s/);
-        items.push([
-          'studio_actions',
-          title.trim().slice(0, 90),
-          rest.join('. ').trim() || text,
-          'Bengaluru_Sales_Plan_2027.xlsx · Summary',
-        ]);
-      });
-    wb.activations
-      .filter((a: any) => a.Month === 'Always-on' && (!isPopup || /pop-up/i.test(`${a.Activation} ${a.Mechanics}`)))
-      .forEach((a: any) =>
-        items.push([
-          'always_on',
-          a.Activation,
-          `${a.Mechanics}${a['Primary KPI'] ? ` KPI: ${a['Primary KPI']}.` : ''}`,
-          'Bengaluru_Sales_Plan_2027.xlsx · Activations & Always-On',
-        ]),
-      );
-  }
+  const name = planStudio((db.prepare('SELECT name FROM studios WHERE id=?').get(studioId) as any)?.name);
+  if (!STUDIO_ROLE[name]) return;
+  const items: Array<[string, string, string, string]> = [
+    ['studio_actions', 'Studio role', STUDIO_ROLE[name], PLAN_SOURCE_FINAL],
+  ];
+  JOURNEYS.filter(([, , where]) => where.includes(name)).forEach(([t, b]) =>
+    items.push(['studio_actions', `Journey: ${t}`, b, PLAN_SOURCE_FINAL]),
+  );
+  RULES.forEach(([t, b]) => items.push(['always_on', t, b, PLAN_SOURCE_FINAL]));
+  RECOVERY.forEach(([t, b]) => items.push(['recovery', t, b, PLAN_SOURCE_FINAL]));
   const insert = db.prepare(
     'INSERT INTO studio_playbook_items(studio_id,year,section,title,body,enabled,sort,source,updated_by) VALUES (?,?,?,?,?,1,?,?,?)',
   );

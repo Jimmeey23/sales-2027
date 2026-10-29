@@ -1,37 +1,33 @@
 import { PLAYBOOKS_2027, type StudioPlaybook } from './2027Playbooks';
 import { MONTH_CHAPTERS } from './monthNarrative';
+import {
+  APPROVED_PLAN_2027,
+  approvedEntry,
+  approvedMonth,
+  approvedOffer,
+  field,
+  type ApprovedSlot,
+  type ApprovedStudio,
+} from './approvedPlan2027';
 
-// The twelve campaign chapters live in monthNarrative.ts, together with each month's
-// moment, brief, risk and signature move. The theme list is derived so the two never drift.
+// Themes, moments and offers come from the final approved 2027 plan (approvedPlan2027.ts),
+// via the month chapters, so the lists never drift.
 export const MONTH_THEMES = MONTH_CHAPTERS.map(chapter => chapter.theme);
-export const MONTH_ACTIVATIONS = [
-  'Newcomer open house + trial follow-up',
-  'Referral week with member guest passes',
-  'Progress check-ins and goal resets',
-  'The Coronation Gala: 57 numbered seats crowned, founding wall unveiled, conversion desk at the door',
-  'Beginner series / foundations workshop',
-  'Midyear member challenge',
-  'Consistency streak challenge',
-  'Bring-a-friend week',
-  'Progress milestone reviews',
-  'Member appreciation classes',
-  'Community referral event',
-  'Renewal and giftable-pack drive',
-];
-// Default offer objective per month, used to pre-fill the offer generator.
+export const MONTH_ACTIVATIONS = MONTH_CHAPTERS.map(chapter => chapter.moment);
+// Default offer objective per month (the final plan's commercial job), used to pre-fill the offer generator.
 export const MONTH_OBJECTIVES = [
   'acquisition',
   'referral',
-  'retention',
+  'reactivation',
   'anniversary',
   'retention',
-  'reactivation',
   'retention',
-  'referral',
-  'reactivation',
-  'acquisition',
+  'retention',
   'annual_membership',
+  'reactivation',
   'revenue_gap',
+  'annual_membership',
+  'retention',
 ];
 
 export interface ActionItem {
@@ -41,54 +37,32 @@ export interface ActionItem {
   done: boolean;
 }
 
-export function locationPlaybook(studio: string) {
+/** Map any studio label onto its final-plan studio; studios outside the plan use the flagship. */
+function approvedStudio(studio: string): ApprovedStudio {
   const lower = studio.toLowerCase();
-  if (lower.includes('pilates'))
-    return {
-      newOffer:
-        'Paid introductory Pilates series; credit the trial value toward an eligible package where policy allows.',
-      retention: 'Class-plan check-ins, progression milestones and a coached return path after missed weeks.',
-      renewal:
-        'Start outreach 45 days before expiry; offer a renewal conversation and suitable package choice before any incentive.',
-      theme: 'Pilates foundations, control and measurable progression',
-    };
-  if (lower.includes('kenkere'))
-    return {
-      newOffer:
-        'Use the configured ₹675 intro pack and once-lifetime Newcomers 2-for-1 journey for eligible first-timers.',
-      retention:
-        'Coach-led attendance check-ins and a next-level class pathway; invite members to book their next two visits.',
-      renewal:
-        'Begin 45-day pre-expiry outreach; lead with continuity and the best-fit pack, following the studio offer policy.',
-      theme: 'Barre fundamentals, strength and community',
-    };
-  if (lower.includes('copper'))
-    return {
-      newOffer: 'Paid trial with a clear first-visit-to-package follow-up; apply only approved studio terms.',
-      retention: 'Personal progress check-ins and a rebooking prompt after the first missed week.',
-      renewal:
-        'Reach out 45 days before expiry with a package-fit review and renewal link; use approved benefits only.',
-      theme: 'Studio discovery, movement and neighbourhood community',
-    };
-  if (lower.includes('wework') || lower.includes('taj') || lower.includes('south united'))
-    return {
-      newOffer: 'Local partner / workplace discovery session with a tracked guest or paid-trial pathway.',
-      retention: 'Use host-community reminders and a recurring class commitment for active members.',
-      renewal: 'Contact members 45 days before expiry; offer a simple renewal appointment and continuity plan.',
-      theme: 'Convenience, community and a consistent weekly practice',
-    };
-  if (lower.includes('pop-up') || lower.includes('outdoor'))
-    return {
-      newOffer: 'Event-led discovery with a follow-up trial invitation and source tracking.',
-      retention: 'Capture opt-in follow-up at each activation and invite attendees into a recurring studio routine.',
-      renewal: 'Follow up with known package holders ahead of expiry; route to their home studio and approved offer.',
-      theme: 'Pop-up discovery and community-led movement',
-    };
+  if (lower.includes('bandra')) return 'Bandra';
+  if (lower.includes('kenkere')) return 'Kenkere House';
+  if (lower.includes('pop-up') || lower.includes('popup')) return 'Pop-up';
+  return 'Kemps Corner';
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/** The year's final-plan offers for one slot, each with the months it runs. */
+function slotOffers(studio: ApprovedStudio, slot: ApprovedSlot) {
+  const byName = new Map<string, number[]>();
+  for (const e of APPROVED_PLAN_2027.filter(x => x.studio === studio))
+    for (const o of e.offers.filter(x => x.slot === slot)) byName.set(o.name, [...(byName.get(o.name) || []), e.month]);
+  return [...byName].map(([name, months]) => `${name} (${months.map(m => MONTHS[m - 1]).join(', ')})`).join(' · ');
+}
+
+export function locationPlaybook(studio: string) {
+  const key = approvedStudio(studio);
   return {
-    newOffer: 'Newcomer 2-for-1 or an approved intro pack, then a prompt follow-up to the best-fit membership.',
-    retention: 'Attendance-led check-ins, progress milestones and a next-class booking prompt.',
-    renewal: 'Begin outreach 45 days before expiry; recommend the best-fit renewal and use only approved terms.',
-    theme: 'Barre discovery, strength and member progress',
+    newOffer: slotOffers(key, 'newcomer'),
+    retention: slotOffers(key, 'lapsed'),
+    renewal: slotOffers(key, 'renewal'),
+    theme: [...new Set(APPROVED_PLAN_2027.filter(e => e.studio === key).map(e => e.theme))].join(' · '),
   };
 }
 
@@ -100,7 +74,7 @@ const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep
 const fmt = (n: number | null | undefined) =>
   n === null || n === undefined || !Number.isFinite(n) ? '—' : Math.ceil(n).toLocaleString('en-IN');
 
-// Suggested plan for a studio-month when nothing has been saved yet.
+// Suggested plan for a studio-month when nothing has been saved yet, from the final approved plan.
 export function defaultPlan(
   studio: string,
   month: number,
@@ -108,37 +82,40 @@ export function defaultPlan(
   activations: any[] = [],
   campaignTheme?: string,
 ) {
-  const base = locationPlaybook(studio),
-    source = studioPlaybook(studio)?.months[month - 1];
+  const entry = approvedEntry(approvedStudio(studio), month) || approvedMonth(month);
   const activation = activations.find(
     a => String(a.Month).startsWith(MONTH_ABBR[month - 1]) || String(a.Month).includes(`–${MONTH_ABBR[month - 1]}`),
   );
   const funnel = target?.funnel || {};
-  const offerName = source?.offer || MONTH_ACTIVATIONS[month - 1];
+  const f = entry.figures;
+  const newcomer = approvedOffer(entry, 'newcomer'),
+    lapsed = approvedOffer(entry, 'lapsed'),
+    renewal = approvedOffer(entry, 'renewal');
+  const when = (o: typeof newcomer) => (field(o, 'When') ? ` (${field(o, 'When')})` : '');
   const actions: ActionItem[] = [
     {
       week: 1,
       owner: 'Studio manager',
       done: false,
-      text: `Brief the team on the month target, theme and lead offer “${offerName}”.`,
+      text: `Brief the team on ${entry.theme} (${entry.hook}) and the three offers: ${entry.offers.map(o => o.name).join(', ')}.`,
     },
     {
       week: 1,
       owner: 'Sales',
       done: false,
-      text: `T−14 renewal calls${source?.renewalsDue !== undefined ? ` for ${source.renewalsDue} renewals due; close ${source.renewalPurchases} renewal purchases` : ''} (WhatsApp T−7, T−2; last chance T+7).`,
+      text: `Renewals: run “${renewal?.name || '—'}”${when(renewal)} — ${fmt(f.renewals[0])} due, ${fmt(f.renewals[1])} purchases planned.`,
     },
     {
       week: 1,
       owner: 'Marketing',
       done: false,
-      text: `Launch offer communication (WhatsApp, email, Instagram) to the target audience.`,
+      text: `Launch the month: ${entry.moment}`,
     },
     {
       week: 2,
       owner: 'Sales',
       done: false,
-      text: `Generate ${fmt(funnel.requiredLeads)} qualified leads and book ${fmt(funnel.requiredTrialBookings)} trials for the month.`,
+      text: `Newcomers: run “${newcomer?.name || '—'}”${when(newcomer)} — ${fmt(funnel.requiredLeads ?? f.leadsTrials[0])} leads and ${fmt(funnel.requiredTrialBookings ?? f.leadsTrials[1])} trials.`,
     },
     {
       week: 2,
@@ -146,44 +123,34 @@ export function defaultPlan(
       done: false,
       text: activation
         ? `Run activation: ${activation.Activation} (${activation.Format}) — target ${activation['Participant target'] ?? '—'} participants; KPI: ${activation['Primary KPI']}.`
-        : `Run activation: ${MONTH_ACTIVATIONS[month - 1]}.`,
-    },
-    {
-      week: 2,
-      owner: 'Sales',
-      done: false,
-      text: 'Follow up every trial same day, day 2 and day 3; offer the 72-hour first-purchase perk.',
+        : `Run activation: ${entry.hook}.`,
     },
     {
       week: 3,
       owner: 'Sales',
       done: false,
-      text: `Lapsed-member outreach${source ? ` (${source.lapsedTouches.toLocaleString('en-IN')} touches)` : ''}; invite to a comeback class.`,
+      text: `Lapsed: run “${lapsed?.name || '—'}”${when(lapsed)} — ${fmt(f.lapsed[0])} touches, ${fmt(f.lapsed[1])} reactivated.`,
     },
     {
       week: 3,
       owner: 'Studio manager',
       done: false,
-      text: 'Mid-month review: revenue vs target, trial conversion, renewals closed. Adjust push if behind.',
-    },
-    {
-      week: 3,
-      owner: 'Studio manager',
-      done: false,
-      text: 'Day-21 checkpoint: if below 90% of milestone, push trial and lapsed lists — not a deeper discount.',
+      text: `Watch: ${entry.offers
+        .map(o => field(o, 'What to watch'))
+        .filter(Boolean)
+        .join(' ')}`,
     },
     {
       week: 4,
       owner: 'Sales',
       done: false,
-      text: `Days 22–end (35–38% of sales): close the month — convert open trials to reach ${fmt(funnel.requiredNewBuyers)} new buyers; chase pending renewals.`,
+      text: `Close the month: ${fmt(funnel.requiredNewBuyers ?? f.newBuyers)} new buyers; ${entry.job}`,
     },
-    { week: 4, owner: 'Studio manager', done: false, text: 'Record campaign results and pre-plan next month’s offer.' },
   ];
   return {
-    theme: campaignTheme || source?.offer || MONTH_THEMES[month - 1],
-    objective: source?.objective || base.theme,
-    strategy: `New clients: ${base.newOffer}\n\nRetention: ${base.retention}\n\nRenewals: ${base.renewal}`,
+    theme: campaignTheme || entry.theme,
+    objective: entry.job,
+    strategy: entry.offers.map(o => `${o.name}: ${o.tagline}\n${field(o, 'You pay')}`).join('\n\n'),
     notes: '',
     status: 'draft',
     actions,
