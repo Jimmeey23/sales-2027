@@ -30,6 +30,7 @@ import { useLoad } from '../../hooks';
 import { lakh, type PlanData } from './usePlanData';
 import { selectedInMonth } from './TargetsTab';
 import MonthWorkspace from './MonthWorkspace';
+import OfferBankRail from '../../components/OfferBankRail';
 
 const OfferBuilder = lazy(() => import('../OfferBuilder'));
 const OfferBank = lazy(() => import('../OfferBank'));
@@ -62,8 +63,13 @@ const BENEFIT_OPTIONS = [
 export default function OffersTab({ data, reload }: { data: PlanData; reload: () => Promise<any> }) {
   const [params, setParams] = useSearchParams();
   const view = params.get('view') || 'planned';
-  return (
-    <div className="os-root">
+  // The month the studio is looking at — shared by the plan list and the bank rail,
+  // so an offer is always added to (or swapped into) the month on screen.
+  const [month, setMonth] = useState(0);
+  const railMonth = month || new Date().getMonth() + 1;
+  const showRail = view === 'planned' || view === 'generate' || view === 'gap';
+  const body = (
+    <>
       <nav className="os-nav" aria-label="Offer studio views">
         {OFFER_VIEWS.map(v => {
           const Icon = v.icon;
@@ -80,11 +86,17 @@ export default function OffersTab({ data, reload }: { data: PlanData; reload: ()
           );
         })}
       </nav>
-      {view === 'planned' && <Planned data={data} reload={reload} />}
+      {view === 'planned' && <Planned data={data} reload={reload} month={month} setMonth={setMonth} />}
       {view === 'library' && embed(<OfferBank />)}
       {view === 'generate' && <Generator data={data} onSaved={() => reload().catch(() => {})} />}
       {view === 'gap' && embed(<GoalBuilder />)}
       {view === 'manual' && embed(<OfferBuilder />)}
+    </>
+  );
+  return (
+    <div className={`os-root os-shell${showRail ? ' has-rail' : ''}`}>
+      <div className="os-main">{body}</div>
+      {showRail && <OfferBankRail data={data} reload={reload} month={railMonth} onMonth={m => setMonth(m)} />}
     </div>
   );
 }
@@ -106,9 +118,14 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
   const financials = parseJson(o.financials);
   const asp = Number(o.expected_asp) || 0,
     disc = Number(o.effective_discount) || 0;
-  const completeForecast = o.expected_revenue !== null && o.expected_revenue !== undefined && Number.isFinite(Number(o.expected_revenue));
+  const completeForecast =
+    o.expected_revenue !== null && o.expected_revenue !== undefined && Number.isFinite(Number(o.expected_revenue));
   const modeledRevenue = financials.expectedRevenue;
-  const forecastConsistent = completeForecast && (modeledRevenue == null || Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <= Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
+  const forecastConsistent =
+    completeForecast &&
+    (modeledRevenue == null ||
+      Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <=
+        Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
   const expectedSales = financials.expectedBuyers ?? (asp ? Math.round(Number(o.expected_revenue) / asp) : null);
   const original = asp && disc > 0 && disc < 100 ? asp / (1 - disc / 100) : null;
   const when =
@@ -122,7 +139,9 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
       <div className="os-offer-main">
         <div className="os-offer-kicker">
           <span>{titleCase(o.offer_type)}</span>
-          <span className={selected ? 'os-selection selected' : 'os-selection'}>{selected ? 'On plan' : 'Candidate'}</span>
+          <span className={selected ? 'os-selection selected' : 'os-selection'}>
+            {selected ? 'On plan' : 'Candidate'}
+          </span>
           {pricing.product && <span>{pricing.product}</span>}
           <span>{o.studio}</span>
         </div>
@@ -155,8 +174,15 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
         <div>
           <dt>Expected</dt>
           <dd>
-            <b>{!completeForecast ? 'Incomplete' : forecastConsistent ? money(o.expected_revenue, true) : 'Needs review'}</b>
-            {completeForecast && forecastConsistent ? <small>{expectedSales == null ? '' : `${number(expectedSales)} expected · `}{o.target_purchases == null ? 'target not set' : `${number(o.target_purchases)} target sales`}</small> : null}
+            <b>
+              {!completeForecast ? 'Incomplete' : forecastConsistent ? money(o.expected_revenue, true) : 'Needs review'}
+            </b>
+            {completeForecast && forecastConsistent ? (
+              <small>
+                {expectedSales == null ? '' : `${number(expectedSales)} expected · `}
+                {o.target_purchases == null ? 'target not set' : `${number(o.target_purchases)} target sales`}
+              </small>
+            ) : null}
           </dd>
         </div>
       </dl>
@@ -169,10 +195,19 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
   );
 }
 
-function Planned({ data, reload }: { data: PlanData; reload: () => Promise<any> }) {
+function Planned({
+  data,
+  reload,
+  month,
+  setMonth,
+}: {
+  data: PlanData;
+  reload: () => Promise<any>;
+  month: number;
+  setMonth: (month: number) => void;
+}) {
   const navigate = useNavigate();
-  const [month, setMonth] = useState(0),
-    [status, setStatus] = useState(''),
+  const [status, setStatus] = useState(''),
     [q, setQ] = useState(''),
     // The month plan opens over the offer studio: its Targets & mix page carries the
     // complete year breakdown, so the target, the mix and the offers are read together.
@@ -221,14 +256,21 @@ function Planned({ data, reload }: { data: PlanData; reload: () => Promise<any> 
         </div>
       </div>
       {months.map(m => {
-        const selected = selectedInMonth(data, m.month).filter(o => o.data_mode !== 'demo' && o.generation_source !== 'demo_seed'),
+        const selected = selectedInMonth(data, m.month).filter(
+            o => o.data_mode !== 'demo' && o.generation_source !== 'demo_seed',
+          ),
           selectedIds = new Set(selected.map(o => Number(o.id))),
           offers = selected.filter(match),
           expected = selected.reduce((sum, o) => {
             const financials = parseJson(o.financials);
             const modeledRevenue = financials.expectedRevenue;
-            const valid = o.expected_revenue !== null && o.expected_revenue !== undefined && Number.isFinite(Number(o.expected_revenue)) &&
-              (modeledRevenue == null || Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <= Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
+            const valid =
+              o.expected_revenue !== null &&
+              o.expected_revenue !== undefined &&
+              Number.isFinite(Number(o.expected_revenue)) &&
+              (modeledRevenue == null ||
+                Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <=
+                  Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
             return sum + (valid ? Number(o.expected_revenue) : 0);
           }, 0),
           cover = m.target ? Math.min(100, Math.max(0, (expected / m.target) * 100)) : 0;
@@ -270,7 +312,12 @@ function Planned({ data, reload }: { data: PlanData; reload: () => Promise<any> 
             {offers.length ? (
               <div className="os-offer-list">
                 {offers.map(o => (
-                  <OfferRow key={o.id} o={o} selected={selectedIds.has(Number(o.id))} onOpen={() => navigate(`/offers/${o.id}/edit`)} />
+                  <OfferRow
+                    key={o.id}
+                    o={o}
+                    selected={selectedIds.has(Number(o.id))}
+                    onOpen={() => navigate(`/offers/${o.id}/edit`)}
+                  />
                 ))}
               </div>
             ) : (
@@ -321,13 +368,19 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
     [form.studioId],
   );
   const set = (k: string, v: any) => setForm((f: any) => ({ ...f, [k]: v }));
-  const memberships = (catalog?.products || []).filter((p: any) =>
-    p.source === 'membership_catalogue' || /membership|unlimited|class\s*pack|package|annual|six\s*month/i.test(`${p.category} ${p.name}`),
+  const memberships = (catalog?.products || []).filter(
+    (p: any) =>
+      p.source === 'membership_catalogue' ||
+      /membership|unlimited|class\s*pack|package|annual|six\s*month/i.test(`${p.category} ${p.name}`),
   );
   const selectedMembership = memberships.find((p: any) => p.id === Number(form.productId)) || memberships[0];
-  const toggleBenefit = (id: string) => set('benefitPicks',
-    form.benefitPicks.includes(id) ? form.benefitPicks.filter((item: string) => item !== id) : [...form.benefitPicks, id],
-  );
+  const toggleBenefit = (id: string) =>
+    set(
+      'benefitPicks',
+      form.benefitPicks.includes(id)
+        ? form.benefitPicks.filter((item: string) => item !== id)
+        : [...form.benefitPicks, id],
+    );
   const dragItem = (e: React.DragEvent, kind: string, value: string | number) => {
     e.dataTransfer.effectAllowed = 'copy';
     e.dataTransfer.setData('text/plain', JSON.stringify({ kind, value }));
@@ -339,7 +392,9 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
       if (item.kind !== expected) return;
       if (expected === 'membership') set('productId', Number(item.value));
       else if (!form.benefitPicks.includes(item.value)) set('benefitPicks', [...form.benefitPicks, item.value]);
-    } catch { /* Ignore unrelated drops. */ }
+    } catch {
+      /* Ignore unrelated drops. */
+    }
   };
   const monthRow = data.plans.find(p => p.studio.id === Number(form.studioId))?.months[form.month - 1];
   const run = async (source: 'ai' | 'engine' | 'random') => {
@@ -387,8 +442,13 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
     <div className="ws-gen">
       <aside className="ws-gen-sidebar ws-gen-benefits">
         <header>
-          <span className="ws-gen-side-icon"><Gift size={15} /></span>
-          <div><strong>Benefits</strong><small>Drag into the offer or tap to add</small></div>
+          <span className="ws-gen-side-icon">
+            <Gift size={15} />
+          </span>
+          <div>
+            <strong>Benefits</strong>
+            <small>Drag into the offer or tap to add</small>
+          </div>
         </header>
         <div className="ws-gen-side-list">
           {BENEFIT_OPTIONS.map(item => {
@@ -406,7 +466,10 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
               >
                 <GripVertical size={13} className="ws-gen-grip" />
                 <Icon size={16} />
-                <span><b>{item.label}</b><small>{item.note}</small></span>
+                <span>
+                  <b>{item.label}</b>
+                  <small>{item.note}</small>
+                </span>
                 {active && <Check size={15} />}
               </button>
             );
@@ -414,239 +477,324 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
         </div>
       </aside>
       <div className="ws-gen-main">
-      <aside className="ws-card ws-brief">
-        <h3>
-          <Sparkles size={16} /> Offer brief
-        </h3>
-        <Field label="Location">
-          <Select value={form.studioId} onChange={e => set('studioId', Number(e.target.value))}>
-            {locations.map(s => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-          </Select>
-        </Field>
-        <div className="form-grid two">
-          <Field label="Month">
-            <Select
-              value={form.month}
-              onChange={e => {
-                set('month', Number(e.target.value));
-                set('objective', MONTH_OBJECTIVES[Number(e.target.value) - 1]);
-              }}
-            >
-              {MONTHS.map((m, i) => (
-                <option key={m} value={i + 1}>
-                  {m}
+        <aside className="ws-card ws-brief">
+          <h3>
+            <Sparkles size={16} /> Offer brief
+          </h3>
+          <Field label="Location">
+            <Select value={form.studioId} onChange={e => set('studioId', Number(e.target.value))}>
+              {locations.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
                 </option>
               ))}
             </Select>
           </Field>
-          <Field label="Tone">
-            <Select value={form.tone} onChange={e => set('tone', e.target.value)}>
-              {['witty', 'premium', 'warm', 'bold', 'playful'].map(t => (
-                <option key={t}>{t}</option>
+          <div className="form-grid two">
+            <Field label="Month">
+              <Select
+                value={form.month}
+                onChange={e => {
+                  set('month', Number(e.target.value));
+                  set('objective', MONTH_OBJECTIVES[Number(e.target.value) - 1]);
+                }}
+              >
+                {MONTHS.map((m, i) => (
+                  <option key={m} value={i + 1}>
+                    {m}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="Tone">
+              <Select value={form.tone} onChange={e => set('tone', e.target.value)}>
+                {['witty', 'premium', 'warm', 'bold', 'playful'].map(t => (
+                  <option key={t}>{t}</option>
+                ))}
+              </Select>
+            </Field>
+          </div>
+          <Field label="Objective">
+            <Select value={form.objective} onChange={e => set('objective', e.target.value)}>
+              {OBJECTIVES.map(([v, l]) => (
+                <option key={v} value={v}>
+                  {l}
+                </option>
               ))}
             </Select>
           </Field>
-        </div>
-        <Field label="Objective">
-          <Select value={form.objective} onChange={e => set('objective', e.target.value)}>
-            {OBJECTIVES.map(([v, l]) => (
-              <option key={v} value={v}>
-                {l}
-              </option>
-            ))}
-          </Select>
-        </Field>
-        <Field label="Audience">
-          <Select value={form.segment} onChange={e => set('segment', e.target.value)}>
-            {SEGMENTS.map(([v, l]) => (
-              <option key={v} value={v}>
-                {l}
-              </option>
-            ))}
-          </Select>
-        </Field>
-        <div className="form-grid two">
-          <Field label="Max discount %">
-            <Input
-              type="number"
-              value={form.maxDiscountPercent}
-              onChange={e => set('maxDiscountPercent', Number(e.target.value))}
+          <Field label="Audience">
+            <Select value={form.segment} onChange={e => set('segment', e.target.value)}>
+              {SEGMENTS.map(([v, l]) => (
+                <option key={v} value={v}>
+                  {l}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <div className="form-grid two">
+            <Field label="Max discount %">
+              <Input
+                type="number"
+                value={form.maxDiscountPercent}
+                onChange={e => set('maxDiscountPercent', Number(e.target.value))}
+              />
+            </Field>
+            <Field label="Revenue goal ₹">
+              <Input type="number" value={form.targetRevenue} onChange={e => set('targetRevenue', e.target.value)} />
+            </Field>
+          </div>
+          <Field label="Creative direction (optional)">
+            <Textarea
+              rows={3}
+              value={form.instructions}
+              onChange={e => set('instructions', e.target.value)}
+              placeholder={`e.g. Monsoon-themed, reward consistency, no more than 10% off`}
             />
           </Field>
-          <Field label="Revenue goal ₹">
-            <Input type="number" value={form.targetRevenue} onChange={e => set('targetRevenue', e.target.value)} />
-          </Field>
-        </div>
-        <Field label="Creative direction (optional)">
-          <Textarea
-            rows={3}
-            value={form.instructions}
-            onChange={e => set('instructions', e.target.value)}
-            placeholder={`e.g. Monsoon-themed, reward consistency, no more than 10% off`}
-          />
-        </Field>
-        {monthRow && (
-          <div className="ws-brief-context">
-            <span>{MONTHS[form.month - 1]} plan</span>
-            <b>{lakh(monthRow.target)}</b>
-            <em>
-              {monthRow.leadOffer} · {monthRow.objective}
-            </em>
+          {monthRow && (
+            <div className="ws-brief-context">
+              <span>{MONTHS[form.month - 1]} plan</span>
+              <b>{lakh(monthRow.target)}</b>
+              <em>
+                {monthRow.leadOffer} · {monthRow.objective}
+              </em>
+            </div>
+          )}
+          <div className="ws-brief-actions">
+            <Button
+              onClick={() => run('ai')}
+              disabled={!!loading || !boot.aiConfigured}
+              icon={<WandSparkles size={15} />}
+            >
+              {loading === 'ai' ? 'Thinking…' : 'Generate with AI'}
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => run('engine')}
+              disabled={!!loading}
+              icon={<Sparkles size={15} />}
+            >
+              {loading === 'engine' ? 'Building…' : 'Rules engine'}
+            </Button>
+            <Button variant="ghost" onClick={() => run('random')} disabled={!!loading} icon={<Dices size={15} />}>
+              Surprise me
+            </Button>
           </div>
-        )}
-        <div className="ws-brief-actions">
-          <Button
-            onClick={() => run('ai')}
-            disabled={!!loading || !boot.aiConfigured}
-            icon={<WandSparkles size={15} />}
-          >
-            {loading === 'ai' ? 'Thinking…' : 'Generate with AI'}
-          </Button>
-          <Button variant="secondary" onClick={() => run('engine')} disabled={!!loading} icon={<Sparkles size={15} />}>
-            {loading === 'engine' ? 'Building…' : 'Rules engine'}
-          </Button>
-          <Button variant="ghost" onClick={() => run('random')} disabled={!!loading} icon={<Dices size={15} />}>
-            Surprise me
-          </Button>
-        </div>
-        {!boot.aiConfigured && (
-          <p className="muted">AI is not configured on the server; rules engine and Surprise me still work.</p>
-        )}
-      </aside>
-      <div className="ws-gen-recipe">
-        <div className="ws-gen-recipe-head">
-          <div><span className="ws-label">Offer recipe</span><strong>Build from a membership and benefits</strong></div>
-          <small>Drag items from either side</small>
-        </div>
-        <div className="ws-gen-recipe-slots">
-          <div
-            className="ws-gen-drop membership"
-            onDragOver={e => e.preventDefault()}
-            onDrop={e => dropItem(e, 'membership')}
-          >
-            <Package size={16} />
-            <span><small>Membership</small><b>{selectedMembership?.name || (catalogLoading ? 'Loading memberships…' : 'Choose a membership')}</b></span>
-            {selectedMembership && <em>{money(selectedMembership.list_price)}</em>}
-          </div>
-          <div
-            className="ws-gen-drop benefits"
-            onDragOver={e => e.preventDefault()}
-            onDrop={e => dropItem(e, 'benefit')}
-          >
-            <Gift size={16} />
-            <span><small>Added benefits</small><b>{form.benefitPicks.length ? form.benefitPicks.map((id: string) => BENEFIT_OPTIONS.find(x => x.id === id)?.label).filter(Boolean).join(' · ') : 'Drop benefits here or choose from the left'}</b></span>
-            {form.benefitPicks.length > 0 && <button type="button" onClick={() => set('benefitPicks', [])}>Clear</button>}
-          </div>
-        </div>
-        {(form.benefitPicks.length > 0) && <small className="ws-gen-cost-note">Benefit delivery costs are unconfirmed. Generated offers stay blocked from approval until costs are entered.</small>}
-      </div>
-      <section>
-        {error && <Callout tone="danger">{error}</Callout>}
-        {loading && (
-          <div className="ws-card ws-gen-loading">
-            <WandSparkles className="pulse" size={26} />
+          {!boot.aiConfigured && (
+            <p className="muted">AI is not configured on the server; rules engine and Surprise me still work.</p>
+          )}
+        </aside>
+        <div className="ws-gen-recipe">
+          <div className="ws-gen-recipe-head">
             <div>
-              <strong>Designing offers for {MONTHS[form.month - 1]}…</strong>
-              <p>Reading studio prices, history and policy, then calculating every number.</p>
+              <span className="ws-label">Offer recipe</span>
+              <strong>Build from a membership and benefits</strong>
+            </div>
+            <small>Drag items from either side</small>
+          </div>
+          <div className="ws-gen-recipe-slots">
+            <div
+              className="ws-gen-drop membership"
+              onDragOver={e => e.preventDefault()}
+              onDrop={e => dropItem(e, 'membership')}
+            >
+              <Package size={16} />
+              <span>
+                <small>Membership</small>
+                <b>{selectedMembership?.name || (catalogLoading ? 'Loading memberships…' : 'Choose a membership')}</b>
+              </span>
+              {selectedMembership && <em>{money(selectedMembership.list_price)}</em>}
+            </div>
+            <div
+              className="ws-gen-drop benefits"
+              onDragOver={e => e.preventDefault()}
+              onDrop={e => dropItem(e, 'benefit')}
+            >
+              <Gift size={16} />
+              <span>
+                <small>Added benefits</small>
+                <b>
+                  {form.benefitPicks.length
+                    ? form.benefitPicks
+                        .map((id: string) => BENEFIT_OPTIONS.find(x => x.id === id)?.label)
+                        .filter(Boolean)
+                        .join(' · ')
+                    : 'Drop benefits here or choose from the left'}
+                </b>
+              </span>
+              {form.benefitPicks.length > 0 && (
+                <button type="button" onClick={() => set('benefitPicks', [])}>
+                  Clear
+                </button>
+              )}
             </div>
           </div>
-        )}
-        {!result && !loading && (
-          <div className="ws-card ws-gen-empty">
-            <WandSparkles size={28} />
-            <h3>Brief it, then generate</h3>
-            <p>
-              AI writes the concepts and copy; the app calculates prices, revenue and discount exposure, and checks
-              studio policy.
-            </p>
-          </div>
-        )}
-        {result && !loading && (
-          <>
-            <p className="muted">{result.recommendation?.explanation}</p>
-            <div className="ws-offer-grid">
-              {result.offers.map((o: any, i: number) => {
-                const f = o.financials || {};
-                return (
-                  <div key={`${o.name}-${i}`} className={`ws-concept ${o.recommended ? 'rec' : ''}`}>
-                    <header>
-                      <Badge tone="purple">{titleCase(o.offerType || o.mechanics?.mechanism)}</Badge>
-                      {o.recommended && <Badge tone="green">Recommended</Badge>}
-                    </header>
-                    <strong>{o.name}</strong>
-                    <em>{o.headline}</em>
-                    <p>{o.customerCopy || o.benefit}</p>
-                    <dl className="ws-concept-details">
-                      <div><dt>Membership</dt><dd>{o.productName || selectedMembership?.name || '—'}</dd></div>
-                      <div><dt>Location · month</dt><dd>{boot.studios.find(s => s.id === Number(form.studioId))?.name || '—'} · {MONTHS[o.month - 1]}</dd></div>
-                      <div><dt>Audience</dt><dd>{titleCase(o.audience || form.segment)}</dd></div>
-                      <div><dt>Objective</dt><dd>{OBJ[o.objective] || titleCase(o.objective)}</dd></div>
-                      <div><dt>Offer terms</dt><dd>{o.redemptionConditions || 'One redemption per eligible customer; cannot be stacked with another promotion.'}</dd></div>
-                      <div><dt>Valid</dt><dd>{o.validityStart || `${year}-${String(form.month).padStart(2, '0')}-01`} – {o.validityEnd || 'End of month'}</dd></div>
-                      <div><dt>Call to action</dt><dd>{o.cta || 'Reserve your spot'}</dd></div>
-                    </dl>
-                    <div className="ws-concept-nums">
-                      <div>
-                        <small>Price</small>
-                        <b>{money(f.sellingPrice ?? o.expectedAsp)}</b>
+          {form.benefitPicks.length > 0 && (
+            <small className="ws-gen-cost-note">
+              Benefit delivery costs are unconfirmed. Generated offers stay blocked from approval until costs are
+              entered.
+            </small>
+          )}
+        </div>
+        <section>
+          {error && <Callout tone="danger">{error}</Callout>}
+          {loading && (
+            <div className="ws-card ws-gen-loading">
+              <WandSparkles className="pulse" size={26} />
+              <div>
+                <strong>Designing offers for {MONTHS[form.month - 1]}…</strong>
+                <p>Reading studio prices, history and policy, then calculating every number.</p>
+              </div>
+            </div>
+          )}
+          {!result && !loading && (
+            <div className="ws-card ws-gen-empty">
+              <WandSparkles size={28} />
+              <h3>Brief it, then generate</h3>
+              <p>
+                AI writes the concepts and copy; the app calculates prices, revenue and discount exposure, and checks
+                studio policy.
+              </p>
+            </div>
+          )}
+          {result && !loading && (
+            <>
+              <p className="muted">{result.recommendation?.explanation}</p>
+              <div className="ws-offer-grid">
+                {result.offers.map((o: any, i: number) => {
+                  const f = o.financials || {};
+                  return (
+                    <div key={`${o.name}-${i}`} className={`ws-concept ${o.recommended ? 'rec' : ''}`}>
+                      <header>
+                        <Badge tone="purple">{titleCase(o.offerType || o.mechanics?.mechanism)}</Badge>
+                        {o.recommended && <Badge tone="green">Recommended</Badge>}
+                      </header>
+                      <strong>{o.name}</strong>
+                      <em>{o.headline}</em>
+                      <p>{o.customerCopy || o.benefit}</p>
+                      <dl className="ws-concept-details">
+                        <div>
+                          <dt>Membership</dt>
+                          <dd>{o.productName || selectedMembership?.name || '—'}</dd>
+                        </div>
+                        <div>
+                          <dt>Location · month</dt>
+                          <dd>
+                            {boot.studios.find(s => s.id === Number(form.studioId))?.name || '—'} ·{' '}
+                            {MONTHS[o.month - 1]}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Audience</dt>
+                          <dd>{titleCase(o.audience || form.segment)}</dd>
+                        </div>
+                        <div>
+                          <dt>Objective</dt>
+                          <dd>{OBJ[o.objective] || titleCase(o.objective)}</dd>
+                        </div>
+                        <div>
+                          <dt>Offer terms</dt>
+                          <dd>
+                            {o.redemptionConditions ||
+                              'One redemption per eligible customer; cannot be stacked with another promotion.'}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Valid</dt>
+                          <dd>
+                            {o.validityStart || `${year}-${String(form.month).padStart(2, '0')}-01`} –{' '}
+                            {o.validityEnd || 'End of month'}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Call to action</dt>
+                          <dd>{o.cta || 'Reserve your spot'}</dd>
+                        </div>
+                      </dl>
+                      <div className="ws-concept-nums">
+                        <div>
+                          <small>Price</small>
+                          <b>{money(f.sellingPrice ?? o.expectedAsp)}</b>
+                        </div>
+                        <div>
+                          <small>Revenue</small>
+                          <b>{money(o.expectedRevenue, true)}</b>
+                        </div>
+                        <div>
+                          <small>Benefit</small>
+                          <b>{percent(o.effectiveDiscount)}</b>
+                        </div>
+                        <div>
+                          <small>Target buyers</small>
+                          <b>{number(o.targetPurchases)}</b>
+                        </div>
                       </div>
-                      <div>
-                        <small>Revenue</small>
-                        <b>{money(o.expectedRevenue, true)}</b>
-                      </div>
-                      <div>
-                        <small>Benefit</small>
-                        <b>{percent(o.effectiveDiscount)}</b>
-                      </div>
-                      <div>
-                        <small>Target buyers</small>
-                        <b>{number(o.targetPurchases)}</b>
-                      </div>
+                      {o.rationale && (
+                        <p className="ws-logic">
+                          <b>Why · </b>
+                          {o.rationale}
+                        </p>
+                      )}
+                      {o.successMetrics?.length > 0 && (
+                        <details className="ws-concept-details-list">
+                          <summary>Success metrics</summary>
+                          <ul>
+                            {o.successMetrics.map((item: string) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </details>
+                      )}
+                      {o.risks?.length > 0 && (
+                        <details className="ws-concept-details-list">
+                          <summary>Risks and assumptions</summary>
+                          <ul>
+                            {o.risks.map((item: string, idx: number) => (
+                              <li key={`${idx}-${item}`}>{item}</li>
+                            ))}
+                          </ul>
+                        </details>
+                      )}
+                      {f.errors?.length > 0 && <Callout tone="warning">{f.errors.join(' ')}</Callout>}
+                      {!f.economicsComplete && (
+                        <Callout tone="warning">Complete cost data before approving this offer.</Callout>
+                      )}
+                      <footer>
+                        <Button
+                          size="sm"
+                          disabled={!!saved[i] || f.errors?.length > 0}
+                          icon={<Save size={14} />}
+                          onClick={() => save(o, i)}
+                        >
+                          {saved[i] ? `Saved #${saved[i]}` : 'Save to bank'}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          icon={<Edit3 size={14} />}
+                          onClick={() => navigate('/offers?view=manual', { state: { concept: o } })}
+                        >
+                          Edit
+                        </Button>
+                      </footer>
                     </div>
-                    {o.rationale && (
-                      <p className="ws-logic">
-                        <b>Why · </b>
-                        {o.rationale}
-                      </p>
-                    )}
-                    {o.successMetrics?.length > 0 && <details className="ws-concept-details-list"><summary>Success metrics</summary><ul>{o.successMetrics.map((item: string) => <li key={item}>{item}</li>)}</ul></details>}
-                    {o.risks?.length > 0 && <details className="ws-concept-details-list"><summary>Risks and assumptions</summary><ul>{o.risks.map((item: string, idx: number) => <li key={`${idx}-${item}`}>{item}</li>)}</ul></details>}
-                    {f.errors?.length > 0 && <Callout tone="warning">{f.errors.join(' ')}</Callout>}
-                    {!f.economicsComplete && <Callout tone="warning">Complete cost data before approving this offer.</Callout>}
-                    <footer>
-                      <Button
-                        size="sm"
-                        disabled={!!saved[i] || f.errors?.length > 0}
-                        icon={<Save size={14} />}
-                        onClick={() => save(o, i)}
-                      >
-                        {saved[i] ? `Saved #${saved[i]}` : 'Save to bank'}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        icon={<Edit3 size={14} />}
-                        onClick={() => navigate('/offers?view=manual', { state: { concept: o } })}
-                      >
-                        Edit
-                      </Button>
-                    </footer>
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        )}
-      </section>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </section>
       </div>
       <aside className="ws-gen-sidebar ws-gen-memberships">
         <header>
-          <span className="ws-gen-side-icon"><Package size={15} /></span>
-          <div><strong>Memberships</strong><small>{catalogLoading ? 'Loading catalogue…' : `${memberships.length} at this location`}</small></div>
+          <span className="ws-gen-side-icon">
+            <Package size={15} />
+          </span>
+          <div>
+            <strong>Memberships</strong>
+            <small>{catalogLoading ? 'Loading catalogue…' : `${memberships.length} at this location`}</small>
+          </div>
         </header>
         <div className="ws-gen-side-list">
           {memberships.map((product: any) => {
@@ -663,12 +811,17 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
               >
                 <GripVertical size={13} className="ws-gen-grip" />
                 <Package size={16} />
-                <span><b>{product.name}</b><small>{product.validity_days ? `${product.validity_days} days` : product.category}</small></span>
+                <span>
+                  <b>{product.name}</b>
+                  <small>{product.validity_days ? `${product.validity_days} days` : product.category}</small>
+                </span>
                 <em>{money(product.list_price)}</em>
               </button>
             );
           })}
-          {!catalogLoading && !memberships.length && <p className="ws-gen-side-empty">No priced membership products are available at this location.</p>}
+          {!catalogLoading && !memberships.length && (
+            <p className="ws-gen-side-empty">No priced membership products are available at this location.</p>
+          )}
         </div>
       </aside>
     </div>
