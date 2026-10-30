@@ -16,3 +16,6 @@ artifacts/
 .vercel
 .env*.local
 .playwright-mcp/
+
+# Build output (node-gyp, tsc, bundlers)
+build/
