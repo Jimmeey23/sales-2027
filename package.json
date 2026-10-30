@@ -9,6 +9,7 @@
     "build": "tsc -b && vite build",
     "start": "NODE_ENV=production tsx server/main.ts",
     "seed": "tsx server/seed.ts",
+    "plan:bengaluru": "tsx scripts/apply-bengaluru-2027.ts",
     "import:checkins": "tsx scripts/import-checkins.ts",
     "targets:regenerate": "tsx scripts/regenerate-targets.ts",
     "plan:import": "tsx scripts/import-2027-plan.ts",
