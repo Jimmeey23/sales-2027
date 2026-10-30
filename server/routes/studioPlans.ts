@@ -50,7 +50,7 @@ export default function registerStudioPlansRoutes(app: Express) {
       COALESCE(SUM(t.proposed_target),0) proposed, COALESCE(SUM(t.approved_target),0) approved,
       SUM(CASE WHEN t.approved_target IS NOT NULL THEN 1 ELSE 0 END) approved_months, COUNT(t.id) target_months,
       (SELECT COUNT(*) FROM monthly_plans p WHERE p.studio_id=s.id AND p.year=?) planned_months,
-      (SELECT COUNT(*) FROM offers o WHERE o.studio_id=s.id AND o.year=? AND o.data_mode!='demo' AND o.generation_source!='demo_seed' AND o.status NOT IN ('archived','rejected')) offers
+      (SELECT COUNT(*) FROM offers o WHERE o.studio_id=s.id AND o.year=? AND o.month IS NOT NULL AND o.data_mode!='demo' AND o.generation_source!='demo_seed' AND o.status NOT IN ('archived','rejected')) offers
     FROM studios s LEFT JOIN monthly_targets t ON t.studio_id=s.id AND t.year=?
     WHERE s.active=1 ${scoped ? 'AND s.id=?' : ''} GROUP BY s.id ORDER BY s.city,s.name`,
       )
