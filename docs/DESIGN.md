@@ -63,7 +63,7 @@ Defined once in `src/data/locations.ts`.
 | Surface | Component | Notes |
 | --- | --- | --- |
 | Location switcher | `components/LocationSwitcher.tsx` | A popover off the header bar with five views — vertical timeline (default), cards, list, pills and a single selector. The choice is remembered; each row carries that location's annual target. |
-| Offer card | `pages/plan/MonthWorkspace.tsx` (`.oc*`), styled last in `atelier.css` §19 | Photographed hero closed by a gold hairline, six figures on a paper rail, then the printed spec. Off-plan rows in the offer studio (`.os-offer`) share the type and rules. |
+| Offer card | `pages/plan/MonthWorkspace.tsx` (`.oc.is-v3`, `.ocv-*`), styled last in `atelier.css` §26 | A catalogue plate: the photograph is a tall panel beside the argument, carrying the offer number, the mechanic and the chips. The body reads down one column — title, forecast/units/contribution tiles, three mechanics on one rule, the full record in two columns, who/when/how, then the approval foot. Stacked on a narrow column; split once the card passes 860px (container query). |
 | Target breakdown | `pages/plan/TargetBreakdown.tsx` | The complete 12-month table. It renders in the month plan's **Targets & mix** page (scoped with the `studio` prop) as well as on its own route. |
 | WhatsApp proofs | `components/MarketingCollaterals.tsx` (`.wa-pair.is-duo`) | Both sends — launch broadcast and the 48-hour reminder — sit side by side on one proof board. |
 | Month plan | `pages/plan/MonthWorkspace.tsx` | Opened per month from Offers › Planned promotions, so the target, the mix and the offers live in one place. Arrow keys and `1`–`5` move between months and pages. |

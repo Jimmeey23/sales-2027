@@ -5216,8 +5216,7 @@ details.membership-terms > summary {
   place-content: center;
   justify-items: center;
   gap: 22px;
-  background:
-    radial-gradient(120% 90% at 50% 0%, #fdfbf7 0%, var(--canvas) 46%, var(--canvas-deep) 100%);
+  background: radial-gradient(120% 90% at 50% 0%, #fdfbf7 0%, var(--canvas) 46%, var(--canvas-deep) 100%);
 }
 .app-loading .loading-brand {
   display: flex;
@@ -5341,8 +5340,13 @@ details.membership-terms > summary {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background:
-    linear-gradient(96deg, rgba(14, 13, 9, 0.94) 0%, rgba(14, 13, 9, 0.78) 42%, rgba(14, 13, 9, 0.18) 78%, rgba(14, 13, 9, 0.42) 100%),
+  background: linear-gradient(
+      96deg,
+      rgba(14, 13, 9, 0.94) 0%,
+      rgba(14, 13, 9, 0.78) 42%,
+      rgba(14, 13, 9, 0.18) 78%,
+      rgba(14, 13, 9, 0.42) 100%
+    ),
     linear-gradient(180deg, rgba(14, 13, 9, 0.5) 0%, rgba(14, 13, 9, 0.06) 40%, rgba(14, 13, 9, 0.72) 100%);
 }
 .mw .mo2-hero-inner {
@@ -6660,6 +6664,714 @@ details.membership-terms > summary {
     margin-left: 0;
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* ── 26. Offer cards, third cut ─────────────────────────────────────────────
+   A catalogue plate, not a poster. The photograph becomes a tall panel beside
+   the argument instead of a lid on top of it: the number, the mechanic and the
+   location sit on the plate, and everything the card has to prove — forecast,
+   buyers, contribution, price, terms, the whole record — reads down the body in
+   one ruled column. A stacked card on a narrow column becomes a split one as
+   soon as the column can hold both, via a container query on the card itself. */
+.mw .oc.is-v3 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--paper);
+  box-shadow:
+    0 1px 2px rgba(32, 27, 18, 0.04),
+    0 22px 40px -34px rgba(32, 27, 18, 0.4);
+  transform: none;
+  filter: none;
+  opacity: 1;
+  transition:
+    transform 0.34s cubic-bezier(0.22, 0.8, 0.24, 1),
+    box-shadow 0.34s cubic-bezier(0.22, 0.8, 0.24, 1),
+    border-color 0.34s ease;
+}
+.mw .oc.is-v3:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--gold) 28%, var(--line));
+  box-shadow:
+    0 2px 4px rgba(32, 27, 18, 0.05),
+    0 34px 56px -34px rgba(32, 27, 18, 0.44);
+}
+.mw .oc.is-v3.is-approved {
+  border-color: color-mix(in srgb, var(--green, #1d6450) 34%, var(--line));
+  box-shadow:
+    0 1px 2px rgba(20, 60, 44, 0.05),
+    0 22px 40px -34px rgba(20, 60, 44, 0.42);
+}
+
+.mw .oc.is-v3 .ocv-shell {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  min-width: 0;
+}
+/* In the two-up list every card is this card, so the subgrid pairing and the
+   container-type:"normal" reset the older list applied no longer apply. */
+.mw .mw-offer-list.is-two-up > .oc.is-v3 {
+  display: flex;
+  grid-row: auto;
+  grid-template-rows: none;
+  container-type: inline-size;
+  height: auto;
+}
+@container (min-width: 860px) {
+  .mw .oc.is-v3 .ocv-shell {
+    grid-template-columns: minmax(300px, 33%) minmax(0, 1fr);
+  }
+}
+
+/* ── The plate ───────────────────────────────────────────────────────────── */
+.mw .oc.is-v3 .ocv-plate {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  min-width: 0;
+  min-height: 232px;
+  padding: 17px 18px 16px;
+  overflow: hidden;
+  background: #191610;
+  color: #fdfaf1;
+}
+@container (min-width: 860px) {
+  .mw .oc.is-v3 .ocv-plate {
+    min-height: 100%;
+    padding: 22px 22px 20px;
+  }
+}
+.mw .oc.is-v3 .ocv-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: scale(1.02);
+  transition: transform 1.1s cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+.mw .oc.is-v3:hover .ocv-photo {
+  transform: scale(1.06);
+}
+.mw .oc.is-v3 .ocv-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+      178deg,
+      rgba(12, 11, 8, 0.62) 0%,
+      rgba(12, 11, 8, 0.12) 34%,
+      rgba(12, 11, 8, 0.34) 62%,
+      rgba(12, 11, 8, 0.88) 100%
+    ),
+    radial-gradient(120% 80% at 8% 0%, rgba(12, 11, 8, 0.5), transparent 60%);
+}
+.mw .oc.is-v3 .ocv-plate-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.mw .oc.is-v3 .ocv-index {
+  display: grid;
+  gap: 1px;
+  line-height: 1;
+}
+.mw .oc.is-v3 .ocv-index em {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 620;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(230, 213, 174, 0.86);
+}
+.mw .oc.is-v3 .ocv-index b {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  color: #fdfaf1;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.34);
+}
+.mw .oc.is-v3 .ocv-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  background: rgba(14, 13, 9, 0.34);
+  backdrop-filter: blur(8px) saturate(120%);
+  font-size: 8.5px;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(253, 250, 241, 0.92);
+  white-space: nowrap;
+}
+.mw .oc.is-v3 .ocv-link.is-linked svg {
+  color: var(--champagne);
+}
+.mw .oc.is-v3 .ocv-plate-foot {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
+}
+.mw .oc.is-v3 .ocv-plate-label {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 620;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(230, 213, 174, 0.92);
+}
+.mw .oc.is-v3 .ocv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.mw .oc.is-v3 .ocv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 3px 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(14, 13, 9, 0.3);
+  backdrop-filter: blur(6px);
+  font-size: 9.5px;
+  font-weight: 520;
+  letter-spacing: 0.01em;
+  color: rgba(253, 250, 241, 0.86);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .oc.is-v3 .ocv-chip.is-moment {
+  border-color: rgba(230, 213, 174, 0.42);
+  color: var(--champagne);
+}
+
+/* ── The body ────────────────────────────────────────────────────────────── */
+.mw .oc.is-v3 .ocv-body {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  min-width: 0;
+  padding: 20px 24px 0;
+  background: var(--paper);
+}
+.mw .oc.is-v3 .ocv-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mw .oc.is-v3 .ocv-head-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.mw .oc.is-v3 .ocv-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 8.8px;
+  font-weight: 620;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.mw .oc.is-v3 .ocv-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--paper-warm);
+}
+.mw .oc.is-v3 .ocv-tool {
+  display: inline-grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.mw .oc.is-v3 .ocv-tool:hover:not(:disabled) {
+  background: var(--paper);
+  color: var(--ink-900);
+  box-shadow: 0 1px 2px rgba(32, 27, 18, 0.12);
+}
+.mw .oc.is-v3 .ocv-tool.is-ai {
+  color: var(--gold-deep);
+}
+.mw .oc.is-v3 .ocv-tool.is-danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--red, #a04a34) 12%, var(--paper));
+  color: var(--red, #a04a34);
+}
+.mw .oc.is-v3 .ocv-tool:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.mw .oc.is-v3 .ocv-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(25px, 4.2cqi, 34px);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.026em;
+  color: var(--ink-900);
+  text-wrap: balance;
+}
+.mw .oc.is-v3 .ocv-title-accent {
+  font-style: italic;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--a1, #3c3830) 78%, var(--gold));
+}
+.mw .oc.is-v3 .ocv-lede {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+.mw .oc.is-v3 .ocv-brief {
+  margin: 0;
+  font-size: 12.4px;
+  line-height: 1.62;
+  color: var(--muted);
+  max-width: 74ch;
+}
+
+/* ── The figures ─────────────────────────────────────────────────────────── */
+.mw .oc.is-v3 .ocv-figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+@container (min-width: 820px) {
+  .mw .oc.is-v3 .ocv-figures {
+    grid-template-columns: 1.45fr 1fr 1fr;
+  }
+  .mw .oc.is-v3 .ocv-fig.is-hero {
+    grid-column: auto;
+  }
+}
+.mw .oc.is-v3 .ocv-fig {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 13px 14px 14px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: linear-gradient(180deg, var(--paper-warm), var(--paper) 78%);
+}
+.mw .oc.is-v3 .ocv-fig.is-hero {
+  grid-column: 1 / -1;
+  padding: 15px 16px 16px;
+  border-color: color-mix(in srgb, var(--gold) 30%, var(--line));
+  background: radial-gradient(
+      120% 130% at 0% 0%,
+      color-mix(in srgb, var(--champagne) 30%, transparent),
+      transparent 66%
+    ),
+    linear-gradient(180deg, var(--paper-warm), var(--paper) 78%);
+}
+.mw .oc.is-v3 .ocv-fig-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-sans);
+  font-size: 8.6px;
+  font-weight: 620;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  white-space: nowrap;
+}
+.mw .oc.is-v3 .ocv-fig.is-hero .ocv-fig-label {
+  color: var(--gold-deep);
+}
+.mw .oc.is-v3 .ocv-fig-label svg {
+  flex: none;
+  opacity: 0.85;
+}
+.mw .oc.is-v3 .ocv-fig-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.024em;
+  color: var(--ink-900);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .oc.is-v3 .ocv-fig.is-hero .ocv-fig-value {
+  font-size: clamp(30px, 4.6cqi, 40px);
+  letter-spacing: -0.03em;
+}
+.mw .oc.is-v3 .ocv-fig-value em {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-style: normal;
+  font-weight: 560;
+  letter-spacing: 0.02em;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-fig-value.is-muted {
+  color: color-mix(in srgb, var(--subtle) 60%, #fff);
+}
+.mw .oc.is-v3 .ocv-fig-note {
+  overflow: hidden;
+  font-size: 9.8px;
+  line-height: 1.4;
+  color: var(--subtle);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .oc.is-v3 .ocv-meter {
+  position: relative;
+  display: block;
+  height: 3px;
+  margin-top: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--line) 82%, transparent);
+}
+.mw .oc.is-v3 .ocv-meter i {
+  display: block;
+  height: 100%;
+  width: var(--fill, 0%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--a1, #3c3830) 42%, var(--gold)), var(--gold));
+  transform-origin: left;
+  animation: ocv-grow 1s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+@keyframes ocv-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* ── The mechanics, on one rule ──────────────────────────────────────────── */
+.mw .oc.is-v3 .ocv-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.mw .oc.is-v3 .ocv-fact {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 12px 14px 13px;
+  border-left: 1px solid var(--line);
+}
+.mw .oc.is-v3 .ocv-fact:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.mw .oc.is-v3 .ocv-fact-label {
+  font-family: var(--font-sans);
+  font-size: 8.4px;
+  font-weight: 620;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .oc.is-v3 .ocv-fact b {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.018em;
+  color: var(--ink-900);
+  white-space: nowrap;
+}
+.mw .oc.is-v3 .ocv-fact b.is-muted {
+  color: color-mix(in srgb, var(--subtle) 60%, #fff);
+}
+.mw .oc.is-v3 .ocv-fact b s {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-fact em {
+  font-size: 9.8px;
+  font-style: normal;
+  line-height: 1.4;
+  color: var(--subtle);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mw .oc.is-v3 .ocv-fact-bar {
+  display: block;
+  height: 2px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--gold) 60%, var(--line)) calc(var(--fill, 0%)),
+    var(--line) calc(var(--fill, 0%))
+  );
+}
+
+/* ── The record ──────────────────────────────────────────────────────────── */
+.mw .oc.is-v3 .ocv-record {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--paper-warm), var(--paper) 46%);
+}
+.mw .oc.is-v3 .ocv-record-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--champagne) 12%, var(--paper));
+}
+.mw .oc.is-v3 .ocv-record-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 8.8px;
+  font-weight: 620;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.mw .oc.is-v3 .ocv-record-meta {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-spec {
+  margin: 0;
+  padding: 4px 16px 10px;
+}
+@container (min-width: 900px) {
+  .mw .oc.is-v3 .ocv-spec {
+    columns: 2;
+    column-gap: 34px;
+  }
+}
+.mw .oc.is-v3 .ocv-spec-row {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: 14px;
+  padding: 9px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  break-inside: avoid;
+}
+.mw .oc.is-v3 .ocv-spec-row:last-child {
+  border-bottom: 0;
+}
+.mw .oc.is-v3 .ocv-spec-row dt {
+  font-family: var(--font-sans);
+  font-size: 8.6px;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  line-height: 1.7;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-spec-row dd {
+  margin: 0;
+  font-size: 12.2px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* ── Who / when / how ────────────────────────────────────────────────────── */
+.mw .oc.is-v3 .ocv-who {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+@container (max-width: 560px) {
+  .mw .oc.is-v3 .ocv-who {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw .oc.is-v3 .ocv-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw .oc.is-v3 .ocv-fact,
+  .mw .oc.is-v3 .ocv-fact:first-child {
+    padding: 11px 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .mw .oc.is-v3 .ocv-fact:first-child {
+    border-top: 0;
+  }
+}
+.mw .oc.is-v3 .ocv-who-cell {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 11px 13px 12px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--paper);
+}
+.mw .oc.is-v3 .ocv-who-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-sans);
+  font-size: 8.4px;
+  font-weight: 620;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-who-label svg {
+  color: color-mix(in srgb, var(--a1, #3c3830) 62%, var(--gold));
+}
+.mw .oc.is-v3 .ocv-who-cell b {
+  font-size: 11.8px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* ── The foot ────────────────────────────────────────────────────────────── */
+.mw .oc.is-v3 .ocv-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: auto -24px 0;
+  padding: 11px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--paper-warm);
+}
+.mw .oc.is-v3 .ocv-sign {
+  font-family: var(--font-display);
+  font-size: 12.4px;
+  font-style: italic;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-approve {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border: 1px solid var(--line-strong, #d9d1c1);
+  border-radius: 999px;
+  background: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 620;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease,
+    border-color 0.16s ease;
+}
+.mw .oc.is-v3 .ocv-approve:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--green, #1d6450) 45%, var(--line));
+  color: var(--green, #1d6450);
+}
+.mw .oc.is-v3 .ocv-approve.is-on {
+  border-color: color-mix(in srgb, var(--green, #1d6450) 40%, transparent);
+  background: color-mix(in srgb, var(--green, #1d6450) 10%, var(--paper));
+  color: var(--green, #1d6450);
+}
+.mw .oc.is-v3 .ocv-approve:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.mw .oc.is-v3 .ocv-approved-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green, #1d6450);
+}
+
+/* A narrow card: the plate shortens, the body tightens. */
+@container (max-width: 520px) {
+  .mw .oc.is-v3 .ocv-plate {
+    min-height: 196px;
+  }
+  .mw .oc.is-v3 .ocv-index b {
+    font-size: 30px;
+  }
+  .mw .oc.is-v3 .ocv-body {
+    padding: 17px 17px 0;
+    gap: 14px;
+  }
+  .mw .oc.is-v3 .ocv-foot {
+    margin-left: -17px;
+    margin-right: -17px;
+    padding: 10px 17px;
+  }
+  .mw .oc.is-v3 .ocv-spec-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+  .mw .oc.is-v3 .ocv-spec-row dt {
+    line-height: 1.4;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc.is-v3,
+  .mw .oc.is-v3 .ocv-photo,
+  .mw .oc.is-v3 .ocv-tool {
+    transition: none;
+  }
+  .mw .oc.is-v3 .ocv-meter i {
+    animation: none;
   }
 }
 
