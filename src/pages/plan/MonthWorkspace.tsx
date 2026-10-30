@@ -5013,40 +5013,6 @@ function pickOfferCardPhoto(o: any, slot?: string, no?: number): CardPhoto {
   return pool[idx];
 }
 
-// The figure's gauge: an arc that fills to the value, drawn with pathLength=100 so the
-// dash array is the number itself. When an offer carries both cash and perk value, the
-// cash portion is drawn as an inner arc, so the two read as nested rings.
-function StatGauge({ value, soft = 0 }: { value: number; soft?: number }) {
-  const clamp = (v: number) => Math.max(0, Math.min(100, Number.isFinite(v) ? v : 0));
-  const fill = clamp(value);
-  const cash = clamp(Math.min(soft, fill));
-  return (
-    <span className="oc-gauge" aria-hidden="true">
-      <svg viewBox="0 0 36 36">
-        <circle className="oc-gauge-track" cx="18" cy="18" r="15.5" />
-        {cash > 0 && (
-          <circle
-            className="oc-gauge-soft"
-            cx="18"
-            cy="18"
-            r="10.5"
-            pathLength={100}
-            style={{ strokeDasharray: `${cash} 100` }}
-          />
-        )}
-        <circle
-          className="oc-gauge-arc"
-          cx="18"
-          cy="18"
-          r="15.5"
-          pathLength={100}
-          style={{ strokeDasharray: `${fill} 100` }}
-        />
-      </svg>
-    </span>
-  );
-}
-
 function OfferCard({
   offer: o,
   no,
@@ -5369,316 +5335,317 @@ function OfferCard({
   })();
 
   return (
-    <article className={`oc${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}>
-      <div className="oc-hero">
-        <div
-          className="oc-hero-image"
-          aria-hidden="true"
-          style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }}
-        />
-        <div className="oc-hero-scrim" aria-hidden="true" />
+    <article className={`oc is-v3${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}>
+      {/* The shell is the container-query target: a stacked card on a narrow column, an
+          editorial split — plate beside body — once there is room for both. */}
+      <div className="ocv-shell">
+        {/* The plate: the photograph the offer is sold on, carrying its number, what it runs
+          at and where. */}
+        <div className="ocv-plate">
+          <div
+            className="ocv-photo"
+            aria-hidden="true"
+            style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }}
+          />
+          <span className="ocv-wash" aria-hidden="true" />
 
-        <div className="oc-hero-top">
-          <span className="oc-num-badge" aria-hidden="true">
-            {offerNum}
-          </span>
-          <div className="oc-toolbar">
-            {(editable || (canSwap && !shown)) && (
-              <div className="oc-icon-group">
-                {canSwap && !shown && (
-                  <button
-                    type="button"
-                    aria-label={`Generate a new offer with AI in place of ${o.name}`}
-                    title="Generate with AI — a new, better-optimised offer replaces this one"
-                    className={`oc-icon-btn ai${regenerating ? ' is-loading' : ''}`}
-                    onClick={onSwap}
-                    disabled={busy || regenerating}
-                    aria-busy={regenerating}
-                  >
-                    {regenerating ? <Loader2 size={13.5} className="spin" /> : <Sparkles size={13.5} />}
-                  </button>
-                )}
-                {editable && onDuplicate && (
-                  <button
-                    type="button"
-                    aria-label={`Duplicate ${o.name}`}
-                    title="Duplicate as new offer"
-                    className="oc-icon-btn"
-                    onClick={onDuplicate}
-                    disabled={busy}
-                  >
-                    <Copy size={13} />
-                  </button>
-                )}
-                {editable && (
-                  <button
-                    type="button"
-                    aria-label={`Edit ${o.name}`}
-                    title="Edit all offer details"
-                    className="oc-icon-btn"
-                    onClick={onEdit}
-                    disabled={busy}
-                  >
-                    <Pencil size={13.5} />
-                  </button>
-                )}
-                {(editable || !shown) && (
-                  <button
-                    type="button"
-                    aria-label={`Remove ${o.name} from month`}
-                    title="Remove from month plan"
-                    className="oc-icon-btn danger"
-                    onClick={onRemove}
-                    disabled={busy}
-                  >
-                    <Minus size={14} />
-                  </button>
-                )}
-                {editable && onDelete && (
-                  <button
-                    type="button"
-                    aria-label={`Delete ${o.name}`}
-                    title="Delete offer permanently"
-                    className="oc-icon-btn danger"
-                    onClick={onDelete}
-                    disabled={busy}
-                  >
-                    <Trash2 size={13.5} />
-                  </button>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="oc-hero-bottom">
-          <div className="oc-hero-copy">
-            <div className="oc-headline">
-              <h3 className="oc-title">
-                {titleLead && <>{titleLead} </>}
-                <span className="oc-title-accent">{titleAccent}</span>
-              </h3>
-            </div>
-            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
-              <p className="oc-job">{o.headline}</p>
-            )}
-            {offerDescription && <p className="oc-brief">{offerDescription}</p>}
-          </div>
-          <div className="oc-chips">
-            {slotLabel ? (
-              <span className={`oc-chip is-slot slot-${slot}`}>
-                <Sparkles size={10} />
-                {slotLabel}
-              </span>
-            ) : (
-              streamLabel && (
-                <span className="oc-chip is-stream">
-                  <Target size={10} />
-                  {streamLabel}
-                </span>
-              )
-            )}
-            {membership && (
-              <span className="oc-chip">
-                <Tag size={10} />
-                {membership}
-              </span>
-            )}
-            {objectiveLabel && showObjective && <span className="oc-chip">{objectiveLabel}</span>}
-            {o.provenance?.moment && (
-              <span className="oc-chip is-moment" title={`Built around ${o.provenance.moment} this month`}>
-                <CalendarHeart size={10} />
-                {o.provenance.moment}
-              </span>
-            )}
+          <div className="ocv-plate-top">
+            <span className="ocv-index">
+              <em>Offer</em>
+              <b>{offerNum}</b>
+            </span>
             <span
-              className={`oc-chip is-icon ${linked ? 'is-linked' : 'is-solo'}`}
+              className={`ocv-link ${linked ? 'is-linked' : 'is-solo'}`}
               title={linked ? 'Runs at all locations' : 'This location only'}
               aria-label={linked ? 'Runs at all locations' : 'This location only'}
             >
-              {linked ? <Link2 size={10} /> : <Unlink size={10} />}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="oc-sheet">
-        {/* The figures, in two tiers. The three that carry the month — revenue, units and
-            contribution — sit on the first row as large serif figures over their own meter;
-            price, client value and discount follow as smaller supporting facts. */}
-        <div className="oc-stats">
-          <div className="oc-stat is-primary" style={{ ['--fill' as string]: `${Math.round(revenueBar)}%` }}>
-            <span className="oc-stat-label">
-              <TrendingUp size={12} />
-              Revenue
-            </span>
-            <span className="oc-stat-value">{revenue !== null ? lakh(revenue) : '—'}</span>
-            <small className="oc-stat-note">
-              {sharePct !== null
-                ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}% of ${monthTarget ? lakh(monthTarget) : 'the'} target`
-                : 'No forecast'}
-            </small>
-            <span className="oc-meter" aria-hidden="true">
-              <i />
-            </span>
-          </div>
-          <div className="oc-stat is-primary" style={{ ['--fill' as string]: `${Math.round(unitsBar)}%` }}>
-            <span className="oc-stat-label">
-              <Package size={12} />
-              Units
-            </span>
-            <span className="oc-stat-value">
-              {number(units)}
-              {perWeek > 0 && <em>~{perWeek}/wk</em>}
-            </span>
-            <small className="oc-stat-note">
-              {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
-            </small>
-            <span className="oc-meter" aria-hidden="true">
-              <i />
-            </span>
-          </div>
-          <div
-            className="oc-stat is-primary"
-            style={{ ['--fill' as string]: `${Math.round(marginBar)}%` }}
-            title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
-          >
-            <span className="oc-stat-label">
-              <Wallet size={12} />
-              Contribution
-            </span>
-            <span className={contribution === null ? 'oc-stat-value is-muted' : 'oc-stat-value'}>
-              {contribution === null ? '—' : lakh(contribution)}
-            </span>
-            <small className="oc-stat-note">
-              {marginPct !== null ? `${marginPct.toFixed(0)}% margin` : 'Costs pending'}
-            </small>
-            <span className="oc-meter" aria-hidden="true">
-              <i />
+              {linked ? <Link2 size={11} /> : <Unlink size={11} />}
+              {linked ? 'All rooms' : 'Solo'}
             </span>
           </div>
 
-          <div className="oc-stat is-support">
-            <span className="oc-stat-label">
-              <Tag size={12} />
-              {offerColLabel}
-            </span>
-            <span className="oc-stat-value">
-              {offerPrice ? money(offerPrice) : '—'}
-              {strikePrice && <s>{money(strikePrice)}</s>}
-            </span>
-            <StatGauge value={ticketBar} />
-            <small className="oc-stat-note">
-              {strikePrice
-                ? `of ${money(strikePrice)} list`
-                : isBlendedTicket && featuredSell
-                  ? `vs ${money(featuredSell)} featured`
-                  : list
-                    ? `of ${money(list)} list`
-                    : 'No list comparison'}
-            </small>
-          </div>
-          <div className="oc-stat is-support">
-            <span className="oc-stat-label">
-              <Users size={12} />
-              Client gets
-            </span>
-            <span className="oc-stat-value">{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</span>
-            <StatGauge value={valueBar} />
-            <small className="oc-stat-note">
-              {hasCashDiscount ? 'Off the list price' : effPct > 0 ? 'In perks & extras' : 'No price cut'}
-            </small>
-          </div>
-          <div className="oc-stat is-support">
-            <span className="oc-stat-label">
-              <Percent size={12} />
-              Eff. discount
-            </span>
-            <span className={effPct > 0 ? 'oc-stat-value' : 'oc-stat-value is-muted'}>
-              {effPct > 0 ? fmtPct(effPct) : 'None'}
-            </span>
-            <StatGauge value={valueBar} soft={cashBar} />
-            <small className="oc-stat-note">
-              {cashBar > 0 ? 'Cash + perk value' : effPct > 0 ? 'Perk value only' : 'No discount'}
-            </small>
-          </div>
-        </div>
-
-        {/* Spec sheet: the commercial record as ruled label → value lines, so the whole offer
-            reads without opening anything. Approval sits in its header. */}
-        <div className="oc-spec">
-          <div className="oc-spec-head">
-            <span className="oc-spec-title">
-              <FileText size={13} />
-              Offer spec
-            </span>
-            <div className="oc-actions">
-              {canApprove ? (
-                <button
-                  type="button"
-                  role="checkbox"
-                  aria-checked={shown}
-                  className={`oc-check${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
-                  title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
-                  disabled={pending !== null}
-                  onClick={() => {
-                    setPending(!shown);
-                    Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
-                  }}
-                >
-                  <Check size={13} strokeWidth={2.75} />
-                  <span>{shown ? 'Approved' : 'Approve'}</span>
-                </button>
-              ) : shown ? (
-                <span className="oc-status-approved">
-                  <Check size={12} strokeWidth={2.75} /> Approved
+          <div className="ocv-plate-foot">
+            <span className="ocv-plate-label">{titleCase(o.offer_type) || slotLabel || streamLabel || 'Offer'}</span>
+            <div className="ocv-chips">
+              {membership && (
+                <span className="ocv-chip">
+                  <Tag size={10} />
+                  {membership}
                 </span>
-              ) : null}
+              )}
+              {objectiveLabel && showObjective && <span className="ocv-chip">{objectiveLabel}</span>}
+              {o.provenance?.moment && (
+                <span className="ocv-chip is-moment" title={`Built around ${o.provenance.moment} this month`}>
+                  <CalendarHeart size={10} />
+                  {o.provenance.moment}
+                </span>
+              )}
             </div>
           </div>
-          {specRows.map(row => (
-            <div key={row.label} className="oc-spec-row">
-              <span className="oc-spec-label">{row.label}</span>
-              <p className="oc-spec-value">{row.value}</p>
-            </div>
-          ))}
         </div>
 
-        <div className="oc-meta">
-          <div className="oc-meta-item">
-            <span className="oc-meta-icon">
-              <Users size={15} />
-            </span>
-            <div>
-              <span className="oc-label">Who</span>
+        <div className="ocv-body">
+          <header className="ocv-head">
+            <div className="ocv-head-top">
+              <span className="ocv-eyebrow">
+                {[slotLabel || streamLabel, objectiveLabel && showObjective ? objectiveLabel : null]
+                  .filter(Boolean)
+                  .join(' · ') || 'Offer plan'}
+              </span>
+              {(editable || (canSwap && !shown)) && (
+                <div className="ocv-tools">
+                  {canSwap && !shown && (
+                    <button
+                      type="button"
+                      aria-label={`Generate a new offer with AI in place of ${o.name}`}
+                      title="Generate with AI — a new, better-optimised offer replaces this one"
+                      className={`ocv-tool is-ai${regenerating ? ' is-loading' : ''}`}
+                      onClick={onSwap}
+                      disabled={busy || regenerating}
+                      aria-busy={regenerating}
+                    >
+                      {regenerating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
+                    </button>
+                  )}
+                  {editable && onDuplicate && (
+                    <button
+                      type="button"
+                      aria-label={`Duplicate ${o.name}`}
+                      title="Duplicate as new offer"
+                      className="ocv-tool"
+                      onClick={onDuplicate}
+                      disabled={busy}
+                    >
+                      <Copy size={14} />
+                    </button>
+                  )}
+                  {editable && (
+                    <button
+                      type="button"
+                      aria-label={`Edit ${o.name}`}
+                      title="Edit all offer details"
+                      className="ocv-tool"
+                      onClick={onEdit}
+                      disabled={busy}
+                    >
+                      <Pencil size={14} />
+                    </button>
+                  )}
+                  {(editable || !shown) && (
+                    <button
+                      type="button"
+                      aria-label={`Remove ${o.name} from month`}
+                      title="Remove from month plan"
+                      className="ocv-tool is-danger"
+                      onClick={onRemove}
+                      disabled={busy}
+                    >
+                      <Minus size={15} />
+                    </button>
+                  )}
+                  {editable && onDelete && (
+                    <button
+                      type="button"
+                      aria-label={`Delete ${o.name}`}
+                      title="Delete offer permanently"
+                      className="ocv-tool is-danger"
+                      onClick={onDelete}
+                      disabled={busy}
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <h3 className="ocv-title">
+              {titleLead && <>{titleLead} </>}
+              <span className="ocv-title-accent">{titleAccent}</span>
+            </h3>
+
+            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
+              <p className="ocv-lede">{o.headline}</p>
+            )}
+            {offerDescription && <p className="ocv-brief">{offerDescription}</p>}
+          </header>
+
+          {/* The figures that carry the month: revenue first and largest, then the units it
+            needs and what it leaves behind. */}
+          <div className="ocv-figures">
+            <div
+              className="ocv-fig is-hero"
+              style={{ ['--fill' as string]: `${Math.round(revenueBar)}%` } as React.CSSProperties}
+            >
+              <span className="ocv-fig-label">
+                <TrendingUp size={12} />
+                Forecast revenue
+              </span>
+              <strong className="ocv-fig-value">{revenue !== null ? lakh(revenue) : '—'}</strong>
+              <span className="ocv-fig-note">
+                {sharePct !== null
+                  ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}% of ${monthTarget ? lakh(monthTarget) : 'the'} target`
+                  : 'No forecast yet'}
+              </span>
+              <span className="ocv-meter" aria-hidden="true">
+                <i />
+              </span>
+            </div>
+
+            <div
+              className="ocv-fig"
+              style={{ ['--fill' as string]: `${Math.round(unitsBar)}%` } as React.CSSProperties}
+            >
+              <span className="ocv-fig-label">
+                <Package size={12} />
+                Buyers needed
+              </span>
+              <strong className="ocv-fig-value">
+                {number(units)}
+                {perWeek > 0 && <em>~{perWeek}/wk</em>}
+              </strong>
+              <span className="ocv-fig-note">
+                {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
+              </span>
+              <span className="ocv-meter" aria-hidden="true">
+                <i />
+              </span>
+            </div>
+
+            <div
+              className="ocv-fig"
+              style={{ ['--fill' as string]: `${Math.round(marginBar)}%` } as React.CSSProperties}
+              title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
+            >
+              <span className="ocv-fig-label">
+                <Wallet size={12} />
+                Contribution
+              </span>
+              <strong className={`ocv-fig-value${contribution === null ? ' is-muted' : ''}`}>
+                {contribution === null ? '—' : lakh(contribution)}
+              </strong>
+              <span className="ocv-fig-note">
+                {marginPct !== null ? `${marginPct.toFixed(0)}% margin` : 'Costs pending'}
+              </span>
+              <span className="ocv-meter" aria-hidden="true">
+                <i />
+              </span>
+            </div>
+          </div>
+
+          {/* The mechanics, read as three facts on one rule rather than three more cards. */}
+          <div className="ocv-facts">
+            <div className="ocv-fact">
+              <span className="ocv-fact-label">{offerColLabel}</span>
+              <b>
+                {offerPrice ? money(offerPrice) : '—'}
+                {strikePrice && <s>{money(strikePrice)}</s>}
+              </b>
+              <em>
+                {strikePrice
+                  ? `of ${money(strikePrice)} list`
+                  : isBlendedTicket && featuredSell
+                    ? `vs ${money(featuredSell)} featured`
+                    : list
+                      ? `of ${money(list)} list`
+                      : 'No list comparison'}
+              </em>
+              <span
+                className="ocv-fact-bar"
+                aria-hidden="true"
+                style={{ ['--fill' as string]: `${Math.round(ticketBar)}%` } as React.CSSProperties}
+              />
+            </div>
+            <div className="ocv-fact">
+              <span className="ocv-fact-label">Client gets</span>
+              <b>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</b>
+              <em>{hasCashDiscount ? 'Off the list price' : effPct > 0 ? 'In perks & extras' : 'No price cut'}</em>
+              <span
+                className="ocv-fact-bar"
+                aria-hidden="true"
+                style={{ ['--fill' as string]: `${Math.round(valueBar)}%` } as React.CSSProperties}
+              />
+            </div>
+            <div className="ocv-fact">
+              <span className="ocv-fact-label">Effective discount</span>
+              <b className={effPct > 0 ? '' : 'is-muted'}>{effPct > 0 ? fmtPct(effPct) : 'None'}</b>
+              <em>{cashBar > 0 ? 'Cash + perk value' : effPct > 0 ? 'Perk value only' : 'No discount'}</em>
+              <span
+                className="ocv-fact-bar"
+                aria-hidden="true"
+                style={{ ['--fill' as string]: `${Math.round(Math.max(cashBar, valueBar))}%` } as React.CSSProperties}
+              />
+            </div>
+          </div>
+
+          {/* The record: the whole commercial case, in print, always open. */}
+          <section className="ocv-record" aria-label={`${o.name} — the offer record`}>
+            <div className="ocv-record-head">
+              <span className="ocv-record-title">
+                <FileText size={13} />
+                The record
+              </span>
+              <span className="ocv-record-meta">{specRows.length} lines</span>
+            </div>
+            <dl className="ocv-spec">
+              {specRows.map(row => (
+                <div key={row.label} className="ocv-spec-row">
+                  <dt>{row.label}</dt>
+                  <dd>{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <div className="ocv-who">
+            <div className="ocv-who-cell">
+              <span className="ocv-who-label">
+                <Users size={12} /> Who
+              </span>
               <b>{o.audience || 'All clients'}</b>
             </div>
-          </div>
-          <div className="oc-meta-item">
-            <span className="oc-meta-icon">
-              <Calendar size={15} />
-            </span>
-            <div>
-              <span className="oc-label">When</span>
+            <div className="ocv-who-cell">
+              <span className="ocv-who-label">
+                <Calendar size={12} /> When
+              </span>
               <b>
                 {windowText} · {days} days
               </b>
             </div>
-          </div>
-          <div className="oc-meta-item">
-            <span className="oc-meta-icon">
-              <Tag size={15} />
-            </span>
-            <div>
-              <span className="oc-label">How</span>
+            <div className="ocv-who-cell">
+              <span className="ocv-who-label">
+                <Tag size={12} /> How
+              </span>
               <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
             </div>
           </div>
-        </div>
 
-        <div className="oc-sign">
-          <span>{[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}</span>
-          <i aria-hidden="true">//</i>
+          <footer className="ocv-foot">
+            <span className="ocv-sign">
+              {[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}
+            </span>
+            {canApprove ? (
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked={shown}
+                className={`ocv-approve${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
+                title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
+                disabled={pending !== null}
+                onClick={() => {
+                  setPending(!shown);
+                  Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
+                }}
+              >
+                <Check size={13} strokeWidth={2.75} />
+                <span>{shown ? 'Approved' : 'Approve'}</span>
+              </button>
+            ) : shown ? (
+              <span className="ocv-approved-mark">
+                <Check size={12} strokeWidth={2.75} /> Approved
+              </span>
+            ) : null}
+          </footer>
         </div>
       </div>
     </article>

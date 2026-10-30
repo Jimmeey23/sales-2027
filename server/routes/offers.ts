@@ -480,6 +480,9 @@ export default function registerOffersRoutes(app: Express) {
     const clauses = ['1=1'],
       params: any[] = [];
     if (req.query.includeDemo !== 'true') clauses.push("COALESCE(o.data_mode,'')!='demo' AND COALESCE(o.generation_source,'')!='demo_seed'");
+    // Archived offers leave every list unless a caller asks for them by status — otherwise a
+    // replaced plan keeps turning up in the bank it was replaced in.
+    if (!req.query.status) clauses.push("COALESCE(o.status,'')!='archived'");
     const studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
     if (studioId) {
       clauses.push('(o.studio_id=? OR o.studio_id IS NULL)');
