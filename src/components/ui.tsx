@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AlertCircle, Check, ChevronDown, Info, LoaderCircle, X } from 'lucide-react';
+import { AlertCircle, Check, ChevronDown, Info, X } from 'lucide-react';
 import { titleCase } from '../types';
 
 export function Button({
@@ -262,21 +262,50 @@ export function Drawer({
     </div>
   );
 }
+/* One heartbeat, drawn as a path so the trace can travel along it. Three beats sit
+   side by side; the bright segment runs the length of the path and reads as a pulse
+   moving through a resting line. Built here rather than hand-written so the geometry
+   stays symmetrical. */
+const ECG_BEATS = 3;
+const ECG_BEAT = 64;
+const ECG_BASELINE = 20;
+const ECG_PATH = Array.from({ length: ECG_BEATS }, (_, i) => {
+  const b = i * ECG_BEAT;
+  const lead = i === 0 ? `M 0 ${ECG_BASELINE}` : '';
+  return (
+    `${lead} L ${b + 10} ${ECG_BASELINE}` +
+    // P wave — the small atrial rise before the beat.
+    ` C ${b + 13} ${ECG_BASELINE} ${b + 14} 16.5 ${b + 17} 16.5` +
+    ` C ${b + 20} 16.5 ${b + 21} ${ECG_BASELINE} ${b + 24} ${ECG_BASELINE}` +
+    // QRS — the beat itself.
+    ` L ${b + 28} ${ECG_BASELINE} L ${b + 30.5} 23 L ${b + 34} 3 L ${b + 37.5} 31 L ${b + 40} ${ECG_BASELINE}` +
+    // T wave — the recovery.
+    ` L ${b + 46} ${ECG_BASELINE}` +
+    ` C ${b + 49} ${ECG_BASELINE} ${b + 50} 14 ${b + 53} 14` +
+    ` C ${b + 56} 14 ${b + 57} ${ECG_BASELINE} ${b + 60} ${ECG_BASELINE}` +
+    ` L ${b + ECG_BEAT} ${ECG_BASELINE}`
+  );
+}).join(' ');
+
+/* The waiting mark: a heartbeat wave, and nothing else. No label, no dots, no mark
+   stacked beside it — the pulse is the whole state. The label survives only as the
+   accessible name, for screen readers. */
+export function Heartbeat({ className = '' }: { className?: string }) {
+  return (
+    <span className={`hb ${className}`.trim()} aria-hidden="true">
+      <svg viewBox={`0 0 ${ECG_BEATS * ECG_BEAT} 40`} focusable="false">
+        <path className="hb-track" d={ECG_PATH} />
+        <path className="hb-glow" d={ECG_PATH} pathLength={100} />
+        <path className="hb-trace" d={ECG_PATH} pathLength={100} />
+      </svg>
+    </span>
+  );
+}
+
 export function Loading({ label = 'Loading intelligence…' }: { label?: string }) {
   return (
-    <div className="loading p57-loader" role="status" aria-live="polite">
-      <span className="atl-orbit" aria-hidden="true">
-        <i className="atl-orbit-arc" />
-        <i className="atl-orbit-arc is-inner" />
-        <i className="atl-orbit-arc is-outer" />
-        <i className="atl-orbit-core" />
-      </span>
-      <span className="atl-loader-label">{label}</span>
-      <span className="atl-loader-dots" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-      </span>
+    <div className="loading p57-loader" role="status" aria-live="polite" aria-label={label}>
+      <Heartbeat />
     </div>
   );
 }

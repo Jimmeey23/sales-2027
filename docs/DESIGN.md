@@ -70,6 +70,6 @@ Defined once in `src/data/locations.ts`.
 | Month overview | `pages/plan/MonthOverview.tsx` (`.mo2*`, `atelier.css` §22) | The month's opening page: photograph, the four figures that decide it, the split / funnel / renewal gap as drawn cards, then the prose. |
 | Year calendar | `pages/plan/YearCalendar.tsx` (`.yc*`, `yearcal.css`) | A season curve over a filmstrip of twelve month covers; each tile opens its month. |
 | Studio intelligence | `components/StudioAi.tsx` (`.ai*`, `atelier.css` §23) + `server/lib/studioAi.ts` | Five deterministic tools over one month: audit, copy, names, actions, goals. Nothing is written back until the reader copies it in. |
-| Loaders | `components/ui.tsx` (`Loading`, `LoadingRows`), `atelier.css` §21 | Three gold arcs around a breathing core, with a shimmering label; skeleton rows for lists still arriving. |
+| Loaders | `components/ui.tsx` (`Loading`, `Heartbeat`, `LoadingRows`), `atelier.css` §21 | A single heartbeat: a quiet ECG trace with one gold pulse travelling its length. That is the whole loading state — no label, no dots, no mark stacked beside it; the label survives only as the accessible name. Skeleton rows remain for lists still arriving. |
 | Keyboard | `components/Layout.tsx` (`ShortcutsSheet`), `atelier.css` §24 | `⌘K` palette, `?` for the key map, `Esc` to close. Shortcuts never fire while a field has focus. |
 | Offer studio density | `pages/plan/OffersTab.tsx` (`.os-density`, `atelier.css` §25) | Comfortable or compact rows, remembered per browser. |

@@ -5089,133 +5089,96 @@ details.membership-terms > summary {
 }
 
 /* ── 21. Loaders ─────────────────────────────────────────────────────────────
-   The waiting state is an orbital mark: three gold arcs at different radii and
-   speeds around a breathing core, so a slow fetch reads as machinery turning
-   over rather than a spinner. Everything stills when motion is reduced. */
+   The waiting state is a single heartbeat. One calm line, one bright pulse running
+   its length — the ECG trace that a studio's day is measured in. Nothing is stacked
+   beside it: no label, no dots, no orbiting mark. The pulse is the whole signal, so
+   the resting line stays faint and only the travelling segment carries weight. */
+
+/* The mark itself. */
+.hb {
+  display: block;
+  width: 168px;
+  /* The mark keeps its own proportions: the box is the viewBox's 192:40, so the
+     spike is never squashed by whatever width the panel gives it. */
+  aspect-ratio: 192 / 40;
+  color: var(--gold);
+}
+.hb svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.hb path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* The resting trace: quiet enough to be a line, present enough that the pulse has
+   somewhere to travel. */
+.hb svg .hb-track {
+  stroke: color-mix(in srgb, var(--gold) 34%, transparent);
+  stroke-width: 1.4;
+}
+/* The pulse. A dash a few per cent of the path long, riding the line with a soft
+   halo under it — it climbs the QRS spike rather than sliding a box across it, which
+   is what makes the beat read in the body. */
+.hb svg .hb-trace {
+  stroke: var(--gold);
+  stroke-width: 2.4;
+  stroke-dasharray: 4.2 95.8;
+  stroke-dashoffset: 4.2;
+  animation: hb-travel 2.4s cubic-bezier(0.52, 0.06, 0.4, 0.94) infinite;
+}
+.hb svg .hb-glow {
+  stroke: color-mix(in srgb, var(--gold) 55%, transparent);
+  stroke-width: 5.4;
+  stroke-dasharray: 4.2 95.8;
+  stroke-dashoffset: 4.2;
+  filter: blur(1.7px);
+  opacity: 0.42;
+  animation: hb-travel 2.4s cubic-bezier(0.52, 0.06, 0.4, 0.94) infinite;
+}
+/* The pulse fades up as it enters and settles out at the end of the sweep, so the
+   loop reads as a beat going by rather than a mark juddering round. */
+@keyframes hb-travel {
+  0% {
+    stroke-dashoffset: 4.2;
+    opacity: 0;
+  }
+  9% {
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    stroke-dashoffset: -95.8;
+    opacity: 0;
+  }
+}
+
+/* The loading states. `Loading` renders the wave alone, centred in its panel; the
+   boot screen keeps only the brand mark above it. */
 .p57-loader {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
   min-height: 220px;
   padding: 24px;
   color: var(--muted);
 }
-.p57-loader .atl-orbit {
-  position: relative;
-  display: block;
-  width: 62px;
-  height: 62px;
+.p57-loader .hb {
+  width: min(190px, 62%);
 }
-.p57-loader .atl-orbit-arc {
-  position: absolute;
-  inset: 12px;
-  border-radius: 50%;
-  border: 1.6px solid transparent;
-  border-top-color: var(--gold);
-  border-right-color: color-mix(in srgb, var(--gold) 34%, transparent);
-  animation: atl-spin 1.35s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
-}
-.p57-loader .atl-orbit-arc.is-inner {
-  inset: 20px;
-  border-top-color: color-mix(in srgb, var(--a1, #45403a) 80%, var(--gold));
-  border-right-color: transparent;
-  animation-duration: 0.95s;
-  animation-direction: reverse;
-}
-.p57-loader .atl-orbit-arc.is-outer {
-  inset: 3px;
-  border-top-color: color-mix(in srgb, var(--gold) 45%, transparent);
-  border-right-color: transparent;
-  animation-duration: 2.1s;
-}
-.p57-loader .atl-orbit-core {
-  position: absolute;
-  inset: 26px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff, var(--champagne) 65%, var(--gold) 130%);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 12%, transparent);
-  animation: atl-core 1.8s ease-in-out infinite;
-}
-.p57-loader .atl-loader-label {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--subtle);
-  background: linear-gradient(100deg, var(--subtle) 30%, var(--ink) 46%, var(--subtle) 62%);
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: atl-shimmer 2.4s linear infinite;
-}
-.p57-loader .atl-loader-dots {
-  display: inline-flex;
-  gap: 5px;
-}
-.p57-loader .atl-loader-dots i {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--gold);
-  opacity: 0.35;
-  animation: atl-dot 1.25s ease-in-out infinite;
-}
-.p57-loader .atl-loader-dots i:nth-child(2) {
-  animation-delay: 0.14s;
-}
-.p57-loader .atl-loader-dots i:nth-child(3) {
-  animation-delay: 0.28s;
-}
-.p57-loader svg {
-  display: none;
-}
-@keyframes atl-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes atl-core {
-  0%,
-  100% {
-    transform: scale(0.86);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 10%, transparent);
-  }
-  50% {
-    transform: scale(1);
-    box-shadow: 0 0 0 8px color-mix(in srgb, var(--gold) 6%, transparent);
-  }
-}
-@keyframes atl-shimmer {
-  from {
-    background-position: 120% 0;
-  }
-  to {
-    background-position: -120% 0;
-  }
-}
-@keyframes atl-dot {
-  0%,
-  100% {
-    opacity: 0.25;
-    transform: translateY(0);
-  }
-  40% {
-    opacity: 1;
-    transform: translateY(-3px);
-  }
-}
-
-/* The boot screen: brand, ring and label on the warm canvas. */
+/* The boot screen: brand over the wave on the warm canvas. */
 .app-loading {
   min-height: 100vh;
   display: grid;
   place-content: center;
   justify-items: center;
-  gap: 22px;
+  gap: 26px;
   background: radial-gradient(120% 90% at 50% 0%, #fdfbf7 0%, var(--canvas) 46%, var(--canvas-deep) 100%);
 }
 .app-loading .loading-brand {
@@ -5225,16 +5188,25 @@ details.membership-terms > summary {
   gap: 12px;
   animation: atl-rise 0.7s cubic-bezier(0.22, 0.8, 0.24, 1) both;
 }
-.app-loading .loading-brand span {
-  font-size: 9.5px;
-  font-weight: 620;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: var(--gold-deep);
+/* Boot screen: the mark, then the wave. The wordmark beneath the mark would be a
+   caption competing with the pulse, so it is kept for screen readers only. */
+.app-loading .loading-brand > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 .app-loading .p57-loader {
   min-height: 0;
   padding: 0;
+}
+.app-loading .p57-loader .hb {
+  width: min(236px, 68vw);
 }
 @keyframes atl-rise {
   from {
@@ -5276,18 +5248,21 @@ details.membership-terms > summary {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .p57-loader .atl-orbit-arc,
-  .p57-loader .atl-orbit-core,
-  .p57-loader .atl-loader-label,
-  .p57-loader .atl-loader-dots i,
+  .hb svg .hb-trace,
+  .hb svg .hb-glow,
   .atl-skeleton > span,
   .atl-skeleton > span > i,
   .app-loading .loading-brand {
     animation: none;
   }
-  .p57-loader .atl-loader-label {
-    -webkit-text-fill-color: currentColor;
-    color: var(--subtle);
+  /* Stillness must not read as an empty state: hold the pulse on the beat itself. */
+  .hb svg .hb-trace,
+  .hb svg .hb-glow {
+    stroke-dashoffset: -25;
+    opacity: 1;
+  }
+  .hb svg .hb-glow {
+    opacity: 0.35;
   }
 }
 

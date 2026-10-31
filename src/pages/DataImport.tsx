@@ -22,6 +22,7 @@ import {
   Card,
   CardHeader,
   Field,
+  Heartbeat,
   Input,
   Modal,
   Select,
@@ -351,7 +352,7 @@ export default function DataImport() {
             <div className="validation-step">
               {busy ? (
                 <div className="validation-loading">
-                  <div className="spinner-large" />
+                  <Heartbeat />
                   <h3>Validating rows and checking duplicates…</h3>
                   <p>The staged import worker is processing the complete file. You do not need to re-upload.</p>
                 </div>
