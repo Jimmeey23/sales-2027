@@ -5069,17 +5069,26 @@ details.membership-terms > summary {
    The waiting state is one heartbeat, and the heartbeat is the name. A single pen line
    enters on the baseline, beats, and then writes 57 into itself — the bar of the 5 runs
    straight on to become the bar of the 7, so the whole mark is one connected stroke
-   rather than two shapes standing next to each other. The blue arrives along that line
-   as it beats. Nothing is stacked beside it: no logotype, no wordmark, no label. */
+   rather than two shapes standing next to each other. Nothing is stacked beside it: no
+   logotype, no wordmark, no label.
 
-/* The blue the trace fills with. It is the one cool accent in a warm room, which is
-   exactly why it reads as something arriving rather than as decoration. */
+   The drawing is built in layers the way a line of ink is: the resting trace underneath
+   (what has not been written), the stroke itself with a lit core inside it, a comet of
+   wet ink behind the nib, the nib's own bloom, an aura that breathes with the beat, and
+   — once the mark is complete — a glint that runs its whole length. Every layer is CSS;
+   the timings below are the same window for all of them, so nothing drifts. */
+
+/* The ink's palette. One cool accent in a warm room, which is exactly why it reads as
+   something arriving rather than as decoration. */
 :root {
   --pulse: #1f5fd6;
   --pulse-bright: #4b87ee;
+  --hb-cycle: 2.9s;
+  /* The whole drawing happens in the first 70% of the cycle; the last 30% is the hold,
+     the glint, and the letting go. */
+  --hb-draw: 70%;
 }
 
-/* The mark itself. */
 .hb {
   display: block;
   width: 188px;
@@ -5101,119 +5110,318 @@ details.membership-terms > summary {
   stroke-linejoin: round;
 }
 
+/* The horizon the trace sits on. It runs past the mark on both sides and fades out, so
+   the composition reads as a line on a page rather than a floating scribble. */
+.hb svg .hb-rule {
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+/* The aura: a pool of cool light under the whole mark, breathing once with the beat and
+   once when the mark completes. */
+.hb svg .hb-aura {
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: blur(10px);
+  opacity: 0.5;
+  animation: hb-aura var(--hb-cycle) ease-in-out infinite;
+}
+
 /* The resting line: the shape that has not been written yet. Quiet, but present — the
-   numerals sit faintly in the trace before the blue reaches them, so the eye is never
-   waiting on nothing. */
+   numerals sit faintly in the trace before the ink reaches them. */
 .hb svg .hb-track {
-  stroke: color-mix(in srgb, var(--ink) 22%, transparent);
+  stroke: color-mix(in srgb, var(--ink) 20%, transparent);
   stroke-width: 2.2;
 }
 
-/* The fill. `pathLength=100` on the stroke means one dash of 100 covers it exactly, so
-   the animation is just the dash sliding off the path — the line appears behind it. The
-   gap is far longer than the path on purpose: with a gap of 100 the pattern would repeat
-   inside the stroke, and while the fill sat empty its second dash would land on the last
-   point and paint a stray dot at the end of the tail. */
+/* The stroke, with the light inside it. `pathLength=100` on each stroke means one dash
+   of 100 covers it exactly, so the animation is just the dash sliding off the path — the
+   line appears behind it. The gap is far longer than the path on purpose: with a gap of
+   100 the pattern repeats inside the stroke, and while the fill sat empty its second dash
+   would land on the last point and paint a stray dot at the end of the tail. */
 .hb svg .hb-fill {
-  stroke: var(--pulse);
-  stroke-width: 4.2;
+  stroke-width: 4.4;
   stroke-dasharray: 100 900;
   stroke-dashoffset: 100;
-  opacity: 0;
-  animation: hb-write 2.4s linear infinite;
+  animation:
+    hb-draw var(--hb-cycle) linear infinite,
+    hb-swell var(--hb-cycle) ease-out infinite;
+}
+/* The ink's edge, bleeding a little into the paper. It is the stroke's own shadow, so it
+   appears exactly where the line does — and it is what stops a 5 px line reading as a
+   flat rule on a warm ground. */
+.hb svg .hb-bleed {
+  stroke: color-mix(in srgb, #0f3e93 72%, transparent);
+  stroke-width: 8;
+  filter: blur(2.2px);
+  stroke-dasharray: 100 900;
+  stroke-dashoffset: 100;
+  opacity: 0.5;
+  animation: hb-draw var(--hb-cycle) linear infinite;
 }
 
-/* The pen: a dot made of a hair of dash with a round cap, carried along the same path so
-   it always sits at the tip of the fill. The bloom under it is the same dot, wide and
-   blurred, which is what makes the blue look like it is being laid down. Its offset runs
-   negative — a hair of a dash with a 100 gap repeats every 100.001 units, so the dot only
-   moves forward as the offset comes down from 0 to -100. */
-.hb svg .hb-pen,
-.hb svg .hb-glow {
-  /* A hair of a dash, and a gap longer than the whole path so only ever one dot exists:
-     a gap of 100 would put a second dot at the start of the line once the offset has
-     run negative. */
+/* The comet: a short, wide, blurred length of the same line that trails the nib, so the
+   ink looks wet rather than printed. It sits seven units behind the tip. */
+.hb svg .hb-trail {
+  stroke: var(--pulse-bright);
+  stroke-width: 10;
+  filter: blur(4px);
+  /* Dash lengths here are in the stroke's own 0-100 space, not in user units: a comet
+     of 2.4 is about eighteen units of line, which is what a wet edge looks like. */
+  stroke-dasharray: 2.4 900;
+  stroke-dashoffset: 2.4;
+  opacity: 0;
+  animation: hb-trail var(--hb-cycle) linear infinite;
+}
+
+/* The nib: a bloom under a bright core. The bloom is the same dot, wide and blurred. */
+.hb svg .hb-bloom {
+  stroke: color-mix(in srgb, var(--pulse) 70%, transparent);
+  stroke-width: 15;
+  filter: blur(4.5px);
   stroke-dasharray: 0.001 900;
   stroke-dashoffset: 0;
   opacity: 0;
-  animation: hb-pen 2.4s linear infinite;
+  animation: hb-head var(--hb-cycle) linear infinite;
 }
-.hb svg .hb-pen {
-  stroke: var(--pulse-bright);
-  stroke-width: 6.5;
-}
-.hb svg .hb-glow {
-  stroke: color-mix(in srgb, var(--pulse) 58%, transparent);
-  stroke-width: 14;
-  filter: blur(4.5px);
+.hb svg .hb-core {
+  stroke: #eef5ff;
+  stroke-width: 3.6;
+  stroke-dasharray: 0.001 900;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  animation: hb-head var(--hb-cycle) linear infinite;
 }
 
-/* One cycle: the line is written from the first beat to the last, holds complete for a
-   beat, and lets go so the next one starts on a clean line. The easing is written on the
-   stops inside the writing window, not just the first, because a keyframe without one
-   falls back to the animation's own easing: the pen would travel linear while the fill
-   eased, and the dot would drift off the end of the line. */
-@keyframes hb-write {
+/* The glint: once the mark is written, a short bright length of it travels the whole
+   path once — light catching a line that has just been laid down. */
+.hb svg .hb-glint {
+  stroke: #f7fbff;
+  stroke-width: 2.1;
+  filter: blur(1.2px);
+  stroke-dasharray: 2.6 900;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  animation: hb-glint var(--hb-cycle) linear infinite;
+}
+
+/* Fade the written mark out at the end of the cycle so the next beat starts clean. The
+   group carries it, so the stroke, its light, the comet and the nib all go together. */
+.hb svg .hb-ink {
+  animation: hb-ink var(--hb-cycle) linear infinite;
+}
+
+/* Order of the beat, as percentages of the cycle:
+   0-70   the line is written         70-73  the nib lifts, the comet dies
+   73-88  the glint runs the mark     88-93  hold
+   93-99  the ink lets go             100    the next beat begins
+   The easing is written on every stop inside its own window: a keyframe without one
+   falls back to the animation's easing, and the nib would then drift off the tip. */
+@keyframes hb-draw {
   0% {
     stroke-dashoffset: 100;
-    opacity: 1;
     animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
   }
-  80% {
+  70% {
     stroke-dashoffset: 0;
-    opacity: 1;
   }
-  90% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-  97%,
   100% {
     stroke-dashoffset: 0;
-    opacity: 0;
   }
 }
-@keyframes hb-pen {
+@keyframes hb-head {
   0% {
     stroke-dashoffset: 0;
     opacity: 0;
     animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
   }
-  5% {
+  4% {
     opacity: 1;
     animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
   }
-  80% {
+  70% {
     stroke-dashoffset: -100;
     opacity: 1;
     animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
   }
-  82%,
+  72%,
   100% {
     stroke-dashoffset: -100;
     opacity: 0;
   }
 }
-
-/* Stillness is not an empty state: with motion off the trace stands finished, in full
-   blue, so the wait still reads as a heartbeat that has already been taken. */
-@media (prefers-reduced-motion: reduce) {
-  .hb svg .hb-fill {
-    animation: none;
+/* Its offset runs negative — a hair of a dash with a 900 gap only moves forward as the
+   offset comes down from 0 to -100, and the long gap keeps one dot on the line at a time. */
+@keyframes hb-trail {
+  0% {
+    stroke-dashoffset: 2.4;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
+  }
+  8% {
+    opacity: 0.4;
+    animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
+  }
+  70% {
+    stroke-dashoffset: -97.6;
+    opacity: 0.4;
+    animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
+  }
+  73%,
+  100% {
+    stroke-dashoffset: -97.6;
+    opacity: 0;
+  }
+}
+@keyframes hb-glint {
+  0%,
+  73% {
     stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  76% {
+    opacity: 0.9;
+  }
+  88% {
+    stroke-dashoffset: -102;
+    opacity: 0.9;
+  }
+  91%,
+  100% {
+    stroke-dashoffset: -102;
+    opacity: 0;
+  }
+}
+@keyframes hb-ink {
+  0% {
     opacity: 1;
   }
-  .hb svg .hb-pen,
-  .hb svg .hb-glow,
+  93% {
+    opacity: 1;
+  }
+  99%,
+  100% {
+    opacity: 0;
+  }
+}
+/* The ink swells for a moment as the mark closes on itself, then settles. It is a stroke
+   width rather than a brightness filter on purpose: a filter on the group re-rasterises
+   the whole mark and softens every edge in it. */
+@keyframes hb-swell {
+  0%,
+  68% {
+    stroke-width: 4.4;
+  }
+  73% {
+    stroke-width: 5.1;
+  }
+  84% {
+    stroke-width: 4.55;
+  }
+  100% {
+    stroke-width: 4.4;
+  }
+}
+/* The aura swells as the beat is drawn and again as the mark closes on itself. */
+@keyframes hb-aura {
+  0% {
+    opacity: 0.34;
+    transform: scale(0.94);
+  }
+  16% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+  34% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  58% {
+    opacity: 0.72;
+    transform: scale(1.03);
+  }
+  70% {
+    opacity: 0.95;
+    transform: scale(1.05);
+  }
+  88% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  99%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.96);
+  }
+}
+
+/* Stillness is not an empty state: with motion off the trace stands finished, lit, with
+   no nib, no comet and no glint. */
+@media (prefers-reduced-motion: reduce) {
+  .hb svg .hb-fill,
+  .hb svg .hb-bleed {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .hb svg .hb-fill {
+    stroke-width: 4.4;
+  }
+  .hb svg .hb-trail,
+  .hb svg .hb-bloom,
+  .hb svg .hb-core,
+  .hb svg .hb-glint,
+  .hb svg .hb-aura,
+  .hb svg .hb-ink,
   .atl-skeleton > span,
   .atl-skeleton > span > i {
     animation: none;
   }
-  /* No pen to follow and nothing being written, so the nib and its bloom are simply
-     not there: the trace stands finished, in full blue. */
-  .hb svg .hb-pen,
-  .hb svg .hb-glow {
+  .hb svg .hb-trail,
+  .hb svg .hb-bloom,
+  .hb svg .hb-core,
+  .hb svg .hb-glint {
     display: none;
+  }
+  .hb svg .hb-aura {
+    opacity: 0.6;
+  }
+}
+
+/* The panel loader: the mark, centred, on its own. */
+.p57-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  padding: 24px;
+  color: var(--muted);
+}
+.p57-loader .hb {
+  width: min(216px, 66%);
+}
+
+/* The boot screen: the heartbeat on the warm canvas, and nothing else. The title of the
+   app used to sit above it; the mark spells the studio's name, so a second name above
+   the first would only be a caption arguing with the trace. */
+.app-loading {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  background: radial-gradient(120% 90% at 50% 0%, #fdfbf7 0%, var(--canvas) 46%, var(--canvas-deep) 100%);
+}
+.app-loading .p57-loader {
+  min-height: 0;
+  padding: 0;
+}
+.app-loading .p57-loader .hb {
+  width: min(410px, 78vw);
+  animation: hb-arrive 0.75s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+@keyframes hb-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
   }
 }
 
@@ -5247,59 +5455,6 @@ details.membership-terms > summary {
     opacity: 0;
     transform: translateY(6px);
   }
-}
-
-/* Stillness is not an empty state: with motion off the trace stands finished, in full
-   blue, so the wait still reads as a heartbeat that has already been taken. */
-@media (prefers-reduced-motion: reduce) {
-  .hb svg .hb-fill {
-    animation: none;
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-  .hb svg .hb-pen,
-  .hb svg .hb-glow,
-  .atl-skeleton > span,
-  .atl-skeleton > span > i {
-    animation: none;
-  }
-  /* No pen to follow and nothing being written, so the nib and its bloom are simply
-     not there: the trace stands finished, in full blue. */
-  .hb svg .hb-pen,
-  .hb svg .hb-glow {
-    display: none;
-  }
-}
-
-/* The panel loader: the mark, centred, on its own. */
-.p57-loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 220px;
-  padding: 24px;
-  color: var(--muted);
-}
-.p57-loader .hb {
-  width: min(216px, 66%);
-}
-
-/* The boot screen: the heartbeat on the warm canvas, and nothing else. The title of the
-   app used to sit above it; the mark spells the studio's name, so a second name above
-   the first would only be a caption arguing with the trace. */
-.app-loading {
-  min-height: 100vh;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  background: radial-gradient(120% 90% at 50% 0%, #fdfbf7 0%, var(--canvas) 46%, var(--canvas-deep) 100%);
-}
-.app-loading .p57-loader {
-  min-height: 0;
-  padding: 0;
-}
-.app-loading .p57-loader .hb {
-  width: min(336px, 78vw);
 }
 
 /* ── 22. The month overview ──────────────────────────────────────────────────

@@ -295,16 +295,70 @@ const HEART_MARK =
   ' L 240 100';
 
 /* The waiting state. The blue is not decoration and not a progress bar: it is the trace
-   being written, in one pass, with the pen riding the tip of the fill and a soft bloom
-   under it — so the colour reads as arriving rather than as a wipe crossing the mark. */
+   being written, in one pass, and the drawing is built up the way a line of ink is —
+   the ink bleeding a little into the paper under the stroke, a soft bloom carried on the
+   nib, and a short comet of wet ink dragging behind the tip.
+
+   Once the mark is complete a glint runs its whole length, the way light catches a
+   freshly written line, and then it lets go and the next beat starts. Everything is
+   driven by the same two dozen lines of CSS: no timers, no JS, no canvas. */
 export function Heartbeat({ className = '' }: { className?: string }) {
+  const id = React.useId();
   return (
     <span className={`hb ${className}`.trim()} aria-hidden="true">
       <svg viewBox="0 0 252 124" focusable="false">
+        <defs>
+          {/* The ink: deep at the foot of the trace, electric where it turns up into the
+              numerals. It is fixed in the drawing's own space, so a single stroke walks
+              the whole ramp as it is laid down. */}
+          <linearGradient id={`${id}-ink`} x1="0" y1="118" x2="252" y2="22" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#0f3e93" />
+            <stop offset="0.45" stopColor="#1d5cd0" />
+            <stop offset="0.8" stopColor="#2f74e8" />
+            <stop offset="1" stopColor="#4384ef" />
+          </linearGradient>
+
+          {/* The aura the whole mark sits in, and the soft edge of the paper rule. */}
+          <radialGradient id={`${id}-aura`} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stopColor="#2f74e8" stopOpacity="0.1" />
+            <stop offset="0.42" stopColor="#2f74e8" stopOpacity="0.05" />
+            <stop offset="0.72" stopColor="#2f74e8" stopOpacity="0.015" />
+            <stop offset="1" stopColor="#2f74e8" stopOpacity="0" />
+          </radialGradient>
+          {/* A straight line has no height, so this has to be measured in user units or
+              the gradient box collapses and the rule paints nothing at all. */}
+          <linearGradient id={`${id}-rule`} x1="-28" y1="0" x2="280" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="var(--ink)" stopOpacity="0" />
+            <stop offset="0.16" stopColor="var(--ink)" stopOpacity="0.3" />
+            <stop offset="0.84" stopColor="var(--ink)" stopOpacity="0.3" />
+            <stop offset="1" stopColor="var(--ink)" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        {/* The rule the trace sits on: a hairline that runs past the mark and fades, so
+            the composition has a horizon rather than a floating scribble. */}
+        <path className="hb-rule" d="M -28 100 L 280 100" stroke={`url(#${id}-rule)`} />
+        <ellipse className="hb-aura" cx="126" cy="64" rx="154" ry="74" fill={`url(#${id}-aura)`} />
+
+        {/* What has not been written yet. */}
         <path className="hb-track" d={HEART_MARK} />
-        <path className="hb-glow" d={HEART_MARK} pathLength={100} />
-        <path className="hb-fill" d={HEART_MARK} pathLength={100} />
-        <path className="hb-pen" d={HEART_MARK} pathLength={100} />
+
+        <g className="hb-ink">
+          <path className="hb-trail" d={HEART_MARK} pathLength={100} />
+          <path className="hb-fill" d={HEART_MARK} pathLength={100} stroke={`url(#${id}-ink)`} />
+          <path
+            className="hb-lit"
+            d={HEART_MARK}
+            pathLength={100}
+            stroke={`url(#${id}-lit)`}
+            transform="translate(0 -1.15)"
+          />
+          <path className="hb-bloom" d={HEART_MARK} pathLength={100} />
+          <path className="hb-core" d={HEART_MARK} pathLength={100} />
+        </g>
+
+        {/* The glint that runs the finished mark. */}
+        <path className="hb-glint" d={HEART_MARK} pathLength={100} />
       </svg>
     </span>
   );
