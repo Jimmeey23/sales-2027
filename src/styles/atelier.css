@@ -7541,6 +7541,650 @@ details.membership-terms > summary {
   }
 }
 
+/* ── 27. The year plan, month by month ───────────────────────────────────────
+   The timeline is the working view of the plan: twelve letters from the studio to
+   itself, one a month. Each opens with the month's promise and sets the target on
+   the right as a plaque; beneath a hairline, the two things that decide the month —
+   where the money comes from, and how much of the renewal it inherits — sit side by
+   side as one band of data; the card closes on four facts. The rail outside the card
+   is the spine of the year: a hairline that fades in and out, with a tab for each
+   month so the eye can run down the year without reading a word. */
+
+.ws-year-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+}
+.ws-year-timeline::before {
+  content: '';
+  position: absolute;
+  left: 31px;
+  top: 30px;
+  bottom: 30px;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--line-strong) 90%, transparent) 6%,
+    color-mix(in srgb, var(--line-strong) 90%, transparent) 92%,
+    transparent 100%
+  );
+}
+.ws-year-timeline li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 16px;
+  position: relative;
+  animation: yt-in 0.42s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+  animation-delay: calc(var(--i, 0) * 28ms);
+}
+@keyframes yt-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+/* The tick from the rail into the card, so the month belongs to its line. */
+.ws-year-timeline li::before {
+  content: '';
+  position: absolute;
+  left: 63px;
+  top: 37px;
+  width: 17px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), color-mix(in srgb, var(--line) 40%, transparent));
+}
+
+/* The month tab: the name in the display face, the index beneath it in small caps. */
+.ws-year-timeline .yt-rail {
+  padding-top: 8px;
+}
+/* Written over the legacy `.yt-rail span` rule in workspace.css, which still wants a
+   circle with an eight-hundred-weight label inside it. */
+.ws-year-timeline .yt-rail .yt-node {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 64px;
+  height: 58px;
+  border-radius: 15px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #fffefb, var(--paper-warm));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 8px 18px -14px rgba(32, 27, 18, 0.45);
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.ws-year-timeline .yt-node em {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--ink);
+}
+.ws-year-timeline .yt-node b {
+  font-size: 8.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: none;
+  color: var(--subtle);
+  font-variant-numeric: tabular-nums;
+}
+.ws-year-timeline li.approved .yt-node,
+.ws-year-timeline li.plan-approved .yt-node {
+  border-color: color-mix(in srgb, var(--green) 38%, var(--line));
+  background: linear-gradient(180deg, #fffefb, color-mix(in srgb, var(--green-soft) 60%, #fff));
+}
+.ws-year-timeline li.approved .yt-node em,
+.ws-year-timeline li.plan-approved .yt-node em {
+  color: var(--green-dark);
+}
+.ws-year-timeline li.approved .yt-node b,
+.ws-year-timeline li.plan-approved .yt-node b {
+  color: color-mix(in srgb, var(--green) 70%, var(--subtle));
+}
+
+/* The card. Warm paper, a hairline, and its own weight — not a shadow the size of a
+   panel, just enough to lift the sheet off the canvas. */
+.ws-year-timeline .yt-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 20px 24px 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fffefb 0%, var(--paper) 42%, var(--paper-warm) 100%);
+  box-shadow:
+    0 1px 2px rgba(32, 27, 18, 0.04),
+    0 20px 44px -38px rgba(32, 27, 18, 0.5);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.18s cubic-bezier(0.22, 0.8, 0.24, 1),
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+.ws-year-timeline .yt-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--a1) 28%, var(--line));
+  box-shadow:
+    0 2px 3px rgba(32, 27, 18, 0.04),
+    0 30px 56px -36px rgba(32, 27, 18, 0.5);
+}
+.ws-year-timeline .yt-card:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--a1) 70%, transparent);
+  outline-offset: 2px;
+}
+.ws-year-timeline li.approved .yt-card,
+.ws-year-timeline li.plan-approved .yt-card {
+  border-color: color-mix(in srgb, var(--green) 26%, var(--line));
+}
+/* The accent edge: a short rule down the binding of the sheet, never a full border. */
+.ws-year-timeline .yt-edge {
+  position: absolute;
+  left: 0;
+  top: 22px;
+  bottom: 22px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: linear-gradient(180deg, var(--a1), color-mix(in srgb, var(--a1) 20%, transparent));
+  opacity: 0.5;
+  transition:
+    top 0.2s ease,
+    bottom 0.2s ease,
+    opacity 0.2s ease;
+}
+.ws-year-timeline .yt-card:hover .yt-edge {
+  top: 14px;
+  bottom: 14px;
+  opacity: 0.7;
+}
+
+/* Head: the month on the left, the target set as a plaque on the right. */
+.ws-year-timeline .yt-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 30px;
+  align-items: start;
+}
+.ws-year-timeline .yt-title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.ws-year-timeline .yt-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.ws-year-timeline .yt-kicker i {
+  padding: 2px 6px 2px 7px;
+  border: 1px solid var(--a1-line);
+  border-radius: 5px;
+  background: var(--a1-soft);
+  color: var(--a1-dark);
+  font-style: normal;
+  letter-spacing: 0.1em;
+}
+.ws-year-timeline .yt-title h3 {
+  margin: 9px 0 0;
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  color: var(--ink-900);
+}
+.ws-year-timeline .yt-title em {
+  margin-top: 7px;
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--a1) 78%, var(--ink));
+}
+.ws-year-timeline .yt-title p {
+  margin: 9px 0 0;
+  max-width: 60ch;
+  font-size: 12.8px;
+  line-height: 1.58;
+  color: var(--muted);
+}
+
+.ws-year-timeline .yt-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 168px;
+  padding: 2px 0 0 26px;
+  border-left: 1px solid var(--line);
+}
+.ws-year-timeline .yt-figure-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.ws-year-timeline .yt-figure strong {
+  font-family: var(--font-display);
+  font-size: 33px;
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.038em;
+  color: var(--ink-950);
+  font-variant-numeric: tabular-nums;
+}
+.ws-year-timeline .yt-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.ws-year-timeline .yt-delta svg {
+  margin-top: -1px;
+}
+.ws-year-timeline .yt-delta.pos {
+  color: var(--green);
+}
+.ws-year-timeline .yt-delta.neg {
+  color: var(--red);
+}
+.ws-year-timeline .yt-delta small {
+  margin-left: 2px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--subtle);
+}
+.ws-year-timeline .yt-kicker .yt-state {
+  margin-left: 2px;
+}
+.ws-year-timeline .yt-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--canvas);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ws-year-timeline .yt-state.is-approved {
+  border-color: var(--emerald-line);
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+.ws-year-timeline .yt-state-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+.ws-year-timeline .yt-open {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 1px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--a1) 85%, var(--ink));
+  opacity: 0.55;
+  transition:
+    opacity 0.18s ease,
+    gap 0.18s ease;
+}
+.ws-year-timeline .yt-card:hover .yt-open {
+  opacity: 1;
+  gap: 4px;
+}
+
+/* The data band: composition on the left, renewal cover on the right, divided by the
+   same hairline that runs round the card. */
+.ws-year-timeline .yt-dates {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 0 0;
+}
+.ws-year-timeline .ws-keydates {
+  margin: 0;
+  gap: 5px;
+  font-size: 10.5px;
+}
+.ws-year-timeline .ws-keydates > span {
+  font-size: 10.5px;
+}
+
+.ws-year-timeline .yt-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(232px, 0.8fr);
+  margin: 15px -24px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(247, 245, 240, 0.5), rgba(253, 251, 247, 0.62));
+}
+.ws-year-timeline .yt-mix,
+.ws-year-timeline .yt-cover {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 13px 24px 15px;
+}
+.ws-year-timeline .yt-cover {
+  border-left: 1px solid var(--line);
+}
+.ws-year-timeline .yt-band-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ws-year-timeline .yt-band-head span {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.ws-year-timeline .yt-band-head em {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The composition bar: segments of the accent, split by a hair of paper. */
+.ws-year-timeline .ws-mixbar {
+  display: flex;
+  height: 9px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--ink) 6%, #fff);
+  box-shadow: inset 0 1px 2px rgba(32, 27, 18, 0.08);
+}
+.ws-year-timeline .ws-mixbar span {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.ws-year-timeline .ws-mixbar span + span {
+  box-shadow:
+    inset 2px 0 0 rgba(253, 251, 247, 0.92),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.ws-year-timeline .yt-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px 20px;
+}
+.ws-year-timeline .yt-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.ws-year-timeline .yt-legend-row i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(32, 27, 18, 0.06) inset;
+}
+.ws-year-timeline .yt-legend-row span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ws-year-timeline .yt-legend-row b {
+  margin-left: auto;
+  padding-left: 8px;
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Renewal cover: a meter with a reading head, and one line of arithmetic beneath. */
+.ws-year-timeline .yt-meter {
+  position: relative;
+  display: block;
+  height: 9px;
+  margin-top: 3px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 6%, #fff);
+  box-shadow: inset 0 1px 2px rgba(32, 27, 18, 0.08);
+}
+.ws-year-timeline .yt-meter i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--w, 0%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--blue) 72%, #fff), var(--blue));
+}
+.ws-year-timeline .yt-meter b {
+  position: absolute;
+  top: 50%;
+  left: var(--w, 0%);
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--blue) 80%, #fff);
+}
+.ws-year-timeline .yt-cover-note {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.ws-year-timeline .yt-cover-note strong {
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+/* The four facts, set as columns between hairlines rather than four grey boxes. */
+.ws-year-timeline .yt-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 -24px;
+  background: linear-gradient(180deg, rgba(253, 251, 247, 0.65), rgba(247, 245, 240, 0.9));
+}
+.ws-year-timeline .yt-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px 18px 14px 20px;
+  /* The earlier sheet gives every one of these a rounded, tinted box; the facts are
+     columns between hairlines now, so the box is taken back off. */
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+}
+.ws-year-timeline .yt-grid > div:first-child {
+  border-left: 0;
+  padding-left: 24px;
+}
+.ws-year-timeline .yt-grid > div:last-child {
+  padding-right: 24px;
+}
+.ws-year-timeline .yt-grid small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.ws-year-timeline .yt-grid small svg {
+  flex: none;
+  color: color-mix(in srgb, var(--a1) 80%, var(--subtle));
+}
+.ws-year-timeline .yt-grid b {
+  font-size: 12.4px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+.ws-year-timeline .yt-grid i {
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--subtle);
+}
+
+@media (max-width: 1180px) {
+  .ws-year-timeline .yt-band {
+    grid-template-columns: minmax(0, 1.2fr) minmax(210px, 0.8fr);
+  }
+  .ws-year-timeline .yt-legend {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 1000px) {
+  .ws-year-timeline .yt-head {
+    gap: 20px;
+  }
+  .ws-year-timeline .yt-figure {
+    min-width: 150px;
+    padding-left: 20px;
+  }
+  .ws-year-timeline .yt-figure strong {
+    font-size: 28px;
+  }
+  .ws-year-timeline .yt-band {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ws-year-timeline .yt-cover {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  /* The band is full width again once it stacks, so the legend may use two columns. */
+  .ws-year-timeline .yt-legend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3px 28px;
+  }
+  .ws-year-timeline .yt-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ws-year-timeline .yt-grid > div:nth-child(3) {
+    border-left: 0;
+    padding-left: 24px;
+  }
+  .ws-year-timeline .yt-grid > div:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+}
+@media (max-width: 640px) {
+  .ws-year-timeline::before {
+    left: 20px;
+  }
+  .ws-year-timeline li {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .ws-year-timeline li::before {
+    left: 43px;
+    width: 11px;
+  }
+  .ws-year-timeline .yt-node {
+    width: 44px;
+    height: 46px;
+    border-radius: 12px;
+  }
+  .ws-year-timeline .yt-node em {
+    font-size: 12.5px;
+  }
+  .ws-year-timeline .yt-node b {
+    font-size: 7.5px;
+  }
+  .ws-year-timeline .yt-card {
+    padding: 16px 16px 0;
+  }
+  .ws-year-timeline .yt-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .ws-year-timeline .yt-figure {
+    min-width: 0;
+    align-items: flex-start;
+    padding: 12px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .ws-year-timeline .yt-figure strong {
+    font-size: 27px;
+  }
+  .ws-year-timeline .yt-band {
+    margin: 13px -16px 0;
+  }
+  .ws-year-timeline .yt-mix,
+  .ws-year-timeline .yt-cover {
+    padding: 12px 16px 14px;
+  }
+  .ws-year-timeline .yt-legend {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ws-year-timeline .yt-grid {
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0 -16px;
+  }
+  .ws-year-timeline .yt-grid > div {
+    padding: 11px 16px 12px;
+    border-left: 0;
+  }
+  .ws-year-timeline .yt-grid > div + div {
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* ── 17. Responsive ───────────────────────────────────────────────────────── */
+
 /* ── 17. Responsive ───────────────────────────────────────────────────────── */
 @media (max-width: 1280px) {
   .ws-content {
