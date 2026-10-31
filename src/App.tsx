@@ -113,10 +113,6 @@ export default function App() {
   if (checking)
     return (
       <main className="app-loading">
-        <div className="loading-brand">
-          <BrandMark large />
-          <span>COMMERCIAL OS</span>
-        </div>
         <Loading label="Opening your studio workspace…" />
       </main>
     );

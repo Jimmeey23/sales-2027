@@ -6294,48 +6294,6 @@
   }
 }
 
-/* ---------- Loader ---------- */
-.p57-loader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 220px;
-  color: var(--n-500);
-  font-size: 12.5px;
-  letter-spacing: 0.04em;
-}
-.p57-loader svg {
-  width: 120px;
-  height: 40px;
-  overflow: visible;
-}
-.p57-loader path {
-  fill: none;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.p57-loader-track {
-  stroke: var(--n-200);
-}
-.p57-loader-line {
-  stroke: var(--a1, #3892b2);
-  stroke-dasharray: 28 100;
-  stroke-dashoffset: 128;
-  filter: drop-shadow(0 0 6px var(--a1-glow, rgba(109, 79, 216, 0.5)));
-  animation: p57-run 1.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-}
-.p57-loader span {
-  animation: p57-shimmer 1.6s ease-in-out infinite;
-}
-@keyframes p57-run {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
 /* ---------- Sidebar collapse ---------- */
 .ws-sidebar-brand {
   position: relative;
@@ -7152,8 +7110,6 @@
 @media (prefers-reduced-motion: reduce) {
   .p57-mark-shine,
   .p57-mark-pulse,
-  .p57-loader-line,
-  .p57-loader span,
   .mx-bar i,
   .mx-focus {
     animation: none;

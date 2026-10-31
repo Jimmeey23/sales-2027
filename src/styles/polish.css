@@ -109,11 +109,6 @@
 .offer-studio .os-months button.active { color: var(--a1); }
 .offer-studio .os-card, .offer-studio .os-offer, .offer-studio .offer-card { border-radius: 11px; }
 
-.p57-loader { min-height: 150px; gap: 10px; color: #797670; font-size: 12px; }
-.p57-loader svg { width: 90px; height: 32px; }
-.p57-loader-track { stroke: #e5e3e0; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.p57-loader-line { stroke: var(--a1, #245e56); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 100; stroke-dashoffset: 100; animation: loader-sweep 1.8s cubic-bezier(.55,.05,.45,.95) infinite; }
-@keyframes loader-sweep { 0% { stroke-dashoffset: 100; opacity: .45 } 65%, 100% { stroke-dashoffset: 0; opacity: 1 } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }

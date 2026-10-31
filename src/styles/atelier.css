@@ -1718,17 +1718,7 @@ input[type='range'] {
   margin: 0;
 }
 .p57-loader {
-  gap: 12px;
   color: var(--subtle);
-  font-size: 11.5px;
-  letter-spacing: 0.03em;
-}
-.p57-loader-track {
-  stroke: var(--line);
-}
-.p57-loader-line {
-  stroke: var(--a1, var(--gold));
-  filter: none;
 }
 .spin {
   animation: p57-spin 0.9s linear infinite;
@@ -2149,19 +2139,6 @@ button.mq-strip-item.is-interactive:hover .mq-strip-value {
   background: radial-gradient(70% 50% at 50% 0%, rgba(230, 213, 174, 0.16), transparent 70%), var(--canvas);
   text-align: center;
   padding: 32px;
-}
-.app-loading .loading-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-.app-loading .loading-brand span {
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--subtle);
 }
 .workspace-error h1 {
   font-family: var(--font-display);
@@ -5089,19 +5066,27 @@ details.membership-terms > summary {
 }
 
 /* ── 21. Loaders ─────────────────────────────────────────────────────────────
-   The waiting state is a single heartbeat. One calm line, one bright pulse running
-   its length — the ECG trace that a studio's day is measured in. Nothing is stacked
-   beside it: no label, no dots, no orbiting mark. The pulse is the whole signal, so
-   the resting line stays faint and only the travelling segment carries weight. */
+   The waiting state is one heartbeat, and the heartbeat is the name. The trace beats,
+   then writes 57 into itself — the colour arrives along the line, stroke by stroke,
+   with a pen riding its tip. Nothing is stacked beside it: no logotype, no wordmark,
+   no label. The mark is the whole state. */
+
+/* The blue the trace fills with. It is the one cool accent in a warm room, which is
+   exactly why it reads as something arriving rather than as decoration. */
+:root {
+  --pulse: #1f5fd6;
+  --pulse-bright: #4b87ee;
+}
 
 /* The mark itself. */
 .hb {
   display: block;
-  width: 168px;
-  /* The mark keeps its own proportions: the box is the viewBox's 192:40, so the
-     spike is never squashed by whatever width the panel gives it. */
-  aspect-ratio: 192 / 40;
-  color: var(--gold);
+  width: 188px;
+  margin-inline: auto;
+  /* The box is the viewBox's 252:124, so the spike and the numerals keep their
+     proportions however much room the panel gives the loader. */
+  aspect-ratio: 252 / 124;
+  color: var(--pulse);
 }
 .hb svg {
   display: block;
@@ -5114,104 +5099,152 @@ details.membership-terms > summary {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-/* The resting trace: quiet enough to be a line, present enough that the pulse has
-   somewhere to travel. */
+
+/* The resting line: the shape that has not been written yet. Quiet, but present — the
+   numerals sit faintly in the trace before the blue reaches them, so the eye is never
+   waiting on nothing. */
 .hb svg .hb-track {
-  stroke: color-mix(in srgb, var(--gold) 34%, transparent);
-  stroke-width: 1.4;
+  stroke: color-mix(in srgb, var(--ink) 22%, transparent);
+  stroke-width: 2.2;
 }
-/* The pulse. A dash a few per cent of the path long, riding the line with a soft
-   halo under it — it climbs the QRS spike rather than sliding a box across it, which
-   is what makes the beat read in the body. */
-.hb svg .hb-trace {
-  stroke: var(--gold);
-  stroke-width: 2.4;
-  stroke-dasharray: 4.2 95.8;
-  stroke-dashoffset: 4.2;
-  animation: hb-travel 2.4s cubic-bezier(0.52, 0.06, 0.4, 0.94) infinite;
+
+/* The fill. `pathLength=100` on each stroke means one dash of 100 covers that stroke
+   exactly, so the animation is just the dash sliding off the path — the line appears
+   behind it. The two strokes are timed to follow one another (see the keyframes). */
+.hb svg .hb-fill {
+  stroke: var(--pulse);
+  stroke-width: 4.2;
+  /* One dash as long as the stroke, and a gap far longer than it: with a gap of 100 the
+     pattern would repeat inside the path, and while the fill sat empty its second dash
+     would land on the last point and paint a stray dot at the end of the tail. */
+  stroke-dasharray: 100 900;
+  stroke-dashoffset: 100;
+  opacity: 0;
+  animation: hb-write-wave 2.4s linear infinite;
+}
+.hb svg .hb-fill-b {
+  animation-name: hb-write-seven;
+}
+
+/* The pen: a dot made of a hair of dash with a round cap, carried along the same path
+   so it always sits at the tip of the fill. The bloom under it is the same dot, wide
+   and blurred, which is what makes the blue look like it is being laid down. Its offset
+   runs negative — a hair of a dash with a 100 gap repeats every 100.001 units, so the
+   dot only moves forward as the offset comes down from 0 to -100. */
+.hb svg .hb-pen,
+.hb svg .hb-glow {
+  stroke-dasharray: 0.001 100;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  animation: hb-pen-wave 2.4s linear infinite;
+}
+.hb svg .hb-pen-b,
+.hb svg .hb-glow-b {
+  animation-name: hb-pen-seven;
+}
+.hb svg .hb-pen {
+  stroke: var(--pulse-bright);
+  stroke-width: 6.5;
 }
 .hb svg .hb-glow {
-  stroke: color-mix(in srgb, var(--gold) 55%, transparent);
-  stroke-width: 5.4;
-  stroke-dasharray: 4.2 95.8;
-  stroke-dashoffset: 4.2;
-  filter: blur(1.7px);
-  opacity: 0.42;
-  animation: hb-travel 2.4s cubic-bezier(0.52, 0.06, 0.4, 0.94) infinite;
+  stroke: color-mix(in srgb, var(--pulse) 58%, transparent);
+  stroke-width: 14;
+  filter: blur(4.5px);
 }
-/* The pulse fades up as it enters and settles out at the end of the sweep, so the
-   loop reads as a beat going by rather than a mark juddering round. */
-@keyframes hb-travel {
+
+/* One cycle: the wave is written, then the 7, then the mark holds complete for a beat
+   and lets go, and the next beat starts on a clean line. The hand-over at 44% is the
+   gap between the two strokes — the pen lifts where the 5's bar ends and comes down on
+   the 7 — so each stroke can ease in and out without a hitch in between.
+
+   The easing is written on every stop inside a stroke, not just the first, because a
+   keyframe without one falls back to the animation's own easing: the pen would then
+   travel linear while the fill eased, and the dot would drift off the end of the line.
+   Both strokes' fills and both pens therefore share one curve, one window at a time. */
+@keyframes hb-write-wave {
   0% {
-    stroke-dashoffset: 4.2;
-    opacity: 0;
+    stroke-dashoffset: 100;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
   }
-  9% {
+  44% {
+    stroke-dashoffset: 0;
     opacity: 1;
   }
   84% {
+    stroke-dashoffset: 0;
     opacity: 1;
   }
-  96%,
+  93%,
   100% {
-    stroke-dashoffset: -95.8;
+    stroke-dashoffset: 0;
     opacity: 0;
   }
 }
-
-/* The loading states. `Loading` renders the wave alone, centred in its panel; the
-   boot screen keeps only the brand mark above it. */
-.p57-loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 220px;
-  padding: 24px;
-  color: var(--muted);
-}
-.p57-loader .hb {
-  width: min(190px, 62%);
-}
-/* The boot screen: brand over the wave on the warm canvas. */
-.app-loading {
-  min-height: 100vh;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 26px;
-  background: radial-gradient(120% 90% at 50% 0%, #fdfbf7 0%, var(--canvas) 46%, var(--canvas-deep) 100%);
-}
-.app-loading .loading-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  animation: atl-rise 0.7s cubic-bezier(0.22, 0.8, 0.24, 1) both;
-}
-/* Boot screen: the mark, then the wave. The wordmark beneath the mark would be a
-   caption competing with the pulse, so it is kept for screen readers only. */
-.app-loading .loading-brand > span {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-.app-loading .p57-loader {
-  min-height: 0;
-  padding: 0;
-}
-.app-loading .p57-loader .hb {
-  width: min(236px, 68vw);
-}
-@keyframes atl-rise {
-  from {
+@keyframes hb-write-seven {
+  0%,
+  44% {
+    stroke-dashoffset: 100;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
+  }
+  74% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  84% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  93%,
+  100% {
+    stroke-dashoffset: 0;
     opacity: 0;
-    transform: translateY(8px);
+  }
+}
+/* The pen runs the same window, on the same curve, so the dot never leaves the tip. It
+   is hidden on the stroke it is not writing, so two dots are never on the mark at once. */
+@keyframes hb-pen-wave {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
+  }
+  8% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
+  }
+  44% {
+    stroke-dashoffset: -100;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
+  }
+  45.5%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+@keyframes hb-pen-seven {
+  0%,
+  44% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
+  }
+  48% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
+  }
+  74% {
+    stroke-dashoffset: -100;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
+  }
+  75.5%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
   }
 }
 
@@ -5247,23 +5280,57 @@ details.membership-terms > summary {
   }
 }
 
+/* Stillness is not an empty state: with motion off the trace stands finished, in full
+   blue, so the wait still reads as a heartbeat that has already been taken. */
 @media (prefers-reduced-motion: reduce) {
-  .hb svg .hb-trace,
-  .hb svg .hb-glow,
-  .atl-skeleton > span,
-  .atl-skeleton > span > i,
-  .app-loading .loading-brand {
+  .hb svg .hb-fill {
     animation: none;
-  }
-  /* Stillness must not read as an empty state: hold the pulse on the beat itself. */
-  .hb svg .hb-trace,
-  .hb svg .hb-glow {
-    stroke-dashoffset: -25;
+    stroke-dashoffset: 0;
     opacity: 1;
   }
-  .hb svg .hb-glow {
-    opacity: 0.35;
+  .hb svg .hb-pen,
+  .hb svg .hb-glow,
+  .atl-skeleton > span,
+  .atl-skeleton > span > i {
+    animation: none;
   }
+  /* No pen to follow and nothing being written, so the nib and its bloom are simply
+     not there: the trace stands finished, in full blue. */
+  .hb svg .hb-pen,
+  .hb svg .hb-glow {
+    display: none;
+  }
+}
+
+/* The panel loader: the mark, centred, on its own. */
+.p57-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  padding: 24px;
+  color: var(--muted);
+}
+.p57-loader .hb {
+  width: min(216px, 66%);
+}
+
+/* The boot screen: the heartbeat on the warm canvas, and nothing else. The title of the
+   app used to sit above it; the mark spells the studio's name, so a second name above
+   the first would only be a caption arguing with the trace. */
+.app-loading {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  background: radial-gradient(120% 90% at 50% 0%, #fdfbf7 0%, var(--canvas) 46%, var(--canvas-deep) 100%);
+}
+.app-loading .p57-loader {
+  min-height: 0;
+  padding: 0;
+}
+.app-loading .p57-loader .hb {
+  width: min(336px, 78vw);
 }
 
 /* ── 22. The month overview ──────────────────────────────────────────────────

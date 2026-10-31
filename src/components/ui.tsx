@@ -262,41 +262,56 @@ export function Drawer({
     </div>
   );
 }
-/* One heartbeat, drawn as a path so the trace can travel along it. Three beats sit
-   side by side; the bright segment runs the length of the path and reads as a pulse
-   moving through a resting line. Built here rather than hand-written so the geometry
-   stays symmetrical. */
-const ECG_BEATS = 3;
-const ECG_BEAT = 64;
-const ECG_BASELINE = 20;
-const ECG_PATH = Array.from({ length: ECG_BEATS }, (_, i) => {
-  const b = i * ECG_BEAT;
-  const lead = i === 0 ? `M 0 ${ECG_BASELINE}` : '';
-  return (
-    `${lead} L ${b + 10} ${ECG_BASELINE}` +
-    // P wave — the small atrial rise before the beat.
-    ` C ${b + 13} ${ECG_BASELINE} ${b + 14} 16.5 ${b + 17} 16.5` +
-    ` C ${b + 20} 16.5 ${b + 21} ${ECG_BASELINE} ${b + 24} ${ECG_BASELINE}` +
-    // QRS — the beat itself.
-    ` L ${b + 28} ${ECG_BASELINE} L ${b + 30.5} 23 L ${b + 34} 3 L ${b + 37.5} 31 L ${b + 40} ${ECG_BASELINE}` +
-    // T wave — the recovery.
-    ` L ${b + 46} ${ECG_BASELINE}` +
-    ` C ${b + 49} ${ECG_BASELINE} ${b + 50} 14 ${b + 53} 14` +
-    ` C ${b + 56} 14 ${b + 57} ${ECG_BASELINE} ${b + 60} ${ECG_BASELINE}` +
-    ` L ${b + ECG_BEAT} ${ECG_BASELINE}`
-  );
-}).join(' ');
+/* The waiting mark, and the only thing on the waiting screen: one heartbeat line that
+   keeps writing. It enters on the baseline, beats, and then the same line becomes the
+   bowl of a 5 — it opens exactly where the trace lands — climbs that stem and runs its
+   bar. A second stroke picks up the 7 at its bar, drops the leg, and settles the line
+   back onto the baseline with one last small wave. So the pulse spells the studio's
+   name, and nothing sits beside it to compete: no logotype, no wordmark, no label.
 
-/* The waiting mark: a heartbeat wave, and nothing else. No label, no dots, no mark
-   stacked beside it — the pulse is the whole state. The label survives only as the
-   accessible name, for screen readers. */
+   Two strokes rather than one path with two subpaths, because a dash pattern restarts
+   at every subpath — the blue would then begin filling the 7 before the 5 was written.
+   Keeping them apart keeps the fill in order. The numbers below are the measured arc
+   lengths (419 and 217 units), which is what splits the draw between the strokes. */
+const HEART_WAVE =
+  'M 0 100 L 10 100' +
+  // P wave — the small atrial rise before the beat.
+  ' C 14 100 16 88 20 88 C 24 88 26 100 30 100' +
+  // QRS — the beat itself.
+  ' L 33 100 L 35 109 L 38 26 L 41.5 113 L 44 100' +
+  // T wave — the recovery.
+  ' L 47 100 C 51 100 53 86 57 86 C 61 86 63 100 67 100' +
+  // The trace lands and the bowl of the 5 opens around it.
+  ' C 74 100 80 97 88 92' +
+  ' C 102 88 112 76 106 65' +
+  ' C 101 57 92 54 84 57' +
+  // The stem, then the bar.
+  ' C 82 52 81 45 82 39' +
+  ' L 120 39';
+const HEART_SEVEN =
+  'M 134 39 L 176 39' +
+  // The leg falls to the baseline and becomes the swash that settles the line.
+  ' L 148 90' +
+  ' C 146 95 147 98 150 100' +
+  ' L 166 100' +
+  ' C 170 100 172 86 176 86 C 180 86 182 100 186 100' +
+  ' L 240 100';
+
+/* The waiting state. The blue is not decoration and not a progress bar: it is the trace
+   being written, beat by beat, one stroke then the other. The pen rides the tip of the
+   fill with a soft bloom under it, so the colour reads as arriving rather than as a
+   wipe crossing the mark. */
 export function Heartbeat({ className = '' }: { className?: string }) {
   return (
     <span className={`hb ${className}`.trim()} aria-hidden="true">
-      <svg viewBox={`0 0 ${ECG_BEATS * ECG_BEAT} 40`} focusable="false">
-        <path className="hb-track" d={ECG_PATH} />
-        <path className="hb-glow" d={ECG_PATH} pathLength={100} />
-        <path className="hb-trace" d={ECG_PATH} pathLength={100} />
+      <svg viewBox="0 0 252 124" focusable="false">
+        <path className="hb-track" d={`${HEART_WAVE} ${HEART_SEVEN}`} />
+        <path className="hb-glow hb-glow-a" d={HEART_WAVE} pathLength={100} />
+        <path className="hb-glow hb-glow-b" d={HEART_SEVEN} pathLength={100} />
+        <path className="hb-fill hb-fill-a" d={HEART_WAVE} pathLength={100} />
+        <path className="hb-fill hb-fill-b" d={HEART_SEVEN} pathLength={100} />
+        <path className="hb-pen hb-pen-a" d={HEART_WAVE} pathLength={100} />
+        <path className="hb-pen hb-pen-b" d={HEART_SEVEN} pathLength={100} />
       </svg>
     </span>
   );
