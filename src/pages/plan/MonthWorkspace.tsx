@@ -37,6 +37,7 @@ import {
   ShoppingBag,
   Square,
   Sigma,
+  StickyNote,
   SlidersHorizontal,
   Loader2,
   Sparkles,
@@ -1068,6 +1069,21 @@ export default function MonthWorkspace({
       toast(e.message, 'error');
     } finally {
       setBusy(false);
+    }
+  };
+  // Planning marks — approve today, put media behind it — plus the note that explains either.
+  // They save on the offer itself, so the decision travels with it into every other view.
+  const offerPlanning = async (offer: any, patch: { performanceNotes?: string | null; runAds?: boolean }) => {
+    try {
+      await api(`/offers/${offer.id}/planning`, { method: 'PATCH', body: JSON.stringify(patch) });
+      await onSaved();
+      if (patch.runAds !== undefined)
+        toast(patch.runAds ? `Ads planned for “${offer.name}”.` : `“${offer.name}” runs organically.`);
+      if (patch.performanceNotes !== undefined) toast(patch.performanceNotes ? 'Note saved.' : 'Note cleared.');
+      return true;
+    } catch (e: any) {
+      toast(e.message, 'error');
+      return false;
     }
   };
   const offerApproval = async (offer: any, approve: boolean) => {
@@ -3372,6 +3388,7 @@ export default function MonthWorkspace({
                               canApprove={canApproveOffers}
                               busy={busy}
                               onApprove={(next: boolean) => offerApproval(o, next)}
+                              onPlanning={offerPlanning}
                               onEdit={() => {
                                 setCreatingOffer(null);
                                 setEditing(o.id);
@@ -4890,9 +4907,9 @@ const OFFER_CARD_PHOTOS: CardPhoto[] = [
   { url: '/p57/pro/n20.jpg', pos: '56% 24%', tags: ['community', 'duo', 'newcomer', 'renewal'] },
   { url: '/p57/class-1.jpg', pos: '58% 24%', tags: ['community', 'barre', 'newcomer'] },
   // 1-on-1 coaching, privates & trainer consultations
-  { url: '/p57/pro/n13.jpg', pos: '64% 24%', tags: ['coaching', 'newcomer', 'renewal'] },
+  { url: '/p57/pro/n13.jpg', pos: '64% 8%', tags: ['coaching', 'newcomer', 'renewal'] },
   { url: '/p57/pro/n12.jpg', pos: '62% 22%', tags: ['coaching', 'duo', 'newcomer'] },
-  { url: '/p57/pro/n02.jpg', pos: '54% 32%', tags: ['coaching', 'strength', 'lapsed'] },
+  { url: '/p57/pro/n02.jpg', pos: '50% 8%', tags: ['coaching', 'strength', 'lapsed'] },
   // Indoor cycle, flash & high-tempo challenges
   { url: '/p57/pro/n01.jpg', pos: '54% 24%', tags: ['cycle', 'flash', 'renewal'] },
   { url: '/p57/pro/n08.jpg', pos: '52% 24%', tags: ['cycle', 'flash', 'newcomer'] },
@@ -4907,65 +4924,65 @@ const OFFER_CARD_PHOTOS: CardPhoto[] = [
   // Comeback, travel-proof, freeze & reactivation
   { url: '/p57/class-2.jpg', pos: '54% 32%', tags: ['calm', 'lapsed', 'renewal'] },
   { url: '/p57/pro/n16.jpg', pos: '54% 28%', tags: ['calm', 'lapsed'] },
-  { url: '/p57/pro/n26.jpg', pos: '58% 26%', tags: ['calm', 'strength', 'lapsed'] },
+  { url: '/p57/pro/n26.jpg', pos: '58% 20%', tags: ['calm', 'strength', 'lapsed'] },
 ];
 
 // Remaining studio photography, used to keep every card in a month on its own image.
 const CARD_PHOTO_EXTRAS: CardPhoto[] = [
-  { url: '/p57/pro/n04.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n05.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n06.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n07.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n09.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n11.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n14.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n15.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n17.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n19.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n21.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n22.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n27.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n28.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p01.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p02.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p03.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p04.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p05.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p06.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p08.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p09.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p10.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p12.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p13.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p14.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p15.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p16.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p17.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p18.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p19.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p20.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p21.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p23.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p24.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p25.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p26.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p27.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p28.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p29.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p30.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p31.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p32.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p33.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p35.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p36.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p37.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p39.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p40.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p41.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p42.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p43.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p44.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p45.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n04.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n05.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n06.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n07.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n09.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n11.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n14.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n15.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n17.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n19.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n21.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n22.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n27.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n28.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p01.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p02.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p03.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p04.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p05.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p06.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p08.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p09.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p10.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p12.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p13.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p14.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p15.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p16.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p17.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p18.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p19.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p20.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p21.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p23.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p24.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p25.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p26.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p27.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p28.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p29.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p30.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p31.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p32.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p33.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p35.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p36.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p37.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p39.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p40.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p41.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p42.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p43.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p44.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p45.jpg', pos: '50% 22%', tags: [] },
 ];
 
 const CARD_PHOTO_THEMES: [RegExp, string][] = [
@@ -5027,6 +5044,7 @@ function OfferCard({
   canApprove,
   busy,
   onApprove,
+  onPlanning,
   onEdit,
   onDuplicate,
   onRemove,
@@ -5038,6 +5056,34 @@ function OfferCard({
   photo,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
+  // The two decisions a team makes around an offer, plus the note that explains them. Both
+  // are optimistic: the refetch that follows a save is the confirmation, not the trigger.
+  const savedNote = useRef(String(o.performance_notes || ''));
+  const [noteDraft, setNoteDraft] = useState<string>(String(o.performance_notes || ''));
+  const [noteState, setNoteState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [adsPending, setAdsPending] = useState(false);
+  useEffect(() => {
+    const next = String(o.performance_notes || '');
+    if (next === savedNote.current) return;
+    savedNote.current = next;
+    if (noteState !== 'saving') setNoteDraft(next);
+  }, [o.performance_notes, noteState]);
+  const noteDirty = noteDraft !== savedNote.current;
+  const runAds = Boolean(Number(o.run_ads || 0));
+  const saveNote = async () => {
+    if (!onPlanning || !noteDirty) return;
+    setNoteState('saving');
+    const ok = await onPlanning(o, { performanceNotes: noteDraft.trim() || null });
+    if (ok === false) return setNoteState('error');
+    savedNote.current = noteDraft.trim();
+    setNoteState('saved');
+  };
+  const toggleAds = async () => {
+    if (!onPlanning || adsPending) return;
+    setAdsPending(true);
+    await onPlanning(o, { runAds: !runAds });
+    setAdsPending(false);
+  };
   const parseList = (value: any) => {
     if (Array.isArray(value)) return value;
     try {
@@ -5625,31 +5671,106 @@ function OfferCard({
             </div>
           </div>
 
+          {/* The log: the two decisions taken around an offer, and the line that explains
+              them. Both marks save straight to the offer, so the plan remembers them. */}
+          <section className="ocv-log" aria-label={`${o.name} — notes and marks`}>
+            <div className="ocv-log-head">
+              <span className="ocv-log-label">
+                <StickyNote size={12} />
+                Notes &amp; comments
+              </span>
+              <span
+                className={`ocv-log-state is-${noteState}${noteDirty && noteState !== 'saving' ? ' is-dirty' : ''}`}
+                aria-live="polite"
+              >
+                {noteState === 'saving'
+                  ? 'Saving…'
+                  : noteState === 'error'
+                    ? 'Not saved'
+                    : noteDirty
+                      ? 'Unsaved'
+                      : noteState === 'saved'
+                        ? 'Saved'
+                        : 'No note yet'}
+              </span>
+            </div>
+            <textarea
+              className="ocv-note"
+              rows={2}
+              value={noteDraft}
+              onChange={event => {
+                setNoteDraft(event.target.value);
+                setNoteState('idle');
+              }}
+              onKeyDown={event => {
+                if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+                  event.preventDefault();
+                  saveNote();
+                }
+              }}
+              placeholder="A caveat, a staffing note, a follow-up…"
+              aria-label={`Note for ${o.name}`}
+            />
+            <div className="ocv-log-foot">
+              <span className="ocv-log-hint">{onPlanning ? 'Saves on the offer' : 'Read-only for your role'}</span>
+              <button
+                type="button"
+                className="ocv-save"
+                title="Save note (⌘↵)"
+                disabled={!noteDirty || noteState === 'saving' || !onPlanning}
+                onClick={saveNote}
+              >
+                <Save size={12} />
+                {noteState === 'saving' ? 'Saving…' : 'Save note'}
+              </button>
+            </div>
+          </section>
+
           <footer className="ocv-foot">
             <span className="ocv-sign">
               {[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}
             </span>
-            {canApprove ? (
+            <div className="ocv-marks">
               <button
                 type="button"
                 role="checkbox"
                 aria-checked={shown}
-                className={`ocv-approve${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
+                className={`ocv-check is-approve${shown ? ' is-on' : ''}`}
                 title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
-                disabled={pending !== null}
+                disabled={!canApprove || pending !== null}
                 onClick={() => {
+                  if (!canApprove) return;
                   setPending(!shown);
                   Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
                 }}
               >
-                <Check size={13} strokeWidth={2.75} />
-                <span>{shown ? 'Approved' : 'Approve'}</span>
+                <span className="ocv-check-box" aria-hidden="true">
+                  <Check size={11} strokeWidth={3} />
+                </span>
+                <span className="ocv-check-copy">
+                  <b>{pending !== null ? 'Saving…' : 'Approve'}</b>
+                  <em>{shown ? 'Signed off' : 'Awaiting sign-off'}</em>
+                </span>
               </button>
-            ) : shown ? (
-              <span className="ocv-approved-mark">
-                <Check size={12} strokeWidth={2.75} /> Approved
-              </span>
-            ) : null}
+
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked={runAds}
+                className={`ocv-check is-ads${runAds ? ' is-on' : ''}`}
+                title={runAds ? 'Paid media planned · click to remove' : 'Plan paid media behind this offer'}
+                disabled={!onPlanning || adsPending}
+                onClick={toggleAds}
+              >
+                <span className="ocv-check-box" aria-hidden="true">
+                  <Check size={11} strokeWidth={3} />
+                </span>
+                <span className="ocv-check-copy">
+                  <b>Run ads</b>
+                  <em>{runAds ? 'Media planned' : 'Organic only'}</em>
+                </span>
+              </button>
+            </div>
           </footer>
         </div>
       </div>

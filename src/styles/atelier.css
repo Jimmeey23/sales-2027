@@ -3607,6 +3607,116 @@ details.membership-terms > summary {
   color: var(--green);
 }
 
+/* ── The timeline, redrawn ─────────────────────────────────────────────────────
+   The dot used to be dropped into the button's own grid, so it landed on top of the
+   location name. The rail now owns a fixed gutter, the name starts after it, and the
+   figure is set in tabular numerals so the amounts stack. */
+.ws-locations .lc-timeline {
+  padding: 2px 0;
+}
+.ws-locations .lc-timeline li {
+  padding-left: 0;
+}
+.ws-locations .lc-timeline li::before {
+  content: '';
+  position: absolute;
+  left: 16.5px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0,
+    color-mix(in srgb, var(--line) 70%, var(--muted)) 12%,
+    color-mix(in srgb, var(--line) 70%, var(--muted)) 88%,
+    transparent 100%
+  );
+}
+.ws-locations .lc-timeline li:first-child::before {
+  top: 26px;
+}
+.ws-locations .lc-timeline li:last-child::before {
+  bottom: calc(100% - 35px);
+}
+.ws-locations .lc-timeline li:only-child::before {
+  display: none;
+}
+.ws-locations .lc-timeline > li > button {
+  display: grid;
+  grid-template-columns: 17px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px 9px 8px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+}
+.ws-locations .lc-timeline > li > button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--canvas-deep) 55%, #fff);
+}
+.ws-locations .lc-timeline li.is-active > button {
+  background: color-mix(in srgb, var(--loc) 6%, var(--paper));
+  border-color: color-mix(in srgb, var(--loc) 20%, var(--line));
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--loc) 72%, transparent);
+}
+.ws-locations .lc-timeline .lc-rail {
+  position: static;
+  inset: auto;
+  width: 17px;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+}
+.ws-locations .lc-timeline .lc-rail i.lc-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid color-mix(in srgb, var(--loc) 58%, var(--line-strong));
+  box-shadow: 0 0 0 3px var(--paper);
+}
+.ws-locations .lc-timeline li.is-active .lc-rail i.lc-dot {
+  background: var(--loc);
+  border-color: color-mix(in srgb, var(--loc) 80%, #fff);
+  box-shadow:
+    0 0 0 3px var(--paper),
+    0 0 0 5px color-mix(in srgb, var(--loc) 16%, transparent);
+}
+.ws-locations .lc-timeline .lc-copy {
+  padding-left: 0;
+  gap: 3px;
+}
+.ws-locations .lc-timeline .lc-copy strong {
+  font-size: 13.2px;
+  font-weight: 560;
+  letter-spacing: -0.005em;
+}
+.ws-locations .lc-timeline .lc-copy small {
+  font-size: 9.6px;
+  letter-spacing: 0.09em;
+}
+.ws-locations .lc-timeline .lc-meta {
+  gap: 8px;
+  padding-left: 8px;
+}
+.ws-locations .lc-timeline .lc-meta em {
+  font-family: var(--font-sans, inherit);
+  font-size: 11.4px;
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.ws-locations .lc-timeline li.is-active .lc-meta em {
+  color: var(--ink);
+  font-weight: 620;
+}
+.ws-locations .lc-timeline .lc-meta svg {
+  color: var(--green);
+  flex: none;
+}
+
 /* Cards view */
 .lc-cards {
   display: grid;
@@ -7505,8 +7615,251 @@ details.membership-terms > summary {
   color: var(--green, #1d6450);
 }
 
+/* ── The two decisions, drawn as checkboxes ──────────────────────────────── */
+.mw .oc.is-v3 .ocv-marks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.mw .oc.is-v3 .ocv-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid var(--line-strong, #d9d1c1);
+  border-radius: 11px;
+  background: var(--paper);
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    background 0.16s ease,
+    box-shadow 0.16s ease;
+}
+.mw .oc.is-v3 .ocv-check:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--a1, #3c3830) 32%, var(--line-strong, #d9d1c1));
+  box-shadow: 0 6px 14px -12px rgba(32, 27, 18, 0.45);
+}
+.mw .oc.is-v3 .ocv-check:disabled {
+  cursor: default;
+  opacity: 0.62;
+}
+.mw .oc.is-v3 .ocv-check-box {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid color-mix(in srgb, var(--subtle, #8a8172) 52%, var(--line-strong, #d9d1c1));
+  border-radius: 4.5px;
+  background: #fff;
+  color: transparent;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+.mw .oc.is-v3 .ocv-check-copy {
+  display: grid;
+  gap: 1px;
+  text-align: left;
+}
+.mw .oc.is-v3 .ocv-check-copy b {
+  font-family: var(--font-sans);
+  font-size: 10.4px;
+  font-weight: 640;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.mw .oc.is-v3 .ocv-check-copy em {
+  font-style: normal;
+  font-size: 9.2px;
+  line-height: 1.25;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-check.is-approve.is-on {
+  border-color: color-mix(in srgb, var(--green, #1d6450) 42%, transparent);
+  background: color-mix(in srgb, var(--green, #1d6450) 8%, var(--paper));
+}
+.mw .oc.is-v3 .ocv-check.is-approve.is-on .ocv-check-box {
+  border-color: var(--green, #1d6450);
+  background: var(--green, #1d6450);
+  color: #fff;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--green, #1d6450) 14%, transparent);
+}
+.mw .oc.is-v3 .ocv-check.is-approve.is-on .ocv-check-copy b {
+  color: var(--green, #1d6450);
+}
+.mw .oc.is-v3 .ocv-check.is-ads.is-on {
+  border-color: color-mix(in srgb, var(--gold-deep, #a9791f) 46%, transparent);
+  background: color-mix(in srgb, var(--gold, #c9a24a) 15%, var(--paper));
+}
+.mw .oc.is-v3 .ocv-check.is-ads.is-on .ocv-check-box {
+  border-color: var(--gold-deep, #a9791f);
+  background: var(--gold-deep, #a9791f);
+  color: #fff;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold-deep, #a9791f) 15%, transparent);
+}
+.mw .oc.is-v3 .ocv-check.is-ads.is-on .ocv-check-copy b {
+  color: var(--gold-deep, #a9791f);
+}
+
+/* ── The log: one field, one save, owned by the offer ────────────────────── */
+.mw .oc.is-v3 .ocv-log {
+  display: grid;
+  gap: 9px;
+  margin: 0 -24px;
+  padding: 13px 24px 15px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(
+    180deg,
+    var(--paper) 0%,
+    color-mix(in srgb, var(--paper-warm, #f6f2e9) 70%, var(--paper)) 100%
+  );
+}
+.mw .oc.is-v3 .ocv-log-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.mw .oc.is-v3 .ocv-log-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 8.6px;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-log-label svg {
+  color: color-mix(in srgb, var(--a1, #3c3830) 55%, var(--gold, #c9a24a));
+}
+.mw .oc.is-v3 .ocv-log-state {
+  font-family: var(--font-sans);
+  font-size: 8.8px;
+  font-weight: 620;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--subtle) 82%, transparent);
+  transition: color 0.2s ease;
+}
+.mw .oc.is-v3 .ocv-log-state.is-dirty {
+  color: color-mix(in srgb, var(--gold-deep, #a9791f) 72%, var(--ink));
+}
+.mw .oc.is-v3 .ocv-log-state.is-saved {
+  color: var(--green, #1d6450);
+}
+.mw .oc.is-v3 .ocv-log-state.is-error {
+  color: #a33a24;
+}
+.mw .oc.is-v3 .ocv-note {
+  width: 100%;
+  min-height: 52px;
+  padding: 9px 11px;
+  border: 1px solid var(--line-strong, #d9d1c1);
+  border-radius: 11px;
+  background: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 12.2px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  resize: vertical;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+.mw .oc.is-v3 .ocv-note::placeholder {
+  font-family: var(--font-display);
+  font-size: 12.6px;
+  font-style: italic;
+  color: color-mix(in srgb, var(--subtle) 72%, transparent);
+}
+.mw .oc.is-v3 .ocv-note:focus {
+  outline: 0;
+  border-color: color-mix(in srgb, var(--a1, #3c3830) 40%, var(--line-strong, #d9d1c1));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--a1, #3c3830) 9%, transparent);
+}
+.mw .oc.is-v3 .ocv-log-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.mw .oc.is-v3 .ocv-log-hint {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 10px;
+  letter-spacing: 0.01em;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-save {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--a1, #3c3830) 30%, var(--line));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--a1, #3c3830) 7%, var(--paper));
+  font-family: var(--font-sans);
+  font-size: 9.6px;
+  font-weight: 660;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--a1, #3c3830) 78%, var(--ink));
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease,
+    border-color 0.16s ease,
+    opacity 0.16s ease;
+}
+.mw .oc.is-v3 .ocv-save:hover:not(:disabled) {
+  background: var(--a1, #3c3830);
+  border-color: var(--a1, #3c3830);
+  color: #fff;
+}
+.mw .oc.is-v3 .ocv-save:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+/* A note is commentary, not a mechanic. It stays writable on a passcode-locked plan, the
+   same way the passcode field itself does: a plan nobody can annotate is a plan nobody
+   can review. The save route still holds the permission. */
+.mw.is-readonly .mw-main .ocv-note {
+  pointer-events: auto;
+  border: 1px solid var(--line-strong, #d9d1c1) !important;
+  background: var(--paper) !important;
+  padding: 9px 11px !important;
+  resize: vertical;
+}
+.mw.is-readonly .mw-main .ocv-note:focus {
+  border-color: color-mix(in srgb, var(--a1, #3c3830) 40%, var(--line-strong, #d9d1c1)) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--a1, #3c3830) 9%, transparent) !important;
+}
+
 /* A narrow card: the plate shortens, the body tightens. */
 @container (max-width: 520px) {
+  .mw .oc.is-v3 .ocv-log {
+    margin-left: -17px;
+    margin-right: -17px;
+    padding: 12px 17px 14px;
+  }
+  .mw .oc.is-v3 .ocv-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .mw .oc.is-v3 .ocv-marks {
+    width: 100%;
+    justify-content: flex-start;
+  }
   .mw .oc.is-v3 .ocv-plate {
     min-height: 196px;
   }

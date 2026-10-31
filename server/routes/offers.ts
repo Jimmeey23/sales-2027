@@ -678,6 +678,46 @@ export default function registerOffersRoutes(app: Express) {
     });
     res.json(after);
   });
+  // Planning marks: the two decisions a team takes around an offer — approve it, put media
+  // behind it — plus the note that explains either. Kept off the commercial record on purpose,
+  // so annotating an approved offer never unlocks or rewrites its mechanics.
+  app.patch('/api/offers/:id/planning', permission('offer_edit'), (req, res) => {
+    const offerId = id(req.params.id),
+      before = db.prepare('SELECT * FROM offers WHERE id=?').get(offerId) as any;
+    if (!before || (before.studio_id && !canAccessStudio(req.user!, before.studio_id)))
+      return res.status(404).json({ error: 'Offer not found.' });
+    // `in` rather than `??`: clearing a note sends null, which a nullish coalesce would
+    // read as "field omitted" and quietly keep the old text.
+    const body = req.body ?? {};
+    const hasNotes = 'performanceNotes' in body || 'performance_notes' in body;
+    const hasAds = 'runAds' in body || 'run_ads' in body;
+    if (!hasNotes && !hasAds) throw bodyError('Nothing to save.');
+    const rawNotes = 'performanceNotes' in body ? body.performanceNotes : body.performance_notes;
+    const rawAds = 'runAds' in body ? body.runAds : body.run_ads;
+    const notes = hasNotes
+      ? String(rawNotes ?? '')
+          .trim()
+          .slice(0, 3000) || null
+      : before.performance_notes;
+    const runAds = hasAds ? (rawAds ? 1 : 0) : before.run_ads;
+    db.prepare('UPDATE offers SET performance_notes=?,run_ads=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(
+      notes,
+      runAds,
+      offerId,
+    );
+    const after = db.prepare('SELECT * FROM offers WHERE id=?').get(offerId) as any;
+    audit({
+      userId: req.user!.id,
+      action: 'update',
+      entityType: 'offer',
+      entityId: offerId,
+      studioId: after.studio_id,
+      before,
+      after,
+      reason: 'planning marks',
+    });
+    res.json(after);
+  });
   app.post('/api/offers/:id/action', (req, res) => {
     const offerId = id(req.params.id),
       before = db
