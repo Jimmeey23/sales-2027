@@ -9,7 +9,8 @@ const YEAR = 2027;
 const MONTHS = [1, 2];
 const MOVED = ['week zero', 'back for stronger', 'finish line renewal'];
 const plan = JSON.parse(fs.readFileSync('server/data/approved-plan-2027.json', 'utf8')) as PlanMonth[];
-const admin = (db.prepare("SELECT id FROM users WHERE role='administrator' ORDER BY id LIMIT 1").get() as any)?.id ?? null;
+const admin =
+  (db.prepare("SELECT id FROM users WHERE role='administrator' ORDER BY id LIMIT 1").get() as any)?.id ?? null;
 const json = (v: any, f: any) => {
   try {
     return v ? JSON.parse(v) : f;
@@ -19,7 +20,9 @@ const json = (v: any, f: any) => {
 };
 const studios = new Map(
   (
-    db.prepare("SELECT id,name FROM studios WHERE name IN ('Kemps Corner','Bandra','Kenkere House','Pop-up')").all() as any[]
+    db
+      .prepare("SELECT id,name FROM studios WHERE name IN ('Kemps Corner','Bandra','Kenkere House','Pop-up')")
+      .all() as any[]
   ).map(s => [s.name, s.id as number]),
 );
 const streamOf = (slot: string) =>
@@ -30,7 +33,9 @@ db.transaction(() => {
   // 1. The challenge offers leave January for February, keeping their ids and history.
   for (const studio of studios.values()) {
     const rows = db
-      .prepare("SELECT id,name FROM offers WHERE studio_id=? AND year=? AND month=1 AND status NOT IN ('archived','rejected')")
+      .prepare(
+        "SELECT id,name FROM offers WHERE studio_id=? AND year=? AND month=1 AND status NOT IN ('archived','rejected')",
+      )
       .all(studio, YEAR) as any[];
     for (const r of rows) {
       if (!MOVED.includes(String(r.name).toLowerCase())) continue;
@@ -44,7 +49,9 @@ db.transaction(() => {
       const studioId = studios.get(m.studio);
       if (!studioId) continue;
       const existing = db
-        .prepare("SELECT * FROM offers WHERE studio_id=? AND year=? AND month=? AND status NOT IN ('archived','rejected')")
+        .prepare(
+          "SELECT * FROM offers WHERE studio_id=? AND year=? AND month=? AND status NOT IN ('archived','rejected')",
+        )
         .all(studioId, YEAR, month) as any[];
       const used = new Set<number>();
       const slots: Record<string, number | null> = { newcomer: null, lapsed: null, renewal: null };
