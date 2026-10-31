@@ -1439,3 +1439,328 @@
     justify-self: center;
   }
 }
+
+/* ── The CRM calendar ────────────────────────────────────────────────────────
+   The month's outreach as a strip of days: the date, then every send that leaves
+   that day, each card naming the channel, the audience and the offers travelling
+   inside it. Cards sit on a warm paper panel so the tab still reads as paper
+   collateral rather than a dashboard. */
+.mw .col-section .col-crm {
+  margin: 2px 0 18px;
+  border: 1px solid #e6ebee;
+  border-radius: 12px;
+  background: radial-gradient(120% 130% at 0% 0%, rgba(255, 236, 199, 0.4), transparent 58%), #fcfdfd;
+  overflow: hidden;
+}
+.mw .col-section .col-crm-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 14px 18px 13px;
+  border-bottom: 1px solid #e9eef0;
+}
+.mw .col-section .col-crm-head > div {
+  min-width: 0;
+  max-width: 62ch;
+}
+.mw .col-section .col-crm-head small {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8a7a5c;
+  margin-bottom: 4px;
+}
+.mw .col-section .col-crm-head h5 {
+  margin: 0 0 3px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #181f22;
+}
+.mw .col-section .col-crm-head p {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #6a7a83;
+}
+.mw .col-section .col-crm-stats {
+  display: flex;
+  gap: 22px;
+  margin: 0;
+  flex: 0 0 auto;
+}
+.mw .col-section .col-crm-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.mw .col-section .col-crm-stats dt {
+  font-size: 8.5px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #93a0a6;
+}
+.mw .col-section .col-crm-stats dd {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #181f22;
+  font-variant-numeric: tabular-nums;
+}
+.mw .col-section .col-crm-stats dd em {
+  font-style: normal;
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #a6b2b7;
+  text-decoration: line-through;
+}
+.mw .col-section .col-crm-stats dd.is-span {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  align-items: center;
+  white-space: nowrap;
+  padding-top: 4px;
+}
+.mw .col-section .col-crm-days {
+  list-style: none;
+  margin: 0;
+  padding: 14px 16px 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+.mw .col-section .col-crm-days > li {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #eaeff1;
+  border-radius: 10px;
+  background: #ffffff;
+}
+.mw .col-section .col-crm-days > li.is-busy {
+  border-color: #dfe6ea;
+  box-shadow: 0 1px 2px rgba(24, 31, 34, 0.03);
+}
+.mw .col-section .crm-day {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding-bottom: 7px;
+  border-bottom: 1px dashed #eaeff1;
+}
+.mw .col-section .crm-day b {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #181f22;
+  font-variant-numeric: tabular-nums;
+}
+.mw .col-section .crm-day span {
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6a7a83;
+}
+.mw .col-section .crm-day i {
+  display: grid;
+  place-items: center;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 4px;
+  margin-left: auto;
+  border-radius: 999px;
+  background: #eef3f5;
+  font-style: normal;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #6a7a83;
+  font-variant-numeric: tabular-nums;
+}
+.mw .col-section .crm-day em {
+  margin-left: 6px;
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a6b2b7;
+}
+.mw .col-section .crm-sends {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.mw .col-section .crm-send {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 7px 8px 7px 9px;
+  border-left: 2px solid #cbd6da;
+  border-radius: 0 7px 7px 0;
+  background: #f7fafb;
+}
+.mw .col-section .crm-send.is-whatsapp {
+  border-left-color: #2f9e6f;
+  background: #f3faf6;
+}
+.mw .col-section .crm-send.is-email {
+  border-left-color: #3b6fa8;
+  background: #f4f7fb;
+}
+.mw .col-section .crm-send.is-tent {
+  border-left-color: #b5813a;
+  background: #fdf9f2;
+}
+.mw .col-section .crm-send.is-custom {
+  border-left-color: #7b6b8c;
+  background: #f8f6fa;
+}
+.mw .col-section .crm-send-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.mw .col-section .crm-send-ch {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-style: normal;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5c6b72;
+}
+.mw .col-section .crm-send-top > b {
+  font-size: 11px;
+  font-weight: 620;
+  color: #181f22;
+  letter-spacing: -0.005em;
+}
+.mw .col-section .crm-send-top > em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #8b989e;
+  text-align: right;
+}
+.mw .col-section .crm-segments {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.mw .col-section .crm-segment {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.mw .col-section .crm-segment + .crm-segment {
+  padding-top: 5px;
+  border-top: 1px solid rgba(24, 31, 34, 0.06);
+}
+.mw .col-section .crm-seg-aud {
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7c8a91;
+}
+.mw .col-section .crm-send-offers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.mw .col-section .crm-send-offers b {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(24, 31, 34, 0.09);
+  font-size: 9.5px;
+  font-weight: 550;
+  color: #2f3b40;
+  letter-spacing: -0.002em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mw .col-section .crm-send-note {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #93a0a6;
+}
+.mw .col-section .col-crm-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 9px 18px 10px;
+  border-top: 1px solid #eaeff1;
+  background: #f7fafb;
+  font-size: 9.5px;
+  color: #8b989e;
+}
+.mw .col-section .col-crm-foot span:first-child {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #5c6b72;
+}
+
+@media (max-width: 1060px) {
+  .mw .col-section .col-crm-days {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 860px) {
+  .mw .col-section .col-crm-head {
+    gap: 12px;
+    padding: 13px 14px;
+  }
+  .mw .col-section .col-crm-stats {
+    gap: 16px;
+  }
+  .mw .col-section .col-crm-days {
+    padding: 12px;
+  }
+  .mw .col-section .col-crm-foot {
+    padding: 8px 14px 9px;
+  }
+}
+@media (max-width: 560px) {
+  .mw .col-section .col-crm-stats {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .mw .col-section .col-crm-days {
+    grid-template-columns: 1fr;
+  }
+  .mw .col-section .crm-day b {
+    font-size: 19px;
+  }
+}

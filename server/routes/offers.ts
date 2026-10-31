@@ -67,7 +67,7 @@ function offerRow(body: any) {
     cta: body.cta || null,
   };
 }
-function validateOfferForSave(body: any, user: any) {
+export function validateOfferForSave(body: any, user: any) {
   const row = offerRow(body);
   if (!row.name || row.name.length < 3) throw bodyError('Offer name must contain at least 3 characters.');
   if (!row.objective) throw bodyError('Campaign objective is required.');
