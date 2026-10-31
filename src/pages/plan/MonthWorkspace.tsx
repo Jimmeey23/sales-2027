@@ -2121,16 +2121,18 @@ export default function MonthWorkspace({
                   const liveReactTarget = editable
                     ? Math.max(0, n(form.streams.reactivation))
                     : n(econ.reactivation.target);
-                  const t2m = Math.max(0.01, n(econ.newClient.trialToMember) || 0.24);
-                  const l2t = Math.max(0.01, n(econ.newClient.leadToTrial) || 0.45);
-                  const firstSpend = Math.max(1, n(econ.newClient.firstSpend) || 6000);
+                  // Falls back to the measured rate the plan is built on, never to a made-up one.
+                  const autoRate = (k: string) => n(plan.economics?.assumptions?.[k]?.auto) || 0;
+                  const t2m = Math.max(0.01, n(econ.newClient.trialToMember) || autoRate('trialToMember'));
+                  const l2t = Math.max(0.01, n(econ.newClient.leadToTrial) || autoRate('leadToTrial'));
+                  const firstSpend = Math.max(1, n(econ.newClient.firstSpend) || autoRate('firstSpend'));
                   const trialSpend = Math.max(0, n(econ.newClient.trialSpend));
                   const revPerBuyer = firstSpend + (t2m > 0 ? trialSpend / t2m : 0);
                   const liveBuyers = liveNewTarget > 0 ? Math.ceil(liveNewTarget / revPerBuyer) : 0;
                   const liveTrials = liveBuyers > 0 ? Math.ceil(liveBuyers / t2m) : 0;
                   const liveLeads = liveTrials > 0 ? Math.ceil(liveTrials / l2t) : 0;
-                  const renTicket = Math.max(1, n(econ.renewal.ticket) || 14000);
-                  const reactTicket = Math.max(1, n(econ.reactivation.ticket) || 10000);
+                  const renTicket = Math.max(1, n(econ.renewal.ticket) || autoRate('renewalTicket'));
+                  const reactTicket = Math.max(1, n(econ.reactivation.ticket) || autoRate('reactivationTicket'));
                   const liveRenewals = liveRenTarget > 0 ? Math.ceil(liveRenTarget / renTicket) : 0;
                   const liveReactivations = liveReactTarget > 0 ? Math.ceil(liveReactTarget / reactTicket) : 0;
                   return [
@@ -3337,11 +3339,25 @@ export default function MonthWorkspace({
                         const photoById = assignMonthPhotos(
                           orderedOffers.map(({ offer }) => ({ offer, slot: slotOf(offer.id) })),
                         );
-                        // Month totals let each card's bars show its share of the plan.
+                        // The bar behind "buyers needed" compares an offer with what the month actually
+                        // requires on its stream — new buyers, renewers or reactivations at the rates
+                        // measured on this studio's history — not with a sum of hand-typed targets.
                         const monthUnitsTotal = orderedOffers.reduce(
                           (sum, { offer }) => sum + (forecastRevenue(offer) > 0 ? n(offer.target_purchases) || 0 : 0),
                           0,
                         );
+                        const SLOT_NEED: Record<string, string> = {
+                          newcomer: 'new clients',
+                          lapsed: 'win-backs',
+                          renewal: 'renewals',
+                        };
+                        const slotRequirement = (slot?: string | null) => {
+                          if (!econ) return 0;
+                          if (slot === 'newcomer') return n(econ.newClient.buyers);
+                          if (slot === 'lapsed') return n(econ.reactivation.needed);
+                          if (slot === 'renewal') return n(econ.renewal.renewersNeeded);
+                          return 0;
+                        };
                         const renderItem = (o: any, no: number, stream?: string) =>
                           editing === o.id ? (
                             <OfferEditor
@@ -3407,7 +3423,8 @@ export default function MonthWorkspace({
                               onSwap={() => regenerateOffer(o)}
                               regenerating={regenerating === o.id}
                               monthTarget={effective}
-                              monthUnits={monthUnitsTotal}
+                              monthUnits={slotRequirement(slotOf(o.id) || o.plan_slot) || monthUnitsTotal}
+                              monthUnitsLabel={SLOT_NEED[String(slotOf(o.id) || o.plan_slot)] || ''}
                               photo={photoById.get(o.id)}
                             />
                           );
@@ -5053,6 +5070,7 @@ function OfferCard({
   regenerating = false,
   monthTarget = 0,
   monthUnits = 0,
+  monthUnitsLabel = '',
   photo,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
@@ -5556,7 +5574,9 @@ function OfferCard({
                 {perWeek > 0 && <em>~{perWeek}/wk</em>}
               </strong>
               <span className="ocv-fig-note">
-                {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
+                {monthUnits > 0
+                  ? `of ${number(monthUnits)}${monthUnitsLabel ? ` ${monthUnitsLabel}` : ''} this month`
+                  : `over ${days} days`}
               </span>
               <span className="ocv-meter" aria-hidden="true">
                 <i />

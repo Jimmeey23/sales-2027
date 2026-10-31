@@ -46,10 +46,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2010000,
       reactivationPlan: 360000,
       otherPlan: 390000,
-      leadsTrials: [77, 59],
-      renewals: [120, 79],
-      lapsed: [523, 42],
-      newBuyers: 14,
+      leadsTrials: [269, 206],
+      renewals: [120, 105],
+      lapsed: [523, 40],
+      newBuyers: 49,
     },
     offers: [
       {
@@ -85,7 +85,9 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (24% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
             '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
           ],
@@ -182,10 +184,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1580000,
       reactivationPlan: 220000,
       otherPlan: 310000,
-      leadsTrials: [101, 78],
-      renewals: [83, 85],
-      lapsed: [456, 36],
-      newBuyers: 17,
+      leadsTrials: [242, 185],
+      renewals: [83, 83],
+      lapsed: [456, 25],
+      newBuyers: 44,
     },
     offers: [
       {
@@ -217,11 +219,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹1.7L counted · 6 buyers (the month runs two new-client routes; this is its share)'],
-          'Rate of sale': ['Needs ≈18 renewal purchases (plan 14).'],
+          'Rate of sale': ['Needs ≈6 new clients in 28 days (2/wk).'],
           'Why it works': [
             'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (24% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
             '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest February entry: bold, clear credit rule, tied to the challenge.',
           ],
@@ -253,7 +257,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹1.4L counted · 5 buyers (the month runs two comeback routes; this is its share)'],
-          'Rate of sale': ['Needs ≈11 1M unlimited sales vs 29 a month today (all buyers).'],
+          'Rate of sale': ['Needs ≈5 comeback members in 28 days (1/wk).'],
           'Why it works': [
             'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
           ],
@@ -288,7 +292,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹8.9L counted · 34 buyers (the month runs two renewal routes; this is its share)'],
-          'Rate of sale': ['Needs ≈83 renewal purchases (plan 79).'],
+          'Rate of sale': ['Needs ≈34 renewals in 28 days (8/wk).'],
           'Why it works': [
             'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
           ],
@@ -326,7 +330,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹1.5L counted · 5 buyers (the month runs two new-client routes; this is its share)'],
-          'Rate of sale': ['Needs ≈11 1M unlimited sales vs 29 a month today (all buyers).'],
+          'Rate of sale': ['Needs ≈5 new clients in 28 days (1/wk).'],
           'Why it works': [
             'Replaces BOGO (mostly existing clients, 33–53% renewal). Pairs keep each other attending, and the booked second class is the lever. Pairing them into the challenge gives the second class a deadline.',
           ],
@@ -363,7 +367,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹0.8L counted · 3 buyers (the month runs two comeback routes; this is its share)'],
-          'Rate of sale': ['Needs ≈7 1M unlimited sales vs 29 a month today (all buyers).'],
+          'Rate of sale': ['Needs ≈3 comeback members in 28 days (1/wk).'],
           'Why it works': [
             "Valentine's gives a story without a deeper discount; freezes answer the most common lapse reason.",
           ],
@@ -398,7 +402,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹6.9L counted · 36 buyers (the month runs two renewal routes; this is its share)'],
-          'Rate of sale': ['Needs ≈88 renewal purchases (plan 85).'],
+          'Rate of sale': ['Needs ≈36 renewals in 28 days (9/wk).'],
           'Why it works': ['Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.'],
           'What to watch': ['Next-renewal rate of pairs vs singles.'],
           'Offer auditor': [
@@ -425,10 +429,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1410000,
       reactivationPlan: 350000,
       otherPlan: 310000,
-      leadsTrials: [96, 74],
-      renewals: [100, 61],
-      lapsed: [561, 45],
-      newBuyers: 16,
+      leadsTrials: [276, 211],
+      renewals: [100, 74],
+      lapsed: [561, 39],
+      newBuyers: 50,
     },
     offers: [
       {
@@ -543,10 +547,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 3780000,
       reactivationPlan: 730000,
       otherPlan: 730000,
-      leadsTrials: [114, 88],
-      renewals: [120, 130],
-      lapsed: [951, 76],
-      newBuyers: 18,
+      leadsTrials: [391, 299],
+      renewals: [120, 197],
+      lapsed: [951, 82],
+      newBuyers: 71,
     },
     offers: [
       {
@@ -579,7 +583,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
           ],
-          'What to watch': ['Intro volume vs spare seats; intro → purchase (target 40%).'],
+          'What to watch': ['Intro volume vs spare seats; intro → purchase (24% measured).'],
           'Offer auditor': [
             '23/25 (Effect 5, Creativity 5, Clarity 5, Practical 4, Economics 4). Headline April offer.',
           ],
@@ -675,10 +679,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1490000,
       reactivationPlan: 390000,
       otherPlan: 340000,
-      leadsTrials: [134, 103],
-      renewals: [108, 65],
-      lapsed: [644, 51],
-      newBuyers: 22,
+      leadsTrials: [374, 286],
+      renewals: [108, 78],
+      lapsed: [644, 44],
+      newBuyers: 68,
     },
     offers: [
       {
@@ -786,10 +790,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1550000,
       reactivationPlan: 330000,
       otherPlan: 340000,
-      leadsTrials: [151, 116],
-      renewals: [133, 76],
-      lapsed: [607, 49],
-      newBuyers: 24,
+      leadsTrials: [369, 282],
+      renewals: [133, 81],
+      lapsed: [607, 37],
+      newBuyers: 67,
     },
     offers: [
       {
@@ -897,10 +901,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1880000,
       reactivationPlan: 400000,
       otherPlan: 400000,
-      leadsTrials: [130, 100],
-      renewals: [129, 79],
-      lapsed: [638, 51],
-      newBuyers: 21,
+      leadsTrials: [374, 286],
+      renewals: [129, 98],
+      lapsed: [638, 45],
+      newBuyers: 68,
     },
     offers: [
       {
@@ -1016,10 +1020,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2210000,
       reactivationPlan: 350000,
       otherPlan: 450000,
-      leadsTrials: [142, 109],
-      renewals: [143, 91],
-      lapsed: [554, 44],
-      newBuyers: 24,
+      leadsTrials: [434, 332],
+      renewals: [143, 115],
+      lapsed: [554, 39],
+      newBuyers: 79,
     },
     offers: [
       {
@@ -1135,10 +1139,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2210000,
       reactivationPlan: 450000,
       otherPlan: 470000,
-      leadsTrials: [125, 96],
-      renewals: [169, 76],
-      lapsed: [593, 47],
-      newBuyers: 21,
+      leadsTrials: [456, 349],
+      renewals: [169, 115],
+      lapsed: [593, 50],
+      newBuyers: 83,
     },
     offers: [
       {
@@ -1246,10 +1250,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2950000,
       reactivationPlan: 470000,
       otherPlan: 600000,
-      leadsTrials: [142, 109],
-      renewals: [122, 96],
-      lapsed: [573, 46],
-      newBuyers: 24,
+      leadsTrials: [550, 421],
+      renewals: [122, 154],
+      lapsed: [573, 53],
+      newBuyers: 100,
     },
     offers: [
       {
@@ -1359,10 +1363,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1190000,
       reactivationPlan: 230000,
       otherPlan: 250000,
-      leadsTrials: [91, 70],
-      renewals: [88, 55],
-      lapsed: [400, 32],
-      newBuyers: 16,
+      leadsTrials: [264, 202],
+      renewals: [88, 62],
+      lapsed: [400, 26],
+      newBuyers: 48,
     },
     offers: [
       {
@@ -1471,10 +1475,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1900000,
       reactivationPlan: 510000,
       otherPlan: 420000,
-      leadsTrials: [122, 94],
-      renewals: [105, 75],
-      lapsed: [758, 61],
-      newBuyers: 19,
+      leadsTrials: [358, 274],
+      renewals: [105, 99],
+      lapsed: [758, 57],
+      newBuyers: 65,
     },
     offers: [
       {
@@ -1593,10 +1597,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1150000,
       reactivationPlan: 220000,
       otherPlan: 130000,
-      leadsTrials: [152, 87],
-      renewals: [60, 50],
-      lapsed: [419, 33],
-      newBuyers: 15,
+      leadsTrials: [471, 269],
+      renewals: [60, 65],
+      lapsed: [419, 22],
+      newBuyers: 47,
     },
     offers: [
       {
@@ -1632,7 +1636,9 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (18% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
             '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
           ],
@@ -1729,10 +1735,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1190000,
       reactivationPlan: 120000,
       otherPlan: 120000,
-      leadsTrials: [142, 81],
-      renewals: [66, 66],
-      lapsed: [285, 23],
-      newBuyers: 14,
+      leadsTrials: [350, 200],
+      renewals: [66, 68],
+      lapsed: [285, 12],
+      newBuyers: 35,
     },
     offers: [
       {
@@ -1764,11 +1770,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹1.2L counted · 6 buyers (the month runs two new-client routes; this is its share)'],
-          'Rate of sale': ['Needs ≈19 renewal purchases (plan 15).'],
+          'Rate of sale': ['Needs ≈6 new clients in 28 days (2/wk).'],
           'Why it works': [
             'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (18% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
             '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest February entry: bold, clear credit rule, tied to the challenge.',
           ],
@@ -1800,7 +1808,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹0.8L counted · 3 buyers (the month runs two comeback routes; this is its share)'],
-          'Rate of sale': ['Needs ≈9 1M unlimited sales vs 19.7 a month today (all buyers).'],
+          'Rate of sale': ['Needs ≈3 comeback members in 28 days (1/wk).'],
           'Why it works': [
             'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
           ],
@@ -1835,7 +1843,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹5.9L counted · 25 buyers (the month runs two renewal routes; this is its share)'],
-          'Rate of sale': ['Needs ≈53 renewal purchases (plan 50).'],
+          'Rate of sale': ['Needs ≈25 renewals in 28 days (6/wk).'],
           'Why it works': [
             'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
           ],
@@ -1874,7 +1882,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹0.8L counted · 3 buyers (the month runs two new-client routes; this is its share)'],
-          'Rate of sale': ['Needs ≈11 1M unlimited sales vs 19.7 a month today (all buyers).'],
+          'Rate of sale': ['Needs ≈3 new clients in 28 days (1/wk).'],
           'Why it works': [
             'Bandra has the lowest new-client conversion (17–26%). A guarantee answers the core objection; 12 classes almost always produce improvement, so it rarely pays out.',
           ],
@@ -1910,8 +1918,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹0.4L counted · 1 buyers (the month runs two comeback routes; this is its share)'],
-          'Rate of sale': ['Needs ≈6 12-class pack sales vs 29 a month today (all buyers).'],
+          'Expected revenue': ['₹0.4L counted · 1 buyer (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈1 comeback member in 28 days (1/wk).'],
           'Why it works': ['One message, two streams: reactivation and a warm new lead.'],
           'What to watch': ['Friends who buy.'],
           'Offer auditor': [
@@ -1944,7 +1952,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹6.0L counted · 33 buyers (the month runs two renewal routes; this is its share)'],
-          'Rate of sale': ['Needs ≈68 renewal purchases (plan 66).'],
+          'Rate of sale': ['Needs ≈33 renewals in 28 days (8/wk).'],
           'Why it works': ['Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.'],
           'What to watch': ['Next-renewal rate of pairs vs singles.'],
           'Offer auditor': [
@@ -1971,10 +1979,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 810000,
       reactivationPlan: 190000,
       otherPlan: 100000,
-      leadsTrials: [151, 86],
-      renewals: [71, 36],
-      lapsed: [358, 29],
-      newBuyers: 15,
+      leadsTrials: [452, 258],
+      renewals: [71, 46],
+      lapsed: [358, 19],
+      newBuyers: 45,
     },
     offers: [
       {
@@ -2093,10 +2101,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2210000,
       reactivationPlan: 380000,
       otherPlan: 240000,
-      leadsTrials: [238, 136],
-      renewals: [74, 88],
-      lapsed: [673, 54],
-      newBuyers: 24,
+      leadsTrials: [810, 463],
+      renewals: [74, 125],
+      lapsed: [673, 38],
+      newBuyers: 81,
     },
     offers: [
       {
@@ -2129,7 +2137,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
           ],
-          'What to watch': ['Intro volume vs spare seats; intro → purchase (target 40%).'],
+          'What to watch': ['Intro volume vs spare seats; intro → purchase (18% measured).'],
           'Offer auditor': [
             '23/25 (Effect 5, Creativity 5, Clarity 5, Practical 4, Economics 4). Headline April offer.',
           ],
@@ -2223,10 +2231,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1190000,
       reactivationPlan: 180000,
       otherPlan: 130000,
-      leadsTrials: [221, 126],
-      renewals: [85, 55],
-      lapsed: [365, 29],
-      newBuyers: 22,
+      leadsTrials: [640, 366],
+      renewals: [85, 68],
+      lapsed: [365, 18],
+      newBuyers: 64,
     },
     offers: [
       {
@@ -2339,10 +2347,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1010000,
       reactivationPlan: 110000,
       otherPlan: 110000,
-      leadsTrials: [203, 116],
-      renewals: [86, 50],
-      lapsed: [238, 19],
-      newBuyers: 20,
+      leadsTrials: [551, 315],
+      renewals: [86, 58],
+      lapsed: [238, 11],
+      newBuyers: 55,
     },
     offers: [
       {
@@ -2458,10 +2466,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1420000,
       reactivationPlan: 180000,
       otherPlan: 150000,
-      leadsTrials: [205, 117],
-      renewals: [90, 62],
-      lapsed: [337, 27],
-      newBuyers: 22,
+      leadsTrials: [670, 383],
+      renewals: [90, 81],
+      lapsed: [337, 18],
+      newBuyers: 67,
     },
     offers: [
       {
@@ -2577,10 +2585,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1800000,
       reactivationPlan: 250000,
       otherPlan: 180000,
-      leadsTrials: [142, 81],
-      renewals: [106, 70],
-      lapsed: [424, 34],
-      newBuyers: 16,
+      leadsTrials: [551, 315],
+      renewals: [106, 102],
+      lapsed: [424, 25],
+      newBuyers: 55,
     },
     offers: [
       {
@@ -2696,10 +2704,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1140000,
       reactivationPlan: 210000,
       otherPlan: 130000,
-      leadsTrials: [194, 111],
-      renewals: [114, 56],
-      lapsed: [466, 37],
-      newBuyers: 20,
+      leadsTrials: [551, 315],
+      renewals: [114, 65],
+      lapsed: [466, 21],
+      newBuyers: 55,
     },
     offers: [
       {
@@ -2808,10 +2816,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1070000,
       reactivationPlan: 180000,
       otherPlan: 120000,
-      leadsTrials: [200, 114],
-      renewals: [89, 57],
-      lapsed: [408, 33],
-      newBuyers: 20,
+      leadsTrials: [501, 286],
+      renewals: [89, 61],
+      lapsed: [408, 18],
+      newBuyers: 50,
     },
     offers: [
       {
@@ -2919,10 +2927,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 920000,
       reactivationPlan: 140000,
       otherPlan: 100000,
-      leadsTrials: [130, 74],
-      renewals: [69, 51],
-      lapsed: [344, 27],
-      newBuyers: 14,
+      leadsTrials: [350, 200],
+      renewals: [69, 52],
+      lapsed: [344, 14],
+      newBuyers: 35,
     },
     offers: [
       {
@@ -3029,10 +3037,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1260000,
       reactivationPlan: 170000,
       otherPlan: 130000,
-      leadsTrials: [147, 84],
-      renewals: [81, 51],
-      lapsed: [295, 24],
-      newBuyers: 15,
+      leadsTrials: [501, 286],
+      renewals: [81, 72],
+      lapsed: [295, 17],
+      newBuyers: 50,
     },
     offers: [
       {
@@ -3151,10 +3159,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 660000,
       reactivationPlan: 110000,
       otherPlan: 170000,
-      leadsTrials: [405, 81],
-      renewals: [42, 41],
-      lapsed: [254, 20],
-      newBuyers: 20,
+      leadsTrials: [1200, 258],
+      renewals: [42, 73],
+      lapsed: [254, 24],
+      newBuyers: 65,
     },
     offers: [
       {
@@ -3190,7 +3198,9 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (25% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
             '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
           ],
@@ -3287,10 +3297,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 670000,
       reactivationPlan: 80000,
       otherPlan: 150000,
-      leadsTrials: [280, 56],
-      renewals: [44, 50],
+      leadsTrials: [684, 147],
+      renewals: [44, 74],
       lapsed: [234, 18],
-      newBuyers: 14,
+      newBuyers: 37,
     },
     offers: [
       {
@@ -3322,11 +3332,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹1.3L counted · 6 buyers (the month runs two new-client routes; this is its share)'],
-          'Rate of sale': ['Needs ≈26 renewal purchases (plan 20).'],
+          'Rate of sale': ['Needs ≈6 new clients in 28 days (2/wk).'],
           'Why it works': [
             'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (25% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
             '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest February entry: bold, clear credit rule, tied to the challenge.',
           ],
@@ -3358,7 +3370,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹0.5L counted · 2 buyers (the month runs two comeback routes; this is its share)'],
-          'Rate of sale': ['Needs ≈5 1M unlimited sales vs 17.3 a month today (all buyers).'],
+          'Rate of sale': ['Needs ≈2 comeback members in 28 days (1/wk).'],
           'Why it works': [
             'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
           ],
@@ -3393,7 +3405,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹3.3L counted · 20 buyers (the month runs two renewal routes; this is its share)'],
-          'Rate of sale': ['Needs ≈43 renewal purchases (plan 41).'],
+          'Rate of sale': ['Needs ≈20 renewals in 28 days (5/wk).'],
           'Why it works': [
             'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
           ],
@@ -3433,7 +3445,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹0.7L counted · 5 buyers (the month runs two new-client routes; this is its share)'],
-          'Rate of sale': ['Needs ≈17 renewal purchases (plan 14).'],
+          'Rate of sale': ['Needs ≈5 new clients in 28 days (1/wk).'],
           'Why it works': [
             'The 2-for-1 converts at 21% into an ₹8k purchase; three visits sit in the 73–89% conversion zone and multi-format members renew at 85–87%.',
           ],
@@ -3469,8 +3481,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹0.3L counted · 1 buyers (the month runs two comeback routes; this is its share)'],
-          'Rate of sale': ['Needs ≈5 12-class pack sales vs 10.5 a month today (all buyers).'],
+          'Expected revenue': ['₹0.3L counted · 1 buyer (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈1 comeback member in 28 days (1/wk).'],
           'Why it works': ['One message, two streams: reactivation and a warm new lead.'],
           'What to watch': ['Friends who buy.'],
           'Offer auditor': [
@@ -3503,7 +3515,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹3.4L counted · 25 buyers (the month runs two renewal routes; this is its share)'],
-          'Rate of sale': ['Needs ≈52 renewal purchases (plan 50).'],
+          'Rate of sale': ['Needs ≈25 renewals in 28 days (6/wk).'],
           'Why it works': ['Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.'],
           'What to watch': ['Next-renewal rate of pairs vs singles.'],
           'Offer auditor': [
@@ -3530,10 +3542,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 480000,
       reactivationPlan: 100000,
       otherPlan: 120000,
-      leadsTrials: [255, 51],
-      renewals: [48, 33],
-      lapsed: [262, 20],
-      newBuyers: 13,
+      leadsTrials: [684, 147],
+      renewals: [48, 54],
+      lapsed: [262, 22],
+      newBuyers: 37,
     },
     offers: [
       {
@@ -3648,10 +3660,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 820000,
       reactivationPlan: 150000,
       otherPlan: 180000,
-      leadsTrials: [255, 51],
-      renewals: [53, 53],
-      lapsed: [356, 29],
-      newBuyers: 13,
+      leadsTrials: [721, 155],
+      renewals: [53, 91],
+      lapsed: [356, 33],
+      newBuyers: 39,
     },
     offers: [
       {
@@ -3684,7 +3696,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
           ],
-          'What to watch': ['Intro volume vs spare seats; intro → purchase (target 40%).'],
+          'What to watch': ['Intro volume vs spare seats; intro → purchase (25% measured).'],
           'Offer auditor': [
             '23/25 (Effect 5, Creativity 5, Clarity 5, Practical 4, Economics 4). Headline April offer.',
           ],
@@ -3778,10 +3790,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 680000,
       reactivationPlan: 100000,
       otherPlan: 150000,
-      leadsTrials: [255, 51],
-      renewals: [50, 53],
-      lapsed: [279, 23],
-      newBuyers: 13,
+      leadsTrials: [628, 135],
+      renewals: [50, 76],
+      lapsed: [279, 22],
+      newBuyers: 34,
     },
     offers: [
       {
@@ -3891,10 +3903,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 690000,
       reactivationPlan: 100000,
       otherPlan: 150000,
-      leadsTrials: [235, 47],
-      renewals: [67, 55],
-      lapsed: [295, 24],
-      newBuyers: 12,
+      leadsTrials: [559, 120],
+      renewals: [67, 77],
+      lapsed: [295, 22],
+      newBuyers: 30,
     },
     offers: [
       {
@@ -4003,10 +4015,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 920000,
       reactivationPlan: 130000,
       otherPlan: 190000,
-      leadsTrials: [215, 43],
-      renewals: [73, 68],
-      lapsed: [360, 29],
-      newBuyers: 11,
+      leadsTrials: [521, 112],
+      renewals: [73, 102],
+      lapsed: [360, 28],
+      newBuyers: 28,
     },
     offers: [
       {
@@ -4122,10 +4134,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 740000,
       reactivationPlan: 70000,
       otherPlan: 150000,
-      leadsTrials: [255, 51],
-      renewals: [76, 55],
-      lapsed: [200, 16],
-      newBuyers: 13,
+      leadsTrials: [647, 139],
+      renewals: [76, 82],
+      lapsed: [200, 15],
+      newBuyers: 35,
     },
     offers: [
       {
@@ -4241,10 +4253,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 950000,
       reactivationPlan: 130000,
       otherPlan: 190000,
-      leadsTrials: [195, 39],
-      renewals: [69, 55],
-      lapsed: [262, 21],
-      newBuyers: 10,
+      leadsTrials: [628, 135],
+      renewals: [69, 105],
+      lapsed: [262, 28],
+      newBuyers: 34,
     },
     offers: [
       {
@@ -4352,10 +4364,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 440000,
       reactivationPlan: 100000,
       otherPlan: 100000,
-      leadsTrials: [170, 34],
-      renewals: [54, 35],
-      lapsed: [276, 23],
-      newBuyers: 9,
+      leadsTrials: [391, 84],
+      renewals: [54, 49],
+      lapsed: [276, 22],
+      newBuyers: 21,
     },
     offers: [
       {
@@ -4468,10 +4480,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 740000,
       reactivationPlan: 90000,
       otherPlan: 160000,
-      leadsTrials: [300, 60],
-      renewals: [38, 49],
-      lapsed: [229, 18],
-      newBuyers: 15,
+      leadsTrials: [833, 179],
+      renewals: [38, 82],
+      lapsed: [229, 20],
+      newBuyers: 45,
     },
     offers: [
       {
@@ -4578,10 +4590,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 370000,
       reactivationPlan: 80000,
       otherPlan: 90000,
-      leadsTrials: [215, 43],
-      renewals: [48, 26],
-      lapsed: [200, 16],
-      newBuyers: 11,
+      leadsTrials: [559, 120],
+      renewals: [48, 41],
+      lapsed: [200, 18],
+      newBuyers: 30,
     },
     offers: [
       {
@@ -4700,10 +4712,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 20000,
       otherPlan: 100000,
       projected: 160000,
-      leadsTrials: [123, 32],
-      renewals: [60, 2],
-      lapsed: [158, 13],
-      newBuyers: 2,
+      leadsTrials: [161, 49],
+      renewals: [60, 14],
+      lapsed: [158, 9],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -4803,10 +4815,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 50000,
       reactivationPlan: 10000,
       otherPlan: 90000,
-      leadsTrials: [92, 24],
-      renewals: [60, 6],
-      lapsed: [90, 7],
-      newBuyers: 1,
+      leadsTrials: [86, 26],
+      renewals: [60, 35],
+      lapsed: [90, 5],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -4831,8 +4843,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹0.1L counted · 1 buyers (the month runs two new-client routes; this is its share)'],
-          'Rate of sale': ['Needs ≈1 4-class pack sales vs 0 a month today (all buyers).'],
+          'Expected revenue': ['₹0.1L counted · 1 buyer (the month runs two new-client routes; this is its share)'],
+          'Rate of sale': ['Needs ≈1 new client in 28 days (1/wk).'],
           'Why it works': ['Saturday fill is 43% vs 13–20% on weekdays.'],
           'What to watch': ['Saturday attendance.'],
           'Offer auditor': ['21/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 4). Good.'],
@@ -4864,7 +4876,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹0.1L counted · 8 buyers (the month runs two comeback routes; this is its share)'],
-          'Rate of sale': ['Needs ≈1 4-class pack sales vs 0 a month today (all buyers).'],
+          'Rate of sale': ['Needs ≈8 comeback members in 28 days (2/wk).'],
           'Why it works': ['Saturday is the only day with real fill.'],
           'What to watch': ['Door conversion.'],
           'Offer auditor': ['21/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 4). Good.'],
@@ -4891,7 +4903,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
           'Expected revenue': ['₹0.5L counted · 6 buyers (the month runs two renewal routes; this is its share)'],
-          'Rate of sale': ['Needs ≈1 10-class pack sales vs 2.3 a month today (all buyers).'],
+          'Rate of sale': ['Needs ≈6 renewals in 28 days (2/wk).'],
           'Why it works': ['186 regulars spent ~₹4,000 each on drop-ins, already half a pack.'],
           'What to watch': ['Effective ≈22%.'],
           'Offer auditor': ['23/25 (Effect 5, Creativity 4, Clarity 5, Practical 5, Economics 4). Best pop-up offer.'],
@@ -4916,10 +4928,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 40000,
       reactivationPlan: 10000,
       otherPlan: 90000,
-      leadsTrials: [60, 5],
-      renewals: [113, 9],
-      lapsed: [111, 29],
-      newBuyers: 1,
+      leadsTrials: [86, 26],
+      renewals: [113, 28],
+      lapsed: [111, 5],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -5024,10 +5036,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 10000,
       reactivationPlan: 10000,
       otherPlan: 70000,
-      leadsTrials: [60, 1],
-      renewals: [117, 9],
-      lapsed: [134, 35],
-      newBuyers: 2,
+      leadsTrials: [161, 49],
+      renewals: [117, 7],
+      lapsed: [134, 5],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -5127,10 +5139,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 20000,
       reactivationPlan: 0,
       otherPlan: 80000,
-      leadsTrials: [60, 1],
-      renewals: [23, 2],
-      lapsed: [157, 41],
-      newBuyers: 2,
+      leadsTrials: [233, 71],
+      renewals: [23, 14],
+      lapsed: [157, 0],
+      newBuyers: 19,
     },
     offers: [
       {
@@ -5229,10 +5241,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 10000,
       otherPlan: 110000,
       projected: 180000,
-      leadsTrials: [153, 40],
-      renewals: [60, 5],
-      lapsed: [180, 14],
-      newBuyers: 2,
+      leadsTrials: [86, 26],
+      renewals: [60, 28],
+      lapsed: [180, 5],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -5336,10 +5348,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 10000,
       otherPlan: 120000,
       projected: 200000,
-      leadsTrials: [146, 38],
-      renewals: [60, 9],
-      lapsed: [270, 22],
-      newBuyers: 2,
+      leadsTrials: [86, 26],
+      renewals: [60, 35],
+      lapsed: [270, 5],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -5439,10 +5451,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 10000,
       otherPlan: 110000,
       projected: 180000,
-      leadsTrials: [161, 42],
-      renewals: [60, 4],
-      lapsed: [158, 13],
-      newBuyers: 2,
+      leadsTrials: [161, 49],
+      renewals: [60, 28],
+      lapsed: [158, 5],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -5541,10 +5553,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 70000,
       reactivationPlan: 10000,
       otherPlan: 150000,
-      leadsTrials: [241, 63],
-      renewals: [60, 10],
-      lapsed: [203, 16],
-      newBuyers: 3,
+      leadsTrials: [161, 49],
+      renewals: [60, 49],
+      lapsed: [203, 5],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -5648,10 +5660,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 20000,
       otherPlan: 110000,
       projected: 190000,
-      leadsTrials: [169, 44],
-      renewals: [60, 5],
-      lapsed: [396, 32],
-      newBuyers: 2,
+      leadsTrials: [86, 26],
+      renewals: [60, 21],
+      lapsed: [396, 9],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -5750,10 +5762,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 30000,
       reactivationPlan: 0,
       otherPlan: 90000,
-      leadsTrials: [60, 4],
-      renewals: [68, 5],
-      lapsed: [218, 57],
-      newBuyers: 3,
+      leadsTrials: [161, 49],
+      renewals: [68, 21],
+      lapsed: [218, 0],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -5853,10 +5865,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 20000,
       reactivationPlan: 10000,
       otherPlan: 70000,
-      leadsTrials: [60, 1],
-      renewals: [45, 4],
-      lapsed: [146, 38],
-      newBuyers: 2,
+      leadsTrials: [161, 49],
+      renewals: [45, 14],
+      lapsed: [146, 5],
+      newBuyers: 13,
     },
     offers: [
       {

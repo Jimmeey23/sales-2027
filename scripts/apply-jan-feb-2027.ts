@@ -2,11 +2,16 @@ import fs from 'node:fs';
 import { db, audit } from '../server/db.js';
 import { offerRow, monthPlan, type PlanMonth } from '../server/lib/approvedPlan2027.js';
 
-// Rebuilds January and February of the 2027 plan from server/data/approved-plan-2027.json after the
-// Stronger in 30 challenge moved from January to February. Offers are matched by name and updated in
-// place (notes, approvals and ids survive); anything the new plan no longer uses is archived.
+// Rebuilds plan months of 2027 from server/data/approved-plan-2027.json — the approved plan is the
+// source of truth for the offers, their copy and the month's brief. Offers are matched by name and
+// updated in place (notes, approvals and ids survive); anything the plan no longer uses is archived.
+// Pass the months to sync (default January and February, where the Stronger in 30 challenge moved).
 const YEAR = 2027;
-const MONTHS = [1, 2];
+const args = process.argv
+  .slice(2)
+  .filter(a => /^\d{1,2}$/.test(a))
+  .map(Number);
+const MONTHS = args.length ? args : [1, 2];
 const MOVED = ['week zero', 'back for stronger', 'finish line renewal'];
 const plan = JSON.parse(fs.readFileSync('server/data/approved-plan-2027.json', 'utf8')) as PlanMonth[];
 const admin =
@@ -25,6 +30,7 @@ const studios = new Map(
       .all() as any[]
   ).map(s => [s.name, s.id as number]),
 );
+const PLAN_OWNED = new Set(['offer_bank', 'approved_plan_2027']);
 const streamOf = (slot: string) =>
   slot === 'newcomer' ? 'newClientPlan' : slot === 'lapsed' ? 'reactivationPlan' : 'renewalPlan';
 
@@ -137,14 +143,29 @@ db.transaction(() => {
 
       for (const r of existing) {
         if (used.has(r.id)) continue;
+        // Only the plan's own offers are retirable here: a mechanic imported by another script
+        // (April's wheel, ticket and gifts) belongs to that month even when the plan omits it.
+        if (!PLAN_OWNED.has(String(r.generation_source))) continue;
         db.prepare("UPDATE offers SET status='archived', updated_at=CURRENT_TIMESTAMP WHERE id=?").run(r.id);
         report.archived++;
       }
 
       const prior = db
-        .prepare('SELECT content FROM monthly_plans WHERE studio_id=? AND year=? AND month=?')
+        .prepare('SELECT content, offer_ids FROM monthly_plans WHERE studio_id=? AND year=? AND month=?')
         .get(studioId, YEAR, month) as any;
       const keyDates = json(prior?.content, {})?.keyDates;
+      // Offers another importer attached to this month (April's wheel, ticket and gifts) stay on the
+      // plan: only the plan's own ids are replaced.
+      const planOwnedIds = new Set(
+        (
+          db
+            .prepare(
+              `SELECT id FROM offers WHERE studio_id=? AND year=? AND month=? AND generation_source IN (${[...PLAN_OWNED].map(() => '?').join(',')})`,
+            )
+            .all(studioId, YEAR, month, ...PLAN_OWNED) as any[]
+        ).map(r => Number(r.id)),
+      );
+      const foreign = (json(prior?.offer_ids, []) as any[]).filter(id => !planOwnedIds.has(Number(id)));
       const { strategy, focusPoints, kpis, actions } = monthPlan(m);
       const content = {
         ...(keyDates ? { keyDates } : {}),
@@ -170,7 +191,7 @@ db.transaction(() => {
         `Moment: ${m.moment}`,
         JSON.stringify(content),
         JSON.stringify(slots),
-        JSON.stringify(extras),
+        JSON.stringify([...new Set([...foreign.map(Number), ...extras])]),
       );
       report.months++;
     }

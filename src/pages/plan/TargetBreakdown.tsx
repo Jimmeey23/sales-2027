@@ -411,6 +411,11 @@ export default function TargetBreakdown({
               }}
             />
           )}
+          <p className="tb-hint">
+            The plan divides by the rates these locations actually deliver: conversion and spend are the trailing twelve
+            months of the studio's own history, refreshed by <code>scripts/measure-studio-rates.ts</code>. Growth comes
+            from the operating levers — fill, classes and mix — not from assuming a better conversion.
+          </p>
           <div className="tb-assume-grid">
             <table className="data-table">
               <thead>
