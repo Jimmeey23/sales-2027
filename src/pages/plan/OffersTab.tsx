@@ -29,6 +29,7 @@ import { Badge, Button, Callout, Field, Input, Loading, Select, StatusBadge, Tex
 import { planningLocations } from '../../data/locations';
 import { MONTH_OBJECTIVES } from '../../data/planDefaults';
 import { useLoad } from '../../hooks';
+import { planPricing } from '../../lib/offerPricing';
 import { lakh, type PlanData } from './usePlanData';
 import { selectedInMonth } from './TargetsTab';
 import MonthWorkspace from './MonthWorkspace';
@@ -144,10 +145,19 @@ const shortDate = (d?: string | null) =>
   d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
 
 function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selected: boolean }) {
-  const pricing = parseJson(o.provenance).pricing || {};
+  const provenance = parseJson(o.provenance);
+  const pricing = provenance.pricing || {};
   const financials = parseJson(o.financials);
   const asp = Number(o.expected_asp) || 0,
     disc = Number(o.effective_discount) || 0;
+  // The plan states the ticket in its own sentence. Where it does, that is the price; the
+  // average selling price is only a price when the plan states none — and a struck-out list
+  // price is only shown when the plan names one, never derived to look like a discount.
+  const plan = planPricing(o);
+  const ticket = plan.price ?? (asp || null);
+  const listPrice = plan.list;
+  const isAverage = plan.price == null && asp > 0;
+  const cashPct = plan.cashPct != null ? plan.cashPct : disc;
   const completeForecast =
     o.expected_revenue !== null && o.expected_revenue !== undefined && Number.isFinite(Number(o.expected_revenue));
   const modeledRevenue = financials.expectedRevenue;
@@ -157,7 +167,8 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
       Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <=
         Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
   const expectedSales = financials.expectedBuyers ?? (asp ? Math.round(Number(o.expected_revenue) / asp) : null);
-  const original = asp && disc > 0 && disc < 100 ? asp / (1 - disc / 100) : null;
+  const original = listPrice && ticket && listPrice > ticket ? listPrice : null;
+  const saved = original && ticket ? original - ticket : 0;
   const when =
     o.validity_start || o.validity_end
       ? `${shortDate(o.validity_start)} – ${shortDate(o.validity_end)}`
@@ -180,22 +191,22 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
       </div>
       <dl className="os-offer-facts">
         <div>
-          <dt>Price</dt>
+          <dt>{isAverage ? 'Avg ticket' : 'Price'}</dt>
           <dd>
-            {original && <s>{money(original)}</s>}
-            <b>{money(asp || null)}</b>
+            <b>{money(ticket)}</b>
+            {original && <s>{money(original)} list</s>}
           </dd>
         </div>
         <div>
           <dt>Discount</dt>
           <dd>
             <b>{disc ? percent(disc, 0) : '—'}</b>
-            {original && <small>{money(original - asp)} off</small>}
+            <small>{saved ? `${money(saved)} in cash` : cashPct > 0 ? 'cash' : disc > 0 ? 'perks only' : 'none'}</small>
           </dd>
         </div>
         <div>
           <dt>Cohort</dt>
-          <dd>{titleCase(o.audience) || '—'}</dd>
+          <dd className="os-fact-clamp">{titleCase(o.audience) || '—'}</dd>
         </div>
         <div>
           <dt>Window</dt>
@@ -205,7 +216,11 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
           <dt>Expected</dt>
           <dd>
             <b>
-              {!completeForecast ? 'Incomplete' : forecastConsistent ? money(o.expected_revenue, true) : 'Needs review'}
+              {!completeForecast
+                ? 'Incomplete'
+                : forecastConsistent
+                  ? lakh(Number(o.expected_revenue))
+                  : 'Needs review'}
             </b>
             {completeForecast && forecastConsistent ? (
               <small>
@@ -749,7 +764,7 @@ function Generator({ data, onSaved }: { data: PlanData; onSaved: () => void }) {
                         </div>
                         <div>
                           <small>Revenue</small>
-                          <b>{money(o.expectedRevenue, true)}</b>
+                          <b>{lakh(Number(o.expectedRevenue))}</b>
                         </div>
                         <div>
                           <small>Benefit</small>

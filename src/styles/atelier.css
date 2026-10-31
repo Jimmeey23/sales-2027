@@ -2744,24 +2744,26 @@ button.mq-strip-item.is-interactive:hover .mq-strip-value {
   border-radius: 12px;
   border: 1px solid var(--line);
   background: var(--canvas-deep);
-  gap: 2px;
+  gap: 4px;
   box-shadow: none;
 }
 .offer-studio .os-nav button {
   border-radius: 9px;
-  padding: 8px 13px;
-  font-size: 12px;
+  padding: 9px 14px;
+  font-size: 13px;
   font-weight: 550;
   color: var(--muted);
 }
-.offer-studio .os-nav button.active {
-  background: var(--paper);
-  color: var(--ink);
+/* The active view is a solid accent pill with white type — never paper on paper. */
+.offer-studio .os-nav button.active,
+.offer-studio .os-nav button.active:hover {
+  background: var(--a1, var(--gold-deep));
+  color: #fff;
   border-bottom: 0;
-  box-shadow: 0 1px 2px rgba(32, 27, 18, 0.09);
+  box-shadow: 0 6px 14px -10px color-mix(in srgb, var(--a1, #3892b2) 85%, transparent);
 }
 .offer-studio .os-nav button.active svg {
-  color: var(--a1, var(--gold));
+  color: #fff;
 }
 .offer-studio .os-card,
 .offer-studio .os-offer,
@@ -7002,9 +7004,30 @@ details.membership-terms > summary {
   height: auto;
 }
 @container (min-width: 860px) {
-  .mw .oc.is-v3 .ocv-shell {
+  .mw .mw-offer-list.is-two-up .oc.is-v3 .ocv-shell {
     grid-template-columns: minmax(300px, 33%) minmax(0, 1fr);
   }
+}
+
+/* One-up: the photograph opens the card as a wide band, the way a magazine opens a story.
+   A plate hanging beside a 1,300px record was being cropped to a 1:4 strip of a portrait
+   frame; a landscape band shows the room the picture was taken in, and the record reads
+   underneath it at full width. */
+.mw .mw-offer-list.is-one-up > .oc.is-v3 .ocv-shell {
+  grid-template-columns: minmax(0, 1fr);
+}
+.mw .mw-offer-list.is-one-up > .oc.is-v3 .ocv-plate {
+  min-height: 0;
+  aspect-ratio: 5 / 2;
+  max-height: 420px;
+  padding: 20px 26px 18px;
+  --photo-pos: 50% 30%;
+}
+.mw .mw-offer-list.is-one-up > .oc.is-v3 .ocv-plate-label {
+  font-size: 10px;
+}
+.mw .mw-offer-list.is-one-up > .oc.is-v3 .ocv-index b {
+  font-size: 34px;
 }
 
 /* ── The plate ───────────────────────────────────────────────────────────── */
@@ -7034,6 +7057,7 @@ details.membership-terms > summary {
   z-index: 0;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: var(--photo-pos, var(--photo-focus, center 32%));
   transform: scale(1.02);
   transition: transform 1.1s cubic-bezier(0.22, 0.8, 0.24, 1);
 }

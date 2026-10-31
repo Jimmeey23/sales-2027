@@ -13,43 +13,52 @@
   color: var(--n-500);
 }
 
-/* View switcher: slim underline nav */
+/* View switcher: one segmented rail. Every layer that styles this nav — polish.css,
+   atelier.css and this file — has to agree on the same pill, or the active view ends up
+   white on white; the state below is the single definition they all resolve to. */
 .offer-studio .os-nav {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 4px;
-  overflow-x: auto;
-  border-bottom: var(--os-line);
   margin: 4px 0 24px;
+  padding: 4px;
+  border: 1px solid var(--n-200);
+  border-radius: 12px;
+  background: #f4f2ec;
   scrollbar-width: none;
 }
 .offer-studio .os-nav button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 14px;
-  margin-bottom: -1px;
-  background: none;
+  padding: 9px 14px;
+  margin: 0;
   border: 0;
-  border-bottom: 2px solid transparent;
+  border-radius: 9px;
+  background: transparent;
   color: var(--n-500);
   font: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 550;
   white-space: nowrap;
   cursor: pointer;
   transition:
     color 0.15s,
-    border-color 0.15s;
+    background 0.15s;
 }
 .offer-studio .os-nav button:hover {
+  background: rgba(255, 255, 255, 0.72);
   color: var(--ink-900);
 }
-.offer-studio .os-nav button.active {
-  color: var(--ink-900);
-  border-bottom-color: var(--a1);
+.offer-studio .os-nav button.active,
+.offer-studio .os-nav button.active:hover {
+  background: var(--a1);
+  color: #fff;
+  box-shadow: 0 6px 14px -10px color-mix(in srgb, var(--a1) 85%, transparent);
 }
 .offer-studio .os-nav button.active svg {
-  color: var(--a1);
+  color: #fff;
 }
 
 /* Toolbar */
@@ -215,11 +224,16 @@
   display: grid;
   gap: 8px;
 }
+/* A row is the offer's name on the left, its verdict on the right, and the five figures it
+   is judged on as a full-width band beneath — never five columns squeezed beside the name. */
 .offer-studio .os-offer {
   display: grid;
-  grid-template-columns: minmax(220px, 1.3fr) minmax(0, 2.4fr) 120px;
-  gap: 24px;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'main status'
+    'facts facts';
+  gap: 14px 20px;
+  align-items: start;
   width: 100%;
   padding: 16px 20px;
   text-align: left;
@@ -277,6 +291,10 @@
   font-weight: 600;
   line-height: 1.3;
 }
+.offer-studio .os-offer-main {
+  grid-area: main;
+  min-width: 0;
+}
 .offer-studio .os-offer-main p {
   margin: 0;
   font-size: 12.5px;
@@ -287,15 +305,20 @@
   overflow: hidden;
 }
 .offer-studio .os-offer-facts {
+  grid-area: facts;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px;
+  gap: 8px 18px;
   margin: 0;
-  padding-left: 24px;
-  border-left: var(--os-line);
+  padding: 12px 0 0;
+  border: 0;
+  border-top: var(--os-line);
+}
+.offer-studio .os-offer-facts > div {
+  min-width: 0;
 }
 .offer-studio .os-offer-facts dt {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 650;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -310,6 +333,7 @@
   font-size: 12.5px;
   color: var(--n-700);
   font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
 .offer-studio .os-offer-facts b {
   font-size: 14px;
@@ -322,11 +346,13 @@
   color: var(--n-500);
 }
 .offer-studio .os-offer-status {
+  grid-area: status;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 6px;
   text-align: right;
+  white-space: nowrap;
 }
 .offer-studio .os-offer-status small {
   font-size: 12.5px;
@@ -557,5 +583,31 @@
   .offer-studio * {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* A cohort is a sentence, not a single word: two lines, then it stops. */
+.offer-studio .os-offer-facts .os-fact-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* On a phone the rail stays a rail: tighter pills, two rows, nothing wider than the screen. */
+@media (max-width: 620px) {
+  .offer-studio .os-nav {
+    gap: 3px;
+    padding: 3px;
+  }
+  .offer-studio .os-nav button {
+    padding: 7px 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+  .offer-studio .os-nav .os-density {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
   }
 }

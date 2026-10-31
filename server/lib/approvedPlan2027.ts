@@ -168,7 +168,11 @@ export function applyApprovedPlan2027() {
     for (const m of plan) {
       const studioId = studios.get(m.studio);
       if (!studioId) continue;
+      // The plan lists each month's primary offer for a stream first — Week Zero before the
+      // Valentine's duos in February. The first one owns the slot; the rest still belong to the
+      // month, and are recorded as its extra offers rather than overwriting the slot.
       const slots: Record<string, number | null> = { newcomer: null, lapsed: null, renewal: null };
+      const extras: number[] = [];
       for (const o of m.offers) {
         const { row, rev, buyers } = offerRow(o, studioId);
         let bank = db
@@ -189,7 +193,7 @@ export function applyApprovedPlan2027() {
           report.bankAdded++;
         }
         months.set(bank.id, (months.get(bank.id) || new Set()).add(m.month));
-        slots[o.slot] = insertOffer({
+        const offerId = insertOffer({
           ...row,
           month: m.month,
           status: 'draft',
@@ -201,6 +205,8 @@ export function applyApprovedPlan2027() {
           expected_asp: buyers ? Math.round(rev / buyers) : 0,
           provenance: JSON.stringify({ source: 'approved_plan_2027', bankId: bank.id, fields: o.fields }),
         });
+        if (!slots[o.slot]) slots[o.slot] = offerId;
+        else extras.push(offerId);
         report.picks++;
       }
       const prior = db
@@ -217,10 +223,10 @@ export function applyApprovedPlan2027() {
       };
       db.prepare(
         `INSERT INTO monthly_plans(studio_id,year,month,theme,objective,strategy,actions,notes,status,content,slots,offer_ids)
-         VALUES (?,?,?,?,?,?,?,?,'draft',?,?,'[]')
+         VALUES (?,?,?,?,?,?,?,?,'draft',?,?,?)
          ON CONFLICT(studio_id,year,month) DO UPDATE SET theme=excluded.theme, objective=excluded.objective,
          strategy=excluded.strategy, actions=excluded.actions, notes=excluded.notes, status='draft',
-         content=excluded.content, slots=excluded.slots, offer_ids='[]', updated_at=CURRENT_TIMESTAMP`,
+         content=excluded.content, slots=excluded.slots, offer_ids=excluded.offer_ids, updated_at=CURRENT_TIMESTAMP`,
       ).run(
         studioId,
         YEAR,
@@ -232,6 +238,7 @@ export function applyApprovedPlan2027() {
         `Moment: ${m.moment}`,
         JSON.stringify(content),
         JSON.stringify(slots),
+        JSON.stringify(extras),
       );
       report.months++;
     }

@@ -677,7 +677,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
             "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
           ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, when Stronger in 30 2.0 opens.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, and the 30-day challenge picks it up from there.',
         },
         {
           month: 'Feb',
@@ -1551,7 +1551,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
             "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
           ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, when Stronger in 30 2.0 opens.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, and the 30-day challenge picks it up from there.',
         },
         {
           month: 'Feb',
@@ -2415,7 +2415,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
             "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
           ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, when Stronger in 30 2.0 opens.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, and the 30-day challenge picks it up from there.',
         },
         {
           month: 'Feb',

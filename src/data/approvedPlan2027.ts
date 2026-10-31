@@ -38,7 +38,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     hook: 'New Year · seven days unlimited · the annual re-up',
     job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, when Stronger in 30 2.0 opens.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, and the 30-day challenge picks it up from there.',
     figures: {
       target: 3120000,
       projected: 3280000,
@@ -1589,7 +1589,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     hook: 'New Year · seven days unlimited · the annual re-up',
     job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, when Stronger in 30 2.0 opens.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, and the 30-day challenge picks it up from there.',
     figures: {
       target: 1760000,
       projected: 1870000,
@@ -3151,7 +3151,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     hook: 'New Year · seven days unlimited · the annual re-up',
     job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, when Stronger in 30 2.0 opens.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, and the 30-day challenge picks it up from there.',
     figures: {
       target: 1290000,
       projected: 1380000,
@@ -4702,9 +4702,9 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 1,
     theme: 'Start Line',
     hook: 'New Year · Saturday squad · drop-in to pack',
-    job: 'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door — and a February pack carries a Stronger in 30 2.0 entry.',
+    job: 'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door — and a February pack carries an entry into the 30-day challenge.',
     moment:
-      'January is the first drop-in, the Saturday squad and the pack conversation at the door. Packs bought in February carry a Stronger in 30 2.0 entry.',
+      'January is the first drop-in, the Saturday squad and the pack conversation at the door. Packs bought in February carry an entry into the 30-day challenge.',
     figures: {
       target: 160000,
       newClientPlan: 20000,
