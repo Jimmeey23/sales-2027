@@ -7,35 +7,50 @@ export function useLoad<T = any>(loader: () => Promise<T>, dependencies: any[] =
   const loaderRef = useRef(loader);
   loaderRef.current = loader;
   const requestRef = useRef(0);
-  // Start the request on the first render rather than in an effect. An effect only runs after
-  // the whole screen has mounted and painted, which on a dense page is ~300 ms of layout the
-  // request could already have been in flight for. The effect below stays responsible for
-  // reloads after that (a dependency change, an explicit reload()).
-  const primed = useRef(false),
-    skipEffect = useRef(false);
-  const reload = useCallback(async () => {
-    const requestId = ++requestRef.current;
+  const earlyRequest = useRef<{ id: number; promise: Promise<T> } | null>(null);
+  const startedOnce = useRef(false);
+
+  const settle = useCallback((id: number, promise: Promise<T>) => {
     setLoading(true);
     setError(null);
-    try {
-      const value = await loaderRef.current();
-      if (requestId === requestRef.current) setData(value);
-      return value;
-    } catch (error: any) {
-      if (requestId === requestRef.current) setError(error.message);
-      throw error;
-    } finally {
-      if (requestId === requestRef.current) setLoading(false);
-    }
+    return promise
+      .then(
+        value => {
+          if (id === requestRef.current) setData(value);
+          return value;
+        },
+        (failure: any) => {
+          if (id === requestRef.current) setError(failure.message);
+          throw failure;
+        },
+      )
+      .finally(() => {
+        if (id === requestRef.current) setLoading(false);
+      });
+  }, []);
+
+  const reload = useCallback(() => {
+    const id = ++requestRef.current;
+    return settle(id, loaderRef.current());
   }, dependencies);
-  if (!primed.current) {
-    primed.current = true;
-    skipEffect.current = true;
-    reload().catch(() => {});
+
+  // Start the request on the very first render, not in the effect below. An effect only runs
+  // after the whole screen has mounted, and mounting a dense page is a few hundred milliseconds
+  // the request could already be in flight for. Starting a promise is not a state update, so it
+  // is safe here; the effect subscribes to it and owns every setState once React has mounted.
+  if (!startedOnce.current) {
+    startedOnce.current = true;
+    const id = ++requestRef.current;
+    const promise = loaderRef.current();
+    promise.catch(() => {}); // handled for real by the effect; never an unhandled rejection
+    earlyRequest.current = { id, promise };
   }
+
   useEffect(() => {
-    if (skipEffect.current) {
-      skipEffect.current = false;
+    const early = earlyRequest.current;
+    earlyRequest.current = null;
+    if (early) {
+      settle(early.id, early.promise).catch(() => {});
       return;
     }
     reload().catch(() => {});
