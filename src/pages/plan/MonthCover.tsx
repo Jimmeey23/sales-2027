@@ -230,8 +230,8 @@ export default function MonthCover({
       aria-modal="true"
       aria-label={`${MONTHS[month - 1]} overview`}
     >
-      {/* The photograph, as a whisper: enough of its colour to warm the sheet, none
-          of its detail, so the framed plate below is the only place the room is seen. */}
+      {/* The room itself: the cover is the photograph, cropped to the sheet, with the
+          type set into a scrim over its left edge. */}
       <div
         className="mc-photo"
         style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
@@ -382,39 +382,8 @@ export default function MonthCover({
                 57 numbered memberships · crowned this month
               </p>
             )}
-            {theme && (
-              <p className="mc-focus">
-                <span>Focus</span>
-                {theme}
-              </p>
-            )}
-            <h2>{MONTHS[month - 1]}</h2>
             {birthday && (
-              <p className="mc-ribbon">
-                <PartyPopper size={13} />
-                <span>{YEARS_TITLE} years of Physique 57 India</span>
-                <Cake size={13} />
-              </p>
-            )}
-            {brief && <p className="mc-brief">{brief}</p>}
-          </div>
-
-          {/* The plate: the month's photograph, framed. It is given its own aspect and
-              crops to it, so the frame always holds a composed picture rather than the
-              slice of one that a full-bleed background would leave behind. */}
-          <figure className="mc-plate">
-            <img
-              className="mc-plate-img"
-              src={photo.url}
-              alt=""
-              style={{ objectPosition: photo.pos }}
-              loading="eager"
-              decoding="async"
-            />
-            <span className="mc-plate-sheen" aria-hidden="true" />
-            <span className="mc-plate-edge" aria-hidden="true" />
-            {birthday && (
-              // The anniversary coin, struck into the frame's foot.
+              // The anniversary coin, struck over the room.
               <div className="mc-medallion" aria-hidden="true">
                 <span className="mc-med-halo" />
                 <span className="mc-med-ring">
@@ -432,7 +401,22 @@ export default function MonthCover({
                 </span>
               </div>
             )}
-          </figure>
+            {theme && (
+              <p className="mc-focus">
+                <span>Focus</span>
+                {theme}
+              </p>
+            )}
+            <h2>{MONTHS[month - 1]}</h2>
+            {birthday && (
+              <p className="mc-ribbon">
+                <PartyPopper size={13} />
+                <span>{YEARS_TITLE} years of Physique 57 India</span>
+                <Cake size={13} />
+              </p>
+            )}
+            {brief && <p className="mc-brief">{brief}</p>}
+          </div>
         </div>
 
         <div className="mc-panel">

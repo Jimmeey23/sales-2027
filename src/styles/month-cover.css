@@ -2434,61 +2434,6 @@
   max-width: 58ch;
 }
 
-.mc-plate {
-  position: relative;
-  min-height: 300px;
-  align-self: stretch;
-  margin: 0;
-  overflow: hidden;
-  border-radius: 18px;
-  background: #0b0f13;
-  box-shadow:
-    0 40px 70px -44px rgba(0, 0, 0, 0.95),
-    0 2px 8px rgba(0, 0, 0, 0.28);
-  animation: mc-plate-in 1.1s 0.18s cubic-bezier(0.22, 0.8, 0.24, 1) both;
-}
-@keyframes mc-plate-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.985);
-  }
-}
-.mc-plate-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transform: scale(1.015);
-  animation: mc-plate-push 22s cubic-bezier(0.3, 0.6, 0.4, 1) both;
-}
-@keyframes mc-plate-push {
-  to {
-    transform: scale(1.07);
-  }
-}
-/* A soft sheen top-left and a foot shadow, so the frame reads as glass over paper. */
-.mc-plate-sheen {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    158deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 32%,
-    transparent 68%,
-    rgba(4, 7, 10, 0.42) 100%
-  );
-}
-.mc-plate-edge {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
-}
-
 /* The plate is a photograph, but the anniversary still strikes its coin over it. */
 .mw-monthcover.is-birthday .mc-medallion {
   top: auto;
@@ -2564,10 +2509,6 @@
   .mw-monthcover .mc-hero {
     grid-template-columns: minmax(0, 1fr);
     gap: 18px;
-  }
-  .mc-plate {
-    min-height: 0;
-    aspect-ratio: 16 / 9;
   }
   .mw-monthcover.is-birthday .mc-medallion {
     right: 2%;
@@ -2651,34 +2592,6 @@
     font-size: 52px;
   }
 }
-@media (max-width: 720px) {
-  .mw-monthcover.is-birthday .mc-medallion {
-    right: 16px;
-    bottom: 16px;
-    width: 108px;
-    height: 108px;
-  }
-  .mw-monthcover.is-birthday .mc-med-ring b {
-    font-size: 46px;
-  }
-}
-
-/* Narrow screens: the photograph leads, at a fixed height, so the month opens on the
-   picture rather than on a screen of type. */
-@media (max-width: 720px) {
-  .mw-monthcover .mc-plate {
-    order: -1;
-    aspect-ratio: 16 / 9;
-    height: auto;
-    min-height: 0;
-  }
-}
-@media (max-width: 560px) {
-  .mw-monthcover .mc-plate {
-    height: 196px;
-    border-radius: 15px;
-  }
-}
 
 /* Only the hero may take the slack. The panel, the argument and the footer keep their
    height: as flex items they used to shrink to nothing on a short screen, which took
@@ -2706,9 +2619,6 @@
 
 .mw-monthcover.is-birthday .mc-hero {
   padding-right: 0;
-}
-.mw-monthcover.is-birthday .mc-plate {
-  position: relative;
 }
 .mw-monthcover.is-birthday .mc-medallion {
   top: auto;
@@ -2881,4 +2791,166 @@
     width: 10px;
     height: 10px;
   }
+}
+
+/* ═══ The cover, fourth cut: the room is the sheet ════════════════════════════
+   The photograph is not a framed picture any more. It fills the cover — the way the
+   month should open — and the sheet is read through a scrim that is heavy where the
+   type sits and clear where the room should be seen. The type keeps to one column on
+   the left so the subject stays in view on the right. */
+
+.mw-monthcover .mc-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: none;
+  opacity: 1;
+  transform-origin: 50% 40%;
+  animation: mc-room 40s cubic-bezier(0.22, 0.6, 0.3, 1) both;
+}
+@keyframes mc-room {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1.01);
+  }
+}
+
+/* Ink at the foot and along the left edge, clear over the subject. */
+.mw-monthcover .mc-scrim {
+  z-index: 1;
+  background: linear-gradient(
+      180deg,
+      rgba(6, 9, 12, 0.88) 0%,
+      rgba(6, 9, 12, 0.5) 11%,
+      rgba(6, 9, 12, 0.16) 28%,
+      rgba(6, 9, 12, 0.32) 52%,
+      rgba(6, 9, 12, 0.88) 78%,
+      rgba(6, 9, 12, 0.97) 100%
+    ),
+    linear-gradient(
+      94deg,
+      rgba(6, 9, 12, 0.94) 0%,
+      rgba(6, 9, 12, 0.78) 30%,
+      rgba(6, 9, 12, 0.34) 62%,
+      rgba(6, 9, 12, 0.04) 100%
+    );
+}
+
+/* One column of type: the picture carries the right of the sheet. The hero keeps its
+   own height — as a shrinking flex item it once collapsed and `align-content: end`
+   pushed the title up through the header. */
+.mw-monthcover .mc-hero {
+  grid-template-columns: minmax(0, 1fr);
+  flex: none;
+  align-content: end;
+  gap: 10px;
+  min-height: clamp(250px, 32vh, 340px);
+  margin-top: 14px;
+  padding-right: 0;
+  max-width: none;
+}
+.mw-monthcover .mc-hero-copy {
+  max-width: 58ch;
+}
+.mw-monthcover .mc-hero h2 {
+  font-size: clamp(58px, 7.6vw, 104px);
+}
+
+/* The panel is smoked glass over the picture, not a window into it. */
+.mw-monthcover .mc-panel {
+  background: linear-gradient(180deg, rgba(10, 13, 16, 0.74), rgba(8, 11, 14, 0.62));
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px) saturate(120%);
+}
+
+/* April's coin rides on the photograph, opposite the type and clear of the controls. */
+.mw-monthcover.is-birthday .mc-medallion {
+  top: 46%;
+  right: 46px;
+  bottom: auto;
+  left: auto;
+  width: 126px;
+  height: 126px;
+  margin-top: -63px;
+  z-index: 2;
+}
+.mw-monthcover.is-birthday .mc-med-ring b {
+  font-size: 56px;
+  margin-top: 6px;
+}
+.mw-monthcover.is-birthday .mc-med-crown {
+  top: -7px;
+  width: 27px;
+  height: 27px;
+}
+.mw-monthcover.is-birthday .mc-med-crown svg {
+  width: 13px;
+  height: 13px;
+}
+
+@media (max-width: 1080px) {
+  .mw-monthcover .mc-hero-copy {
+    max-width: 64ch;
+  }
+  .mw-monthcover.is-birthday .mc-medallion {
+    right: 26px;
+    width: 104px;
+    height: 104px;
+    margin-top: -52px;
+  }
+  .mw-monthcover.is-birthday .mc-med-ring b {
+    font-size: 46px;
+  }
+}
+@media (max-width: 900px) {
+  .mw-monthcover .mc-hero {
+    align-content: start;
+    min-height: 0;
+    margin-top: 10px;
+  }
+  .mw-monthcover .mc-scrim {
+    background: linear-gradient(
+        180deg,
+        rgba(6, 9, 12, 0.92) 0%,
+        rgba(6, 9, 12, 0.62) 14%,
+        rgba(6, 9, 12, 0.44) 34%,
+        rgba(6, 9, 12, 0.72) 62%,
+        rgba(6, 9, 12, 0.92) 84%,
+        rgba(6, 9, 12, 0.98) 100%
+      ),
+      radial-gradient(120% 70% at 78% 6%, rgba(6, 9, 12, 0.08), rgba(6, 9, 12, 0.55) 78%);
+  }
+}
+@media (max-width: 720px) {
+  .mw-monthcover.is-birthday .mc-medallion {
+    display: none;
+  }
+  .mw-monthcover .mc-hero h2 {
+    font-size: clamp(48px, 13vw, 74px);
+  }
+}
+
+/* Bunting hangs from the top edge in the sheet's own top margin — a garland above the
+   kicker, not through it. The pennants are smaller so they read as a detail at the
+   edge of the photograph and never cross the header type or the controls. */
+.mw-monthcover.is-birthday .mc-bunting {
+  height: 24px;
+}
+.mw-monthcover.is-birthday .mc-bunting::before {
+  top: 3px;
+  left: 0;
+  right: 0;
+}
+.mw-monthcover.is-birthday .mc-bunting i {
+  top: 3px;
+  border-top-width: 15px;
+  border-left-width: 6px;
+  border-right-width: 6px;
+}
+.mw-monthcover.is-birthday .mc-bunting i:nth-child(4n) {
+  border-top-width: 11px;
 }
