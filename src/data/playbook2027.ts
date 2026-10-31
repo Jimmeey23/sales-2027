@@ -147,88 +147,6 @@ export const PLAYBOOK_2027: PlaybookData = {
       },
       offers: [
         {
-          name: 'Week Zero',
-          tag: 'Acquisition',
-          months: 'Jan',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹55.7k vs the ₹3.6L stream plan) · 18 buyers',
-          logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge gives a reason to join now.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back for Stronger',
-          tag: 'Win-back',
-          months: 'Jan',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹50.4k vs the ₹3.6L stream plan) · 48 buyers',
-          logic:
-            'The challenge is members-only, so lapsed clients need a membership to take part. A deadline and a social event do more than a deeper discount.',
-          kpi: 'Lapsed clients entering the challenge.',
-          lever: 'winback',
-        },
-        {
-          name: 'Finish Line Renewal',
-          tag: 'Renewal',
-          months: 'Jan',
-          audience: 'Active members renewing in January or early February.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
-          economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers',
-          logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
-          kpi: 'Challenge finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'The Second Date for Two',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'Two first-timers who trial together.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). Free first Barre class for both; Class 2 booked together before leaving, free within 7 days; Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private',
-          economics:
-            '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹3.5L counted (+₹34.1k vs the ₹3.2L stream plan) · 21 buyers',
-          logic:
-            'Replaces BOGO (mostly existing clients, 33–53% renewal). Pairs keep each other attending, and the booked second class is the lever.',
-          kpi: 'Both new (check in Momence).',
-          lever: 'conversion',
-        },
-        {
-          name: "It's Not You, It's Our Schedule",
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M unlimited at the standing 15% lapsed perk; 2 extra freezes so travel can't break it again; A free comeback class to book first",
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.4L counted (+₹20.1k vs the ₹2.2L stream plan) · 36 buyers',
-          logic: "Valentine's gives a story without a deeper discount; freezes answer the most common lapse reason.",
-          kpi: 'Message open-to-buy rate.',
-          lever: 'winback',
-        },
-        {
-          name: 'Partners in Crime',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Two active members renewing in the same week.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer",
-          economics:
-            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹16.1L counted (+₹23.8k vs the ₹15.8L stream plan) · 88 buyers',
-          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
-          kpi: 'Next-renewal rate of pairs vs singles.',
-          lever: 'annual',
-        },
-        {
           name: 'The Second Date',
           tag: 'Acquisition',
           months: 'Mar',
@@ -621,35 +539,169 @@ export const PLAYBOOK_2027: PlaybookData = {
           kpi: 'December renewals of January expiries.',
           lever: 'annual',
         },
+        {
+          name: 'The First Seven Days',
+          tag: 'Acquisition',
+          months: 'Jan',
+          audience: 'First-time clients (phone verified).',
+          mechanic:
+            "Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy in January and you're pre-registered for February's challenge (target scaled)",
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹55.7k vs the ₹3.6L stream plan) · 18 buyers',
+          logic:
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
+          lever: 'conversion',
+        },
+        {
+          name: 'Back to the Barre',
+          tag: 'Win-back',
+          months: 'Jan',
+          audience: 'Clients lapsed 61–365 days.',
+          mechanic:
+            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Buy in January and you're pre-registered for February's challenge",
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹50.4k vs the ₹3.6L stream plan) · 48 buyers',
+          logic:
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+          kpi: 'Lapsed clients buying before 24 Jan.',
+          lever: 'winback',
+        },
+        {
+          name: 'The Annual Re-Up',
+          tag: 'Renewal',
+          months: 'Jan',
+          audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
+          mechanic:
+            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; Entry to February’s challenge, target scaled to the new term",
+          economics:
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers',
+          logic:
+            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+          kpi: 'Annuals re-upped; renewal yield.',
+          lever: 'annual',
+        },
+        {
+          name: 'Week Zero',
+          tag: 'Acquisition',
+          months: 'Feb',
+          audience: 'First-time clients (phone verified).',
+          mechanic:
+            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹55.7k vs the ₹3.6L stream plan) · 18 buyers',
+          logic:
+            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
+          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
+          lever: 'conversion',
+        },
+        {
+          name: 'Back for Stronger',
+          tag: 'Win-back',
+          months: 'Feb',
+          audience: 'Clients lapsed 61–365 days.',
+          mechanic:
+            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹50.4k vs the ₹3.6L stream plan) · 48 buyers',
+          logic:
+            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
+          kpi: 'Lapsed clients entering the challenge.',
+          lever: 'winback',
+        },
+        {
+          name: 'Finish Line Renewal',
+          tag: 'Renewal',
+          months: 'Feb',
+          audience: 'Active members renewing in late February or early March.',
+          mechanic:
+            "Renewal at your product's list price (no % off).; Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
+          economics:
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers',
+          logic:
+            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
+          kpi: 'Challenge finish rate; renewal yield.',
+          lever: 'annual',
+        },
+        {
+          name: 'The Second Date for Two',
+          tag: 'Acquisition',
+          months: 'Feb',
+          audience: 'Two first-timers who trial together.',
+          mechanic:
+            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; Free first Barre class for both; Class 2 booked together before leaving, free within 7 days; Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private; Both enter Stronger in 30 2.0 on purchase; both count as finishers if they hit the target',
+          economics:
+            '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹3.5L counted (+₹34.1k vs the ₹3.2L stream plan) · 21 buyers',
+          logic:
+            'Replaces BOGO (mostly existing clients, 33–53% renewal). Pairs keep each other attending, and the booked second class is the lever. Pairing them into the challenge gives the second class a deadline.',
+          kpi: 'Both new (check in Momence).',
+          lever: 'conversion',
+        },
+        {
+          name: "It's Not You, It's Our Schedule",
+          tag: 'Win-back',
+          months: 'Feb',
+          audience: 'Clients lapsed 61–365 days.',
+          mechanic:
+            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited at the standing 15% lapsed perk; 2 extra freezes so travel can't break it again; A free comeback class to book first; Entry to Stronger in 30 2.0, target scaled to the return date",
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.4L counted (+₹20.1k vs the ₹2.2L stream plan) · 36 buyers',
+          logic: "Valentine's gives a story without a deeper discount; freezes answer the most common lapse reason.",
+          kpi: 'Message open-to-buy rate.',
+          lever: 'winback',
+        },
+        {
+          name: 'Partners in Crime',
+          tag: 'Renewal',
+          months: 'Feb',
+          audience: 'Two active members renewing in the same week.',
+          mechanic:
+            "Renewal at your product's list price (no % off).; Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer; Both enter Stronger in 30 2.0; finishers keep the renewal bonus",
+          economics:
+            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹16.1L counted (+₹23.8k vs the ₹15.8L stream plan) · 88 buyers',
+          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
+          kpi: 'Next-renewal rate of pairs vs singles.',
+          lever: 'annual',
+        },
       ],
       months: [
         {
           month: 'Jan',
-          event: 'New Year · members-only 30-day challenge',
-          theme: 'Stronger in 30 2.0',
+          event: 'New Year · seven days unlimited · the annual re-up',
+          theme: 'Start Line',
           focus:
-            'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
-          offers: ['Week Zero', 'Back for Stronger', 'Finish Line Renewal'],
+            'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
+          offers: ['The First Seven Days', 'Back to the Barre', 'The Annual Re-Up'],
           actions: [
-            "Week Zero: Seven days unlimited. Then you're in the challenge.",
-            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Jan.",
-            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
+            'The First Seven Days: Seven days unlimited. Then decide.',
+            'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
+            "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
           ],
-          why: 'Stronger in 30 2.0 runs all January for active members. Entry is free with an active membership or pack, so every January offer doubles as a challenge entry ticket.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, when Stronger in 30 2.0 opens.',
         },
         {
           month: 'Feb',
-          event: "Valentine's Day (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-          theme: 'Better Together',
+          event: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
+          theme: 'Stronger in 30 2.0',
           focus:
-            'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-          offers: ['The Second Date for Two', "It's Not You, It's Our Schedule", 'Partners in Crime'],
-          actions: [
-            'The Second Date for Two: Bring someone. Your second dates are on us too.',
-            "It's Not You, It's Our Schedule: Let's try again. This time with freezes.",
-            'Partners in Crime: Renew with your workout partner. You both get more time.',
+            "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
+          offers: [
+            'Week Zero',
+            'Back for Stronger',
+            'Finish Line Renewal',
+            'The Second Date for Two',
+            "It's Not You, It's Our Schedule",
+            'Partners in Crime',
           ],
-          why: "Galentine's hosted class, Sat 13 Feb, with a named associate and the Encore QR at the door.",
+          actions: [
+            'Week Zero: Seven days unlimited. Then the challenge clock starts.',
+            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Feb.",
+            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
+            'The Second Date for Two: Bring someone. You both join the challenge.',
+            "It's Not You, It's Our Schedule: Let's try again. This time with freezes — and a challenge to come back for.",
+            'Partners in Crime: Renew with your workout partner. You both finish the challenge.',
+          ],
+          why: "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
         },
         {
           month: 'Mar',
@@ -968,88 +1020,6 @@ export const PLAYBOOK_2027: PlaybookData = {
         appTargetAtBuild: 22820000,
       },
       offers: [
-        {
-          name: 'Week Zero',
-          tag: 'Acquisition',
-          months: 'Jan',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.1L counted (+₹42k vs the ₹2.7L stream plan) · 19 buyers',
-          logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge gives a reason to join now.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back for Stronger',
-          tag: 'Win-back',
-          months: 'Jan',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.5L counted (+₹38.9k vs the ₹2.2L stream plan) · 38 buyers',
-          logic:
-            'The challenge is members-only, so lapsed clients need a membership to take part. A deadline and a social event do more than a deeper discount.',
-          kpi: 'Lapsed clients entering the challenge.',
-          lever: 'winback',
-        },
-        {
-          name: 'Finish Line Renewal',
-          tag: 'Renewal',
-          months: 'Jan',
-          audience: 'Active members renewing in January or early February.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
-          economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers',
-          logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
-          kpi: 'Challenge finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'The 30-Day Proof',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'First-time clients.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M unlimited at the standing 15%; Day-1 fitness check (3 measures), coach check-ins on days 7 and 21; Day-30 re-test: 12+ classes and no improvement on 2 of 3 measures → next month free',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹23.6k vs the ₹2.0L stream plan) · 16 buyers',
-          logic:
-            'Bandra has the lowest new-client conversion (17–26%). A guarantee answers the core objection; 12 classes almost always produce improvement, so it rarely pays out.',
-          kpi: 'Guarantee claims; conversion vs other Bandra journeys.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Come Back as a Pair',
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Lapsed clients plus a friend who is new to P57.',
-          mechanic:
-            '12-class pack: ₹16.7k (15% off the ₹19.7k list price). Lapsed client: 12-class pack at the standing 15%; Friend: free first class; If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.4L counted (+₹24.1k vs the ₹1.2L stream plan) · 25 buyers',
-          logic: 'One message, two streams: reactivation and a warm new lead.',
-          kpi: 'Friends who buy.',
-          lever: 'winback',
-        },
-        {
-          name: 'Partners in Crime',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Two active members renewing in the same week.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer",
-          economics:
-            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹12.1L counted (+₹17.8k vs the ₹11.9L stream plan) · 68 buyers',
-          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
-          kpi: 'Next-renewal rate of pairs vs singles.',
-          lever: 'annual',
-        },
         {
           name: 'Kickstart 21: She Moves Cohort',
           tag: 'Acquisition',
@@ -1443,35 +1413,169 @@ export const PLAYBOOK_2027: PlaybookData = {
           kpi: 'December renewals of January expiries.',
           lever: 'annual',
         },
+        {
+          name: 'The First Seven Days',
+          tag: 'Acquisition',
+          months: 'Jan',
+          audience: 'First-time clients (phone verified).',
+          mechanic:
+            "Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy in January and you're pre-registered for February's challenge (target scaled)",
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.1L counted (+₹42k vs the ₹2.7L stream plan) · 19 buyers',
+          logic:
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
+          lever: 'conversion',
+        },
+        {
+          name: 'Back to the Barre',
+          tag: 'Win-back',
+          months: 'Jan',
+          audience: 'Clients lapsed 61–365 days.',
+          mechanic:
+            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Buy in January and you're pre-registered for February's challenge",
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.5L counted (+₹38.9k vs the ₹2.2L stream plan) · 38 buyers',
+          logic:
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+          kpi: 'Lapsed clients buying before 24 Jan.',
+          lever: 'winback',
+        },
+        {
+          name: 'The Annual Re-Up',
+          tag: 'Renewal',
+          months: 'Jan',
+          audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
+          mechanic:
+            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; Entry to February’s challenge, target scaled to the new term",
+          economics:
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers',
+          logic:
+            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+          kpi: 'Annuals re-upped; renewal yield.',
+          lever: 'annual',
+        },
+        {
+          name: 'Week Zero',
+          tag: 'Acquisition',
+          months: 'Feb',
+          audience: 'First-time clients (phone verified).',
+          mechanic:
+            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.1L counted (+₹42k vs the ₹2.7L stream plan) · 19 buyers',
+          logic:
+            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
+          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
+          lever: 'conversion',
+        },
+        {
+          name: 'Back for Stronger',
+          tag: 'Win-back',
+          months: 'Feb',
+          audience: 'Clients lapsed 61–365 days.',
+          mechanic:
+            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.5L counted (+₹38.9k vs the ₹2.2L stream plan) · 38 buyers',
+          logic:
+            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
+          kpi: 'Lapsed clients entering the challenge.',
+          lever: 'winback',
+        },
+        {
+          name: 'Finish Line Renewal',
+          tag: 'Renewal',
+          months: 'Feb',
+          audience: 'Active members renewing in late February or early March.',
+          mechanic:
+            "Renewal at your product's list price (no % off).; Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
+          economics:
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers',
+          logic:
+            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
+          kpi: 'Challenge finish rate; renewal yield.',
+          lever: 'annual',
+        },
+        {
+          name: 'The 30-Day Proof',
+          tag: 'Acquisition',
+          months: 'Feb',
+          audience: 'First-time clients.',
+          mechanic:
+            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited at the standing 15%; Day-1 fitness check (3 measures), coach check-ins on days 7 and 21; Day-30 re-test: 12+ classes and no improvement on 2 of 3 measures → next month free; Counts as your Stronger in 30 2.0 entry from day 1',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹23.6k vs the ₹2.0L stream plan) · 16 buyers',
+          logic:
+            'Bandra has the lowest new-client conversion (17–26%). A guarantee answers the core objection; 12 classes almost always produce improvement, so it rarely pays out.',
+          kpi: 'Guarantee claims; conversion vs other Bandra journeys.',
+          lever: 'conversion',
+        },
+        {
+          name: 'Come Back as a Pair',
+          tag: 'Win-back',
+          months: 'Feb',
+          audience: 'Lapsed clients plus a friend who is new to P57.',
+          mechanic:
+            '12-class pack: ₹16.7k (15% off the ₹19.7k list price).; Lapsed client: 12-class pack at the standing 15%; Friend: free first class; If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month; Lapsed client and friend both enter Stronger in 30 2.0',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.4L counted (+₹24.1k vs the ₹1.2L stream plan) · 25 buyers',
+          logic: 'One message, two streams: reactivation and a warm new lead.',
+          kpi: 'Friends who buy.',
+          lever: 'winback',
+        },
+        {
+          name: 'Partners in Crime',
+          tag: 'Renewal',
+          months: 'Feb',
+          audience: 'Two active members renewing in the same week.',
+          mechanic:
+            "Renewal at your product's list price (no % off).; Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer; Both enter Stronger in 30 2.0; finishers keep the renewal bonus",
+          economics:
+            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹12.1L counted (+₹17.8k vs the ₹11.9L stream plan) · 68 buyers',
+          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
+          kpi: 'Next-renewal rate of pairs vs singles.',
+          lever: 'annual',
+        },
       ],
       months: [
         {
           month: 'Jan',
-          event: 'New Year · members-only 30-day challenge',
-          theme: 'Stronger in 30 2.0',
+          event: 'New Year · seven days unlimited · the annual re-up',
+          theme: 'Start Line',
           focus:
-            'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
-          offers: ['Week Zero', 'Back for Stronger', 'Finish Line Renewal'],
+            'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
+          offers: ['The First Seven Days', 'Back to the Barre', 'The Annual Re-Up'],
           actions: [
-            "Week Zero: Seven days unlimited. Then you're in the challenge.",
-            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Jan.",
-            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
+            'The First Seven Days: Seven days unlimited. Then decide.',
+            'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
+            "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
           ],
-          why: 'Stronger in 30 2.0 runs all January for active members. Entry is free with an active membership or pack, so every January offer doubles as a challenge entry ticket.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, when Stronger in 30 2.0 opens.',
         },
         {
           month: 'Feb',
-          event: "Valentine's Day (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-          theme: 'Better Together',
+          event: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
+          theme: 'Stronger in 30 2.0',
           focus:
-            'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-          offers: ['The 30-Day Proof', 'Come Back as a Pair', 'Partners in Crime'],
-          actions: [
-            "The 30-Day Proof: Show up 12 times. If you don't get stronger, next month is free.",
-            'Come Back as a Pair: Return with a friend. Their first class is on us.',
-            'Partners in Crime: Renew with your workout partner. You both get more time.',
+            "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
+          offers: [
+            'Week Zero',
+            'Back for Stronger',
+            'Finish Line Renewal',
+            'The 30-Day Proof',
+            'Come Back as a Pair',
+            'Partners in Crime',
           ],
-          why: "Galentine's hosted class, Sat 13 Feb, with a named associate and the Encore QR at the door.",
+          actions: [
+            'Week Zero: Seven days unlimited. Then the challenge clock starts.',
+            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Feb.",
+            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
+            "The 30-Day Proof: Show up 12 times. If you don't get stronger, next month is free.",
+            'Come Back as a Pair: Return with a friend. Their first class is on us — and you both enter the challenge.',
+            'Partners in Crime: Renew with your workout partner. You both finish the challenge.',
+          ],
+          why: "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
         },
         {
           month: 'Mar',
@@ -1640,9 +1744,9 @@ export const PLAYBOOK_2027: PlaybookData = {
         convTarget: 30.91,
       },
       channels: [
-        ['Website & online', 1145, 28.8, 8.0],
+        ['Website & online', 1145, 28.8, 8],
         ['Hosted & walk-in', 364, 85.4, 5.2],
-        ['Calls & WhatsApp', 324, 75.0, 25.3],
+        ['Calls & WhatsApp', 324, 75, 25.3],
         ['Referrals', 299, 85.3, 22.4],
         ['Other', 110, 35.5, 18.2],
         ['Social & influencer', 75, 33.3, 13.3],
@@ -1779,88 +1883,6 @@ export const PLAYBOOK_2027: PlaybookData = {
         appTargetAtBuild: 12590000,
       },
       offers: [
-        {
-          name: 'Week Zero',
-          tag: 'Acquisition',
-          months: 'Jan',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹54.3k vs the ₹3.5L stream plan) · 26 buyers',
-          logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge gives a reason to join now.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back for Stronger',
-          tag: 'Win-back',
-          months: 'Jan',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            '1M unlimited: ₹12.4k (15% off the ₹14.6k list price). 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.3L counted (+₹17.5k vs the ₹1.1L stream plan) · 23 buyers',
-          logic:
-            'The challenge is members-only, so lapsed clients need a membership to take part. A deadline and a social event do more than a deeper discount.',
-          kpi: 'Lapsed clients entering the challenge.',
-          lever: 'winback',
-        },
-        {
-          name: 'Finish Line Renewal',
-          tag: 'Renewal',
-          months: 'Jan',
-          audience: 'Active members renewing in January or early February.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
-          economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers',
-          logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
-          kpi: 'Challenge finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Swipe Right Flight',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹1.8k for the Tasting Flight (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 3 classes in 10 days: Barre, powerCycle and Strength Lab (Kwality: held 6 am Lab seats; Kenkere: Barre, Mat, Cardio Barre/FIT); All 3 booked at purchase; "Match" within 72 hours of class 3: full fee credited + standing 15% on any pack or membership',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹25.4k vs the ₹2.0L stream plan) · 17 buyers',
-          logic:
-            'The 2-for-1 converts at 21% into an ₹8k purchase; three visits sit in the 73–89% conversion zone and multi-format members renew at 85–87%.',
-          kpi: 'Flight → purchase (target 35–40%).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Come Back as a Pair',
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Lapsed clients plus a friend who is new to P57.',
-          mechanic:
-            '12-class pack: ₹11.2k (15% off the ₹13.1k list price). Lapsed client: 12-class pack at the standing 15%; Friend: free first class; If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.9L counted (+₹12.3k vs the ₹0.8L stream plan) · 20 buyers',
-          logic: 'One message, two streams: reactivation and a warm new lead.',
-          kpi: 'Friends who buy.',
-          lever: 'winback',
-        },
-        {
-          name: 'Partners in Crime',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Two active members renewing in the same week.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer",
-          economics:
-            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.8L counted (+₹10.1k vs the ₹6.7L stream plan) · 52 buyers',
-          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
-          kpi: 'Next-renewal rate of pairs vs singles.',
-          lever: 'annual',
-        },
         {
           name: 'Kickstart 21: She Moves Cohort',
           tag: 'Acquisition',
@@ -2255,35 +2277,169 @@ export const PLAYBOOK_2027: PlaybookData = {
           kpi: 'December renewals of January expiries.',
           lever: 'annual',
         },
+        {
+          name: 'The First Seven Days',
+          tag: 'Acquisition',
+          months: 'Jan',
+          audience: 'First-time clients (phone verified).',
+          mechanic:
+            "Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy in January and you're pre-registered for February's challenge (target scaled)",
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹54.3k vs the ₹3.5L stream plan) · 26 buyers',
+          logic:
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
+          lever: 'conversion',
+        },
+        {
+          name: 'Back to the Barre',
+          tag: 'Win-back',
+          months: 'Jan',
+          audience: 'Clients lapsed 61–365 days.',
+          mechanic:
+            "1M unlimited: ₹12.4k (15% off the ₹14.6k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Buy in January and you're pre-registered for February's challenge",
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.3L counted (+₹17.5k vs the ₹1.1L stream plan) · 23 buyers',
+          logic:
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+          kpi: 'Lapsed clients buying before 24 Jan.',
+          lever: 'winback',
+        },
+        {
+          name: 'The Annual Re-Up',
+          tag: 'Renewal',
+          months: 'Jan',
+          audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
+          mechanic:
+            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; Entry to February’s challenge, target scaled to the new term",
+          economics:
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers',
+          logic:
+            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+          kpi: 'Annuals re-upped; renewal yield.',
+          lever: 'annual',
+        },
+        {
+          name: 'Week Zero',
+          tag: 'Acquisition',
+          months: 'Feb',
+          audience: 'First-time clients (phone verified).',
+          mechanic:
+            'Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹54.3k vs the ₹3.5L stream plan) · 26 buyers',
+          logic:
+            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
+          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
+          lever: 'conversion',
+        },
+        {
+          name: 'Back for Stronger',
+          tag: 'Win-back',
+          months: 'Feb',
+          audience: 'Clients lapsed 61–365 days.',
+          mechanic:
+            '1M unlimited: ₹12.4k (15% off the ₹14.6k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.3L counted (+₹17.5k vs the ₹1.1L stream plan) · 23 buyers',
+          logic:
+            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
+          kpi: 'Lapsed clients entering the challenge.',
+          lever: 'winback',
+        },
+        {
+          name: 'Finish Line Renewal',
+          tag: 'Renewal',
+          months: 'Feb',
+          audience: 'Active members renewing in late February or early March.',
+          mechanic:
+            "Renewal at your product's list price (no % off).; Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
+          economics:
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers',
+          logic:
+            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
+          kpi: 'Challenge finish rate; renewal yield.',
+          lever: 'annual',
+        },
+        {
+          name: 'Swipe Right Flight',
+          tag: 'Acquisition',
+          months: 'Feb',
+          audience: 'First-time clients.',
+          mechanic:
+            'Intro: ₹1.8k for the Tasting Flight (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; 3 classes in 10 days: Barre, powerCycle and Strength Lab (Kwality: held 6 am Lab seats; Kenkere: Barre, Mat, Cardio Barre/FIT); All 3 booked at purchase; "Match" within 72 hours of class 3: full fee credited + standing 15% on any pack or membership; All three classes count toward Stronger in 30 2.0',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹25.4k vs the ₹2.0L stream plan) · 17 buyers',
+          logic:
+            'The 2-for-1 converts at 21% into an ₹8k purchase; three visits sit in the 73–89% conversion zone and multi-format members renew at 85–87%.',
+          kpi: 'Flight → purchase (target 35–40%).',
+          lever: 'conversion',
+        },
+        {
+          name: 'Come Back as a Pair',
+          tag: 'Win-back',
+          months: 'Feb',
+          audience: 'Lapsed clients plus a friend who is new to P57.',
+          mechanic:
+            '12-class pack: ₹11.2k (15% off the ₹13.1k list price).; Lapsed client: 12-class pack at the standing 15%; Friend: free first class; If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month; Lapsed client and friend both enter Stronger in 30 2.0',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.9L counted (+₹12.3k vs the ₹0.8L stream plan) · 20 buyers',
+          logic: 'One message, two streams: reactivation and a warm new lead.',
+          kpi: 'Friends who buy.',
+          lever: 'winback',
+        },
+        {
+          name: 'Partners in Crime',
+          tag: 'Renewal',
+          months: 'Feb',
+          audience: 'Two active members renewing in the same week.',
+          mechanic:
+            "Renewal at your product's list price (no % off).; Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer; Both enter Stronger in 30 2.0; finishers keep the renewal bonus",
+          economics:
+            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.8L counted (+₹10.1k vs the ₹6.7L stream plan) · 52 buyers',
+          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
+          kpi: 'Next-renewal rate of pairs vs singles.',
+          lever: 'annual',
+        },
       ],
       months: [
         {
           month: 'Jan',
-          event: 'New Year · members-only 30-day challenge',
-          theme: 'Stronger in 30 2.0',
+          event: 'New Year · seven days unlimited · the annual re-up',
+          theme: 'Start Line',
           focus:
-            'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
-          offers: ['Week Zero', 'Back for Stronger', 'Finish Line Renewal'],
+            'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
+          offers: ['The First Seven Days', 'Back to the Barre', 'The Annual Re-Up'],
           actions: [
-            "Week Zero: Seven days unlimited. Then you're in the challenge.",
-            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Jan.",
-            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
+            'The First Seven Days: Seven days unlimited. Then decide.',
+            'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
+            "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
           ],
-          why: 'Stronger in 30 2.0 runs all January for active members. Entry is free with an active membership or pack, so every January offer doubles as a challenge entry ticket.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, when Stronger in 30 2.0 opens.',
         },
         {
           month: 'Feb',
-          event: "Valentine's Day (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-          theme: 'Better Together',
+          event: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
+          theme: 'Stronger in 30 2.0',
           focus:
-            'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-          offers: ['Swipe Right Flight', 'Come Back as a Pair', 'Partners in Crime'],
-          actions: [
-            'Swipe Right Flight: Three first dates, three formats, ten days.',
-            'Come Back as a Pair: Return with a friend. Their first class is on us.',
-            'Partners in Crime: Renew with your workout partner. You both get more time.',
+            "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
+          offers: [
+            'Week Zero',
+            'Back for Stronger',
+            'Finish Line Renewal',
+            'Swipe Right Flight',
+            'Come Back as a Pair',
+            'Partners in Crime',
           ],
-          why: "Galentine's hosted class, Sat 13 Feb, with a named associate and the Encore QR at the door.",
+          actions: [
+            'Week Zero: Seven days unlimited. Then the challenge clock starts.',
+            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Feb.",
+            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
+            'Swipe Right Flight: Three first dates, three formats, ten days.',
+            'Come Back as a Pair: Return with a friend. Their first class is on us — and you both enter the challenge.',
+            'Partners in Crime: Renew with your workout partner. You both finish the challenge.',
+          ],
+          why: "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
         },
         {
           month: 'Mar',
@@ -2452,9 +2608,9 @@ export const PLAYBOOK_2027: PlaybookData = {
         convTarget: 29.39,
       },
       channels: [
-        ['Website & online', 1905, 12.4, 7.0],
+        ['Website & online', 1905, 12.4, 7],
         ['Hosted & walk-in', 524, 69.5, 4.8],
-        ['Referrals', 455, 78.9, 29.0],
+        ['Referrals', 455, 78.9, 29],
         ['Calls & WhatsApp', 180, 71.1, 47.2],
         ['Other', 82, 56.1, 46.3],
         ['Social & influencer', 71, 42.3, 8.5],
@@ -2673,35 +2829,112 @@ export const PLAYBOOK_2027: PlaybookData = {
           kpi: 'Kenkere visits.',
           lever: null,
         },
+        {
+          name: 'First Drop-in Counts',
+          tag: 'Acquisition',
+          months: 'Jan',
+          audience: 'First-time pop-up clients.',
+          mechanic:
+            '8-class pack: ₹6.9k (list price).; First drop-in fee credited toward a C+C 8-class pack bought within 7 days',
+          economics:
+            '13.6% effective = 0% cash + 13.6% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (+₹0.9k vs the ₹0.2L stream plan) · 2 buyers',
+          logic: 'Only 2.9% of first visits buy a pack, yet 63% buy something.',
+          kpi: 'Pack conversion of first visits.',
+          lever: 'conversion',
+        },
+        {
+          name: 'Missed You at the Pop-up',
+          tag: 'Win-back',
+          months: 'Jan',
+          audience: 'Lapsed pop-up clients.',
+          mechanic:
+            '8-class pack: ₹5.9k (15% off the ₹6.9k list price).; 8-class pack at the standing 15% + a free return class',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (+₹1.3k vs the ₹0.2L stream plan) · 13 buyers',
+          logic: 'Most pop-up reactivations are single credits.',
+          kpi: 'Pack share.',
+          lever: 'winback',
+        },
+        {
+          name: "Credit Where It's Due",
+          tag: 'Renewal',
+          months: 'Jan',
+          audience: 'Clients with 3+ drop-ins in 60 days.',
+          mechanic: '10-class pack: ₹8.5k (list price).; Last 2 drop-ins credited toward a C+C 10-class pack',
+          economics:
+            '22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (−₹1.3k vs the ₹0.2L stream plan) · 2 buyers',
+          logic: '186 regulars spent ~₹4,000 each on drop-ins, already half a pack.',
+          kpi: 'Effective ≈22%.',
+          lever: 'annual',
+        },
+        {
+          name: 'Saturday Squad',
+          tag: 'Acquisition',
+          months: 'Feb',
+          audience: 'First-timers on Saturdays.',
+          mechanic:
+            '4-class pack: ₹4k (15% off the ₹4.7k list price).; Bring a friend free; Both buy a 4-class pack at the standing 15%; A February pack is your Stronger in 30 2.0 entry',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.1L counted (+₹0.2k vs the ₹0.1L stream plan) · 1 buyers',
+          logic: 'Saturday fill is 43% vs 13–20% on weekdays.',
+          kpi: 'Saturday attendance.',
+          lever: 'conversion',
+        },
+        {
+          name: 'Neighbourhood Reunion',
+          tag: 'Win-back',
+          months: 'Feb',
+          audience: 'Lapsed pop-up clients.',
+          mechanic:
+            '4-class pack: ₹4k (15% off the ₹4.7k list price).; Monthly reunion class; At the door: 4-class pack at the standing 15%; A February pack is your Stronger in 30 2.0 entry',
+          economics:
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.1L counted (+₹1.1k vs the ₹0.1L stream plan) · 8 buyers',
+          logic: 'Saturday is the only day with real fill.',
+          kpi: 'Door conversion.',
+          lever: 'winback',
+        },
+        {
+          name: "Credit Where It's Due",
+          tag: 'Renewal',
+          months: 'Feb',
+          audience: 'Clients with 3+ drop-ins in 60 days.',
+          mechanic:
+            '10-class pack: ₹8.5k (list price).; Last 2 drop-ins credited toward a C+C 10-class pack; A February pack is your Stronger in 30 2.0 entry',
+          economics:
+            '22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (−₹1.3k vs the ₹0.2L stream plan) · 2 buyers',
+          logic: '186 regulars spent ~₹4,000 each on drop-ins, already half a pack.',
+          kpi: 'Effective ≈22%.',
+          lever: 'annual',
+        },
       ],
       months: [
         {
           month: 'Jan',
-          event: 'New Year · members-only 30-day challenge',
-          theme: 'Stronger in 30 2.0',
+          event: 'New Year · Saturday squad · drop-in to pack',
+          theme: 'Start Line',
           focus:
-            'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
+            'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door — and a February pack carries a Stronger in 30 2.0 entry.',
           offers: ['First Drop-in Counts', 'Missed You at the Pop-up', "Credit Where It's Due"],
           actions: [
             'First Drop-in Counts: Your first class fee comes off your first pack.',
             'Missed You at the Pop-up: Your neighbourhood class is waiting.',
             "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
           ],
-          why: 'Stronger in 30 2.0 runs all January for active members. Entry is free with an active membership or pack, so every January offer doubles as a challenge entry ticket.',
+          why: 'Nothing to enter this month: the work is pack conversion, the Saturday squad and the door. Packs bought in February carry a Stronger in 30 2.0 entry.',
         },
         {
           month: 'Feb',
-          event: "Valentine's Day (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-          theme: 'Better Together',
+          event: "The 30-day challenge · Saturday squad · Galentine's (Sat 13 Feb)",
+          theme: 'Stronger in 30 2.0',
           focus:
-            'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
+            "Run the challenge for pack holders: every February pack enters it, the Saturday squad is the welcoming floor, and Galentine's is the reason to bring someone.",
           offers: ['Saturday Squad', 'Neighbourhood Reunion', "Credit Where It's Due"],
           actions: [
-            'Saturday Squad: Saturdays: bring a friend free.',
+            'Saturday Squad: Saturdays: bring a friend free — and the pack is your challenge entry.',
             'Neighbourhood Reunion: One Saturday a month, all the regulars.',
             "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
           ],
-          why: "Galentine's hosted class, Sat 13 Feb, with a named associate and the Encore QR at the door.",
+          why: "Stronger in 30 2.0 runs 1–28 Feb and a February pack is the entry. The Saturday squad is the floor; the Galentine's class on Sat 13 Feb is the mid-challenge event.",
         },
         {
           month: 'Mar',
@@ -2872,10 +3105,10 @@ export const PLAYBOOK_2027: PlaybookData = {
       channels: [
         ['Website & online', 997, 11.5, 9.8],
         ['Other', 283, 19.8, 13.4],
-        ['Calls & WhatsApp', 238, 71.0, 62.6],
+        ['Calls & WhatsApp', 238, 71, 62.6],
         ['Referrals', 71, 90.1, 76.1],
         ['Hosted & walk-in', 57, 73.7, 1.8],
-        ['Social & influencer', 43, 79.1, 14.0],
+        ['Social & influencer', 43, 79.1, 14],
       ],
       slots: [
         ['Weekday · Early (before 9)', 17, 1099, 120],
