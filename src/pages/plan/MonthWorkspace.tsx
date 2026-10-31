@@ -73,6 +73,7 @@ import MonthOverview from './MonthOverview';
 import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
+import { planPricing } from '../../lib/offerPricing';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
 
@@ -3430,7 +3431,9 @@ export default function MonthWorkspace({
                                                     <em>{a.headline || a.benefit}</em>
                                                   </span>
                                                   <small title="Scenario only — not counted in the month's forecast">
-                                                    {lakh(n(a.expected_revenue))} scenario
+                                                    {forecastRevenue(a) > 0
+                                                      ? `${lakh(forecastRevenue(a))} scenario`
+                                                      : 'No forecast'}
                                                   </small>
                                                   {o.approval_status !== 'approved' && (
                                                     <button
@@ -4812,7 +4815,7 @@ function OfferCard({
   no,
   slot,
   streamLabel,
-  list,
+  list: catalogueList,
   productLabel,
   editable,
   canSwap = editable,
@@ -4875,9 +4878,19 @@ function OfferCard({
   const metrics = parseList(o.success_metrics),
     risks = parseList(o.risks);
 
-  const offerPrice = n(o.expected_asp);
+  // The record carries an average selling price, not a ticket. Where the plan states the
+  // price and the list price in its own sentence, those are what the card quotes; the average
+  // is then only used for the revenue arithmetic, and labelled as an average.
+  const plan = planPricing(o);
+  const asp = n(o.expected_asp);
+  const quotedPrice = plan.price && plan.price > 0 ? plan.price : null;
+  const isAverageTicket = quotedPrice === null;
+  const offerPrice = quotedPrice ?? asp;
+  const list = plan.list ?? catalogueList;
   const rawDisc = o.provenance?.pricing?.discount;
-  const cashDisc = rawDisc !== undefined && rawDisc !== null ? n(rawDisc) : null;
+  const cashDisc =
+    plan.cashPct != null ? plan.cashPct / 100 : rawDisc !== undefined && rawDisc !== null ? n(rawDisc) : null;
+  const perkDisc = plan.perkPct != null ? plan.perkPct / 100 : null;
   const effPct = n(o.effective_discount);
   const featuredSell = list ? Math.round(list * (1 - (cashDisc ?? 0))) : null;
   const isBlendedTicket = Boolean(
@@ -4887,11 +4900,17 @@ function OfferCard({
       Math.abs(offerPrice - featuredSell) > Math.max(100, list * 0.03) &&
       offerPrice < featuredSell * 0.9,
   );
+  // A struck-out price needs a real reference: either the plan's list price, or a percentage
+  // offer whose list can be derived from its own discount. Never invent one for a ticket the
+  // plan states outright.
   const isDirectCashCut =
     !isBlendedTicket &&
     ((list && offerPrice > 0 && list - offerPrice > 1) ||
-      (!list && cashDisc !== null && cashDisc > 0 && cashDisc < 1) ||
-      (!list && cashDisc === null && o.offer_type === 'percentage' && effPct > 0 && effPct < 100));
+      (!list &&
+        isAverageTicket &&
+        !plan.atList &&
+        o.offer_type === 'percentage' &&
+        ((cashDisc !== null && cashDisc > 0 && cashDisc < 1) || (cashDisc === null && effPct > 0 && effPct < 100))));
   const strikePrice = isDirectCashCut
     ? list && list > offerPrice + 1
       ? list
@@ -4903,28 +4922,58 @@ function OfferCard({
   const directPct = strikePrice && strikePrice > 0 ? directSaving / strikePrice : 0;
 
   const fmtPct = (v: number) => `${Number(v.toFixed(1))}%`;
-  const hasCashDiscount = (cashDisc !== null && cashDisc > 0) || isDirectCashCut;
 
   // Column 1: List price / Featured MRP (only crossed out when there is a real direct price cut)
   const listColLabel = isBlendedTicket ? 'Featured MRP' : 'List price';
   const listColSub = isBlendedTicket && productLabel ? productLabel : !list && !strikePrice ? 'Standard tariff' : null;
 
-  // Column 2: Offer price / Blended cohort avg ticket
-  const offerColLabel = isBlendedTicket ? 'Avg ticket' : 'Offer price';
-  const offerColSub = isBlendedTicket
-    ? cashDisc && cashDisc > 0
-      ? `Featured: ${money(featuredSell, true)} (${Math.round(cashDisc * 100)}% off)`
-      : 'Blended across tiers'
-    : null;
+  // Column 2: Offer price when the plan states one; otherwise the average ticket, said plainly.
+  const offerColLabel = isAverageTicket ? 'Average ticket' : isBlendedTicket ? 'Avg ticket' : 'Offer price';
+  const offerColSub = isAverageTicket
+    ? plan.atList
+      ? 'renews at list price'
+      : 'per buyer, price varies'
+    : isBlendedTicket
+      ? cashDisc && cashDisc > 0
+        ? `Featured: ${money(featuredSell, true)} (${Math.round(cashDisc * 100)}% off)`
+        : 'Blended across tiers'
+      : null;
 
-  // Column 3: Client saves / Value-add structured display
-  const savesPrimary =
-    directSaving > 0 ? money(directSaving) : hasCashDiscount ? `${fmtPct((cashDisc ?? 0) * 100)} off` : null;
+  // What the client gets: a real cash cut off list, or the value the plan adds on top.
+  const hasCashCut = cashDisc !== null && cashDisc > 0;
+  const cashCutPct = hasCashCut ? cashDisc * 100 : 0;
+  const perkValuePct = perkDisc !== null && perkDisc > 0 ? perkDisc * 100 : 0;
+  const savesPrimary = hasCashCut
+    ? directSaving > 0
+      ? money(directSaving)
+      : `${fmtPct(cashCutPct)} off`
+    : perkValuePct > 0
+      ? `+${fmtPct(perkValuePct)}`
+      : effPct > 0
+        ? `+${fmtPct(effPct)}`
+        : null;
+  const savesNote = hasCashCut
+    ? directSaving > 0 && list
+      ? `off the ${money(list)} list price`
+      : plan.credited
+        ? 'off the next purchase'
+        : 'Off the list price'
+    : perkValuePct > 0 || effPct > 0
+      ? 'In perks & extras'
+      : 'No price cut';
+  const discountNote =
+    hasCashCut && perkValuePct > 0
+      ? `${fmtPct(cashCutPct)} cash + ${fmtPct(perkValuePct)} perks`
+      : hasCashCut
+        ? 'Cash off the list price'
+        : perkValuePct > 0 || effPct > 0
+          ? 'Perk value only'
+          : 'No discount';
   const savesPillText =
     directSaving > 0
       ? `${fmtPct(directPct * 100)} off list`
-      : hasCashDiscount
-        ? effPct > (cashDisc ?? 0) * 100 + 0.2
+      : hasCashCut
+        ? effPct > cashCutPct + 0.2
           ? `${fmtPct(effPct)} total value`
           : 'Campaign rate'
         : effPct > 0
@@ -5031,15 +5080,31 @@ function OfferCard({
       return out;
     };
 
-    const what = productLabel || (o.offer_type ? titleCase(o.offer_type) : '');
+    // What is being sold and at what price — the plan's price when it states one, otherwise the
+    // average buyers actually pay, said as an average.
+    const what = productLabel || plan.label || (o.offer_type ? titleCase(o.offer_type) : '');
     const price = offerPrice ? money(offerPrice) : '';
-    const headline = what ? (price ? `${what} at ${price}` : what) : price ? `Priced at ${price}` : '';
+    const headline = isAverageTicket
+      ? price
+        ? what
+          ? `${what}, ${price} average`
+          : `Average ticket ${price}`
+        : what
+      : what
+        ? price
+          ? `${what} at ${price}`
+          : what
+        : price
+          ? `Priced at ${price}`
+          : '';
 
     const discount = (() => {
       if (strikePrice && offerPrice && strikePrice > offerPrice * 1.01) {
         return `${fmtPct(directPct * 100)} below the ${money(strikePrice)} list price`;
       }
-      if (cashDisc && cashDisc > 0 && list) return `${Math.round(cashDisc * 100)}% below the ${money(list)} list price`;
+      if (hasCashCut && list) return `${fmtPct(cashCutPct)} below the ${money(list)} list price`;
+      if (plan.credited) return `credited back at purchase`;
+      if (perkValuePct > 0) return `with ${fmtPct(perkValuePct)} back in perks and extras`;
       if (effPct > 0) return `with ${fmtPct(effPct)} back in value`;
       return '';
     })();
@@ -5059,7 +5124,17 @@ function OfferCard({
       : firstSentences(o.customer_copy || plain(o.benefit) || plain(mechanicsText), 140);
 
     const lead = [headline, discount].filter(Boolean).join(', ');
-    const parts = [lead ? (/[.!?]$/.test(lead) ? lead : `${lead}.`) : '', description].filter(Boolean);
+    // The plan often repeats its own tagline as the customer copy; say it once.
+    const bare = (value: string) =>
+      value
+        .trim()
+        .replace(/[.!?]+$/, '')
+        .toLowerCase();
+    const repeatsHeadline =
+      bare(description) === bare(String(o.headline || '')) || bare(description) === bare(String(o.benefit || ''));
+    const parts = [lead ? (/[.!?]$/.test(lead) ? lead : `${lead}.`) : '', repeatsHeadline ? '' : description].filter(
+      Boolean,
+    );
     return parts.join(' ').trim();
   })();
 
@@ -5067,13 +5142,18 @@ function OfferCard({
   const clampPct = (value: number) =>
     Number.isFinite(value) ? Math.round(Math.max(0, Math.min(100, value)) * 10) / 10 : 0;
   const valueBar = clampPct(effPct);
-  const cashBar = clampPct(cashDisc !== null && cashDisc > 0 ? Math.min(cashDisc * 100, effPct) : 0);
+  const cashBar = clampPct(hasCashCut ? Math.min(cashCutPct, effPct) : 0);
   const ticketBase = strikePrice || (isBlendedTicket ? featuredSell : list);
   const ticketBar = ticketBase && offerPrice ? clampPct((offerPrice / ticketBase) * 100) : 0;
   const unitsBar = monthUnits > 0 && units ? clampPct((units / monthUnits) * 100) : 0;
   const revenueBar = sharePct !== null ? Math.max(2, clampPct(sharePct)) : 0;
   const marginPct = contribution !== null && revenue ? (contribution / revenue) * 100 : null;
   const marginBar = marginPct !== null ? clampPct(marginPct) : 0;
+  // Delivery costs are not in the data yet, so a contribution figure cannot be computed and the
+  // card does not pretend otherwise. What the offer gives away, however, is arithmetic: the
+  // effective discount applied to its own forecast.
+  const discountCost = revenue !== null && effPct > 0 ? (revenue * effPct) / 100 : null;
+  const cashCost = revenue !== null && hasCashCut ? (revenue * cashCutPct) / 100 : null;
 
   // The spec sheet: what the offer is, in the client's own words, on what terms, and the arithmetic
   // behind its forecast. Every line is derived from the offer record or its plan provenance.
@@ -5120,9 +5200,13 @@ function OfferCard({
     if (salesLogic) rows.push({ label: 'Sales logic', value: salesLogic });
 
     const model = line(['model', 'revenue', 'logic']);
+    // Revenue is units × average ticket; the ticket the plan states is not the multiplier, so
+    // the line names the average explicitly instead of implying the price builds the forecast.
     const arithmetic =
-      units && offerPrice && revenue !== null
-        ? `${number(units)} × ${money(offerPrice)} = ${lakh(revenue)}${sharePct !== null ? ` (${fmtPct(sharePct)} of the month)` : ''}`
+      units && asp && revenue !== null
+        ? `${number(units)} buyers × ${money(asp)} average ticket = ${lakh(revenue)}${
+            sharePct !== null ? ` (${fmtPct(sharePct)} of the month)` : ''
+          }`
         : '';
     if (model) rows.push({ label: 'Revenue logic', value: cut(model, 320) });
     else if (arithmetic) rows.push({ label: 'Revenue logic', value: arithmetic });
@@ -5172,7 +5256,14 @@ function OfferCard({
           <div
             className="ocv-photo"
             aria-hidden="true"
-            style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }}
+            style={
+              {
+                backgroundImage: `url(${heroPhoto.url})`,
+                // The framing is a custom property so the layout can re-crop: a wide band and a
+                // tall plate need different crops of the same shot.
+                '--photo-focus': heroPhoto.pos,
+              } as React.CSSProperties
+            }
           />
           <span className="ocv-wash" aria-hidden="true" />
 
@@ -5337,7 +5428,7 @@ function OfferCard({
               <strong className="ocv-fig-value">{revenue !== null ? lakh(revenue) : '—'}</strong>
               <span className="ocv-fig-note">
                 {sharePct !== null
-                  ? `${sharePct.toFixed(sharePct < 10 ? 1 : 0)}% of ${monthTarget ? lakh(monthTarget) : 'the'} target`
+                  ? `${fmtPct(sharePct)} of ${monthTarget ? lakh(monthTarget) : 'the'} target`
                   : 'No forecast yet'}
               </span>
               <span className="ocv-meter" aria-hidden="true">
@@ -5359,7 +5450,9 @@ function OfferCard({
               </strong>
               <span className="ocv-fig-note">
                 {monthUnits > 0
-                  ? `of ${number(monthUnits)}${monthUnitsLabel ? ` ${monthUnitsLabel}` : ''} this month`
+                  ? units > monthUnits
+                    ? `${fmtPct((units / monthUnits) * 100)} of the ${number(monthUnits)}${monthUnitsLabel ? ` ${monthUnitsLabel}` : ''} planned`
+                    : `of ${number(monthUnits)}${monthUnitsLabel ? ` ${monthUnitsLabel}` : ''} this month`
                   : `over ${days} days`}
               </span>
               <span className="ocv-meter" aria-hidden="true">
@@ -5369,18 +5462,34 @@ function OfferCard({
 
             <div
               className="ocv-fig"
-              style={{ ['--fill' as string]: `${Math.round(marginBar)}%` } as React.CSSProperties}
-              title={contribution === null ? 'Delivery costs are not set for this offer yet' : undefined}
+              style={
+                {
+                  ['--fill' as string]: `${Math.round(contribution !== null ? marginBar : valueBar)}%`,
+                } as React.CSSProperties
+              }
+              title={
+                contribution !== null
+                  ? 'Contribution after delivery cost and campaign budget'
+                  : discountCost !== null
+                    ? 'What the offer gives back: its forecast revenue at the effective discount'
+                    : 'No forecast to price the discount against yet'
+              }
             >
               <span className="ocv-fig-label">
                 <Wallet size={12} />
-                Contribution
+                {contribution !== null ? 'Contribution' : 'Given back'}
               </span>
-              <strong className={`ocv-fig-value${contribution === null ? ' is-muted' : ''}`}>
-                {contribution === null ? '—' : lakh(contribution)}
+              <strong className={`ocv-fig-value${contribution === null && discountCost === null ? ' is-muted' : ''}`}>
+                {contribution !== null ? lakh(contribution) : discountCost !== null ? lakh(discountCost) : '—'}
               </strong>
               <span className="ocv-fig-note">
-                {marginPct !== null ? `${marginPct.toFixed(0)}% margin` : 'Costs pending'}
+                {contribution !== null
+                  ? `${marginPct === null ? '' : `${marginPct.toFixed(0)}% margin`}`
+                  : discountCost !== null
+                    ? `${fmtPct(effPct)} of revenue${
+                        cashCost !== null && perkValuePct > 0 ? ` · ${lakh(cashCost)} in cash` : ''
+                      }`
+                    : 'No forecast yet'}
               </span>
               <span className="ocv-meter" aria-hidden="true">
                 <i />
@@ -5403,7 +5512,11 @@ function OfferCard({
                     ? `vs ${money(featuredSell)} featured`
                     : list
                       ? `of ${money(list)} list`
-                      : 'No list comparison'}
+                      : isAverageTicket
+                        ? offerColSub
+                        : plan.credited
+                          ? 'credited at purchase'
+                          : 'set by the plan'}
               </em>
               <span
                 className="ocv-fact-bar"
@@ -5414,7 +5527,7 @@ function OfferCard({
             <div className="ocv-fact">
               <span className="ocv-fact-label">Client gets</span>
               <b>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</b>
-              <em>{hasCashDiscount ? 'Off the list price' : effPct > 0 ? 'In perks & extras' : 'No price cut'}</em>
+              <em>{savesNote}</em>
               <span
                 className="ocv-fact-bar"
                 aria-hidden="true"
@@ -5424,7 +5537,7 @@ function OfferCard({
             <div className="ocv-fact">
               <span className="ocv-fact-label">Effective discount</span>
               <b className={effPct > 0 ? '' : 'is-muted'}>{effPct > 0 ? fmtPct(effPct) : 'None'}</b>
-              <em>{cashBar > 0 ? 'Cash + perk value' : effPct > 0 ? 'Perk value only' : 'No discount'}</em>
+              <em>{discountNote}</em>
               <span
                 className="ocv-fact-bar"
                 aria-hidden="true"

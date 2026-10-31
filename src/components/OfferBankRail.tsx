@@ -18,7 +18,7 @@ import { useLoad } from '../hooks';
 import { LoadingRows } from './ui';
 import { MONTHS, MONTHS_SHORT, money, number, percent, titleCase } from '../types';
 import { selectedInMonth } from '../pages/plan/TargetsTab';
-import type { PlanData } from '../pages/plan/usePlanData';
+import { lakh, type PlanData } from '../pages/plan/usePlanData';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    The offer bank, standing beside the offer studio.
@@ -242,7 +242,7 @@ export default function OfferBankRail({
                       <b>{discount > 0 ? percent(discount) : '—'}</b> off
                     </span>
                     <span>
-                      <b>{revenue ? money(revenue, true) : '—'}</b> forecast
+                      <b>{revenue ? lakh(revenue) : '—'}</b> forecast
                     </span>
                     <span>{titleCase(offer.offer_type || '')}</span>
                   </div>
