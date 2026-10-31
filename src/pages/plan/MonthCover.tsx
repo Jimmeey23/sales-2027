@@ -13,6 +13,7 @@ import {
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
+import { MechanicMini } from './AnniversaryMechanics';
 
 /* The cover that opens before a month plan: the month's focus and brief over its lead
    photograph, then the numbers that define the month — revenue split, lead requirement,
@@ -64,6 +65,16 @@ const BALLOONS = [0, 1, 2, 3, 4].map(i => ({
   duration: `${(18 + frac(i, 6.19) * 10).toFixed(1)}s`,
   size: 34 + Math.round(frac(i, 8.03) * 22),
   tone: CONFETTI[i % CONFETTI.length],
+}));
+/* Gold dust: the confetti above is paper, this is light. Twenty-six specks, each on its own
+   slow rise and fade, so the photograph breathes instead of glittering. */
+const DUST = Array.from({ length: 26 }).map((_, i) => ({
+  left: `${(frac(i, 3.71) * 96).toFixed(1)}%`,
+  top: `${(frac(i, 8.19) * 90).toFixed(1)}%`,
+  size: `${(1.5 + frac(i, 5.53) * 3).toFixed(1)}px`,
+  delay: `${(frac(i, 7.13) * 9).toFixed(2)}s`,
+  duration: `${(9 + frac(i, 2.31) * 9).toFixed(1)}s`,
+  drift: `${Math.round(frac(i, 4.87) * 40 - 20)}px`,
 }));
 const int = (v: number) => Math.round(v).toLocaleString('en-IN');
 const pct = (v: number | null | undefined) =>
@@ -273,10 +284,32 @@ export default function MonthCover({
             ))}
           </div>
 
+          {/* Gold dust drifting through the room, slower and finer than the confetti. */}
+          <div className="mc-dust" aria-hidden="true">
+            {DUST.map((d, i) => (
+              <i
+                key={i}
+                style={
+                  {
+                    '--x': d.left,
+                    '--y': d.top,
+                    '--s': d.size,
+                    '--dl': d.delay,
+                    '--du': d.duration,
+                    '--dr': d.drift,
+                  } as React.CSSProperties
+                }
+              />
+            ))}
+          </div>
+
           {/* A gilded frame, so the whole page reads as an invitation. */}
           <div className="mc-frame" aria-hidden="true">
             <span />
           </div>
+
+          {/* One slow band of light crossing the sheet every twenty seconds. */}
+          <div className="mc-sweep" aria-hidden="true" />
         </>
       )}
 
@@ -343,6 +376,11 @@ export default function MonthCover({
                   <Crown size={17} />
                 </span>
                 <span className="mc-med-rays" />
+                <span className="mc-med-orbit">
+                  {Array.from({ length: ANNIVERSARY_YEARS }).map((_, i) => (
+                    <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
+                  ))}
+                </span>
               </div>
               {/* A slow sparkle field over the title block. */}
               <div className="mc-sparkle-field" aria-hidden="true">
@@ -499,6 +537,21 @@ export default function MonthCover({
               </div>
             )}
           </section>
+
+          {/* The anniversary month is played, not just priced: the wheel, the ticket and the
+              nine gifts sit beside the numbers they have to move, each one opening the plan. */}
+          {birthday && (
+            <section className="mc-play" aria-label="What can be played this month">
+              <span className="mc-label">
+                <Sparkles size={11} /> Play this month
+              </span>
+              <div className="am-cover-strip is-stacked">
+                <MechanicMini kind="wheel" onOpen={openPlan} />
+                <MechanicMini kind="ticket" onOpen={openPlan} />
+                <MechanicMini kind="gifts" onOpen={openPlan} />
+              </div>
+            </section>
+          )}
         </div>
 
         {/* The argument in three columns — what breaks, what we do, and the four weeks —

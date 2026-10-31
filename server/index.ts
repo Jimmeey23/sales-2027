@@ -1,4 +1,5 @@
 import express from 'express';
+import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import path from 'node:path';
@@ -20,6 +21,9 @@ import registerCampaignsRoutes from './routes/campaigns.js';
 import registerImportsRoutes from './routes/imports.js';
 import registerReportsRoutes from './routes/reports.js';
 import registerAdminRoutes from './routes/admin.js';
+import registerCalendarRoutes, { registerPublicCalendarRoutes } from './routes/calendar.js';
+import registerPlanBundleRoutes from './routes/planBundle.js';
+import { clearJsonCache } from './lib/httpCache.js';
 initSchema();
 if (process.env.NODE_ENV === 'production') {
   if (process.env.DIRECT_WORKSPACE === 'true')
@@ -75,6 +79,9 @@ app.use((_req, res, next) => {
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   next();
 });
+// JSON planning payloads compress about 8:1 (a year of offers is ~1 MB of mostly repeated
+// keys and copy). This is the single biggest transfer win on a slow connection.
+app.use(compression({ threshold: 1024 }));
 app.use(express.json({ limit: '3mb' }));
 app.use(cookieParser());
 // Serverless (Vercel): several short-lived instances share Supabase. Each request first applies
@@ -102,7 +109,15 @@ app.use(authenticate);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true, database: true, time: new Date().toISOString() }));
 registerAuthRoutes(app);
+// A calendar feed is opened from a phone by scanning a QR, so it cannot carry a session.
+// It is guarded by a signed token instead and serves campaign dates only.
+registerPublicCalendarRoutes(app);
 app.use('/api', requireAuth);
+// Any write makes the cached reads stale; dropping them here keeps every GET honest.
+app.use('/api', (req, _res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') clearJsonCache();
+  next();
+});
 registerWorkspaceRoutes(app);
 registerTargetsRoutes(app);
 registerOffersRoutes(app);
@@ -113,6 +128,8 @@ registerCampaignsRoutes(app);
 registerImportsRoutes(app);
 registerReportsRoutes(app);
 registerAdminRoutes(app);
+registerCalendarRoutes(app);
+registerPlanBundleRoutes(app);
 
 app.use('/api', (req, res) => res.status(404).json({ error: `API route not found: ${req.method} ${req.path}` }));
 app.use((error: any, _req: any, res: any, _next: any) => {
@@ -124,7 +141,17 @@ app.use((error: any, _req: any, res: any, _next: any) => {
 });
 if (process.env.NODE_ENV === 'production') {
   const dist = path.resolve('dist');
-  app.use(express.static(dist));
+  // Vite fingerprints every file under /assets, so those can be cached forever; index.html
+  // must always be revalidated or a deploy strands browsers on the old bundle.
+  app.use(
+    express.static(dist, {
+      setHeaders: (res, filePath) => {
+        if (filePath.includes(`${path.sep}assets${path.sep}`))
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        else if (filePath.endsWith('index.html')) res.setHeader('Cache-Control', 'no-cache');
+      },
+    }),
+  );
   app.use((req, res, next) =>
     req.method === 'GET' && !req.path.startsWith('/api') ? res.sendFile(path.join(dist, 'index.html')) : next(),
   );

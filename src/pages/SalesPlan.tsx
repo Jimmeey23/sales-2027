@@ -1,9 +1,7 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useApp } from '../App';
 import { Callout, ErrorState, Loading } from '../components/ui';
-import Marquee from '../components/Marquee';
-import { keyDatesFor } from '../data/keyDates';
 import { lakh, usePlanData } from './plan/usePlanData';
 import TargetsTab from './plan/TargetsTab';
 import Playbook2027 from '../components/Playbook2027';
@@ -20,111 +18,44 @@ export default function SalesPlan() {
   const { tab: rawTab = 'targets' } = useParams(),
     tab = LEGACY_TABS[rawTab] || rawTab,
     { boot, studioId, year } = useApp();
-  const navigate = useNavigate();
   const { data, loading, error, reload } = usePlanData();
   const studio = boot.studios.find(s => s.id === studioId);
   const growth = data && data.lastYear ? data.annual / data.lastYear - 1 : null;
   const peak = data ? [...data.months].sort((a, b) => b.target - a.target)[0] : null;
   return (
     <div className="ws-page">
-      <div className="ws-hero-wrap">
-        <section className="ws-hero">
-          <div>
-            <p className="eyebrow">
-              {studio ? `${studio.city.toUpperCase()} · SALES PLAN ${year}` : `ALL LOCATIONS · SALES PLAN ${year}`}
-            </p>
-            <h1>{studio ? studio.name : 'Combined plan'}</h1>
-            <p>
-              {studio
-                ? 'Targets, offers, revenue logic, campaigns and marketing for this location — everything below is filtered to it.'
-                : 'Kemps Corner, Bandra, Kenkere House and Pop-up rolled up. Pick a location tab above to focus on one studio.'}
-            </p>
-          </div>
-          {data && (
-            <div className="ws-hero-stats">
-              <div>
-                <span>Annual target</span>
-                <strong>{lakh(data.annual)}</strong>
-              </div>
-              <div>
-                <span>vs {year - 1}</span>
-                <strong className={growth !== null && growth < 0 ? 'neg' : 'pos'}>
-                  {growth === null ? '—' : `${growth >= 0 ? '+' : ''}${(growth * 100).toFixed(0)}%`}
-                </strong>
-              </div>
-              <div>
-                <span>Monthly average</span>
-                <strong>{lakh(data.annual / 12)}</strong>
-              </div>
-              <div>
-                <span>Peak month</span>
-                <strong>
-                  {peak ? new Date(year, peak.month - 1).toLocaleString('en-IN', { month: 'short' }) : '—'} ·{' '}
-                  {lakh(peak?.target)}
-                </strong>
-              </div>
-            </div>
-          )}
-        </section>
+      {/* A short head, not a dashboard: the page's content starts within a screenful.
+          The figures that used to live in four tiles and a scrolling marquee are down
+          to one line each, and the month-by-month detail belongs to the Year plan. */}
+      <header className="ws-strip">
+        <div className="ws-strip-title">
+          <span className="ws-strip-eyebrow">
+            {studio ? `${studio.city} · ${year}` : `All locations · ${year}`}
+          </span>
+          <h1>{studio ? studio.name : 'Combined plan'}</h1>
+        </div>
         {data && (
-          <Marquee
-            tag="PLAN PULSE"
-            items={[
-              {
-                label: 'Annual target',
-                value: lakh(data.annual),
-                tone: 'accent',
-                onClick: () => navigate('/sales-plan/targets'),
-              },
-              ...data.months.map(m => ({
-                label: `${new Date(year, m.month - 1).toLocaleString('en-IN', { month: 'short' })} · ${m.theme}`,
-                value: lakh(m.target),
-                onClick: () => navigate(`/sales-plan/targets?month=${m.month}`),
-              })),
-              {
-                label: 'Leads needed',
-                value: data.months.reduce((n, m) => n + m.leads, 0).toLocaleString('en-IN'),
-                tone: 'accent',
-                onClick: () => navigate('/sales-plan/targets'),
-              },
-              {
-                label: 'Paying members needed',
-                value: data.months.reduce((n, m) => n + m.buyers, 0).toLocaleString('en-IN'),
-              },
-              {
-                label: 'Renewals covered by expiries',
-                value: `${Math.round(
-                  (data.months.reduce((n, m) => n + m.expectedRenewal, 0) /
-                    Math.max(
-                      1,
-                      data.months.reduce((n, m) => n + m.renewalTarget, 0),
-                    )) *
-                    100,
-                )}%`,
-                tone: 'accent',
-              },
-              ...data.months
-                .filter(m => m.renewalGap > 0)
-                .slice(0, 4)
-                .map(m => ({
-                  label: `${new Date(year, m.month - 1).toLocaleString('en-IN', { month: 'short' })} renewal gap`,
-                  value: lakh(m.renewalGap),
-                  tone: 'warn' as const,
-                  onClick: () => navigate(`/sales-plan/targets?month=${m.month}`),
-                })),
-              ...Array.from({ length: 12 }, (_, i) =>
-                keyDatesFor(year, i + 1)
-                  .filter(d => d.kind === 'festival')
-                  .map(d => ({
-                    label: d.name,
-                    value: `${d.day} ${new Date(year, i).toLocaleString('en-IN', { month: 'short' })}`,
-                    onClick: () => navigate(`/sales-plan/targets?month=${i + 1}`),
-                  })),
-              ).flat(),
-            ]}
-          />
+          <dl className="ws-strip-figures">
+            <div>
+              <dt>Target</dt>
+              <dd>{lakh(data.annual)}</dd>
+            </div>
+            <div>
+              <dt>vs {year - 1}</dt>
+              <dd className={growth !== null && growth < 0 ? 'neg' : 'pos'}>
+                {growth === null ? '—' : `${growth >= 0 ? '+' : ''}${(growth * 100).toFixed(0)}%`}
+              </dd>
+            </div>
+            <div>
+              <dt>Peak</dt>
+              <dd>
+                {peak ? new Date(year, peak.month - 1).toLocaleString('en-IN', { month: 'short' }) : '—'}{' '}
+                <em>{lakh(peak?.target)}</em>
+              </dd>
+            </div>
+          </dl>
         )}
-      </div>
+      </header>
       {year !== boot.planningYear && ['activations', 'marketing'].includes(tab) && (
         <Callout tone="warning" title={`Activation playbook is for ${boot.planningYear}`}>
           Targets and offers below follow {year}, but the campaign and marketing playbook was written for{' '}
@@ -158,10 +89,9 @@ export default function SalesPlan() {
                 {studio ? (
                   <Playbook2027 scope={studio.name} showMonths={false} />
                 ) : (
-                  <Callout tone="info" title="Pick a location for its 2027 sales playbook">
-                    The strategy, offers and team rhythm are written per location. The month-by-month plan below covers
-                    all locations.
-                  </Callout>
+                  <p className="ws-strip-hint">
+                    The playbook is written per location — pick one above. The year plan below covers all four.
+                  </p>
                 )}
                 <TargetsTab data={data} onSaved={reload} section="plan" />
               </>

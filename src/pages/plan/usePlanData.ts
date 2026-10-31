@@ -1,7 +1,7 @@
 import { api } from '../../api';
 import { useApp } from '../../App';
 import { useLoad } from '../../hooks';
-import { locationStudioIds, planningLocations } from '../../data/locations';
+import { planningLocations } from '../../data/locations';
 import { MONTH_THEMES, studioPlaybook } from '../../data/planDefaults';
 import { isLegacyTheme, monthChapter } from '../../data/monthNarrative';
 import type { Studio } from '../../types';
@@ -257,48 +257,37 @@ function combine(rows: MonthRow[][]): MonthRow[] {
   );
 }
 
-// The offers API pages at 100 rows; busy studios have more than that in a year.
-async function allOffers(id: number, year: number) {
-  const first = await api<any>(`/offers?studio=${id}&year=${year}&limit=100`);
-  const more = await Promise.all(
-    Array.from({ length: Math.ceil(first.total / 100) - 1 }, (_, i) =>
-      api<any>(`/offers?studio=${id}&year=${year}&limit=100&page=${i + 2}`),
-    ),
-  );
-  return { rows: [first, ...more].flatMap(p => p.rows) };
-}
-
-async function offersFor(ids: number[], year: number) {
-  const pages = await Promise.all(ids.map(id => allOffers(id, year)));
-  const seen = new Set<number>();
-  return pages.flatMap(p => p.rows).filter((o: any) => o.studio_id && !seen.has(o.id) && seen.add(o.id));
-}
-
 export function usePlanData() {
   const { boot, studioId, year } = useApp();
   const locations = planningLocations(boot.studios);
   const scope = studioId ? boot.studios.filter(s => s.id === studioId) : locations;
+  // One request for the whole screen: every location's plan detail and economics, plus the
+  // year's offers and campaigns, already scoped to these locations (Pop-up includes its venues).
+  // This used to be 50+ requests, with each location's detail fetched twice.
+  const studioList = scope.map(s => s.id).join(',');
   return useLoad<PlanData>(async () => {
-    const [details, economics] = await Promise.all([
-      Promise.all(scope.map(s => api<any>(`/studio-plans/${s.id}?year=${year}`))),
-      Promise.all(scope.map(s => api<Economics>(`/studio-plans/${s.id}/economics?year=${year}`))),
-    ]);
-    const plans = scope.map((studio, i) => {
-      const months = monthRows(studio, details[i], economics[i]);
-      return {
-        studio,
-        detail: details[i],
-        economics: economics[i],
-        months,
-        annual: months.reduce((n, m) => n + m.target, 0),
-        lastYear: months.reduce((n, m) => n + m.lastYear, 0),
-      };
-    });
-    const ids = scope.flatMap(s => locationStudioIds(s, boot.studios));
-    const [offers, campaigns] = await Promise.all([
-      offersFor(ids, year),
-      Promise.all(ids.map(id => api<any>(`/campaigns?year=${year}&studio=${id}`))).then(r => r.flatMap(x => x.rows)),
-    ]);
+    const bundle = await api<{
+      studios: Array<{ id: number; detail: any; economics: Economics }>;
+      offers: any[];
+      campaigns: any[];
+    }>(`/plan/bundle?year=${year}&studios=${studioList}`);
+    const byId = new Map(bundle.studios.map(entry => [entry.id, entry]));
+    const plans = scope
+      .filter(studio => byId.has(studio.id))
+      .map(studio => {
+        const entry = byId.get(studio.id)!;
+        const months = monthRows(studio, entry.detail, entry.economics);
+        return {
+          studio,
+          detail: entry.detail,
+          economics: entry.economics,
+          months,
+          annual: months.reduce((n, m) => n + m.target, 0),
+          lastYear: months.reduce((n, m) => n + m.lastYear, 0),
+        };
+      });
+    const offers = bundle.offers.filter((o: any) => o.studio_id);
+    const campaigns = bundle.campaigns;
     const months = plans.length === 1 ? plans[0].months : combine(plans.map(p => p.months));
     return {
       scope,
@@ -310,5 +299,5 @@ export function usePlanData() {
       campaigns,
       activations: plans.flatMap(p => (p.detail.activations || []).map((a: any) => ({ ...a, studio: p.studio.name }))),
     };
-  }, [studioId, year, boot.studios.length]);
+  }, [studioId, year, boot.studios.length, studioList]);
 }

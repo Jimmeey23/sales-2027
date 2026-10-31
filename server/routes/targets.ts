@@ -355,6 +355,94 @@ export default function registerTargetsRoutes(app: Express) {
       assumptions: JSON.parse(saved.assumptions || '{}'),
     });
   });
+  // Bulk actions across any set of studio-months: approve, withdraw approval, or set a
+  // value as an absolute amount, a percentage change or an addition. One transaction,
+  // one audit entry per row, and one recalculation pass at the end — a manager changing
+  // eighteen months at once should not pay for eighteen recalculations.
+  app.post('/api/targets/bulk', permission('target_edit'), (req, res) => {
+    const body = z
+      .object({
+        ids: z.array(z.number().int().positive()).min(1).max(240),
+        action: z.enum(['approve', 'unapprove', 'set']),
+        basis: z.enum(['proposed', 'approved']).default('proposed'),
+        value: z.number().finite().optional(),
+        mode: z.enum(['value', 'percent', 'delta']).default('value'),
+        reason: z.string().trim().min(3).max(300),
+      })
+      .parse(req.body);
+    if (body.action === 'approve' || (body.action === 'set' && body.basis === 'approved')) {
+      if (!req.user!.permissions.includes('target_approve'))
+        throw bodyError('Target approval permission required for this action.', 403);
+    }
+    if (body.action === 'set' && !Number.isFinite(body.value ?? NaN)) throw bodyError('A value is required.');
+    const rows = body.ids.map(targetId => {
+      const row = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(targetId) as any;
+      if (!row) throw bodyError(`Target ${targetId} no longer exists.`, 404);
+      if (!canAccessStudio(req.user!, row.studio_id)) throw bodyError('One of these targets is outside your access scope.', 403);
+      return row;
+    });
+    const nextValue = (current: number) => {
+      const v = Number(body.value);
+      if (body.mode === 'percent') return Math.max(0, Math.round(current * (1 + v / 100)));
+      if (body.mode === 'delta') return Math.max(0, Math.round(current + v));
+      return Math.max(0, Math.round(v));
+    };
+    const changed: any[] = [];
+    const apply = db.transaction(() => {
+      for (const row of rows) {
+        const version = row.version + 1;
+        let proposed = Number(row.proposed_target);
+        let approved: number | null = row.approved_target == null ? null : Number(row.approved_target);
+        if (body.action === 'approve') {
+          approved = proposed;
+        } else if (body.action === 'unapprove') {
+          approved = null;
+        } else if (body.basis === 'approved') {
+          approved = nextValue(approved ?? proposed);
+        } else {
+          proposed = nextValue(proposed);
+          // An approved month keeps its approved figure until it is approved again.
+          if (approved !== null && body.basis === 'proposed') approved = nextValue(approved);
+        }
+        if (proposed === row.proposed_target && approved === row.approved_target) continue;
+        db.prepare(
+          `UPDATE monthly_targets SET proposed_target=?,approved_target=?,source=?,version=?,override_reason=?,updated_by=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`,
+        ).run(
+          proposed,
+          approved,
+          approved === null ? row.source : 'approved_decision',
+          version,
+          body.reason,
+          req.user!.id,
+          row.id,
+        );
+        const after = db.prepare('SELECT * FROM monthly_targets WHERE id=?').get(row.id) as any;
+        db.prepare(
+          'INSERT INTO target_versions(target_id,version,snapshot,change_reason,changed_by) VALUES (?,?,?,?,?)',
+        ).run(row.id, version, JSON.stringify(after), body.reason, req.user!.id);
+        changed.push({ before: row, after });
+      }
+    });
+    apply();
+    changed.forEach(item => rebaseTarget(item.after.id));
+    const years = new Set(changed.map(item => item.after.year));
+    for (const year of years) {
+      const popupTouched = changed.some(item => POPUP_CHILDREN.includes(item.after.studio));
+      if (popupTouched) rollUpPopup(year, req.user!.id);
+      syncBreakdownFunnels(year);
+    }
+    audit({
+      userId: req.user!.id,
+      action: `bulk_${body.action}_targets`,
+      entityType: 'monthly_targets',
+      entityId: body.ids.join(','),
+      studioId: null,
+      before: changed.map(item => ({ id: item.before.id, studio: item.before.studio_id, month: item.before.month, proposed: item.before.proposed_target, approved: item.before.approved_target })),
+      after: changed.map(item => ({ id: item.after.id, proposed: item.after.proposed_target, approved: item.after.approved_target })),
+      reason: body.reason,
+    });
+    res.json({ ok: true, changed: changed.length, skipped: rows.length - changed.length });
+  });
   app.get('/api/targets/:id/versions', (req, res) => {
     const target = db.prepare('SELECT studio_id FROM monthly_targets WHERE id=?').get(id(req.params.id)) as any;
     if (!target || !canAccessStudio(req.user!, target.studio_id))

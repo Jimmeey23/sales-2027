@@ -6,7 +6,7 @@ import { api } from '../api';
 import { useApp } from '../App';
 import { useLoad } from '../hooks';
 import { LOCATION_COLORS, accentFor } from '../data/locations';
-import { money, number, percent } from '../types';
+import { money, moneyShort, number, percent } from '../types';
 import { Badge, Button, Callout, Card, CardHeader, ErrorState, Loading, Metric, TableScroll } from '../components/ui';
 import PageHeader from '../components/PageHeader';
 
@@ -108,7 +108,7 @@ export default function InsightsHome() {
         <div className="kpi-grid four">
           <Metric
             label={`${data.actualYear} complete-period revenue`}
-            value={money(p.completeRevenue, true)}
+            value={moneyShort(p.completeRevenue)}
             detail={
               p.yoyCompletePct !== null
                 ? `${p.yoyCompletePct >= 0 ? '+' : ''}${p.yoyCompletePct.toFixed(1)}% vs prior-year complete period (${money(p.priorCompleteRevenue, true)})`
@@ -117,7 +117,7 @@ export default function InsightsHome() {
           />
           <Metric
             label="2026 annualised → 2027 target"
-            value={`${money(p.annualized2026, true)} → ${money(p.target2027, true)}`}
+            value={`${moneyShort(p.annualized2026)} → ${moneyShort(p.target2027)}`}
             detail={
               p.growthTo2027Pct !== null
                 ? `+${p.growthTo2027Pct.toFixed(1)}% planned expansion (+${money(p.bridgeDelta, true)})`
@@ -295,6 +295,23 @@ export default function InsightsHome() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+          {/* The chart answers "how big"; this strip answers "how far" — the step each studio
+              has to take from its 2026 pace to its 2027 plan, which the bars cannot show. */}
+          <ul className="hub-steps">
+            {visibleStudios.map((item: any) => (
+              <li key={item.studio.id}>
+                <span>{item.studio.name}</span>
+                <b>
+                  {moneyShort(item.annualized2026)} → {moneyShort(item.target2027)}
+                </b>
+                <em className={item.growthTo2027Pct !== null && item.growthTo2027Pct < 0 ? 'neg' : 'pos'}>
+                  {item.growthTo2027Pct !== null
+                    ? `${item.growthTo2027Pct >= 0 ? '+' : ''}${item.growthTo2027Pct.toFixed(1)}%`
+                    : '—'}
+                </em>
+              </li>
+            ))}
+          </ul>
         </Card>
 
         <Card>

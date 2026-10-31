@@ -63,6 +63,7 @@ import { locationPlaybook, type ActionItem } from '../../data/planDefaults';
 import { isLegacyTheme, monthChapter, monthStory } from '../../data/monthNarrative';
 import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
+import { MechanicStage } from './AnniversaryMechanics';
 import PageHero from './PageHero';
 import { PAGE_PHOTOS, coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
@@ -5469,6 +5470,10 @@ function OfferCard({
             )}
             {offerDescription && <p className="ocv-brief">{offerDescription}</p>}
           </header>
+
+          {/* Anniversary offers are played, not just read: the wheel, the ticket and the nine
+              gifts each carry their own stage here, between the copy and the figures. */}
+          <MechanicStage offer={o} />
 
           {/* The figures that carry the month: revenue first and largest, then the units it
             needs and what it leaves behind. */}

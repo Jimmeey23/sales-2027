@@ -15,32 +15,85 @@ import { focusRequestSchema, generateMonthFocus } from '../lib/monthFocus.js';
 import { applyProposal, copilotRequestSchema, proposalSchema, proposeOffers } from '../lib/offerCopilot.js';
 import { ASSUMPTION_KEYS, planEconomics } from '../lib/planEconomics.js';
 import { studioScopeIds } from '../lib/studios.js';
-import { coverPlan, PRODUCT_KEYS, linkedOfferChange, listPrice, planningStudios, selection } from '../lib/linkedOffers.js';
+import {
+  coverPlan,
+  PRODUCT_KEYS,
+  linkedOfferChange,
+  listPrice,
+  planningStudios,
+  selection,
+} from '../lib/linkedOffers.js';
+
+// The offers a month picked from the bank, in plan order — the only offers any view shows for that month.
+const pickedOffers = (slots: any, offerIds: any) => {
+  const ids = [...Object.values(slots || {}), ...(offerIds || [])].map(Number).filter(Boolean);
+  const get = db.prepare(
+    `SELECT id,name,headline,objective,benefit,expected_revenue,status FROM offers WHERE id=? AND status NOT IN ('archived','rejected')`,
+  );
+  return ids.map(i => get.get(i)).filter(Boolean);
+};
+const planRow = (p: any) => {
+  if (!p) return null;
+  const slots = p.slots ? JSON.parse(p.slots) : null,
+    offer_ids = p.offer_ids === null || p.offer_ids === undefined ? null : JSON.parse(p.offer_ids);
+  return {
+    ...p,
+    actions: JSON.parse(p.actions || '[]'),
+    content: p.content ? JSON.parse(p.content) : {},
+    offer_ids,
+    slots,
+    offers: pickedOffers(slots, offer_ids),
+  };
+};
+const studioIdByName = (name: string) =>
+  (db.prepare('SELECT id FROM studios WHERE name=?').get(name) as any)?.id as number | undefined;
+
+// Everything a plan view needs for one location: its targets, plans, children, playbook items and
+// the Bengaluru reference tables. Extracted so the batched /api/plan/bundle can build every
+// location from one request instead of the browser firing four (previously eight).
+export function studioPlanDetail(studioId: number, year: number, userId: number) {
+  const targetsFor = (sid: number) =>
+    (
+      db.prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? ORDER BY month').all(sid, year) as any[]
+    ).map(t => ({ ...t, funnel: JSON.parse(t.funnel || '{}'), assumptions: JSON.parse(t.assumptions || '{}') }));
+  const studio = db.prepare('SELECT * FROM studios WHERE id=?').get(studioId) as any;
+  if (!studio) return null;
+  const plans = (
+    db.prepare('SELECT * FROM monthly_plans WHERE studio_id=? AND year=?').all(studioId, year) as any[]
+  ).map(planRow);
+  const scopeIds = studioScopeIds(db, studioId);
+  const scopeIn = `studio_id IN (${scopeIds.map(() => '?').join(',')})`;
+  const actuals = db
+    .prepare(
+      `SELECT CAST(substr(month,6,2) AS INTEGER) month,SUM(amount) revenue FROM transactions WHERE ${scopeIn} AND substr(month,1,4)=? GROUP BY month`,
+    )
+    .all(...scopeIds, String(year));
+  const children =
+    studio.name === POPUP_PARENT
+      ? POPUP_CHILDREN.map(name => {
+          const cid = studioIdByName(name);
+          return cid ? { id: cid, name, targets: targetsFor(cid) } : null;
+        }).filter(Boolean)
+      : [];
+  const parentId = POPUP_CHILDREN.includes(studio.name) ? studioIdByName(POPUP_PARENT) : null;
+  ensurePlaybookItems(studioId, year, userId);
+  const items = db
+    .prepare('SELECT * FROM studio_playbook_items WHERE studio_id=? AND year=? ORDER BY section,sort,id')
+    .all(studioId, year);
+  return {
+    studio,
+    year,
+    targets: targetsFor(studioId),
+    plans,
+    actuals,
+    children,
+    parent: parentId ? { id: parentId, name: POPUP_PARENT } : null,
+    items,
+    ...bengaluruReference(studio.name),
+  };
+}
 
 export default function registerStudioPlansRoutes(app: Express) {
-  // The offers a month picked from the bank, in plan order — the only offers any view shows for that month.
-  const pickedOffers = (slots: any, offerIds: any) => {
-    const ids = [...Object.values(slots || {}), ...(offerIds || [])].map(Number).filter(Boolean);
-    const get = db.prepare(
-      `SELECT id,name,headline,objective,benefit,expected_revenue,status FROM offers WHERE id=? AND status NOT IN ('archived','rejected')`,
-    );
-    return ids.map(i => get.get(i)).filter(Boolean);
-  };
-  const planRow = (p: any) => {
-    if (!p) return null;
-    const slots = p.slots ? JSON.parse(p.slots) : null,
-      offer_ids = p.offer_ids === null || p.offer_ids === undefined ? null : JSON.parse(p.offer_ids);
-    return {
-      ...p,
-      actions: JSON.parse(p.actions || '[]'),
-      content: p.content ? JSON.parse(p.content) : {},
-      offer_ids,
-      slots,
-      offers: pickedOffers(slots, offer_ids),
-    };
-  };
-  const studioIdByName = (name: string) =>
-    (db.prepare('SELECT id FROM studios WHERE name=?').get(name) as any)?.id as number | undefined;
   app.get('/api/studio-plans', (req, res) => {
     const year = Number(req.query.year || 2027),
       scoped = studioFilter(req);
@@ -59,7 +112,8 @@ export default function registerStudioPlansRoutes(app: Express) {
     // Exclude discontinued/legacy historical venues that have neither 2027 targets, plans, nor active offers.
     const activePlanNames = new Set(['Kemps Corner', 'Bandra', 'Kenkere House', POPUP_PARENT, ...POPUP_CHILDREN]);
     const relevant = rows.filter(
-      r => activePlanNames.has(r.name) || Number(r.proposed) > 0 || Number(r.approved) > 0 || Number(r.planned_months) > 0,
+      r =>
+        activePlanNames.has(r.name) || Number(r.proposed) > 0 || Number(r.approved) > 0 || Number(r.planned_months) > 0,
     );
     const children = relevant.filter(r => POPUP_CHILDREN.includes(r.name));
     res.json({
@@ -72,45 +126,9 @@ export default function registerStudioPlansRoutes(app: Express) {
   app.get('/api/studio-plans/:studioId', (req, res) => {
     const studioId = studioFilter(req, id(req.params.studioId)),
       year = Number(req.query.year || 2027);
-    const studio = db.prepare('SELECT * FROM studios WHERE id=?').get(studioId) as any;
-    if (!studio) return res.status(404).json({ error: 'Studio not found.' });
-    const targetsFor = (sid: number) =>
-      (
-        db.prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? ORDER BY month').all(sid, year) as any[]
-      ).map(t => ({ ...t, funnel: JSON.parse(t.funnel || '{}'), assumptions: JSON.parse(t.assumptions || '{}') }));
-    const plans = (
-      db.prepare('SELECT * FROM monthly_plans WHERE studio_id=? AND year=?').all(studioId, year) as any[]
-    ).map(planRow);
-    const scopeIds = studioScopeIds(db, studioId);
-    const scopeIn = `studio_id IN (${scopeIds.map(() => '?').join(',')})`;
-    const actuals = db
-      .prepare(
-        `SELECT CAST(substr(month,6,2) AS INTEGER) month,SUM(amount) revenue FROM transactions WHERE ${scopeIn} AND substr(month,1,4)=? GROUP BY month`,
-      )
-      .all(...scopeIds, String(year));
-    const children =
-      studio.name === POPUP_PARENT
-        ? POPUP_CHILDREN.map(name => {
-            const cid = studioIdByName(name);
-            return cid ? { id: cid, name, targets: targetsFor(cid) } : null;
-          }).filter(Boolean)
-        : [];
-    const parentId = POPUP_CHILDREN.includes(studio.name) ? studioIdByName(POPUP_PARENT) : null;
-    ensurePlaybookItems(studioId, year, req.user!.id);
-    const items = db
-      .prepare('SELECT * FROM studio_playbook_items WHERE studio_id=? AND year=? ORDER BY section,sort,id')
-      .all(studioId, year);
-    res.json({
-      studio,
-      year,
-      targets: targetsFor(studioId),
-      plans,
-      actuals,
-      children,
-      parent: parentId ? { id: parentId, name: POPUP_PARENT } : null,
-      items,
-      ...bengaluruReference(studio.name),
-    });
+    const detail = studioPlanDetail(studioId, year, req.user!.id);
+    if (!detail) return res.status(404).json({ error: 'Studio not found.' });
+    res.json(detail);
   });
   const planSchema = z.object({
     theme: z.string().max(200).nullable().optional(),
@@ -148,9 +166,10 @@ export default function registerStudioPlansRoutes(app: Express) {
   app.put('/api/studio-assumptions/:studioId/:year', permission('target_edit'), (req, res) => {
     const studioId = studioFilter(req, id(req.params.studioId)),
       year = id(req.params.year);
-    const input = z
-      .record(z.string(), z.number().finite().nullable())
-      .parse(req.body?.values ?? {}) as Record<string, number | null>;
+    const input = z.record(z.string(), z.number().finite().nullable()).parse(req.body?.values ?? {}) as Record<
+      string,
+      number | null
+    >;
     const upsert = db.prepare(
       `INSERT INTO studio_assumptions (studio_id, year, key, value, updated_by, updated_at) VALUES (?,?,?,?,?,CURRENT_TIMESTAMP)
        ON CONFLICT(studio_id, year, key) DO UPDATE SET value=excluded.value, updated_by=excluded.updated_by, updated_at=CURRENT_TIMESTAMP`,
@@ -161,11 +180,19 @@ export default function registerStudioPlansRoutes(app: Express) {
         const range = (ASSUMPTION_KEYS as any)[key];
         if (!range) throw bodyError(`Unknown assumption “${key}”.`);
         if (value === null) clear.run(studioId, year, key);
-        else if (value < range.min || value > range.max) throw bodyError(`${key} must be between ${range.min} and ${range.max}.`);
+        else if (value < range.min || value > range.max)
+          throw bodyError(`${key} must be between ${range.min} and ${range.max}.`);
         else upsert.run(studioId, year, key, value, req.user!.id);
       }
     })();
-    audit({ userId: req.user!.id, action: 'assumptions.update', entityType: 'studio_assumptions', entityId: studioId, studioId, after: input });
+    audit({
+      userId: req.user!.id,
+      action: 'assumptions.update',
+      entityType: 'studio_assumptions',
+      entityId: studioId,
+      studioId,
+      after: input,
+    });
     res.json(planEconomics(studioId, year));
   });
   app.post('/api/studio-plans/:studioId/:year/:month/focus/generate', permission('target_edit'), async (req, res) => {
@@ -179,45 +206,51 @@ export default function registerStudioPlansRoutes(app: Express) {
   });
   // One-click "Generate with AI" on an offer card: asks for fresh, better-optimised replacements, keeps the
   // strongest (most revenue at the least discount) and swaps it into the same card.
-  app.post('/api/studio-plans/:studioId/:year/:month/offers/:offerId/ai/regenerate', permission('target_edit'), async (req, res) => {
-    const studioId = studioFilter(req, id(req.params.studioId)),
-      year = id(req.params.year),
-      month = id(req.params.month),
-      offerId = id(req.params.offerId);
-    if (month > 12) throw bodyError('Month must be between 1 and 12.');
-    const current = db.prepare('SELECT name, approval_status FROM offers WHERE id=? AND studio_id=?').get(offerId, studioId) as any;
-    if (!current) throw bodyError('Offer not found.', 404);
-    if (current.approval_status === 'approved') throw bodyError('Reopen the approved offer first.', 409);
-    const body = copilotRequestSchema.parse({
-      ...req.body,
-      mode: 'replace',
-      replaceOfferId: offerId,
-      steer: [
-        `Invent a new, different concept to replace “${current.name}” — not a reworded copy of it.`,
-        'It must beat it: more revenue for this stream at a lower effective discount, using value-adds over cash off.',
-        'Fill every field completely: a specific audience, a concrete benefit, a sharp headline, realistic units and a data-led rationale.',
-        `Variation seed ${Math.random().toString(36).slice(2, 8)}.`,
-        req.body?.steer || '',
-      ]
-        .join(' ')
-        .slice(0, 400),
-    });
-    const { proposals } = await proposeOffers(studioId, body);
-    const score = (p: any) => Number(p.revenue || 0) * (1 - Math.min(0.5, Number(p.discountPct || 0) / 100));
-    const best = [...proposals].filter(p => p.action === 'replace').sort((a, b) => score(b) - score(a))[0];
-    if (!best) throw bodyError('The AI could not find a better offer for this card. Try again.', 422);
-    const result = applyProposal(studioId, year, month, best, Boolean(req.body?.solo), req.user!.id);
-    audit({
-      userId: req.user!.id,
-      action: 'offer.ai_regenerate',
-      entityType: 'offer',
-      entityId: result.offerId,
-      studioId,
-      before: { offerId, name: current.name },
-      after: { name: best.name, revenue: best.revenue, discountPct: best.discountPct },
-    });
-    res.json({ ...result, proposal: best });
-  });
+  app.post(
+    '/api/studio-plans/:studioId/:year/:month/offers/:offerId/ai/regenerate',
+    permission('target_edit'),
+    async (req, res) => {
+      const studioId = studioFilter(req, id(req.params.studioId)),
+        year = id(req.params.year),
+        month = id(req.params.month),
+        offerId = id(req.params.offerId);
+      if (month > 12) throw bodyError('Month must be between 1 and 12.');
+      const current = db
+        .prepare('SELECT name, approval_status FROM offers WHERE id=? AND studio_id=?')
+        .get(offerId, studioId) as any;
+      if (!current) throw bodyError('Offer not found.', 404);
+      if (current.approval_status === 'approved') throw bodyError('Reopen the approved offer first.', 409);
+      const body = copilotRequestSchema.parse({
+        ...req.body,
+        mode: 'replace',
+        replaceOfferId: offerId,
+        steer: [
+          `Invent a new, different concept to replace “${current.name}” — not a reworded copy of it.`,
+          'It must beat it: more revenue for this stream at a lower effective discount, using value-adds over cash off.',
+          'Fill every field completely: a specific audience, a concrete benefit, a sharp headline, realistic units and a data-led rationale.',
+          `Variation seed ${Math.random().toString(36).slice(2, 8)}.`,
+          req.body?.steer || '',
+        ]
+          .join(' ')
+          .slice(0, 400),
+      });
+      const { proposals } = await proposeOffers(studioId, body);
+      const score = (p: any) => Number(p.revenue || 0) * (1 - Math.min(0.5, Number(p.discountPct || 0) / 100));
+      const best = [...proposals].filter(p => p.action === 'replace').sort((a, b) => score(b) - score(a))[0];
+      if (!best) throw bodyError('The AI could not find a better offer for this card. Try again.', 422);
+      const result = applyProposal(studioId, year, month, best, Boolean(req.body?.solo), req.user!.id);
+      audit({
+        userId: req.user!.id,
+        action: 'offer.ai_regenerate',
+        entityType: 'offer',
+        entityId: result.offerId,
+        studioId,
+        before: { offerId, name: current.name },
+        after: { name: best.name, revenue: best.revenue, discountPct: best.discountPct },
+      });
+      res.json({ ...result, proposal: best });
+    },
+  );
   app.post('/api/studio-plans/:studioId/:year/:month/offers/ai/apply', permission('target_edit'), (req, res) => {
     const studioId = studioFilter(req, id(req.params.studioId)),
       year = id(req.params.year),
@@ -297,7 +330,9 @@ export default function registerStudioPlansRoutes(app: Express) {
     const perms = req.user?.permissions ?? [];
     if (!req.user) return res.status(401).json({ error: 'Authentication required.' });
     // Adding or swapping offers is open to anyone who can edit offers; editing/creating/deleting terms needs plan or offer edit rights.
-    const needed = ['update', 'create', 'delete'].includes(req.body?.op) ? ['target_edit', 'offer_edit'] : ['target_edit', 'offer_edit'];
+    const needed = ['update', 'create', 'delete'].includes(req.body?.op)
+      ? ['target_edit', 'offer_edit']
+      : ['target_edit', 'offer_edit'];
     if (!needed.some(k => perms.includes(k)))
       return res.status(403).json({ error: 'Your role cannot change this month’s offers.' });
     const studioId = studioFilter(req, id(req.params.studioId)),
@@ -327,7 +362,14 @@ export default function registerStudioPlansRoutes(app: Express) {
       month = id(req.params.month);
     if (month > 12) throw bodyError('Month must be between 1 and 12.');
     const result = coverPlan(studioId, year, month, req.user!.id);
-    audit({ userId: req.user!.id, action: 'plan_offer_cover', entityType: 'monthly_plan', entityId: `${studioId}-${year}-${month}`, studioId, after: result });
+    audit({
+      userId: req.user!.id,
+      action: 'plan_offer_cover',
+      entityType: 'monthly_plan',
+      entityId: `${studioId}-${year}-${month}`,
+      studioId,
+      after: result,
+    });
     res.json(result);
   });
   app.put('/api/studio-plans/:studioId/:year/:month', permission('target_edit'), (req, res) => {
@@ -357,41 +399,67 @@ export default function registerStudioPlansRoutes(app: Express) {
     if (input.status === 'approved') {
       if (!req.user!.permissions.includes('target_approve'))
         return res.status(403).json({ error: 'Plan approval permission required.' });
-      if (!String(merged.theme || '').trim() || !String(merged.objective || '').trim() || !String(merged.strategy || '').trim())
+      if (
+        !String(merged.theme || '').trim() ||
+        !String(merged.objective || '').trim() ||
+        !String(merged.strategy || '').trim()
+      )
         throw bodyError('Add a monthly theme, objective, and execution strategy before approving the plan.', 422);
-      const ownedActions = (merged.actions || []).filter((action: any) => String(action.text || '').trim() && String(action.owner || '').trim());
+      const ownedActions = (merged.actions || []).filter(
+        (action: any) => String(action.text || '').trim() && String(action.owner || '').trim(),
+      );
       if (!ownedActions.length)
         throw bodyError('Add at least one execution action with a named owner before approving the plan.', 422);
       const target = db
-        .prepare('SELECT approved_target,new_client_target,renewal_target,reactivation_target FROM monthly_targets WHERE studio_id=? AND year=? AND month=?')
+        .prepare(
+          'SELECT approved_target,new_client_target,renewal_target,reactivation_target FROM monthly_targets WHERE studio_id=? AND year=? AND month=?',
+        )
         .get(studioId, year, month) as any;
       if (target?.approved_target == null)
         throw bodyError('Approve the monthly revenue target before approving its execution plan.', 422);
       const defaults = selection(studioId, year, month);
       const planSlots = merged.slots || defaults.slots;
-      const ids = [...Object.values(planSlots), ...(merged.offer_ids ?? defaults.offerIds)]
-        .map(Number)
-        .filter(Boolean);
+      const ids = [...Object.values(planSlots), ...(merged.offer_ids ?? defaults.offerIds)].map(Number).filter(Boolean);
       if (!ids.length) throw bodyError('Select at least one offer before approving the monthly plan.', 422);
       const allowedStudioIds = [studioId];
       if (studio.name === POPUP_PARENT) {
-        const children = db.prepare(`SELECT id FROM studios WHERE name IN (${POPUP_CHILDREN.map(() => '?').join(',')})`).all(...POPUP_CHILDREN) as any[];
+        const children = db
+          .prepare(`SELECT id FROM studios WHERE name IN (${POPUP_CHILDREN.map(() => '?').join(',')})`)
+          .all(...POPUP_CHILDREN) as any[];
         allowedStudioIds.push(...children.map(child => Number(child.id)));
       }
       const selectedOffers = db
-        .prepare(`SELECT id,studio_id,year,month,status,approval_status,data_mode,generation_source,objective,expected_revenue,financials FROM offers WHERE id IN (${ids.map(() => '?').join(',')})`)
+        .prepare(
+          `SELECT id,studio_id,year,month,status,approval_status,data_mode,generation_source,objective,expected_revenue,financials FROM offers WHERE id IN (${ids.map(() => '?').join(',')})`,
+        )
         .all(...ids) as any[];
-      if (selectedOffers.length !== new Set(ids).size || selectedOffers.some(o => o.data_mode === 'demo' || o.generation_source === 'demo_seed'))
+      if (
+        selectedOffers.length !== new Set(ids).size ||
+        selectedOffers.some(o => o.data_mode === 'demo' || o.generation_source === 'demo_seed')
+      )
         throw bodyError('Remove invalid or demonstration offers from the plan before approval.', 422);
-      if (selectedOffers.some(o => !allowedStudioIds.includes(Number(o.studio_id)) || Number(o.year) !== year || Number(o.month) !== month))
+      if (
+        selectedOffers.some(
+          o => !allowedStudioIds.includes(Number(o.studio_id)) || Number(o.year) !== year || Number(o.month) !== month,
+        )
+      )
         throw bodyError('Selected offers must belong to this location and month before plan approval.', 422);
       const pending = selectedOffers.filter(o => o.status !== 'approved' || o.approval_status !== 'approved');
       if (pending.length)
-        throw bodyError(`Approve all ${pending.length} selected offer${pending.length === 1 ? '' : 's'} before approving the monthly plan.`, 422);
+        throw bodyError(
+          `Approve all ${pending.length} selected offer${pending.length === 1 ? '' : 's'} before approving the monthly plan.`,
+          422,
+        );
       const coverage = { new_client_target: 0, renewal_target: 0, reactivation_target: 0 };
       const objectiveStreams: Record<string, keyof typeof coverage> = {
-        acquisition: 'new_client_target', trial_conversion: 'new_client_target', referral: 'new_client_target', new_client: 'new_client_target',
-        retention: 'renewal_target', annual_membership: 'renewal_target', additional_purchase: 'renewal_target', aov: 'renewal_target',
+        acquisition: 'new_client_target',
+        trial_conversion: 'new_client_target',
+        referral: 'new_client_target',
+        new_client: 'new_client_target',
+        retention: 'renewal_target',
+        annual_membership: 'renewal_target',
+        additional_purchase: 'renewal_target',
+        aov: 'renewal_target',
         reactivation: 'reactivation_target',
       };
       const slotStreams: Record<string, keyof typeof coverage> = {
@@ -405,7 +473,8 @@ export default function registerStudioPlansRoutes(app: Express) {
         if (stream && offerId) streamByOfferId.set(Number(offerId), stream);
       }
       for (const offer of selectedOffers) {
-        const stream = objectiveStreams[String(offer.objective || '').toLowerCase()] || streamByOfferId.get(Number(offer.id));
+        const stream =
+          objectiveStreams[String(offer.objective || '').toLowerCase()] || streamByOfferId.get(Number(offer.id));
         const revenue = Number(offer.expected_revenue);
         if (stream && Number.isFinite(revenue) && revenue > 0) coverage[stream] += revenue;
       }
@@ -413,8 +482,15 @@ export default function registerStudioPlansRoutes(app: Express) {
         .map(key => ({ key, gap: Math.max(0, Number(target[key] || 0) - coverage[key]) }))
         .filter(item => item.gap > 1);
       if (uncovered.length) {
-        const names: Record<string, string> = { new_client_target: 'new-client', renewal_target: 'renewal', reactivation_target: 'comeback' };
-        throw bodyError(`Selected approved offers do not cover the monthly stream targets: ${uncovered.map(item => `${names[item.key]} short by ₹${Math.round(item.gap).toLocaleString('en-IN')}`).join('; ')}.`, 422);
+        const names: Record<string, string> = {
+          new_client_target: 'new-client',
+          renewal_target: 'renewal',
+          reactivation_target: 'comeback',
+        };
+        throw bodyError(
+          `Selected approved offers do not cover the monthly stream targets: ${uncovered.map(item => `${names[item.key]} short by ₹${Math.round(item.gap).toLocaleString('en-IN')}`).join('; ')}.`,
+          422,
+        );
       }
     }
     db.prepare(

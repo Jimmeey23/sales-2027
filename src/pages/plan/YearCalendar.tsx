@@ -1,16 +1,17 @@
-import React, { useMemo, useState } from 'react';
-import { CheckCircle2, Gift, Layers, PartyPopper, TrendingUp } from 'lucide-react';
-import '../../styles/yearcal.css';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowRight, CalendarPlus, Check, Copy, Gift, PartyPopper, QrCode, Sparkles, X } from 'lucide-react';
+import '../../styles/year-board.css';
 import { MONTHS, MONTHS_SHORT, number } from '../../types';
-import { LOCATION_COLORS, accentFor } from '../../data/locations';
-import { coverPhotoFor } from '../../data/pagePhotos';
-import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor, type KeyDateKind } from '../../data/keyDates';
-import FestivalArt from '../../components/FestivalArt';
+import { LOCATION_COLORS, accentFor, locationStudioIds } from '../../data/locations';
+import { KEY_DATE_LABELS, keyDatesFor, type KeyDate } from '../../data/keyDates';
 import { useApp } from '../../App';
+import { useLoad } from '../../hooks';
+import { api } from '../../api';
 import { lakh, type MonthRow, type PlanData } from './usePlanData';
 import { selectedForPlan, selectedInMonth } from './TargetsTab';
 
-const KIND_COLOR: Record<KeyDateKind, string> = {
+const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const KIND_COLOR: Record<string, string> = {
   festival: '#b07a2e',
   holiday: '#3f8f73',
   awareness: '#3886b2',
@@ -18,403 +19,552 @@ const KIND_COLOR: Record<KeyDateKind, string> = {
   retail: '#b23859',
   brand: '#6f5a86',
 };
-const STREAMS = [
-  { key: 'newClient', label: 'New clients', shade: 1 },
-  { key: 'renewal', label: 'Renewals', shade: 0.66 },
-  { key: 'reactivation', label: 'Reactivation', shade: 0.4 },
-  { key: 'other', label: 'Other', shade: 0.2 },
-] as const;
-const LAYERS = [
-  { id: 'revenue', label: 'Revenue mix', icon: Layers },
-  { id: 'offers', label: 'Offers', icon: Gift },
-  { id: 'moments', label: 'Moments', icon: PartyPopper },
-] as const;
-type Layer = (typeof LAYERS)[number]['id'];
 const n = (v: any) => (Number.isFinite(Number(v)) ? Number(v) : 0);
-
-/* A season curve is easier to read than twelve columns: the year's shape shows in the
-   line, and each month still carries its own dot and hit area for hover and click. */
-function curve(points: { x: number; y: number }[]) {
-  if (!points.length) return '';
-  let d = `M ${points[0].x} ${points[0].y}`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[i - 1] || points[i];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[i + 2] || p2;
-    d += ` C ${p1.x + (p2.x - p0.x) / 6} ${p1.y + (p2.y - p0.y) / 6}, ${p2.x - (p3.x - p1.x) / 6} ${
-      p2.y - (p3.y - p1.y) / 6
-    }, ${p2.x} ${p2.y}`;
+// The same campaign runs in several locations; the day drawer names it once and lists where.
+const groupedCampaigns = (running: any[]) => {
+  const byName = new Map<string, any>();
+  const dayMonth = (value: string) =>
+    /^\d{4}-(\d{2})-(\d{2})$/.test(value)
+      ? `${Number(value.slice(8, 10))} ${MONTHS_SHORT[Number(value.slice(5, 7)) - 1]}`
+      : '';
+  for (const campaign of running) {
+    const entry =
+      byName.get(campaign.name) ||
+      ({
+        ...campaign,
+        studios: [] as string[],
+        range:
+          campaign.end_date && campaign.end_date !== campaign.start_date
+            ? `${dayMonth(campaign.start_date)} – ${dayMonth(campaign.end_date)}`
+            : dayMonth(campaign.start_date || ''),
+      } as any);
+    if (campaign.studio && !entry.studios.includes(campaign.studio)) entry.studios.push(campaign.studio);
+    byName.set(campaign.name, entry);
   }
-  return d;
-}
+  return [...byName.values()];
+};
+// A month is drawn as a real wall-calendar grid: blank cells for the days before the
+// 1st, a cell per day, and a dot on every day that carries a festival or moment.
+const calendarCells = (year: number, month: number, moments: KeyDate[]) => {
+  const first = new Date(year, month - 1, 1);
+  const offset = (first.getDay() + 6) % 7; // Monday-first
+  const days = new Date(year, month, 0).getDate();
+  const marked = new Map<number, KeyDate[]>();
+  for (const m of moments) {
+    for (let d = m.day; d <= (m.end || m.day); d++) {
+      const list = marked.get(d) || [];
+      list.push(m);
+      marked.set(d, list);
+    }
+  }
+  return [
+    ...Array.from({ length: offset }, () => null),
+    ...Array.from({ length: days }, (_, i) => ({ day: i + 1, moments: marked.get(i + 1) || [] })),
+  ];
+};
 
-// Whole-year infographic: a seasonality ribbon over twelve month tiles that switch between revenue, offers and moments.
+// A campaign owns every day between its start and end, clipped to the month on screen.
+const campaignSpan = (campaign: any, year: number, month: number) => {
+  const start = String(campaign.start_date || '');
+  if (!start) return null;
+  const end = String(campaign.end_date || start);
+  const [sy, sm, sd] = start.split('-').map(Number);
+  const [ey, em, ed] = end.split('-').map(Number);
+  if (!sy || !sm || !sd) return null;
+  const monthStart = new Date(year, month - 1, 1).getTime();
+  const monthEnd = new Date(year, month, 0, 23, 59).getTime();
+  const from = new Date(sy, sm - 1, sd).getTime();
+  const to = new Date(ey, em - 1, ed || sd).getTime();
+  if (!Number.isFinite(from) || !Number.isFinite(to) || to < monthStart || from > monthEnd) return null;
+  const lastDay = new Date(year, month, 0).getDate();
+  return {
+    from: from <= monthStart ? 1 : sd,
+    to: to >= monthEnd ? lastDay : ed || sd,
+  };
+};
+
 export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen: (month: number) => void }) {
-  const { year } = useApp();
+  const { year, studioId, boot } = useApp();
   const [scope, setScope] = useState<number | 'all'>('all');
-  const [layer, setLayer] = useState<Layer>('revenue');
-  const [hot, setHot] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
+  // Which layers of the year are drawn. All three are on to begin with — the board looks
+  // exactly as it always has until someone asks to see one strand on its own.
+  const [layers, setLayers] = useState({ offers: true, campaigns: true, moments: true });
+  const [openDay, setOpenDay] = useState<{ month: number; day: number } | null>(null);
+  const [hotMonth, setHotMonth] = useState<number | null>(null);
+  const [pinned, setPinned] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState<number | null>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   const plan = scope === 'all' ? null : data.plans.find(p => p.studio.id === scope) || null;
   const months: MonthRow[] = plan ? plan.months : data.months;
   const annual = plan ? plan.annual : data.annual;
-  const lastYear = plan ? plan.lastYear : data.lastYear;
   const accent = plan
     ? accentFor(plan.studio.name)
     : accentFor(data.plans.length === 1 ? data.plans[0].studio.name : undefined);
   const offersOf = (m: number) => (plan ? selectedForPlan(data, plan, m) : selectedInMonth(data, m));
 
-  const view = useMemo(() => {
-    const max = Math.max(...months.map(m => m.target), 1);
-    const peak = months.reduce((a, b) => (b.target > a.target ? b : a), months[0]);
-    const low = months.reduce((a, b) => (b.target < a.target ? b : a), months[0]);
-    return { max, peak, low };
-  }, [months]);
-  const offerCount = months.reduce((s, m) => s + offersOf(m.month).length, 0);
-  const momentCount = months.reduce((s, m) => s + keyDatesFor(year, m.month).length, 0);
-  const approvedCount = months.filter(m => m.planApproved).length;
-  const growth = lastYear ? annual / lastYear - 1 : null;
+  // Campaigns belong to a location, and a location's Pop-up venues share its colour.
+  const campaigns = useMemo(() => {
+    const scopeStudios = plan ? [plan.studio] : data.plans.map(p => p.studio);
+    const ids = new Set(scopeStudios.flatMap(s => locationStudioIds(s, boot.studios)));
+    return (data.campaigns || []).filter((c: any) => ids.has(Number(c.studio_id)));
+  }, [data.campaigns, data.plans, plan, boot.studios]);
 
-  const W = 720,
-    H = 96,
-    step = W / 12;
+  const campaignDays = useMemo(() => {
+    const byMonth = new Map<number, Map<number, any[]>>();
+    for (const campaign of campaigns) {
+      for (let month = 1; month <= 12; month++) {
+        const span = campaignSpan(campaign, year, month);
+        if (!span) continue;
+        const days = byMonth.get(month) || new Map<number, any[]>();
+        for (let day = span.from; day <= span.to; day++) {
+          const list = days.get(day) || [];
+          list.push(campaign);
+          days.set(day, list);
+        }
+        byMonth.set(month, days);
+      }
+    }
+    return byMonth;
+  }, [campaigns, year]);
+
+  // A month often carries a dozen overlapping campaigns, so the grid only ticks the day
+  // each one starts. What is *running* on any given day is a question for the day drawer.
+  const campaignStarts = useMemo(() => {
+    const byMonth = new Map<number, Map<number, any[]>>();
+    for (const campaign of campaigns) {
+      const start = String(campaign.start_date || '');
+      const [y, m, d] = start.split('-').map(Number);
+      if (y !== year || !m || !d) continue;
+      const days = byMonth.get(m) || new Map<number, any[]>();
+      const list = days.get(d) || [];
+      list.push(campaign);
+      days.set(d, list);
+      byMonth.set(m, days);
+    }
+    return byMonth;
+  }, [campaigns, year]);
+
+  const momentsOf = (month: number) => keyDatesFor(year, month);
+  const campaignCount = (month: number) => {
+    const seen = new Set<any>();
+    for (const list of campaignDays.get(month)?.values() || []) for (const c of list) seen.add(c.id);
+    return seen.size;
+  };
+
+  // All four locations, or the one on screen: the share link follows what is displayed.
+  const feedStudio = plan ? plan.studio.id : studioId && data.plans.length === 1 ? studioId : null;
+  const share = useLoad<any>(
+    () => api(`/calendar/share?year=${year}${feedStudio ? `&studio=${feedStudio}` : ''}`),
+    [year, feedStudio, data.plans.length],
+  );
+
+  const totals = useMemo(() => {
+    const offers = months.reduce((s, m) => s + offersOf(m.month).length, 0);
+    const moments = months.reduce((s, m) => s + momentsOf(m.month).length, 0);
+    const campaigns = months.reduce((s, m) => s + campaignCount(m.month), 0);
+    return { offers, moments, campaigns, approved: months.filter(m => m.planApproved).length };
+  }, [months, plan, campaignDays]);
+
+  const peak = Math.max(1, ...months.map(m => m.target));
+
+  const copyLink = async () => {
+    if (!share.data?.addUrl) return;
+    try {
+      await navigator.clipboard.writeText(share.data.addUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* Clipboard is unavailable over plain http; the link is shown below anyway. */
+    }
+  };
+
+  // Escape closes the day drawer from anywhere on the board.
+  useEffect(() => {
+    if (!openDay) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenDay(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [openDay]);
+
+  useEffect(() => setOpenDay(null), [scope]);
+
+  const jumpTo = (month: number) => {
+    const target = boardRef.current?.querySelector(`[data-month="${month}"]`);
+    const calm = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    target?.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' });
+    setPinned(month);
+    window.setTimeout(() => setPinned(current => (current === month ? null : current)), 2200);
+  };
+
+  const dayFacts = (month: number, day: number) => ({
+    moments: momentsOf(month).filter(m => day >= m.day && day <= (m.end || m.day)),
+    campaigns: campaignDays.get(month)?.get(day) || [],
+  });
+
+  const ribbonMonth = hotMonth ?? pinned ?? null;
+  const ribbonRow = ribbonMonth ? months.find(m => m.month === ribbonMonth) : null;
+
   return (
-    <section className="yc" style={{ '--a1': accent } as React.CSSProperties}>
-      <header className="yc-top">
-        <div className="yc-scope" role="tablist" aria-label="Location">
-          {data.plans.length > 1 && (
-            <button className={scope === 'all' ? 'on' : ''} onClick={() => setScope('all')}>
-              All locations
-            </button>
-          )}
-          {data.plans.map(p => (
-            <button
-              key={p.studio.id}
-              role="tab"
-              aria-selected={scope === p.studio.id || (data.plans.length === 1 && scope === 'all')}
-              className={scope === p.studio.id || (data.plans.length === 1 && scope === 'all') ? 'on' : ''}
-              onClick={() => setScope(data.plans.length === 1 ? 'all' : p.studio.id)}
-            >
-              <i style={{ background: LOCATION_COLORS[p.studio.name] }} />
-              {p.studio.name}
-            </button>
-          ))}
+    <section className="yb" style={{ '--a1': accent } as React.CSSProperties}>
+      <header className="yb-head">
+        <div className="yb-head-main">
+          <div className="yb-scope" role="tablist" aria-label="Location">
+            {data.plans.length > 1 && (
+              <button
+                role="tab"
+                aria-selected={scope === 'all'}
+                className={scope === 'all' ? 'on' : ''}
+                onClick={() => setScope('all')}
+              >
+                <i
+                  style={{ background: 'linear-gradient(90deg,#0d6b58 0 25%,#28489b 0 50%,#9b2c58 0 75%,#8d5a12 0)' }}
+                />
+                All four
+              </button>
+            )}
+            {data.plans.map(p => {
+              const on = scope === p.studio.id || (data.plans.length === 1 && scope === 'all');
+              return (
+                <button
+                  key={p.studio.id}
+                  role="tab"
+                  aria-selected={on}
+                  className={on ? 'on' : ''}
+                  onClick={() => setScope(data.plans.length === 1 ? 'all' : p.studio.id)}
+                >
+                  <i style={{ background: LOCATION_COLORS[p.studio.name] || accent }} />
+                  {p.studio.name}
+                </button>
+              );
+            })}
+          </div>
+          <p className="yb-lede">
+            {plan ? `${plan.studio.name} · ` : 'Every location · '}
+            <strong>{lakh(annual)}</strong> across {totals.offers} offers, {totals.moments} studio moments and{' '}
+            {totals.approved}/12 approved months. Click any month to open it.
+          </p>
         </div>
-        <div className="yc-layers" role="group" aria-label="Calendar layer">
-          {LAYERS.map(l => {
-            const Icon = l.icon;
+
+        {/* The QR is the delivery mechanism, so it sits in the page rather than behind a menu. */}
+        <aside className="yb-qr" aria-label="Add the plan to a phone calendar">
+          <div className="yb-qr-code">
+            {share.data?.qr ? (
+              <img
+                src={share.data.qr}
+                alt="QR code that opens the plan’s calendar subscription"
+                width={118}
+                height={118}
+              />
+            ) : (
+              <span className="yb-qr-skeleton">
+                <QrCode size={26} />
+              </span>
+            )}
+          </div>
+          <div className="yb-qr-copy">
+            <span className="yb-qr-eyebrow">
+              <CalendarPlus size={12} /> Add to calendar
+            </span>
+            <strong>Scan to import every event</strong>
+            <small>
+              {share.data
+                ? `${share.data.counts.offers} offers · ${share.data.counts.campaigns} campaigns · ${share.data.counts.moments} moments`
+                : 'Building the feed…'}
+            </small>
+            <div className="yb-qr-links">
+              <a href={share.data?.addUrl || '#'} target="_blank" rel="noopener noreferrer">
+                Open link
+              </a>
+              <button type="button" onClick={copyLink} disabled={!share.data}>
+                {copied ? <Check size={12} /> : <Copy size={12} />}
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+            </div>
+          </div>
+        </aside>
+      </header>
+
+      {/* The year as one strip: every month sized by its share of the target, so the shape
+          of the year is readable before any month card. Hover reads the month out, click
+          takes you to its card. */}
+      <section className="yb-ribbon" aria-label={`${year} at a glance`}>
+        <div className="yb-ribbon-head">
+          <div className="yb-ribbon-quarters" aria-hidden="true">
+            <span>Q1</span>
+            <span>Q2</span>
+            <span>Q3</span>
+            <span>Q4</span>
+          </div>
+          <p className="yb-ribbon-read" aria-live="polite">
+            {ribbonRow ? (
+              <>
+                <strong>
+                  {MONTHS[ribbonRow.month - 1]} {year}
+                </strong>
+                <span>{lakh(ribbonRow.target)}</span>
+                <span>{annual ? `${Math.round((ribbonRow.target / annual) * 100)}% of the year` : '—'}</span>
+                <span>{offersOf(ribbonRow.month).length} offers</span>
+                <span>{campaignCount(ribbonRow.month)} campaigns</span>
+                <span>{momentsOf(ribbonRow.month).length} moments</span>
+              </>
+            ) : (
+              <>
+                <strong>{year} at a glance</strong>
+                <span>Hover a month to read it out, click to jump to its card</span>
+              </>
+            )}
+          </p>
+        </div>
+        <div className="yb-ribbon-months">
+          {months.map(m => {
+            const height = Math.max(6, Math.round((m.target / peak) * 100));
+            const on = ribbonMonth === m.month;
             return (
               <button
-                key={l.id}
-                className={layer === l.id ? 'on' : ''}
-                aria-pressed={layer === l.id}
-                onClick={() => setLayer(l.id)}
+                key={m.month}
+                type="button"
+                className={`yb-ribbon-month ${on ? 'on' : ''} ${m.planApproved ? 'is-approved' : ''}`}
+                style={{ ['--fill' as string]: `${height}%` } as React.CSSProperties}
+                onMouseEnter={() => setHotMonth(m.month)}
+                onMouseLeave={() => setHotMonth(current => (current === m.month ? null : current))}
+                onFocus={() => setHotMonth(m.month)}
+                onBlur={() => setHotMonth(current => (current === m.month ? null : current))}
+                onClick={() => jumpTo(m.month)}
+                aria-label={`${MONTHS[m.month - 1]} ${year}, ${lakh(m.target)} target. Jump to the month.`}
               >
-                <Icon size={14} />
-                {l.label}
+                <span className="yb-ribbon-bar" aria-hidden="true">
+                  <i />
+                </span>
+                <b>{MONTHS_SHORT[m.month - 1]}</b>
+                <em>{lakh(m.target)}</em>
               </button>
             );
           })}
         </div>
-      </header>
+      </section>
 
-      <div className="yc-hero">
-        <div className="yc-kpis">
-          <div>
-            <small>{year} target</small>
-            <strong>{lakh(annual)}</strong>
-            <span className={growth !== null && growth < 0 ? 'neg' : 'pos'}>
-              <TrendingUp size={13} />
-              {growth === null
-                ? 'No prior year'
-                : `${growth >= 0 ? '+' : ''}${Math.round(growth * 100)}% vs ${lakh(lastYear)}`}
-            </span>
-          </div>
-          <div>
-            <small>Peak month</small>
-            <strong>{MONTHS[view.peak.month - 1]}</strong>
-            <span>{lakh(view.peak.target)}</span>
-          </div>
-          <div>
-            <small>Quietest</small>
-            <strong>{MONTHS[view.low.month - 1]}</strong>
-            <span>{lakh(view.low.target)}</span>
-          </div>
-          <div>
-            <small>Offers planned</small>
-            <strong>{number(offerCount)}</strong>
-            <span>{momentCount} calendar moments</span>
-          </div>
-          <div>
-            <small>Months approved</small>
-            <strong>{approvedCount}/12</strong>
-            <span>{12 - approvedCount} still open</span>
-          </div>
-        </div>
-        <svg className="yc-ribbon" viewBox={`0 0 ${W} ${H + 20}`} role="group" aria-label="Monthly target seasonality">
-          <defs>
-            <linearGradient id="yc-area" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--a1)" stopOpacity="0.34" />
-              <stop offset="100%" stopColor="var(--a1)" stopOpacity="0.02" />
-            </linearGradient>
-            <linearGradient id="yc-stroke" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="var(--a1)" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="var(--a1)" />
-            </linearGradient>
-          </defs>
-          {[0.25, 0.5, 0.75, 1].map(g => (
-            <line key={g} x1="0" x2={W} y1={H - (H - 6) * g} y2={H - (H - 6) * g} className="yc-grid" />
-          ))}
-          {[1, 2, 3].map(q => (
-            <line key={q} x1={q * step * 3} x2={q * step * 3} y1="4" y2={H} className="yc-quarter" />
-          ))}
-          {(() => {
-            const pts = months.map((m, i) => ({
-              x: i * step + step / 2,
-              y: H - Math.max(7, (m.target / view.max) * (H - 18)),
-            }));
-            const line = curve(pts);
-            return (
-              <>
-                <path
-                  d={`${line} L ${pts[pts.length - 1].x} ${H} L ${pts[0].x} ${H} Z`}
-                  className="yc-area"
-                  fill="url(#yc-area)"
-                />
-                <path d={line} className="yc-curve" stroke="url(#yc-stroke)" />
-                {months.map((m, i) => (
-                  <g key={m.month}>
-                    <circle
-                      cx={pts[i].x}
-                      cy={pts[i].y}
-                      r={hot === m.month ? 6 : 3.6}
-                      className={`yc-dot ${hot === m.month ? 'hot' : ''} ${m.planApproved ? 'done' : ''}`}
-                    />
-                    {m.month === view.peak.month && hot !== m.month && (
-                      <text x={pts[i].x} y={pts[i].y - 12} textAnchor="middle" className="yc-peak">
-                        {lakh(m.target)}
-                      </text>
-                    )}
-                  </g>
-                ))}
-                {hot !== null && (
-                  <text
-                    x={Math.min(W - 40, Math.max(40, pts[hot - 1].x))}
-                    y={Math.max(16, pts[hot - 1].y - 14)}
-                    textAnchor="middle"
-                    className="yc-tip"
-                  >
-                    {MONTHS_SHORT[hot - 1]} · {lakh(months[hot - 1].target)}
-                  </text>
-                )}
-              </>
-            );
-          })()}
-          {months.map((m, i) => (
-            <g
-              key={m.month}
-              className="yc-hitcol"
-              role="button"
-              tabIndex={0}
-              aria-label={`Open ${MONTHS[m.month - 1]} plan, target ${lakh(m.target)}`}
-              onMouseEnter={() => setHot(m.month)}
-              onMouseLeave={() => setHot(null)}
-              onFocus={() => setHot(m.month)}
-              onBlur={() => setHot(null)}
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onOpen(m.month);
-                }
-              }}
-              onClick={() => onOpen(m.month)}
-            >
-              <rect x={i * step} y="0" width={step} height={H + 20} fill="transparent" />
-              <text
-                x={i * step + step / 2}
-                y={H + 14}
-                textAnchor="middle"
-                className={`yc-lab ${hot === m.month ? 'hot' : ''}`}
-              >
-                {MONTHS_SHORT[m.month - 1]}
-              </text>
-            </g>
-          ))}
-        </svg>
+      <div className="yb-legend">
+        {(
+          [
+            ['offers', Gift, `Offers · ${totals.offers}`, '#0d6b58'],
+            ['campaigns', Sparkles, `Campaigns · ${totals.campaigns}`, '#28489b'],
+            ['moments', PartyPopper, `Moments · ${totals.moments}`, '#b07a2e'],
+          ] as const
+        ).map(([key, Icon, label, colour]) => (
+          <button
+            key={key}
+            type="button"
+            className={`yb-toggle ${layers[key] ? 'on' : ''}`}
+            aria-pressed={layers[key]}
+            style={{ ['--k' as string]: colour } as React.CSSProperties}
+            onClick={() => setLayers(current => ({ ...current, [key]: !current[key] }))}
+            title={`${layers[key] ? 'Hide' : 'Show'} ${key} on the board`}
+          >
+            <Icon size={12} />
+            {label}
+          </button>
+        ))}
+        {!plan && (
+          <span className="yb-legend-locations">
+            {data.plans.map(p => (
+              <em key={p.studio.id} style={{ ['--loc' as string]: LOCATION_COLORS[p.studio.name] }}>
+                <i />
+                {p.studio.name}
+              </em>
+            ))}
+          </span>
+        )}
       </div>
 
-      <div className="yc-grid-tiles">
+      <div className="yb-grid" ref={boardRef}>
         {months.map(m => {
-          const days = new Date(year, m.month, 0).getDate();
-          const dates = keyDatesFor(year, m.month);
+          const moments = momentsOf(m.month);
           const offers = offersOf(m.month);
-          const share = annual ? m.target / annual : 0;
-          const yoy = m.lastYear ? m.target / m.lastYear - 1 : null;
-          const total = Math.max(
-            1,
-            STREAMS.reduce((s, x) => s + n((m as any)[x.key]), 0),
-          );
-          const R = 22,
-            C = 2 * Math.PI * R;
+          const cells = calendarCells(year, m.month, moments);
+          const byDay = campaignDays.get(m.month);
+          const shareOfYear = annual ? m.target / annual : 0;
+          const isOpen = openDay?.month === m.month;
+          const facts = isOpen ? dayFacts(m.month, openDay!.day) : null;
           return (
-            <button
+            <article
               key={m.month}
-              type="button"
-              className={`yc-tile q${Math.ceil(m.month / 3)} ${m.planApproved ? 'is-approved' : ''} ${hot === m.month ? 'hot' : ''}`}
-              onMouseEnter={() => setHot(m.month)}
-              onMouseLeave={() => setHot(null)}
-              onFocus={() => setHot(m.month)}
-              onBlur={() => setHot(null)}
-              onClick={() => onOpen(m.month)}
-              aria-label={`Open ${MONTHS[m.month - 1]} plan`}
+              data-month={m.month}
+              className={`yb-month ${m.planApproved ? 'is-approved' : ''} ${isOpen ? 'is-open' : ''} ${
+                pinned === m.month ? 'is-pinned' : ''
+              } ${ribbonMonth === m.month ? 'is-hot' : ''}`}
+              onMouseEnter={() => setHotMonth(m.month)}
+              onMouseLeave={() => setHotMonth(current => (current === m.month ? null : current))}
+              style={{ ['--loc' as string]: plan ? accent : 'var(--a1)' } as React.CSSProperties}
             >
-              {(() => {
-                const ph = coverPhotoFor(m.month);
-                return (
-                  <span
-                    className="yc-band"
-                    style={{ backgroundImage: `url(${ph.url})`, backgroundPosition: ph.pos }}
-                    aria-hidden="true"
-                  >
-                    <em className="yc-q">Q{Math.ceil(m.month / 3)}</em>
-                    <span className="yc-name">{MONTHS[m.month - 1]}</span>
-                  </span>
-                );
-              })()}
-              <div className="yc-head">
-                <div>
-                  <p>{m.theme || m.objective || '—'}</p>
-                </div>
-                <div className="yc-ring" aria-hidden="true">
-                  <svg viewBox="0 0 56 56">
-                    <circle cx="28" cy="28" r={R} className="yc-ring-bg" />
-                    <circle
-                      cx="28"
-                      cy="28"
-                      r={R}
-                      className="yc-ring-fg"
-                      strokeDasharray={`${Math.min(1, share * 4) * C} ${C}`}
-                      transform="rotate(-90 28 28)"
-                    />
-                  </svg>
-                  <b>{(share * 100).toFixed(0)}%</b>
-                </div>
-              </div>
+              <button
+                type="button"
+                className="yb-month-head"
+                onClick={() => onOpen(m.month)}
+                aria-label={`Open the ${MONTHS[m.month - 1]} plan`}
+              >
+                <span className="yb-month-name">
+                  {/* The quarter is a fact about the month, not about each month: label
+                      the quarter where it starts and leave the rest unlabelled. */}
+                  <em>{(m.month - 1) % 3 === 0 ? `Q${Math.ceil(m.month / 3)}` : '\u00a0'}</em>
+                  <strong>{MONTHS[m.month - 1]}</strong>
+                </span>
+                <span className="yb-month-money">
+                  <b>{lakh(m.target)}</b>
+                  <i>{(shareOfYear * 100).toFixed(0)}% of year</i>
+                </span>
+                <span className="yb-month-go" aria-hidden="true">
+                  <ArrowRight size={13} />
+                </span>
+              </button>
 
-              <div className="yc-money">
-                <strong>{lakh(m.target)}</strong>
-                {yoy !== null && (
-                  <em className={yoy < 0 ? 'neg' : 'pos'}>{`${yoy >= 0 ? '+' : ''}${Math.round(yoy * 100)}%`}</em>
-                )}
-                {m.planApproved && (
-                  <span className="yc-done">
-                    <CheckCircle2 size={12} /> Approved
-                  </span>
-                )}
-              </div>
+              {m.theme && <p className="yb-theme">{m.theme}</p>}
 
-              <div className="yc-days" aria-hidden="true">
-                <i />
-                {dates.map((d, i) => {
-                  const left = ((d.day - 1) / Math.max(1, days - 1)) * 100;
-                  const width = d.end ? ((d.end - d.day) / Math.max(1, days - 1)) * 100 : 0;
-                  return d.end ? (
-                    <b
-                      key={i}
-                      className="span"
-                      style={{ left: `${left}%`, width: `${width}%`, background: KIND_COLOR[d.kind] }}
-                      title={d.name}
-                    />
+              <div className="yb-days" role="grid" aria-label={`${MONTHS[m.month - 1]} calendar`}>
+                {WEEKDAYS.map(d => (
+                  <span key={d} className="yb-dow" aria-hidden="true">
+                    {d[0]}
+                  </span>
+                ))}
+                {cells.map((cell, i) => {
+                  if (cell === null) return <span key={`pad-${i}`} className="yb-day is-pad" aria-hidden="true" />;
+                  const running = campaignStarts.get(m.month)?.get(cell.day) || [];
+                  const moment = cell.moments[0];
+                  const events = cell.moments.length + running.length;
+                  const picked = isOpen && openDay!.day === cell.day;
+                  const tip = [
+                    ...cell.moments.map(x => `${x.name} · ${KEY_DATE_LABELS[x.kind]}`),
+                    ...running.map((c: any) => `${c.name} · campaign`),
+                  ].join('\n');
+                  const label = `${cell.day} ${MONTHS[m.month - 1]}${
+                    cell.moments.length ? `, ${cell.moments.map(x => x.name).join(', ')}` : ''
+                  }${running.length ? `, campaign${running.length > 1 ? 's' : ''} running` : ''}`;
+                  const className = `yb-day ${events ? 'has-moment' : ''} ${
+                    cell.moments.some(x => x.kind === 'festival') ? 'is-festival' : ''
+                  } ${running.length ? 'has-campaign' : ''} ${picked ? 'is-picked' : ''}`;
+                  return events ? (
+                    <button
+                      key={cell.day}
+                      type="button"
+                      className={className}
+                      aria-pressed={picked}
+                      aria-label={label}
+                      title={tip}
+                      onClick={() => setOpenDay(picked ? null : { month: m.month, day: cell.day })}
+                    >
+                      {cell.day}
+                      {layers.moments && cell.moments.length > 0 && (
+                        <i style={{ background: KIND_COLOR[moment.kind] || 'var(--gold)' }} />
+                      )}
+                      {layers.campaigns && running.length > 0 && (
+                        <u
+                          aria-hidden="true"
+                          style={{
+                            background: plan ? accent : LOCATION_COLORS[running[0].studio] || 'var(--a1)',
+                          }}
+                        />
+                      )}
+                    </button>
                   ) : (
-                    <b
-                      key={i}
-                      style={{ left: `${left}%`, background: KIND_COLOR[d.kind] }}
-                      title={`${d.day} ${MONTHS_SHORT[m.month - 1]} · ${d.name}`}
-                    />
+                    <span key={cell.day} className={className}>
+                      {cell.day}
+                    </span>
                   );
                 })}
               </div>
 
-              <div className="yc-body">
-                {layer === 'revenue' && (
-                  <>
-                    <div className="yc-mix" aria-hidden="true">
-                      {STREAMS.map(s => (
-                        <i
-                          key={s.key}
-                          style={{
-                            width: `${(n((m as any)[s.key]) / total) * 100}%`,
-                            background: `color-mix(in srgb, var(--a1) ${s.shade * 100}%, #fff)`,
-                          }}
-                        />
-                      ))}
-                    </div>
-                    <ul className="yc-stats">
-                      <li>
-                        <b>{number(m.leads)}</b> leads
-                      </li>
-                      <li>
-                        <b>{number(m.buyers)}</b> members
-                      </li>
-                      <li>
-                        <b>{number(m.renewalPurchases)}</b> renewals
-                      </li>
-                      <li>
-                        <b>{number(m.reactivated)}</b> returning
-                      </li>
-                    </ul>
-                  </>
-                )}
-                {layer === 'offers' && (
-                  <ul className="yc-offers">
-                    {offers.slice(0, 4).map(o => (
-                      <li key={o.id} className={o.approval_status === 'approved' ? 'ok' : ''}>
-                        <span>{o.name}</span>
-                        <b>{lakh(n(o.expected_revenue))}</b>
-                      </li>
-                    ))}
-                    {!offers.length && <li className="none">No offers picked yet</li>}
-                    {offers.length > 4 && <li className="more">+{offers.length - 4} more</li>}
-                  </ul>
-                )}
-                {layer === 'moments' && (
-                  <ul className="yc-moments">
-                    {dates.slice(0, 4).map((d, i) => (
-                      <li key={i}>
-                        <FestivalArt name={d.name} kind={d.kind} className="yc-thumb" />
+              {facts && (
+                <div className="yb-day-panel" role="group" aria-label={`${openDay!.day} ${MONTHS[m.month - 1]}`}>
+                  <header>
+                    <strong>
+                      {openDay!.day} {MONTHS[m.month - 1]}
+                    </strong>
+                    <button type="button" onClick={() => setOpenDay(null)} aria-label="Close this day">
+                      <X size={12} />
+                    </button>
+                  </header>
+                  <ul>
+                    {facts.moments.map(x => (
+                      <li key={`m-${x.name}`} style={{ ['--k' as string]: KIND_COLOR[x.kind] } as React.CSSProperties}>
+                        <i />
                         <span>
-                          <b>{d.name}</b>
-                          <small>
-                            {formatKeyDate(d)} {MONTHS_SHORT[m.month - 1]} · {KEY_DATE_LABELS[d.kind]}
-                          </small>
+                          {x.name}
+                          <em>{KEY_DATE_LABELS[x.kind]}</em>
                         </span>
                       </li>
                     ))}
-                    {!dates.length && <li className="none">No calendar moments</li>}
+                    {groupedCampaigns(facts.campaigns).map((c: any) => (
+                      <li key={`c-${c.name}`} style={{ ['--k' as string]: LOCATION_COLORS[c.studio] || 'var(--a1)' }}>
+                        <i />
+                        <span>
+                          {c.name}
+                          <em>
+                            {c.range} · {c.studios.join(' · ')}
+                          </em>
+                        </span>
+                      </li>
+                    ))}
                   </ul>
-                )}
-              </div>
-            </button>
+                  <button type="button" className="yb-day-open" onClick={() => onOpen(m.month)}>
+                    Open {MONTHS[m.month - 1]}
+                    <ArrowRight size={12} />
+                  </button>
+                </div>
+              )}
+
+              {layers.offers && (
+                <ul className="yb-offers">
+                  {offers.map((o: any) => (
+                    <li key={o.id}>
+                      <i style={{ background: plan ? accent : LOCATION_COLORS[o.studio] || accent }} />
+                      <span>
+                        {o.name}
+                        {!plan && o.studio && <em>{o.studio}</em>}
+                      </span>
+                      <b>{o.expected_revenue ? lakh(n(o.expected_revenue)) : '—'}</b>
+                    </li>
+                  ))}
+                  {!offers.length && <li className="none">No offers picked yet</li>}
+                </ul>
+              )}
+
+              {layers.moments && moments.length > 0 && (
+                <p className={`yb-moments ${expanded === m.month ? 'is-expanded' : ''}`}>
+                  {(expanded === m.month ? moments : moments.slice(0, 3)).map(x => (
+                    <span key={x.name} style={{ ['--k' as string]: KIND_COLOR[x.kind] }}>
+                      <i />
+                      {x.name}
+                    </span>
+                  ))}
+                  {moments.length > 3 && (
+                    <button
+                      type="button"
+                      className="more"
+                      aria-expanded={expanded === m.month}
+                      onClick={() => setExpanded(current => (current === m.month ? null : m.month))}
+                    >
+                      {expanded === m.month ? 'Show less' : `+${moments.length - 3} more`}
+                    </button>
+                  )}
+                </p>
+              )}
+            </article>
           );
         })}
       </div>
 
-      <footer className="yc-legend">
-        {layer === 'revenue'
-          ? STREAMS.map(s => (
-              <span key={s.key}>
-                <i style={{ background: `color-mix(in srgb, var(--a1) ${s.shade * 100}%, #fff)` }} />
-                {s.label}
-              </span>
-            ))
-          : (Object.keys(KIND_COLOR) as KeyDateKind[]).map(k => (
-              <span key={k}>
-                <i style={{ background: KIND_COLOR[k] }} />
-                {KEY_DATE_LABELS[k]}
-              </span>
-            ))}
-        <em>Day strip: markers show where festivals and moments fall in each month. Click a month to open its plan.</em>
+      <footer className="yb-foot">
+        <span>
+          <b>{number(totals.offers)}</b> offers, <b>{number(totals.campaigns)}</b> campaigns and{' '}
+          <b>{number(totals.moments)}</b> moments across the year
+        </span>
+        <span>
+          Target for {year}: <b>{lakh(annual)}</b>
+          {plan ? ` · ${plan.studio.name}` : ' · all four locations'}
+        </span>
       </footer>
     </section>
   );

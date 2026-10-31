@@ -1,0 +1,597 @@
+/* ═══ Studio performance — the evidence pages ═════════════════════════════════
+
+   Two pages share one nav entry: the portfolio hub (`/insights`) and one studio's own
+   evidence (`/studios/:id`). Both were built on the older dark "kpi-primary" tile, and the
+   final design language turned every surface white — including the tile, whose labels and
+   figures were still painted white. The result was four invisible numbers at the top of
+   every one of these pages. That is fixed here, and the same file carries the few blocks
+   the pages needed to stop looking half-empty: a real funnel, the 2027 bridge, a working
+   leverage simulator, and segment rows that state their ticket instead of a dash. */
+
+/* ── 1. The KPI tile ─────────────────────────────────────────────────────────
+   One dark surface per page, in the atelier palette rather than the old purple: ink with
+   the location's own accent bleeding in from the corner, a hairline gold rule on top. */
+/* `.ws-page .card` sets a surface at higher specificity, so the tile has to name itself
+   as a card to keep its own ground. */
+.card.kpi-primary,
+.kpi-primary.kpi-primary {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--ink-900);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(
+      120% 140% at 100% 0%,
+      color-mix(in srgb, var(--a1, #45403a) 62%, transparent),
+      transparent 58%
+    ),
+    linear-gradient(150deg, #201f18 0%, #12110b 100%);
+  color: #f6f2e8;
+  box-shadow: var(--shadow-sm);
+  isolation: isolate;
+}
+.kpi-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--champagne, #d9c79a) 30%, #fff6dd 52%, transparent 78%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+.kpi-primary::after {
+  content: '';
+  position: absolute;
+  right: -90px;
+  bottom: -140px;
+  width: 240px;
+  height: 240px;
+  border: 1px solid rgba(230, 213, 174, 0.14);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 38px rgba(230, 213, 174, 0.02),
+    0 0 0 76px rgba(230, 213, 174, 0.014);
+  pointer-events: none;
+}
+.kpi-primary .kpi-grid {
+  position: relative;
+  z-index: 1;
+}
+.kpi-primary .kpi-grid > .metric {
+  border-right-color: rgba(255, 255, 255, 0.1);
+}
+.kpi-primary .metric-label {
+  color: rgba(246, 242, 232, 0.6);
+}
+.kpi-primary .metric-value {
+  color: #fffaf0;
+}
+.kpi-primary .metric-detail {
+  color: rgba(246, 242, 232, 0.62);
+}
+.kpi-primary .metric-positive .metric-value {
+  color: #a8d8bb;
+}
+.kpi-primary .metric-negative .metric-value {
+  color: #f0c3b4;
+}
+/* The in-page metric tiles that sit on a card rather than the dark band. */
+.detail-metrics .metric {
+  border-radius: var(--radius);
+  background: var(--paper-soft, #faf8f3);
+  border: 1px solid var(--line);
+}
+
+/* ── 2. Cards hug their content ──────────────────────────────────────────────
+   A grid row stretches every child to the tallest one, so a short card next to a long
+   table rendered as a white box with a hole in it. On the evidence pages the card is the
+   unit of reading, so each one ends where its content ends. */
+.studio-intel .two-column,
+.studio-intel .dashboard-grid-main,
+.insights-hub .two-column,
+.insights-hub .dashboard-grid-main,
+.insights-hub .three-column {
+  align-items: start;
+}
+.studio-intel .chart-box {
+  margin-top: 2px;
+}
+
+/* ── 3. The funnel ───────────────────────────────────────────────────────────
+   Three stages of the observed cohort, drawn as bars whose widths are the rates, so the
+   narrowing is visible rather than inferred from three numbers. */
+.funnel-steps {
+  display: grid;
+  gap: 12px;
+  margin: 4px 0 14px;
+}
+.funnel-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  align-items: baseline;
+}
+.funnel-step > span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.funnel-step > strong {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+  font-variant-numeric: tabular-nums;
+}
+.funnel-step > i {
+  grid-column: 1 / -1;
+  position: relative;
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line-soft, #efeae0);
+  overflow: hidden;
+}
+.funnel-step > i::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--w, 100%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--a1, #45403a) 70%, #ffffff), var(--a1, #45403a));
+  transform-origin: left center;
+  animation: ins-grow 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.funnel-step.is-rate > strong {
+  font-size: 15px;
+  color: color-mix(in srgb, var(--a1, #45403a) 80%, #000);
+}
+.funnel-step > small {
+  grid-column: 1 / -1;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+@keyframes ins-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* ── 4. The 2027 bridge ──────────────────────────────────────────────────────
+   What the studio has to find, month by month, and where it comes from. */
+.br-legends {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+}
+.br-legends li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.br-legends i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.br-streams {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.br-stream {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-soft, #faf8f3);
+}
+.br-stream > span {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.br-stream > strong {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+}
+.br-stream > em {
+  display: block;
+  margin-top: 3px;
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.br-stream > b {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  background: var(--a1-soft, #f4f1ea);
+  color: var(--ink-soft);
+}
+
+/* ── 5. The leverage simulator ───────────────────────────────────────────────
+   Three levers, each stated as a range the studio can actually run, and one honest total
+   against the bridge it has to cover. */
+.sim-controls {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.sim-control > label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.sim-control > label b {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: var(--ink-900);
+}
+.sim-control input[type='range'] {
+  width: 100%;
+  margin: 8px 0 2px;
+  accent-color: var(--a1, #45403a);
+  cursor: pointer;
+}
+.sim-control small {
+  display: block;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.sim-result {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-soft, #faf8f3);
+}
+.sim-result > div > span {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.sim-result > div > strong {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+}
+.sim-cover {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+}
+.sim-cover > i {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line-soft, #efeae0);
+  overflow: hidden;
+}
+.sim-cover > i::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: var(--w, 0%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--a1, #45403a), color-mix(in srgb, var(--a1, #45403a) 45%, #ffffff));
+  transition: width 260ms ease;
+}
+.sim-cover > span {
+  display: block;
+  margin-top: 7px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* ── 6. Audience table ───────────────────────────────────────────────────────
+   Segment rows carry a sentence each, so the table has to wrap rather than cut. */
+.segment-table {
+  white-space: normal;
+  table-layout: fixed;
+  /* Six columns of prose cannot be squeezed onto a phone: below the fold the table keeps
+     a readable width and scrolls inside its own frame, which is what the frame is for. */
+  min-width: 760px;
+}
+.segment-table th:nth-child(1) {
+  width: 17%;
+}
+.segment-table th:nth-child(2) {
+  width: 9%;
+}
+.segment-table th:nth-child(3) {
+  width: 12%;
+}
+.segment-table th:nth-child(4) {
+  width: 13%;
+}
+.segment-table th:nth-child(5) {
+  width: 27%;
+}
+.segment-table th:nth-child(6) {
+  width: 22%;
+}
+.segment-table td {
+  vertical-align: top;
+  white-space: normal;
+  line-height: 1.5;
+}
+.segment-table td.num {
+  white-space: nowrap;
+}
+.seg-model {
+  display: block;
+  width: fit-content;
+  margin-top: 4px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+  background: var(--a1-soft, #f4f1ea);
+  color: var(--ink-soft);
+}
+.seg-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin-bottom: 14px;
+}
+.seg-summary > div > span {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.seg-summary > div > strong {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+}
+
+/* ── 7. Small screens ──────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .br-streams {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hub-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .br-streams,
+  .sim-result {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .segment-table th:nth-child(n) {
+    width: auto;
+  }
+  .segment-table {
+    table-layout: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .funnel-step > i::after {
+    animation: none;
+  }
+}
+
+/* The hub's chart says how big each studio is; the strip under it says how far each one has
+   to travel from its current pace to its 2027 plan. */
+.hub-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px 14px;
+  margin: 12px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+.hub-steps li {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  align-items: baseline;
+  gap: 2px 8px;
+}
+.hub-steps li > * {
+  min-width: 0;
+}
+.hub-steps span {
+  flex: 0 0 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.hub-steps b {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
+  white-space: nowrap;
+}
+.hub-steps em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hub-steps em.pos {
+  color: var(--green);
+}
+.hub-steps em.neg {
+  color: var(--red);
+}
+
+/* Source rows: the converted count and its rate are one idea, so they share a cell rather
+   than pushing a fourth column off the edge of the card. */
+.src-rate {
+  display: block;
+  margin-top: 2px;
+  font-style: normal;
+  font-size: 10px;
+  color: var(--muted);
+}
+.studio-intel .dashboard-grid-main > .card .table-scroll,
+.studio-intel .two-column > .card .table-scroll {
+  overflow-x: auto;
+}
+.studio-intel table.data-table td.cell-wrap {
+  white-space: normal;
+  line-height: 1.45;
+}
+
+/* The reading of the revenue chart, in one ruled line under it. */
+.rev-read {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 13px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+.rev-read li {
+  min-width: 0;
+}
+.rev-read span {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.rev-read b {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rev-read b.pos {
+  color: var(--green);
+}
+.rev-read b.neg {
+  color: var(--red);
+}
+/* Source names wrap rather than being cut mid-word by a nowrap table. */
+.src-table.data-table {
+  white-space: normal;
+  table-layout: fixed;
+}
+.src-table th:nth-child(1) {
+  width: 58%;
+}
+.src-table th:nth-child(2) {
+  width: 18%;
+}
+.src-table th:nth-child(3) {
+  width: 24%;
+}
+.src-table td.num {
+  white-space: nowrap;
+}
+@media (max-width: 760px) {
+  .rev-read {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* A share, drawn: the bar is the comparison, the percentage beside it is the number. */
+.share-bar {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 54px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--line-soft, #efeae0);
+  overflow: hidden;
+}
+.share-bar > i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--a1, #45403a) 62%, #ffffff);
+}
+.mix-table {
+  white-space: normal;
+}
+.mix-table th:nth-child(1) {
+  width: 34%;
+}
+.mix-table td.num {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.mix-table .src-rate {
+  margin-top: 3px;
+  text-align: right;
+}
+
+/* The stream deltas carry a sign, so they carry a colour too. */
+.br-stream > b.pos {
+  background: rgba(36, 95, 87, 0.12);
+  color: var(--green);
+}
+.br-stream > b.neg {
+  background: rgba(178, 89, 56, 0.12);
+  color: var(--red);
+}
