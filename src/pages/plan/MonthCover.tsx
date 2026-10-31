@@ -521,7 +521,7 @@ export default function MonthCover({
                 </div>
               ))}
             </div>
-            <div className="mc-conv">
+            <div className="mc-conv" title="This studio's own conversion, measured on its trailing twelve months">
               <span>{pct(leadToTrial)} lead → trial</span>
               <span>{pct(trialToBuyer)} trial → buyer</span>
             </div>
