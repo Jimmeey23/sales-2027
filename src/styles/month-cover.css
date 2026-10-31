@@ -2992,3 +2992,102 @@
     margin-top: 12px;
   }
 }
+
+/* ═══ The cover, fifth cut: the photograph is the picture ═════════════════════
+   The first full-bleed pass veiled the room almost to black: the scrim was heavy
+   everywhere, so the sheet read as a dark panel with a hint of a photograph behind it.
+   Now the veil is only where the words are — a thick left column and a deep foot —
+   and the middle of the sheet, where the subject is, is left almost clear. */
+
+.mw-monthcover .mc-photo {
+  filter: brightness(1.12) saturate(1.06);
+}
+
+.mw-monthcover .mc-scrim {
+  background: linear-gradient(
+      180deg,
+      rgba(6, 9, 12, 0.62) 0%,
+      rgba(6, 9, 12, 0.28) 9%,
+      rgba(6, 9, 12, 0.04) 20%,
+      rgba(6, 9, 12, 0.12) 30%,
+      rgba(6, 9, 12, 0.34) 38%,
+      rgba(6, 9, 12, 0.52) 48%,
+      rgba(6, 9, 12, 0.7) 58%,
+      rgba(6, 9, 12, 0.87) 70%,
+      rgba(6, 9, 12, 0.93) 84%,
+      rgba(6, 9, 12, 0.96) 100%
+    ),
+    linear-gradient(
+      94deg,
+      rgba(6, 9, 12, 0.93) 0%,
+      rgba(6, 9, 12, 0.76) 26%,
+      rgba(6, 9, 12, 0.38) 52%,
+      rgba(6, 9, 12, 0.08) 76%,
+      rgba(6, 9, 12, 0) 100%
+    );
+}
+
+/* April reads through the same veil, warmed by the anniversary's violet rather than a
+   flat ink wash. */
+.mw-monthcover.is-birthday .mc-scrim {
+  background: linear-gradient(
+      180deg,
+      rgba(14, 7, 18, 0.6) 0%,
+      rgba(14, 7, 18, 0.26) 9%,
+      rgba(14, 7, 18, 0.03) 20%,
+      rgba(14, 7, 18, 0.12) 30%,
+      rgba(14, 7, 18, 0.34) 38%,
+      rgba(14, 7, 18, 0.52) 48%,
+      rgba(14, 7, 18, 0.7) 58%,
+      rgba(14, 7, 18, 0.87) 70%,
+      rgba(14, 7, 18, 0.93) 84%,
+      rgba(14, 7, 18, 0.96) 100%
+    ),
+    linear-gradient(
+      94deg,
+      rgba(16, 7, 20, 0.92) 0%,
+      rgba(16, 7, 20, 0.74) 26%,
+      rgba(16, 7, 20, 0.34) 52%,
+      rgba(16, 7, 20, 0.06) 76%,
+      rgba(16, 7, 20, 0) 100%
+    ),
+    radial-gradient(90% 70% at 100% 6%, rgba(120, 40, 120, 0.22) 0%, transparent 62%);
+}
+
+/* Smoked glass, not a lid: the room shows through the panel as soft light. */
+.mw-monthcover .mc-panel {
+  background: linear-gradient(180deg, rgba(10, 13, 16, 0.6), rgba(8, 11, 14, 0.48));
+  border-color: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(16px) saturate(125%);
+  box-shadow: 0 24px 60px -34px rgba(0, 0, 0, 0.9);
+}
+
+@media (max-width: 900px) {
+  .mw-monthcover .mc-scrim {
+    background: linear-gradient(
+        180deg,
+        rgba(6, 9, 12, 0.7) 0%,
+        rgba(6, 9, 12, 0.42) 14%,
+        rgba(6, 9, 12, 0.22) 34%,
+        rgba(6, 9, 12, 0.5) 58%,
+        rgba(6, 9, 12, 0.86) 80%,
+        rgba(6, 9, 12, 0.95) 100%
+      ),
+      linear-gradient(90deg, rgba(6, 9, 12, 0.62) 0%, rgba(6, 9, 12, 0.3) 55%, rgba(6, 9, 12, 0.12) 100%);
+  }
+  .mw-monthcover.is-birthday .mc-scrim {
+    background: linear-gradient(
+        180deg,
+        rgba(14, 7, 18, 0.68) 0%,
+        rgba(14, 7, 18, 0.4) 14%,
+        rgba(14, 7, 18, 0.2) 34%,
+        rgba(14, 7, 18, 0.5) 58%,
+        rgba(14, 7, 18, 0.86) 80%,
+        rgba(14, 7, 18, 0.95) 100%
+      ),
+      radial-gradient(90% 60% at 90% 8%, rgba(120, 40, 120, 0.2) 0%, transparent 66%);
+  }
+  .mw-monthcover .mc-panel {
+    background: linear-gradient(180deg, rgba(10, 13, 16, 0.68), rgba(8, 11, 14, 0.56));
+  }
+}
