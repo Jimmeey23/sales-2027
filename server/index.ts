@@ -69,6 +69,8 @@ export function initApp() {
       if (Number((db.prepare('SELECT COUNT(*) n FROM segment_snapshots').get() as any)?.n || 0) === 0) {
         recalculateSegments();
       }
+      // Reads were served from the pre-sync file while this ran; drop what they cached.
+      clearJsonCache();
     }
   }));
 }
@@ -88,15 +90,18 @@ app.use(express.json({ limit: '3mb' }));
 app.use(cookieParser());
 // Serverless (Vercel): several short-lived instances share Supabase. Each request first applies
 // changes made elsewhere, and a write only answers once its changes are safely in Supabase.
-// Locally the same pull keeps a running dev server in step with edits made on Vercel.
+// Locally the pull runs on the sync timer instead (see startSupabaseSync), so requests skip the round trip.
 // Requests that arrive while the startup sync runs wait for it (a failed sync still lets them through).
-app.use('/api', (_req, _res, next) => {
+// Locally only writes wait: reads answer from the SQLite file at once, and the reload swaps each table
+// in one synchronous transaction, so a read never sees a half-loaded table.
+app.use('/api', (req, _res, next) => {
+  if (!process.env.VERCEL && (req.method === 'GET' || req.method === 'HEAD')) return next();
   (initialising || Promise.resolve()).then(
     () => next(),
     () => next(),
   );
 });
-if (process.env.DATABASE_URL)
+if (process.env.DATABASE_URL && process.env.VERCEL)
   app.use((req, res, next) => {
     if (process.env.VERCEL && req.method !== 'GET') {
       const end = res.end.bind(res);

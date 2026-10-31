@@ -1,5 +1,6 @@
 import pg from 'pg';
 import { db } from '../db.js';
+import { clearJsonCache } from './httpCache.js';
 
 // Supabase Postgres is the durable store for planning data. The server keeps working against
 // the local SQLite file; SQLite triggers record every change in _sync_outbox and a flusher
@@ -33,7 +34,12 @@ let flushing: Promise<void> | null = null,
 // Highest Supabase change-log entry this process has applied (see pullRemoteChanges).
 let lastSeq = 0;
 const quote = (name: string) => `"${name.replaceAll('"', '""')}"`;
-const columnsOf = (table: string) => db.pragma(`table_info(${table})`) as any[];
+// The local schema is fixed once the server has started, and load paths ask per cell, so cache it.
+const columnCache = new Map<string, any[]>();
+const columnsOf = (table: string) => {
+  if (!columnCache.has(table)) columnCache.set(table, db.pragma(`table_info(${table})`) as any[]);
+  return columnCache.get(table)!;
+};
 const pgType = (sqliteType: string) =>
   /INT/i.test(sqliteType) ? 'bigint' : /REAL|FLOA|DOUB|NUM/i.test(sqliteType) ? 'double precision' : 'text';
 
@@ -118,9 +124,17 @@ async function pushRows(client: pg.PoolClient, table: string, pk: string, rows: 
 // migration: push the local planning data up instead.
 async function reconcile(client: pg.PoolClient, remoteEmpty: boolean) {
   const counts: Record<string, { local: number; remote: number; action: string }> = {};
+  // Supabase is far away and each table is one round trip, so download them all at once (the pool caps concurrency).
+  const remote = remoteEmpty
+    ? null
+    : await Promise.all(
+        SYNC_TABLES.map(({ table }) =>
+          pool!.query(`SELECT ${columnsOf(table).map(c => quote(c.name)).join(',')} FROM ${quote(table)}`),
+        ),
+      );
   db.pragma('foreign_keys = OFF');
   try {
-    for (const { table, pk } of SYNC_TABLES) {
+    for (const [index, { table, pk }] of SYNC_TABLES.entries()) {
       const cols = columnsOf(table).map(c => c.name);
       if (remoteEmpty) {
         console.log(`Supabase: copying ${table}…`);
@@ -132,20 +146,11 @@ async function reconcile(client: pg.PoolClient, remoteEmpty: boolean) {
         };
         continue;
       }
-      const { rows } = await client.query(`SELECT ${cols.map(quote).join(',')} FROM ${quote(table)}`);
+      const { rows } = remote![index];
       db.transaction(() => {
         db.prepare(`DELETE FROM ${table}`).run();
         const insert = db.prepare(`INSERT INTO ${table} (${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})`);
-        for (const row of rows)
-          insert.run(
-            ...cols.map(c =>
-              row[c] === null || row[c] === undefined
-                ? null
-                : typeof row[c] === 'string' && /^-?\d+$/.test(row[c]) && pgTypeOf(table, c) === 'bigint'
-                  ? Number(row[c])
-                  : row[c],
-            ),
-          );
+        for (const row of rows) insert.run(...cols.map(c => toLocal(table, c, row[c])));
       })();
       counts[table] = { local: rows.length, remote: rows.length, action: 'pulled' };
     }
@@ -160,6 +165,19 @@ async function reconcile(client: pg.PoolClient, remoteEmpty: boolean) {
   return counts;
 }
 const pgTypeOf = (table: string, column: string) => pgType(columnsOf(table).find(c => c.name === column)?.type || '');
+// A column added to Supabase after its rows existed holds NULL there; a NOT NULL local column takes its default instead.
+const notNullDefault = (table: string, column: string) => {
+  const info = columnsOf(table).find(c => c.name === column);
+  if (!info?.notnull || info.dflt_value === null) return null;
+  const raw = String(info.dflt_value);
+  return /^-?\d+(\.\d+)?$/.test(raw) ? Number(raw) : raw.replace(/^'(.*)'$/s, '$1').replaceAll("''", "'");
+};
+const toLocal = (table: string, column: string, value: any) =>
+  value === null || value === undefined
+    ? notNullDefault(table, column)
+    : typeof value === 'string' && /^-?\d+$/.test(value) && pgTypeOf(table, column) === 'bigint'
+      ? Number(value)
+      : value;
 
 // Sends every queued local change to Supabase and records it in the shared change log.
 export function flushOutbox(): Promise<void> {
@@ -211,12 +229,6 @@ export function flushOutbox(): Promise<void> {
   return run!;
 }
 
-const toLocal = (table: string, column: string, value: any) =>
-  value === null || value === undefined
-    ? null
-    : typeof value === 'string' && /^-?\d+$/.test(value) && pgTypeOf(table, column) === 'bigint'
-      ? Number(value)
-      : value;
 
 // Applies changes other processes (e.g. other Vercel instances) wrote since this one last looked.
 export async function pullRemoteChanges() {
@@ -259,6 +271,7 @@ export async function pullRemoteChanges() {
     db.pragma('foreign_keys = ON');
   }
   lastSeq = Number(changes[changes.length - 1].seq);
+  clearJsonCache();
 }
 
 export async function startSupabaseSync() {
@@ -306,6 +319,7 @@ export async function startSupabaseSync() {
       counts = await reconcile(again, remoteEmpty);
       lastSeq = Number((await again.query('SELECT COALESCE(MAX(seq),0) n FROM "_changes"')).rows[0].n);
       step('planning data loaded');
+      clearJsonCache();
     } finally {
       again.release();
     }
@@ -314,8 +328,11 @@ export async function startSupabaseSync() {
     throw error;
   }
   if (process.env.VERCEL) return counts; // serverless: each write request flushes before responding
+  // Locally, edits made elsewhere (e.g. on Vercel) are pulled on this timer instead of before each request.
   timer = setInterval(() => {
-    flushOutbox().catch(() => {});
+    flushOutbox()
+      .then(() => pullRemoteChanges())
+      .catch(error => console.error(`Supabase pull failed: ${error?.message || error}`));
   }, 1500);
   const shutdown = async () => {
     if (timer) clearInterval(timer);
