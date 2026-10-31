@@ -5066,10 +5066,11 @@ details.membership-terms > summary {
 }
 
 /* ── 21. Loaders ─────────────────────────────────────────────────────────────
-   The waiting state is one heartbeat, and the heartbeat is the name. The trace beats,
-   then writes 57 into itself — the colour arrives along the line, stroke by stroke,
-   with a pen riding its tip. Nothing is stacked beside it: no logotype, no wordmark,
-   no label. The mark is the whole state. */
+   The waiting state is one heartbeat, and the heartbeat is the name. A single pen line
+   enters on the baseline, beats, and then writes 57 into itself — the bar of the 5 runs
+   straight on to become the bar of the 7, so the whole mark is one connected stroke
+   rather than two shapes standing next to each other. The blue arrives along that line
+   as it beats. Nothing is stacked beside it: no logotype, no wordmark, no label. */
 
 /* The blue the trace fills with. It is the one cool accent in a warm room, which is
    exactly why it reads as something arriving rather than as decoration. */
@@ -5108,39 +5109,34 @@ details.membership-terms > summary {
   stroke-width: 2.2;
 }
 
-/* The fill. `pathLength=100` on each stroke means one dash of 100 covers that stroke
-   exactly, so the animation is just the dash sliding off the path — the line appears
-   behind it. The two strokes are timed to follow one another (see the keyframes). */
+/* The fill. `pathLength=100` on the stroke means one dash of 100 covers it exactly, so
+   the animation is just the dash sliding off the path — the line appears behind it. The
+   gap is far longer than the path on purpose: with a gap of 100 the pattern would repeat
+   inside the stroke, and while the fill sat empty its second dash would land on the last
+   point and paint a stray dot at the end of the tail. */
 .hb svg .hb-fill {
   stroke: var(--pulse);
   stroke-width: 4.2;
-  /* One dash as long as the stroke, and a gap far longer than it: with a gap of 100 the
-     pattern would repeat inside the path, and while the fill sat empty its second dash
-     would land on the last point and paint a stray dot at the end of the tail. */
   stroke-dasharray: 100 900;
   stroke-dashoffset: 100;
   opacity: 0;
-  animation: hb-write-wave 2.4s linear infinite;
-}
-.hb svg .hb-fill-b {
-  animation-name: hb-write-seven;
+  animation: hb-write 2.4s linear infinite;
 }
 
-/* The pen: a dot made of a hair of dash with a round cap, carried along the same path
-   so it always sits at the tip of the fill. The bloom under it is the same dot, wide
-   and blurred, which is what makes the blue look like it is being laid down. Its offset
-   runs negative — a hair of a dash with a 100 gap repeats every 100.001 units, so the
-   dot only moves forward as the offset comes down from 0 to -100. */
+/* The pen: a dot made of a hair of dash with a round cap, carried along the same path so
+   it always sits at the tip of the fill. The bloom under it is the same dot, wide and
+   blurred, which is what makes the blue look like it is being laid down. Its offset runs
+   negative — a hair of a dash with a 100 gap repeats every 100.001 units, so the dot only
+   moves forward as the offset comes down from 0 to -100. */
 .hb svg .hb-pen,
 .hb svg .hb-glow {
-  stroke-dasharray: 0.001 100;
+  /* A hair of a dash, and a gap longer than the whole path so only ever one dot exists:
+     a gap of 100 would put a second dot at the start of the line once the offset has
+     run negative. */
+  stroke-dasharray: 0.001 900;
   stroke-dashoffset: 0;
   opacity: 0;
-  animation: hb-pen-wave 2.4s linear infinite;
-}
-.hb svg .hb-pen-b,
-.hb svg .hb-glow-b {
-  animation-name: hb-pen-seven;
+  animation: hb-pen 2.4s linear infinite;
 }
 .hb svg .hb-pen {
   stroke: var(--pulse-bright);
@@ -5152,99 +5148,72 @@ details.membership-terms > summary {
   filter: blur(4.5px);
 }
 
-/* One cycle: the wave is written, then the 7, then the mark holds complete for a beat
-   and lets go, and the next beat starts on a clean line. The hand-over at 44% is the
-   gap between the two strokes — the pen lifts where the 5's bar ends and comes down on
-   the 7 — so each stroke can ease in and out without a hitch in between.
+/* One cycle: the line is written from the first beat to the last, holds complete for a
+   beat, and lets go so the next one starts on a clean line. The easing is written on the
+   stops inside the writing window, not just the first, because a keyframe without one
+   falls back to the animation's own easing: the pen would travel linear while the fill
+   eased, and the dot would drift off the end of the line. */
+@keyframes hb-write {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
+  }
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  90% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  97%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@keyframes hb-pen {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
+  }
+  5% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
+  }
+  80% {
+    stroke-dashoffset: -100;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.45, 0.1, 0.55, 0.9);
+  }
+  82%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
 
-   The easing is written on every stop inside a stroke, not just the first, because a
-   keyframe without one falls back to the animation's own easing: the pen would then
-   travel linear while the fill eased, and the dot would drift off the end of the line.
-   Both strokes' fills and both pens therefore share one curve, one window at a time. */
-@keyframes hb-write-wave {
-  0% {
-    stroke-dashoffset: 100;
-    opacity: 1;
-    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
-  }
-  44% {
+/* Stillness is not an empty state: with motion off the trace stands finished, in full
+   blue, so the wait still reads as a heartbeat that has already been taken. */
+@media (prefers-reduced-motion: reduce) {
+  .hb svg .hb-fill {
+    animation: none;
     stroke-dashoffset: 0;
     opacity: 1;
   }
-  84% {
-    stroke-dashoffset: 0;
-    opacity: 1;
+  .hb svg .hb-pen,
+  .hb svg .hb-glow,
+  .atl-skeleton > span,
+  .atl-skeleton > span > i {
+    animation: none;
   }
-  93%,
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
-}
-@keyframes hb-write-seven {
-  0%,
-  44% {
-    stroke-dashoffset: 100;
-    opacity: 1;
-    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
-  }
-  74% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-  84% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-  93%,
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
-}
-/* The pen runs the same window, on the same curve, so the dot never leaves the tip. It
-   is hidden on the stroke it is not writing, so two dots are never on the mark at once. */
-@keyframes hb-pen-wave {
-  0% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
-  }
-  8% {
-    opacity: 1;
-    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
-  }
-  44% {
-    stroke-dashoffset: -100;
-    opacity: 1;
-    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
-  }
-  45.5%,
-  100% {
-    stroke-dashoffset: -100;
-    opacity: 0;
-  }
-}
-@keyframes hb-pen-seven {
-  0%,
-  44% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
-  }
-  48% {
-    opacity: 1;
-    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
-  }
-  74% {
-    stroke-dashoffset: -100;
-    opacity: 1;
-    animation-timing-function: cubic-bezier(0.3, 0.05, 0.35, 1);
-  }
-  75.5%,
-  100% {
-    stroke-dashoffset: -100;
-    opacity: 0;
+  /* No pen to follow and nothing being written, so the nib and its bloom are simply
+     not there: the trace stands finished, in full blue. */
+  .hb svg .hb-pen,
+  .hb svg .hb-glow {
+    display: none;
   }
 }
 

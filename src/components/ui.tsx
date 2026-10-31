@@ -262,18 +262,17 @@ export function Drawer({
     </div>
   );
 }
-/* The waiting mark, and the only thing on the waiting screen: one heartbeat line that
-   keeps writing. It enters on the baseline, beats, and then the same line becomes the
-   bowl of a 5 — it opens exactly where the trace lands — climbs that stem and runs its
-   bar. A second stroke picks up the 7 at its bar, drops the leg, and settles the line
-   back onto the baseline with one last small wave. So the pulse spells the studio's
-   name, and nothing sits beside it to compete: no logotype, no wordmark, no label.
+/* The waiting mark, and the only thing on the waiting screen: one pen line, drawn
+   without ever lifting. It enters on the baseline, beats, and then keeps writing — the
+   same line opens into the bowl of the 5, climbs its stem, and runs its bar straight on
+   into the 7: the two digits share the one top rule, which is what makes the mark read
+   as a single waveform rather than as two marks set side by side. From the end of that
+   rule the line drops the 7's leg, settles back onto the baseline and closes with one
+   last small wave.
 
-   Two strokes rather than one path with two subpaths, because a dash pattern restarts
-   at every subpath — the blue would then begin filling the 7 before the 5 was written.
-   Keeping them apart keeps the fill in order. The numbers below are the measured arc
-   lengths (419 and 217 units), which is what splits the draw between the strokes. */
-const HEART_WAVE =
+   Because it is one path, the blue fills along it in one unbroken sweep. The numbers
+   below are the measured arc length, which is what paces the draw. */
+const HEART_MARK =
   'M 0 100 L 10 100' +
   // P wave — the small atrial rise before the beat.
   ' C 14 100 16 88 20 88 C 24 88 26 100 30 100' +
@@ -285,12 +284,10 @@ const HEART_WAVE =
   ' C 74 100 80 97 88 92' +
   ' C 102 88 112 76 106 65' +
   ' C 101 57 92 54 84 57' +
-  // The stem, then the bar.
+  // The stem, then the rule that carries the pen from the 5 into the 7.
   ' C 82 52 81 45 82 39' +
-  ' L 120 39';
-const HEART_SEVEN =
-  'M 134 39 L 176 39' +
-  // The leg falls to the baseline and becomes the swash that settles the line.
+  ' L 176 39' +
+  // The 7's leg, its foot, and the wave that settles the line.
   ' L 148 90' +
   ' C 146 95 147 98 150 100' +
   ' L 166 100' +
@@ -298,20 +295,16 @@ const HEART_SEVEN =
   ' L 240 100';
 
 /* The waiting state. The blue is not decoration and not a progress bar: it is the trace
-   being written, beat by beat, one stroke then the other. The pen rides the tip of the
-   fill with a soft bloom under it, so the colour reads as arriving rather than as a
-   wipe crossing the mark. */
+   being written, in one pass, with the pen riding the tip of the fill and a soft bloom
+   under it — so the colour reads as arriving rather than as a wipe crossing the mark. */
 export function Heartbeat({ className = '' }: { className?: string }) {
   return (
     <span className={`hb ${className}`.trim()} aria-hidden="true">
       <svg viewBox="0 0 252 124" focusable="false">
-        <path className="hb-track" d={`${HEART_WAVE} ${HEART_SEVEN}`} />
-        <path className="hb-glow hb-glow-a" d={HEART_WAVE} pathLength={100} />
-        <path className="hb-glow hb-glow-b" d={HEART_SEVEN} pathLength={100} />
-        <path className="hb-fill hb-fill-a" d={HEART_WAVE} pathLength={100} />
-        <path className="hb-fill hb-fill-b" d={HEART_SEVEN} pathLength={100} />
-        <path className="hb-pen hb-pen-a" d={HEART_WAVE} pathLength={100} />
-        <path className="hb-pen hb-pen-b" d={HEART_SEVEN} pathLength={100} />
+        <path className="hb-track" d={HEART_MARK} />
+        <path className="hb-glow" d={HEART_MARK} pathLength={100} />
+        <path className="hb-fill" d={HEART_MARK} pathLength={100} />
+        <path className="hb-pen" d={HEART_MARK} pathLength={100} />
       </svg>
     </span>
   );
