@@ -99,6 +99,17 @@ export const money = (value: number | null | undefined, compact = false) =>
         maximumFractionDigits: 0,
         notation: compact ? 'compact' : 'standard',
       }).format(Number(value));
+/** Compact money with enough precision to tell two similar figures apart ("₹5.11 Cr", not
+    "₹5Cr"). KPI bands use this; tables keep the plain compact form. */
+export const moneyShort = (value: number | null | undefined) => {
+  const v = Number(value);
+  if (value === null || value === undefined || !Number.isFinite(v)) return '—';
+  const abs = Math.abs(v);
+  if (abs >= 1e7) return `₹${(v / 1e7).toFixed(2)} Cr`;
+  if (abs >= 1e5) return `₹${(v / 1e5).toFixed(1)}L`;
+  if (abs >= 1e3) return `₹${(v / 1e3).toFixed(1)}K`;
+  return `₹${Math.round(v)}`;
+};
 export const number = (value: number | null | undefined, maximumFractionDigits = 0) =>
   value === null || value === undefined || !Number.isFinite(Number(value))
     ? '—'
