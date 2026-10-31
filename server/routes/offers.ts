@@ -43,6 +43,9 @@ function offerRow(body: any) {
     benefit: body.benefit || null,
     mechanics: JSON.stringify(mechanics),
     validity_start: body.validityStart || body.validity_start || null,
+    plan_slot: body.planSlot ?? body.plan_slot ?? null,
+    plan_rank: body.planRank ?? body.plan_rank ?? null,
+    run_ads: body.runAds ?? body.run_ads ?? 0,
     validity_end: body.validityEnd || body.validity_end || null,
     redemption_conditions: body.redemptionConditions || body.redemption_conditions || null,
     target_purchases: body.targetPurchases ?? body.target_purchases ?? null,
@@ -67,7 +70,7 @@ function offerRow(body: any) {
     cta: body.cta || null,
   };
 }
-export function validateOfferForSave(body: any, user: any) {
+export function validateOfferForSave(body: any, user: any, options: { reconcile?: boolean } = {}) {
   const row = offerRow(body);
   if (!row.name || row.name.length < 3) throw bodyError('Offer name must contain at least 3 characters.');
   if (!row.objective) throw bodyError('Campaign objective is required.');
@@ -94,13 +97,22 @@ export function validateOfferForSave(body: any, user: any) {
       throw bodyError(`Offer guardrails failed: ${result.errors.join(' ')}`, 422);
   }
   const financials = typeof row.financials === 'string' ? JSON.parse(row.financials || '{}') : row.financials || {};
-  if (
+  const staleModels =
     financials.expectedRevenue != null &&
     row.expected_revenue != null &&
     Math.abs(Number(row.expected_revenue) - Number(financials.expectedRevenue)) >
-      Math.max(2, Math.abs(Number(financials.expectedRevenue)) * 0.0001)
-  )
-    throw bodyError('Expected revenue does not match the saved offer financial model.', 422);
+      Math.max(2, Math.abs(Number(financials.expectedRevenue)) * 0.0001);
+  if (staleModels) {
+    // An import carries the studio's own numbers. When the file does not restate the
+    // mechanics, the stored model is simply older than the row it describes, so the
+    // forecast in the file wins and the model is re-pointed at it rather than rejected.
+    if (!options.reconcile) throw bodyError('Expected revenue does not match the saved offer financial model.', 422);
+    const rebuilt = { ...financials, expectedRevenue: Number(row.expected_revenue) };
+    if (row.expected_asp != null) rebuilt.sellingPrice = Number(row.expected_asp);
+    if (row.target_purchases != null) rebuilt.requiredBuyers = Number(row.target_purchases);
+    rebuilt.reconciled = true;
+    row.financials = JSON.stringify(rebuilt);
+  }
   if (['approved', 'active', 'completed'].includes(row.status) || row.approval_status === 'approved') {
     if (!user.permissions.includes('offer_approve')) throw bodyError('Offer approval permission required.', 403);
     if (row.expected_asp == null || row.expected_revenue == null)
@@ -108,14 +120,13 @@ export function validateOfferForSave(body: any, user: any) {
   }
   return row;
 }
-export function persistOffer(body: any, user: any) {
+export function persistOffer(body: any, user: any, options: { reconcile?: boolean; allowApproved?: boolean } = {}) {
   if (
-    ['approved', 'active', 'completed'].includes(body.status) ||
-    body.approvalStatus === 'approved' ||
-    body.approval_status === 'approved'
+    (!options.allowApproved && ['approved', 'active', 'completed'].includes(body.status)) ||
+    (!options.allowApproved && (body.approvalStatus === 'approved' || body.approval_status === 'approved'))
   )
     throw bodyError('New offers must be saved as drafts; use the approval action after review.', 422);
-  const row = validateOfferForSave(body, user);
+  const row = validateOfferForSave(body, user, { reconcile: options.reconcile });
   // 2027 offers are saved to the location's offer bank; a month uses them only once its plan picks them.
   if (Number(row.year) === 2027) row.month = null;
   const uid = `P57-${new Date().getFullYear()}-${crypto.randomBytes(5).toString('hex').toUpperCase()}`;
@@ -653,6 +664,10 @@ export default function registerOffersRoutes(app: Express) {
       internalDescription: req.body.internalDescription ?? before.internal_description,
       generationSource: before.generation_source,
       dataMode: before.data_mode,
+      // The editor has no fields for these, so an ordinary save must not blank them.
+      planSlot: req.body.planSlot ?? req.body.plan_slot ?? before.plan_slot,
+      planRank: req.body.planRank ?? req.body.plan_rank ?? before.plan_rank,
+      runAds: req.body.runAds ?? req.body.run_ads ?? before.run_ads,
     };
     const row = validateOfferForSave(merged, req.user);
     const columns = Object.keys(row);

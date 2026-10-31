@@ -1,5 +1,15 @@
 import React, { useMemo, useState } from 'react';
-import { CheckCircle2, ChevronDown, Plus, RefreshCcw, Search, SlidersHorizontal, X } from 'lucide-react';
+import {
+  ArrowRightLeft,
+  CheckCircle2,
+  ChevronDown,
+  Plus,
+  RefreshCcw,
+  Search,
+  SlidersHorizontal,
+  X,
+} from 'lucide-react';
+import { MONTHS } from '../../types';
 import { lakh } from './usePlanData';
 
 /* The offer library: every other offer this location could run, docked beside the month's
@@ -72,6 +82,7 @@ export default function OfferLibrary({
   offers,
   month,
   selected,
+  offersInMonth,
   editable,
   busy,
   labels,
@@ -85,14 +96,17 @@ export default function OfferLibrary({
   offers: LibraryOffer[];
   month: number;
   selected: Array<{ id: number; name?: string | null; approval_status?: string | null }>;
+  /** What any month of the year already runs, so an offer can be dropped into a month
+   *  that is not the one on screen without leaving the library. */
+  offersInMonth?: (month: number) => Array<{ id: number; name?: string | null; approval_status?: string | null }>;
   editable: boolean;
   busy: boolean;
   labels: Record<string, string>;
   isRecommended: (o: any, month: number) => boolean;
   alternateFor: (o: any, month: number) => { for: string } | null | undefined;
   photoFor: (o: any, index: number) => { url: string; pos: string };
-  onAdd: (o: any) => void;
-  onSwap: (currentId: number, o: any) => void;
+  onAdd: (o: any, month: number) => void;
+  onSwap: (currentId: number, o: any, month: number) => void;
   onClose: () => void;
 }) {
   const [query, setQuery] = useState('');
@@ -102,6 +116,14 @@ export default function OfferLibrary({
   const [bigOnly, setBigOnly] = useState(false);
   const [openId, setOpenId] = useState<number | null>(null);
   const [advanced, setAdvanced] = useState(false);
+  // The month the quick actions act on. It follows the month on screen until the reader
+  // picks another, so "add" is always one click and never ambiguous.
+  const [target, setTarget] = useState<number>(month);
+  const [swapFor, setSwapFor] = useState<number | null>(null);
+  const [added, setAdded] = useState<number | null>(null);
+  React.useEffect(() => setTarget(month), [month]);
+  const inTarget = offersInMonth ? offersInMonth(target) : selected;
+  const targetName = MONTHS[target - 1];
 
   const filtering = scope !== 'all' || alternatesOnly || bigOnly || query.trim().length > 0;
 
@@ -209,6 +231,28 @@ export default function OfferLibrary({
           ))}
         </div>
 
+        <div className="olib-target">
+          <span>Acting on</span>
+          <select
+            value={target}
+            onChange={e => {
+              setTarget(Number(e.target.value));
+              setSwapFor(null);
+            }}
+            aria-label="Month to add into or replace within"
+            title="Every add and replace in this panel lands in this month"
+          >
+            {MONTHS.map((name, index) => (
+              <option key={name} value={index + 1}>
+                {name}
+              </option>
+            ))}
+          </select>
+          <em>
+            {inTarget.length} {inTarget.length === 1 ? 'offer' : 'offers'}
+          </em>
+        </div>
+
         <div className="olib-row">
           <select
             className="olib-sort"
@@ -289,32 +333,102 @@ export default function OfferLibrary({
                   : titleCase(o.plan_slot)
                 : 'Any audience';
               return (
-                <article key={o.id} className={`olib-row-item${open ? ' is-open' : ''}`}>
-                  <button
-                    type="button"
-                    className="olib-main"
-                    aria-expanded={open}
-                    onClick={() => setOpenId(open ? null : o.id)}
-                  >
-                    <span
-                      className="olib-thumb"
-                      style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
-                      aria-hidden="true"
-                    />
-                    <span className="olib-copy">
-                      <span className="olib-tags">
-                        {slotText}
-                        {approved && <b>Approved</b>}
-                        {isRecommended(o, month) && <b className="is-rec">Recommended</b>}
+                <article
+                  key={o.id}
+                  className={`olib-row-item${open ? ' is-open' : ''}${swapFor === o.id ? ' is-swapping' : ''}`}
+                >
+                  <div className="olib-line">
+                    <button
+                      type="button"
+                      className="olib-main"
+                      aria-expanded={open}
+                      onClick={() => setOpenId(open ? null : o.id)}
+                    >
+                      <span
+                        className="olib-thumb"
+                        style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
+                        aria-hidden="true"
+                      />
+                      <span className="olib-copy">
+                        <span className="olib-tags">
+                          {slotText}
+                          {approved && <b>Approved</b>}
+                          {isRecommended(o, month) && <b className="is-rec">Recommended</b>}
+                        </span>
+                        <strong>{o.name}</strong>
+                        <em>{o.headline || o.benefit || titleCase(o.offer_type || 'Offer')}</em>
                       </span>
-                      <strong>{o.name}</strong>
-                      <em>{o.headline || o.benefit || titleCase(o.offer_type || 'Offer')}</em>
-                    </span>
-                    <span className="olib-side">
-                      <b>{lakh(num(o.expected_revenue))}</b>
-                      <ChevronDown size={13} className={open ? 'is-flipped' : undefined} />
-                    </span>
-                  </button>
+                      <span className="olib-side">
+                        <b>{num(o.expected_revenue) ? lakh(num(o.expected_revenue)) : '—'}</b>
+                        <ChevronDown size={13} className={open ? 'is-flipped' : undefined} />
+                      </span>
+                    </button>
+
+                    {/* The two moves a planner makes from a library: put this in the month,
+                      or put it in place of something already there. One click each. */}
+                    <div className="olib-quick">
+                      <button
+                        type="button"
+                        className="olib-q is-add"
+                        disabled={!editable || busy}
+                        aria-label={`Add ${o.name} to ${targetName}`}
+                        title={`Add to ${targetName}`}
+                        onClick={() => {
+                          onAdd(o, target);
+                          setAdded(o.id);
+                          window.setTimeout(() => setAdded(current => (current === o.id ? null : current)), 1800);
+                        }}
+                      >
+                        {added === o.id ? <CheckCircle2 size={13} /> : <Plus size={13} />}
+                      </button>
+                      <button
+                        type="button"
+                        className={`olib-q is-swap${swapFor === o.id ? ' is-on' : ''}`}
+                        disabled={!editable || busy || inTarget.length === 0}
+                        aria-label={`Replace an offer in ${targetName} with ${o.name}`}
+                        aria-expanded={swapFor === o.id}
+                        title={
+                          inTarget.length === 0
+                            ? `${targetName} has no offers to replace`
+                            : `Replace an offer in ${targetName}`
+                        }
+                        onClick={() => setSwapFor(swapFor === o.id ? null : o.id)}
+                      >
+                        <ArrowRightLeft size={13} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {swapFor === o.id && (
+                    <div className="olib-swap-panel">
+                      <span>
+                        Replace which offer in {targetName}? “{o.name}” takes its place.
+                      </span>
+                      {inTarget.map((cur: any) => (
+                        <button
+                          key={cur.id}
+                          type="button"
+                          disabled={busy || cur.approval_status === 'approved'}
+                          title={
+                            cur.approval_status === 'approved'
+                              ? `${cur.name} is approved — reopen the month to swap it.`
+                              : `Put ${o.name} in place of ${cur.name}`
+                          }
+                          onClick={() => {
+                            onSwap(cur.id, o, target);
+                            setSwapFor(null);
+                          }}
+                        >
+                          <RefreshCcw size={11} />
+                          {cur.name}
+                          {cur.approval_status === 'approved' && <em>approved</em>}
+                        </button>
+                      ))}
+                      <button type="button" className="olib-swap-cancel" onClick={() => setSwapFor(null)}>
+                        Cancel
+                      </button>
+                    </div>
+                  )}
 
                   {open && (
                     <div className="olib-detail">
@@ -350,22 +464,22 @@ export default function OfferLibrary({
                       {o.redemption_conditions && <p className="olib-fine">{o.redemption_conditions}</p>}
                       {editable && !approved && (
                         <div className="olib-actions">
-                          <button type="button" className="olib-add" disabled={busy} onClick={() => onAdd(o)}>
-                            <Plus size={13} /> Add to month
+                          <button type="button" className="olib-add" disabled={busy} onClick={() => onAdd(o, target)}>
+                            <Plus size={13} /> Add to {targetName}
                           </button>
-                          {selected.length > 0 && (
-                            <label className="olib-swap" title="Swap this offer in for one of the month's cards">
+                          {inTarget.length > 0 && (
+                            <label className="olib-swap" title={`Swap this offer in for one of ${targetName}'s cards`}>
                               <RefreshCcw size={12} />
                               <select
-                                aria-label={`Replace an offer with ${o.name}`}
+                                aria-label={`Replace an offer in ${targetName} with ${o.name}`}
                                 disabled={busy}
                                 value=""
-                                onChange={e => onSwap(Number(e.target.value), o)}
+                                onChange={e => onSwap(Number(e.target.value), o, target)}
                               >
                                 <option value="" disabled>
                                   Swap for…
                                 </option>
-                                {selected.map(cur => (
+                                {inTarget.map((cur: any) => (
                                   <option key={cur.id} value={cur.id} disabled={cur.approval_status === 'approved'}>
                                     {cur.name}
                                   </option>

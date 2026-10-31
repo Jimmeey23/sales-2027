@@ -67,6 +67,7 @@ import MonthCover from './MonthCover';
 import { MechanicStage } from './AnniversaryMechanics';
 import PageHero from './PageHero';
 import OfferLibrary from './OfferLibrary';
+import { selectedForPlan } from './TargetsTab';
 import { PAGE_PHOTOS, coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
 import StudioAi from '../../components/StudioAi';
@@ -574,6 +575,9 @@ export default function MonthWorkspace({
   const selectedIds = [...(Object.values(slots).filter(Boolean) as number[]), ...extras];
   const selected = selectedIds.map(id => ownOffers.find(o => o.id === id)).filter(Boolean) as any[];
   const slotOf = (id: number) => Object.entries(slots).find(([, v]) => v === id)?.[0];
+  // What this location already runs in any month, so the library's quick actions speak
+  // about this studio's plan rather than every studio's.
+  const monthOffers = (m: number) => selectedForPlan(data, plan, m) as any[];
   const pickedBank = new Set(selected.map(o => bankIdOf(o)));
   const alternates = ownOffers
     .filter(o => o.year === year && o.month == null && !pickedBank.has(o.id))
@@ -771,10 +775,11 @@ export default function MonthWorkspace({
       STREAMS.some(s => form.streams[s.key] !== Math.round(n(approved ? initialStreams[s.key] : targetRow[s.field]))));
 
   // Offer changes save immediately and, unless solo mode is on, mirror to every other location.
-  const offerChange = async (body: any, done: string) => {
+  // The month a change lands in: the one on screen, or another the library was pointed at.
+  const offerChange = async (body: any, done: string, into: number = month) => {
     setBusy(true);
     try {
-      const r = await api<{ studios: number[] }>(`/studio-plans/${studio.id}/${year}/${month}/offers`, {
+      const r = await api<{ studios: number[] }>(`/studio-plans/${studio.id}/${year}/${into}/offers`, {
         method: 'POST',
         body: JSON.stringify({ ...body, solo }),
       });
@@ -809,11 +814,12 @@ export default function MonthWorkspace({
       setBusy(false);
     }
   };
-  const replaceOffer = async (outId: number, incoming: any) => {
-    const out = selected.find(x => x.id === outId);
+  const replaceOffer = async (outId: number, incoming: any, into: number = month) => {
+    const out = (into === month ? selected : monthOffers(into)).find((x: any) => x.id === outId);
     if (!out) return;
-    if (await offerChange({ op: 'add', offerId: incoming.id }, `“${incoming.name}” added`))
-      await offerChange({ op: 'remove', offerId: outId }, `“${incoming.name}” replaced “${out.name}”`);
+    const where = into === month ? '' : ` in ${MONTHS[into - 1]}`;
+    if (await offerChange({ op: 'add', offerId: incoming.id }, `“${incoming.name}” added${where}`, into))
+      await offerChange({ op: 'remove', offerId: outId }, `“${incoming.name}” replaced “${out.name}”${where}`, into);
   };
 
   const planBody = (over: Record<string, unknown> = {}) => planBodyOf(form, over);
@@ -4286,7 +4292,14 @@ export default function MonthWorkspace({
                   isRecommended={isRecommended}
                   alternateFor={alternateFor}
                   photoFor={(o, i) => pickOfferCardPhoto(o, o.plan_slot, i + 1)}
-                  onAdd={o => offerChange({ op: 'add', offerId: o.id }, `“${o.name}” added`)}
+                  offersInMonth={monthOffers}
+                  onAdd={(o: any, into: number) =>
+                    offerChange(
+                      { op: 'add', offerId: o.id },
+                      into === month ? `“${o.name}” added` : `“${o.name}” added to ${MONTHS[into - 1]}`,
+                      into,
+                    )
+                  }
                   onSwap={replaceOffer}
                   onClose={() => setLibraryOpen(false)}
                 />

@@ -1864,11 +1864,17 @@
 .olib-row-item:last-child {
   border-bottom: 0;
 }
+.olib-line {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
 .olib-main {
   display: flex;
   align-items: center;
   gap: 9px;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   padding: 7px 4px;
   border: 0;
   border-radius: 10px;
@@ -1964,6 +1970,166 @@
 }
 .olib-side svg.is-flipped {
   transform: rotate(180deg);
+}
+/* The two quick moves on every row: add to the chosen month, or put it in place. */
+.olib-quick {
+  display: flex;
+  flex: none;
+  gap: 3px;
+  padding-right: 2px;
+}
+.olib-q {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(26, 23, 16, 0.12);
+  border-radius: 7px;
+  background: #ffffff;
+  color: rgba(26, 23, 16, 0.55);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.12s ease;
+}
+.olib-q:hover:not(:disabled) {
+  transform: translateY(-1px);
+  color: #14130f;
+  border-color: rgba(26, 23, 16, 0.26);
+  background: #fffdf7;
+}
+.olib-q.is-add:hover:not(:disabled) {
+  color: #0f6b52;
+  border-color: rgba(21, 122, 85, 0.4);
+  background: rgba(21, 122, 85, 0.08);
+}
+.olib-q.is-swap:hover:not(:disabled),
+.olib-q.is-swap.is-on {
+  color: #7a4a12;
+  border-color: rgba(180, 112, 58, 0.45);
+  background: rgba(180, 112, 58, 0.1);
+}
+.olib-q:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+/* Touch targets: the two quick moves are the library's main gesture on a phone. */
+@media (max-width: 900px), (pointer: coarse) {
+  .olib-q {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+  .olib-quick {
+    gap: 5px;
+  }
+}
+.olib-q:focus-visible {
+  outline: 2px solid var(--gold-deep, #a9791f);
+  outline-offset: 1px;
+}
+.olib-row-item.is-swapping {
+  background: rgba(180, 112, 58, 0.05);
+  border-radius: 10px;
+}
+.olib-swap-panel {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 8px;
+  padding: 10px 12px 11px;
+  border-radius: 10px;
+  background: #fffdf7;
+  box-shadow: inset 0 0 0 1px rgba(180, 112, 58, 0.28);
+}
+.olib-swap-panel > span {
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: rgba(26, 23, 16, 0.62);
+}
+.olib-swap-panel > button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid rgba(26, 23, 16, 0.1);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #14130f;
+  font-size: 11px;
+  font-weight: 560;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.olib-swap-panel > button:hover:not(:disabled) {
+  background: rgba(180, 112, 58, 0.09);
+  border-color: rgba(180, 112, 58, 0.35);
+}
+.olib-swap-panel > button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.olib-swap-panel > button em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(26, 23, 16, 0.4);
+}
+.olib-swap-panel .olib-swap-cancel {
+  border-color: transparent;
+  background: transparent;
+  color: rgba(26, 23, 16, 0.5);
+  font-size: 10.5px;
+}
+/* Which month the quick moves act on. */
+.olib-target {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px;
+  border: 1px dashed rgba(26, 23, 16, 0.16);
+  border-radius: 9px;
+  background: rgba(246, 242, 233, 0.55);
+}
+.olib-target > span {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(26, 23, 16, 0.45);
+}
+.olib-target select {
+  flex: 1;
+  min-width: 0;
+  padding: 3px 4px;
+  border: 0;
+  background: transparent;
+  color: #14130f;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 640;
+  cursor: pointer;
+}
+.olib-target select:focus-visible {
+  outline: 2px solid var(--gold-deep, #a9791f);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.olib-target em {
+  flex: none;
+  font-style: normal;
+  font-size: 9.5px;
+  color: rgba(26, 23, 16, 0.42);
+  font-variant-numeric: tabular-nums;
 }
 .olib-detail {
   display: grid;
