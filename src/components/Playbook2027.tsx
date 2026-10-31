@@ -86,7 +86,22 @@ export const playbookKeyFor = (name?: string | null): PlaybookKey | null =>
 const lakh = (v: number | null | undefined, d = 1) =>
   v == null ? '—' : `${v < 0 ? '−' : ''}₹${(Math.abs(v) / 1e5).toFixed(d)}L`;
 const crore = (v: number | null | undefined) => (v == null ? '—' : `₹${(v / 1e7).toFixed(2)} Cr`);
+// The playbook reads in lakh everywhere — targets, months, offers — so the build
+// section does too. A crore figure beside lakh rows reads as a different currency.
+const money = (v: number | null | undefined) =>
+  v == null ? '—' : `₹${(Math.abs(v) / 1e5).toFixed(1)}L`;
 const int = (v: number) => Math.round(v).toLocaleString('en-IN');
+
+// The evidence line in the data is one long sentence naming the offers behind a lever:
+// "Final plan: carried by the lapsed offers — A, B, C." Split it so the section can show
+// a count up front and the names only when asked.
+const evidence = (why: string) => {
+  if (!why) return null;
+  const match = why.match(/carried by the (.+?) offers? — (.+)$/i);
+  const offers = (match ? match[2] : why).split(/,\s*/).map(o => o.replace(/\.$/, '').trim()).filter(Boolean);
+  if (!offers.length) return null;
+  return { group: match ? match[1] : '', offers };
+};
 
 export default function Playbook2027({ scope, showMonths = true }: { scope?: string | null; showMonths?: boolean }) {
   const { boot, scenario } = useApp();
@@ -109,7 +124,6 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
     () => import('../api').then(({ api }) => api(`/studio-plans/${studio?.id}?year=2027`)),
     [studio?.id],
   );
-  const [openLever, setOpenLever] = useState<string | null>(null);
 
   // Targets and volumes come from the one target breakdown (Targets tab) — never recomputed here.
   const bd = live?.locations?.[0];
@@ -150,18 +164,57 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
   const gap = b.projection - liveTarget;
   const coverage = (b.projection / liveTarget) * 100;
   const maxBar = Math.max(b.projection, liveTarget, b.forecast2026) * 1.02;
-  const steps: Array<{ label: string; value: number; kind: 'base' | 'add' | 'cut' | 'total' }> = [
-    { label: '2026 forecast', value: b.forecast2026, kind: 'base' },
+  // Four steps, not nine rows: the levers are summed here and broken out in the list
+  // below, so the big picture reads first and the detail follows it.
+  const momentumValue = b.baseline - b.forecast2026;
+  const haircutValue = -(b.leverTotal * b.haircut);
+  const buildSteps = [
     {
-      label: `Momentum (${b.momentum >= 0 ? '+' : ''}${b.momentum.toFixed(1)}%)`,
-      value: b.baseline - b.forecast2026,
-      kind: b.baseline >= b.forecast2026 ? 'add' : 'cut',
+      id: 'base',
+      name: '2026 forecast',
+      note: 'what this studio is already selling',
+      value: b.forecast2026,
+      kind: 'base' as const,
+      from: 0,
+      to: b.forecast2026,
     },
-    ...b.levers.map(l => ({ label: l.name, value: l.value, kind: 'add' as const })),
-    { label: `Overlap haircut (−${(b.haircut * 100).toFixed(0)}%)`, value: -b.leverTotal * b.haircut, kind: 'cut' },
-    { label: 'Levers add up to', value: b.projection, kind: 'total' },
+    {
+      id: 'momentum',
+      name: `Momentum ${b.momentum >= 0 ? '+' : ''}${b.momentum.toFixed(1)}%`,
+      note: 'same clients, same prices',
+      value: momentumValue,
+      kind: momentumValue >= 0 ? ('add' as const) : ('cut' as const),
+      from: b.forecast2026,
+      to: b.baseline,
+    },
+    {
+      id: 'levers',
+      name: `${b.levers.length} growth levers`,
+      note: 'each one below',
+      value: b.leverTotal,
+      kind: 'add' as const,
+      from: b.baseline,
+      to: b.baseline + b.leverTotal,
+    },
+    {
+      id: 'haircut',
+      name: `Overlap haircut ${(b.haircut * 100).toFixed(0)}%`,
+      note: 'levers that claim the same sale are counted once',
+      value: haircutValue,
+      kind: 'cut' as const,
+      from: b.baseline + b.leverTotal + haircutValue,
+      to: b.baseline + b.leverTotal,
+    },
+    {
+      id: 'total',
+      name: '2027 projection',
+      note: `against the ${money(liveTarget)} target`,
+      value: b.projection,
+      kind: 'total' as const,
+      from: 0,
+      to: b.projection,
+    },
   ];
-  let running = 0;
   const totals = { buyers: 0, visits: 0, leads: 0 };
   monthPlan.forEach(m => {
     totals.buyers += m.buyers;
@@ -205,84 +258,125 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
       </div>
 
       <h3 className="pb27-h">How 2027 gets built</h3>
-      <div className="pb27-two">
-        <Card>
-          <CardHeader
-            title="From 2026 forecast to 2027, lever by lever"
-            subtitle={`A check on the one target (${crore(liveTarget)}, dashed line): what each lever is worth, sized from this studio's own data. Not a second target.`}
-          />
-          <div className="pb27-wf">
-            {steps.map(s => {
-              const start = s.kind === 'base' || s.kind === 'total' ? 0 : s.value >= 0 ? running : running + s.value;
-              const width = Math.abs(s.value);
-              if (s.kind === 'base') running = s.value;
-              else if (s.kind !== 'total') running += s.value;
-              return (
-                <div key={s.label} className={`pb27-wf-row pb27-wf-${s.kind}`}>
-                  <span className="pb27-wf-label">{s.label}</span>
-                  <div className="pb27-wf-track">
-                    <i
-                      style={{ left: `${(start / maxBar) * 100}%`, width: `${Math.max((width / maxBar) * 100, 0.4)}%` }}
+      <Card className="pb27-build">
+        <header className="pb27-build-head">
+          <div>
+            <h4>
+              From {money(b.forecast2026)} to {money(b.projection)}
+            </h4>
+            <p>
+              {buildSteps.filter(s => s.kind === 'add' || s.kind === 'cut').length} moves, each sized from this
+              studio&rsquo;s own data. A check on the one target — not a second one.
+            </p>
+          </div>
+          <div className={`pb27-score ${gap >= 0 ? 'ok' : 'short'}`}>
+            <span>Levers vs target</span>
+            <strong>{coverage.toFixed(0)}%</strong>
+            <small>{gap >= 0 ? `${money(gap)} of headroom` : `${money(-gap)} still to find`}</small>
+          </div>
+        </header>
+
+        {/* The whole year in one scale: where 2026 leaves the studio, what each step
+            adds or takes away, and where that lands against the live target. */}
+        <ol className="pb27-bridge">
+          {buildSteps.map(step => {
+            const start = step.kind === 'base' || step.kind === 'total' ? 0 : step.kind === 'cut' ? step.to : step.from;
+            const width = Math.abs(step.value);
+            return (
+              <li key={step.id} className={`pb27-bs is-${step.kind}`}>
+                <span className="pb27-bs-name">
+                  {step.name}
+                  {step.note && <em>{step.note}</em>}
+                </span>
+                <span className="pb27-bs-track">
+                  {/* The ghost is the running total, so a +₹11.1L step reads against the
+                      ₹111.5L it is added to rather than floating on its own. */}
+                  {step.kind !== 'base' && step.kind !== 'total' && (
+                    <em
+                      style={{ width: `${(Math.max(step.from, step.to) / maxBar) * 100}%` }}
+                      aria-hidden
                     />
-                    <b style={{ left: `${(liveTarget / maxBar) * 100}%` }} aria-hidden />
-                  </div>
-                  <span className="pb27-wf-val">
-                    {s.kind === 'add' ? '+' : ''}
-                    {lakh(s.value)}
+                  )}
+                  <i
+                    style={{
+                      left: `${(start / maxBar) * 100}%`,
+                      width: `${Math.max((width / maxBar) * 100, 0.6)}%`,
+                    }}
+                  />
+                  <span
+                    className="pb27-bs-target"
+                    style={{ left: `${(liveTarget / maxBar) * 100}%` }}
+                    aria-hidden
+                  />
+                </span>
+                <span className="pb27-bs-val">
+                  {step.kind !== 'base' && step.kind !== 'total' && Math.abs(step.value) < 50000
+                    ? 'no change'
+                    : `${step.kind === 'add' ? '+' : step.kind === 'cut' ? '−' : ''}${money(step.value)}`}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+        <p className="pb27-scale">
+          <i aria-hidden /> The live 2027 target: <strong>{money(liveTarget)}</strong>
+          {gap >= 0 ? ' — cleared before the year starts.' : ' — not yet reached.'}
+        </p>
+
+        <div className={`pb27-verdict ${gap >= 0 ? 'ok' : 'short'}`}>
+          {gap >= 0 ? (
+            <>
+              The steps clear the {money(liveTarget)} target
+              {coverage > 112
+                ? ' — the stretch is within reach if the levers land.'
+                : ' — the year is won on execution, not on new ideas.'}
+            </>
+          ) : (
+            <>
+              One more step is needed: <strong>{money(-gap)}</strong> has to come from a new source — another venue,
+              corporate blocks or a pricing change — or the target comes down to{' '}
+              <strong>{money(b.projection)}</strong>.
+            </>
+          )}
+        </div>
+
+        <h5 className="pb27-sub">
+          What each lever is worth
+          <span>
+            {b.levers.length} levers · {lakh(b.leverTotal)} together
+          </span>
+        </h5>
+        <ul className="pb27-lv">
+          {b.levers.map((l, i) => {
+            const ev = evidence(l.why);
+            const share = b.leverTotal ? (l.value / b.leverTotal) * 100 : 0;
+            return (
+              <li key={l.id}>
+                <div className="pb27-lv-head">
+                  <span className="pb27-lv-num">{i + 1}</span>
+                  <span className="pb27-lv-name">{l.name}</span>
+                  <span className="pb27-lv-bar" aria-hidden>
+                    <i style={{ width: `${Math.max(share, 1.5)}%` }} />
+                  </span>
+                  <span className="pb27-lv-val">
+                    +{lakh(l.value)}
+                    <em>{share.toFixed(0)}%</em>
                   </span>
                 </div>
-              );
-            })}
-          </div>
-          <div className={`pb27-verdict ${gap >= 0 ? 'ok' : 'short'}`}>
-            {gap >= 0 ? (
-              <>
-                The levers add up to <strong>{lakh(b.projection)}</strong>, which covers the target of{' '}
-                <strong>{lakh(liveTarget)}</strong> ({coverage.toFixed(0)}%) with <strong>{lakh(gap)}</strong> of
-                headroom
-                {coverage > 112
-                  ? ' — the Stretch target is within reach if the levers land.'
-                  : ' — execution, not new ideas, decides the year.'}
-              </>
-            ) : (
-              <>
-                The levers add up to <strong>{lakh(b.projection)}</strong> — {coverage.toFixed(0)}% of the target of{' '}
-                <strong>{lakh(liveTarget)}</strong>. A further <strong>{lakh(-gap)}</strong> needs a new source (another
-                venue, corporate blocks or a pricing change) or a lower target.
-              </>
-            )}
-          </div>
-        </Card>
-        <Card>
-          <CardHeader
-            title="The maths behind each lever"
-            subtitle="Tap a lever to see the calculation and the evidence"
-          />
-          <ul className="pb27-levers">
-            {b.levers.map(l => (
-              <li key={l.id} className={openLever === l.id ? 'open' : ''}>
-                <button
-                  onClick={() => setOpenLever(openLever === l.id ? null : l.id)}
-                  aria-expanded={openLever === l.id}
-                >
-                  <span>{l.name}</span>
-                  <strong>+{lakh(l.value)}</strong>
-                </button>
-                {openLever === l.id && (
-                  <div>
-                    <p>
-                      <em>Evidence.</em> {l.why}
-                    </p>
-                    <p>
-                      <em>Calculation.</em> {l.math}
-                    </p>
-                  </div>
+                <p className="pb27-lv-math">{l.math}</p>
+                {ev && (
+                  <details className="pb27-lv-ev">
+                    <summary>
+                      Carried by {ev.offers.length} {ev.group ? `${ev.group} ` : ''}offers
+                    </summary>
+                    <p>{ev.offers.join(' · ')}</p>
+                  </details>
                 )}
               </li>
-            ))}
-          </ul>
-        </Card>
-      </div>
+            );
+          })}
+        </ul>
+      </Card>
 
       <Card>
         <CardHeader
