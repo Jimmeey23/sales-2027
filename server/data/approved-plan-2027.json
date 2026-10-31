@@ -3625,20 +3625,20 @@
     "alternatives": [
      {
       "name": "Challenge Comeback Ticket",
-      "tagline": "Buy now, start by 1 January, join Stronger in 30.",
+      "tagline": "Buy now, start by 1 January, join February's challenge.",
       "auditor": 23,
       "fields": {
        "Job": "Pre-sell reactivations into the challenge",
        "Who": "Lapsed clients.",
        "Pay": "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).",
-       "Get": "1M at the standing 15%, start any day until 1 Jan; Eligible for Stronger in 30 (Jan 2028)",
+       "Get": "1M at the standing 15%, start any day until 1 Jan; Eligible for February's challenge (2028)",
        "When": "All December.",
        "Rules": "Standing perk The 15% is the standing lapsed-client perk, not an extra discount. Doesn't combine with any other campaign offer."
       },
       "effectiveDiscount": 15.0,
       "expectedRevenue": 560000,
       "buyers": 64,
-      "why": "The challenge is members-only; this is the lapsed client's ticket in. Watch: January starts. Auditor: Strong link to January."
+      "why": "The challenge is members-only; this is the lapsed client's ticket in. Watch: February starts. Auditor: Strong link to February."
      },
      {
       "name": "Holiday Guest List",
@@ -3662,7 +3662,7 @@
    {
     "slot": "renewal",
     "name": "Challenge-Ready Renewal",
-    "tagline": "Renew in December so you're covered for all of Stronger in 30.",
+    "tagline": "Renew in December so you're covered for the whole February challenge.",
     "fields": {
      "Commercial job": [
       "Renew at list ahead of the challenge"
@@ -7319,7 +7319,7 @@
    {
     "slot": "lapsed",
     "name": "Challenge Comeback Ticket",
-    "tagline": "Buy now, start by 1 January, join Stronger in 30.",
+    "tagline": "Buy now, start by 1 January, join February's challenge.",
     "fields": {
      "Commercial job": [
       "Pre-sell reactivations into the challenge"
@@ -7404,7 +7404,7 @@
    {
     "slot": "renewal",
     "name": "Challenge-Ready Renewal",
-    "tagline": "Renew in December so you're covered for all of Stronger in 30.",
+    "tagline": "Renew in December so you're covered for the whole February challenge.",
     "fields": {
      "Commercial job": [
       "Renew at list ahead of the challenge"
@@ -11061,20 +11061,20 @@
     "alternatives": [
      {
       "name": "Challenge Comeback Ticket",
-      "tagline": "Buy now, start by 1 January, join Stronger in 30.",
+      "tagline": "Buy now, start by 1 January, join February's challenge.",
       "auditor": 23,
       "fields": {
        "Job": "Pre-sell reactivations into the challenge",
        "Who": "Lapsed clients.",
        "Pay": "1M unlimited: ₹12.4k (15% off the ₹14.6k list price).",
-       "Get": "1M at the standing 15%, start any day until 1 Jan; Eligible for Stronger in 30 (Jan 2028)",
+       "Get": "1M at the standing 15%, start any day until 1 Jan; Eligible for February's challenge (2028)",
        "When": "All December.",
        "Rules": "Standing perk The 15% is the standing lapsed-client perk, not an extra discount. Doesn't combine with any other campaign offer."
       },
       "effectiveDiscount": 15.0,
       "expectedRevenue": 90000,
       "buyers": 17,
-      "why": "The challenge is members-only; this is the lapsed client's ticket in. Watch: January starts. Auditor: Strong link to January."
+      "why": "The challenge is members-only; this is the lapsed client's ticket in. Watch: February starts. Auditor: Strong link to February."
      },
      {
       "name": "Holiday Guest List",
@@ -11098,7 +11098,7 @@
    {
     "slot": "renewal",
     "name": "Challenge-Ready Renewal",
-    "tagline": "Renew in December so you're covered for all of Stronger in 30.",
+    "tagline": "Renew in December so you're covered for the whole February challenge.",
     "fields": {
      "Commercial job": [
       "Renew at list ahead of the challenge"

@@ -1554,7 +1554,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Challenge-Ready Renewal',
-        tagline: "Renew in December so you're covered for all of Stronger in 30.",
+        tagline: "Renew in December so you're covered for the whole February challenge.",
         fields: {
           'Commercial job': ['Renew at list ahead of the challenge'],
           'Who qualifies': ['Members expiring Dec–Jan.'],
@@ -3083,7 +3083,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'lapsed',
         name: 'Challenge Comeback Ticket',
-        tagline: 'Buy now, start by 1 January, join Stronger in 30.',
+        tagline: "Buy now, start by 1 January, join February's challenge.",
         fields: {
           'Commercial job': ['Pre-sell reactivations into the challenge'],
           'Who qualifies': ['Lapsed clients.'],
@@ -3116,7 +3116,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Challenge-Ready Renewal',
-        tagline: "Renew in December so you're covered for all of Stronger in 30.",
+        tagline: "Renew in December so you're covered for the whole February challenge.",
         fields: {
           'Commercial job': ['Renew at list ahead of the challenge'],
           'Who qualifies': ['Members expiring Dec–Jan.'],
@@ -4669,7 +4669,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Challenge-Ready Renewal',
-        tagline: "Renew in December so you're covered for all of Stronger in 30.",
+        tagline: "Renew in December so you're covered for the whole February challenge.",
         fields: {
           'Commercial job': ['Renew at list ahead of the challenge'],
           'Who qualifies': ['Members expiring Dec–Jan.'],

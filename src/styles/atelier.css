@@ -7500,11 +7500,99 @@ details.membership-terms > summary {
   color: var(--ink-soft);
 }
 
+/* ── Folded fields: who / when / how and the note wait for a click ───────── */
+.mw .oc.is-v3 .ocv-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.mw .oc.is-v3 .ocv-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  padding: 4px 9px 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper-warm, #f6f2e9) 76%, var(--paper));
+  color: var(--ink-soft);
+  font-family: var(--font-sans);
+  font-size: 8.6px;
+  font-weight: 640;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+.mw .oc.is-v3 .ocv-more svg {
+  transition: transform 0.22s ease;
+}
+.mw .oc.is-v3 .ocv-more:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--line) 35%, var(--ink-soft));
+  background: var(--paper);
+}
+.mw .oc.is-v3 .ocv-more:focus-visible {
+  outline: 2px solid var(--gold-deep, #a9791f);
+  outline-offset: 2px;
+}
+.mw .oc.is-v3 .ocv-more.is-open svg {
+  transform: rotate(180deg);
+}
+.mw .oc.is-v3 .ocv-extra {
+  display: none;
+}
+.mw .oc.is-v3 .ocv-extra.is-open {
+  display: grid;
+  gap: 12px;
+  animation: ocvUnfold 0.26s ease both;
+}
+.mw .oc.is-v3 .ocv-extra-in {
+  display: grid;
+  gap: 12px;
+}
+.mw .oc.is-v3 .ocv-extra .ocv-log {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+@keyframes ocvUnfold {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc.is-v3 .ocv-extra.is-open {
+    animation: none;
+  }
+}
+
 /* ── Who / when / how ────────────────────────────────────────────────────── */
 .mw .oc.is-v3 .ocv-who {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 9px;
+}
+@container (max-width: 540px) {
+  .mw .oc.is-v3 .ocv-head-top {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .mw .oc.is-v3 .ocv-head-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 @container (max-width: 560px) {
   .mw .oc.is-v3 .ocv-who {

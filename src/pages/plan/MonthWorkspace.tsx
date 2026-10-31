@@ -4826,6 +4826,9 @@ function OfferCard({
   const [noteDraft, setNoteDraft] = useState<string>(String(o.performance_notes || ''));
   const [noteState, setNoteState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [adsPending, setAdsPending] = useState(false);
+  // A card opens on its headline, its figures and the record. Who/When/How and the note
+  // field are secondary, so they wait for a click — the record itself never folds away.
+  const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     const next = String(o.performance_notes || '');
     if (next === savedNote.current) return;
@@ -5195,7 +5198,16 @@ function OfferCard({
           </div>
         </div>
 
-        <div className="ocv-body">
+        <div
+          className="ocv-body"
+          onClick={event => {
+            // Clicking the card anywhere but on a control opens the secondary fields.
+            if (expanded) return;
+            const target = event.target as HTMLElement | null;
+            if (target?.closest('button, a, input, textarea, select, label')) return;
+            setExpanded(true);
+          }}
+        >
           <header className="ocv-head">
             <div className="ocv-head-top">
               <span className="ocv-eyebrow">
@@ -5203,71 +5215,84 @@ function OfferCard({
                   .filter(Boolean)
                   .join(' · ') || 'Offer plan'}
               </span>
-              {(editable || (canSwap && !shown)) && (
-                <div className="ocv-tools">
-                  {canSwap && !shown && (
-                    <button
-                      type="button"
-                      aria-label={`Generate a new offer with AI in place of ${o.name}`}
-                      title="Generate with AI — a new, better-optimised offer replaces this one"
-                      className={`ocv-tool is-ai${regenerating ? ' is-loading' : ''}`}
-                      onClick={onSwap}
-                      disabled={busy || regenerating}
-                      aria-busy={regenerating}
-                    >
-                      {regenerating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
-                    </button>
-                  )}
-                  {editable && onDuplicate && (
-                    <button
-                      type="button"
-                      aria-label={`Duplicate ${o.name}`}
-                      title="Duplicate as new offer"
-                      className="ocv-tool"
-                      onClick={onDuplicate}
-                      disabled={busy}
-                    >
-                      <Copy size={14} />
-                    </button>
-                  )}
-                  {editable && (
-                    <button
-                      type="button"
-                      aria-label={`Edit ${o.name}`}
-                      title="Edit all offer details"
-                      className="ocv-tool"
-                      onClick={onEdit}
-                      disabled={busy}
-                    >
-                      <Pencil size={14} />
-                    </button>
-                  )}
-                  {(editable || !shown) && (
-                    <button
-                      type="button"
-                      aria-label={`Remove ${o.name} from month`}
-                      title="Remove from month plan"
-                      className="ocv-tool is-danger"
-                      onClick={onRemove}
-                      disabled={busy}
-                    >
-                      <Minus size={15} />
-                    </button>
-                  )}
-                  {editable && onDelete && (
-                    <button
-                      type="button"
-                      aria-label={`Delete ${o.name}`}
-                      title="Delete offer permanently"
-                      className="ocv-tool is-danger"
-                      onClick={onDelete}
-                      disabled={busy}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  )}
-                </div>
-              )}
+              <div className="ocv-head-actions">
+                <button
+                  type="button"
+                  className={`ocv-more${expanded ? ' is-open' : ''}`}
+                  aria-expanded={expanded}
+                  aria-controls={`ocv-extra-${o.id}`}
+                  title={expanded ? 'Hide the extra fields' : 'Show who, when, how and the notes'}
+                  onClick={() => setExpanded(value => !value)}
+                >
+                  <ChevronDown size={12} />
+                  {expanded ? 'Hide extras' : 'Extras'}
+                </button>
+                {(editable || (canSwap && !shown)) && (
+                  <div className="ocv-tools">
+                    {canSwap && !shown && (
+                      <button
+                        type="button"
+                        aria-label={`Generate a new offer with AI in place of ${o.name}`}
+                        title="Generate with AI — a new, better-optimised offer replaces this one"
+                        className={`ocv-tool is-ai${regenerating ? ' is-loading' : ''}`}
+                        onClick={onSwap}
+                        disabled={busy || regenerating}
+                        aria-busy={regenerating}
+                      >
+                        {regenerating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
+                      </button>
+                    )}
+                    {editable && onDuplicate && (
+                      <button
+                        type="button"
+                        aria-label={`Duplicate ${o.name}`}
+                        title="Duplicate as new offer"
+                        className="ocv-tool"
+                        onClick={onDuplicate}
+                        disabled={busy}
+                      >
+                        <Copy size={14} />
+                      </button>
+                    )}
+                    {editable && (
+                      <button
+                        type="button"
+                        aria-label={`Edit ${o.name}`}
+                        title="Edit all offer details"
+                        className="ocv-tool"
+                        onClick={onEdit}
+                        disabled={busy}
+                      >
+                        <Pencil size={14} />
+                      </button>
+                    )}
+                    {(editable || !shown) && (
+                      <button
+                        type="button"
+                        aria-label={`Remove ${o.name} from month`}
+                        title="Remove from month plan"
+                        className="ocv-tool is-danger"
+                        onClick={onRemove}
+                        disabled={busy}
+                      >
+                        <Minus size={15} />
+                      </button>
+                    )}
+                    {editable && onDelete && (
+                      <button
+                        type="button"
+                        aria-label={`Delete ${o.name}`}
+                        title="Delete offer permanently"
+                        className="ocv-tool is-danger"
+                        onClick={onDelete}
+                        disabled={busy}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             <h3 className="ocv-title">
@@ -5414,83 +5439,88 @@ function OfferCard({
             </dl>
           </section>
 
-          <div className="ocv-who">
-            <div className="ocv-who-cell">
-              <span className="ocv-who-label">
-                <Users size={12} /> Who
-              </span>
-              <b>{o.audience || 'All clients'}</b>
-            </div>
-            <div className="ocv-who-cell">
-              <span className="ocv-who-label">
-                <Calendar size={12} /> When
-              </span>
-              <b>
-                {windowText} · {days} days
-              </b>
-            </div>
-            <div className="ocv-who-cell">
-              <span className="ocv-who-label">
-                <Tag size={12} /> How
-              </span>
-              <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
+          {/* Secondary fields: folded on arrival, kept mounted so a half-written note survives. */}
+          <div className={`ocv-extra${expanded ? ' is-open' : ''}`} id={`ocv-extra-${o.id}`} inert={!expanded}>
+            <div className="ocv-extra-in">
+              <div className="ocv-who">
+                <div className="ocv-who-cell">
+                  <span className="ocv-who-label">
+                    <Users size={12} /> Who
+                  </span>
+                  <b>{o.audience || 'All clients'}</b>
+                </div>
+                <div className="ocv-who-cell">
+                  <span className="ocv-who-label">
+                    <Calendar size={12} /> When
+                  </span>
+                  <b>
+                    {windowText} · {days} days
+                  </b>
+                </div>
+                <div className="ocv-who-cell">
+                  <span className="ocv-who-label">
+                    <Tag size={12} /> How
+                  </span>
+                  <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
+                </div>
+              </div>
+
+              {/* The log: the two decisions taken around an offer, and the line that explains
+              them. Both marks save straight to the offer, so the plan remembers them. */}
+              <section className="ocv-log" aria-label={`${o.name} — notes and marks`}>
+                <div className="ocv-log-head">
+                  <span className="ocv-log-label">
+                    <StickyNote size={12} />
+                    Notes &amp; comments
+                  </span>
+                  <span
+                    className={`ocv-log-state is-${noteState}${noteDirty && noteState !== 'saving' ? ' is-dirty' : ''}`}
+                    aria-live="polite"
+                  >
+                    {noteState === 'saving'
+                      ? 'Saving…'
+                      : noteState === 'error'
+                        ? 'Not saved'
+                        : noteDirty
+                          ? 'Unsaved'
+                          : noteState === 'saved'
+                            ? 'Saved'
+                            : 'No note yet'}
+                  </span>
+                </div>
+                <textarea
+                  className="ocv-note"
+                  rows={2}
+                  value={noteDraft}
+                  onChange={event => {
+                    setNoteDraft(event.target.value);
+                    setNoteState('idle');
+                  }}
+                  onKeyDown={event => {
+                    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+                      event.preventDefault();
+                      saveNote();
+                    }
+                  }}
+                  placeholder="A caveat, a staffing note, a follow-up…"
+                  aria-label={`Note for ${o.name}`}
+                />
+                <div className="ocv-log-foot">
+                  <span className="ocv-log-hint">{onPlanning ? 'Saves on the offer' : 'Read-only for your role'}</span>
+                  <button
+                    type="button"
+                    className="ocv-save"
+                    title="Save note (⌘↵)"
+                    disabled={!noteDirty || noteState === 'saving' || !onPlanning}
+                    onClick={saveNote}
+                  >
+                    <Save size={12} />
+                    {noteState === 'saving' ? 'Saving…' : 'Save note'}
+                  </button>
+                </div>
+              </section>
             </div>
           </div>
-
-          {/* The log: the two decisions taken around an offer, and the line that explains
-              them. Both marks save straight to the offer, so the plan remembers them. */}
-          <section className="ocv-log" aria-label={`${o.name} — notes and marks`}>
-            <div className="ocv-log-head">
-              <span className="ocv-log-label">
-                <StickyNote size={12} />
-                Notes &amp; comments
-              </span>
-              <span
-                className={`ocv-log-state is-${noteState}${noteDirty && noteState !== 'saving' ? ' is-dirty' : ''}`}
-                aria-live="polite"
-              >
-                {noteState === 'saving'
-                  ? 'Saving…'
-                  : noteState === 'error'
-                    ? 'Not saved'
-                    : noteDirty
-                      ? 'Unsaved'
-                      : noteState === 'saved'
-                        ? 'Saved'
-                        : 'No note yet'}
-              </span>
-            </div>
-            <textarea
-              className="ocv-note"
-              rows={2}
-              value={noteDraft}
-              onChange={event => {
-                setNoteDraft(event.target.value);
-                setNoteState('idle');
-              }}
-              onKeyDown={event => {
-                if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
-                  event.preventDefault();
-                  saveNote();
-                }
-              }}
-              placeholder="A caveat, a staffing note, a follow-up…"
-              aria-label={`Note for ${o.name}`}
-            />
-            <div className="ocv-log-foot">
-              <span className="ocv-log-hint">{onPlanning ? 'Saves on the offer' : 'Read-only for your role'}</span>
-              <button
-                type="button"
-                className="ocv-save"
-                title="Save note (⌘↵)"
-                disabled={!noteDirty || noteState === 'saving' || !onPlanning}
-                onClick={saveNote}
-              >
-                <Save size={12} />
-                {noteState === 'saving' ? 'Saving…' : 'Save note'}
-              </button>
-            </div>
-          </section>
 
           <footer className="ocv-foot">
             <span className="ocv-sign">

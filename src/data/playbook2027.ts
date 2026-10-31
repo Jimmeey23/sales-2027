@@ -506,7 +506,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Dec',
           audience: 'First-time clients.',
           mechanic:
-            'Kickstart 21 cohort: ₹10k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join Stronger in 30 (2028) with a scaled target',
+            'Kickstart 21 cohort: ₹10k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join the February challenge (2028) with a scaled target',
           economics:
             '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.7L counted (−₹11.9k vs the ₹4.8L stream plan) · 21 buyers',
           logic: 'Moves January demand into December cash and lands graduates in the members-only challenge.',
@@ -833,7 +833,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           actions: [
             'Kickstart 21: Pre-Solution Cohort: Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
             "Your 2027 Wrapped: You took 87 classes with us. Here's to the next year.",
-            "Challenge-Ready Renewal: Renew in December so you're covered for all of Stronger in 30.",
+            "Challenge-Ready Renewal: Renew in December so you're covered for the whole February challenge.",
           ],
           why: '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
         },
@@ -1380,7 +1380,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Dec',
           audience: 'First-time clients.',
           mechanic:
-            'Kickstart 21 cohort: ₹10k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join Stronger in 30 (2028) with a scaled target',
+            'Kickstart 21 cohort: ₹10k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join the February challenge (2028) with a scaled target',
           economics:
             '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.9L counted (+₹0.7k vs the ₹2.9L stream plan) · 17 buyers',
           logic: 'Moves January demand into December cash and lands graduates in the members-only challenge.',
@@ -1706,8 +1706,8 @@ export const PLAYBOOK_2027: PlaybookData = {
           offers: ['Kickstart 21: Pre-Solution Cohort', 'Challenge Comeback Ticket', 'Challenge-Ready Renewal'],
           actions: [
             'Kickstart 21: Pre-Solution Cohort: Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
-            'Challenge Comeback Ticket: Buy now, start by 1 January, join Stronger in 30.',
-            "Challenge-Ready Renewal: Renew in December so you're covered for all of Stronger in 30.",
+            'Challenge Comeback Ticket: Buy now, start by 1 January, join the February challenge.',
+            "Challenge-Ready Renewal: Renew in December so you're covered for the whole February challenge.",
           ],
           why: '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
         },
@@ -2244,7 +2244,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Dec',
           audience: 'First-time clients.',
           mechanic:
-            'Kickstart 21 cohort: ₹8k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join Stronger in 30 (2028) with a scaled target',
+            'Kickstart 21 cohort: ₹8k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join the February challenge (2028) with a scaled target',
           economics:
             '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.6L counted (+₹2.5k vs the ₹1.6L stream plan) · 12 buyers',
           logic: 'Moves January demand into December cash and lands graduates in the members-only challenge.',
@@ -2571,7 +2571,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           actions: [
             'Kickstart 21: Pre-Solution Cohort: Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
             "Your 2027 Wrapped: You took 87 classes with us. Here's to the next year.",
-            "Challenge-Ready Renewal: Renew in December so you're covered for all of Stronger in 30.",
+            "Challenge-Ready Renewal: Renew in December so you're covered for the whole February challenge.",
           ],
           why: '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
         },

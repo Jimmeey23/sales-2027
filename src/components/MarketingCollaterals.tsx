@@ -15,6 +15,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { MONTHS } from '../types';
+import { keyDatesFor } from '../data/keyDates';
 
 // Marketing & collaterals for one studio-month: one row per channel (WhatsApp, email, in-studio tent card), each
 // with a production-style sample built from the chosen offer and Physique 57 India photography, and the specs,
@@ -369,6 +370,111 @@ function buildCommsSends(
   return { sends, groups, naive: Math.max(naive, sends.length) };
 }
 
+/** The same month if every offer were left to fend for itself — the comparison the
+    clubbed calendar is measured against. */
+function buildSingleSends(
+  offers: any[],
+  {
+    year,
+    month,
+    hidden,
+    custom,
+    leads,
+    reminder,
+    slots,
+  }: {
+    year: number;
+    month: number;
+    hidden: string[];
+    custom: CollateralCustomChannel[];
+    leads: { whatsapp: number; email: number; tent: number };
+    reminder: Date;
+    slots: string[];
+  },
+) {
+  const sends: CommsSend[] = [];
+  const leadDate = (lead: number) => new Date(year, month - 1, 1 - lead);
+  for (const offer of offers) {
+    const slot = slots.includes(offer?.plan_slot) ? offer.plan_slot : 'newcomer';
+    const names = [offer.name].filter(Boolean);
+    const ids = [Number(offer.id)];
+    const audience = AUDIENCE[slot] || slot;
+    if (!hidden.includes('whatsapp')) {
+      sends.push({
+        key: `wa-${offer.id}`,
+        channel: 'whatsapp',
+        label: 'Launch broadcast',
+        date: leadDate(leads.whatsapp),
+        audience,
+        names,
+        ids,
+        note: 'one broadcast',
+      });
+      sends.push({
+        key: `wa-rem-${offer.id}`,
+        channel: 'whatsapp',
+        label: 'Last call',
+        date: reminder,
+        audience,
+        names,
+        ids,
+        note: 'one reminder',
+      });
+    }
+    if (!hidden.includes('email'))
+      sends.push({
+        key: `em-${offer.id}`,
+        channel: 'email',
+        label: 'Email campaign',
+        date: leadDate(leads.email),
+        audience,
+        names,
+        ids,
+        note: 'one email',
+      });
+    if (!hidden.includes('tent'))
+      sends.push({
+        key: `te-${offer.id}`,
+        channel: 'tent',
+        label: 'Print run',
+        date: leadDate(leads.tent),
+        audience,
+        names,
+        ids,
+        note: 'one card',
+      });
+  }
+  for (const channel of custom) {
+    if (hidden.includes(channel.id)) continue;
+    sends.push({
+      key: `${channel.id}-single`,
+      channel: 'custom',
+      label: channel.title,
+      date: leadDate(channel.lead),
+      audience: null,
+      names: offers.map(o => o.name).filter(Boolean),
+      ids: offers.map(o => Number(o.id)),
+      note: 'one send',
+    });
+  }
+  sends.sort((a, b) => a.date.getTime() - b.date.getTime() || a.label.localeCompare(b.label));
+  const groups: { key: string; date: Date; sends: CommsSend[] }[] = [];
+  for (const send of sends) {
+    const key = dayKey(send.date);
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) last.sends.push(send);
+    else groups.push({ key, date: send.date, sends: [send] });
+  }
+  return { sends, groups, naive: sends.length };
+}
+
+const CHANNEL_ICON: Record<CommsChannel, React.ReactNode> = {
+  whatsapp: <MessageCircle size={10} />,
+  email: <Mail size={10} />,
+  tent: <Printer size={10} />,
+  custom: <Megaphone size={10} />,
+};
+
 function CommsCalendar({
   offers,
   year,
@@ -386,25 +492,46 @@ function CommsCalendar({
   custom: CollateralCustomChannel[];
   leads: { whatsapp: number; email: number; tent: number };
 }) {
+  const [mode, setMode] = useState<'club' | 'single'>('club');
+  const [picked, setPicked] = useState<string | null>(null);
   const reminder = new Date(year, month, -1);
-  const { sends, groups, naive } = useMemo(
-    () =>
-      buildCommsSends(offers, {
-        year,
-        month,
-        hidden,
-        custom,
-        leads,
-        reminder,
-        slots: ['newcomer', 'lapsed', 'renewal'],
-      }),
+  const slots = ['newcomer', 'lapsed', 'renewal'];
+  const clubbed = useMemo(
+    () => buildCommsSends(offers, { year, month, hidden, custom, leads, reminder, slots }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [offers, year, month, hidden, custom, leads.whatsapp, leads.email, leads.tent],
   );
+  const perOffer = useMemo(
+    () => buildSingleSends(offers, { year, month, hidden, custom, leads, reminder, slots }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [offers, year, month, hidden, custom, leads.whatsapp, leads.email, leads.tent],
+  );
+  const active = mode === 'club' ? clubbed : perOffer;
+  const { sends, groups } = active;
+  const keyDates = useMemo(() => keyDatesFor(year, month), [year, month]);
   if (!sends.length) return null;
-  const shared = sends.filter(s => s.names.length > 1);
-  const saved = Math.max(naive - sends.length, 0);
+
+  const byDay = new Map(groups.map(group => [group.key, group]));
+  // A month's outreach begins before the month does: the print order and the first emails
+  // go out in the last fortnight of the previous month, so the grid runs from the Monday of
+  // the first send to the Sunday of the last and marks which days belong to the month.
+  const gridStart = new Date(sends[0].date);
+  gridStart.setDate(gridStart.getDate() - ((gridStart.getDay() + 6) % 7));
+  const gridEnd = new Date(sends[sends.length - 1].date);
+  gridEnd.setDate(gridEnd.getDate() + (6 - ((gridEnd.getDay() + 6) % 7)));
+  const gridDays: Date[] = [];
+  for (const cursor = new Date(gridStart); cursor <= gridEnd; cursor.setDate(cursor.getDate() + 1))
+    gridDays.push(new Date(cursor));
+  const monthMarks = [...new Set(gridDays.map(day => day.getMonth() + 1))].flatMap(m =>
+    keyDatesFor(year, m).map(k => ({ ...k, inMonth: m })),
+  );
+  // A month-long observance is marked once, on its first day, rather than dotting every
+  // cell: the calendar is for sends, not for a second layer of shading.
+  const marksFor = (day: Date) => monthMarks.filter(k => k.inMonth === day.getMonth() + 1 && k.day === day.getDate());
+  const saved = Math.max(perOffer.sends.length - clubbed.sends.length, 0);
   const span = `${fmtDay(groups[0].date)} – ${fmtDay(groups[groups.length - 1].date)}`;
+  const list = picked ? groups.filter(group => group.key === picked) : groups;
+  const pickedGroup = list.length === 1 && picked ? list[0] : null;
 
   return (
     <section className="col-crm" aria-label={`CRM calendar for ${monthName}`}>
@@ -413,92 +540,154 @@ function CommsCalendar({
           <small>CRM calendar · {monthName}</small>
           <h5>What goes out, and when</h5>
           <p>
-            One audience, one send. Offers that speak to the same people leave together, and the month&rsquo;s cards
-            print as a single order — {offers.length} offers leave in {sends.length} outreaches instead of {naive}.
+            One audience, one send. Offers written for the same people leave in the same broadcast, email and print
+            order — {offers.length} offers, {clubbed.sends.length} outreaches instead of {perOffer.sends.length}.
           </p>
         </div>
-        <dl className="col-crm-stats">
-          <div>
-            <dt>Outreaches</dt>
-            <dd>
-              {sends.length}
-              <em>not {naive}</em>
-            </dd>
+        <div className="col-crm-aside">
+          <div className="crm-mode" role="group" aria-label="How the month is sent">
+            <button
+              type="button"
+              className={mode === 'club' ? 'is-on' : ''}
+              aria-pressed={mode === 'club'}
+              onClick={() => setMode('club')}
+            >
+              Clubbed
+            </button>
+            <button
+              type="button"
+              className={mode === 'single' ? 'is-on' : ''}
+              aria-pressed={mode === 'single'}
+              onClick={() => setMode('single')}
+            >
+              One per offer
+            </button>
           </div>
-          <div>
-            <dt>Sends saved</dt>
-            <dd>{saved}</dd>
-          </div>
-          <div>
-            <dt>Window</dt>
-            <dd className="is-span">{span}</dd>
-          </div>
-        </dl>
+          <dl className="col-crm-stats">
+            <div>
+              <dt>Outreaches</dt>
+              <dd>
+                {sends.length}
+                {mode === 'club' && <em>not {perOffer.sends.length}</em>}
+              </dd>
+            </div>
+            <div>
+              <dt>Sends saved</dt>
+              <dd>{saved}</dd>
+            </div>
+            <div>
+              <dt>Window</dt>
+              <dd className="is-span">{span}</dd>
+            </div>
+          </dl>
+        </div>
       </header>
 
-      <ol className="col-crm-days">
-        {groups.map(group => {
-          const date = group.date;
-          // A day is a channel card per send type, with one row per audience inside it:
-          // three segmented emails on the same morning read as one decision, not three.
-          const cards: Array<{ key: string; channel: CommsChannel; label: string; rows: CommsSend[] }> = [];
-          for (const send of group.sends) {
-            const key = `${send.channel}-${send.label}`;
-            const card = cards.find(c => c.key === key);
-            if (card) card.rows.push(send);
-            else cards.push({ key, channel: send.channel, label: send.label, rows: [send] });
-          }
-          return (
-            <li key={group.key} className={group.sends.length > 1 ? 'is-busy' : ''}>
-              <div className="crm-day">
-                <b>{date.getDate()}</b>
-                <span>{date.toLocaleDateString('en-IN', { weekday: 'short' })}</span>
-                <em>{MONTHS[date.getMonth()].slice(0, 3)}</em>
-                <i>{group.sends.length}</i>
-              </div>
-              <div className="crm-sends">
-                {cards.map(card => (
-                  <article key={card.key} className={`crm-send is-${card.channel}`}>
-                    <span className="crm-send-top">
-                      <i className="crm-send-ch">
-                        {card.channel === 'whatsapp' ? (
-                          <MessageCircle size={11} />
-                        ) : card.channel === 'email' ? (
-                          <Mail size={11} />
-                        ) : card.channel === 'tent' ? (
-                          <Printer size={11} />
-                        ) : (
-                          <Megaphone size={11} />
-                        )}
-                        {CHANNEL_NAME[card.channel]}
-                      </i>
-                      <b>{card.label}</b>
-                      {card.rows.length > 1 && <em>{card.rows.length} segments</em>}
-                    </span>
-                    <div className="crm-segments">
-                      {card.rows.map(row => (
-                        <div key={row.key} className="crm-segment">
-                          {row.audience && <span className="crm-seg-aud">{row.audience}</span>}
-                          <span className="crm-send-offers">
-                            {row.names.map((name, index) => (
-                              <b key={`${row.key}-${index}`}>{name}</b>
-                            ))}
-                          </span>
-                          {row.note && card.rows.length === 1 && <span className="crm-send-note">{row.note}</span>}
-                        </div>
-                      ))}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </li>
-          );
-        })}
-      </ol>
+      <div className="col-crm-body">
+        {/* The month as it is actually worked: a day grid, with the sends sitting on their dates. */}
+        <div className="crm-cal">
+          <div className="crm-cal-head" aria-hidden="true">
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+              <span key={day}>{day}</span>
+            ))}
+          </div>
+          <div className="crm-cal-grid">
+            {gridDays.map(date => {
+              const group = byDay.get(dayKey(date));
+              const marks = marksFor(date);
+              const inMonth = date.getMonth() === month - 1;
+              const chips: Array<{ channel: CommsChannel; count: number }> = [];
+              for (const send of group?.sends || []) {
+                const hit = chips.find(c => c.channel === send.channel);
+                if (hit) hit.count += 1;
+                else chips.push({ channel: send.channel, count: 1 });
+              }
+              const selected = picked === dayKey(date);
+              return (
+                <button
+                  key={dayKey(date)}
+                  type="button"
+                  className={`crm-cell${group ? ' has-sends' : ''}${selected ? ' is-picked' : ''}${
+                    inMonth ? '' : ' is-prep'
+                  }`}
+                  onClick={() => group && setPicked(selected ? null : dayKey(date))}
+                  aria-pressed={selected}
+                  aria-label={`${date.getDate()} ${MONTHS[date.getMonth()]}${
+                    group ? `, ${group.sends.length} sends` : ', nothing goes out'
+                  }`}
+                >
+                  <span className="crm-cell-date">
+                    {date.getDate()}
+                    {date.getDate() === 1 && <i className="crm-cell-month">{MONTHS[date.getMonth()].slice(0, 3)}</i>}
+                  </span>
+                  {marks.length > 0 && (
+                    <i className={`crm-cell-kd is-${marks[0].kind}`} title={marks.map(m => m.name).join(' · ')} />
+                  )}
+                  <span className="crm-cell-chips">
+                    {chips.map(chip => (
+                      <span key={chip.channel} className={`crm-chip is-${chip.channel}`}>
+                        {CHANNEL_ICON[chip.channel]}
+                        {chip.count > 1 ? chip.count : ''}
+                      </span>
+                    ))}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="crm-cal-note">
+            Shaded days belong to the month before — the print order and the first emails leave before the month opens.
+            A dot marks a key date.
+          </p>
+        </div>
+
+        {/* The same month as a run sheet, so the studio can work top to bottom. */}
+        <div className="crm-sched">
+          <div className="crm-sched-head">
+            <span>{pickedGroup ? fmtDay(pickedGroup.date) : 'The month, in order'}</span>
+            {picked && (
+              <button type="button" onClick={() => setPicked(null)}>
+                Show all
+              </button>
+            )}
+          </div>
+          <ol>
+            {list.map(group => (
+              <li key={group.key}>
+                <div className="crm-sched-date">
+                  <b>{group.date.getDate()}</b>
+                  <span>{MONTHS[group.date.getMonth()].slice(0, 3)}</span>
+                </div>
+                <div className="crm-sched-sends">
+                  {group.sends.map(send => (
+                    <article key={send.key} className={`crm-send is-${send.channel}`}>
+                      <span className="crm-send-top">
+                        <i className="crm-send-ch">
+                          {CHANNEL_ICON[send.channel]}
+                          {CHANNEL_NAME[send.channel]}
+                        </i>
+                        <b>{send.label}</b>
+                        {send.audience && <em>{send.audience}</em>}
+                      </span>
+                      <span className="crm-send-offers">
+                        {send.names.map((name, index) => (
+                          <b key={`${send.key}-${index}`}>{name}</b>
+                        ))}
+                      </span>
+                      {send.note && send.names.length > 1 && <span className="crm-send-note">{send.note}</span>}
+                    </article>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
       <footer className="col-crm-foot">
         <span>
-          {shared.length} shared send{shared.length === 1 ? '' : 's'} · nothing goes out twice in a day to the same
-          audience
+          {clubbed.sends.filter(s => s.names.length > 1).length} shared sends · nothing goes out twice in a day to the
+          same audience
         </span>
         <span>
           Leads: WhatsApp −{leads.whatsapp}d · email −{leads.email}d · print −{leads.tent}d · reminder 48h before close
