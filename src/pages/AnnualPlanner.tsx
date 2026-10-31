@@ -1,7 +1,8 @@
 import '../styles/target-matrix.css';
+import '../styles/bulk-targets.css';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Check, ChevronRight, History, RefreshCw, Save, ShieldCheck, Sparkles } from 'lucide-react';
+import { Check, ChevronRight, History, RefreshCw, Save, ShieldCheck, Sparkles, X } from 'lucide-react';
 import { api, patch, post } from '../api';
 import { useApp } from '../App';
 import { Link } from 'react-router-dom';
@@ -69,6 +70,11 @@ export default function AnnualPlanner() {
   const [editing, setEditing] = useState<any>(null),
     [versions, setVersions] = useState<any>(null),
     [approvingStudio, setApprovingStudio] = useState<number | null>(null);
+  // Bulk selection works across locations and months at once: a checkbox per row and
+  // per cell, then one action for everything selected.
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [bulk, setBulk] = useState<{ action: 'set'; basis: 'proposed' | 'approved' } | null>(null);
+  const [bulkBusy, setBulkBusy] = useState(false);
   const {
     data: raw,
     setData,
@@ -162,6 +168,35 @@ export default function AnnualPlanner() {
       toast(error.message || 'Could not approve this location’s targets.', 'error');
     } finally {
       setApprovingStudio(null);
+    }
+  };
+  const toggle = (targetId: number) =>
+    setSelected(current => {
+      const next = new Set(current);
+      next.has(targetId) ? next.delete(targetId) : next.add(targetId);
+      return next;
+    });
+  const toggleMany = (rows: any[], on: boolean) =>
+    setSelected(current => {
+      const next = new Set(current);
+      rows.filter(Boolean).forEach(row => (on ? next.add(row.id) : next.delete(row.id)));
+      return next;
+    });
+  const allIds = useMemo(() => (data?.rows || []).map((r: any) => r.id), [data]);
+  const runBulk = async (body: Record<string, unknown>, message: string) => {
+    if (!selected.size || bulkBusy) return;
+    setBulkBusy(true);
+    try {
+      const result = await post('/targets/bulk', { ids: [...selected], reason: 'Bulk target update from Approvals & calculations.', ...body });
+      await reload();
+      setSelected(new Set());
+      setBulk(null);
+      toast(result.changed ? `${message} (${result.changed} month${result.changed === 1 ? '' : 's'}).` : 'No values needed changing.');
+    } catch (error: any) {
+      toast(error.message || 'The bulk update did not go through.', 'error');
+      reload().catch(() => {});
+    } finally {
+      setBulkBusy(false);
     }
   };
   const openVersions = async (row: any) => {
@@ -266,6 +301,14 @@ export default function AnnualPlanner() {
             <table className="tm-table">
               <thead>
                 <tr>
+                  <th className="bt-pick-head" aria-label="Select">
+                    <input
+                      type="checkbox"
+                      aria-label="Select every studio-month"
+                      checked={allIds.length > 0 && selected.size === allIds.length}
+                      onChange={e => setSelected(e.target.checked ? new Set(allIds) : new Set())}
+                    />
+                  </th>
                   <th className="tm-sticky">Studio</th>
                   {MONTHS_SHORT.map(m => (
                     <th key={m}>{m}</th>
@@ -277,7 +320,15 @@ export default function AnnualPlanner() {
                 {groups.map((g: any) => {
                   const annual = basis === 'approved' ? g.approved : g.proposed;
                   return (
-                    <tr key={g.studio}>
+                    <tr key={g.studio} className={g.months.some((r: any) => r && selected.has(r.id)) ? 'bt-row-on' : ''}>
+                      <td className="bt-pick">
+                        <input
+                          type="checkbox"
+                          aria-label={`Select all 12 months for ${g.studio}`}
+                          checked={g.months.filter(Boolean).every((r: any) => selected.has(r.id))}
+                          onChange={e => toggleMany(g.months, e.target.checked)}
+                        />
+                      </td>
                       <th scope="row" className="tm-sticky">
                         <strong>{g.studio}</strong>
                         <span>
@@ -298,7 +349,17 @@ export default function AnnualPlanner() {
                       </th>
                       {g.months.map((r: any, i: number) =>
                         r ? (
-                          <td key={r.id} className={r.approved_target !== null ? 'is-approved' : ''}>
+                          <td
+                            key={r.id}
+                            className={`${r.approved_target !== null ? 'is-approved' : ''} ${selected.has(r.id) ? 'bt-cell-on' : ''}`}
+                          >
+                            <input
+                              type="checkbox"
+                              className="bt-cell-pick"
+                              aria-label={`Select ${r.studio} ${MONTHS[r.month - 1]}`}
+                              checked={selected.has(r.id)}
+                              onChange={() => toggle(r.id)}
+                            />
                             <TargetCell
                               basis={basis}
                               value={basis === 'approved' ? r.approved_target : r.proposed_target}
@@ -360,6 +421,7 @@ export default function AnnualPlanner() {
               </tbody>
               <tfoot>
                 <tr>
+                  <td className="bt-pick" />
                   <th scope="row" className="tm-sticky">
                     <strong>Business plan</strong>
                     <span>All studios</span>
@@ -399,6 +461,57 @@ export default function AnnualPlanner() {
           </p>
         </section>
       }
+      {/* The selection bar. It appears only when something is selected, and it is the
+          only place bulk actions live, so the grid itself stays a grid. */}
+      {selected.size > 0 && (
+        <div className="bt-bar" role="region" aria-label="Bulk target actions">
+          <span className="bt-bar-count">
+            <b>{selected.size}</b> studio-month{selected.size === 1 ? '' : 's'} selected
+          </span>
+          <div className="bt-bar-actions">
+            {can('target_approve') && (
+              <Button
+                size="sm"
+                variant="secondary"
+                disabled={bulkBusy}
+                onClick={() => runBulk({ action: 'approve' }, 'Approved')}
+              >
+                <ShieldCheck size={14} /> Approve
+              </Button>
+            )}
+            {can('target_approve') && (
+              <Button
+                size="sm"
+                variant="secondary"
+                disabled={bulkBusy}
+                onClick={() => runBulk({ action: 'unapprove' }, 'Approval withdrawn')}
+              >
+                <X size={14} /> Withdraw approval
+              </Button>
+            )}
+            <Button
+              size="sm"
+              disabled={bulkBusy}
+              onClick={() => setBulk({ action: 'set', basis: basis === 'approved' ? 'approved' : 'proposed' })}
+            >
+              <Sparkles size={14} /> Edit values
+            </Button>
+            <button type="button" className="bt-clear" onClick={() => setSelected(new Set())}>
+              Clear
+            </button>
+          </div>
+        </div>
+      )}
+      {bulk && (
+        <BulkEditor
+          count={selected.size}
+          basis={bulk.basis}
+          busy={bulkBusy}
+          onBasis={basis => setBulk({ action: 'set', basis })}
+          onClose={() => setBulk(null)}
+          onRun={(payload, message) => void runBulk({ action: 'set', basis: bulk.basis, ...payload }, message)}
+        />
+      )}
       {editing && (
         <TargetEditor
           target={editing}
@@ -510,6 +623,107 @@ export function TargetEditor({
         {String(target.assumptions.scenarioExplanation || '').replace(/\s*Stretch:[^.]*\.?/g, '')} Comparable month:{' '}
         {target.assumptions.comparableMonth || 'unavailable'}. {target.assumptions.rentAdjustment?.reason}
       </Callout>
+    </Modal>
+  );
+}
+
+/* Bulk value editor: one rule applied to every selected studio-month, in the unit a
+   planner actually thinks in — rupees, a percentage change, or an addition. */
+function BulkEditor({
+  count,
+  basis,
+  busy,
+  onBasis,
+  onClose,
+  onRun,
+}: {
+  count: number;
+  basis: 'proposed' | 'approved';
+  busy: boolean;
+  onBasis: (basis: 'proposed' | 'approved') => void;
+  onClose: () => void;
+  onRun: (payload: { value: number; mode: string }, message: string) => void;
+}) {
+  const [mode, setMode] = useState<'value' | 'percent' | 'delta'>('percent');
+  const [value, setValue] = useState('5');
+  const parsed = Number(value);
+  const valid = Number.isFinite(parsed) && (mode !== 'value' || parsed >= 0);
+  const unit = mode === 'percent' ? '%' : '₹';
+  return (
+    <Modal
+      title={`Edit ${count} studio-month${count === 1 ? '' : 's'}`}
+      subtitle="One rule, applied to everything selected. Each month is versioned and audited separately."
+      onClose={onClose}
+      width="620px"
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            disabled={!valid || busy}
+            icon={<Save size={15} />}
+            onClick={() =>
+              onRun(
+                { value: parsed, mode },
+                mode === 'percent'
+                  ? `Adjusted ${count} month${count === 1 ? '' : 's'} by ${parsed >= 0 ? '+' : ''}${parsed}%`
+                  : `Updated ${count} month${count === 1 ? '' : 's'}`,
+              )
+            }
+          >
+            {busy ? 'Applying…' : 'Apply to selection'}
+          </Button>
+        </>
+      }
+    >
+      <div className="bt-form">
+        <div className="bt-field">
+          <span>Change which figure</span>
+          <div className="bt-seg" role="group" aria-label="Basis">
+            <button className={basis === 'proposed' ? 'on' : ''} onClick={() => onBasis('proposed')}>
+              Proposed
+            </button>
+            <button className={basis === 'approved' ? 'on' : ''} onClick={() => onBasis('approved')}>
+              Approved
+            </button>
+          </div>
+        </div>
+        <div className="bt-field">
+          <span>How</span>
+          <div className="bt-seg" role="group" aria-label="Edit mode">
+            <button className={mode === 'percent' ? 'on' : ''} onClick={() => setMode('percent')}>
+              % change
+            </button>
+            <button className={mode === 'delta' ? 'on' : ''} onClick={() => setMode('delta')}>
+              +/- amount
+            </button>
+            <button className={mode === 'value' ? 'on' : ''} onClick={() => setMode('value')}>
+              Set exactly
+            </button>
+          </div>
+        </div>
+        <label className="bt-field">
+          <span>{mode === 'percent' ? 'Percentage change' : mode === 'delta' ? 'Amount to add (₹)' : 'New monthly target (₹)'}</span>
+          <span className="bt-input">
+            <em>{unit}</em>
+            <input
+              type="number"
+              value={value}
+              step={mode === 'value' ? 100000 : 1}
+              onChange={e => setValue(e.target.value)}
+              autoFocus
+            />
+          </span>
+        </label>
+        <p className="bt-note">
+          {mode === 'percent'
+            ? `Every selected month moves by ${parsed >= 0 ? '+' : ''}${Number.isFinite(parsed) ? parsed : 0}% of its own value — seasonality is kept.`
+            : mode === 'delta'
+              ? `Every selected month moves by ${parsed >= 0 ? '+' : ''}${Number.isFinite(parsed) ? parsed.toLocaleString('en-IN') : 0} rupees.`
+              : 'Every selected month is set to the same figure — this flattens seasonality.'}
+        </p>
+      </div>
     </Modal>
   );
 }

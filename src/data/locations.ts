@@ -4,15 +4,25 @@ import type { Studio } from '../types';
 export const LOCATION_NAMES = ['Kemps Corner', 'Bandra', 'Kenkere House', 'Pop-up'] as const;
 export const POPUP_VENUES = ['Copper + Cloves', 'Plash Pilates'];
 // Each location's accent; the whole workspace takes on the selected location's colour.
-// Deep jewel tones: each location reads distinctly, and all of them sit comfortably
-// beside the ivory canvas and the gold accent of the shell.
+// Four hues far enough apart to be told apart at 6px (a dot in a list, a bar in a
+// chart) and each dark enough to carry white text at AA: teal, indigo, raspberry,
+// ochre. Every one of them holds its own on the ivory canvas without competing with
+// the shell's gold, which stays reserved for the plan's own signal.
 export const LOCATION_COLORS: Record<string, string> = {
-  'Kemps Corner': '#1f6a57',
-  Bandra: '#2b5c85',
-  'Kenkere House': '#7a3b56',
-  'Pop-up': '#a2712f',
+  'Kemps Corner': '#0d6b58', // Kemps: deep teal — calm, the flagship
+  Bandra: '#28489b', // Bandra: indigo — the loudest room in the portfolio
+  'Kenkere House': '#9b2c58', // Kenkere: raspberry — Bengaluru, warmer and newer
+  'Pop-up': '#8d5a12', // Pop-up: ochre — small, seasonal, all about the moment
+};
+// A lighter partner for each accent, for fills behind dark text and for map pins.
+export const LOCATION_SOFT: Record<string, string> = {
+  'Kemps Corner': '#e3f0ec',
+  Bandra: '#e5eaf7',
+  'Kenkere House': '#f7e5ec',
+  'Pop-up': '#f6eddc',
 };
 export const ALL_LOCATIONS_COLOR = '#3c3830';
+export const softFor = (name?: string | null) => (name && LOCATION_SOFT[name]) || '#f1ede4';
 export const accentFor = (name?: string | null) => (name && LOCATION_COLORS[name]) || ALL_LOCATIONS_COLOR;
 
 export function planningLocations(studios: Studio[]) {

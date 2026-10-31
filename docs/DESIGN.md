@@ -73,3 +73,19 @@ Defined once in `src/data/locations.ts`.
 | Loaders | `components/ui.tsx` (`Loading`, `Heartbeat`, `LoadingRows`), `atelier.css` §21 | A single heartbeat: a quiet ECG trace with one gold pulse travelling its length. That is the whole loading state — no label, no dots, no mark stacked beside it; the label survives only as the accessible name. Skeleton rows remain for lists still arriving. |
 | Keyboard | `components/Layout.tsx` (`ShortcutsSheet`), `atelier.css` §24 | `⌘K` palette, `?` for the key map, `Esc` to close. Shortcuts never fire while a field has focus. |
 | Offer studio density | `pages/plan/OffersTab.tsx` (`.os-density`, `atelier.css` §25) | Comfortable or compact rows, remembered per browser. |
+
+## Bulk target actions (Approvals & calculations)
+
+The all-studio target matrix carries a leading selection column. Tick any set of studio-months — across locations and months — and a dark bar rises from the bottom of the screen with three actions: **Approve**, **Withdraw approval**, and **Edit values**. Editing opens one dialog that applies a single rule to the whole selection (`% change`, `+/- amount`, or `set exactly`) on either the proposed or the approved figure; `% change` is the default because it keeps each month's seasonality. Every changed month is versioned and audited separately, and the whole batch recalculates once.
+
+Backed by `POST /api/targets/bulk` (`server/routes/targets.ts`); styling in `src/styles/bulk-targets.css`.
+
+## Year calendar board (`src/pages/plan/YearCalendar.tsx`)
+
+The calendar layout is a wall calendar rather than a chart: twelve month blocks, each with a real Monday-first day grid where festival and observance days carry a dot and a tint, and every offer in the month listed in full with its expected revenue. Location colour runs through the month rule, the offer dots and the scope chips. `src/styles/year-board.css`.
+
+Above it sits the **add-to-calendar card**: a QR code that opens a one-page subscription sheet with a Google Calendar button and an `.ics` download. The feed (`server/routes/calendar.ts`) publishes every offer window, campaign and studio moment as all-day events, signed by a token so a phone can open it without a session; it contains campaign dates only, never member or revenue data.
+
+## Location accents (`src/data/locations.ts`)
+
+Four distinct accents, each dark enough to carry white text: Kemps Corner teal `#0d6b58`, Bandra indigo `#28489b`, Kenkere House raspberry `#9b2c58`, Pop-up ochre `#8d5a12`. Each has a soft partner (`LOCATION_SOFT`) for fills behind dark text. Gold stays reserved for the plan's own signal, so location colour never competes with it.

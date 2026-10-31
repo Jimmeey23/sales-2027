@@ -20,6 +20,7 @@ import registerCampaignsRoutes from './routes/campaigns.js';
 import registerImportsRoutes from './routes/imports.js';
 import registerReportsRoutes from './routes/reports.js';
 import registerAdminRoutes from './routes/admin.js';
+import registerCalendarRoutes, { registerPublicCalendarRoutes } from './routes/calendar.js';
 initSchema();
 if (process.env.NODE_ENV === 'production') {
   if (process.env.DIRECT_WORKSPACE === 'true')
@@ -102,6 +103,9 @@ app.use(authenticate);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true, database: true, time: new Date().toISOString() }));
 registerAuthRoutes(app);
+// A calendar feed is opened from a phone by scanning a QR, so it cannot carry a session.
+// It is guarded by a signed token instead and serves campaign dates only.
+registerPublicCalendarRoutes(app);
 app.use('/api', requireAuth);
 registerWorkspaceRoutes(app);
 registerTargetsRoutes(app);
@@ -113,6 +117,7 @@ registerCampaignsRoutes(app);
 registerImportsRoutes(app);
 registerReportsRoutes(app);
 registerAdminRoutes(app);
+registerCalendarRoutes(app);
 
 app.use('/api', (req, res) => res.status(404).json({ error: `API route not found: ${req.method} ${req.path}` }));
 app.use((error: any, _req: any, res: any, _next: any) => {

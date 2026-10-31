@@ -1,0 +1,243 @@
+/* Bulk target selection and editing, layered over the target matrix.
+
+   The grid stays a grid: selection lives in a narrow leading column, the bar appears
+   only when something is picked, and one dialog carries the rule for every selected
+   studio-month. Nothing here restates the matrix's own styling — it only adds to it. */
+
+/* ── selection ────────────────────────────────────────────────────────────── */
+.bt-pick,
+.bt-pick-head {
+  width: 34px;
+  min-width: 34px;
+  padding: 0 4px !important;
+  text-align: center;
+  vertical-align: middle;
+  background: var(--paper);
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+.bt-pick-head {
+  z-index: 5;
+}
+.bt-pick input,
+.bt-pick-head input,
+.bt-cell-pick {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--paper);
+  cursor: pointer;
+  position: relative;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.bt-pick input:hover,
+.bt-pick-head input:hover,
+.bt-cell-pick:hover {
+  border-color: var(--a1, var(--green));
+}
+.bt-pick input:checked,
+.bt-pick-head input:checked,
+.bt-cell-pick:checked {
+  background: var(--a1, var(--green));
+  border-color: var(--a1, var(--green));
+}
+.bt-pick input:checked::after,
+.bt-pick-head input:checked::after,
+.bt-cell-pick:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0.5px;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 1.6px 1.6px 0;
+  transform: rotate(42deg);
+}
+.bt-pick input:focus-visible,
+.bt-pick-head input:focus-visible,
+.bt-cell-pick:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--a1, var(--green)) 55%, transparent);
+  outline-offset: 1px;
+}
+
+/* The per-cell checkbox sits in the corner of the cell, out of the way until the row
+   is hovered or the cell is picked. */
+.tm-table td {
+  position: relative;
+}
+.bt-cell-pick {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 13px;
+  height: 13px;
+  opacity: 0;
+  z-index: 2;
+}
+.tm-table td:hover .bt-cell-pick,
+.tm-table td:focus-within .bt-cell-pick,
+.bt-cell-pick:checked {
+  opacity: 1;
+}
+.bt-cell-pick:checked::after {
+  left: 3.5px;
+  top: 0;
+  height: 7px;
+}
+tr.bt-row-on th.tm-sticky {
+  background: color-mix(in srgb, var(--a1, var(--green)) 6%, var(--paper));
+}
+.tm-table td.bt-cell-on {
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--a1, var(--green)) 55%, transparent);
+  background: color-mix(in srgb, var(--a1, var(--green)) 4%, var(--paper));
+}
+
+/* ── the bar ──────────────────────────────────────────────────────────────── */
+.bt-bar {
+  position: sticky;
+  bottom: 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--ink-900);
+  background: color-mix(in srgb, var(--ink-900) 94%, transparent);
+  color: #fbf8f1;
+  box-shadow: 0 14px 34px rgba(23, 22, 15, 0.28);
+  backdrop-filter: blur(6px);
+}
+.bt-bar-count {
+  font-size: 12.5px;
+  color: #d9d2c3;
+}
+.bt-bar-count b {
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.bt-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.bt-bar-actions .btn {
+  background: transparent;
+  border-color: rgba(251, 248, 241, 0.28);
+  color: #fbf8f1;
+}
+.bt-bar-actions .btn:hover {
+  background: rgba(251, 248, 241, 0.12);
+  border-color: rgba(251, 248, 241, 0.5);
+}
+.bt-clear {
+  background: none;
+  border: 0;
+  padding: 4px 2px;
+  font: inherit;
+  font-size: 12px;
+  color: #bfb7a6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.bt-clear:hover {
+  color: #fff;
+}
+
+/* ── the dialog ───────────────────────────────────────────────────────────── */
+.bt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.bt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.bt-field > span:first-child {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.bt-seg {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--canvas);
+  width: fit-content;
+}
+.bt-seg button {
+  border: 0;
+  background: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 550;
+  color: var(--muted);
+  cursor: pointer;
+}
+.bt-seg button.on {
+  background: var(--paper);
+  color: var(--ink-900);
+  box-shadow: 0 1px 3px rgba(27, 26, 22, 0.12);
+}
+.bt-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  padding: 9px 12px;
+  background: var(--paper);
+}
+.bt-input em {
+  font-style: normal;
+  color: var(--subtle);
+  font-size: 13px;
+}
+.bt-input input {
+  border: 0;
+  outline: 0;
+  background: none;
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-900);
+}
+.bt-note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--canvas);
+}
+
+@media (max-width: 720px) {
+  .bt-bar {
+    position: static;
+  }
+  .bt-bar-actions {
+    gap: 6px;
+  }
+}
