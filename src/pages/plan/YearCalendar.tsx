@@ -221,7 +221,9 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
                 onClick={() => setScope('all')}
               >
                 <i
-                  style={{ background: 'linear-gradient(90deg,#0d6b58 0 25%,#28489b 0 50%,#9b2c58 0 75%,#8d5a12 0)' }}
+                  style={{
+                    background: `linear-gradient(90deg,${LOCATION_COLORS['Kemps Corner']} 0 25%,${LOCATION_COLORS.Bandra} 0 50%,${LOCATION_COLORS['Kenkere House']} 0 75%,${LOCATION_COLORS['Pop-up']} 0)`,
+                  }}
                 />
                 All four
               </button>
@@ -350,7 +352,7 @@ export default function YearCalendar({ data, onOpen }: { data: PlanData; onOpen:
       <div className="yb-legend">
         {(
           [
-            ['offers', Gift, `Offers · ${totals.offers}`, '#0d6b58'],
+            ['offers', Gift, `Offers · ${totals.offers}`, LOCATION_COLORS['Kemps Corner']],
             ['campaigns', Sparkles, `Campaigns · ${totals.campaigns}`, '#28489b'],
             ['moments', PartyPopper, `Moments · ${totals.moments}`, '#b07a2e'],
           ] as const

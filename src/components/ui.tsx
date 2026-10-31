@@ -315,28 +315,28 @@ export function Heartbeat({ className = '' }: { className?: string }) {
               moment it turns into the numerals the colour changes — one stroke, two neons,
               with the seam hidden in the corner where the 5 begins. */}
           <linearGradient id={`${id}-ink`} x1="0" y1="0" x2="252" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#5BF7CE" />
-            <stop offset="0.14" stopColor="#3CE9FF" />
-            <stop offset="0.232" stopColor="#2FD8FF" />
-            <stop offset="0.236" stopColor="#FF5BD6" />
-            <stop offset="0.6" stopColor="#D96BFF" />
-            <stop offset="1" stopColor="#8F7BFF" />
+            <stop offset="0" stopColor="#FFF1B8" />
+            <stop offset="0.14" stopColor="#FFD977" />
+            <stop offset="0.232" stopColor="#FFC24A" />
+            <stop offset="0.236" stopColor="#FFAE2B" />
+            <stop offset="0.6" stopColor="#FFC24A" />
+            <stop offset="1" stopColor="#FFE08A" />
           </linearGradient>
 
           {/* The aura the whole mark sits in, and the soft edge of the paper rule. */}
           <radialGradient id={`${id}-aura`} cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#39E8FF" stopOpacity="0.16" />
-            <stop offset="0.42" stopColor="#7C6BFF" stopOpacity="0.09" />
-            <stop offset="0.72" stopColor="#39E8FF" stopOpacity="0.03" />
-            <stop offset="1" stopColor="#39E8FF" stopOpacity="0" />
+            <stop offset="0" stopColor="#FFC24A" stopOpacity="0.2" />
+            <stop offset="0.42" stopColor="#FF9E2C" stopOpacity="0.1" />
+            <stop offset="0.72" stopColor="#FFC24A" stopOpacity="0.035" />
+            <stop offset="1" stopColor="#FFC24A" stopOpacity="0" />
           </radialGradient>
           {/* A straight line has no height, so this has to be measured in user units or
               the gradient box collapses and the rule paints nothing at all. */}
           <linearGradient id={`${id}-rule`} x1="-28" y1="0" x2="280" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#CFE9FF" stopOpacity="0" />
-            <stop offset="0.16" stopColor="#CFE9FF" stopOpacity="0.22" />
-            <stop offset="0.84" stopColor="#CFE9FF" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#CFE9FF" stopOpacity="0" />
+            <stop offset="0" stopColor="#FFE7B0" stopOpacity="0" />
+            <stop offset="0.16" stopColor="#FFE7B0" stopOpacity="0.24" />
+            <stop offset="0.84" stopColor="#FFE7B0" stopOpacity="0.24" />
+            <stop offset="1" stopColor="#FFE7B0" stopOpacity="0" />
           </linearGradient>
         </defs>
 

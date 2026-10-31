@@ -5261,7 +5261,7 @@ details.membership-terms > summary {
    appears exactly where the line does — and it is what stops a 5 px line reading as a
    flat rule on a warm ground. */
 .hb svg .hb-bleed {
-  stroke: color-mix(in srgb, #0f3e93 72%, transparent);
+  stroke: color-mix(in srgb, #ffae2b 68%, transparent);
   stroke-width: 8;
   filter: blur(2.2px);
   stroke-dasharray: 100 900;
@@ -5295,7 +5295,7 @@ details.membership-terms > summary {
   animation: hb-head var(--hb-cycle) linear infinite;
 }
 .hb svg .hb-core {
-  stroke: #eef5ff;
+  stroke: #fff4d6;
   stroke-width: 3.6;
   stroke-dasharray: 0.001 900;
   stroke-dashoffset: 0;
@@ -5306,7 +5306,7 @@ details.membership-terms > summary {
 /* The glint: once the mark is written, a short bright length of it travels the whole
    path once — light catching a line that has just been laid down. */
 .hb svg .hb-glint {
-  stroke: #f7fbff;
+  stroke: #fff8e6;
   stroke-width: 2.1;
   filter: blur(1.2px);
   stroke-dasharray: 2.6 900;
@@ -8728,8 +8728,8 @@ details.membership-terms > summary {
    becomes the numerals, so the 57 is always a different colour from the line that
    wrote it. One stroke, two neons, one centred composition. */
 :root {
-  --pulse: #35e1ff;
-  --pulse-bright: #9bf6ff;
+  --pulse: #ffc24a;
+  --pulse-bright: #ffe6a6;
 }
 
 .hb svg .hb-track {
@@ -8742,17 +8742,17 @@ details.membership-terms > summary {
   filter: blur(2.6px);
 }
 .hb svg .hb-trail {
-  stroke: #7cf0ff;
+  stroke: #ffd98a;
 }
 .hb svg .hb-bloom {
-  stroke: #4fe6ff;
+  stroke: #ffc24a;
 }
 .hb svg .hb-core,
 .hb svg .hb-glint {
   stroke: #ffffff;
 }
 .hb svg .hb-ink {
-  filter: drop-shadow(0 0 5px rgba(53, 225, 255, 0.55)) drop-shadow(0 0 16px rgba(255, 91, 214, 0.3));
+  filter: drop-shadow(0 0 5px rgba(255, 194, 74, 0.6)) drop-shadow(0 0 18px rgba(255, 158, 44, 0.34));
 }
 .hb svg .hb-aura {
   opacity: 0.85;
@@ -8771,12 +8771,12 @@ details.membership-terms > summary {
   color: #eaf7ff;
   background: radial-gradient(
     120% 90% at 50% 44%,
-    rgba(12, 20, 32, 0.74) 0%,
-    rgba(6, 10, 17, 0.9) 58%,
-    rgba(4, 6, 10, 0.95) 100%
+    rgba(14, 11, 7, 0.88) 0%,
+    rgba(8, 7, 5, 0.94) 58%,
+    rgba(4, 4, 3, 0.97) 100%
   );
-  -webkit-backdrop-filter: blur(9px) saturate(0.85);
-  backdrop-filter: blur(9px) saturate(0.85);
+  -webkit-backdrop-filter: blur(16px) saturate(0.55) brightness(0.7);
+  backdrop-filter: blur(16px) saturate(0.55) brightness(0.7);
   animation: p57-dim 0.3s ease both;
 }
 .app-loading {
