@@ -27,6 +27,7 @@ export interface PlanAssumptions {
   leadToVisit: number; // first visits per lead
   visitToPackage: number; // first visit → package/membership conversion
   existingSpend: number; // avg monthly spend per existing paying client (₹)
+  avgSpendPerVisit: number; // net revenue ÷ check-ins (₹ per visit)
   retailShare: number; // retail share of revenue
   classesPerMonth: number;
   capacity: number; // avg spots per class
@@ -52,6 +53,7 @@ const POPUP_COPPER: PlanAssumptions = {
   leadToVisit: 0.31,
   visitToPackage: 0.28,
   existingSpend: 2847,
+  avgSpendPerVisit: 442,
   retailShare: 0.005,
   classesPerMonth: 40,
   capacity: 10.5,
@@ -64,6 +66,7 @@ const POPUP_COPPER: PlanAssumptions = {
     leadToVisit: 0.31,
     visitToPackage: 0.28,
     existingSpend: 2847,
+    avgSpendPerVisit: 442,
     retailShare: 0.005,
     classesPerMonth: 34.2,
     capacity: 10.9,
@@ -83,6 +86,7 @@ const POPUP_PLASH: PlanAssumptions = {
   leadToVisit: 0.3,
   visitToPackage: 0.26,
   existingSpend: 2301,
+  avgSpendPerVisit: 398,
   t12: {
     ...POPUP_COPPER.t12,
     firstMonthSpend: 1521,
@@ -90,6 +94,7 @@ const POPUP_PLASH: PlanAssumptions = {
     leadToVisit: 0.3,
     visitToPackage: 0.26,
     existingSpend: 2301,
+    avgSpendPerVisit: 398,
   },
   notes: [
     'Door-led trade: 30% of leads take a first visit, 26% of those visits become a paying client.',
@@ -105,6 +110,7 @@ const POPUP_COMBINED: PlanAssumptions = {
   leadToVisit: 0.305,
   visitToPackage: 0.27,
   existingSpend: 2574,
+  avgSpendPerVisit: 420,
   classesPerMonth: 80,
   t12: {
     ...POPUP_COPPER.t12,
@@ -125,6 +131,7 @@ export const PLAN_ASSUMPTIONS_2027: Record<string, PlanAssumptions> = {
     leadToVisit: 0.766,
     visitToPackage: 0.238,
     existingSpend: 16916,
+    avgSpendPerVisit: 870,
     retailShare: 0.022,
     classesPerMonth: 363,
     capacity: 13.85,
@@ -155,6 +162,7 @@ export const PLAN_ASSUMPTIONS_2027: Record<string, PlanAssumptions> = {
       leadToVisit: 0.766,
       visitToPackage: 0.238,
       existingSpend: 16916,
+      avgSpendPerVisit: 870,
       retailShare: 0.022,
       classesPerMonth: 345.7,
       capacity: 13.85,
@@ -173,6 +181,7 @@ export const PLAN_ASSUMPTIONS_2027: Record<string, PlanAssumptions> = {
     leadToVisit: 0.572,
     visitToPackage: 0.175,
     existingSpend: 15591,
+    avgSpendPerVisit: 743,
     retailShare: 0.029,
     classesPerMonth: 267,
     capacity: 12.8,
@@ -203,6 +212,7 @@ export const PLAN_ASSUMPTIONS_2027: Record<string, PlanAssumptions> = {
       leadToVisit: 0.572,
       visitToPackage: 0.175,
       existingSpend: 15591,
+      avgSpendPerVisit: 743,
       retailShare: 0.029,
       classesPerMonth: 266.9,
       capacity: 12.8,
@@ -221,6 +231,7 @@ export const PLAN_ASSUMPTIONS_2027: Record<string, PlanAssumptions> = {
     leadToVisit: 0.215,
     visitToPackage: 0.252,
     existingSpend: 9097,
+    avgSpendPerVisit: 748,
     retailShare: 0.03,
     classesPerMonth: 195,
     capacity: 12,
@@ -251,6 +262,7 @@ export const PLAN_ASSUMPTIONS_2027: Record<string, PlanAssumptions> = {
       leadToVisit: 0.215,
       visitToPackage: 0.252,
       existingSpend: 9097,
+      avgSpendPerVisit: 748,
       retailShare: 0.031,
       classesPerMonth: 190.3,
       capacity: 11.9,

@@ -137,7 +137,7 @@ export function ensureStudiosAndUsers() {
       'INSERT INTO users(email,name,password_hash,role,assigned_studio_id) VALUES (?,?,?,?,?)',
     );
     const pw = hashPassword('P57demo!');
-    insertUser.run('admin@p57.demo', 'Aisha Mehta', pw, 'administrator', null);
+    insertUser.run('admin@p57.demo', 'Jimmeey Gondaa', pw, 'administrator', null);
     insertUser.run('management@p57.demo', 'Rohan Kapoor', pw, 'senior_management', null);
     insertUser.run('sales@p57.demo', 'Meera Shah', pw, 'sales_manager', null);
     insertUser.run(

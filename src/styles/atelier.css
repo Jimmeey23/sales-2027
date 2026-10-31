@@ -8720,3 +8720,74 @@ details.membership-terms > summary {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── 21b. The waiting screen, on its own ─────────────────────────────────────
+   Waiting is the one moment when the app is allowed to take the whole screen: the
+   backdrop dims, everything else steps back, and the mark sits dead centre. The mark
+   itself is neon — the trace enters mint into cyan, and the stroke turns magenta as it
+   becomes the numerals, so the 57 is always a different colour from the line that
+   wrote it. One stroke, two neons, one centred composition. */
+:root {
+  --pulse: #35e1ff;
+  --pulse-bright: #9bf6ff;
+}
+
+.hb svg .hb-track {
+  stroke: rgba(200, 236, 255, 0.15);
+}
+.hb svg .hb-bleed {
+  stroke: #35e1ff;
+  opacity: 0.22;
+  stroke-width: 7.6;
+  filter: blur(2.6px);
+}
+.hb svg .hb-trail {
+  stroke: #7cf0ff;
+}
+.hb svg .hb-bloom {
+  stroke: #4fe6ff;
+}
+.hb svg .hb-core,
+.hb svg .hb-glint {
+  stroke: #ffffff;
+}
+.hb svg .hb-ink {
+  filter: drop-shadow(0 0 5px rgba(53, 225, 255, 0.55)) drop-shadow(0 0 16px rgba(255, 91, 214, 0.3));
+}
+.hb svg .hb-aura {
+  opacity: 0.85;
+}
+
+/* The overlay: fixed to the viewport, centred, and dimmed whatever is behind it. */
+.p57-loader.is-screen,
+.app-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 24px;
+  color: #eaf7ff;
+  background: radial-gradient(
+    120% 90% at 50% 44%,
+    rgba(12, 20, 32, 0.74) 0%,
+    rgba(6, 10, 17, 0.9) 58%,
+    rgba(4, 6, 10, 0.95) 100%
+  );
+  -webkit-backdrop-filter: blur(9px) saturate(0.85);
+  backdrop-filter: blur(9px) saturate(0.85);
+  animation: p57-dim 0.3s ease both;
+}
+.app-loading {
+  z-index: 120;
+}
+.p57-loader.is-screen .hb,
+.app-loading .p57-loader .hb {
+  width: min(360px, 68vw);
+}
+@keyframes p57-dim {
+  from {
+    opacity: 0;
+  }
+}

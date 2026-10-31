@@ -311,27 +311,32 @@ export function Heartbeat({ className = '' }: { className?: string }) {
           {/* The ink: deep at the foot of the trace, electric where it turns up into the
               numerals. It is fixed in the drawing's own space, so a single stroke walks
               the whole ramp as it is laid down. */}
-          <linearGradient id={`${id}-ink`} x1="0" y1="118" x2="252" y2="22" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#0f3e93" />
-            <stop offset="0.45" stopColor="#1d5cd0" />
-            <stop offset="0.8" stopColor="#2f74e8" />
-            <stop offset="1" stopColor="#4384ef" />
+          {/* Neon, twice over: the trace that enters and beats runs mint into cyan, and the
+              moment it turns into the numerals the colour changes — one stroke, two neons,
+              with the seam hidden in the corner where the 5 begins. */}
+          <linearGradient id={`${id}-ink`} x1="0" y1="0" x2="252" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#5BF7CE" />
+            <stop offset="0.14" stopColor="#3CE9FF" />
+            <stop offset="0.232" stopColor="#2FD8FF" />
+            <stop offset="0.236" stopColor="#FF5BD6" />
+            <stop offset="0.6" stopColor="#D96BFF" />
+            <stop offset="1" stopColor="#8F7BFF" />
           </linearGradient>
 
           {/* The aura the whole mark sits in, and the soft edge of the paper rule. */}
           <radialGradient id={`${id}-aura`} cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#2f74e8" stopOpacity="0.1" />
-            <stop offset="0.42" stopColor="#2f74e8" stopOpacity="0.05" />
-            <stop offset="0.72" stopColor="#2f74e8" stopOpacity="0.015" />
-            <stop offset="1" stopColor="#2f74e8" stopOpacity="0" />
+            <stop offset="0" stopColor="#39E8FF" stopOpacity="0.16" />
+            <stop offset="0.42" stopColor="#7C6BFF" stopOpacity="0.09" />
+            <stop offset="0.72" stopColor="#39E8FF" stopOpacity="0.03" />
+            <stop offset="1" stopColor="#39E8FF" stopOpacity="0" />
           </radialGradient>
           {/* A straight line has no height, so this has to be measured in user units or
               the gradient box collapses and the rule paints nothing at all. */}
           <linearGradient id={`${id}-rule`} x1="-28" y1="0" x2="280" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="var(--ink)" stopOpacity="0" />
-            <stop offset="0.16" stopColor="var(--ink)" stopOpacity="0.3" />
-            <stop offset="0.84" stopColor="var(--ink)" stopOpacity="0.3" />
-            <stop offset="1" stopColor="var(--ink)" stopOpacity="0" />
+            <stop offset="0" stopColor="#CFE9FF" stopOpacity="0" />
+            <stop offset="0.16" stopColor="#CFE9FF" stopOpacity="0.22" />
+            <stop offset="0.84" stopColor="#CFE9FF" stopOpacity="0.22" />
+            <stop offset="1" stopColor="#CFE9FF" stopOpacity="0" />
           </linearGradient>
         </defs>
 
@@ -344,15 +349,10 @@ export function Heartbeat({ className = '' }: { className?: string }) {
         <path className="hb-track" d={HEART_MARK} />
 
         <g className="hb-ink">
+          {/* The wet edge under the stroke, so the neon sits in the room rather than on it. */}
+          <path className="hb-bleed" d={HEART_MARK} pathLength={100} />
           <path className="hb-trail" d={HEART_MARK} pathLength={100} />
           <path className="hb-fill" d={HEART_MARK} pathLength={100} stroke={`url(#${id}-ink)`} />
-          <path
-            className="hb-lit"
-            d={HEART_MARK}
-            pathLength={100}
-            stroke={`url(#${id}-lit)`}
-            transform="translate(0 -1.15)"
-          />
           <path className="hb-bloom" d={HEART_MARK} pathLength={100} />
           <path className="hb-core" d={HEART_MARK} pathLength={100} />
         </g>
@@ -364,9 +364,17 @@ export function Heartbeat({ className = '' }: { className?: string }) {
   );
 }
 
-export function Loading({ label = 'Loading intelligence…' }: { label?: string }) {
+/* Two weights of the same wait. Inside a panel the mark simply sits where the content
+   will be; when the whole screen is being replaced (`screen`) it dims what was there and
+   takes the middle of the viewport, so the wait never looks like a broken page. */
+export function Loading({ label = 'Loading intelligence…', screen = false }: { label?: string; screen?: boolean }) {
   return (
-    <div className="loading p57-loader" role="status" aria-live="polite" aria-label={label}>
+    <div
+      className={`loading p57-loader${screen ? ' is-screen' : ''}`}
+      role="status"
+      aria-live="polite"
+      aria-label={label}
+    >
       <Heartbeat />
     </div>
   );

@@ -1750,7 +1750,6 @@ export default function MonthWorkspace({
                 label="Targets & mix"
                 title="Where the money comes from"
                 description="Set the month’s number, split it across new clients, renewals and comeback, then check that the offers can carry it."
-                photo={heroPhoto(1)}
                 meta={[
                   { label: 'Target', value: lakh(effective) },
                   {
@@ -1771,19 +1770,11 @@ export default function MonthWorkspace({
                 label="Offers"
                 title="What we sell to get there"
                 description="Every offer that carries the month: the photograph, the promise, the maths behind it and its approval, in one card."
-                photo={heroPhoto(2)}
                 meta={[
                   { label: 'Offers', value: `${selected.length}` },
                   { label: 'Carried', value: lakh(offerRevenue) },
                   { label: 'Of target', value: effective ? `${Math.round((offerRevenue / effective) * 100)}%` : '—' },
                 ]}
-                actions={
-                  <button type="button" className="mp-hero-btn" onClick={() => setLibraryOpen(true)}>
-                    <LayoutGrid size={14} />
-                    Offer library
-                    <em>{alternates.length}</em>
-                  </button>
-                }
               />
             )}
 
@@ -1793,7 +1784,6 @@ export default function MonthWorkspace({
                 label="Collaterals"
                 title="What has to be made, and by when"
                 description="Every asset the studio owes this month's offers — channel by channel, with the copy, the sizes and the date it is due at the desk."
-                photo={heroPhoto(4)}
                 meta={[
                   {
                     label: 'Channels',
@@ -1820,7 +1810,6 @@ export default function MonthWorkspace({
                 label="Execution"
                 title="How the month actually runs"
                 description="The week-by-week run of the month and the activations that create demand."
-                photo={heroPhoto(3)}
                 meta={[
                   { label: 'Actions', value: `${form.actions.length}` },
                   { label: 'Strategy plays', value: `${parseStrategyLines(form.strategy).length}` },

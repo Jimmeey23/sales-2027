@@ -187,7 +187,7 @@ export default function App() {
         dataVersion,
       }}
     >
-      <Suspense fallback={<Loading label="Loading workspace module…" />}>
+      <Suspense fallback={<Loading screen label="Loading workspace module…" />}>
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<Dashboard />} />

@@ -47,11 +47,13 @@ function measure(studioId: number, from: string, to: string) {
 
   const leads = (one<{ n: number }>(`SELECT COUNT(*) n FROM leads WHERE ${ids}`, studioId, from, to)?.n ?? 0) as number;
 
+  // Trials are the unique member ids in the New-visitors export (every row in member_visits is one of
+  // those — the import only keeps rows the file marks New), and a trial converts when that file says
+  // Conversion Status = Converted. Counting distinct members, not rows, keeps a member who appears in
+  // two months from inflating the cohort.
   const visitsRow = one<{ n: number; converted: number }>(
-    `SELECT COUNT(*) n,
-            SUM(CASE WHEN first_purchase_at IS NOT NULL
-                      AND julianday(first_purchase_at) - julianday(first_visit_at) BETWEEN 0 AND 90
-                     THEN 1 ELSE 0 END) converted
+    `SELECT COUNT(DISTINCT member_ref) n,
+            COUNT(DISTINCT CASE WHEN conversion_status='Converted' THEN member_ref END) converted
        FROM member_visits WHERE ${ids}`,
     studioId,
     from,
@@ -59,6 +61,20 @@ function measure(studioId: number, from: string, to: string) {
   );
   const visits = visitsRow?.n ?? 0;
   const converted = visitsRow?.converted ?? 0;
+
+  // Average spend = net revenue ÷ check-ins, the studio's own money over the visits that earned it.
+  const spend = one<{ net: number; visits: number }>(
+    `SELECT (SELECT COALESCE(SUM(net_amount),0) FROM transactions
+              WHERE ${ids} AND amount>0) net,
+            (SELECT COUNT(*) FROM checkins
+              WHERE studio_id = ? AND month BETWEEN ? AND ? AND checked_in=1) visits`,
+    studioId,
+    from,
+    to,
+    studioId,
+    from,
+    to,
+  );
 
   // First month spend: what a new paying client actually pays, trial/intro tickets excluded.
   const first = one<{ members: number; revenue: number }>(
@@ -136,6 +152,8 @@ function measure(studioId: number, from: string, to: string) {
     converted,
     leadToVisit,
     payingPerVisit,
+    avgSpendPerVisit: spend?.visits ? spend.net / spend.visits : null,
+    checkins: spend?.visits ?? 0,
     firstMonthSpend: first?.members ? first.revenue / first.members : null,
     firstBuyers: first?.members ?? 0,
     trialSpend: trial?.n ? trial.revenue / trial.n : null,
@@ -171,7 +189,7 @@ if (json) {
 }
 
 console.log(`Measured ${from} → ${to} (trailing 12 complete months)\n`);
-const head = ['location', 'leads', 'trials', 'lead→trial', 'trial→pay', '1st spend', 'existing / mo', 'renewal ₹'];
+const head = ['location', 'leads', 'trials', 'lead→trial', 'trial→pay', 'spend / visit', '1st spend', 'renewal ₹'];
 const table = rows.map(r => {
   const m = r.measured!;
   return [
@@ -180,6 +198,7 @@ const table = rows.map(r => {
     String(m.visits),
     r3(m.leadToVisit),
     r3(m.payingPerVisit),
+    money(m.avgSpendPerVisit),
     money(m.firstMonthSpend),
     money(m.existingSpend),
     money(m.renewalTicket),
@@ -203,10 +222,12 @@ for (const row of rows) {
     ['payingPerVisit', m.payingPerVisit, a.payingPerVisit, TOLERANCE],
     ['firstMonthSpend', m.firstMonthSpend, a.firstMonthSpend, 50],
     ['existingSpend', m.existingSpend, a.existingSpend, 50],
+    ['avgSpendPerVisit', m.avgSpendPerVisit, a.avgSpendPerVisit, 10],
   ];
   for (const [key, measured, constant, tolerance] of pairs) {
     if (measured == null) continue;
-    const delta = Math.abs(measured - constant);
+    // A missing constant is drift too — never let NaN quietly pass the check.
+    const delta = constant == null || !Number.isFinite(constant) ? Infinity : Math.abs(measured - constant);
     if (delta > tolerance) {
       drift.push(
         `${row.name}.${key}: plan ${constant} vs history ${measured.toFixed(3)} (${(measured - constant >= 0 ? '+' : '') + (measured - constant).toFixed(3)})`,
@@ -223,6 +244,7 @@ for (const row of rows) {
   console.log(`    payingPerVisit: ${m.payingPerVisit?.toFixed(3) ?? 'null'},`);
   console.log(`    leadToVisit: ${m.leadToVisit?.toFixed(3) ?? 'null'},`);
   console.log(`    visitToPackage: ${m.payingPerVisit?.toFixed(3) ?? 'null'},`);
+  console.log(`    avgSpendPerVisit: ${m.avgSpendPerVisit ? Math.round(m.avgSpendPerVisit) : 'null'},`);
   console.log(`    existingSpend: ${m.existingSpend ? Math.round(m.existingSpend) : 'null'},`);
   console.log('  },');
 }

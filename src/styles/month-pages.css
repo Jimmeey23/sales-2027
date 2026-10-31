@@ -1388,3 +1388,164 @@
     grid-template-columns: auto 1fr;
   }
 }
+
+/* ── Page hero, without a photograph ───────────────────────────────────────── */
+/* Inside a month, the single photograph is the cover. Repeating a picture at the top of
+   every sub-tab only pushed the page's real content below the fold, so the inner pages open
+   on paper: the number, the title, one sentence, and the numbers set as a footer rail that
+   sits on the reader's eye-line. Nothing is veiled, nothing is cropped, and the content
+   starts a whole screen-height of photograph earlier. */
+.mp-hero.is-plain {
+  display: block;
+  min-height: 0;
+  padding: 22px 24px 18px;
+  overflow: visible;
+  border: 1px solid rgba(26, 23, 16, 0.1);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fdfcf9 0%, #f8f5ee 100%);
+  box-shadow: 0 20px 44px -52px rgba(16, 15, 10, 0.85);
+}
+.mp-hero.is-plain.is-sheet {
+  min-height: 0;
+  border-bottom: 0;
+  border-radius: 18px 18px 0 0;
+}
+.mp-hero.is-plain .mp-hero-mark {
+  top: 8px;
+  right: 20px;
+  font-size: clamp(44px, 5vw, 66px);
+  color: rgba(26, 23, 16, 0.07);
+}
+.mp-hero.is-plain .mp-hero-inner {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 40px;
+  max-width: none;
+}
+.mp-hero-intro {
+  display: flex;
+  flex: 1 1 360px;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.mp-hero.is-plain .mp-hero-kicker {
+  color: rgba(26, 23, 16, 0.48);
+}
+.mp-hero.is-plain .mp-hero-kicker i {
+  background: #b4703a;
+}
+.mp-hero.is-plain h2 {
+  max-width: 30ch;
+  color: #14130f;
+  font-size: clamp(25px, 2.5vw, 33px);
+  letter-spacing: -0.022em;
+}
+.mp-hero.is-plain .mp-hero-lede {
+  max-width: 72ch;
+  color: rgba(26, 23, 16, 0.64);
+  font-size: 12.5px;
+}
+.mp-hero.is-plain .mp-hero-foot {
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+.mp-hero.is-plain .mp-hero-meta {
+  flex-wrap: nowrap;
+  gap: 0;
+  align-items: stretch;
+}
+.mp-hero.is-plain .mp-hero-meta div {
+  justify-content: center;
+  gap: 2px;
+  padding: 1px 18px;
+  border-left: 1px solid rgba(26, 23, 16, 0.12);
+}
+.mp-hero.is-plain .mp-hero-meta div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.mp-hero.is-plain .mp-hero-meta dt {
+  color: rgba(26, 23, 16, 0.44);
+}
+.mp-hero.is-plain .mp-hero-meta dd {
+  color: #14130f;
+  font-size: 17px;
+}
+.mp-hero.is-plain .mp-hero-actions {
+  margin-left: 18px;
+  padding-left: 18px;
+  border-left: 1px solid rgba(26, 23, 16, 0.12);
+}
+.mp-hero.is-plain .mp-hero-actions .mp-status,
+.mp-hero.is-plain .mp-hero-btn {
+  border-color: rgba(26, 23, 16, 0.16);
+  background: #ffffff;
+  color: #1d1b15;
+  backdrop-filter: none;
+}
+.mp-hero.is-plain .mp-hero-btn:hover {
+  border-color: rgba(26, 23, 16, 0.32);
+  background: #f4f0e6;
+}
+.mp-hero.is-plain .mp-hero-btn em {
+  background: rgba(26, 23, 16, 0.08);
+}
+.mp-hero.is-plain .mp-hero-actions .mp-status.is-approved {
+  border-color: rgba(21, 122, 85, 0.28);
+  background: rgba(21, 122, 85, 0.1);
+  color: #10694a;
+}
+.mp-hero.is-plain .mp-hero-actions .mp-status.is-locked {
+  border-color: rgba(91, 79, 214, 0.24);
+  background: rgba(91, 79, 214, 0.09);
+  color: #4a3fb0;
+}
+
+@media (max-width: 900px) {
+  .mp-hero.is-plain .mp-hero-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  /* The intro carries a 360px flex *basis* for the wide two-column band; stacked, that basis
+     becomes height and leaves a dead screen between the lede and the numbers. */
+  .mp-hero.is-plain .mp-hero-intro {
+    flex: 0 0 auto;
+  }
+  .mp-hero.is-plain .mp-hero-foot {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .mp-hero.is-plain .mp-hero-meta {
+    flex-wrap: wrap;
+    gap: 8px 0;
+  }
+  .mp-hero.is-plain .mp-hero-meta div {
+    padding: 1px 14px;
+  }
+  .mp-hero.is-plain .mp-hero-actions {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+@media (max-width: 560px) {
+  .mp-hero.is-plain {
+    padding: 18px 16px 15px;
+  }
+  /* Narrow, the ghost numeral lands behind the lede; the kicker already carries the number. */
+  .mp-hero.is-plain .mp-hero-mark {
+    display: none;
+  }
+  .mp-hero.is-plain .mp-hero-meta div:first-child {
+    padding-left: 14px;
+    border-left: 1px solid rgba(26, 23, 16, 0.12);
+  }
+}
