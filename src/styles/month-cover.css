@@ -2954,3 +2954,41 @@
 .mw-monthcover.is-birthday .mc-bunting i:nth-child(4n) {
   border-top-width: 11px;
 }
+
+/* Short windows: the photograph is the luxury here, so the plan copy gives up its
+   fourth line before the footer is pushed off the sheet. Nothing is lost from the
+   record — the month plan carries the full text. */
+@media (max-height: 860px) {
+  .mw-monthcover .mc-week p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+  .mw-monthcover .mc-story {
+    padding-top: 8px;
+  }
+  .mw-monthcover .mc-foot {
+    margin-top: 8px;
+  }
+}
+
+/* The hero measures itself by its content: the fixed floor was bought to give the
+   photograph air when the sheet had a plate. With the picture behind everything that
+   air is already there, and on a short window the floor only pushed the footer off
+   the sheet. */
+@media (max-height: 900px) {
+  .mw-monthcover .mc-hero {
+    min-height: 0;
+  }
+}
+@media (max-height: 900px) {
+  .mw-monthcover .mc-hero {
+    margin-top: 16px;
+  }
+  /* April leads with its seal on the picture; a little air under the kicker keeps the
+     focus line from stacking on the header. */
+  .mw-monthcover.is-birthday .mc-hero {
+    margin-top: 12px;
+  }
+}
