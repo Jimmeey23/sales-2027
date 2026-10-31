@@ -95,15 +95,13 @@ function validateOfferForSave(body: any, user: any) {
   }
   const financials = typeof row.financials === 'string' ? JSON.parse(row.financials || '{}') : row.financials || {};
   if (
-    financials.expectedRevenue != null && row.expected_revenue != null &&
+    financials.expectedRevenue != null &&
+    row.expected_revenue != null &&
     Math.abs(Number(row.expected_revenue) - Number(financials.expectedRevenue)) >
       Math.max(2, Math.abs(Number(financials.expectedRevenue)) * 0.0001)
   )
     throw bodyError('Expected revenue does not match the saved offer financial model.', 422);
-  if (
-    ['approved', 'active', 'completed'].includes(row.status) ||
-    row.approval_status === 'approved'
-  ) {
+  if (['approved', 'active', 'completed'].includes(row.status) || row.approval_status === 'approved') {
     if (!user.permissions.includes('offer_approve')) throw bodyError('Offer approval permission required.', 403);
     if (row.expected_asp == null || row.expected_revenue == null)
       throw bodyError('A price and expected revenue forecast are required before approval.', 422);
@@ -113,7 +111,8 @@ function validateOfferForSave(body: any, user: any) {
 export function persistOffer(body: any, user: any) {
   if (
     ['approved', 'active', 'completed'].includes(body.status) ||
-    body.approvalStatus === 'approved' || body.approval_status === 'approved'
+    body.approvalStatus === 'approved' ||
+    body.approval_status === 'approved'
   )
     throw bodyError('New offers must be saved as drafts; use the approval action after review.', 422);
   const row = validateOfferForSave(body, user);
@@ -142,6 +141,31 @@ export function persistOffer(body: any, user: any) {
   });
   return offer;
 }
+// Every offer a plan view can show for a set of locations, in one query.
+// The year plan used to page /api/offers 100 rows at a time per location (up to twenty
+// requests for one screen); a year across the portfolio is a few hundred rows, so it is
+// cheaper to answer once. Same filters, same order, same row shape as the paged list.
+export function planOffers(studioIds: number[], year: number) {
+  const ids = [...new Set(studioIds.filter(Boolean))];
+  const rows = db
+    .prepare(
+      `SELECT o.*,s.name studio,s.city,u.name created_by_name FROM offers o LEFT JOIN studios s ON s.id=o.studio_id
+  LEFT JOIN users u ON u.id=o.created_by
+  WHERE COALESCE(o.data_mode,'')!='demo' AND COALESCE(o.generation_source,'')!='demo_seed'
+  AND COALESCE(o.status,'')!='archived' AND o.year=?
+  AND (o.studio_id IN (${ids.length ? ids.map(() => '?').join(',') : 'NULL'}) OR o.studio_id IS NULL)
+  ORDER BY o.updated_at DESC,o.id DESC`,
+    )
+    .all(year, ...ids) as any[];
+  return rows.map(o => ({
+    ...o,
+    mechanics: JSON.parse(o.mechanics || '{}'),
+    financials: JSON.parse(o.financials || '{}'),
+    risks: JSON.parse(o.risks || '[]'),
+    provenance: JSON.parse(o.provenance || '{}'),
+  }));
+}
+
 export default function registerOffersRoutes(app: Express) {
   app.get('/api/commercial/catalog', (req, res) => {
     const studioId = studioFilter(req, id(req.query.studioId));
@@ -479,7 +503,8 @@ export default function registerOffersRoutes(app: Express) {
   app.get('/api/offers', (req, res) => {
     const clauses = ['1=1'],
       params: any[] = [];
-    if (req.query.includeDemo !== 'true') clauses.push("COALESCE(o.data_mode,'')!='demo' AND COALESCE(o.generation_source,'')!='demo_seed'");
+    if (req.query.includeDemo !== 'true')
+      clauses.push("COALESCE(o.data_mode,'')!='demo' AND COALESCE(o.generation_source,'')!='demo_seed'");
     // Archived offers leave every list unless a caller asks for them by status — otherwise a
     // replaced plan keeps turning up in the bank it was replaced in.
     if (!req.query.status) clauses.push("COALESCE(o.status,'')!='archived'");
@@ -612,15 +637,10 @@ export default function registerOffersRoutes(app: Express) {
     if (!before || (before.studio_id && !canAccessStudio(req.user!, before.studio_id)))
       return res.status(404).json({ error: 'Offer not found.' });
     if (['approved', 'active', 'completed'].includes(before.status) && !req.user!.permissions.includes('offer_approve'))
-      return res
-        .status(403)
-        .json({
-          error: 'Approved offer mechanics are locked for your role. Duplicate the offer to create a variation.',
-        });
-    if (
-      ['approved', 'active', 'completed'].includes(req.body.status) &&
-      req.body.status !== before.status
-    )
+      return res.status(403).json({
+        error: 'Approved offer mechanics are locked for your role. Duplicate the offer to create a variation.',
+      });
+    if (['approved', 'active', 'completed'].includes(req.body.status) && req.body.status !== before.status)
       throw bodyError('Use the offer approval action to approve or activate an offer.', 422);
     const requestedApproval = req.body.approvalStatus ?? req.body.approval_status;
     if (requestedApproval !== undefined && requestedApproval !== before.approval_status)
@@ -675,11 +695,14 @@ export default function registerOffersRoutes(app: Express) {
       if (action === 'approve' && (before.expected_asp == null || before.expected_revenue == null))
         return res.status(422).json({ error: 'A price and expected revenue forecast are required before approval.' });
       if (
-        action === 'approve' && financials.expectedRevenue != null &&
+        action === 'approve' &&
+        financials.expectedRevenue != null &&
         Math.abs(Number(before.expected_revenue) - Number(financials.expectedRevenue)) >
           Math.max(2, Math.abs(Number(financials.expectedRevenue)) * 0.0001)
       )
-        return res.status(422).json({ error: 'Reconcile the stored revenue forecast with its financial model before approval.' });
+        return res
+          .status(422)
+          .json({ error: 'Reconcile the stored revenue forecast with its financial model before approval.' });
       db.prepare('UPDATE offers SET status=?,approval_status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(
         action === 'approve' ? 'approved' : 'rejected',
         action === 'approve' ? 'approved' : 'rejected',
@@ -688,7 +711,9 @@ export default function registerOffersRoutes(app: Express) {
     } else if (action === 'unapprove') {
       if (!req.user!.permissions.includes('offer_approve'))
         return res.status(403).json({ error: 'Offer approval permission required.' });
-      db.prepare("UPDATE offers SET status='draft',approval_status='pending',updated_at=CURRENT_TIMESTAMP WHERE id=?").run(offerId);
+      db.prepare(
+        "UPDATE offers SET status='draft',approval_status='pending',updated_at=CURRENT_TIMESTAMP WHERE id=?",
+      ).run(offerId);
     } else if (['archive', 'pause', 'activate', 'schedule', 'under_review'].includes(action)) {
       if (['archive', 'pause', 'schedule'].includes(action) && !req.user!.permissions.includes('offer_edit'))
         return res.status(403).json({ error: 'Offer edit permission required.' });
@@ -726,11 +751,9 @@ export default function registerOffersRoutes(app: Express) {
               .prepare('SELECT * FROM products WHERE studio_id=? AND list_price>0 ORDER BY list_price DESC LIMIT 1')
               .get(targetStudio) as any);
         if (!product)
-          return res
-            .status(422)
-            .json({
-              error: 'No compatible priced product exists at the destination studio. Add a product before cloning.',
-            });
+          return res.status(422).json({
+            error: 'No compatible priced product exists at the destination studio. Add a product before cloning.',
+          });
         newProducts = [product.id];
         mechanics.listedPrice = product.list_price;
       }
@@ -815,9 +838,21 @@ export default function registerOffersRoutes(app: Express) {
     permission('offer_create'),
     asyncRoute(async (req: any, res: any) => {
       const studioId = studioFilter(req, id(req.body.studioId));
-      const benefitPicks = z.array(z.enum([
-        'bonus_class','guest_pass','private_session','freeze_extension','trainer_consult','hosted_class','virtual_private','retail_addon',
-      ])).max(8).parse(req.body.benefitPicks ?? []);
+      const benefitPicks = z
+        .array(
+          z.enum([
+            'bonus_class',
+            'guest_pass',
+            'private_session',
+            'freeze_extension',
+            'trainer_consult',
+            'hosted_class',
+            'virtual_private',
+            'retail_addon',
+          ]),
+        )
+        .max(8)
+        .parse(req.body.benefitPicks ?? []);
       const request = { ...req.body, studioId, benefitPicks };
       const result = request.source === 'ai' ? await generateWithAI(request) : generateConcepts(request);
       res.json(result);
@@ -825,9 +860,21 @@ export default function registerOffersRoutes(app: Express) {
   );
   app.post('/api/offers/random', permission('offer_create'), (req, res) => {
     const studioId = studioFilter(req, id(req.body.studioId));
-    const benefitPicks = z.array(z.enum([
-      'bonus_class','guest_pass','private_session','freeze_extension','trainer_consult','hosted_class','virtual_private','retail_addon',
-    ])).max(8).parse(req.body.benefitPicks ?? []);
+    const benefitPicks = z
+      .array(
+        z.enum([
+          'bonus_class',
+          'guest_pass',
+          'private_session',
+          'freeze_extension',
+          'trainer_consult',
+          'hosted_class',
+          'virtual_private',
+          'retail_addon',
+        ]),
+      )
+      .max(8)
+      .parse(req.body.benefitPicks ?? []);
     const concept = randomConcept({ ...req.body, studioId, benefitPicks });
     db.prepare('INSERT INTO generation_history(fingerprint,offer_payload,user_id) VALUES (?,?,?)').run(
       concept.fingerprint,

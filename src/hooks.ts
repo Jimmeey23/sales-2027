@@ -7,6 +7,12 @@ export function useLoad<T = any>(loader: () => Promise<T>, dependencies: any[] =
   const loaderRef = useRef(loader);
   loaderRef.current = loader;
   const requestRef = useRef(0);
+  // Start the request on the first render rather than in an effect. An effect only runs after
+  // the whole screen has mounted and painted, which on a dense page is ~300 ms of layout the
+  // request could already have been in flight for. The effect below stays responsible for
+  // reloads after that (a dependency change, an explicit reload()).
+  const primed = useRef(false),
+    skipEffect = useRef(false);
   const reload = useCallback(async () => {
     const requestId = ++requestRef.current;
     setLoading(true);
@@ -22,7 +28,16 @@ export function useLoad<T = any>(loader: () => Promise<T>, dependencies: any[] =
       if (requestId === requestRef.current) setLoading(false);
     }
   }, dependencies);
+  if (!primed.current) {
+    primed.current = true;
+    skipEffect.current = true;
+    reload().catch(() => {});
+  }
   useEffect(() => {
+    if (skipEffect.current) {
+      skipEffect.current = false;
+      return;
+    }
     reload().catch(() => {});
   }, [reload]);
   return { data, setData, loading, error, reload };

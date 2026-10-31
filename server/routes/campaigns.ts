@@ -5,25 +5,41 @@ import { recalculateSegments } from '../lib/segments.js';
 import { bodyError, id, studioFilter } from '../http.js';
 import type { Express } from 'express';
 
-export default function registerCampaignsRoutes(app: Express) {
-  function campaignConflicts(body: any, excludeId?: number) {
-    return db
-      .prepare(
-        `SELECT c.id,c.name,c.start_date,c.end_date,c.audience,o.name offer_name,o.benefit FROM campaigns c LEFT JOIN offers o ON o.id=c.offer_id
+function campaignConflicts(body: any, excludeId?: number) {
+  return db
+    .prepare(
+      `SELECT c.id,c.name,c.start_date,c.end_date,c.audience,o.name offer_name,o.benefit FROM campaigns c LEFT JOIN offers o ON o.id=c.offer_id
     WHERE c.studio_id=? AND c.data_mode!='demo' AND c.status NOT IN ('archived','rejected') AND c.start_date<=? AND c.end_date>=? ${excludeId ? 'AND c.id!=?' : ''}
     AND (LOWER(COALESCE(c.audience,''))=LOWER(COALESCE(?,'')) OR COALESCE(c.audience,'')='' OR COALESCE(?,'')='')`,
-      )
-      .all(
-        ...[
-          body.studioId,
-          body.endDate,
-          body.startDate,
-          ...(excludeId ? [excludeId] : []),
-          body.audience || '',
-          body.audience || '',
-        ],
-      );
-  }
+    )
+    .all(
+      ...[
+        body.studioId,
+        body.endDate,
+        body.startDate,
+        ...(excludeId ? [excludeId] : []),
+        body.audience || '',
+        body.audience || '',
+      ],
+    );
+}
+
+// Campaigns for a set of locations in one query, with the same overlap warnings the
+// single-location list returns. Used by the batched plan endpoint.
+export function planCampaigns(studioIds: number[], year: number) {
+  const ids = [...new Set(studioIds.filter(Boolean))];
+  const rows = db
+    .prepare(
+      `SELECT c.*,s.name studio,o.name offer_name,o.benefit,o.approval_status offer_approval,u.name owner,
+  p.revenue actual_revenue,p.redemptions,p.buyers,p.customers_reached,p.effective_discount FROM campaigns c JOIN studios s ON s.id=c.studio_id
+  LEFT JOIN offers o ON o.id=c.offer_id LEFT JOIN users u ON u.id=c.owner_id LEFT JOIN campaign_performance p ON p.campaign_id=c.id
+  WHERE c.year=? AND c.data_mode!='demo' AND c.studio_id IN (${ids.length ? ids.map(() => '?').join(',') : 'NULL'}) ORDER BY c.start_date`,
+    )
+    .all(year, ...ids) as any[];
+  return rows.map(c => ({ ...c, tasks: JSON.parse(c.tasks || '[]'), conflicts: campaignConflicts(c, c.id) }));
+}
+
+export default function registerCampaignsRoutes(app: Express) {
   app.get('/api/campaigns', (req, res) => {
     const year = Number(req.query.year || 2027),
       studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);

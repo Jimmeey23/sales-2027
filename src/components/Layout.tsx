@@ -22,6 +22,7 @@ import { useApp } from '../App';
 import { Modal, Select } from './ui';
 import { ALL_LOCATIONS_COLOR, LOCATION_COLORS, accentFor, planningLocations } from '../data/locations';
 import { NAV, linkMatches, locate } from '../app/navigation';
+import { preloadPlanBundle, preloadRoute } from '../app/preload';
 import { post } from '../api';
 
 export default function Layout() {
@@ -204,6 +205,8 @@ export default function Layout() {
                   end
                   className={isCurrent ? 'active' : ''}
                   title={collapsed ? item.label : undefined}
+                  onMouseEnter={() => preloadRoute(item.to)}
+                  onFocus={() => preloadRoute(item.to)}
                   aria-expanded={item.links.length ? open : undefined}
                   onClick={e => {
                     if (collapsed) return;
@@ -228,6 +231,11 @@ export default function Layout() {
                           to={l.to}
                           end
                           tabIndex={open ? 0 : -1}
+                          onMouseEnter={() => {
+                            preloadRoute(l.to);
+                            if (l.to === '/sales-plan/plan') preloadPlanBundle(boot.studios, studioId, year);
+                          }}
+                          onFocus={() => preloadRoute(l.to)}
                           className={linkMatches(location.pathname, l) ? 'active' : ''}
                         >
                           {l.label}
