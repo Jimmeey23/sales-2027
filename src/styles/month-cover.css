@@ -836,6 +836,12 @@
   --mc-gold-deep: #b06d37;
   --mc-gold-soft: rgba(230, 193, 106, 0.32);
   --mc-royal: #2c1620;
+  /* Three streams, three unmistakable colours. The house palette is three blues, which is
+     right for a working month and wrong for a birthday: a ring drawn in three blues reads
+     as one ring. Gold, rose and sage match the confetti and stay legible on the dark ground. */
+  --mc-a: #e6c16a;
+  --mc-b: #c98a94;
+  --mc-c: #8fb6a2;
   background: #1b0d14;
   color: #f4f1ef;
 }
@@ -1522,7 +1528,7 @@
 
 /* ── April's title sits a size above the rest of the year ─────────────────── */
 .mw-monthcover.is-birthday .mc-hero h2 {
-  font-size: clamp(64px, 9.4vw, 132px);
+  font-size: clamp(56px, 7.4vw, 100px);
   letter-spacing: -0.015em;
 }
 /* A warm bloom behind the title, so the gold type sits in light rather than on a photo. */
@@ -1587,6 +1593,8 @@
 @media (min-width: 1181px) {
   .mw-monthcover.is-birthday .mc-hero {
     padding-right: 208px;
+    margin-top: 6px;
+    gap: 7px;
   }
 }
 
@@ -1852,4 +1860,526 @@
   .mc-donut-arc.is-animated {
     animation: none;
   }
+}
+
+/* ═══ April · gold dust, an orbit of nine, a sweep of light, and the mechanics ══
+   The third pass on the anniversary cover. The photograph is now the dressed studio
+   itself; what this adds is air and light — dust drifting through the room, nine gold
+   points circling the year medallion, one slow band of light crossing the sheet, and a
+   strip of the three games a guest can actually play this month. Everything is scoped to
+   `.is-birthday` and everything stops under reduced motion. */
+
+.mw-monthcover.is-birthday .mc-dust {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mw-monthcover.is-birthday .mc-dust i {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 40%);
+  width: var(--s, 2px);
+  height: var(--s, 2px);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff6dc 0%, #e6c16a 55%, rgba(230, 193, 106, 0) 72%);
+  opacity: 0;
+  animation: mc-dust-rise var(--du, 12s) linear var(--dl, 0s) infinite;
+  will-change: transform, opacity;
+}
+@keyframes mc-dust-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.7);
+  }
+  18% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dr, 8px), -46px, 0) scale(1.15);
+  }
+}
+
+/* One band of light, crossing the sheet on a long loop. */
+.mw-monthcover.is-birthday .mc-sweep {
+  position: absolute;
+  inset: -20% -30%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    104deg,
+    transparent 42%,
+    rgba(255, 243, 214, 0.09) 47%,
+    rgba(255, 243, 214, 0.2) 50%,
+    rgba(255, 243, 214, 0.07) 54%,
+    transparent 60%
+  );
+  transform: translate3d(-60%, 0, 0);
+  animation: mc-sweep 22s ease-in-out 3s infinite;
+  mix-blend-mode: screen;
+}
+@keyframes mc-sweep {
+  0%,
+  62% {
+    transform: translate3d(-60%, 0, 0);
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  92%,
+  100% {
+    transform: translate3d(60%, 0, 0);
+    opacity: 0;
+  }
+}
+
+/* Nine gold points, circling the medallion — one for each year. */
+.mw-monthcover.is-birthday .mc-med-orbit {
+  position: absolute;
+  inset: -34px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: mc-orbit 26s linear infinite;
+}
+.mw-monthcover.is-birthday .mc-med-orbit i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff4d4, #cf9f4c 70%);
+  box-shadow: 0 0 8px rgba(230, 193, 106, 0.8);
+  transform: rotate(calc(var(--i) * 40deg)) translateY(-50%) translateY(-116px);
+  opacity: 0.85;
+}
+@keyframes mc-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── The mechanics strip in the hero ──────────────────────────────────────── */
+.mw-monthcover.is-birthday .mc-mechanics {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+  width: 100%;
+  max-width: 760px;
+  animation: mc-rise 0.9s 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mw-monthcover.is-birthday .mc-mechanics-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(230, 193, 106, 0.85);
+}
+.mw-monthcover.is-birthday .mc-mechanics .am-mini {
+  padding: 8px 10px;
+  gap: 9px;
+  align-items: flex-start;
+  border-radius: 11px;
+}
+.mw-monthcover.is-birthday .mc-mechanics .am-mini-art {
+  width: 32px;
+  height: 32px;
+  margin-top: 1px;
+}
+.mw-monthcover.is-birthday .mc-mechanics .am-mini-copy {
+  gap: 2px;
+}
+.mw-monthcover.is-birthday .mc-mechanics .am-mini-copy b {
+  font-size: 12px;
+}
+.mw-monthcover.is-birthday .mc-mechanics .am-mini-copy em {
+  font-size: 9px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 1180px) {
+  .mw-monthcover.is-birthday .mc-mechanics {
+    max-width: none;
+  }
+}
+@media (max-width: 900px) {
+  .mw-monthcover.is-birthday .mc-med-orbit {
+    display: none;
+  }
+  /* Stacked, each row is full width, so the promise stays visible. */
+  .mw-monthcover.is-birthday .mc-mechanics .am-cover-strip {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw-monthcover.is-birthday .mc-mechanics .am-mini {
+    align-items: center;
+  }
+  .mw-monthcover.is-birthday .mc-mechanics .am-mini-copy em {
+    -webkit-line-clamp: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mw-monthcover.is-birthday .mc-dust,
+  .mw-monthcover.is-birthday .mc-sweep {
+    display: none;
+  }
+  .mw-monthcover.is-birthday .mc-med-orbit {
+    animation: none;
+  }
+}
+
+/* The anniversary cover carries one extra block (the mechanics strip), so its brief is
+   held to three lines and its story columns sit closer to the foot. Nothing is cut that
+   is not repeated in full inside the month plan. */
+.mw-monthcover.is-birthday .mc-brief {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: clamp(12.5px, 1.05vw, 14px);
+  line-height: 1.55;
+}
+.mw-monthcover.is-birthday .mc-story {
+  padding-top: 14px;
+}
+@media (min-width: 1100px) {
+  .mw-monthcover.is-birthday .mc-mechanics .am-mini-copy em {
+    -webkit-line-clamp: 1;
+  }
+}
+
+/* Narrow laptops: the anniversary sheet has one more block than the other eleven, so its
+   medallion gives up some size before anything is clipped. */
+@media (max-height: 860px) {
+  .mw-monthcover.is-birthday .mc-medallion {
+    width: 156px;
+    height: 156px;
+    top: -6px;
+  }
+  .mw-monthcover.is-birthday .mc-med-ring b {
+    font-size: 66px;
+  }
+  .mw-monthcover.is-birthday .mc-med-orbit {
+    inset: -24px;
+  }
+  .mw-monthcover.is-birthday .mc-med-orbit i {
+    transform: rotate(calc(var(--i) * 40deg)) translateY(-50%) translateY(-100px);
+  }
+  .mw-monthcover.is-birthday .mc-hero {
+    margin-top: 0;
+  }
+  .mw-monthcover.is-birthday .mc-crest {
+    margin-bottom: 0;
+  }
+  .mw-monthcover.is-birthday .mc-brief {
+    -webkit-line-clamp: 2;
+  }
+  .mw-monthcover.is-birthday .mc-royal {
+    margin-bottom: 2px;
+  }
+  /* The strip's one-line promise is enough here; the full sentence is on the card itself. */
+  .mw-monthcover.is-birthday .mc-mechanics .am-mini-copy em {
+    display: none;
+  }
+  .mw-monthcover.is-birthday .mc-mechanics .am-mini {
+    align-items: center;
+    padding: 6px 10px;
+  }
+  .mw-monthcover.is-birthday .mc-panel {
+    margin-top: 12px;
+  }
+  .mw-monthcover.is-birthday .mc-story {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  .mw-monthcover.is-birthday .mc-foot {
+    margin-top: 10px;
+  }
+  .mw-monthcover.is-birthday .mc-scroll {
+    padding-bottom: 18px;
+  }
+}
+
+/* ── The play column: the three mechanics sit inside the money panel ──────────
+   They belong beside the numbers they have to move, and putting them here costs the
+   sheet no height at all — which matters, because the cover is a fixed, single screen. */
+.mw-monthcover.is-birthday .mc-panel {
+  /* The anniversary panel is the one block that must never be squeezed: the cover scrolls
+     rather than clipping a revenue split, because a clipped split is a wrong number. */
+  flex: 0 0 auto;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.8fr) minmax(0, 0.86fr);
+}
+.mw-monthcover.is-birthday .mc-play {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 18px 20px 16px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+.mw-monthcover.is-birthday .mc-play .mc-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(230, 193, 106, 0.9);
+}
+.mw-monthcover.is-birthday .mc-play .am-cover-strip.is-stacked {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
+}
+.mw-monthcover.is-birthday .mc-play .am-mini {
+  padding: 7px 9px;
+  gap: 9px;
+  align-items: center;
+  border-radius: 10px;
+}
+.mw-monthcover.is-birthday .mc-play .am-mini-art {
+  width: 30px;
+  height: 30px;
+}
+.mw-monthcover.is-birthday .mc-play .am-mini-copy b {
+  font-size: 11.5px;
+}
+.mw-monthcover.is-birthday .mc-play .am-mini-copy em {
+  font-size: 9px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (max-width: 1180px) {
+  .mw-monthcover.is-birthday .mc-panel {
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  }
+  .mw-monthcover.is-birthday .mc-play {
+    grid-column: 1 / -1;
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .mw-monthcover.is-birthday .mc-play .am-cover-strip.is-stacked {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .mw-monthcover.is-birthday .mc-panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw-monthcover.is-birthday .mc-play {
+    grid-column: auto;
+  }
+  .mw-monthcover.is-birthday .mc-play .am-cover-strip.is-stacked {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-height: 860px) {
+  .mw-monthcover.is-birthday .mc-split,
+  .mw-monthcover.is-birthday .mc-need,
+  .mw-monthcover.is-birthday .mc-play {
+    padding: 13px 18px 12px;
+  }
+  .mw-monthcover.is-birthday .mc-play {
+    gap: 6px;
+  }
+}
+
+/* ── Short screens: the anniversary sheet, drawn to fit ──────────────────────
+   The cover is one screen. Below a 940px viewport the anniversary version drops its
+   duplicate decorations — the crown crest, the royal line, the ribbon and the split's ring
+   all repeat something the medallion, the title or the legend already says — so the
+   mechanics, the numbers and the plan can all stay above the fold. Nothing unique is lost:
+   the plan itself carries every one of those lines. */
+@media (max-height: 940px) {
+  .mw-monthcover.is-birthday {
+    --mc-tight: 1;
+  }
+  .mw-monthcover.is-birthday .mc-royal,
+  .mw-monthcover.is-birthday .mc-ribbon {
+    display: none;
+  }
+  .mw-monthcover.is-birthday .mc-crest {
+    margin-bottom: 0;
+  }
+  .mw-monthcover.is-birthday .mc-hero h2 {
+    font-size: clamp(52px, 6.4vw, 86px);
+  }
+  .mw-monthcover.is-birthday .mc-hero {
+    margin-top: 0;
+    gap: 6px;
+  }
+  .mw-monthcover.is-birthday .mc-panel {
+    margin-top: 16px;
+  }
+  .mw-monthcover.is-birthday .mc-story {
+    margin-top: 4px;
+    padding-top: 12px;
+  }
+  .mw-monthcover.is-birthday .mc-foot {
+    margin-top: 10px;
+  }
+}
+@media (max-height: 800px) {
+  .mw-monthcover.is-birthday .mc-crest {
+    display: none;
+  }
+  .mw-monthcover.is-birthday .mc-story-col p {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (max-height: 760px) {
+  .mw-monthcover.is-birthday .mc-story-col p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .mw-monthcover.is-birthday .mc-hero h2 {
+    font-size: clamp(46px, 5.6vw, 72px);
+  }
+  .mw-monthcover.is-birthday .mc-med {
+    width: 132px;
+    height: 132px;
+  }
+  .mw-monthcover.is-birthday .mc-med b {
+    font-size: 54px;
+  }
+}
+
+/* The anniversary split is narrower than its siblings, so the ring and the legend sit
+   under the bar rather than beside it, at a size that still reads at arm's length. */
+.mw-monthcover.is-birthday .mc-split {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mw-monthcover.is-birthday .mc-stack {
+  margin: 0;
+  flex: none;
+}
+.mw-monthcover.is-birthday .mc-split-figure {
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 14px;
+  flex: 1 1 auto;
+  align-content: start;
+}
+.mw-monthcover.is-birthday .mc-donut {
+  width: 88px;
+  height: 88px;
+}
+.mw-monthcover.is-birthday .mc-donut-core b {
+  font-size: 19px;
+}
+.mw-monthcover.is-birthday .mc-legend {
+  gap: 5px;
+}
+.mw-monthcover.is-birthday .mc-legend li {
+  font-size: 11.5px;
+}
+.mw-monthcover.is-birthday .mc-split-head {
+  flex: none;
+}
+
+/* The ring replaces the strip: same three shares, drawn once, with the legend beside it. */
+.mw-monthcover.is-birthday .mc-split .mc-stack {
+  display: none;
+}
+.mw-monthcover.is-birthday .mc-split-figure {
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  align-content: center;
+}
+.mw-monthcover.is-birthday .mc-donut {
+  width: 104px;
+  height: 104px;
+}
+.mw-monthcover.is-birthday .mc-donut-core b {
+  font-size: 22px;
+}
+.mw-monthcover.is-birthday .mc-donut-core em {
+  font-size: 7px;
+}
+.mw-monthcover.is-birthday .mc-legend li {
+  font-size: 12px;
+  padding: 2px 0;
+}
+.mw-monthcover.is-birthday .mc-legend i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+.mw-monthcover.is-birthday .mc-donut-arc {
+  stroke-width: 11;
+}
+.mw-monthcover.is-birthday .mc-split-head {
+  align-items: center;
+}
+
+/* One tone per stream, carried through the panel: the three leads bars, the renewals meter
+   and the ring all draw from the same gold–rose–sage set, so a share keeps its colour
+   wherever it appears. */
+.mw-monthcover.is-birthday .mc-count:nth-child(1) i::after {
+  background: linear-gradient(90deg, #e6c16a, #fff3d2);
+}
+.mw-monthcover.is-birthday .mc-count:nth-child(2) i::after {
+  background: linear-gradient(90deg, #c98a94, #fbe7ea);
+}
+.mw-monthcover.is-birthday .mc-count:nth-child(3) i::after {
+  background: linear-gradient(90deg, #8fb6a2, #eaf5ee);
+}
+.mw-monthcover.is-birthday .mc-meter i {
+  background: linear-gradient(90deg, #8fb6a2, #eaf5ee);
+}
+.mw-monthcover.is-birthday .mc-amount em.pos {
+  color: #a9dcc0;
+}
+.mw-monthcover.is-birthday .mc-renew-copy {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* The two argument columns carry one sentence each, so they get the room of a sentence:
+   bigger, slower lines, a gold rule above, and the same weight as the plan beside them. */
+.mw-monthcover.is-birthday .mc-story-col p {
+  max-width: 34ch;
+  font-size: 14.5px;
+  line-height: 1.66;
+  color: rgba(255, 255, 255, 0.8);
+}
+.mw-monthcover.is-birthday .mc-story-col.is-risk p,
+.mw-monthcover.is-birthday .mc-story-col.is-move p {
+  font-family: var(--font-display);
+  font-size: 16.5px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  color: #f6eee2;
+}
+.mw-monthcover.is-birthday .mc-story-col.is-risk > .mc-label i,
+.mw-monthcover.is-birthday .mc-story-col.is-move > .mc-label i,
+.mw-monthcover.is-birthday .mc-story-col.is-plan > .mc-label i {
+  background: #e6c16a;
+}
+.mw-monthcover.is-birthday .mc-story-col {
+  padding-top: 4px;
 }
