@@ -19,29 +19,28 @@ export const PAGE_PHOTOS: HeroPhoto[] = [
 
 /* One cover photograph per month.
 
-   These are deliberately outside the offer-card pool above, so a month's cover can never
-   reuse a hero image from one of its own cards. Each is a wide frame (1.45+ aspect) that
-   survives the full-bleed crop on a laptop and a portrait tablet: `pos` keeps faces and
-   the studio architecture in shot as the viewport narrows.
+   The cover shows its photograph whole, in a framed plate beside the type rather
+   than behind it, so the frame can hold a 3:2 photograph without cropping a face
+   out of it. `pos` is the focal point the plate falls back to when the viewport is
+   narrow enough to crop the sides.
 
-   The choice is seasonal rather than literal — January is a dark room under lights,
-   February is a pair, May is the empty floor the morning after. */
+   The choice is mood before matching: a dark, lit studio for January, a pair for
+   February, the room itself for the morning after in May. */
 export const MONTH_COVER_PHOTOS: HeroPhoto[] = [
-  { url: '/p57/pro/p01.jpg', pos: '50% 32%' }, // January — under the lights
-  { url: '/p57/pro/p15.jpg', pos: '50% 26%' }, // February — the pair
-  { url: '/p57/pro/p03.jpg', pos: '50% 34%' }, // March — the clean return
+  { url: '/p57/pro/p33.jpg', pos: '50% 30%' }, // January — the year opens on one clean line
+  { url: '/p57/pro/p35.jpg', pos: '50% 20%' }, // February — the pair
+  { url: '/p57/pro/p03.jpg', pos: '48% 50%' }, // March — she moves: white room, one body
   // April — the studio dressed for the ninth anniversary: nine candles, gold balloons,
-  // confetti still in the air. Shot wide and dark on the left, so the month name sits in
-  // empty room rather than across the cake.
+  // confetti still in the air, shot wide so the plate holds the room.
   { url: '/p57/april-anniversary-2027.jpg', pos: '54% 52%' },
-  { url: '/p57/pro/p21.jpg', pos: '50% 46%' }, // May — the room after
-  { url: '/p57/pro/p12.jpg', pos: '50% 30%' }, // June — cool light, the freeze
-  { url: '/p57/pro/n17.jpg', pos: '50% 40%' }, // July — rows, attendance
-  { url: '/p57/pro/p39.jpg', pos: '50% 30%' }, // August — strength, the upgrade
-  { url: '/p57/pro/p14.jpg', pos: '50% 26%' }, // September — the cohort returns
-  { url: '/p57/pro/n22.jpg', pos: '50% 34%' }, // October — warm mat, the gifting window
-  { url: '/p57/pro/p02.jpg', pos: '50% 28%' }, // November — commitment
-  { url: '/p57/pro/n28.jpg', pos: '50% 30%' }, // December — the last month, dark and lit
+  { url: '/p57/pro/p21.jpg', pos: '50% 50%' }, // May — the room after
+  { url: '/p57/pro/p12.jpg', pos: '46% 34%' }, // June — cool light across the floor
+  { url: '/p57/pro/p34.jpg', pos: '50% 44%' }, // July — rows, attendance
+  { url: '/p57/pro/p39.jpg', pos: '50% 40%' }, // August — strength, the upgrade
+  { url: '/p57/pro/p36.jpg', pos: '52% 26%' }, // September — the cohort returns
+  { url: '/p57/pro/p41.jpg', pos: '48% 40%' }, // October — warm dark, the gifting window
+  { url: '/p57/pro/p02.jpg', pos: '50% 32%' }, // November — commitment
+  { url: '/p57/pro/p28.jpg', pos: '50% 40%' }, // December — the last month, lit
 ];
 
 /** The cover photograph for a month, 1-indexed. */
