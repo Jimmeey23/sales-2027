@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { Download, Upload } from 'lucide-react';
 import { useApp } from '../App';
 import { Callout, ErrorState, Loading } from '../components/ui';
 import { lakh, usePlanData } from './plan/usePlanData';
@@ -10,6 +11,8 @@ const Anniversary = React.lazy(() => import('./Anniversary'));
 import RevenueTab from './plan/RevenueTab';
 import CampaignsTab from './plan/CampaignsTab';
 import MarketingTab from './plan/MarketingTab';
+import PlanExportDialog from '../components/PlanExportDialog';
+import OfferImportDialog from '../components/OfferImportDialog';
 
 // Plan has exactly six tabs: Target Metrics, Approvals & Calculations, Sales Plan,
 // Activations & Community Activations, Anniversary Plan, Marketing & Performance Marketing.
@@ -22,6 +25,10 @@ export default function SalesPlan() {
   const studio = boot.studios.find(s => s.id === studioId);
   const growth = data && data.lastYear ? data.annual / data.lastYear - 1 : null;
   const peak = data ? [...data.months].sort((a, b) => b.target - a.target)[0] : null;
+  // Export and import belong to the plan as a whole, so they sit in its head rather than
+  // inside one tab: the same two files serve the review and the next edit of the year.
+  const [exporting, setExporting] = React.useState(false);
+  const [importing, setImporting] = React.useState(false);
   return (
     <div className="ws-page">
       {/* A short head, not a dashboard: the page's content starts within a screenful.
@@ -29,9 +36,7 @@ export default function SalesPlan() {
           to one line each, and the month-by-month detail belongs to the Year plan. */}
       <header className="ws-strip">
         <div className="ws-strip-title">
-          <span className="ws-strip-eyebrow">
-            {studio ? `${studio.city} · ${year}` : `All locations · ${year}`}
-          </span>
+          <span className="ws-strip-eyebrow">{studio ? `${studio.city} · ${year}` : `All locations · ${year}`}</span>
           <h1>{studio ? studio.name : 'Combined plan'}</h1>
         </div>
         {data && (
@@ -55,7 +60,25 @@ export default function SalesPlan() {
             </div>
           </dl>
         )}
+        <div className="ws-strip-actions">
+          <button type="button" className="ws-strip-action" onClick={() => setImporting(true)}>
+            <Upload size={13} />
+            Import offers
+          </button>
+          <button type="button" className="ws-strip-action is-primary" onClick={() => setExporting(true)}>
+            <Download size={13} />
+            Export plan
+          </button>
+        </div>
       </header>
+      <PlanExportDialog open={exporting} onClose={() => setExporting(false)} defaultScope={studio ? 'studio' : 'all'} />
+      <OfferImportDialog
+        open={importing}
+        onClose={() => setImporting(false)}
+        studioId={studioId ?? null}
+        year={year}
+        onImported={() => reload().catch(() => {})}
+      />
       {year !== boot.planningYear && ['activations', 'marketing'].includes(tab) && (
         <Callout tone="warning" title={`Activation playbook is for ${boot.planningYear}`}>
           Targets and offers below follow {year}, but the campaign and marketing playbook was written for{' '}

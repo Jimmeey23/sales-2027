@@ -411,6 +411,11 @@ export default function TargetBreakdown({
               }}
             />
           )}
+          <p className="tb-hint">
+            The plan divides by the rates these locations actually deliver: conversion and spend are the trailing twelve
+            months of the studio's own history, refreshed by <code>scripts/measure-studio-rates.ts</code>. Growth comes
+            from the operating levers — fill, classes and mix — not from assuming a better conversion.
+          </p>
           <div className="tb-assume-grid">
             <table className="data-table">
               <thead>
@@ -430,6 +435,7 @@ export default function TargetBreakdown({
                     'Buyers = new-client revenue ÷ (member spend + visit spend ÷ trial conversion)',
                   ],
                   ['payingPerVisit', 'Trial → purchase', share, 'Trials = buyers ÷ this'],
+                  ['avgSpendPerVisit', 'Average spend per visit', rupee, 'Average spend = net revenue ÷ check-ins'],
                   ['leadToVisit', 'Lead → trial', share, 'Leads = trials ÷ this'],
                   [
                     'visitToPackage',
@@ -515,11 +521,10 @@ const TARGET_ASSUMPTIONS: Array<{ key: string; label: string; hint: string; kind
   { key: 'trialToMember', label: 'Trial → purchase', hint: 'Trials that become paying members', kind: 'rate' },
   {
     key: 'firstSpend',
-    label: 'Average spend per member',
+    label: 'First-month spend per new member',
     hint: 'First-month spend per new paying member',
     kind: 'money',
   },
-  { key: 'trialSpend', label: 'Average spend per visit', hint: 'Spend per completed trial visit', kind: 'money' },
 ];
 
 function TargetAssumptionsEditor({

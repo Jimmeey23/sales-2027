@@ -17,6 +17,8 @@ import {
   Search,
   Sparkles,
   SquareStack,
+  TrendingDown,
+  TrendingUp,
   Trophy,
   Users,
   X,
@@ -680,55 +682,102 @@ export default function TargetsTab({
                   names = [...new Set(offers.map(o => o.name))],
                   dates = keyDatesFor(year, m.month),
                   { base } = monthActivations(data, m.month),
-                  cover = m.renewalTarget ? m.expectedRenewal / m.renewalTarget : 0;
+                  cover = m.renewalTarget ? m.expectedRenewal / m.renewalTarget : 0,
+                  quarter = Math.ceil(m.month / 3),
+                  share = data.annual ? (m.target / data.annual) * 100 : 0,
+                  mix = SOURCES.map(s => ({ ...s, value: Number((m as any)[s.key]) || 0 })),
+                  mixTotal = mix.reduce((n, s) => n + s.value, 0) || 1;
                 return (
                   <li
                     key={m.month}
-                    className={`${m.approved ? 'approved' : ''} ${m.planApproved ? 'plan-approved' : ''}`}
-                    style={{ '--i': m.month } as React.CSSProperties}
+                    className={`yt-item${m.approved ? ' approved' : ''}${m.planApproved ? ' plan-approved' : ''}`}
+                    style={{ '--i': m.month - 1 } as React.CSSProperties}
                   >
                     <div className="yt-rail">
-                      <span>{MONTHS_SHORT[m.month - 1]}</span>
+                      <span className="yt-node">
+                        <em>{MONTHS_SHORT[m.month - 1]}</em>
+                        <b>{String(m.month).padStart(2, '0')}</b>
+                      </span>
                     </div>
-                    <button className="yt-card" onClick={() => setOpen(m.month)}>
-                      <div className="yt-main">
+                    <button
+                      className="yt-card"
+                      onClick={() => setOpen(m.month)}
+                      aria-label={`Open the ${MONTHS[m.month - 1]} plan`}
+                    >
+                      <span className="yt-edge" aria-hidden="true" />
+                      <div className="yt-head">
                         <div className="yt-title">
-                          <em>{m.theme}</em>
+                          <span className="yt-kicker">
+                            <i>Q{quarter}</i>
+                            <span>{Math.round(share)}% of the year</span>
+                            <span className={`yt-state${m.planApproved || m.approved ? ' is-approved' : ''}`}>
+                              {m.planApproved || m.approved ? (
+                                <CheckCircle2 size={11} />
+                              ) : (
+                                <span className="yt-state-dot" aria-hidden="true" />
+                              )}
+                              {m.planApproved ? 'Month approved' : m.approved ? 'Targets locked' : 'Proposed'}
+                            </span>
+                          </span>
                           <h3>{MONTHS[m.month - 1]}</h3>
+                          <em>{m.theme}</em>
                           <p>{m.objective}</p>
                         </div>
-                        <div className="yt-target">
+                        <div className="yt-figure">
+                          <span className="yt-figure-label">Monthly target</span>
                           <strong>{lakh(m.target)}</strong>
-                          <small className={m.target >= m.lastYear ? 'pos' : 'neg'}>
-                            {pct(m.target, m.lastYear)} vs LY
-                          </small>
-                          {m.planApproved ? (
-                            <Badge tone="green">
-                              <CheckCircle2 size={11} /> Month approved
-                            </Badge>
-                          ) : m.approved ? (
-                            <Badge tone="green">
-                              <CheckCircle2 size={11} /> Approved
-                            </Badge>
-                          ) : (
-                            <Badge tone="amber">Proposed</Badge>
-                          )}
+                          <span className={`yt-delta ${m.target >= m.lastYear ? 'pos' : 'neg'}`}>
+                            {m.target >= m.lastYear ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
+                            {pct(m.target, m.lastYear)}
+                            <small>vs last year</small>
+                          </span>
                         </div>
                       </div>
-                      <SourceBar row={m} />
-                      <span
-                        className="yt-renew"
-                        style={
-                          {
-                            '--w': `${Math.min(100, cover * 100)}%`,
-                            '--c': cover >= 1 ? '#3892b2' : '#b25938',
-                          } as React.CSSProperties
-                        }
-                      >
-                        <i /> Renewals {(cover * 100).toFixed(0)}% covered by expiring memberships
-                        {m.renewalGap > 0 ? ` · ${lakh(m.renewalGap)} to find elsewhere` : ''}
-                      </span>
-                      <KeyDateChips dates={dates} />
+
+                      <div className="yt-dates">
+                        <KeyDateChips dates={dates} />
+                        <span className="yt-open">
+                          Open the month <ChevronRight size={12} />
+                        </span>
+                      </div>
+
+                      <div className="yt-band">
+                        <div className="yt-mix">
+                          <div className="yt-band-head">
+                            <span>Where the target comes from</span>
+                            <em>{lakh(mixTotal)}</em>
+                          </div>
+                          <SourceBar row={m} />
+                          <div className="yt-legend">
+                            {mix.map(s => (
+                              <span key={s.key} className="yt-legend-row">
+                                <i style={{ background: s.color }} aria-hidden="true" />
+                                <span>{s.label}</span>
+                                <b>{lakh(s.value)}</b>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="yt-cover">
+                          <div className="yt-band-head">
+                            <span>Renewal cover</span>
+                            <em>{m.renewalGap > 0 ? `${lakh(m.renewalGap)} to find` : 'Fully covered'}</em>
+                          </div>
+                          <span
+                            className="yt-meter"
+                            style={{ '--w': `${Math.min(100, cover * 100)}%` } as React.CSSProperties}
+                            aria-hidden="true"
+                          >
+                            <i />
+                            <b />
+                          </span>
+                          <div className="yt-cover-note">
+                            <strong>{Math.min(999, Math.round(cover * 100))}%</strong> of renewals covered by expiring
+                            memberships
+                          </div>
+                        </div>
+                      </div>
+
                       <div className="yt-grid">
                         <div>
                           <small>

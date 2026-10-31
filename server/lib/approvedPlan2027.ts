@@ -14,13 +14,13 @@ const YEAR = 2027;
 const SOURCE = new URL('../data/approved-plan-2027.json', import.meta.url);
 
 type Fields = Record<string, string[]>;
-interface PlanOffer {
+export interface PlanOffer {
   slot: 'newcomer' | 'lapsed' | 'renewal';
   name: string;
   tagline: string;
   fields: Fields;
 }
-interface PlanMonth {
+export interface PlanMonth {
   studio: string;
   month: number;
   theme: string;
@@ -68,7 +68,7 @@ function insertOffer(row: Record<string, any>) {
     .run(uid(), ...Object.values(row)).lastInsertRowid as number;
 }
 
-function offerRow(o: PlanOffer, studioId: number) {
+export function offerRow(o: PlanOffer, studioId: number) {
   const f = o.fields;
   const revenue = text(f, 'Expected revenue');
   const rev = Number(revenue.match(/₹([\d.]+)L counted/)?.[1] || 0) * 100000;
@@ -99,7 +99,7 @@ function offerRow(o: PlanOffer, studioId: number) {
   };
 }
 
-function monthPlan(m: PlanMonth) {
+export function monthPlan(m: PlanMonth) {
   const fg = m.figures;
   const name = MONTHS[m.month - 1];
   const strategy = [

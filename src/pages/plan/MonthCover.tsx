@@ -1,15 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  ArrowRight,
-  Cake,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  Crown,
-  PartyPopper,
-  Sparkles,
-  X,
-} from 'lucide-react';
+import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Sparkles, X } from 'lucide-react';
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
@@ -38,44 +28,12 @@ export interface CoverPlanWeek {
 
 const TONES = ['var(--mc-a)', 'var(--mc-b)', 'var(--mc-c)'];
 
-/* The anniversary cover's confetti is scattered by arithmetic rather than by hand: a
-   fractional hash spreads each piece across the width, with its own delay, fall time and
-   drift, so nothing lines up into columns. Purely decorative, all of it CSS-driven. */
-const CONFETTI = ['#d9b25f', '#c98a94', '#a8c4b4', '#efe0bb', '#d9a878', '#c3b2cf', '#ffffff'];
-/** The anniversary the studio is keeping this year. Named once, used everywhere on the cover. */
+/* The anniversary the studio is keeping this year. Named once, used everywhere on the cover. */
 const ANNIVERSARY_YEARS = 9;
 const YEARS_WORD = 'nine';
 const YEARS_TITLE = 'Nine';
-const frac = (i: number, seed: number) => {
-  const x = Math.sin((i + 1) * seed) * 10000;
-  return x - Math.floor(x);
-};
-const scatter = (i: number) =>
-  ({
-    '--x': `${(frac(i, 12.9898) * 98).toFixed(1)}%`,
-    '--dl': `${(frac(i, 4.1414) * 9).toFixed(2)}s`,
-    '--du': `${(11 + frac(i, 7.771) * 9).toFixed(2)}s`,
-    '--dr': `${Math.round(frac(i, 3.31) * 120 - 60)}px`,
-    '--spin': `${Math.round(frac(i, 9.7) * 720 - 360)}deg`,
-    '--y': `${(frac(i, 6.61) * 88).toFixed(1)}%`,
-  }) as React.CSSProperties;
-const BALLOONS = [0, 1, 2, 3, 4].map(i => ({
-  left: `${6 + frac(i, 5.13) * 84}%`,
-  delay: `${(frac(i, 2.77) * 12).toFixed(2)}s`,
-  duration: `${(18 + frac(i, 6.19) * 10).toFixed(1)}s`,
-  size: 34 + Math.round(frac(i, 8.03) * 22),
-  tone: CONFETTI[i % CONFETTI.length],
-}));
-/* Gold dust: the confetti above is paper, this is light. Twenty-six specks, each on its own
-   slow rise and fade, so the photograph breathes instead of glittering. */
-const DUST = Array.from({ length: 26 }).map((_, i) => ({
-  left: `${(frac(i, 3.71) * 96).toFixed(1)}%`,
-  top: `${(frac(i, 8.19) * 90).toFixed(1)}%`,
-  size: `${(1.5 + frac(i, 5.53) * 3).toFixed(1)}px`,
-  delay: `${(frac(i, 7.13) * 9).toFixed(2)}s`,
-  duration: `${(9 + frac(i, 2.31) * 9).toFixed(1)}s`,
-  drift: `${Math.round(frac(i, 4.87) * 40 - 20)}px`,
-}));
+/** The nine years, as ticks struck around the monogram's ring. */
+const NINE_TICKS = Array.from({ length: ANNIVERSARY_YEARS }).map((_, i) => i);
 const int = (v: number) => Math.round(v).toLocaleString('en-IN');
 const pct = (v: number | null | undefined) =>
   v === null || v === undefined || !Number.isFinite(v) ? '—' : `${(v * 100).toFixed(0)}%`;
@@ -230,88 +188,14 @@ export default function MonthCover({
       aria-modal="true"
       aria-label={`${MONTHS[month - 1]} overview`}
     >
+      {/* The room itself: the cover is the photograph, cropped to the sheet, with the
+          type set into a scrim over its left edge. */}
       <div
         className="mc-photo"
         style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
         aria-hidden="true"
       />
       <div className="mc-scrim" aria-hidden="true" />
-
-      {birthday && (
-        <>
-          {/* Birthday confetti: thirty-six pieces in four shapes, each on its own fall.
-              Decorative only — frozen entirely when motion is reduced. */}
-          <div className="mc-confetti" aria-hidden="true">
-            {Array.from({ length: 36 }).map((_, i) => (
-              <i
-                key={i}
-                data-shape={i % 4}
-                style={
-                  {
-                    ...scatter(i),
-                    ['--c' as string]: CONFETTI[i % CONFETTI.length],
-                  } as React.CSSProperties
-                }
-              />
-            ))}
-          </div>
-
-          {/* Rising balloons, the slowest layer of the stack. */}
-          <div className="mc-balloons" aria-hidden="true">
-            {BALLOONS.map((b, i) => (
-              <span
-                key={i}
-                style={
-                  {
-                    '--x': b.left,
-                    '--dl': b.delay,
-                    '--du': b.duration,
-                    '--size': `${b.size}px`,
-                    ['--c' as string]: b.tone,
-                  } as React.CSSProperties
-                }
-              >
-                <i />
-              </span>
-            ))}
-          </div>
-
-          {/* Bunting strung across the top of the sheet. */}
-          {/* Bunting across the top edge, stopping well before the controls at the right. */}
-          <div className="mc-bunting" aria-hidden="true">
-            {Array.from({ length: 11 }).map((_, i) => (
-              <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
-            ))}
-          </div>
-
-          {/* Gold dust drifting through the room, slower and finer than the confetti. */}
-          <div className="mc-dust" aria-hidden="true">
-            {DUST.map((d, i) => (
-              <i
-                key={i}
-                style={
-                  {
-                    '--x': d.left,
-                    '--y': d.top,
-                    '--s': d.size,
-                    '--dl': d.delay,
-                    '--du': d.duration,
-                    '--dr': d.drift,
-                  } as React.CSSProperties
-                }
-              />
-            ))}
-          </div>
-
-          {/* A gilded frame, so the whole page reads as an invitation. */}
-          <div className="mc-frame" aria-hidden="true">
-            <span />
-          </div>
-
-          {/* One slow band of light crossing the sheet every twenty seconds. */}
-          <div className="mc-sweep" aria-hidden="true" />
-        </>
-      )}
 
       <div className="mc-scroll">
         <header className="mc-top">
@@ -352,65 +236,52 @@ export default function MonthCover({
         </header>
 
         <div className="mc-hero">
+          <div className="mc-hero-copy">
+            {birthday && (
+              <p className="mc-anniv">
+                <i aria-hidden="true" />
+                <span>
+                  <b>Nine years</b> Still Shaking · {year}
+                </span>
+              </p>
+            )}
+            {theme && (
+              <p className="mc-focus">
+                <span>Focus</span>
+                {theme}
+              </p>
+            )}
+            <h2>{MONTHS[month - 1]}</h2>
+            {brief && <p className="mc-brief">{brief}</p>}
+          </div>
+
+          {/* The anniversary, drawn rather than staged: a hairline ring struck with nine
+              ticks, the ninth year set inside it. No confetti, no balloons — one engraved
+              mark over the room, so the photograph stays the picture and the type stays
+              the argument. */}
           {birthday && (
-            <p className="mc-crest">
-              <span className="mc-crest-crown">
-                <Crown size={15} />
-              </span>
-              <span className="mc-crest-copy">
-                <b>The Anniversary</b>
-                <em>Still Shaking · {YEARS_WORD} years</em>
-              </span>
-            </p>
-          )}
-          {birthday && (
-            <>
-              {/* The year medallion: a struck coin behind the title. */}
-              <div className="mc-medallion" aria-hidden="true">
-                <span className="mc-med-halo" />
-                <span className="mc-med-ring">
-                  <b>{ANNIVERSARY_YEARS}</b>
-                  <em>years</em>
-                </span>
-                <span className="mc-med-crown">
-                  <Crown size={17} />
-                </span>
-                <span className="mc-med-rays" />
-                <span className="mc-med-orbit">
-                  {Array.from({ length: ANNIVERSARY_YEARS }).map((_, i) => (
-                    <i key={i} style={{ ['--i' as string]: i } as React.CSSProperties} />
-                  ))}
-                </span>
-              </div>
-              {/* A slow sparkle field over the title block. */}
-              <div className="mc-sparkle-field" aria-hidden="true">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <Sparkles key={i} size={i % 3 === 0 ? 15 : 10} style={scatter(i * 3 + 1)} />
+            <div className="mc-nine" aria-hidden="true">
+              <svg viewBox="0 0 140 140">
+                <circle className="mc-nine-ring" cx="70" cy="70" r="61" pathLength={100} />
+                {NINE_TICKS.map(i => (
+                  <line
+                    key={i}
+                    className="mc-nine-tick"
+                    x1="70"
+                    y1="3"
+                    x2="70"
+                    y2="9"
+                    transform={`rotate(${i * 40} 70 70)`}
+                    style={{ ['--i' as string]: i } as React.CSSProperties}
+                  />
                 ))}
-              </div>
-            </>
+              </svg>
+              <span className="mc-nine-core">
+                <b>IX</b>
+                <em>years of 57</em>
+              </span>
+            </div>
           )}
-          {birthday && (
-            <p className="mc-royal">
-              <Sparkles size={13} />
-              57 numbered memberships · crowned this month
-            </p>
-          )}
-          {theme && (
-            <p className="mc-focus">
-              <span>Focus</span>
-              {theme}
-            </p>
-          )}
-          <h2>{MONTHS[month - 1]}</h2>
-          {birthday && (
-            <p className="mc-ribbon">
-              <PartyPopper size={13} />
-              <span>{YEARS_TITLE} years of Physique 57 India</span>
-              <Cake size={13} />
-            </p>
-          )}
-          {brief && <p className="mc-brief">{brief}</p>}
         </div>
 
         <div className="mc-panel">
@@ -515,7 +386,7 @@ export default function MonthCover({
                 </div>
               ))}
             </div>
-            <div className="mc-conv">
+            <div className="mc-conv" title="This studio's own conversion, measured on its trailing twelve months">
               <span>{pct(leadToTrial)} lead → trial</span>
               <span>{pct(trialToBuyer)} trial → buyer</span>
             </div>

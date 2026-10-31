@@ -15,13 +15,18 @@ import {
   Trash2,
 } from 'lucide-react';
 import { MONTHS } from '../types';
+import { keyDatesFor } from '../data/keyDates';
 
 // Marketing & collaterals for one studio-month: one row per channel (WhatsApp, email, in-studio tent card), each
 // with a production-style sample built from the chosen offer and Physique 57 India photography, and the specs,
 // deadline and brand-voice copy the studio team needs beside it. Everything is derived from the offer, so switching
 // or replacing an offer rewrites the creatives and copy.
 
-const SLOT_LABEL: Record<string, string> = { newcomer: 'New to Physique 57', lapsed: 'Welcome back', renewal: 'Members only' };
+const SLOT_LABEL: Record<string, string> = {
+  newcomer: 'New to Physique 57',
+  lapsed: 'Welcome back',
+  renewal: 'Members only',
+};
 
 // Photography in public/p57/pro. `pos` keeps faces in frame when the photo is cropped; `tags` match offer wording.
 type Photo = { id: string; pos: string; tags: string[]; fresh?: boolean };
@@ -101,9 +106,22 @@ const PHOTOS: Photo[] = [
 
 // Each channel has several finished layouts; the default rotates by offer and month, and the team can switch.
 const LAYOUTS = {
-  square: [['overlay', 'Full bleed'], ['split', 'Split panel'], ['frame', 'Editorial frame'], ['duotone', 'Duotone']],
-  email: [['overlay', 'Cinematic'], ['split', 'Split hero'], ['arch', 'Arch window']],
-  tent: [['classic', 'Classic'], ['full', 'Full bleed'], ['arch', 'Arch']],
+  square: [
+    ['overlay', 'Full bleed'],
+    ['split', 'Split panel'],
+    ['frame', 'Editorial frame'],
+    ['duotone', 'Duotone'],
+  ],
+  email: [
+    ['overlay', 'Cinematic'],
+    ['split', 'Split hero'],
+    ['arch', 'Arch window'],
+  ],
+  tent: [
+    ['classic', 'Classic'],
+    ['full', 'Full bleed'],
+    ['arch', 'Arch'],
+  ],
 } as const;
 type Piece = keyof typeof LAYOUTS;
 // The house cut for each piece. A team that picks another layout still gets it, per offer.
@@ -120,30 +138,63 @@ const THEMES: [RegExp, string][] = [
 
 const VOICE = {
   newcomer: {
-    headlines: ['Your first shake starts here.', 'Fifty-seven minutes. A whole new you.', 'Lift. Tuck. Shake. Repeat.', 'Strong looks good on you.'],
+    headlines: [
+      'Your first shake starts here.',
+      'Fifty-seven minutes. A whole new you.',
+      'Lift. Tuck. Shake. Repeat.',
+      'Strong looks good on you.',
+    ],
     intro: (o: string, s: string) =>
       `Physique 57 is 57 minutes of small, precise movements that work every muscle to the point of the shake. ${o} is the easiest way to start at ${s}, with instructors who will meet you exactly where you are.`,
-    subjects: (o: string, m: string) => [`Meet the shake: ${o}`, '57 minutes. Your new favourite hour.', `${m} starts at the barre`, 'New to Physique 57? This one is for you'],
-    preheaders: ['Small moves, serious results — your first step is sorted.', 'Book your spot before the month runs out.'],
+    subjects: (o: string, m: string) => [
+      `Meet the shake: ${o}`,
+      '57 minutes. Your new favourite hour.',
+      `${m} starts at the barre`,
+      'New to Physique 57? This one is for you',
+    ],
+    preheaders: [
+      'Small moves, serious results — your first step is sorted.',
+      'Book your spot before the month runs out.',
+    ],
     cta: 'Book my first class',
     wa: 'Reply YES and we’ll save your spot at the barre.',
     closing: ['Fifty-seven minutes.', 'Everything else follows.'],
   },
   lapsed: {
-    headlines: ['Your spot at the barre is waiting.', 'Missed you at the barre.', 'Back to the shake.', 'Pick up where you left off.'],
+    headlines: [
+      'Your spot at the barre is waiting.',
+      'Missed you at the barre.',
+      'Back to the shake.',
+      'Pick up where you left off.',
+    ],
     intro: (o: string, s: string) =>
       `It’s been a while, and your body remembers more than you think. ${o} brings you back to ${s} with everything you need to find your rhythm again — no pressure, just the shake.`,
-    subjects: (o: string, m: string) => ['Your spot at the barre is still yours', `We saved you a mat this ${m}`, `Come back to the shake: ${o}`, 'It’s been a while. Let’s fix that.'],
+    subjects: (o: string, m: string) => [
+      'Your spot at the barre is still yours',
+      `We saved you a mat this ${m}`,
+      `Come back to the shake: ${o}`,
+      'It’s been a while. Let’s fix that.',
+    ],
     preheaders: ['A comeback offer, made for returning members.', 'Same studio, same shake, a softer way back in.'],
     cta: 'Claim my comeback',
     wa: 'Reply YES and we’ll hold a mat for your first class back.',
     closing: ['Same energy. New goals.', 'Let’s make it happen.'],
   },
   renewal: {
-    headlines: ['Keep the shake going.', 'Stronger, every single month.', 'Your results are just getting started.', 'Thank you for showing up.'],
+    headlines: [
+      'Keep the shake going.',
+      'Stronger, every single month.',
+      'Your results are just getting started.',
+      'Thank you for showing up.',
+    ],
     intro: (o: string, s: string) =>
       `You’ve put in the work, and it shows. ${o} keeps your momentum going at ${s} — the community, the instructors and the results you’ve earned.`,
-    subjects: (o: string, m: string) => [`Keep the shake going: ${o}`, 'Your results called. They want more.', `A thank-you for staying, this ${m}`, 'Renew now, before your plan runs out'],
+    subjects: (o: string, m: string) => [
+      `Keep the shake going: ${o}`,
+      'Your results called. They want more.',
+      `A thank-you for staying, this ${m}`,
+      'Renew now, before your plan runs out',
+    ],
     preheaders: ['A members-only thank-you for renewing early.', 'Lock in your next chapter at the barre.'],
     cta: 'Renew my membership',
     wa: 'Reply YES and we’ll renew you before your plan runs out.',
@@ -167,6 +218,485 @@ const noPrice = (s: string) =>
     .trim();
 const clip = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
 
+/* ── The CRM calendar ────────────────────────────────────────────────────────
+   A month of outreach, arranged by the day it leaves the studio. The rule that shapes
+   it is the one a small team has to live by: one audience, one send. Everything that
+   speaks to the same people — newcomers, lapsed members, renewals — folds into the same
+   broadcast, the same email and the same tent card, so six offers do not become
+   twenty-four messages. The calendar is derived, never typed: change an offer's lead
+   time or replace the offer and the sends move with it. */
+type CommsChannel = 'whatsapp' | 'email' | 'tent' | 'custom';
+
+type CommsSend = {
+  key: string;
+  channel: CommsChannel;
+  label: string;
+  date: Date;
+  audience: string | null;
+  names: string[];
+  ids: number[];
+  note?: string;
+};
+
+const CHANNEL_NAME: Record<CommsChannel, string> = {
+  whatsapp: 'WhatsApp',
+  email: 'Email',
+  tent: 'Tent card',
+  custom: 'Channel',
+};
+
+const dayKey = (d: Date) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+const AUDIENCE: Record<string, string> = {
+  newcomer: 'New to Physique 57',
+  lapsed: 'Welcome back',
+  renewal: 'Members only',
+};
+
+function buildCommsSends(
+  offers: any[],
+  {
+    year,
+    month,
+    hidden,
+    custom,
+    leads,
+    reminder,
+    slots,
+  }: {
+    year: number;
+    month: number;
+    hidden: string[];
+    custom: CollateralCustomChannel[];
+    leads: { whatsapp: number; email: number; tent: number };
+    reminder: Date;
+    slots: string[];
+  },
+): { sends: CommsSend[]; groups: { key: string; date: Date; sends: CommsSend[] }[]; naive: number } {
+  const sends: CommsSend[] = [];
+  const bySlot = new Map<string, any[]>();
+  for (const offer of offers) {
+    const slot = slots.includes(offer?.plan_slot) ? offer.plan_slot : 'newcomer';
+    bySlot.set(slot, [...(bySlot.get(slot) || []), offer]);
+  }
+  const leadDate = (lead: number) => new Date(year, month - 1, 1 - lead);
+  const audience = (slot: string) => AUDIENCE[slot] || slot;
+
+  for (const [slot, group] of bySlot) {
+    const names = group.map(o => o.name).filter(Boolean);
+    const ids = group.map(o => Number(o.id));
+    // The earliest lead in the group wins: the send goes out when the first of these
+    // offers needs it, and the copy carries the rest.
+    if (!hidden.includes('whatsapp')) {
+      sends.push({
+        key: `wa-${slot}`,
+        channel: 'whatsapp',
+        label: 'Launch broadcast',
+        date: leadDate(Math.min(...group.map(o => leads.whatsapp))),
+        audience: audience(slot),
+        names,
+        ids,
+        note: names.length > 1 ? `one broadcast · ${names.length} offers` : 'one broadcast',
+      });
+      sends.push({
+        key: `wa-rem-${slot}`,
+        channel: 'whatsapp',
+        label: 'Last call',
+        date: reminder,
+        audience: audience(slot),
+        names,
+        ids,
+        note: names.length > 1 ? `one reminder · ${names.length} offers` : 'one reminder',
+      });
+    }
+    if (!hidden.includes('email')) {
+      sends.push({
+        key: `em-${slot}`,
+        channel: 'email',
+        label: 'Email campaign',
+        date: leadDate(Math.min(...group.map(o => leads.email))),
+        audience: audience(slot),
+        names,
+        ids,
+        note: names.length > 1 ? `one email · ${names.length} offers` : 'one email',
+      });
+    }
+  }
+
+  // The print shop is one order, whatever the audience: every card in the month goes to
+  // the desk together, so the calendar shows a single print run rather than three.
+  if (!hidden.includes('tent') && offers.length) {
+    sends.push({
+      key: 'te-print',
+      channel: 'tent',
+      label: 'Print run',
+      date: leadDate(leads.tent),
+      audience: null,
+      names: offers.map(o => o.name).filter(Boolean),
+      ids: offers.map(o => Number(o.id)),
+      note: `one print order · ${offers.length} card${offers.length === 1 ? '' : 's'}`,
+    });
+  }
+
+  // A team-added channel has no audience split, so it carries the month in one go.
+  for (const channel of custom) {
+    if (hidden.includes(channel.id)) continue;
+    sends.push({
+      key: channel.id,
+      channel: 'custom',
+      label: channel.title,
+      date: leadDate(channel.lead),
+      audience: null,
+      names: offers.map(o => o.name).filter(Boolean),
+      ids: offers.map(o => Number(o.id)),
+      note: offers.length > 1 ? `one send · ${offers.length} offers` : 'one send',
+    });
+  }
+
+  sends.sort((a, b) => a.date.getTime() - b.date.getTime() || a.label.localeCompare(b.label));
+
+  const groups: { key: string; date: Date; sends: CommsSend[] }[] = [];
+  for (const send of sends) {
+    const key = dayKey(send.date);
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) last.sends.push(send);
+    else groups.push({ key, date: send.date, sends: [send] });
+  }
+
+  // What the month would cost without the rule: every offer its own broadcast, its own
+  // email, its own card and its own reminder.
+  const wa = hidden.includes('whatsapp') ? 0 : 1;
+  const channels = wa + (hidden.includes('email') ? 0 : 1) + (hidden.includes('tent') ? 0 : 1);
+  const naive = offers.length * (channels + wa) + custom.filter(c => !hidden.includes(c.id)).length;
+  return { sends, groups, naive: Math.max(naive, sends.length) };
+}
+
+/** The same month if every offer were left to fend for itself — the comparison the
+    clubbed calendar is measured against. */
+function buildSingleSends(
+  offers: any[],
+  {
+    year,
+    month,
+    hidden,
+    custom,
+    leads,
+    reminder,
+    slots,
+  }: {
+    year: number;
+    month: number;
+    hidden: string[];
+    custom: CollateralCustomChannel[];
+    leads: { whatsapp: number; email: number; tent: number };
+    reminder: Date;
+    slots: string[];
+  },
+) {
+  const sends: CommsSend[] = [];
+  const leadDate = (lead: number) => new Date(year, month - 1, 1 - lead);
+  for (const offer of offers) {
+    const slot = slots.includes(offer?.plan_slot) ? offer.plan_slot : 'newcomer';
+    const names = [offer.name].filter(Boolean);
+    const ids = [Number(offer.id)];
+    const audience = AUDIENCE[slot] || slot;
+    if (!hidden.includes('whatsapp')) {
+      sends.push({
+        key: `wa-${offer.id}`,
+        channel: 'whatsapp',
+        label: 'Launch broadcast',
+        date: leadDate(leads.whatsapp),
+        audience,
+        names,
+        ids,
+        note: 'one broadcast',
+      });
+      sends.push({
+        key: `wa-rem-${offer.id}`,
+        channel: 'whatsapp',
+        label: 'Last call',
+        date: reminder,
+        audience,
+        names,
+        ids,
+        note: 'one reminder',
+      });
+    }
+    if (!hidden.includes('email'))
+      sends.push({
+        key: `em-${offer.id}`,
+        channel: 'email',
+        label: 'Email campaign',
+        date: leadDate(leads.email),
+        audience,
+        names,
+        ids,
+        note: 'one email',
+      });
+    if (!hidden.includes('tent'))
+      sends.push({
+        key: `te-${offer.id}`,
+        channel: 'tent',
+        label: 'Print run',
+        date: leadDate(leads.tent),
+        audience,
+        names,
+        ids,
+        note: 'one card',
+      });
+  }
+  for (const channel of custom) {
+    if (hidden.includes(channel.id)) continue;
+    sends.push({
+      key: `${channel.id}-single`,
+      channel: 'custom',
+      label: channel.title,
+      date: leadDate(channel.lead),
+      audience: null,
+      names: offers.map(o => o.name).filter(Boolean),
+      ids: offers.map(o => Number(o.id)),
+      note: 'one send',
+    });
+  }
+  sends.sort((a, b) => a.date.getTime() - b.date.getTime() || a.label.localeCompare(b.label));
+  const groups: { key: string; date: Date; sends: CommsSend[] }[] = [];
+  for (const send of sends) {
+    const key = dayKey(send.date);
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) last.sends.push(send);
+    else groups.push({ key, date: send.date, sends: [send] });
+  }
+  return { sends, groups, naive: sends.length };
+}
+
+const CHANNEL_ICON: Record<CommsChannel, React.ReactNode> = {
+  whatsapp: <MessageCircle size={10} />,
+  email: <Mail size={10} />,
+  tent: <Printer size={10} />,
+  custom: <Megaphone size={10} />,
+};
+
+function CommsCalendar({
+  offers,
+  year,
+  month,
+  monthName,
+  hidden,
+  custom,
+  leads,
+}: {
+  offers: any[];
+  year: number;
+  month: number;
+  monthName: string;
+  hidden: string[];
+  custom: CollateralCustomChannel[];
+  leads: { whatsapp: number; email: number; tent: number };
+}) {
+  const [mode, setMode] = useState<'club' | 'single'>('club');
+  const [picked, setPicked] = useState<string | null>(null);
+  const reminder = new Date(year, month, -1);
+  const slots = ['newcomer', 'lapsed', 'renewal'];
+  const clubbed = useMemo(
+    () => buildCommsSends(offers, { year, month, hidden, custom, leads, reminder, slots }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [offers, year, month, hidden, custom, leads.whatsapp, leads.email, leads.tent],
+  );
+  const perOffer = useMemo(
+    () => buildSingleSends(offers, { year, month, hidden, custom, leads, reminder, slots }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [offers, year, month, hidden, custom, leads.whatsapp, leads.email, leads.tent],
+  );
+  const active = mode === 'club' ? clubbed : perOffer;
+  const { sends, groups } = active;
+  const keyDates = useMemo(() => keyDatesFor(year, month), [year, month]);
+  if (!sends.length) return null;
+
+  const byDay = new Map(groups.map(group => [group.key, group]));
+  // A month's outreach begins before the month does: the print order and the first emails
+  // go out in the last fortnight of the previous month, so the grid runs from the Monday of
+  // the first send to the Sunday of the last and marks which days belong to the month.
+  const gridStart = new Date(sends[0].date);
+  gridStart.setDate(gridStart.getDate() - ((gridStart.getDay() + 6) % 7));
+  const gridEnd = new Date(sends[sends.length - 1].date);
+  gridEnd.setDate(gridEnd.getDate() + (6 - ((gridEnd.getDay() + 6) % 7)));
+  const gridDays: Date[] = [];
+  for (const cursor = new Date(gridStart); cursor <= gridEnd; cursor.setDate(cursor.getDate() + 1))
+    gridDays.push(new Date(cursor));
+  const monthMarks = [...new Set(gridDays.map(day => day.getMonth() + 1))].flatMap(m =>
+    keyDatesFor(year, m).map(k => ({ ...k, inMonth: m })),
+  );
+  // A month-long observance is marked once, on its first day, rather than dotting every
+  // cell: the calendar is for sends, not for a second layer of shading.
+  const marksFor = (day: Date) => monthMarks.filter(k => k.inMonth === day.getMonth() + 1 && k.day === day.getDate());
+  const saved = Math.max(perOffer.sends.length - clubbed.sends.length, 0);
+  const span = `${fmtDay(groups[0].date)} – ${fmtDay(groups[groups.length - 1].date)}`;
+  const list = picked ? groups.filter(group => group.key === picked) : groups;
+  const pickedGroup = list.length === 1 && picked ? list[0] : null;
+
+  return (
+    <section className="col-crm" aria-label={`CRM calendar for ${monthName}`}>
+      <header className="col-crm-head">
+        <div>
+          <small>CRM calendar · {monthName}</small>
+          <h5>What goes out, and when</h5>
+          <p>
+            One audience, one send. Offers written for the same people leave in the same broadcast, email and print
+            order — {offers.length} offers, {clubbed.sends.length} outreaches instead of {perOffer.sends.length}.
+          </p>
+        </div>
+        <div className="col-crm-aside">
+          <div className="crm-mode" role="group" aria-label="How the month is sent">
+            <button
+              type="button"
+              className={mode === 'club' ? 'is-on' : ''}
+              aria-pressed={mode === 'club'}
+              onClick={() => setMode('club')}
+            >
+              Clubbed
+            </button>
+            <button
+              type="button"
+              className={mode === 'single' ? 'is-on' : ''}
+              aria-pressed={mode === 'single'}
+              onClick={() => setMode('single')}
+            >
+              One per offer
+            </button>
+          </div>
+          <dl className="col-crm-stats">
+            <div>
+              <dt>Outreaches</dt>
+              <dd>
+                {sends.length}
+                {mode === 'club' && <em>not {perOffer.sends.length}</em>}
+              </dd>
+            </div>
+            <div>
+              <dt>Sends saved</dt>
+              <dd>{saved}</dd>
+            </div>
+            <div>
+              <dt>Window</dt>
+              <dd className="is-span">{span}</dd>
+            </div>
+          </dl>
+        </div>
+      </header>
+
+      <div className="col-crm-body">
+        {/* The month as it is actually worked: a day grid, with the sends sitting on their dates. */}
+        <div className="crm-cal">
+          <div className="crm-cal-head" aria-hidden="true">
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+              <span key={day}>{day}</span>
+            ))}
+          </div>
+          <div className="crm-cal-grid">
+            {gridDays.map(date => {
+              const group = byDay.get(dayKey(date));
+              const marks = marksFor(date);
+              const inMonth = date.getMonth() === month - 1;
+              const chips: Array<{ channel: CommsChannel; count: number }> = [];
+              for (const send of group?.sends || []) {
+                const hit = chips.find(c => c.channel === send.channel);
+                if (hit) hit.count += 1;
+                else chips.push({ channel: send.channel, count: 1 });
+              }
+              const selected = picked === dayKey(date);
+              return (
+                <button
+                  key={dayKey(date)}
+                  type="button"
+                  className={`crm-cell${group ? ' has-sends' : ''}${selected ? ' is-picked' : ''}${
+                    inMonth ? '' : ' is-prep'
+                  }`}
+                  onClick={() => group && setPicked(selected ? null : dayKey(date))}
+                  aria-pressed={selected}
+                  aria-label={`${date.getDate()} ${MONTHS[date.getMonth()]}${
+                    group ? `, ${group.sends.length} sends` : ', nothing goes out'
+                  }`}
+                >
+                  <span className="crm-cell-date">
+                    {date.getDate()}
+                    {date.getDate() === 1 && <i className="crm-cell-month">{MONTHS[date.getMonth()].slice(0, 3)}</i>}
+                  </span>
+                  {marks.length > 0 && (
+                    <i className={`crm-cell-kd is-${marks[0].kind}`} title={marks.map(m => m.name).join(' · ')} />
+                  )}
+                  <span className="crm-cell-chips">
+                    {chips.map(chip => (
+                      <span key={chip.channel} className={`crm-chip is-${chip.channel}`}>
+                        {CHANNEL_ICON[chip.channel]}
+                        {chip.count > 1 ? chip.count : ''}
+                      </span>
+                    ))}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="crm-cal-note">
+            Shaded days belong to the month before — the print order and the first emails leave before the month opens.
+            A dot marks a key date.
+          </p>
+        </div>
+
+        {/* The same month as a run sheet, so the studio can work top to bottom. */}
+        <div className="crm-sched">
+          <div className="crm-sched-head">
+            <span>{pickedGroup ? fmtDay(pickedGroup.date) : 'The month, in order'}</span>
+            {picked && (
+              <button type="button" onClick={() => setPicked(null)}>
+                Show all
+              </button>
+            )}
+          </div>
+          <ol>
+            {list.map(group => (
+              <li key={group.key}>
+                <div className="crm-sched-date">
+                  <b>{group.date.getDate()}</b>
+                  <span>{MONTHS[group.date.getMonth()].slice(0, 3)}</span>
+                </div>
+                <div className="crm-sched-sends">
+                  {group.sends.map(send => (
+                    <article key={send.key} className={`crm-send is-${send.channel}`}>
+                      <span className="crm-send-top">
+                        <i className="crm-send-ch">
+                          {CHANNEL_ICON[send.channel]}
+                          {CHANNEL_NAME[send.channel]}
+                        </i>
+                        <b>{send.label}</b>
+                        {send.audience && <em>{send.audience}</em>}
+                      </span>
+                      <span className="crm-send-offers">
+                        {send.names.map((name, index) => (
+                          <b key={`${send.key}-${index}`}>{name}</b>
+                        ))}
+                      </span>
+                      {send.note && send.names.length > 1 && <span className="crm-send-note">{send.note}</span>}
+                    </article>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <footer className="col-crm-foot">
+        <span>
+          {clubbed.sends.filter(s => s.names.length > 1).length} shared sends · nothing goes out twice in a day to the
+          same audience
+        </span>
+        <span>
+          Leads: WhatsApp −{leads.whatsapp}d · email −{leads.email}d · print −{leads.tent}d · reminder 48h before close
+        </span>
+      </footer>
+    </section>
+  );
+}
+
 // The back of a tent card states the offer in three clauses, each with a short caption and a
 // qualifier — "standing perk / on an 8-class pack or bigger". The clauses come from the offer's
 // own wording, so the card never says anything the plan does not.
@@ -184,7 +714,10 @@ function tentPerks(sources: string[], tail: { studio: string; month: string }): 
   const MODIFIER = /^(free|bonus|extra|complimentary|annual|plus)$/i;
   for (const source of sources) {
     for (const raw of String(source || '').split(/(?:\s\+\s|\s·\s|\s+and\s+|;\s|\.\s|,\s(?=[a-z]))/)) {
-      const clause = raw.replace(/^[+\-–—\s]+/, '').replace(/[.\s]+$/, '').trim();
+      const clause = raw
+        .replace(/^[+\-–—\s]+/, '')
+        .replace(/[.\s]+$/, '')
+        .trim();
       if (clause.length < 3 || clause.length > 74) continue;
       const hit = clause.match(SPLIT_AT);
       const at = hit && hit.index && hit.index > 2 ? hit.index : -1;
@@ -319,7 +852,10 @@ export default function MarketingCollaterals({
   const [renaming, setRenaming] = useState(false);
   const offer = offers.find(o => o.id === pickId) || offers[0];
   const slot = (offer?.plan_slot as keyof typeof VOICE) in VOICE ? (offer.plan_slot as keyof typeof VOICE) : 'newcomer';
-  const shots = useMemo(() => (offer ? pickPhotos(offer, slot, month, studioName) : []), [offer, slot, month, studioName]);
+  const shots = useMemo(
+    () => (offer ? pickPhotos(offer, slot, month, studioName) : []),
+    [offer, slot, month, studioName],
+  );
   const state: CollateralsState = collaterals || {};
   const patchState = (patch: Partial<CollateralsState>) => onChangeCollaterals?.({ ...state, ...patch });
   const hiddenChannels = state.hiddenChannels || [];
@@ -334,10 +870,7 @@ export default function MarketingCollaterals({
       id: `ch-${Date.now()}`,
       title: 'Instagram Story & Reel',
       lead: 8,
-      items: [
-        '9:16 vertical video / story sequence (1080×1920 px)',
-        'Direct booking link sticker + Momence UTM tag',
-      ],
+      items: ['9:16 vertical video / story sequence (1080×1920 px)', 'Direct booking link sticker + Momence UTM tag'],
       copyLabel: 'Caption & hook',
       copyText: `${theme || monthName} at ${studioName} — book your spot before the window closes.`,
     };
@@ -345,8 +878,7 @@ export default function MarketingCollaterals({
   };
   const updateCustomChannel = (cid: string, patch: Partial<CollateralCustomChannel>) =>
     patchState({ customChannels: customChannels.map(c => (c.id === cid ? { ...c, ...patch } : c)) });
-  const removeCustomChannel = (cid: string) =>
-    patchState({ customChannels: customChannels.filter(c => c.id !== cid) });
+  const removeCustomChannel = (cid: string) => patchState({ customChannels: customChannels.filter(c => c.id !== cid) });
 
   if (!offer)
     return (
@@ -387,19 +919,29 @@ export default function MarketingCollaterals({
                 <Plus size={13} /> Add channel
               </button>
               {onDeleteSection && (
-                <button type="button" className="mw-mini-btn is-danger" onClick={onDeleteSection} title="Remove section from month plan">
+                <button
+                  type="button"
+                  className="mw-mini-btn is-danger"
+                  onClick={onDeleteSection}
+                  title="Remove section from month plan"
+                >
                   <Trash2 size={13} /> Delete section
                 </button>
               )}
             </div>
           )}
         </div>
-        <p className="muted">Pick or create an offer above to preview WhatsApp, email and tent card creatives, or add custom collateral channels below.</p>
+        <p className="muted">
+          Pick or create an offer above to preview WhatsApp, email and tent card creatives, or add custom collateral
+          channels below.
+        </p>
         {customChannels.map(ch => (
           <div key={ch.id} className="col-row is-custom">
             <aside className="col-spec" style={{ gridColumn: '1 / -1' }}>
               <header>
-                <span><Megaphone size={15} /></span>
+                <span>
+                  <Megaphone size={15} />
+                </span>
                 {editable ? (
                   <input
                     className="col-inline-title"
@@ -424,7 +966,12 @@ export default function MarketingCollaterals({
                   )}
                 </i>
                 {editable && (
-                  <button type="button" className="mw-mini-icon is-danger" aria-label={`Delete ${ch.title}`} onClick={() => removeCustomChannel(ch.id)}>
+                  <button
+                    type="button"
+                    className="mw-mini-icon is-danger"
+                    aria-label={`Delete ${ch.title}`}
+                    onClick={() => removeCustomChannel(ch.id)}
+                  >
                     <Trash2 size={13} />
                   </button>
                 )}
@@ -435,19 +982,35 @@ export default function MarketingCollaterals({
                     <div key={idx} className="col-edit-item">
                       <input
                         value={it}
-                        onChange={e => updateCustomChannel(ch.id, { items: ch.items.map((x, i) => (i === idx ? e.target.value : x)) })}
+                        onChange={e =>
+                          updateCustomChannel(ch.id, {
+                            items: ch.items.map((x, i) => (i === idx ? e.target.value : x)),
+                          })
+                        }
                       />
-                      <button type="button" aria-label="Remove deliverable" onClick={() => updateCustomChannel(ch.id, { items: ch.items.filter((_, i) => i !== idx) })}>
+                      <button
+                        type="button"
+                        aria-label="Remove deliverable"
+                        onClick={() => updateCustomChannel(ch.id, { items: ch.items.filter((_, i) => i !== idx) })}
+                      >
                         <Trash2 size={12} />
                       </button>
                     </div>
                   ))}
-                  <button type="button" className="mw-mini-btn" onClick={() => updateCustomChannel(ch.id, { items: [...ch.items, 'New deliverable requirement'] })}>
+                  <button
+                    type="button"
+                    className="mw-mini-btn"
+                    onClick={() => updateCustomChannel(ch.id, { items: [...ch.items, 'New deliverable requirement'] })}
+                  >
                     <Plus size={12} /> Add requirement
                   </button>
                 </div>
               ) : (
-                <ul>{ch.items.map((t, idx) => <li key={idx}>{t}</li>)}</ul>
+                <ul>
+                  {ch.items.map((t, idx) => (
+                    <li key={idx}>{t}</li>
+                  ))}
+                </ul>
               )}
               <div className="col-copy">
                 {editable ? (
@@ -493,7 +1056,10 @@ export default function MarketingCollaterals({
 
   // The client-facing line makes the best headline — unless it simply repeats the offer's name,
   // which would print the same words twice on the card.
-  const bare = (value: string) => String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const bare = (value: string) =>
+    String(value || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
   const headlineIsName = !!tagline && bare(tagline) === bare(String(offer.name || ''));
   const defaultHeadline =
     tagline && !headlineIsName && tagline.length <= 46 ? tagline : v.headlines[seed % v.headlines.length];
@@ -501,7 +1067,9 @@ export default function MarketingCollaterals({
   const detail = noPrice(String(offer.benefit || offer.headline || ''));
   // A tent card is read standing up: one whole line, cut at a sentence or a clause boundary.
   const cardLine = (value: string, max: number, ellipsis = false) => {
-    const clean = String(value || '').replace(/\s+/g, ' ').trim();
+    const clean = String(value || '')
+      .replace(/\s+/g, ' ')
+      .trim();
     if (clean.length <= max) return clean;
     const head = clean.slice(0, max);
     const tail = ellipsis ? '…' : '.';
@@ -597,10 +1165,10 @@ export default function MarketingCollaterals({
   }, [fitCard, tentFront, kicker, detail, month]);
   const tentBack = ov.tentBack ?? v.closing.join(' ');
   // The back card states the offer in three clauses and closes with two short lines.
-  const perks = tentPerks(
-    [detail, String(offer.provenance?.pricing?.mechanic || ''), String(offer.benefit || '')],
-    { studio: studioName, month: monthName },
-  );
+  const perks = tentPerks([detail, String(offer.provenance?.pricing?.mechanic || ''), String(offer.benefit || '')], {
+    studio: studioName,
+    month: monthName,
+  });
   const closingLines = [v.closing[0], v.closing[1]];
   const backQuote = (() => {
     const written = String(ov.tentBack || '').trim();
@@ -612,8 +1180,28 @@ export default function MarketingCollaterals({
   })();
 
   const waSends = [
-    { label: 'Launch broadcast', day: `1 ${monthName.slice(0, 3)}`, time: '9:00 AM', layout: '', photo: shots[0], kicker, headline, text: waLaunchText, button: waLaunchButton },
-    { label: 'Reminder · 48h before close', day: fmtDay(new Date(year, month, -1)), time: '6:30 PM', layout: '', photo: shots[2] ?? shots[0], kicker: `Last call · ${monthName}`, headline: waReminderHeadline, text: waReminderText, button: waReminderButton },
+    {
+      label: 'Launch broadcast',
+      day: `1 ${monthName.slice(0, 3)}`,
+      time: '9:00 AM',
+      layout: '',
+      photo: shots[0],
+      kicker,
+      headline,
+      text: waLaunchText,
+      button: waLaunchButton,
+    },
+    {
+      label: 'Reminder · 48h before close',
+      day: fmtDay(new Date(year, month, -1)),
+      time: '6:30 PM',
+      layout: '',
+      photo: shots[2] ?? shots[0],
+      kicker: `Last call · ${monthName}`,
+      headline: waReminderHeadline,
+      text: waReminderText,
+      button: waReminderButton,
+    },
   ];
   const bg = (p: Photo) => ({ backgroundImage: `url(/p57/pro/${p.id}.jpg)`, backgroundPosition: p.pos });
   const Photo = ({ p }: { p: Photo }) => <div className="cr-photo" style={bg(p)} />;
@@ -623,8 +1211,16 @@ export default function MarketingCollaterals({
   const Layouts = ({ piece }: { piece: Piece }) => (
     <div className="cr-layouts" role="radiogroup" aria-label="Layout">
       {LAYOUTS[piece].map(([k, label]) => (
-        <button key={k} type="button" role="radio" aria-checked={layout(piece) === k} className={layout(piece) === k ? 'is-on' : ''}
-          onClick={() => setLayoutPick(s => ({ ...s, [`${offer.id}:${piece}`]: k }))}>{label}</button>
+        <button
+          key={k}
+          type="button"
+          role="radio"
+          aria-checked={layout(piece) === k}
+          className={layout(piece) === k ? 'is-on' : ''}
+          onClick={() => setLayoutPick(s => ({ ...s, [`${offer.id}:${piece}`]: k }))}
+        >
+          {label}
+        </button>
       ))}
     </div>
   );
@@ -714,7 +1310,11 @@ export default function MarketingCollaterals({
           </button>
         </div>
       ) : (
-        <ul>{items.map((t, idx) => <li key={idx}>{t}</li>)}</ul>
+        <ul>
+          {items.map((t, idx) => (
+            <li key={idx}>{t}</li>
+          ))}
+        </ul>
       )}
       {copy && (
         <div className="col-copy">
@@ -735,7 +1335,9 @@ export default function MarketingCollaterals({
     <div id={id} className="mw-section col-section">
       <div className="col-head">
         <div style={{ flex: '1 1 320px', minWidth: 0 }}>
-          <small>{theme || monthName} · {studioName}</small>
+          <small>
+            {theme || monthName} · {studioName}
+          </small>
           {editable && renaming ? (
             <div className="col-head-edit-fields">
               <input
@@ -747,14 +1349,22 @@ export default function MarketingCollaterals({
               <input
                 className="col-edit-sub"
                 aria-label="Collaterals section subtitle"
-                value={state.subtitle ?? (hook || 'Everything the studio team needs to launch this month’s offers, with a sample of each piece.')}
+                value={
+                  state.subtitle ??
+                  (hook ||
+                    'Everything the studio team needs to launch this month’s offers, with a sample of each piece.')
+                }
                 onChange={e => patchState({ subtitle: e.target.value })}
               />
             </div>
           ) : (
             <>
               <h4>{state.title || 'Marketing & collaterals needed'}</h4>
-              <p className="muted">{state.subtitle || hook || 'Everything the studio team needs to launch this month’s offers, with a sample of each piece.'}</p>
+              <p className="muted">
+                {state.subtitle ||
+                  hook ||
+                  'Everything the studio team needs to launch this month’s offers, with a sample of each piece.'}
+              </p>
             </>
           )}
         </div>
@@ -786,7 +1396,12 @@ export default function MarketingCollaterals({
               </button>
             )}
             {onDeleteSection && (
-              <button type="button" className="mw-mini-btn is-danger" onClick={onDeleteSection} title="Remove collaterals section">
+              <button
+                type="button"
+                className="mw-mini-btn is-danger"
+                onClick={onDeleteSection}
+                title="Remove collaterals section"
+              >
                 <Trash2 size={13} /> Delete section
               </button>
             )}
@@ -817,6 +1432,17 @@ export default function MarketingCollaterals({
         );
       })()}
 
+      {/* Every send of the month, on one rail — the comms plan the studio actually runs. */}
+      <CommsCalendar
+        offers={offers}
+        year={year}
+        month={month}
+        monthName={monthName}
+        hidden={hiddenChannels}
+        custom={customChannels}
+        leads={{ whatsapp: waLead, email: emailLead, tent: tentLead }}
+      />
+
       {editable && hiddenChannels.length > 0 && (
         <div className="mw-restore-strip">
           <span>Removed channels:</span>
@@ -836,7 +1462,13 @@ export default function MarketingCollaterals({
             <div key={k} className={`col-tab-group is-${k}`}>
               <span>{SLOT_LABEL[k]}</span>
               {list.map(o => (
-                <button key={o.id} role="tab" aria-selected={o.id === offer.id} className={o.id === offer.id ? 'is-on' : ''} onClick={() => setPickId(o.id)}>
+                <button
+                  key={o.id}
+                  role="tab"
+                  aria-selected={o.id === offer.id}
+                  className={o.id === offer.id ? 'is-on' : ''}
+                  onClick={() => setPickId(o.id)}
+                >
                   {o.name}
                 </button>
               ))}
@@ -954,7 +1586,11 @@ export default function MarketingCollaterals({
                   </label>
                   <label>
                     <small>Launch message</small>
-                    <textarea rows={4} value={waLaunchText} onChange={e => patchOfferOv({ waLaunchText: e.target.value })} />
+                    <textarea
+                      rows={4}
+                      value={waLaunchText}
+                      onChange={e => patchOfferOv({ waLaunchText: e.target.value })}
+                    />
                   </label>
                   <div className="col-copy-row2">
                     <label>
@@ -963,12 +1599,19 @@ export default function MarketingCollaterals({
                     </label>
                     <label>
                       <small>Reminder CTA button</small>
-                      <input value={waReminderButton} onChange={e => patchOfferOv({ waReminderButton: e.target.value })} />
+                      <input
+                        value={waReminderButton}
+                        onChange={e => patchOfferOv({ waReminderButton: e.target.value })}
+                      />
                     </label>
                   </div>
                   <label>
                     <small>Reminder message (48h before close)</small>
-                    <textarea rows={3} value={waReminderText} onChange={e => patchOfferOv({ waReminderText: e.target.value })} />
+                    <textarea
+                      rows={3}
+                      value={waReminderText}
+                      onChange={e => patchOfferOv({ waReminderText: e.target.value })}
+                    />
                   </label>
                 </div>
               ) : (
@@ -990,7 +1633,12 @@ export default function MarketingCollaterals({
               <div className="cr-hero">
                 <Photo p={shots[1]} />
                 <div className="cr-shade" />
-                <header><Logo light={layout('email') !== 'arch'} /><span>{studioName} · {city}</span></header>
+                <header>
+                  <Logo light={layout('email') !== 'arch'} />
+                  <span>
+                    {studioName} · {city}
+                  </span>
+                </header>
                 <div className="cr-hero-text">
                   <small>{kicker}</small>
                   <h3>{altHead}</h3>
@@ -999,8 +1647,12 @@ export default function MarketingCollaterals({
               <div className="cr-mail-body">
                 <h4>{offer.name}</h4>
                 <p>{clip(detail, 120)}</p>
-                <span className="cr-cta">{emailCta} <ArrowRight size={13} /></span>
-                <small className="cr-mail-fine">Until {fmtDay(end)} · {studioName}, {city} · Unsubscribe</small>
+                <span className="cr-cta">
+                  {emailCta} <ArrowRight size={13} />
+                </span>
+                <small className="cr-mail-fine">
+                  Until {fmtDay(end)} · {studioName}, {city} · Unsubscribe
+                </small>
               </div>
             </figure>
             <Layouts piece="email" />
@@ -1022,7 +1674,9 @@ export default function MarketingCollaterals({
                       <div key={idx} className="col-edit-item">
                         <input
                           value={s}
-                          onChange={e => patchOfferOv({ subjects: subjects.map((x, i) => (i === idx ? e.target.value : x)) })}
+                          onChange={e =>
+                            patchOfferOv({ subjects: subjects.map((x, i) => (i === idx ? e.target.value : x)) })
+                          }
                         />
                         <button
                           type="button"
@@ -1057,7 +1711,11 @@ export default function MarketingCollaterals({
               ) : (
                 <>
                   <small>Subject line options</small>
-                  <ol className="col-subjects">{subjects.map((s, idx) => <li key={idx}>{s}</li>)}</ol>
+                  <ol className="col-subjects">
+                    {subjects.map((s, idx) => (
+                      <li key={idx}>{s}</li>
+                    ))}
+                  </ol>
                   <small>Preheader</small>
                   <p>{preheader}</p>
                   <small>Opening line</small>
@@ -1084,8 +1742,13 @@ export default function MarketingCollaterals({
                   </div>
                   <div className="ct-body" ref={bodyRef}>
                     <img className="ct-logo" src="/p57/logo.png" alt="Physique 57 India" />
-                    <span className="ct-kicker" style={{ fontSize: `${tentKickSize.toFixed(2)}cqw` }}>{kicker}</span>
-                    <h3 className="ct-headline" style={{ fontSize: `calc(${tentHeadSize.toFixed(2)}cqw * var(--ct-fit, 1))` }}>
+                    <span className="ct-kicker" style={{ fontSize: `${tentKickSize.toFixed(2)}cqw` }}>
+                      {kicker}
+                    </span>
+                    <h3
+                      className="ct-headline"
+                      style={{ fontSize: `calc(${tentHeadSize.toFixed(2)}cqw * var(--ct-fit, 1))` }}
+                    >
                       {tentFront}
                     </h3>
                     <p className="ct-detail">
@@ -1155,7 +1818,9 @@ export default function MarketingCollaterals({
         <div key={ch.id} className="col-row is-custom">
           <aside className="col-spec" style={{ gridColumn: '1 / -1' }}>
             <header>
-              <span><Megaphone size={15} /></span>
+              <span>
+                <Megaphone size={15} />
+              </span>
               {editable ? (
                 <input
                   className="col-inline-title"
@@ -1196,7 +1861,9 @@ export default function MarketingCollaterals({
                   <div key={idx} className="col-edit-item">
                     <input
                       value={it}
-                      onChange={e => updateCustomChannel(ch.id, { items: ch.items.map((x, i) => (i === idx ? e.target.value : x)) })}
+                      onChange={e =>
+                        updateCustomChannel(ch.id, { items: ch.items.map((x, i) => (i === idx ? e.target.value : x)) })
+                      }
                     />
                     <button
                       type="button"
@@ -1216,7 +1883,11 @@ export default function MarketingCollaterals({
                 </button>
               </div>
             ) : (
-              <ul>{ch.items.map((t, idx) => <li key={idx}>{t}</li>)}</ul>
+              <ul>
+                {ch.items.map((t, idx) => (
+                  <li key={idx}>{t}</li>
+                ))}
+              </ul>
             )}
             <div className="col-copy">
               {editable ? (

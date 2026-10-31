@@ -37,6 +37,7 @@ import {
   ShoppingBag,
   Square,
   Sigma,
+  StickyNote,
   SlidersHorizontal,
   Loader2,
   Sparkles,
@@ -65,6 +66,7 @@ import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
 import { MechanicStage } from './AnniversaryMechanics';
 import PageHero from './PageHero';
+import OfferLibrary from './OfferLibrary';
 import { PAGE_PHOTOS, coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
 import StudioAi from '../../components/StudioAi';
@@ -499,7 +501,8 @@ export default function MonthWorkspace({
   const { boot, year, can, toast, adminUnlocked: masterUnlocked, unlockAdmin, lockAdmin } = useApp(),
     navigate = useNavigate();
   // The offer library is a drawer over the page, never a squeezed column beside it.
-  const [libraryOpen, setLibraryOpen] = useState(false);
+  // The library is docked beside the month's cards, so it is open before the page is read.
+  const [libraryOpen, setLibraryOpen] = useState(true);
   const [studioIdx, setStudioIdx] = useState(0),
     [solo, setSolo] = useState(false),
     [mathsOpen, setMathsOpen] = useState(false),
@@ -580,63 +583,6 @@ export default function MonthWorkspace({
         Number(!!alternateFor(b, month)) - Number(!!alternateFor(a, month)) ||
         n(b.expected_revenue) - n(a.expected_revenue),
     );
-  const [openAlt, setOpenAlt] = useState<number | null>(null);
-  const [altQuery, setAltQuery] = useState('');
-  const [altScope, setAltScope] = useState<'all' | 'newcomer' | 'lapsed' | 'renewal'>('all');
-  const filteredAlternates = useMemo(() => {
-    const q = altQuery.trim().toLowerCase();
-    return alternates.filter(o => {
-      if (
-        altScope === 'newcomer' &&
-        o.plan_slot !== 'newcomer' &&
-        !['acquisition', 'trial_conversion', 'new_client', 'referral'].includes(o.objective)
-      )
-        return false;
-      if (altScope === 'lapsed' && o.plan_slot !== 'lapsed' && o.objective !== 'reactivation') return false;
-      if (
-        altScope === 'renewal' &&
-        o.plan_slot !== 'renewal' &&
-        !['retention', 'annual_membership', 'additional_purchase', 'aov'].includes(o.objective)
-      )
-        return false;
-      if (!q) return true;
-      const hay =
-        `${o.name || ''} ${o.benefit || ''} ${o.headline || ''} ${o.audience || ''} ${o.offer_type || ''}`.toLowerCase();
-      return q.split(/\s+/).every(t => hay.includes(t));
-    });
-  }, [altQuery, altScope, alternates, month]);
-  const altGroups = useMemo(() => {
-    const labels = prices?.keys || {};
-    // Offers without a recorded pricing product are matched to a membership from their wording.
-    const guess = (o: any) => {
-      const t = `${o.benefit || ''} ${o.headline || ''} ${o.name || ''}`.toLowerCase();
-      if (/annual|12 ?m(onth)?\b|year/.test(t)) return 'ANNUAL';
-      if (/\b6 ?m(onth)?\b|six[- ]month/.test(t)) return '6M';
-      if (/\b3 ?m(onth)?\b|three[- ]month/.test(t)) return '3M';
-      if (/\b1 ?m(onth)?\b|one[- ]month/.test(t)) return '1M';
-      if (/private/.test(t)) return 'PRIV10';
-      if (/\b8 (single )?class|8-class/.test(t)) return '8C';
-      if (/\b12 (single )?class|12-class/.test(t)) return '12C';
-      if (/\b20 (single )?class|20 sessions/.test(t)) return '20C';
-      if (/\b10 (single )?class|10 sessions/.test(t)) return 'CC10';
-      if (/single class/.test(t)) return 'SINGLE';
-      return null;
-    };
-    const groups = new Map<string, any[]>();
-    for (const o of filteredAlternates) {
-      const key = o.provenance?.pricing?.product || guess(o);
-      const label = key ? labels[key] || key : 'Other offers';
-      const list = groups.get(label) || [];
-      // Each membership shows its best 10–15 options (alternates are already sorted month-first).
-      if (list.length < 15) groups.set(label, [...list, o]);
-    }
-    const order = Object.values(labels);
-    return [...groups.entries()].sort((a, b) => {
-      const ia = order.indexOf(a[0]),
-        ib = order.indexOf(b[0]);
-      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
-    });
-  }, [filteredAlternates, prices]);
   const offerRevenue = selected.reduce((s, o) => s + forecastRevenue(o), 0);
   const groups = ['New clients', 'Ticket & renewal', 'Comeback / reactivation', 'Other'].map(g => ({
     label: g,
@@ -1070,6 +1016,21 @@ export default function MonthWorkspace({
       setBusy(false);
     }
   };
+  // Planning marks — approve today, put media behind it — plus the note that explains either.
+  // They save on the offer itself, so the decision travels with it into every other view.
+  const offerPlanning = async (offer: any, patch: { performanceNotes?: string | null; runAds?: boolean }) => {
+    try {
+      await api(`/offers/${offer.id}/planning`, { method: 'PATCH', body: JSON.stringify(patch) });
+      await onSaved();
+      if (patch.runAds !== undefined)
+        toast(patch.runAds ? `Ads planned for “${offer.name}”.` : `“${offer.name}” runs organically.`);
+      if (patch.performanceNotes !== undefined) toast(patch.performanceNotes ? 'Note saved.' : 'Note cleared.');
+      return true;
+    } catch (e: any) {
+      toast(e.message, 'error');
+      return false;
+    }
+  };
   const offerApproval = async (offer: any, approve: boolean) => {
     setBusy(true);
     try {
@@ -1407,7 +1368,6 @@ export default function MonthWorkspace({
     { id: 'collaterals', label: 'Collaterals' },
     { id: 'execution', label: 'Execution' },
   ];
-  const heroPhoto = (offset: number) => PAGE_PHOTOS[(month + offset) % PAGE_PHOTOS.length];
   const heroYoy = row.lastYear ? Math.round((effective / row.lastYear - 1) * 100) : null;
   const mix = (value: number) => (effective ? `${Math.round((n(value) / effective) * 100)}%` : '—');
   const pageIdx = pageTabs.findIndex(t => t.id === page);
@@ -1630,7 +1590,7 @@ export default function MonthWorkspace({
           )}
         </header>
 
-        <div className="mw-body" inert={coverOpen}>
+        <div className={`mw-body${page === 'offers' && libraryOpen ? ' has-rail' : ''}`} inert={coverOpen}>
           <main ref={mainRef} className={`mw-main is-page-${page} ${locked ? 'is-locked' : ''}`}>
             <nav className="mw-pages" aria-label="Month plan pages">
               <div className="mw-pages-tabs" role="group" aria-label="Month pages">
@@ -1666,7 +1626,7 @@ export default function MonthWorkspace({
                   <button
                     type="button"
                     className="mw-qtool"
-                    onClick={() => setLibraryOpen(true)}
+                    onClick={() => setLibraryOpen(o => !o)}
                     title="Browse the offer library (shortcut: \\)"
                   >
                     <LayoutGrid size={13} />
@@ -1734,7 +1694,6 @@ export default function MonthWorkspace({
                 label="Targets & mix"
                 title="Where the money comes from"
                 description="Set the month’s number, split it across new clients, renewals and comeback, then check that the offers can carry it."
-                photo={heroPhoto(1)}
                 meta={[
                   { label: 'Target', value: lakh(effective) },
                   {
@@ -1755,19 +1714,11 @@ export default function MonthWorkspace({
                 label="Offers"
                 title="What we sell to get there"
                 description="Every offer that carries the month: the photograph, the promise, the maths behind it and its approval, in one card."
-                photo={heroPhoto(2)}
                 meta={[
                   { label: 'Offers', value: `${selected.length}` },
                   { label: 'Carried', value: lakh(offerRevenue) },
                   { label: 'Of target', value: effective ? `${Math.round((offerRevenue / effective) * 100)}%` : '—' },
                 ]}
-                actions={
-                  <button type="button" className="mp-hero-btn" onClick={() => setLibraryOpen(true)}>
-                    <LayoutGrid size={14} />
-                    Offer library
-                    <em>{alternates.length}</em>
-                  </button>
-                }
               />
             )}
 
@@ -1777,7 +1728,6 @@ export default function MonthWorkspace({
                 label="Collaterals"
                 title="What has to be made, and by when"
                 description="Every asset the studio owes this month's offers — channel by channel, with the copy, the sizes and the date it is due at the desk."
-                photo={heroPhoto(4)}
                 meta={[
                   {
                     label: 'Channels',
@@ -1804,7 +1754,6 @@ export default function MonthWorkspace({
                 label="Execution"
                 title="How the month actually runs"
                 description="The week-by-week run of the month and the activations that create demand."
-                photo={heroPhoto(3)}
                 meta={[
                   { label: 'Actions', value: `${form.actions.length}` },
                   { label: 'Strategy plays', value: `${parseStrategyLines(form.strategy).length}` },
@@ -2105,16 +2054,18 @@ export default function MonthWorkspace({
                   const liveReactTarget = editable
                     ? Math.max(0, n(form.streams.reactivation))
                     : n(econ.reactivation.target);
-                  const t2m = Math.max(0.01, n(econ.newClient.trialToMember) || 0.24);
-                  const l2t = Math.max(0.01, n(econ.newClient.leadToTrial) || 0.45);
-                  const firstSpend = Math.max(1, n(econ.newClient.firstSpend) || 6000);
+                  // Falls back to the measured rate the plan is built on, never to a made-up one.
+                  const autoRate = (k: string) => n(plan.economics?.assumptions?.[k]?.auto) || 0;
+                  const t2m = Math.max(0.01, n(econ.newClient.trialToMember) || autoRate('trialToMember'));
+                  const l2t = Math.max(0.01, n(econ.newClient.leadToTrial) || autoRate('leadToTrial'));
+                  const firstSpend = Math.max(1, n(econ.newClient.firstSpend) || autoRate('firstSpend'));
                   const trialSpend = Math.max(0, n(econ.newClient.trialSpend));
                   const revPerBuyer = firstSpend + (t2m > 0 ? trialSpend / t2m : 0);
                   const liveBuyers = liveNewTarget > 0 ? Math.ceil(liveNewTarget / revPerBuyer) : 0;
                   const liveTrials = liveBuyers > 0 ? Math.ceil(liveBuyers / t2m) : 0;
                   const liveLeads = liveTrials > 0 ? Math.ceil(liveTrials / l2t) : 0;
-                  const renTicket = Math.max(1, n(econ.renewal.ticket) || 14000);
-                  const reactTicket = Math.max(1, n(econ.reactivation.ticket) || 10000);
+                  const renTicket = Math.max(1, n(econ.renewal.ticket) || autoRate('renewalTicket'));
+                  const reactTicket = Math.max(1, n(econ.reactivation.ticket) || autoRate('reactivationTicket'));
                   const liveRenewals = liveRenTarget > 0 ? Math.ceil(liveRenTarget / renTicket) : 0;
                   const liveReactivations = liveReactTarget > 0 ? Math.ceil(liveReactTarget / reactTicket) : 0;
                   return [
@@ -3266,7 +3217,7 @@ export default function MonthWorkspace({
                           <button
                             type="button"
                             className="mw-mini-btn"
-                            onClick={() => setLibraryOpen(true)}
+                            onClick={() => setLibraryOpen(o => !o)}
                             title="Browse every offer this studio can run, and add or swap them in"
                           >
                             <LayoutGrid size={12} /> Offer library
@@ -3321,11 +3272,25 @@ export default function MonthWorkspace({
                         const photoById = assignMonthPhotos(
                           orderedOffers.map(({ offer }) => ({ offer, slot: slotOf(offer.id) })),
                         );
-                        // Month totals let each card's bars show its share of the plan.
+                        // The bar behind "buyers needed" compares an offer with what the month actually
+                        // requires on its stream — new buyers, renewers or reactivations at the rates
+                        // measured on this studio's history — not with a sum of hand-typed targets.
                         const monthUnitsTotal = orderedOffers.reduce(
                           (sum, { offer }) => sum + (forecastRevenue(offer) > 0 ? n(offer.target_purchases) || 0 : 0),
                           0,
                         );
+                        const SLOT_NEED: Record<string, string> = {
+                          newcomer: 'new clients',
+                          lapsed: 'win-backs',
+                          renewal: 'renewals',
+                        };
+                        const slotRequirement = (slot?: string | null) => {
+                          if (!econ) return 0;
+                          if (slot === 'newcomer') return n(econ.newClient.buyers);
+                          if (slot === 'lapsed') return n(econ.reactivation.needed);
+                          if (slot === 'renewal') return n(econ.renewal.renewersNeeded);
+                          return 0;
+                        };
                         const renderItem = (o: any, no: number, stream?: string) =>
                           editing === o.id ? (
                             <OfferEditor
@@ -3372,6 +3337,7 @@ export default function MonthWorkspace({
                               canApprove={canApproveOffers}
                               busy={busy}
                               onApprove={(next: boolean) => offerApproval(o, next)}
+                              onPlanning={offerPlanning}
                               onEdit={() => {
                                 setCreatingOffer(null);
                                 setEditing(o.id);
@@ -3390,7 +3356,8 @@ export default function MonthWorkspace({
                               onSwap={() => regenerateOffer(o)}
                               regenerating={regenerating === o.id}
                               monthTarget={effective}
-                              monthUnits={monthUnitsTotal}
+                              monthUnits={slotRequirement(slotOf(o.id) || o.plan_slot) || monthUnitsTotal}
+                              monthUnitsLabel={SLOT_NEED[String(slotOf(o.id) || o.plan_slot)] || ''}
                               photo={photoById.get(o.id)}
                             />
                           );
@@ -4299,221 +4266,34 @@ export default function MonthWorkspace({
               )}
             </nav>
           </main>
-        </div>
 
-        {libraryOpen && (
-          <div className="mp-drawer-scrim" onClick={() => setLibraryOpen(false)} role="presentation">
-            <aside
-              className="mp-drawer"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Offer library"
-              onClick={e => e.stopPropagation()}
-            >
-              <header className="mp-drawer-head">
-                <div
-                  className="mp-drawer-photo"
-                  style={{
-                    backgroundImage: `url(${heroPhoto(5).url})`,
-                    backgroundPosition: heroPhoto(5).pos,
-                  }}
-                  aria-hidden="true"
+          {page === 'offers' && libraryOpen && (
+            <>
+              <button
+                type="button"
+                className="mw-rail-scrim"
+                aria-label="Hide the offer library"
+                onClick={() => setLibraryOpen(false)}
+              />
+              <aside className="mw-lib-rail" aria-label="Offer library">
+                <OfferLibrary
+                  offers={alternates}
+                  month={month}
+                  selected={selected}
+                  editable={offersEditable}
+                  busy={busy}
+                  labels={prices?.keys || {}}
+                  isRecommended={isRecommended}
+                  alternateFor={alternateFor}
+                  photoFor={(o, i) => pickOfferCardPhoto(o, o.plan_slot, i + 1)}
+                  onAdd={o => offerChange({ op: 'add', offerId: o.id }, `“${o.name}” added`)}
+                  onSwap={replaceOffer}
+                  onClose={() => setLibraryOpen(false)}
                 />
-                <div className="mp-drawer-veil" aria-hidden="true" />
-                <div className="mp-drawer-title">
-                  <span className="mp-drawer-kicker">Offer library · {alternates.length} available</span>
-                  <h3>Everything else we could run</h3>
-                  <p>{studio.name}’s other offers, with this month’s first. Add one, or swap it in for a card.</p>
-                </div>
-                <button
-                  type="button"
-                  className="mp-drawer-close"
-                  aria-label="Close offer library"
-                  onClick={() => setLibraryOpen(false)}
-                >
-                  <X size={17} />
-                </button>
-              </header>
-
-              <div className="mp-drawer-tools">
-                <div className="mp-drawer-search">
-                  <Search size={14} />
-                  <input
-                    value={altQuery}
-                    onChange={e => setAltQuery(e.target.value)}
-                    placeholder="Search the library…"
-                    aria-label="Search offer library"
-                  />
-                  {altQuery && (
-                    <button type="button" onClick={() => setAltQuery('')} aria-label="Clear library search">
-                      <X size={12} />
-                    </button>
-                  )}
-                </div>
-                <div className="mp-drawer-scopes">
-                  {(
-                    [
-                      ['all', 'All'],
-                      ['newcomer', 'Newcomer'],
-                      ['lapsed', 'Winback'],
-                      ['renewal', 'Renewal'],
-                    ] as Array<[typeof altScope, string]>
-                  ).map(([id, label]) => (
-                    <button
-                      key={id}
-                      type="button"
-                      className={altScope === id ? 'is-on' : ''}
-                      onClick={() => setAltScope(id)}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mp-drawer-body">
-                {alternates.length ? (
-                  altGroups.length ? (
-                    altGroups.map(([group, list]) => (
-                      <section key={group} className="mp-lib-group">
-                        <h5>
-                          {group} <em>{list.length}</em>
-                        </h5>
-                        {list.map((o, idx) => {
-                          const approved = o.approval_status === 'approved';
-                          const open = openAlt === o.id;
-                          const photo = pickOfferCardPhoto(o, o.plan_slot, idx + 1);
-                          const slotText = o.plan_slot
-                            ? o.plan_slot === 'lapsed'
-                              ? 'Winback'
-                              : titleCase(o.plan_slot)
-                            : 'Any audience';
-                          return (
-                            <div key={o.id} className={`mp-lib-row${open ? ' is-open' : ''}`}>
-                              <button
-                                type="button"
-                                className="mp-lib-main"
-                                aria-expanded={open}
-                                onClick={() => setOpenAlt(open ? null : o.id)}
-                              >
-                                <span
-                                  className="mp-lib-thumb"
-                                  style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
-                                  aria-hidden="true"
-                                />
-                                <span className="mp-lib-copy">
-                                  <span className="mp-lib-slot">
-                                    {slotText}
-                                    {approved && <b>Approved</b>}
-                                    {isRecommended(o, month) && <b className="mp-lib-rec">Recommended</b>}
-                                    {alternateFor(o, month) && (
-                                      <b className="mp-lib-alt" title={`Alternative to ${alternateFor(o, month)!.for}`}>
-                                        Alternate
-                                      </b>
-                                    )}
-                                  </span>
-                                  <strong>{o.name}</strong>
-                                  <em>{o.benefit || o.headline || titleCase(o.offer_type)}</em>
-                                </span>
-                                <span className="mp-lib-side">
-                                  <b>{lakh(n(o.expected_revenue))}</b>
-                                  <ChevronDown size={14} className={open ? 'is-flipped' : undefined} />
-                                </span>
-                              </button>
-                              {open && (
-                                <div className="mp-lib-detail">
-                                  {(o.rationale || o.customer_copy) && (
-                                    <p>
-                                      {String(o.rationale || o.customer_copy)
-                                        .split('\n')[0]
-                                        .replace(/^Why: /, '')}
-                                    </p>
-                                  )}
-                                  <dl>
-                                    <div>
-                                      <dt>Audience</dt>
-                                      <dd>{o.audience || '—'}</dd>
-                                    </div>
-                                    <div>
-                                      <dt>Value</dt>
-                                      <dd>
-                                        {Number(o.effective_discount)
-                                          ? `${Number(o.effective_discount).toFixed(0)}% effective`
-                                          : 'At list'}
-                                      </dd>
-                                    </div>
-                                    <div>
-                                      <dt>Avg ticket</dt>
-                                      <dd>{o.expected_asp ? lakh(n(o.expected_asp)) : '—'}</dd>
-                                    </div>
-                                    <div>
-                                      <dt>Buyers</dt>
-                                      <dd>{o.target_purchases || '—'}</dd>
-                                    </div>
-                                  </dl>
-                                  {o.redemption_conditions && <p className="mp-lib-fine">{o.redemption_conditions}</p>}
-                                  {offersEditable && !approved && (
-                                    <div className="mp-lib-actions">
-                                      <button
-                                        type="button"
-                                        className="mp-lib-add"
-                                        disabled={busy}
-                                        onClick={() => offerChange({ op: 'add', offerId: o.id }, `“${o.name}” added`)}
-                                      >
-                                        <Plus size={13} /> Add to month
-                                      </button>
-                                      {selected.length > 0 && (
-                                        <label
-                                          className="mp-lib-swap"
-                                          title="Swap this offer in for one of the month's cards"
-                                        >
-                                          <RefreshCcw size={12} />
-                                          <select
-                                            aria-label={`Replace an offer with ${o.name}`}
-                                            disabled={busy}
-                                            value=""
-                                            onChange={e => replaceOffer(Number(e.target.value), o)}
-                                          >
-                                            <option value="" disabled>
-                                              Swap for…
-                                            </option>
-                                            {selected.map(cur => (
-                                              <option
-                                                key={cur.id}
-                                                value={cur.id}
-                                                disabled={cur.approval_status === 'approved'}
-                                              >
-                                                {cur.name}
-                                              </option>
-                                            ))}
-                                          </select>
-                                        </label>
-                                      )}
-                                    </div>
-                                  )}
-                                  {approved && (
-                                    <span className="mp-lib-approved">
-                                      <CheckCircle2 size={12} /> Approved for {MONTHS[month - 1]} — reopen the month to
-                                      swap it.
-                                    </span>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </section>
-                    ))
-                  ) : (
-                    <p className="mp-drawer-empty">No library offers match “{altQuery || altScope}”.</p>
-                  )
-                ) : (
-                  <p className="mp-drawer-empty">No other offers for this studio yet.</p>
-                )}
-              </div>
-            </aside>
-          </div>
-        )}
+              </aside>
+            </>
+          )}
+        </div>
 
         {coverOpen && (
           <MonthCover
@@ -4890,9 +4670,9 @@ const OFFER_CARD_PHOTOS: CardPhoto[] = [
   { url: '/p57/pro/n20.jpg', pos: '56% 24%', tags: ['community', 'duo', 'newcomer', 'renewal'] },
   { url: '/p57/class-1.jpg', pos: '58% 24%', tags: ['community', 'barre', 'newcomer'] },
   // 1-on-1 coaching, privates & trainer consultations
-  { url: '/p57/pro/n13.jpg', pos: '64% 24%', tags: ['coaching', 'newcomer', 'renewal'] },
+  { url: '/p57/pro/n13.jpg', pos: '64% 8%', tags: ['coaching', 'newcomer', 'renewal'] },
   { url: '/p57/pro/n12.jpg', pos: '62% 22%', tags: ['coaching', 'duo', 'newcomer'] },
-  { url: '/p57/pro/n02.jpg', pos: '54% 32%', tags: ['coaching', 'strength', 'lapsed'] },
+  { url: '/p57/pro/n02.jpg', pos: '50% 8%', tags: ['coaching', 'strength', 'lapsed'] },
   // Indoor cycle, flash & high-tempo challenges
   { url: '/p57/pro/n01.jpg', pos: '54% 24%', tags: ['cycle', 'flash', 'renewal'] },
   { url: '/p57/pro/n08.jpg', pos: '52% 24%', tags: ['cycle', 'flash', 'newcomer'] },
@@ -4907,65 +4687,65 @@ const OFFER_CARD_PHOTOS: CardPhoto[] = [
   // Comeback, travel-proof, freeze & reactivation
   { url: '/p57/class-2.jpg', pos: '54% 32%', tags: ['calm', 'lapsed', 'renewal'] },
   { url: '/p57/pro/n16.jpg', pos: '54% 28%', tags: ['calm', 'lapsed'] },
-  { url: '/p57/pro/n26.jpg', pos: '58% 26%', tags: ['calm', 'strength', 'lapsed'] },
+  { url: '/p57/pro/n26.jpg', pos: '58% 20%', tags: ['calm', 'strength', 'lapsed'] },
 ];
 
 // Remaining studio photography, used to keep every card in a month on its own image.
 const CARD_PHOTO_EXTRAS: CardPhoto[] = [
-  { url: '/p57/pro/n04.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n05.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n06.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n07.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n09.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n11.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n14.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n15.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n17.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n19.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n21.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n22.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n27.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/n28.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p01.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p02.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p03.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p04.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p05.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p06.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p08.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p09.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p10.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p12.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p13.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p14.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p15.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p16.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p17.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p18.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p19.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p20.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p21.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p23.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p24.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p25.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p26.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p27.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p28.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p29.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p30.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p31.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p32.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p33.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p35.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p36.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p37.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p39.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p40.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p41.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p42.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p43.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p44.jpg', pos: '56% 26%', tags: [] },
-  { url: '/p57/pro/p45.jpg', pos: '56% 26%', tags: [] },
+  { url: '/p57/pro/n04.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n05.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n06.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n07.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n09.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n11.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n14.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n15.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n17.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n19.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n21.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n22.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n27.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/n28.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p01.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p02.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p03.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p04.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p05.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p06.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p08.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p09.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p10.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p12.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p13.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p14.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p15.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p16.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p17.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p18.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p19.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p20.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p21.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p23.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p24.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p25.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p26.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p27.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p28.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p29.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p30.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p31.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p32.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p33.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p35.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p36.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p37.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p39.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p40.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p41.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p42.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p43.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p44.jpg', pos: '50% 22%', tags: [] },
+  { url: '/p57/pro/p45.jpg', pos: '50% 22%', tags: [] },
 ];
 
 const CARD_PHOTO_THEMES: [RegExp, string][] = [
@@ -5027,6 +4807,7 @@ function OfferCard({
   canApprove,
   busy,
   onApprove,
+  onPlanning,
   onEdit,
   onDuplicate,
   onRemove,
@@ -5035,9 +4816,41 @@ function OfferCard({
   regenerating = false,
   monthTarget = 0,
   monthUnits = 0,
+  monthUnitsLabel = '',
   photo,
 }: any) {
   const linked = !!o.provenance?.linkGroup;
+  // The two decisions a team makes around an offer, plus the note that explains them. Both
+  // are optimistic: the refetch that follows a save is the confirmation, not the trigger.
+  const savedNote = useRef(String(o.performance_notes || ''));
+  const [noteDraft, setNoteDraft] = useState<string>(String(o.performance_notes || ''));
+  const [noteState, setNoteState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [adsPending, setAdsPending] = useState(false);
+  // A card opens on its headline, its figures and the record. Who/When/How and the note
+  // field are secondary, so they wait for a click — the record itself never folds away.
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    const next = String(o.performance_notes || '');
+    if (next === savedNote.current) return;
+    savedNote.current = next;
+    if (noteState !== 'saving') setNoteDraft(next);
+  }, [o.performance_notes, noteState]);
+  const noteDirty = noteDraft !== savedNote.current;
+  const runAds = Boolean(Number(o.run_ads || 0));
+  const saveNote = async () => {
+    if (!onPlanning || !noteDirty) return;
+    setNoteState('saving');
+    const ok = await onPlanning(o, { performanceNotes: noteDraft.trim() || null });
+    if (ok === false) return setNoteState('error');
+    savedNote.current = noteDraft.trim();
+    setNoteState('saved');
+  };
+  const toggleAds = async () => {
+    if (!onPlanning || adsPending) return;
+    setAdsPending(true);
+    await onPlanning(o, { runAds: !runAds });
+    setAdsPending(false);
+  };
   const parseList = (value: any) => {
     if (Array.isArray(value)) return value;
     try {
@@ -5385,7 +5198,16 @@ function OfferCard({
           </div>
         </div>
 
-        <div className="ocv-body">
+        <div
+          className="ocv-body"
+          onClick={event => {
+            // Clicking the card anywhere but on a control opens the secondary fields.
+            if (expanded) return;
+            const target = event.target as HTMLElement | null;
+            if (target?.closest('button, a, input, textarea, select, label')) return;
+            setExpanded(true);
+          }}
+        >
           <header className="ocv-head">
             <div className="ocv-head-top">
               <span className="ocv-eyebrow">
@@ -5393,71 +5215,84 @@ function OfferCard({
                   .filter(Boolean)
                   .join(' · ') || 'Offer plan'}
               </span>
-              {(editable || (canSwap && !shown)) && (
-                <div className="ocv-tools">
-                  {canSwap && !shown && (
-                    <button
-                      type="button"
-                      aria-label={`Generate a new offer with AI in place of ${o.name}`}
-                      title="Generate with AI — a new, better-optimised offer replaces this one"
-                      className={`ocv-tool is-ai${regenerating ? ' is-loading' : ''}`}
-                      onClick={onSwap}
-                      disabled={busy || regenerating}
-                      aria-busy={regenerating}
-                    >
-                      {regenerating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
-                    </button>
-                  )}
-                  {editable && onDuplicate && (
-                    <button
-                      type="button"
-                      aria-label={`Duplicate ${o.name}`}
-                      title="Duplicate as new offer"
-                      className="ocv-tool"
-                      onClick={onDuplicate}
-                      disabled={busy}
-                    >
-                      <Copy size={14} />
-                    </button>
-                  )}
-                  {editable && (
-                    <button
-                      type="button"
-                      aria-label={`Edit ${o.name}`}
-                      title="Edit all offer details"
-                      className="ocv-tool"
-                      onClick={onEdit}
-                      disabled={busy}
-                    >
-                      <Pencil size={14} />
-                    </button>
-                  )}
-                  {(editable || !shown) && (
-                    <button
-                      type="button"
-                      aria-label={`Remove ${o.name} from month`}
-                      title="Remove from month plan"
-                      className="ocv-tool is-danger"
-                      onClick={onRemove}
-                      disabled={busy}
-                    >
-                      <Minus size={15} />
-                    </button>
-                  )}
-                  {editable && onDelete && (
-                    <button
-                      type="button"
-                      aria-label={`Delete ${o.name}`}
-                      title="Delete offer permanently"
-                      className="ocv-tool is-danger"
-                      onClick={onDelete}
-                      disabled={busy}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  )}
-                </div>
-              )}
+              <div className="ocv-head-actions">
+                <button
+                  type="button"
+                  className={`ocv-more${expanded ? ' is-open' : ''}`}
+                  aria-expanded={expanded}
+                  aria-controls={`ocv-extra-${o.id}`}
+                  title={expanded ? 'Hide the extra fields' : 'Show who, when, how and the notes'}
+                  onClick={() => setExpanded(value => !value)}
+                >
+                  <ChevronDown size={12} />
+                  {expanded ? 'Hide extras' : 'Extras'}
+                </button>
+                {(editable || (canSwap && !shown)) && (
+                  <div className="ocv-tools">
+                    {canSwap && !shown && (
+                      <button
+                        type="button"
+                        aria-label={`Generate a new offer with AI in place of ${o.name}`}
+                        title="Generate with AI — a new, better-optimised offer replaces this one"
+                        className={`ocv-tool is-ai${regenerating ? ' is-loading' : ''}`}
+                        onClick={onSwap}
+                        disabled={busy || regenerating}
+                        aria-busy={regenerating}
+                      >
+                        {regenerating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
+                      </button>
+                    )}
+                    {editable && onDuplicate && (
+                      <button
+                        type="button"
+                        aria-label={`Duplicate ${o.name}`}
+                        title="Duplicate as new offer"
+                        className="ocv-tool"
+                        onClick={onDuplicate}
+                        disabled={busy}
+                      >
+                        <Copy size={14} />
+                      </button>
+                    )}
+                    {editable && (
+                      <button
+                        type="button"
+                        aria-label={`Edit ${o.name}`}
+                        title="Edit all offer details"
+                        className="ocv-tool"
+                        onClick={onEdit}
+                        disabled={busy}
+                      >
+                        <Pencil size={14} />
+                      </button>
+                    )}
+                    {(editable || !shown) && (
+                      <button
+                        type="button"
+                        aria-label={`Remove ${o.name} from month`}
+                        title="Remove from month plan"
+                        className="ocv-tool is-danger"
+                        onClick={onRemove}
+                        disabled={busy}
+                      >
+                        <Minus size={15} />
+                      </button>
+                    )}
+                    {editable && onDelete && (
+                      <button
+                        type="button"
+                        aria-label={`Delete ${o.name}`}
+                        title="Delete offer permanently"
+                        className="ocv-tool is-danger"
+                        onClick={onDelete}
+                        disabled={busy}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             <h3 className="ocv-title">
@@ -5510,7 +5345,9 @@ function OfferCard({
                 {perWeek > 0 && <em>~{perWeek}/wk</em>}
               </strong>
               <span className="ocv-fig-note">
-                {monthUnits > 0 ? `of ${number(monthUnits)} this month` : `over ${days} days`}
+                {monthUnits > 0
+                  ? `of ${number(monthUnits)}${monthUnitsLabel ? ` ${monthUnitsLabel}` : ''} this month`
+                  : `over ${days} days`}
               </span>
               <span className="ocv-meter" aria-hidden="true">
                 <i />
@@ -5602,26 +5439,86 @@ function OfferCard({
             </dl>
           </section>
 
-          <div className="ocv-who">
-            <div className="ocv-who-cell">
-              <span className="ocv-who-label">
-                <Users size={12} /> Who
-              </span>
-              <b>{o.audience || 'All clients'}</b>
-            </div>
-            <div className="ocv-who-cell">
-              <span className="ocv-who-label">
-                <Calendar size={12} /> When
-              </span>
-              <b>
-                {windowText} · {days} days
-              </b>
-            </div>
-            <div className="ocv-who-cell">
-              <span className="ocv-who-label">
-                <Tag size={12} /> How
-              </span>
-              <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
+          {/* Secondary fields: folded on arrival, kept mounted so a half-written note survives. */}
+          <div className={`ocv-extra${expanded ? ' is-open' : ''}`} id={`ocv-extra-${o.id}`} inert={!expanded}>
+            <div className="ocv-extra-in">
+              <div className="ocv-who">
+                <div className="ocv-who-cell">
+                  <span className="ocv-who-label">
+                    <Users size={12} /> Who
+                  </span>
+                  <b>{o.audience || 'All clients'}</b>
+                </div>
+                <div className="ocv-who-cell">
+                  <span className="ocv-who-label">
+                    <Calendar size={12} /> When
+                  </span>
+                  <b>
+                    {windowText} · {days} days
+                  </b>
+                </div>
+                <div className="ocv-who-cell">
+                  <span className="ocv-who-label">
+                    <Tag size={12} /> How
+                  </span>
+                  <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
+                </div>
+              </div>
+
+              {/* The log: the two decisions taken around an offer, and the line that explains
+              them. Both marks save straight to the offer, so the plan remembers them. */}
+              <section className="ocv-log" aria-label={`${o.name} — notes and marks`}>
+                <div className="ocv-log-head">
+                  <span className="ocv-log-label">
+                    <StickyNote size={12} />
+                    Notes &amp; comments
+                  </span>
+                  <span
+                    className={`ocv-log-state is-${noteState}${noteDirty && noteState !== 'saving' ? ' is-dirty' : ''}`}
+                    aria-live="polite"
+                  >
+                    {noteState === 'saving'
+                      ? 'Saving…'
+                      : noteState === 'error'
+                        ? 'Not saved'
+                        : noteDirty
+                          ? 'Unsaved'
+                          : noteState === 'saved'
+                            ? 'Saved'
+                            : 'No note yet'}
+                  </span>
+                </div>
+                <textarea
+                  className="ocv-note"
+                  rows={2}
+                  value={noteDraft}
+                  onChange={event => {
+                    setNoteDraft(event.target.value);
+                    setNoteState('idle');
+                  }}
+                  onKeyDown={event => {
+                    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+                      event.preventDefault();
+                      saveNote();
+                    }
+                  }}
+                  placeholder="A caveat, a staffing note, a follow-up…"
+                  aria-label={`Note for ${o.name}`}
+                />
+                <div className="ocv-log-foot">
+                  <span className="ocv-log-hint">{onPlanning ? 'Saves on the offer' : 'Read-only for your role'}</span>
+                  <button
+                    type="button"
+                    className="ocv-save"
+                    title="Save note (⌘↵)"
+                    disabled={!noteDirty || noteState === 'saving' || !onPlanning}
+                    onClick={saveNote}
+                  >
+                    <Save size={12} />
+                    {noteState === 'saving' ? 'Saving…' : 'Save note'}
+                  </button>
+                </div>
+              </section>
             </div>
           </div>
 
@@ -5629,27 +5526,47 @@ function OfferCard({
             <span className="ocv-sign">
               {[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}
             </span>
-            {canApprove ? (
+            <div className="ocv-marks">
               <button
                 type="button"
                 role="checkbox"
                 aria-checked={shown}
-                className={`ocv-approve${shown ? ' is-on' : ''}${pending !== null ? ' is-saving' : ''}`}
+                className={`ocv-check is-approve${shown ? ' is-on' : ''}`}
                 title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
-                disabled={pending !== null}
+                disabled={!canApprove || pending !== null}
                 onClick={() => {
+                  if (!canApprove) return;
                   setPending(!shown);
                   Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
                 }}
               >
-                <Check size={13} strokeWidth={2.75} />
-                <span>{shown ? 'Approved' : 'Approve'}</span>
+                <span className="ocv-check-box" aria-hidden="true">
+                  <Check size={11} strokeWidth={3} />
+                </span>
+                <span className="ocv-check-copy">
+                  <b>{pending !== null ? 'Saving…' : 'Approve'}</b>
+                  <em>{shown ? 'Signed off' : 'Awaiting sign-off'}</em>
+                </span>
               </button>
-            ) : shown ? (
-              <span className="ocv-approved-mark">
-                <Check size={12} strokeWidth={2.75} /> Approved
-              </span>
-            ) : null}
+
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked={runAds}
+                className={`ocv-check is-ads${runAds ? ' is-on' : ''}`}
+                title={runAds ? 'Paid media planned · click to remove' : 'Plan paid media behind this offer'}
+                disabled={!onPlanning || adsPending}
+                onClick={toggleAds}
+              >
+                <span className="ocv-check-box" aria-hidden="true">
+                  <Check size={11} strokeWidth={3} />
+                </span>
+                <span className="ocv-check-copy">
+                  <b>Run ads</b>
+                  <em>{runAds ? 'Media planned' : 'Organic only'}</em>
+                </span>
+              </button>
+            </div>
           </footer>
         </div>
       </div>

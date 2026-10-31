@@ -28,87 +28,97 @@ type EmpiricalDefault = {
   reactivationTicket: number;
   trialToMember: number;
   leadToTrial: number;
+  avgSpendPerVisit: number;
   renewalRate: number;
   baselineExpiries: number;
   lapsedPool: number;
 };
 
+// Fallbacks only for a database with no history yet (cloud cold start, a studio that has never been
+// imported). Each pair is the rate/spend measured on that location's own history by
+// scripts/measure-studio-rates.ts — the same numbers the plan's requirement maths divides by.
 const EMPIRICAL_DEFAULTS: Record<string, EmpiricalDefault> = {
   'Kemps Corner': {
     actualKey: 'STU_KH',
     share: 1,
-    firstSpend: 25700,
+    firstSpend: 7404,
     trialSpend: 945,
-    renewalTicket: 24000,
-    reactivationTicket: 8600,
+    renewalTicket: 19241,
+    reactivationTicket: 9000,
     trialToMember: 0.238,
     leadToTrial: 0.766,
-    renewalRate: 0.658,
+    avgSpendPerVisit: 870,
+    renewalRate: 0.484,
     baselineExpiries: 118,
     lapsedPool: 523,
   },
   Bandra: {
     actualKey: 'STU_SHQ',
     share: 1,
-    firstSpend: 18000,
+    firstSpend: 5864,
     trialSpend: 945,
-    renewalTicket: 21700,
-    reactivationTicket: 6800,
+    renewalTicket: 17701,
+    reactivationTicket: 10134,
     trialToMember: 0.175,
     leadToTrial: 0.572,
-    renewalRate: 0.72,
+    avgSpendPerVisit: 743,
+    renewalRate: 0.459,
     baselineExpiries: 62,
     lapsedPool: 419,
   },
   'Kenkere House': {
     actualKey: 'STU_KEN',
     share: 1,
-    firstSpend: 15800,
+    firstSpend: 5449,
     trialSpend: 1350,
-    renewalTicket: 14300,
-    reactivationTicket: 5600,
+    renewalTicket: 9056,
+    reactivationTicket: 4685,
     trialToMember: 0.252,
     leadToTrial: 0.215,
-    renewalRate: 0.64,
+    avgSpendPerVisit: 748,
+    renewalRate: 0.434,
     baselineExpiries: 44,
     lapsedPool: 254,
   },
   'Pop-up': {
     actualKey: 'STU_POP',
     share: 1,
-    firstSpend: 6800,
+    firstSpend: 1587,
     trialSpend: 900,
-    renewalTicket: 7800,
-    reactivationTicket: 2400,
+    renewalTicket: 1440,
+    reactivationTicket: 2230,
     trialToMember: 0.27,
-    leadToTrial: 0.31,
-    renewalRate: 0.48,
+    leadToTrial: 0.305,
+    avgSpendPerVisit: 420,
+    renewalRate: 0.345,
     baselineExpiries: 34,
     lapsedPool: 158,
   },
   'Copper + Cloves': {
     actualKey: 'STU_POP',
     share: POPUP_SPLIT['Copper + Cloves'],
-    firstSpend: 6600,
+    firstSpend: 1653,
     trialSpend: 900,
-    renewalTicket: 7400,
-    reactivationTicket: 2300,
+    renewalTicket: 1549,
+    reactivationTicket: 2355,
     trialToMember: 0.28,
     leadToTrial: 0.31,
-    renewalRate: 0.48,
+    avgSpendPerVisit: 442,
+    renewalRate: 0.351,
     baselineExpiries: 22,
     lapsedPool: 103,
   },
   'Plash Pilates': {
     actualKey: 'STU_POP',
     share: POPUP_SPLIT['Plash Pilates'],
-    firstSpend: 7400,
+    firstSpend: 1521,
     trialSpend: 1500,
-    renewalTicket: 8600,
-    reactivationTicket: 2600,
+    renewalTicket: 1333,
+    reactivationTicket: 2104,
     trialToMember: 0.26,
     leadToTrial: 0.3,
-    renewalRate: 0.48,
+    avgSpendPerVisit: 398,
+    renewalRate: 0.34,
     baselineExpiries: 12,
     lapsedPool: 55,
   },
@@ -214,14 +224,31 @@ function ticketPerRenewal(ids: number[], from: string, to: string) {
   return { value: denom > 0 && tx.v > 0 ? tx.v / denom : null, buyers: denom };
 }
 
+// Trials are the unique member ids in the New-visitors export; a trial converts when that export says
+// Conversion Status = Converted. Distinct members, so a member appearing twice is one trial.
 function trialToMember(ids: number[], from: string, to: string) {
   const r = db
     .prepare(
-      `SELECT COUNT(*) n, SUM(CASE WHEN first_purchase_at IS NOT NULL AND julianday(first_purchase_at)-julianday(first_visit_at) BETWEEN 0 AND 90 THEN 1 ELSE 0 END) c
+      `SELECT COUNT(DISTINCT member_ref) n,
+              COUNT(DISTINCT CASE WHEN conversion_status='Converted' THEN member_ref END) c
        FROM member_visits WHERE studio_id IN (${ids.map(() => '?').join(',')}) AND month BETWEEN ? AND ?`,
     )
     .get(...ids, from, to) as any;
   return { value: r.n ? r.c / r.n : null, n: r.n || 0 };
+}
+
+// Average spend: the location's net revenue over the visits that earned it (check-ins), not a
+// per-member guess.
+function spendPerVisit(ids: number[], from: string, to: string) {
+  const r = db
+    .prepare(
+      `SELECT (SELECT COALESCE(SUM(net_amount),0) FROM transactions
+                WHERE studio_id IN (${ids.map(() => '?').join(',')}) AND month BETWEEN ? AND ? AND amount>0) net,
+              (SELECT COUNT(*) FROM checkins
+                WHERE studio_id IN (${ids.map(() => '?').join(',')}) AND month BETWEEN ? AND ? AND checked_in=1) visits`,
+    )
+    .get(...ids, from, to, ...ids, from, to) as any;
+  return { value: r.visits ? r.net / r.visits : null, n: r.visits || 0 };
 }
 
 function leadToTrial(ids: number[], from: string, to: string) {
@@ -299,6 +326,7 @@ export const ASSUMPTION_KEYS = {
   reactivationTicket: { min: 1, max: 10_000_000 },
   trialToMember: { min: 0.001, max: 1 },
   leadToTrial: { min: 0.001, max: 1 },
+  avgSpendPerVisit: { min: 1, max: 1_000_000 },
   renewalRate: { min: 0.001, max: 1 },
 } as const;
 export type AssumptionKey = keyof typeof ASSUMPTION_KEYS;
@@ -322,6 +350,7 @@ export function planEconomics(studioId: number, year: number) {
     reactivationTicket: spendPerBuyer(ids, 'reactivation', from, to),
     trialToMember: trialToMember(ids, trialFrom, trialTo),
     leadToTrial: leadToTrial(ids, from, to),
+    avgSpendPerVisit: spendPerVisit(ids, from, to),
     renewalRate: renewalRate(ids, from, to),
   };
 
@@ -392,6 +421,7 @@ export function planEconomics(studioId: number, year: number) {
     const autoT2M = blend(trailing.trialToMember.value, s.trialToMember.value, s.trialToMember.n) || emp.trialToMember;
     const autoL2T = blend(trailing.leadToTrial.value, s.leadToTrial.value, s.leadToTrial.n) ?? emp.leadToTrial;
     const autoRenewalRate = blend(trailing.renewalRate.value, s.renewalRate.value, s.renewalRate.n) || emp.renewalRate;
+    const autoSpendPerVisit = trailing.avgSpendPerVisit.value || emp.avgSpendPerVisit;
 
     const firstSpend = pick('firstSpend', autoFirstSpend),
       trialSpend = pick('trialSpend', autoTrialSpend),
@@ -399,7 +429,8 @@ export function planEconomics(studioId: number, year: number) {
       reactivationTicket = pick('reactivationTicket', autoReactivationTicket),
       t2m = pick('trialToMember', autoT2M),
       l2t = pick('leadToTrial', autoL2T),
-      rRate = pick('renewalRate', autoRenewalRate);
+      rRate = pick('renewalRate', autoRenewalRate),
+      spendPerVisitValue = pick('avgSpendPerVisit', autoSpendPerVisit);
 
     const t = targets.find(x => x.month === month);
     const selected = t ? Number(t.approved_target ?? t.proposed_target) || 0 : 0,
@@ -478,6 +509,7 @@ export function planEconomics(studioId: number, year: number) {
         trialRevenue: trials * trialSpend,
         trialToMember: t2m,
         leadToTrial: l2t,
+        spendPerVisit: spendPerVisitValue,
         buyers,
         trials,
         leads,

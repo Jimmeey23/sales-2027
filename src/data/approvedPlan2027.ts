@@ -34,11 +34,11 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
   {
     studio: 'Kemps Corner',
     month: 1,
-    theme: 'Stronger in 30 2.0',
-    hook: 'New Year · members-only 30-day challenge',
-    job: 'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
+    theme: 'Start Line',
+    hook: 'New Year · seven days unlimited · the annual re-up',
+    job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'Stronger in 30 2.0 runs all January for active members. Entry is free with an active membership or pack, so every January offer doubles as a challenge entry ticket.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, when Stronger in 30 2.0 opens.',
     figures: {
       target: 3120000,
       projected: 3280000,
@@ -46,16 +46,16 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2010000,
       reactivationPlan: 360000,
       otherPlan: 390000,
-      leadsTrials: [77, 59],
-      renewals: [120, 79],
-      lapsed: [523, 42],
-      newBuyers: 14,
+      leadsTrials: [269, 206],
+      renewals: [120, 105],
+      lapsed: [523, 40],
+      newBuyers: 49,
     },
     offers: [
       {
         slot: 'newcomer',
-        name: 'Week Zero',
-        tagline: "Seven days unlimited. Then you're in the challenge.",
+        name: 'The First Seven Days',
+        tagline: 'Seven days unlimited. Then decide.',
         fields: {
           Journey: ['Week Zero'],
           'Commercial job': ['Convert high-intent January leads fast'],
@@ -68,7 +68,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Goal-setting chat after class 1; owner check-in on day 3',
             '• Lab Induction seat at Kwality/Bandra',
             '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
-            '• A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+            "• Buy in January and you're pre-registered for February's challenge (target scaled)",
           ],
           When: ['1–24 Jan 2027.'],
           Rules: [
@@ -83,11 +83,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹4.1L counted (+₹55.7k vs the ₹3.6L stream plan) · 18 buyers'],
           'Rate of sale': ['Needs ≈18 renewal purchases (plan 14).'],
           'Why it works': [
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge gives a reason to join now.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (24% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
-            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, tied to the challenge.',
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
           ],
           Model: [
             '59 in pool × 23.7% plan rate × 1.25 conversion factor = 17.5 buyers × ₹26.7k ticket = ₹4.7L modelled; 50% of uplift counted',
@@ -96,18 +98,18 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       },
       {
         slot: 'lapsed',
-        name: 'Back for Stronger',
-        tagline: "The challenge starts without you. Unless you're back by 7 Jan.",
+        name: 'Back to the Barre',
+        tagline: 'Your barre is still here. A class on us, then the standing return price.',
         fields: {
-          'Commercial job': ['Reactivate lapsed clients through the challenge'],
+          'Commercial job': ['Reactivate lapsed clients early in the year'],
           'Who qualifies': ['Clients lapsed 61–365 days.'],
           'You pay': ['1M unlimited: ₹17.2k (15% off the ₹20.2k list price).'],
           'You get': [
             '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
-            '• Full entry to Stronger in 30 2.0, including finisher rewards',
             '• A free comeback class to book before buying',
+            "• Buy in January and you're pre-registered for February's challenge",
           ],
-          When: ['Buy by 7 Jan for full eligibility; 8–15 Jan entries get a scaled target.'],
+          When: ['Buy by 24 Jan 2027.'],
           Rules: [
             '• Standing 15% lapsed perk; no extra discount',
             '• The 15% is the standing lapsed-client perk, not an extra discount.',
@@ -119,7 +121,145 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹4.1L counted (+₹50.4k vs the ₹3.6L stream plan) · 48 buyers'],
           'Rate of sale': ['Needs ≈11 1M unlimited sales vs 29 a month today (all buyers).'],
           'Why it works': [
-            'The challenge is members-only, so lapsed clients need a membership to take part. A deadline and a social event do more than a deeper discount.',
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+          ],
+          'What to watch': ['Lapsed clients buying before 24 Jan.'],
+          'Offer auditor': [
+            '23/25 (Effect 5, Creativity 4, Clarity 5, Practical 5, Economics 4). A deadline with a reason behind it, and no discount given away.',
+          ],
+          Model: [
+            '523 in pool × 8.0% plan rate × 1.15 conversion factor = 48.3 buyers × ₹9.4k ticket (23% take the featured product) = ₹4.6L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+      {
+        slot: 'renewal',
+        name: 'The Annual Re-Up',
+        tagline: "The January annuals renew at list — and February's challenge comes with them.",
+        fields: {
+          'Commercial job': ['Re-up the January-2026 annuals at list'],
+          'Who qualifies': ['Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).'],
+          'You pay': ["Renewal at your product's list price (no % off)."],
+          'You get': [
+            '• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan',
+            '• Entry to February’s challenge, target scaled to the new term',
+          ],
+          When: ['2–31 Jan 2027.'],
+          Rules: [
+            '• No % discount',
+            '• Bonus days are earned by re-upping in January',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers'],
+          'Rate of sale': ['Needs ≈83 renewal purchases (plan 79).'],
+          'Why it works': [
+            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+          ],
+          'What to watch': ['Annuals re-upped; renewal yield.'],
+          'Offer auditor': [
+            '22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the set: the bonus is earned by showing up, not by discounting.',
+          ],
+          Model: [
+            '120 in pool × 65.8% plan rate × 1.05 conversion factor = 83.0 buyers × ₹25.5k ticket = ₹21.2L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+    ],
+  },
+  {
+    studio: 'Kemps Corner',
+    month: 2,
+    theme: 'Stronger in 30 2.0',
+    hook: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
+    job: "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
+    moment:
+      "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
+    figures: {
+      target: 2430000,
+      projected: 2510000,
+      newClientPlan: 320000,
+      renewalPlan: 1580000,
+      reactivationPlan: 220000,
+      otherPlan: 310000,
+      leadsTrials: [242, 185],
+      renewals: [83, 83],
+      lapsed: [456, 25],
+      newBuyers: 44,
+    },
+    offers: [
+      {
+        slot: 'newcomer',
+        name: 'Week Zero',
+        tagline: 'Seven days unlimited. Then the challenge clock starts.',
+        fields: {
+          Journey: ['Week Zero'],
+          'Commercial job': ['Convert high-intent February leads fast'],
+          'Who qualifies': ['First-time clients (phone verified).'],
+          'You pay': [
+            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).',
+          ],
+          'You get': [
+            '• Unlimited Barre and powerCycle for 7 days (max 2 classes a day)',
+            '• Goal-setting chat after class 1; owner check-in on day 3',
+            '• Lab Induction seat at Kwality/Bandra',
+            '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
+            '• A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+          ],
+          When: ['1–21 Feb 2027.'],
+          Rules: [
+            '• One intro per person',
+            '• Credit only within 72 hours of day 7',
+            '• The 15% is the standing new-client perk, not an extra discount.',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹1.7L counted · 6 buyers (the month runs two new-client routes; this is its share)'],
+          'Rate of sale': ['Needs ≈6 new clients in 28 days (2/wk).'],
+          'Why it works': [
+            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
+          ],
+          'What to watch': [
+            'Intro → purchase (24% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
+          'Offer auditor': [
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest February entry: bold, clear credit rule, tied to the challenge.',
+          ],
+          Model: [
+            '59 in pool × 23.7% plan rate × 1.25 conversion factor = 17.5 buyers × ₹26.7k ticket = ₹4.7L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+      {
+        slot: 'lapsed',
+        name: 'Back for Stronger',
+        tagline: "The challenge starts without you. Unless you're back by 7 Feb.",
+        fields: {
+          'Commercial job': ['Reactivate lapsed clients through the challenge'],
+          'Who qualifies': ['Clients lapsed 61–365 days.'],
+          'You pay': ['1M unlimited: ₹17.2k (15% off the ₹20.2k list price).'],
+          'You get': [
+            '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
+            '• Full entry to Stronger in 30 2.0, including finisher rewards',
+            '• A free comeback class to book before buying',
+          ],
+          When: ['Buy by 7 Feb for full eligibility; 8–15 Feb entries get a scaled target.'],
+          Rules: [
+            '• Standing 15% lapsed perk; no extra discount',
+            '• The 15% is the standing lapsed-client perk, not an extra discount.',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹1.4L counted · 5 buyers (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈5 comeback members in 28 days (1/wk).'],
+          'Why it works': [
+            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
           ],
           'What to watch': ['Lapsed clients entering the challenge.'],
           'Offer auditor': [
@@ -136,13 +276,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
         tagline: 'Finish Stronger in 30 and your renewal gets a medal.',
         fields: {
           'Commercial job': ['Use challenge attendance to drive renewals at list'],
-          'Who qualifies': ['Active members renewing in January or early February.'],
+          'Who qualifies': ['Active members renewing in late February or early March.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
             '• Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer',
             '• Members who reach 50% of the target get +3 days on 1M or +1 class on a pack',
           ],
-          When: ['Renew 15 Jan–10 Feb.'],
+          When: ['Renew 22 Feb–10 Mar 2027.'],
           Rules: [
             '• No % discount',
             '• Bonus is earned through challenge attendance',
@@ -151,8 +291,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers'],
-          'Rate of sale': ['Needs ≈83 renewal purchases (plan 79).'],
+          'Expected revenue': ['₹8.9L counted · 34 buyers (the month runs two renewal routes; this is its share)'],
+          'Rate of sale': ['Needs ≈34 renewals in 28 days (8/wk).'],
           'Why it works': [
             'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
           ],
@@ -165,32 +305,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           ],
         },
       },
-    ],
-  },
-  {
-    studio: 'Kemps Corner',
-    month: 2,
-    theme: 'Better Together',
-    hook: "Valentine's Day (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-    job: 'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-    moment: "Galentine's hosted class, Sat 13 Feb, with a named associate and the Encore QR at the door.",
-    figures: {
-      target: 2430000,
-      projected: 2510000,
-      newClientPlan: 320000,
-      renewalPlan: 1580000,
-      reactivationPlan: 220000,
-      otherPlan: 310000,
-      leadsTrials: [101, 78],
-      renewals: [83, 85],
-      lapsed: [456, 36],
-      newBuyers: 17,
-    },
-    offers: [
       {
         slot: 'newcomer',
         name: 'The Second Date for Two',
-        tagline: 'Bring someone. Your second dates are on us too.',
+        tagline: 'Bring someone. You both join the challenge.',
         fields: {
           Journey: ['The Second Date'],
           'Commercial job': ['Two genuinely new clients per sale'],
@@ -200,6 +318,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Free first Barre class for both',
             '• Class 2 booked together before leaving, free within 7 days',
             '• Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private',
+            '• Both enter Stronger in 30 2.0 on purchase; both count as finishers if they hit the target',
           ],
           When: ['1–28 Feb.'],
           Rules: [
@@ -210,10 +329,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹3.5L counted (+₹34.1k vs the ₹3.2L stream plan) · 21 buyers'],
-          'Rate of sale': ['Needs ≈11 1M unlimited sales vs 29 a month today (all buyers).'],
+          'Expected revenue': ['₹1.5L counted · 5 buyers (the month runs two new-client routes; this is its share)'],
+          'Rate of sale': ['Needs ≈5 new clients in 28 days (1/wk).'],
           'Why it works': [
-            'Replaces BOGO (mostly existing clients, 33–53% renewal). Pairs keep each other attending, and the booked second class is the lever.',
+            'Replaces BOGO (mostly existing clients, 33–53% renewal). Pairs keep each other attending, and the booked second class is the lever. Pairing them into the challenge gives the second class a deadline.',
           ],
           'What to watch': ['Both new (check in Momence).'],
           'Offer auditor': [
@@ -227,7 +346,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'lapsed',
         name: "It's Not You, It's Our Schedule",
-        tagline: "Let's try again. This time with freezes.",
+        tagline: "Let's try again. This time with freezes — and a challenge to come back for.",
         fields: {
           'Commercial job': ['Reactivate with humour and flexibility'],
           'Who qualifies': ['Clients lapsed 61–365 days.'],
@@ -236,6 +355,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• 1M unlimited at the standing 15% lapsed perk',
             "• 2 extra freezes so travel can't break it again",
             '• A free comeback class to book first',
+            '• Entry to Stronger in 30 2.0, target scaled to the return date',
           ],
           When: ['1–28 Feb.'],
           Rules: [
@@ -246,8 +366,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹2.4L counted (+₹20.1k vs the ₹2.2L stream plan) · 36 buyers'],
-          'Rate of sale': ['Needs ≈7 1M unlimited sales vs 29 a month today (all buyers).'],
+          'Expected revenue': ['₹0.8L counted · 3 buyers (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈3 comeback members in 28 days (1/wk).'],
           'Why it works': [
             "Valentine's gives a story without a deeper discount; freezes answer the most common lapse reason.",
           ],
@@ -263,12 +383,15 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Partners in Crime',
-        tagline: 'Renew with your workout partner. You both get more time.',
+        tagline: 'Renew with your workout partner. You both finish the challenge.',
         fields: {
           'Commercial job': ['Social accountability at renewal'],
           'Who qualifies': ['Two active members renewing in the same week.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
-          'You get': ['• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer'],
+          'You get': [
+            '• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer',
+            '• Both enter Stronger in 30 2.0; finishers keep the renewal bonus',
+          ],
           When: ['All February.'],
           Rules: [
             '• Both renewals at list',
@@ -278,8 +401,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹16.1L counted (+₹23.8k vs the ₹15.8L stream plan) · 88 buyers'],
-          'Rate of sale': ['Needs ≈88 renewal purchases (plan 85).'],
+          'Expected revenue': ['₹6.9L counted · 36 buyers (the month runs two renewal routes; this is its share)'],
+          'Rate of sale': ['Needs ≈36 renewals in 28 days (9/wk).'],
           'Why it works': ['Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.'],
           'What to watch': ['Next-renewal rate of pairs vs singles.'],
           'Offer auditor': [
@@ -297,7 +420,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 3,
     theme: 'She Moves',
     hook: "International Women's Day (Mon 8 Mar)",
-    job: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
+    job: "Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary. Keep February's challenge finishers attending.",
     moment: 'Class of 2024 Reunion at Bandra (638 lapsed launch-cohort clients). Anniversary teaser from 16 Mar.',
     figures: {
       target: 2430000,
@@ -306,10 +429,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1410000,
       reactivationPlan: 350000,
       otherPlan: 310000,
-      leadsTrials: [96, 74],
-      renewals: [100, 61],
-      lapsed: [561, 45],
-      newBuyers: 16,
+      leadsTrials: [276, 211],
+      renewals: [100, 74],
+      lapsed: [561, 39],
+      newBuyers: 50,
     },
     offers: [
       {
@@ -424,10 +547,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 3780000,
       reactivationPlan: 730000,
       otherPlan: 730000,
-      leadsTrials: [114, 88],
-      renewals: [120, 130],
-      lapsed: [951, 76],
-      newBuyers: 18,
+      leadsTrials: [391, 299],
+      renewals: [120, 197],
+      lapsed: [951, 82],
+      newBuyers: 71,
     },
     offers: [
       {
@@ -460,7 +583,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
           ],
-          'What to watch': ['Intro volume vs spare seats; intro → purchase (target 40%).'],
+          'What to watch': ['Intro volume vs spare seats; intro → purchase (24% measured).'],
           'Offer auditor': [
             '23/25 (Effect 5, Creativity 5, Clarity 5, Practical 4, Economics 4). Headline April offer.',
           ],
@@ -556,10 +679,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1490000,
       reactivationPlan: 390000,
       otherPlan: 340000,
-      leadsTrials: [134, 103],
-      renewals: [108, 65],
-      lapsed: [644, 51],
-      newBuyers: 22,
+      leadsTrials: [374, 286],
+      renewals: [108, 78],
+      lapsed: [644, 44],
+      newBuyers: 68,
     },
     offers: [
       {
@@ -667,10 +790,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1550000,
       reactivationPlan: 330000,
       otherPlan: 340000,
-      leadsTrials: [151, 116],
-      renewals: [133, 76],
-      lapsed: [607, 49],
-      newBuyers: 24,
+      leadsTrials: [369, 282],
+      renewals: [133, 81],
+      lapsed: [607, 37],
+      newBuyers: 67,
     },
     offers: [
       {
@@ -778,10 +901,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1880000,
       reactivationPlan: 400000,
       otherPlan: 400000,
-      leadsTrials: [130, 100],
-      renewals: [129, 79],
-      lapsed: [638, 51],
-      newBuyers: 21,
+      leadsTrials: [374, 286],
+      renewals: [129, 98],
+      lapsed: [638, 45],
+      newBuyers: 68,
     },
     offers: [
       {
@@ -897,10 +1020,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2210000,
       reactivationPlan: 350000,
       otherPlan: 450000,
-      leadsTrials: [142, 109],
-      renewals: [143, 91],
-      lapsed: [554, 44],
-      newBuyers: 24,
+      leadsTrials: [434, 332],
+      renewals: [143, 115],
+      lapsed: [554, 39],
+      newBuyers: 79,
     },
     offers: [
       {
@@ -1016,10 +1139,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2210000,
       reactivationPlan: 450000,
       otherPlan: 470000,
-      leadsTrials: [125, 96],
-      renewals: [169, 76],
-      lapsed: [593, 47],
-      newBuyers: 21,
+      leadsTrials: [456, 349],
+      renewals: [169, 115],
+      lapsed: [593, 50],
+      newBuyers: 83,
     },
     offers: [
       {
@@ -1127,10 +1250,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2950000,
       reactivationPlan: 470000,
       otherPlan: 600000,
-      leadsTrials: [142, 109],
-      renewals: [122, 96],
-      lapsed: [573, 46],
-      newBuyers: 24,
+      leadsTrials: [550, 421],
+      renewals: [122, 154],
+      lapsed: [573, 53],
+      newBuyers: 100,
     },
     offers: [
       {
@@ -1240,10 +1363,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1190000,
       reactivationPlan: 230000,
       otherPlan: 250000,
-      leadsTrials: [91, 70],
-      renewals: [88, 55],
-      lapsed: [400, 32],
-      newBuyers: 16,
+      leadsTrials: [264, 202],
+      renewals: [88, 62],
+      lapsed: [400, 26],
+      newBuyers: 48,
     },
     offers: [
       {
@@ -1342,7 +1465,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 12,
     theme: 'Wrapped',
     hook: 'Year-end · pre-sell January',
-    job: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
+    job: "Pre-sell the February 2028 challenge and January's first week; renew on personal usage data.",
     moment:
       '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
     figures: {
@@ -1352,16 +1475,16 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1900000,
       reactivationPlan: 510000,
       otherPlan: 420000,
-      leadsTrials: [122, 94],
-      renewals: [105, 75],
-      lapsed: [758, 61],
-      newBuyers: 19,
+      leadsTrials: [358, 274],
+      renewals: [105, 99],
+      lapsed: [758, 57],
+      newBuyers: 65,
     },
     offers: [
       {
         slot: 'newcomer',
         name: 'Kickstart 21: Pre-Solution Cohort',
-        tagline: 'Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
+        tagline: 'Buy in December. Start Mon 3 Jan. Arrive at the February challenge.',
         fields: {
           Journey: ['Kickstart 21'],
           'Commercial job': ['Pre-sell January'],
@@ -1370,7 +1493,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'You get': [
             '• Cohort starts Mon 3 Jan 2028; sold in December',
             '• 21 days unlimited + coach, WhatsApp, fitness checks, graduation',
-            '• Graduates who buy a membership join Stronger in 30 (2028) with a scaled target',
+            '• Graduates who buy a membership join the February 2028 challenge with a scaled target',
           ],
           When: ['All December.'],
           Rules: [
@@ -1431,14 +1554,14 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Challenge-Ready Renewal',
-        tagline: "Renew in December so you're covered for all of Stronger in 30.",
+        tagline: "Renew in December so you're covered for the whole February challenge.",
         fields: {
           'Commercial job': ['Renew at list ahead of the challenge'],
           'Who qualifies': ['Members expiring Dec–Jan.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
-            '• Renew at list so the membership covers all of January',
-            '• Stronger in 30 challenge kit (≈₹1,000)',
+            "• Renew at list so the membership covers January and February's challenge",
+            '• February challenge kit (≈₹1,000)',
           ],
           When: ['All December.'],
           Rules: ['• No % discount', "• Doesn't combine with any other campaign offer."],
@@ -1462,11 +1585,11 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
   {
     studio: 'Bandra',
     month: 1,
-    theme: 'Stronger in 30 2.0',
-    hook: 'New Year · members-only 30-day challenge',
-    job: 'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
+    theme: 'Start Line',
+    hook: 'New Year · seven days unlimited · the annual re-up',
+    job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'Stronger in 30 2.0 runs all January for active members. Entry is free with an active membership or pack, so every January offer doubles as a challenge entry ticket.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, when Stronger in 30 2.0 opens.',
     figures: {
       target: 1760000,
       projected: 1870000,
@@ -1474,16 +1597,16 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1150000,
       reactivationPlan: 220000,
       otherPlan: 130000,
-      leadsTrials: [152, 87],
-      renewals: [60, 50],
-      lapsed: [419, 33],
-      newBuyers: 15,
+      leadsTrials: [471, 269],
+      renewals: [60, 65],
+      lapsed: [419, 22],
+      newBuyers: 47,
     },
     offers: [
       {
         slot: 'newcomer',
-        name: 'Week Zero',
-        tagline: "Seven days unlimited. Then you're in the challenge.",
+        name: 'The First Seven Days',
+        tagline: 'Seven days unlimited. Then decide.',
         fields: {
           Journey: ['Week Zero'],
           'Commercial job': ['Convert high-intent January leads fast'],
@@ -1496,7 +1619,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Goal-setting chat after class 1; owner check-in on day 3',
             '• Lab Induction seat at Kwality/Bandra',
             '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
-            '• A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+            "• Buy in January and you're pre-registered for February's challenge (target scaled)",
           ],
           When: ['1–24 Jan 2027.'],
           Rules: [
@@ -1511,11 +1634,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹3.1L counted (+₹42k vs the ₹2.7L stream plan) · 19 buyers'],
           'Rate of sale': ['Needs ≈19 renewal purchases (plan 15).'],
           'Why it works': [
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge gives a reason to join now.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (18% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
-            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, tied to the challenge.',
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
           ],
           Model: [
             '87 in pool × 17.2% plan rate × 1.25 conversion factor = 18.8 buyers × ₹18.8k ticket = ₹3.5L modelled; 50% of uplift counted',
@@ -1524,18 +1649,18 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       },
       {
         slot: 'lapsed',
-        name: 'Back for Stronger',
-        tagline: "The challenge starts without you. Unless you're back by 7 Jan.",
+        name: 'Back to the Barre',
+        tagline: 'Your barre is still here. A class on us, then the standing return price.',
         fields: {
-          'Commercial job': ['Reactivate lapsed clients through the challenge'],
+          'Commercial job': ['Reactivate lapsed clients early in the year'],
           'Who qualifies': ['Clients lapsed 61–365 days.'],
           'You pay': ['1M unlimited: ₹17.2k (15% off the ₹20.2k list price).'],
           'You get': [
             '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
-            '• Full entry to Stronger in 30 2.0, including finisher rewards',
             '• A free comeback class to book before buying',
+            "• Buy in January and you're pre-registered for February's challenge",
           ],
-          When: ['Buy by 7 Jan for full eligibility; 8–15 Jan entries get a scaled target.'],
+          When: ['Buy by 24 Jan 2027.'],
           Rules: [
             '• Standing 15% lapsed perk; no extra discount',
             '• The 15% is the standing lapsed-client perk, not an extra discount.',
@@ -1547,7 +1672,145 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹2.5L counted (+₹38.9k vs the ₹2.2L stream plan) · 38 buyers'],
           'Rate of sale': ['Needs ≈9 1M unlimited sales vs 19.7 a month today (all buyers).'],
           'Why it works': [
-            'The challenge is members-only, so lapsed clients need a membership to take part. A deadline and a social event do more than a deeper discount.',
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+          ],
+          'What to watch': ['Lapsed clients buying before 24 Jan.'],
+          'Offer auditor': [
+            '23/25 (Effect 5, Creativity 4, Clarity 5, Practical 5, Economics 4). A deadline with a reason behind it, and no discount given away.',
+          ],
+          Model: [
+            '419 in pool × 7.9% plan rate × 1.15 conversion factor = 37.9 buyers × ₹7.7k ticket (23% take the featured product) = ₹2.9L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+      {
+        slot: 'renewal',
+        name: 'The Annual Re-Up',
+        tagline: "The January annuals renew at list — and February's challenge comes with them.",
+        fields: {
+          'Commercial job': ['Re-up the January-2026 annuals at list'],
+          'Who qualifies': ['Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).'],
+          'You pay': ["Renewal at your product's list price (no % off)."],
+          'You get': [
+            '• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan',
+            '• Entry to February’s challenge, target scaled to the new term',
+          ],
+          When: ['2–31 Jan 2027.'],
+          Rules: [
+            '• No % discount',
+            '• Bonus days are earned by re-upping in January',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers'],
+          'Rate of sale': ['Needs ≈53 renewal purchases (plan 50).'],
+          'Why it works': [
+            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+          ],
+          'What to watch': ['Annuals re-upped; renewal yield.'],
+          'Offer auditor': [
+            '22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the set: the bonus is earned by showing up, not by discounting.',
+          ],
+          Model: [
+            '60 in pool × 83.3% plan rate × 1.05 conversion factor = 52.5 buyers × ₹23k ticket = ₹12.1L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+    ],
+  },
+  {
+    studio: 'Bandra',
+    month: 2,
+    theme: 'Stronger in 30 2.0',
+    hook: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
+    job: "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
+    moment:
+      "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
+    figures: {
+      target: 1620000,
+      projected: 1690000,
+      newClientPlan: 200000,
+      renewalPlan: 1190000,
+      reactivationPlan: 120000,
+      otherPlan: 120000,
+      leadsTrials: [350, 200],
+      renewals: [66, 68],
+      lapsed: [285, 12],
+      newBuyers: 35,
+    },
+    offers: [
+      {
+        slot: 'newcomer',
+        name: 'Week Zero',
+        tagline: 'Seven days unlimited. Then the challenge clock starts.',
+        fields: {
+          Journey: ['Week Zero'],
+          'Commercial job': ['Convert high-intent February leads fast'],
+          'Who qualifies': ['First-time clients (phone verified).'],
+          'You pay': [
+            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).',
+          ],
+          'You get': [
+            '• Unlimited Barre and powerCycle for 7 days (max 2 classes a day)',
+            '• Goal-setting chat after class 1; owner check-in on day 3',
+            '• Lab Induction seat at Kwality/Bandra',
+            '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
+            '• A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+          ],
+          When: ['1–21 Feb 2027.'],
+          Rules: [
+            '• One intro per person',
+            '• Credit only within 72 hours of day 7',
+            '• The 15% is the standing new-client perk, not an extra discount.',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹1.2L counted · 6 buyers (the month runs two new-client routes; this is its share)'],
+          'Rate of sale': ['Needs ≈6 new clients in 28 days (2/wk).'],
+          'Why it works': [
+            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
+          ],
+          'What to watch': [
+            'Intro → purchase (18% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
+          'Offer auditor': [
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest February entry: bold, clear credit rule, tied to the challenge.',
+          ],
+          Model: [
+            '87 in pool × 17.2% plan rate × 1.25 conversion factor = 18.8 buyers × ₹18.8k ticket = ₹3.5L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+      {
+        slot: 'lapsed',
+        name: 'Back for Stronger',
+        tagline: "The challenge starts without you. Unless you're back by 7 Feb.",
+        fields: {
+          'Commercial job': ['Reactivate lapsed clients through the challenge'],
+          'Who qualifies': ['Clients lapsed 61–365 days.'],
+          'You pay': ['1M unlimited: ₹17.2k (15% off the ₹20.2k list price).'],
+          'You get': [
+            '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
+            '• Full entry to Stronger in 30 2.0, including finisher rewards',
+            '• A free comeback class to book before buying',
+          ],
+          When: ['Buy by 7 Feb for full eligibility; 8–15 Feb entries get a scaled target.'],
+          Rules: [
+            '• Standing 15% lapsed perk; no extra discount',
+            '• The 15% is the standing lapsed-client perk, not an extra discount.',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹0.8L counted · 3 buyers (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈3 comeback members in 28 days (1/wk).'],
+          'Why it works': [
+            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
           ],
           'What to watch': ['Lapsed clients entering the challenge.'],
           'Offer auditor': [
@@ -1564,13 +1827,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
         tagline: 'Finish Stronger in 30 and your renewal gets a medal.',
         fields: {
           'Commercial job': ['Use challenge attendance to drive renewals at list'],
-          'Who qualifies': ['Active members renewing in January or early February.'],
+          'Who qualifies': ['Active members renewing in late February or early March.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
             '• Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer',
             '• Members who reach 50% of the target get +3 days on 1M or +1 class on a pack',
           ],
-          When: ['Renew 15 Jan–10 Feb.'],
+          When: ['Renew 22 Feb–10 Mar 2027.'],
           Rules: [
             '• No % discount',
             '• Bonus is earned through challenge attendance',
@@ -1579,8 +1842,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers'],
-          'Rate of sale': ['Needs ≈53 renewal purchases (plan 50).'],
+          'Expected revenue': ['₹5.9L counted · 25 buyers (the month runs two renewal routes; this is its share)'],
+          'Rate of sale': ['Needs ≈25 renewals in 28 days (6/wk).'],
           'Why it works': [
             'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
           ],
@@ -1593,28 +1856,6 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           ],
         },
       },
-    ],
-  },
-  {
-    studio: 'Bandra',
-    month: 2,
-    theme: 'Better Together',
-    hook: "Valentine's Day (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-    job: 'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-    moment: "Galentine's hosted class, Sat 13 Feb, with a named associate and the Encore QR at the door.",
-    figures: {
-      target: 1620000,
-      projected: 1690000,
-      newClientPlan: 200000,
-      renewalPlan: 1190000,
-      reactivationPlan: 120000,
-      otherPlan: 120000,
-      leadsTrials: [142, 81],
-      renewals: [66, 66],
-      lapsed: [285, 23],
-      newBuyers: 14,
-    },
-    offers: [
       {
         slot: 'newcomer',
         name: 'The 30-Day Proof',
@@ -1628,6 +1869,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• 1M unlimited at the standing 15%',
             '• Day-1 fitness check (3 measures), coach check-ins on days 7 and 21',
             '• Day-30 re-test: 12+ classes and no improvement on 2 of 3 measures → next month free',
+            '• Counts as your Stronger in 30 2.0 entry from day 1',
           ],
           When: ['1–28 Feb.'],
           Rules: [
@@ -1639,8 +1881,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹2.2L counted (+₹23.6k vs the ₹2.0L stream plan) · 16 buyers'],
-          'Rate of sale': ['Needs ≈11 1M unlimited sales vs 19.7 a month today (all buyers).'],
+          'Expected revenue': ['₹0.8L counted · 3 buyers (the month runs two new-client routes; this is its share)'],
+          'Rate of sale': ['Needs ≈3 new clients in 28 days (1/wk).'],
           'Why it works': [
             'Bandra has the lowest new-client conversion (17–26%). A guarantee answers the core objection; 12 classes almost always produce improvement, so it rarely pays out.',
           ],
@@ -1656,7 +1898,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'lapsed',
         name: 'Come Back as a Pair',
-        tagline: 'Return with a friend. Their first class is on us.',
+        tagline: 'Return with a friend. Their first class is on us — and you both enter the challenge.',
         fields: {
           'Commercial job': ['Reactivation that also brings a new lead'],
           'Who qualifies': ['Lapsed clients plus a friend who is new to P57.'],
@@ -1665,6 +1907,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Lapsed client: 12-class pack at the standing 15%',
             '• Friend: free first class',
             '• If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month',
+            '• Lapsed client and friend both enter Stronger in 30 2.0',
           ],
           When: ['All February.'],
           Rules: [
@@ -1675,8 +1918,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹1.4L counted (+₹24.1k vs the ₹1.2L stream plan) · 25 buyers'],
-          'Rate of sale': ['Needs ≈6 12-class pack sales vs 29 a month today (all buyers).'],
+          'Expected revenue': ['₹0.4L counted · 1 buyer (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈1 comeback member in 28 days (1/wk).'],
           'Why it works': ['One message, two streams: reactivation and a warm new lead.'],
           'What to watch': ['Friends who buy.'],
           'Offer auditor': [
@@ -1690,12 +1933,15 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Partners in Crime',
-        tagline: 'Renew with your workout partner. You both get more time.',
+        tagline: 'Renew with your workout partner. You both finish the challenge.',
         fields: {
           'Commercial job': ['Social accountability at renewal'],
           'Who qualifies': ['Two active members renewing in the same week.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
-          'You get': ['• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer'],
+          'You get': [
+            '• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer',
+            '• Both enter Stronger in 30 2.0; finishers keep the renewal bonus',
+          ],
           When: ['All February.'],
           Rules: [
             '• Both renewals at list',
@@ -1705,8 +1951,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹12.1L counted (+₹17.8k vs the ₹11.9L stream plan) · 68 buyers'],
-          'Rate of sale': ['Needs ≈68 renewal purchases (plan 66).'],
+          'Expected revenue': ['₹6.0L counted · 33 buyers (the month runs two renewal routes; this is its share)'],
+          'Rate of sale': ['Needs ≈33 renewals in 28 days (8/wk).'],
           'Why it works': ['Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.'],
           'What to watch': ['Next-renewal rate of pairs vs singles.'],
           'Offer auditor': [
@@ -1724,7 +1970,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 3,
     theme: 'She Moves',
     hook: "International Women's Day (Mon 8 Mar)",
-    job: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
+    job: "Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary. Keep February's challenge finishers attending.",
     moment: 'Class of 2024 Reunion at Bandra (638 lapsed launch-cohort clients). Anniversary teaser from 16 Mar.',
     figures: {
       target: 1360000,
@@ -1733,10 +1979,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 810000,
       reactivationPlan: 190000,
       otherPlan: 100000,
-      leadsTrials: [151, 86],
-      renewals: [71, 36],
-      lapsed: [358, 29],
-      newBuyers: 15,
+      leadsTrials: [452, 258],
+      renewals: [71, 46],
+      lapsed: [358, 19],
+      newBuyers: 45,
     },
     offers: [
       {
@@ -1855,10 +2101,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 2210000,
       reactivationPlan: 380000,
       otherPlan: 240000,
-      leadsTrials: [238, 136],
-      renewals: [74, 88],
-      lapsed: [673, 54],
-      newBuyers: 24,
+      leadsTrials: [810, 463],
+      renewals: [74, 125],
+      lapsed: [673, 38],
+      newBuyers: 81,
     },
     offers: [
       {
@@ -1891,7 +2137,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
           ],
-          'What to watch': ['Intro volume vs spare seats; intro → purchase (target 40%).'],
+          'What to watch': ['Intro volume vs spare seats; intro → purchase (18% measured).'],
           'Offer auditor': [
             '23/25 (Effect 5, Creativity 5, Clarity 5, Practical 4, Economics 4). Headline April offer.',
           ],
@@ -1985,10 +2231,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1190000,
       reactivationPlan: 180000,
       otherPlan: 130000,
-      leadsTrials: [221, 126],
-      renewals: [85, 55],
-      lapsed: [365, 29],
-      newBuyers: 22,
+      leadsTrials: [640, 366],
+      renewals: [85, 68],
+      lapsed: [365, 18],
+      newBuyers: 64,
     },
     offers: [
       {
@@ -2101,10 +2347,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1010000,
       reactivationPlan: 110000,
       otherPlan: 110000,
-      leadsTrials: [203, 116],
-      renewals: [86, 50],
-      lapsed: [238, 19],
-      newBuyers: 20,
+      leadsTrials: [551, 315],
+      renewals: [86, 58],
+      lapsed: [238, 11],
+      newBuyers: 55,
     },
     offers: [
       {
@@ -2220,10 +2466,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1420000,
       reactivationPlan: 180000,
       otherPlan: 150000,
-      leadsTrials: [205, 117],
-      renewals: [90, 62],
-      lapsed: [337, 27],
-      newBuyers: 22,
+      leadsTrials: [670, 383],
+      renewals: [90, 81],
+      lapsed: [337, 18],
+      newBuyers: 67,
     },
     offers: [
       {
@@ -2339,10 +2585,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1800000,
       reactivationPlan: 250000,
       otherPlan: 180000,
-      leadsTrials: [142, 81],
-      renewals: [106, 70],
-      lapsed: [424, 34],
-      newBuyers: 16,
+      leadsTrials: [551, 315],
+      renewals: [106, 102],
+      lapsed: [424, 25],
+      newBuyers: 55,
     },
     offers: [
       {
@@ -2458,10 +2704,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1140000,
       reactivationPlan: 210000,
       otherPlan: 130000,
-      leadsTrials: [194, 111],
-      renewals: [114, 56],
-      lapsed: [466, 37],
-      newBuyers: 20,
+      leadsTrials: [551, 315],
+      renewals: [114, 65],
+      lapsed: [466, 21],
+      newBuyers: 55,
     },
     offers: [
       {
@@ -2570,10 +2816,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1070000,
       reactivationPlan: 180000,
       otherPlan: 120000,
-      leadsTrials: [200, 114],
-      renewals: [89, 57],
-      lapsed: [408, 33],
-      newBuyers: 20,
+      leadsTrials: [501, 286],
+      renewals: [89, 61],
+      lapsed: [408, 18],
+      newBuyers: 50,
     },
     offers: [
       {
@@ -2681,10 +2927,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 920000,
       reactivationPlan: 140000,
       otherPlan: 100000,
-      leadsTrials: [130, 74],
-      renewals: [69, 51],
-      lapsed: [344, 27],
-      newBuyers: 14,
+      leadsTrials: [350, 200],
+      renewals: [69, 52],
+      lapsed: [344, 14],
+      newBuyers: 35,
     },
     offers: [
       {
@@ -2781,7 +3027,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 12,
     theme: 'Wrapped',
     hook: 'Year-end · pre-sell January',
-    job: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
+    job: "Pre-sell the February 2028 challenge and January's first week; renew on personal usage data.",
     moment:
       '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
     figures: {
@@ -2791,16 +3037,16 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 1260000,
       reactivationPlan: 170000,
       otherPlan: 130000,
-      leadsTrials: [147, 84],
-      renewals: [81, 51],
-      lapsed: [295, 24],
-      newBuyers: 15,
+      leadsTrials: [501, 286],
+      renewals: [81, 72],
+      lapsed: [295, 17],
+      newBuyers: 50,
     },
     offers: [
       {
         slot: 'newcomer',
         name: 'Kickstart 21: Pre-Solution Cohort',
-        tagline: 'Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
+        tagline: 'Buy in December. Start Mon 3 Jan. Arrive at the February challenge.',
         fields: {
           Journey: ['Kickstart 21'],
           'Commercial job': ['Pre-sell January'],
@@ -2809,7 +3055,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'You get': [
             '• Cohort starts Mon 3 Jan 2028; sold in December',
             '• 21 days unlimited + coach, WhatsApp, fitness checks, graduation',
-            '• Graduates who buy a membership join Stronger in 30 (2028) with a scaled target',
+            '• Graduates who buy a membership join the February 2028 challenge with a scaled target',
           ],
           When: ['All December.'],
           Rules: [
@@ -2837,14 +3083,14 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'lapsed',
         name: 'Challenge Comeback Ticket',
-        tagline: 'Buy now, start by 1 January, join Stronger in 30.',
+        tagline: "Buy now, start by 1 January, join February's challenge.",
         fields: {
           'Commercial job': ['Pre-sell reactivations into the challenge'],
           'Who qualifies': ['Lapsed clients.'],
           'You pay': ['1M unlimited: ₹17.2k (15% off the ₹20.2k list price).'],
           'You get': [
             '• 1M at the standing 15%, start any day until 1 Jan',
-            '• Eligible for Stronger in 30 (Jan 2028)',
+            '• Eligible for the February challenge (2028)',
           ],
           When: ['All December.'],
           Rules: [
@@ -2870,14 +3116,14 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Challenge-Ready Renewal',
-        tagline: "Renew in December so you're covered for all of Stronger in 30.",
+        tagline: "Renew in December so you're covered for the whole February challenge.",
         fields: {
           'Commercial job': ['Renew at list ahead of the challenge'],
           'Who qualifies': ['Members expiring Dec–Jan.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
-            '• Renew at list so the membership covers all of January',
-            '• Stronger in 30 challenge kit (≈₹1,000)',
+            "• Renew at list so the membership covers January and February's challenge",
+            '• February challenge kit (≈₹1,000)',
           ],
           When: ['All December.'],
           Rules: ['• No % discount', "• Doesn't combine with any other campaign offer."],
@@ -2901,11 +3147,11 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
   {
     studio: 'Kenkere House',
     month: 1,
-    theme: 'Stronger in 30 2.0',
-    hook: 'New Year · members-only 30-day challenge',
-    job: 'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
+    theme: 'Start Line',
+    hook: 'New Year · seven days unlimited · the annual re-up',
+    job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'Stronger in 30 2.0 runs all January for active members. Entry is free with an active membership or pack, so every January offer doubles as a challenge entry ticket.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, when Stronger in 30 2.0 opens.',
     figures: {
       target: 1290000,
       projected: 1380000,
@@ -2913,16 +3159,16 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 660000,
       reactivationPlan: 110000,
       otherPlan: 170000,
-      leadsTrials: [405, 81],
-      renewals: [42, 41],
-      lapsed: [254, 20],
-      newBuyers: 20,
+      leadsTrials: [1200, 258],
+      renewals: [42, 73],
+      lapsed: [254, 24],
+      newBuyers: 65,
     },
     offers: [
       {
         slot: 'newcomer',
-        name: 'Week Zero',
-        tagline: "Seven days unlimited. Then you're in the challenge.",
+        name: 'The First Seven Days',
+        tagline: 'Seven days unlimited. Then decide.',
         fields: {
           Journey: ['Week Zero'],
           'Commercial job': ['Convert high-intent January leads fast'],
@@ -2935,7 +3181,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Goal-setting chat after class 1; owner check-in on day 3',
             '• Lab Induction seat at Kwality/Bandra',
             '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
-            '• A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+            "• Buy in January and you're pre-registered for February's challenge (target scaled)",
           ],
           When: ['1–24 Jan 2027.'],
           Rules: [
@@ -2950,11 +3196,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹4.0L counted (+₹54.3k vs the ₹3.5L stream plan) · 26 buyers'],
           'Rate of sale': ['Needs ≈26 renewal purchases (plan 20).'],
           'Why it works': [
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge gives a reason to join now.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
           ],
-          'What to watch': ['Intro → purchase (target 45%); classes in the intro week (target 4+).'],
+          'What to watch': [
+            'Intro → purchase (25% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
           'Offer auditor': [
-            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, tied to the challenge.',
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
           ],
           Model: [
             '81 in pool × 25.2% plan rate × 1.25 conversion factor = 25.5 buyers × ₹17.9k ticket = ₹4.6L modelled; 50% of uplift counted',
@@ -2963,18 +3211,18 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       },
       {
         slot: 'lapsed',
-        name: 'Back for Stronger',
-        tagline: "The challenge starts without you. Unless you're back by 7 Jan.",
+        name: 'Back to the Barre',
+        tagline: 'Your barre is still here. A class on us, then the standing return price.',
         fields: {
-          'Commercial job': ['Reactivate lapsed clients through the challenge'],
+          'Commercial job': ['Reactivate lapsed clients early in the year'],
           'Who qualifies': ['Clients lapsed 61–365 days.'],
           'You pay': ['1M unlimited: ₹12.4k (15% off the ₹14.6k list price).'],
           'You get': [
             '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
-            '• Full entry to Stronger in 30 2.0, including finisher rewards',
             '• A free comeback class to book before buying',
+            "• Buy in January and you're pre-registered for February's challenge",
           ],
-          When: ['Buy by 7 Jan for full eligibility; 8–15 Jan entries get a scaled target.'],
+          When: ['Buy by 24 Jan 2027.'],
           Rules: [
             '• Standing 15% lapsed perk; no extra discount',
             '• The 15% is the standing lapsed-client perk, not an extra discount.',
@@ -2986,7 +3234,145 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹1.3L counted (+₹17.5k vs the ₹1.1L stream plan) · 23 buyers'],
           'Rate of sale': ['Needs ≈5 1M unlimited sales vs 17.3 a month today (all buyers).'],
           'Why it works': [
-            'The challenge is members-only, so lapsed clients need a membership to take part. A deadline and a social event do more than a deeper discount.',
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+          ],
+          'What to watch': ['Lapsed clients buying before 24 Jan.'],
+          'Offer auditor': [
+            '23/25 (Effect 5, Creativity 4, Clarity 5, Practical 5, Economics 4). A deadline with a reason behind it, and no discount given away.',
+          ],
+          Model: [
+            '254 in pool × 8.0% plan rate × 1.15 conversion factor = 23.5 buyers × ₹6.3k ticket (23% take the featured product) = ₹1.5L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+      {
+        slot: 'renewal',
+        name: 'The Annual Re-Up',
+        tagline: "The January annuals renew at list — and February's challenge comes with them.",
+        fields: {
+          'Commercial job': ['Re-up the January-2026 annuals at list'],
+          'Who qualifies': ['Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).'],
+          'You pay': ["Renewal at your product's list price (no % off)."],
+          'You get': [
+            '• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan',
+            '• Entry to February’s challenge, target scaled to the new term',
+          ],
+          When: ['2–31 Jan 2027.'],
+          Rules: [
+            '• No % discount',
+            '• Bonus days are earned by re-upping in January',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers'],
+          'Rate of sale': ['Needs ≈43 renewal purchases (plan 41).'],
+          'Why it works': [
+            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+          ],
+          'What to watch': ['Annuals re-upped; renewal yield.'],
+          'Offer auditor': [
+            '22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the set: the bonus is earned by showing up, not by discounting.',
+          ],
+          Model: [
+            '42 in pool × 97.4% plan rate × 1.05 conversion factor = 42.7 buyers × ₹16.1k ticket = ₹6.9L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+    ],
+  },
+  {
+    studio: 'Kenkere House',
+    month: 2,
+    theme: 'Stronger in 30 2.0',
+    hook: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
+    job: "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
+    moment:
+      "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
+    figures: {
+      target: 1090000,
+      projected: 1140000,
+      newClientPlan: 200000,
+      renewalPlan: 670000,
+      reactivationPlan: 80000,
+      otherPlan: 150000,
+      leadsTrials: [684, 147],
+      renewals: [44, 74],
+      lapsed: [234, 18],
+      newBuyers: 37,
+    },
+    offers: [
+      {
+        slot: 'newcomer',
+        name: 'Week Zero',
+        tagline: 'Seven days unlimited. Then the challenge clock starts.',
+        fields: {
+          Journey: ['Week Zero'],
+          'Commercial job': ['Convert high-intent February leads fast'],
+          'Who qualifies': ['First-time clients (phone verified).'],
+          'You pay': [
+            'Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).',
+          ],
+          'You get': [
+            '• Unlimited Barre and powerCycle for 7 days (max 2 classes a day)',
+            '• Goal-setting chat after class 1; owner check-in on day 3',
+            '• Lab Induction seat at Kwality/Bandra',
+            '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
+            '• A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
+          ],
+          When: ['1–21 Feb 2027.'],
+          Rules: [
+            '• One intro per person',
+            '• Credit only within 72 hours of day 7',
+            '• The 15% is the standing new-client perk, not an extra discount.',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹1.3L counted · 6 buyers (the month runs two new-client routes; this is its share)'],
+          'Rate of sale': ['Needs ≈6 new clients in 28 days (2/wk).'],
+          'Why it works': [
+            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
+          ],
+          'What to watch': [
+            'Intro → purchase (25% measured — plan at that rate); classes in the intro week (target 4+).',
+          ],
+          'Offer auditor': [
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest February entry: bold, clear credit rule, tied to the challenge.',
+          ],
+          Model: [
+            '81 in pool × 25.2% plan rate × 1.25 conversion factor = 25.5 buyers × ₹17.9k ticket = ₹4.6L modelled; 50% of uplift counted',
+          ],
+        },
+      },
+      {
+        slot: 'lapsed',
+        name: 'Back for Stronger',
+        tagline: "The challenge starts without you. Unless you're back by 7 Feb.",
+        fields: {
+          'Commercial job': ['Reactivate lapsed clients through the challenge'],
+          'Who qualifies': ['Clients lapsed 61–365 days.'],
+          'You pay': ['1M unlimited: ₹12.4k (15% off the ₹14.6k list price).'],
+          'You get': [
+            '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
+            '• Full entry to Stronger in 30 2.0, including finisher rewards',
+            '• A free comeback class to book before buying',
+          ],
+          When: ['Buy by 7 Feb for full eligibility; 8–15 Feb entries get a scaled target.'],
+          Rules: [
+            '• Standing 15% lapsed perk; no extra discount',
+            '• The 15% is the standing lapsed-client perk, not an extra discount.',
+            "• Doesn't combine with any other campaign offer.",
+          ],
+          'Effective discount': [
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
+          ],
+          'Expected revenue': ['₹0.5L counted · 2 buyers (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈2 comeback members in 28 days (1/wk).'],
+          'Why it works': [
+            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
           ],
           'What to watch': ['Lapsed clients entering the challenge.'],
           'Offer auditor': [
@@ -3003,13 +3389,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
         tagline: 'Finish Stronger in 30 and your renewal gets a medal.',
         fields: {
           'Commercial job': ['Use challenge attendance to drive renewals at list'],
-          'Who qualifies': ['Active members renewing in January or early February.'],
+          'Who qualifies': ['Active members renewing in late February or early March.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
             '• Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer',
             '• Members who reach 50% of the target get +3 days on 1M or +1 class on a pack',
           ],
-          When: ['Renew 15 Jan–10 Feb.'],
+          When: ['Renew 22 Feb–10 Mar 2027.'],
           Rules: [
             '• No % discount',
             '• Bonus is earned through challenge attendance',
@@ -3018,8 +3404,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers'],
-          'Rate of sale': ['Needs ≈43 renewal purchases (plan 41).'],
+          'Expected revenue': ['₹3.3L counted · 20 buyers (the month runs two renewal routes; this is its share)'],
+          'Rate of sale': ['Needs ≈20 renewals in 28 days (5/wk).'],
           'Why it works': [
             'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
           ],
@@ -3032,28 +3418,6 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           ],
         },
       },
-    ],
-  },
-  {
-    studio: 'Kenkere House',
-    month: 2,
-    theme: 'Better Together',
-    hook: "Valentine's Day (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-    job: 'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-    moment: "Galentine's hosted class, Sat 13 Feb, with a named associate and the Encore QR at the door.",
-    figures: {
-      target: 1090000,
-      projected: 1140000,
-      newClientPlan: 200000,
-      renewalPlan: 670000,
-      reactivationPlan: 80000,
-      otherPlan: 150000,
-      leadsTrials: [280, 56],
-      renewals: [44, 50],
-      lapsed: [234, 18],
-      newBuyers: 14,
-    },
-    offers: [
       {
         slot: 'newcomer',
         name: 'Swipe Right Flight',
@@ -3069,6 +3433,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• 3 classes in 10 days: Barre, powerCycle and Strength Lab (Kwality: held 6 am Lab seats; Kenkere: Barre, Mat, Cardio Barre/FIT)',
             '• All 3 booked at purchase',
             '• "Match" within 72 hours of class 3: full fee credited + standing 15% on any pack or membership',
+            '• All three classes count toward Stronger in 30 2.0',
           ],
           When: ['1–28 Feb.'],
           Rules: [
@@ -3079,8 +3444,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹2.2L counted (+₹25.4k vs the ₹2.0L stream plan) · 17 buyers'],
-          'Rate of sale': ['Needs ≈17 renewal purchases (plan 14).'],
+          'Expected revenue': ['₹0.7L counted · 5 buyers (the month runs two new-client routes; this is its share)'],
+          'Rate of sale': ['Needs ≈5 new clients in 28 days (1/wk).'],
           'Why it works': [
             'The 2-for-1 converts at 21% into an ₹8k purchase; three visits sit in the 73–89% conversion zone and multi-format members renew at 85–87%.',
           ],
@@ -3096,7 +3461,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'lapsed',
         name: 'Come Back as a Pair',
-        tagline: 'Return with a friend. Their first class is on us.',
+        tagline: 'Return with a friend. Their first class is on us — and you both enter the challenge.',
         fields: {
           'Commercial job': ['Reactivation that also brings a new lead'],
           'Who qualifies': ['Lapsed clients plus a friend who is new to P57.'],
@@ -3105,6 +3470,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Lapsed client: 12-class pack at the standing 15%',
             '• Friend: free first class',
             '• If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month',
+            '• Lapsed client and friend both enter Stronger in 30 2.0',
           ],
           When: ['All February.'],
           Rules: [
@@ -3115,8 +3481,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹0.9L counted (+₹12.3k vs the ₹0.8L stream plan) · 20 buyers'],
-          'Rate of sale': ['Needs ≈5 12-class pack sales vs 10.5 a month today (all buyers).'],
+          'Expected revenue': ['₹0.3L counted · 1 buyer (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈1 comeback member in 28 days (1/wk).'],
           'Why it works': ['One message, two streams: reactivation and a warm new lead.'],
           'What to watch': ['Friends who buy.'],
           'Offer auditor': [
@@ -3130,12 +3496,15 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Partners in Crime',
-        tagline: 'Renew with your workout partner. You both get more time.',
+        tagline: 'Renew with your workout partner. You both finish the challenge.',
         fields: {
           'Commercial job': ['Social accountability at renewal'],
           'Who qualifies': ['Two active members renewing in the same week.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
-          'You get': ['• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer'],
+          'You get': [
+            '• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer',
+            '• Both enter Stronger in 30 2.0; finishers keep the renewal bonus',
+          ],
           When: ['All February.'],
           Rules: [
             '• Both renewals at list',
@@ -3145,8 +3514,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹6.8L counted (+₹10.1k vs the ₹6.7L stream plan) · 52 buyers'],
-          'Rate of sale': ['Needs ≈52 renewal purchases (plan 50).'],
+          'Expected revenue': ['₹3.4L counted · 25 buyers (the month runs two renewal routes; this is its share)'],
+          'Rate of sale': ['Needs ≈25 renewals in 28 days (6/wk).'],
           'Why it works': ['Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.'],
           'What to watch': ['Next-renewal rate of pairs vs singles.'],
           'Offer auditor': [
@@ -3164,7 +3533,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 3,
     theme: 'She Moves',
     hook: "International Women's Day (Mon 8 Mar)",
-    job: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
+    job: "Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary. Keep February's challenge finishers attending.",
     moment: 'Class of 2024 Reunion at Bandra (638 lapsed launch-cohort clients). Anniversary teaser from 16 Mar.',
     figures: {
       target: 900000,
@@ -3173,10 +3542,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 480000,
       reactivationPlan: 100000,
       otherPlan: 120000,
-      leadsTrials: [255, 51],
-      renewals: [48, 33],
-      lapsed: [262, 20],
-      newBuyers: 13,
+      leadsTrials: [684, 147],
+      renewals: [48, 54],
+      lapsed: [262, 22],
+      newBuyers: 37,
     },
     offers: [
       {
@@ -3291,10 +3660,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 820000,
       reactivationPlan: 150000,
       otherPlan: 180000,
-      leadsTrials: [255, 51],
-      renewals: [53, 53],
-      lapsed: [356, 29],
-      newBuyers: 13,
+      leadsTrials: [721, 155],
+      renewals: [53, 91],
+      lapsed: [356, 33],
+      newBuyers: 39,
     },
     offers: [
       {
@@ -3327,7 +3696,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Why it works': [
             'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
           ],
-          'What to watch': ['Intro volume vs spare seats; intro → purchase (target 40%).'],
+          'What to watch': ['Intro volume vs spare seats; intro → purchase (25% measured).'],
           'Offer auditor': [
             '23/25 (Effect 5, Creativity 5, Clarity 5, Practical 4, Economics 4). Headline April offer.',
           ],
@@ -3421,10 +3790,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 680000,
       reactivationPlan: 100000,
       otherPlan: 150000,
-      leadsTrials: [255, 51],
-      renewals: [50, 53],
-      lapsed: [279, 23],
-      newBuyers: 13,
+      leadsTrials: [628, 135],
+      renewals: [50, 76],
+      lapsed: [279, 22],
+      newBuyers: 34,
     },
     offers: [
       {
@@ -3534,10 +3903,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 690000,
       reactivationPlan: 100000,
       otherPlan: 150000,
-      leadsTrials: [235, 47],
-      renewals: [67, 55],
-      lapsed: [295, 24],
-      newBuyers: 12,
+      leadsTrials: [559, 120],
+      renewals: [67, 77],
+      lapsed: [295, 22],
+      newBuyers: 30,
     },
     offers: [
       {
@@ -3646,10 +4015,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 920000,
       reactivationPlan: 130000,
       otherPlan: 190000,
-      leadsTrials: [215, 43],
-      renewals: [73, 68],
-      lapsed: [360, 29],
-      newBuyers: 11,
+      leadsTrials: [521, 112],
+      renewals: [73, 102],
+      lapsed: [360, 28],
+      newBuyers: 28,
     },
     offers: [
       {
@@ -3765,10 +4134,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 740000,
       reactivationPlan: 70000,
       otherPlan: 150000,
-      leadsTrials: [255, 51],
-      renewals: [76, 55],
-      lapsed: [200, 16],
-      newBuyers: 13,
+      leadsTrials: [647, 139],
+      renewals: [76, 82],
+      lapsed: [200, 15],
+      newBuyers: 35,
     },
     offers: [
       {
@@ -3884,10 +4253,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 950000,
       reactivationPlan: 130000,
       otherPlan: 190000,
-      leadsTrials: [195, 39],
-      renewals: [69, 55],
-      lapsed: [262, 21],
-      newBuyers: 10,
+      leadsTrials: [628, 135],
+      renewals: [69, 105],
+      lapsed: [262, 28],
+      newBuyers: 34,
     },
     offers: [
       {
@@ -3995,10 +4364,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 440000,
       reactivationPlan: 100000,
       otherPlan: 100000,
-      leadsTrials: [170, 34],
-      renewals: [54, 35],
-      lapsed: [276, 23],
-      newBuyers: 9,
+      leadsTrials: [391, 84],
+      renewals: [54, 49],
+      lapsed: [276, 22],
+      newBuyers: 21,
     },
     offers: [
       {
@@ -4111,10 +4480,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 740000,
       reactivationPlan: 90000,
       otherPlan: 160000,
-      leadsTrials: [300, 60],
-      renewals: [38, 49],
-      lapsed: [229, 18],
-      newBuyers: 15,
+      leadsTrials: [833, 179],
+      renewals: [38, 82],
+      lapsed: [229, 20],
+      newBuyers: 45,
     },
     offers: [
       {
@@ -4211,7 +4580,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 12,
     theme: 'Wrapped',
     hook: 'Year-end · pre-sell January',
-    job: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
+    job: "Pre-sell the February 2028 challenge and January's first week; renew on personal usage data.",
     moment:
       '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
     figures: {
@@ -4221,16 +4590,16 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 370000,
       reactivationPlan: 80000,
       otherPlan: 90000,
-      leadsTrials: [215, 43],
-      renewals: [48, 26],
-      lapsed: [200, 16],
-      newBuyers: 11,
+      leadsTrials: [559, 120],
+      renewals: [48, 41],
+      lapsed: [200, 18],
+      newBuyers: 30,
     },
     offers: [
       {
         slot: 'newcomer',
         name: 'Kickstart 21: Pre-Solution Cohort',
-        tagline: 'Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
+        tagline: 'Buy in December. Start Mon 3 Jan. Arrive at the February challenge.',
         fields: {
           Journey: ['Kickstart 21'],
           'Commercial job': ['Pre-sell January'],
@@ -4239,7 +4608,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'You get': [
             '• Cohort starts Mon 3 Jan 2028; sold in December',
             '• 21 days unlimited + coach, WhatsApp, fitness checks, graduation',
-            '• Graduates who buy a membership join Stronger in 30 (2028) with a scaled target',
+            '• Graduates who buy a membership join the February 2028 challenge with a scaled target',
           ],
           When: ['All December.'],
           Rules: [
@@ -4300,14 +4669,14 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'Challenge-Ready Renewal',
-        tagline: "Renew in December so you're covered for all of Stronger in 30.",
+        tagline: "Renew in December so you're covered for the whole February challenge.",
         fields: {
           'Commercial job': ['Renew at list ahead of the challenge'],
           'Who qualifies': ['Members expiring Dec–Jan.'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
-            '• Renew at list so the membership covers all of January',
-            '• Stronger in 30 challenge kit (≈₹1,000)',
+            "• Renew at list so the membership covers January and February's challenge",
+            '• February challenge kit (≈₹1,000)',
           ],
           When: ['All December.'],
           Rules: ['• No % discount', "• Doesn't combine with any other campaign offer."],
@@ -4331,11 +4700,11 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
   {
     studio: 'Pop-up',
     month: 1,
-    theme: 'Stronger in 30 2.0',
-    hook: 'New Year · members-only 30-day challenge',
-    job: 'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
+    theme: 'Start Line',
+    hook: 'New Year · Saturday squad · drop-in to pack',
+    job: 'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door — and a February pack carries a Stronger in 30 2.0 entry.',
     moment:
-      'Stronger in 30 2.0 runs all January for active members. Entry is free with an active membership or pack, so every January offer doubles as a challenge entry ticket.',
+      'January is the first drop-in, the Saturday squad and the pack conversation at the door. Packs bought in February carry a Stronger in 30 2.0 entry.',
     figures: {
       target: 160000,
       newClientPlan: 20000,
@@ -4343,10 +4712,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 20000,
       otherPlan: 100000,
       projected: 160000,
-      leadsTrials: [123, 32],
-      renewals: [60, 2],
-      lapsed: [158, 13],
-      newBuyers: 2,
+      leadsTrials: [161, 49],
+      renewals: [60, 14],
+      lapsed: [158, 9],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -4434,10 +4803,11 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
   {
     studio: 'Pop-up',
     month: 2,
-    theme: 'Better Together',
-    hook: "Valentine's Day (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-    job: 'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-    moment: "Galentine's hosted class, Sat 13 Feb, with a named associate and the Encore QR at the door.",
+    theme: 'Stronger in 30 2.0',
+    hook: "The 30-day challenge · Saturday squad · Galentine's (Sat 13 Feb)",
+    job: "Run the challenge for pack holders: every February pack enters it, the Saturday squad is the welcoming floor, and Galentine's is the reason to bring someone.",
+    moment:
+      "Stronger in 30 2.0 runs 1–28 Feb and a February pack is the entry. The Saturday squad is the floor; the Galentine's class on Sat 13 Feb is the mid-challenge event.",
     figures: {
       target: 150000,
       projected: 150000,
@@ -4445,21 +4815,25 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 50000,
       reactivationPlan: 10000,
       otherPlan: 90000,
-      leadsTrials: [92, 24],
-      renewals: [60, 6],
-      lapsed: [90, 7],
-      newBuyers: 1,
+      leadsTrials: [86, 26],
+      renewals: [60, 35],
+      lapsed: [90, 5],
+      newBuyers: 7,
     },
     offers: [
       {
         slot: 'newcomer',
         name: 'Saturday Squad',
-        tagline: 'Saturdays: bring a friend free.',
+        tagline: 'Saturdays: bring a friend free — and the pack is your challenge entry.',
         fields: {
           'Commercial job': ['Fill the strongest day'],
           'Who qualifies': ['First-timers on Saturdays.'],
           'You pay': ['4-class pack: ₹4k (15% off the ₹4.7k list price).'],
-          'You get': ['• Bring a friend free', '• Both buy a 4-class pack at the standing 15%'],
+          'You get': [
+            '• Bring a friend free',
+            '• Both buy a 4-class pack at the standing 15%',
+            '• A February pack is your Stronger in 30 2.0 entry',
+          ],
           When: ['Every Saturday.'],
           Rules: [
             '• Friend new to P57',
@@ -4469,8 +4843,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹0.1L counted (+₹0.2k vs the ₹0.1L stream plan) · 1 buyers'],
-          'Rate of sale': ['Needs ≈1 4-class pack sales vs 0 a month today (all buyers).'],
+          'Expected revenue': ['₹0.1L counted · 1 buyer (the month runs two new-client routes; this is its share)'],
+          'Rate of sale': ['Needs ≈1 new client in 28 days (1/wk).'],
           'Why it works': ['Saturday fill is 43% vs 13–20% on weekdays.'],
           'What to watch': ['Saturday attendance.'],
           'Offer auditor': ['21/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 4). Good.'],
@@ -4487,7 +4861,11 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Commercial job': ['Hosted reactivation'],
           'Who qualifies': ['Lapsed pop-up clients.'],
           'You pay': ['4-class pack: ₹4k (15% off the ₹4.7k list price).'],
-          'You get': ['• Monthly reunion class', '• At the door: 4-class pack at the standing 15%'],
+          'You get': [
+            '• Monthly reunion class',
+            '• At the door: 4-class pack at the standing 15%',
+            '• A February pack is your Stronger in 30 2.0 entry',
+          ],
           When: ['Monthly.'],
           Rules: [
             '• Named associate at the door',
@@ -4497,8 +4875,8 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Effective discount': [
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹0.1L counted (+₹1.1k vs the ₹0.1L stream plan) · 8 buyers'],
-          'Rate of sale': ['Needs ≈1 4-class pack sales vs 0 a month today (all buyers).'],
+          'Expected revenue': ['₹0.1L counted · 8 buyers (the month runs two comeback routes; this is its share)'],
+          'Rate of sale': ['Needs ≈8 comeback members in 28 days (2/wk).'],
           'Why it works': ['Saturday is the only day with real fill.'],
           'What to watch': ['Door conversion.'],
           'Offer auditor': ['21/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 4). Good.'],
@@ -4515,14 +4893,17 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Commercial job': ['Convert regulars to packs'],
           'Who qualifies': ['Clients with 3+ drop-ins in 60 days.'],
           'You pay': ['10-class pack: ₹8.5k (list price).'],
-          'You get': ['• Last 2 drop-ins credited toward a C+C 10-class pack'],
+          'You get': [
+            '• Last 2 drop-ins credited toward a C+C 10-class pack',
+            '• A February pack is your Stronger in 30 2.0 entry',
+          ],
           When: ['Every month.'],
           Rules: ['• Credit within 60 days of the drop-ins', "• Doesn't combine with any other campaign offer."],
           'Effective discount': [
             '22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.',
           ],
-          'Expected revenue': ['₹0.5L counted (+₹0.8k vs the ₹0.5L stream plan) · 6 buyers'],
-          'Rate of sale': ['Needs ≈4 10-class pack sales vs 2.3 a month today (all buyers).'],
+          'Expected revenue': ['₹0.5L counted · 6 buyers (the month runs two renewal routes; this is its share)'],
+          'Rate of sale': ['Needs ≈6 renewals in 28 days (2/wk).'],
           'Why it works': ['186 regulars spent ~₹4,000 each on drop-ins, already half a pack.'],
           'What to watch': ['Effective ≈22%.'],
           'Offer auditor': ['23/25 (Effect 5, Creativity 4, Clarity 5, Practical 5, Economics 4). Best pop-up offer.'],
@@ -4538,7 +4919,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 3,
     theme: 'She Moves',
     hook: "International Women's Day (Mon 8 Mar)",
-    job: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
+    job: "Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary. Keep February's challenge finishers attending.",
     moment: 'Class of 2024 Reunion at Bandra (638 lapsed launch-cohort clients). Anniversary teaser from 16 Mar.',
     figures: {
       target: 140000,
@@ -4547,10 +4928,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 40000,
       reactivationPlan: 10000,
       otherPlan: 90000,
-      leadsTrials: [60, 5],
-      renewals: [113, 9],
-      lapsed: [111, 29],
-      newBuyers: 1,
+      leadsTrials: [86, 26],
+      renewals: [113, 28],
+      lapsed: [111, 5],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -4655,10 +5036,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 10000,
       reactivationPlan: 10000,
       otherPlan: 70000,
-      leadsTrials: [60, 1],
-      renewals: [117, 9],
-      lapsed: [134, 35],
-      newBuyers: 2,
+      leadsTrials: [161, 49],
+      renewals: [117, 7],
+      lapsed: [134, 5],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -4758,10 +5139,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 20000,
       reactivationPlan: 0,
       otherPlan: 80000,
-      leadsTrials: [60, 1],
-      renewals: [23, 2],
-      lapsed: [157, 41],
-      newBuyers: 2,
+      leadsTrials: [233, 71],
+      renewals: [23, 14],
+      lapsed: [157, 0],
+      newBuyers: 19,
     },
     offers: [
       {
@@ -4860,10 +5241,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 10000,
       otherPlan: 110000,
       projected: 180000,
-      leadsTrials: [153, 40],
-      renewals: [60, 5],
-      lapsed: [180, 14],
-      newBuyers: 2,
+      leadsTrials: [86, 26],
+      renewals: [60, 28],
+      lapsed: [180, 5],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -4967,10 +5348,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 10000,
       otherPlan: 120000,
       projected: 200000,
-      leadsTrials: [146, 38],
-      renewals: [60, 9],
-      lapsed: [270, 22],
-      newBuyers: 2,
+      leadsTrials: [86, 26],
+      renewals: [60, 35],
+      lapsed: [270, 5],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -5070,10 +5451,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 10000,
       otherPlan: 110000,
       projected: 180000,
-      leadsTrials: [161, 42],
-      renewals: [60, 4],
-      lapsed: [158, 13],
-      newBuyers: 2,
+      leadsTrials: [161, 49],
+      renewals: [60, 28],
+      lapsed: [158, 5],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -5172,10 +5553,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 70000,
       reactivationPlan: 10000,
       otherPlan: 150000,
-      leadsTrials: [241, 63],
-      renewals: [60, 10],
-      lapsed: [203, 16],
-      newBuyers: 3,
+      leadsTrials: [161, 49],
+      renewals: [60, 49],
+      lapsed: [203, 5],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -5279,10 +5660,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       reactivationPlan: 20000,
       otherPlan: 110000,
       projected: 190000,
-      leadsTrials: [169, 44],
-      renewals: [60, 5],
-      lapsed: [396, 32],
-      newBuyers: 2,
+      leadsTrials: [86, 26],
+      renewals: [60, 21],
+      lapsed: [396, 9],
+      newBuyers: 7,
     },
     offers: [
       {
@@ -5381,10 +5762,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 30000,
       reactivationPlan: 0,
       otherPlan: 90000,
-      leadsTrials: [60, 4],
-      renewals: [68, 5],
-      lapsed: [218, 57],
-      newBuyers: 3,
+      leadsTrials: [161, 49],
+      renewals: [68, 21],
+      lapsed: [218, 0],
+      newBuyers: 13,
     },
     offers: [
       {
@@ -5474,7 +5855,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 12,
     theme: 'Wrapped',
     hook: 'Year-end · pre-sell January',
-    job: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
+    job: "Pre-sell the February 2028 challenge and January's first week; renew on personal usage data.",
     moment:
       '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
     figures: {
@@ -5484,10 +5865,10 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       renewalPlan: 20000,
       reactivationPlan: 10000,
       otherPlan: 70000,
-      leadsTrials: [60, 1],
-      renewals: [45, 4],
-      lapsed: [146, 38],
-      newBuyers: 2,
+      leadsTrials: [161, 49],
+      renewals: [45, 14],
+      lapsed: [146, 5],
+      newBuyers: 13,
     },
     offers: [
       {

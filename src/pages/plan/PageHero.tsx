@@ -1,13 +1,17 @@
 import React from 'react';
 import type { HeroPhoto } from '../../data/pagePhotos';
 
-/* The opener band that every month page shares: one photograph, the page number set over it,
-   the page's editorial title, one sentence of intent, and the numbers that page is about.
-   It is the same object as an offer card's hero and the month cover — same scrim, same
-   white serif, same foot — so a page, its cards and the cover read as one document.
-   
-   `variant="sheet"` shaves the bottom corners so the band can sit on top of a paper sheet
-   (the Overview page) instead of standing alone above the sections. */
+/* The opener band that every month page shares: the page number, the page's editorial
+   title, one sentence of intent, and the numbers that page is about.
+
+   Inside a month it runs *without* a photograph (`photo` omitted). A month has exactly one
+   picture that belongs to it — its cover — and repeating a photograph at the top of every
+   sub-tab pushed the actual content down the page for no editorial gain. So the inner pages
+   open on paper instead: type, a rule, and the numbers sitting where the reader's eye lands,
+   which leaves the whole viewport to the page's real content.
+
+   With a photograph (`photo` supplied) it is the standalone band used outside the month, and
+   `variant="sheet"` shaves the bottom corners so it can sit on a paper sheet. */
 
 export default function PageHero({
   index,
@@ -23,32 +27,39 @@ export default function PageHero({
   label: string;
   title: string;
   description: React.ReactNode;
-  photo: HeroPhoto;
+  photo?: HeroPhoto | null;
   meta: Array<{ label: string; value: string }>;
   actions?: React.ReactNode;
   variant?: 'standalone' | 'sheet';
 }) {
+  const plain = !photo;
   return (
-    <header className={`mp-hero${variant === 'sheet' ? ' is-sheet' : ''}`}>
-      <div
-        className="mp-hero-img"
-        style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
-        aria-hidden="true"
-      />
-      <div className="mp-hero-scrim" aria-hidden="true" />
+    <header className={`mp-hero${photo ? '' : ' is-plain'}${variant === 'sheet' ? ' is-sheet' : ''}`}>
+      {photo && (
+        <>
+          <div
+            className="mp-hero-img"
+            style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
+            aria-hidden="true"
+          />
+          <div className="mp-hero-scrim" aria-hidden="true" />
+        </>
+      )}
       <span className="mp-hero-mark" aria-hidden="true">
         {index}
       </span>
 
       <div className="mp-hero-inner">
-        <span className="mp-hero-kicker">
-          <i aria-hidden="true" />
-          {index} · {label}
-        </span>
-        <h2>{title}</h2>
-        <p className="mp-hero-lede">{description}</p>
+        <div className="mp-hero-intro">
+          <span className="mp-hero-kicker">
+            <i aria-hidden="true" />
+            {index} · {label}
+          </span>
+          <h2>{title}</h2>
+          <p className="mp-hero-lede">{description}</p>
+        </div>
 
-        <div className="mp-hero-foot">
+        <div className={`mp-hero-foot${plain ? ' is-plain' : ''}`}>
           <dl className="mp-hero-meta">
             {meta.map(m => (
               <div key={m.label}>

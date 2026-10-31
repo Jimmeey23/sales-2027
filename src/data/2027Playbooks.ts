@@ -40,8 +40,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       {
         revenueL: 31.2,
         objective:
-          'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
-        offer: 'Week Zero',
+          'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
+        offer: 'The First Seven Days',
         leads: 77,
         trials: 59,
         buyers: 14,
@@ -54,8 +54,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       {
         revenueL: 24.3,
         objective:
-          'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-        offer: 'The Second Date for Two',
+          "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
+        offer: 'Week Zero',
         leads: 102,
         trials: 78,
         buyers: 17,
@@ -67,7 +67,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 24.3,
-        objective: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
+        objective:
+          "Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary. Keep February's challenge finishers attending.",
         offer: 'The Second Date',
         leads: 96,
         trials: 74,
@@ -134,7 +135,7 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
         vs2026: 23,
       },
       {
-        revenueL: 36.0,
+        revenueL: 36,
         objective:
           'Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; second seasonal peak in Mumbai.',
         offer: 'Starting Gun Week',
@@ -189,7 +190,7 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 33.1,
-        objective: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
+        objective: "Pre-sell the February 2028 challenge and January's first week; renew on personal usage data.",
         offer: 'Kickstart 21: Pre-Solution Cohort',
         leads: 121,
         trials: 94,
@@ -214,8 +215,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       {
         revenueL: 17.6,
         objective:
-          'Convert January trial demand; get lapsed clients and new clients onto a membership in time to join the challenge; re-up the Jan-2026 annuals (8 annuals, ₹12.5L due).',
-        offer: 'Week Zero',
+          'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
+        offer: 'The First Seven Days',
         leads: 152,
         trials: 87,
         buyers: 15,
@@ -228,8 +229,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       {
         revenueL: 16.2,
         objective:
-          'Duo and referral acquisition in place of BOGO (BOGO buyers were 79–94% existing clients and renewed at 33–53%). Keep Stronger in 30 finishers attending.',
-        offer: 'The 30-Day Proof',
+          "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
+        offer: 'Week Zero',
         leads: 141,
         trials: 81,
         buyers: 14,
@@ -241,7 +242,8 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 13.6,
-        objective: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
+        objective:
+          "Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary. Keep February's challenge finishers attending.",
         offer: 'Kickstart 21: She Moves Cohort',
         leads: 150,
         trials: 86,
@@ -253,7 +255,7 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
         vs2026: 20,
       },
       {
-        revenueL: 33.0,
+        revenueL: 33,
         objective:
           "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
         offer: 'Cloud Nine Intro',
@@ -322,7 +324,7 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
         vs2026: 12,
       },
       {
-        revenueL: 18.0,
+        revenueL: 18,
         objective: 'Reactivate before the festive season; carry race momentum into a festive countdown.',
         offer: 'The Second Date',
         leads: 194,
@@ -363,7 +365,7 @@ export const PLAYBOOKS_2027: Record<string, StudioPlaybook> = {
       },
       {
         revenueL: 18.5,
-        objective: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
+        objective: "Pre-sell the February 2028 challenge and January's first week; renew on personal usage data.",
         offer: 'Kickstart 21: Pre-Solution Cohort',
         leads: 147,
         trials: 84,

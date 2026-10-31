@@ -1,7 +1,14 @@
 /* Sales Plan › month narratives, taken from the final approved 2027 Sales and Offer Plan:
    each month's theme, hook, commercial job, moment and offers, plus a voice that explains
    the studio's planned numbers. */
-import { APPROVED_PLAN_2027, approvedEntry, approvedMonth, approvedOffer, field } from './approvedPlan2027';
+import {
+  APPROVED_PLAN_2027,
+  approvedEntry,
+  approvedMonth,
+  approvedOffer,
+  field,
+  type ApprovedEntry,
+} from './approvedPlan2027';
 
 export interface MonthChapter {
   /** Editable campaign theme, used when a month has no saved theme. */
@@ -55,17 +62,25 @@ const share = (part: number, total: number) => (total > 0 ? `${Math.round((Math.
 /** Trial → buyer rate, the number every month is actually judged on. */
 const conv = (input: MonthStoryInput) => P(input.trials > 0 ? input.buyers / input.trials : null);
 
+// A month can carry more than its three plan slots (February runs the challenge and the duo
+// route together). The cover speaks for the three that occupy the slots; the rest are the
+// month's supporting plays and stay in the plan itself.
+const primaryOffers = (e: ApprovedEntry) => {
+  const seen = new Set<string>();
+  return e.offers.filter(o => (seen.has(o.slot) ? false : (seen.add(o.slot), true)));
+};
+
 export const MONTH_CHAPTERS: MonthChapter[] = Array.from({ length: 12 }, (_, i) => {
   const e = approvedMonth(i + 1);
-  const offers = e.offers.map(o => o.name);
+  const offers = primaryOffers(e);
   return {
     theme: e.theme,
     kicker: e.hook,
     moment: e.moment,
     objective: e.job,
-    brief: e.offers.map(o => `${o.name}: ${o.tagline}`).join(' '),
+    brief: offers.map(o => `${o.name}: ${o.tagline}`).join(' '),
     risk: field(approvedOffer(e, 'newcomer'), 'What to watch'),
-    signature: offers.join(' · '),
+    signature: offers.map(o => o.name).join(' · '),
   };
 });
 

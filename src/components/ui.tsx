@@ -262,49 +262,119 @@ export function Drawer({
     </div>
   );
 }
-/* One heartbeat, drawn as a path so the trace can travel along it. Three beats sit
-   side by side; the bright segment runs the length of the path and reads as a pulse
-   moving through a resting line. Built here rather than hand-written so the geometry
-   stays symmetrical. */
-const ECG_BEATS = 3;
-const ECG_BEAT = 64;
-const ECG_BASELINE = 20;
-const ECG_PATH = Array.from({ length: ECG_BEATS }, (_, i) => {
-  const b = i * ECG_BEAT;
-  const lead = i === 0 ? `M 0 ${ECG_BASELINE}` : '';
-  return (
-    `${lead} L ${b + 10} ${ECG_BASELINE}` +
-    // P wave — the small atrial rise before the beat.
-    ` C ${b + 13} ${ECG_BASELINE} ${b + 14} 16.5 ${b + 17} 16.5` +
-    ` C ${b + 20} 16.5 ${b + 21} ${ECG_BASELINE} ${b + 24} ${ECG_BASELINE}` +
-    // QRS — the beat itself.
-    ` L ${b + 28} ${ECG_BASELINE} L ${b + 30.5} 23 L ${b + 34} 3 L ${b + 37.5} 31 L ${b + 40} ${ECG_BASELINE}` +
-    // T wave — the recovery.
-    ` L ${b + 46} ${ECG_BASELINE}` +
-    ` C ${b + 49} ${ECG_BASELINE} ${b + 50} 14 ${b + 53} 14` +
-    ` C ${b + 56} 14 ${b + 57} ${ECG_BASELINE} ${b + 60} ${ECG_BASELINE}` +
-    ` L ${b + ECG_BEAT} ${ECG_BASELINE}`
-  );
-}).join(' ');
+/* The waiting mark, and the only thing on the waiting screen: one pen line, drawn
+   without ever lifting. It enters on the baseline, beats, and then keeps writing — the
+   same line opens into the bowl of the 5, climbs its stem, and runs its bar straight on
+   into the 7: the two digits share the one top rule, which is what makes the mark read
+   as a single waveform rather than as two marks set side by side. From the end of that
+   rule the line drops the 7's leg, settles back onto the baseline and closes with one
+   last small wave.
 
-/* The waiting mark: a heartbeat wave, and nothing else. No label, no dots, no mark
-   stacked beside it — the pulse is the whole state. The label survives only as the
-   accessible name, for screen readers. */
+   Because it is one path, the blue fills along it in one unbroken sweep. The numbers
+   below are the measured arc length, which is what paces the draw. */
+const HEART_MARK =
+  'M 0 100 L 10 100' +
+  // P wave — the small atrial rise before the beat.
+  ' C 14 100 16 88 20 88 C 24 88 26 100 30 100' +
+  // QRS — the beat itself.
+  ' L 33 100 L 35 109 L 38 26 L 41.5 113 L 44 100' +
+  // T wave — the recovery.
+  ' L 47 100 C 51 100 53 86 57 86 C 61 86 63 100 67 100' +
+  // The trace lands and the bowl of the 5 opens around it.
+  ' C 74 100 80 97 88 92' +
+  ' C 102 88 112 76 106 65' +
+  ' C 101 57 92 54 84 57' +
+  // The stem, then the rule that carries the pen from the 5 into the 7.
+  ' C 82 52 81 45 82 39' +
+  ' L 176 39' +
+  // The 7's leg, its foot, and the wave that settles the line.
+  ' L 148 90' +
+  ' C 146 95 147 98 150 100' +
+  ' L 166 100' +
+  ' C 170 100 172 86 176 86 C 180 86 182 100 186 100' +
+  ' L 240 100';
+
+/* The waiting state. The blue is not decoration and not a progress bar: it is the trace
+   being written, in one pass, and the drawing is built up the way a line of ink is —
+   the ink bleeding a little into the paper under the stroke, a soft bloom carried on the
+   nib, and a short comet of wet ink dragging behind the tip.
+
+   Once the mark is complete a glint runs its whole length, the way light catches a
+   freshly written line, and then it lets go and the next beat starts. Everything is
+   driven by the same two dozen lines of CSS: no timers, no JS, no canvas. */
 export function Heartbeat({ className = '' }: { className?: string }) {
+  const id = React.useId();
   return (
     <span className={`hb ${className}`.trim()} aria-hidden="true">
-      <svg viewBox={`0 0 ${ECG_BEATS * ECG_BEAT} 40`} focusable="false">
-        <path className="hb-track" d={ECG_PATH} />
-        <path className="hb-glow" d={ECG_PATH} pathLength={100} />
-        <path className="hb-trace" d={ECG_PATH} pathLength={100} />
+      <svg viewBox="0 0 252 124" focusable="false">
+        <defs>
+          {/* The ink: deep at the foot of the trace, electric where it turns up into the
+              numerals. It is fixed in the drawing's own space, so a single stroke walks
+              the whole ramp as it is laid down. */}
+          {/* Neon, twice over: the trace that enters and beats runs mint into cyan, and the
+              moment it turns into the numerals the colour changes — one stroke, two neons,
+              with the seam hidden in the corner where the 5 begins. */}
+          <linearGradient id={`${id}-ink`} x1="0" y1="0" x2="252" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#FFF1B8" />
+            <stop offset="0.14" stopColor="#FFD977" />
+            <stop offset="0.232" stopColor="#FFC24A" />
+            <stop offset="0.236" stopColor="#FFAE2B" />
+            <stop offset="0.6" stopColor="#FFC24A" />
+            <stop offset="1" stopColor="#FFE08A" />
+          </linearGradient>
+
+          {/* The aura the whole mark sits in, and the soft edge of the paper rule. */}
+          <radialGradient id={`${id}-aura`} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stopColor="#FFC24A" stopOpacity="0.2" />
+            <stop offset="0.42" stopColor="#FF9E2C" stopOpacity="0.1" />
+            <stop offset="0.72" stopColor="#FFC24A" stopOpacity="0.035" />
+            <stop offset="1" stopColor="#FFC24A" stopOpacity="0" />
+          </radialGradient>
+          {/* A straight line has no height, so this has to be measured in user units or
+              the gradient box collapses and the rule paints nothing at all. */}
+          <linearGradient id={`${id}-rule`} x1="-28" y1="0" x2="280" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#FFE7B0" stopOpacity="0" />
+            <stop offset="0.16" stopColor="#FFE7B0" stopOpacity="0.24" />
+            <stop offset="0.84" stopColor="#FFE7B0" stopOpacity="0.24" />
+            <stop offset="1" stopColor="#FFE7B0" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        {/* The rule the trace sits on: a hairline that runs past the mark and fades, so
+            the composition has a horizon rather than a floating scribble. */}
+        <path className="hb-rule" d="M -28 100 L 280 100" stroke={`url(#${id}-rule)`} />
+        <ellipse className="hb-aura" cx="126" cy="64" rx="154" ry="74" fill={`url(#${id}-aura)`} />
+
+        {/* What has not been written yet. */}
+        <path className="hb-track" d={HEART_MARK} />
+
+        <g className="hb-ink">
+          {/* The wet edge under the stroke, so the neon sits in the room rather than on it. */}
+          <path className="hb-bleed" d={HEART_MARK} pathLength={100} />
+          <path className="hb-trail" d={HEART_MARK} pathLength={100} />
+          <path className="hb-fill" d={HEART_MARK} pathLength={100} stroke={`url(#${id}-ink)`} />
+          <path className="hb-bloom" d={HEART_MARK} pathLength={100} />
+          <path className="hb-core" d={HEART_MARK} pathLength={100} />
+        </g>
+
+        {/* The glint that runs the finished mark. */}
+        <path className="hb-glint" d={HEART_MARK} pathLength={100} />
       </svg>
     </span>
   );
 }
 
-export function Loading({ label = 'Loading intelligence…' }: { label?: string }) {
+/* Two weights of the same wait. Inside a panel the mark simply sits where the content
+   will be; when the whole screen is being replaced (`screen`) it dims what was there and
+   takes the middle of the viewport, so the wait never looks like a broken page. */
+export function Loading({ label = 'Loading intelligence…', screen = false }: { label?: string; screen?: boolean }) {
   return (
-    <div className="loading p57-loader" role="status" aria-live="polite" aria-label={label}>
+    <div
+      className={`loading p57-loader${screen ? ' is-screen' : ''}`}
+      role="status"
+      aria-live="polite"
+      aria-label={label}
+    >
       <Heartbeat />
     </div>
   );

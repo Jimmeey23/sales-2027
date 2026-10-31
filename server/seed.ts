@@ -67,7 +67,7 @@ const studioId = (value: unknown) => {
 const userInsert = db.prepare('INSERT INTO users(email,name,password_hash,role,assigned_studio_id) VALUES (?,?,?,?,?)');
 const password = 'P57demo!';
 const adminId = Number(
-  userInsert.run('admin@p57.demo', 'Aisha Mehta', hashPassword(password), 'administrator', null).lastInsertRowid,
+  userInsert.run('admin@p57.demo', 'Jimmeey Gondaa', hashPassword(password), 'administrator', null).lastInsertRowid,
 );
 userInsert.run('management@p57.demo', 'Rohan Kapoor', hashPassword(password), 'senior_management', null);
 userInsert.run('sales@p57.demo', 'Meera Shah', hashPassword(password), 'sales_manager', null);

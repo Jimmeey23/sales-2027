@@ -113,10 +113,6 @@ export default function App() {
   if (checking)
     return (
       <main className="app-loading">
-        <div className="loading-brand">
-          <BrandMark large />
-          <span>COMMERCIAL OS</span>
-        </div>
         <Loading label="Opening your studio workspace…" />
       </main>
     );
@@ -191,7 +187,7 @@ export default function App() {
         dataVersion,
       }}
     >
-      <Suspense fallback={<Loading label="Loading workspace module…" />}>
+      <Suspense fallback={<Loading screen label="Loading workspace module…" />}>
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<Dashboard />} />

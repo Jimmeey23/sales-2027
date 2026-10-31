@@ -1388,3 +1388,745 @@
     grid-template-columns: auto 1fr;
   }
 }
+
+/* ── Page hero, without a photograph ───────────────────────────────────────── */
+/* Inside a month, the single photograph is the cover. Repeating a picture at the top of
+   every sub-tab only pushed the page's real content below the fold, so the inner pages open
+   on paper: the number, the title, one sentence, and the numbers set as a footer rail that
+   sits on the reader's eye-line. Nothing is veiled, nothing is cropped, and the content
+   starts a whole screen-height of photograph earlier. */
+.mp-hero.is-plain {
+  display: block;
+  min-height: 0;
+  padding: 22px 24px 18px;
+  overflow: visible;
+  border: 1px solid rgba(26, 23, 16, 0.1);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fdfcf9 0%, #f8f5ee 100%);
+  box-shadow: 0 20px 44px -52px rgba(16, 15, 10, 0.85);
+}
+.mp-hero.is-plain.is-sheet {
+  min-height: 0;
+  border-bottom: 0;
+  border-radius: 18px 18px 0 0;
+}
+.mp-hero.is-plain .mp-hero-mark {
+  top: 8px;
+  right: 20px;
+  font-size: clamp(44px, 5vw, 66px);
+  color: rgba(26, 23, 16, 0.07);
+}
+.mp-hero.is-plain .mp-hero-inner {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 40px;
+  max-width: none;
+}
+.mp-hero-intro {
+  display: flex;
+  flex: 1 1 360px;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.mp-hero.is-plain .mp-hero-kicker {
+  color: rgba(26, 23, 16, 0.48);
+}
+.mp-hero.is-plain .mp-hero-kicker i {
+  background: #b4703a;
+}
+.mp-hero.is-plain h2 {
+  max-width: 30ch;
+  color: #14130f;
+  font-size: clamp(25px, 2.5vw, 33px);
+  letter-spacing: -0.022em;
+}
+.mp-hero.is-plain .mp-hero-lede {
+  max-width: 72ch;
+  color: rgba(26, 23, 16, 0.64);
+  font-size: 12.5px;
+}
+.mp-hero.is-plain .mp-hero-foot {
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+.mp-hero.is-plain .mp-hero-meta {
+  flex-wrap: nowrap;
+  gap: 0;
+  align-items: stretch;
+}
+.mp-hero.is-plain .mp-hero-meta div {
+  justify-content: center;
+  gap: 2px;
+  padding: 1px 18px;
+  border-left: 1px solid rgba(26, 23, 16, 0.12);
+}
+.mp-hero.is-plain .mp-hero-meta div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.mp-hero.is-plain .mp-hero-meta dt {
+  color: rgba(26, 23, 16, 0.44);
+}
+.mp-hero.is-plain .mp-hero-meta dd {
+  color: #14130f;
+  font-size: 17px;
+}
+.mp-hero.is-plain .mp-hero-actions {
+  margin-left: 18px;
+  padding-left: 18px;
+  border-left: 1px solid rgba(26, 23, 16, 0.12);
+}
+.mp-hero.is-plain .mp-hero-actions .mp-status,
+.mp-hero.is-plain .mp-hero-btn {
+  border-color: rgba(26, 23, 16, 0.16);
+  background: #ffffff;
+  color: #1d1b15;
+  backdrop-filter: none;
+}
+.mp-hero.is-plain .mp-hero-btn:hover {
+  border-color: rgba(26, 23, 16, 0.32);
+  background: #f4f0e6;
+}
+.mp-hero.is-plain .mp-hero-btn em {
+  background: rgba(26, 23, 16, 0.08);
+}
+.mp-hero.is-plain .mp-hero-actions .mp-status.is-approved {
+  border-color: rgba(21, 122, 85, 0.28);
+  background: rgba(21, 122, 85, 0.1);
+  color: #10694a;
+}
+.mp-hero.is-plain .mp-hero-actions .mp-status.is-locked {
+  border-color: rgba(91, 79, 214, 0.24);
+  background: rgba(91, 79, 214, 0.09);
+  color: #4a3fb0;
+}
+
+@media (max-width: 900px) {
+  .mp-hero.is-plain .mp-hero-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  /* The intro carries a 360px flex *basis* for the wide two-column band; stacked, that basis
+     becomes height and leaves a dead screen between the lede and the numbers. */
+  .mp-hero.is-plain .mp-hero-intro {
+    flex: 0 0 auto;
+  }
+  .mp-hero.is-plain .mp-hero-foot {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .mp-hero.is-plain .mp-hero-meta {
+    flex-wrap: wrap;
+    gap: 8px 0;
+  }
+  .mp-hero.is-plain .mp-hero-meta div {
+    padding: 1px 14px;
+  }
+  .mp-hero.is-plain .mp-hero-actions {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+@media (max-width: 560px) {
+  .mp-hero.is-plain {
+    padding: 18px 16px 15px;
+  }
+  /* Narrow, the ghost numeral lands behind the lede; the kicker already carries the number. */
+  .mp-hero.is-plain .mp-hero-mark {
+    display: none;
+  }
+  .mp-hero.is-plain .mp-hero-meta div:first-child {
+    padding-left: 14px;
+    border-left: 1px solid rgba(26, 23, 16, 0.12);
+  }
+}
+
+/* ── The offer library, docked ──────────────────────────────────────────────── */
+/* The library used to arrive as a drawer over the month: a whole screen of offers you had
+   to open, search, and close again to see the cards it was talking about. It is now a
+   column of the month itself — always there on the offers page, scrolling on its own while
+   the cards keep their place — so the comparison the page exists for can be made without
+   leaving it. Below 1180px there is no room for two columns, so the same panel becomes a
+   sheet over the month, which is what the drawer used to be. */
+.mw .mw-body.has-rail {
+  grid-template-columns: minmax(0, 1fr) 344px;
+  gap: 0;
+}
+.mw-lib-rail {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  border-left: 1px solid rgba(26, 23, 16, 0.1);
+  background: linear-gradient(180deg, #fdfdfb 0%, #f7f5ee 100%);
+}
+.mw-rail-scrim {
+  display: none;
+}
+
+.olib {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+  font-family: var(--font-sans, inherit);
+}
+.olib-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
+}
+.olib-title {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.olib-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: rgba(26, 23, 16, 0.46);
+}
+.olib-kicker i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #b4703a;
+}
+.olib-title strong {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #14130f;
+  font-variant-numeric: tabular-nums;
+}
+.olib-title strong em {
+  font-family: var(--font-sans, inherit);
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(26, 23, 16, 0.46);
+}
+.olib-close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border: 1px solid rgba(26, 23, 16, 0.12);
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(26, 23, 16, 0.55);
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease,
+    border-color 0.16s ease;
+}
+.olib-close:hover {
+  border-color: rgba(26, 23, 16, 0.24);
+  background: #ffffff;
+  color: #14130f;
+}
+
+.olib-controls {
+  display: grid;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(26, 23, 16, 0.07);
+}
+.olib-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid rgba(26, 23, 16, 0.13);
+  border-radius: 10px;
+  background: #ffffff;
+  color: rgba(26, 23, 16, 0.4);
+  transition: border-color 0.16s ease;
+}
+.olib-search:focus-within {
+  border-color: rgba(26, 23, 16, 0.34);
+}
+.olib-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  color: #14130f;
+  outline: none;
+}
+.olib-search input::placeholder {
+  color: rgba(26, 23, 16, 0.38);
+}
+.olib-search button {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(26, 23, 16, 0.08);
+  color: rgba(26, 23, 16, 0.6);
+  cursor: pointer;
+}
+.olib-scopes {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid rgba(26, 23, 16, 0.1);
+  border-radius: 10px;
+  background: #f3f1ea;
+}
+.olib-scopes button {
+  height: 26px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(26, 23, 16, 0.58);
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+.olib-scopes button:hover {
+  color: #14130f;
+}
+.olib-scopes button.is-on {
+  background: #ffffff;
+  color: #14130f;
+  box-shadow: 0 1px 2px rgba(26, 23, 16, 0.12);
+}
+.olib-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.olib-sort {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid rgba(26, 23, 16, 0.12);
+  border-radius: 9px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: #22201a;
+  cursor: pointer;
+}
+.olib-advanced {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgba(26, 23, 16, 0.12);
+  border-radius: 9px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(26, 23, 16, 0.66);
+  cursor: pointer;
+}
+.olib-advanced.is-on {
+  border-color: rgba(26, 23, 16, 0.3);
+  color: #14130f;
+}
+.olib-advanced i {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #b4703a;
+}
+.olib-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.olib-toggles button {
+  height: 25px;
+  padding: 0 9px;
+  border: 1px dashed rgba(26, 23, 16, 0.22);
+  border-radius: 999px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(26, 23, 16, 0.6);
+  cursor: pointer;
+}
+.olib-toggles button.is-on {
+  border-style: solid;
+  border-color: rgba(26, 23, 16, 0.5);
+  background: #14130f;
+  color: #f7f4ec;
+}
+.olib-toggles .olib-reset {
+  margin-left: auto;
+  border-style: none;
+  background: transparent;
+  color: rgba(26, 23, 16, 0.5);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.olib-toggles .olib-reset:hover {
+  color: #14130f;
+}
+
+.olib-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 6px 12px 22px;
+}
+.olib-list::-webkit-scrollbar {
+  width: 9px;
+}
+.olib-list::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 9px;
+  background-clip: content-box;
+  background-color: rgba(26, 23, 16, 0.18);
+}
+.olib-list:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(26, 23, 16, 0.3);
+}
+.olib-group > h5 {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 4px 6px;
+  background: linear-gradient(180deg, #fbfaf6 70%, rgba(251, 250, 246, 0));
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(26, 23, 16, 0.5);
+}
+.olib-group > h5 em {
+  font-style: normal;
+  font-size: 9.5px;
+  letter-spacing: 0.02em;
+  color: rgba(26, 23, 16, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+.olib-row-item {
+  border-bottom: 1px solid rgba(26, 23, 16, 0.06);
+}
+.olib-row-item:last-child {
+  border-bottom: 0;
+}
+.olib-main {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 4px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.olib-main:hover {
+  background: rgba(26, 23, 16, 0.04);
+}
+.olib-row-item.is-open .olib-main {
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(26, 23, 16, 0.1);
+  border-radius: 10px 10px 0 0;
+}
+.olib-thumb {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background-color: #e8e5dc;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.olib-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.olib-tags {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(26, 23, 16, 0.42);
+}
+.olib-tags b {
+  padding: 1px 5px;
+  border-radius: 999px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  color: #0f6b52;
+  background: rgba(21, 122, 85, 0.11);
+}
+.olib-tags b.is-rec {
+  color: #8a5a12;
+  background: rgba(180, 112, 58, 0.14);
+}
+.olib-tags b.is-alt {
+  color: #4a3fb0;
+  background: rgba(91, 79, 214, 0.1);
+}
+.olib-copy strong {
+  overflow: hidden;
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.25;
+  color: #14130f;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.olib-copy em {
+  overflow: hidden;
+  font-style: normal;
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: rgba(26, 23, 16, 0.55);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.olib-side {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  color: rgba(26, 23, 16, 0.4);
+}
+.olib-side b {
+  font-size: 11.5px;
+  font-weight: 650;
+  color: #2b2822;
+  font-variant-numeric: tabular-nums;
+}
+.olib-side svg {
+  transition: transform 0.18s ease;
+}
+.olib-side svg.is-flipped {
+  transform: rotate(180deg);
+}
+.olib-detail {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 10px 12px 12px;
+  border-radius: 0 0 10px 10px;
+  background: #ffffff;
+  box-shadow:
+    inset 0 0 0 1px rgba(26, 23, 16, 0.1),
+    inset 0 1px 0 rgba(26, 23, 16, 0.06);
+}
+.olib-detail > p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(26, 23, 16, 0.68);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.olib-detail dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 10px;
+  margin: 0;
+}
+.olib-detail dl div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.olib-detail dt {
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(26, 23, 16, 0.4);
+}
+.olib-detail dd {
+  margin: 0;
+  overflow: hidden;
+  font-size: 11px;
+  color: #22201a;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.olib-detail .olib-fine {
+  font-size: 10px;
+  color: rgba(26, 23, 16, 0.5);
+}
+.olib-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 2px;
+}
+.olib-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 11px;
+  border: 1px solid #14130f;
+  border-radius: 8px;
+  background: #14130f;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  color: #f7f4ec;
+  cursor: pointer;
+}
+.olib-add:hover {
+  background: #2b2822;
+}
+.olib-add:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.olib-swap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 8px 0 9px;
+  border: 1px solid rgba(26, 23, 16, 0.16);
+  border-radius: 8px;
+  background: #faf9f4;
+  color: rgba(26, 23, 16, 0.6);
+}
+.olib-swap select {
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: #22201a;
+  cursor: pointer;
+  outline: none;
+}
+.olib-approved {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #0f6b52;
+}
+.olib-empty {
+  margin: 18px 4px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: rgba(26, 23, 16, 0.52);
+}
+.olib-empty button {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: #14130f;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* One column, so the library becomes a sheet over the month — the drawer it used to be,
+   but the same panel and the same controls. */
+@media (max-width: 1180px) {
+  .mw .mw-body.has-rail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw-rail-scrim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 41;
+    border: 0;
+    background: rgba(12, 11, 8, 0.38);
+    backdrop-filter: blur(2px);
+    animation: p57-dim 0.2s ease both;
+  }
+  .mw-lib-rail {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 42;
+    width: min(420px, 92vw);
+    height: auto;
+    border-left: 1px solid rgba(26, 23, 16, 0.12);
+    box-shadow: -28px 0 60px -30px rgba(16, 15, 10, 0.6);
+    animation: mw-rail-in 0.26s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+}
+@keyframes mw-rail-in {
+  from {
+    opacity: 0;
+    transform: translateX(26px);
+  }
+}
+
+/* The rail's scrim and sheet are positioned against the body, and the library button in the
+   month's toolbar is a toggle now that the library is always docked. */
+.mw .mw-body {
+  position: relative;
+}

@@ -135,6 +135,7 @@ export function initSchema() {
     actual_redemptions REAL, actual_discount_cost REAL, source_campaign TEXT, original_offer_id INTEGER REFERENCES offers(id),
     version INTEGER NOT NULL DEFAULT 1, status TEXT NOT NULL DEFAULT 'draft', approval_status TEXT NOT NULL DEFAULT 'pending',
     generation_source TEXT NOT NULL DEFAULT 'manual', data_mode TEXT NOT NULL DEFAULT 'user', performance_notes TEXT,
+    run_ads INTEGER NOT NULL DEFAULT 0,
     financials TEXT NOT NULL DEFAULT '{}', risks TEXT NOT NULL DEFAULT '[]', success_metrics TEXT NOT NULL DEFAULT '[]', provenance TEXT NOT NULL DEFAULT '{}',
     cta TEXT, created_by INTEGER REFERENCES users(id), created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -252,7 +253,8 @@ export function initSchema() {
     db.exec('ALTER TABLE monthly_plans ADD COLUMN offer_ids TEXT');
   // slots = {"newcomer": offerId, "lapsed": offerId, "renewal": offerId}; NULL = use the month's primary slot offers.
   if (!planColumns.some(column => column.name === 'slots')) db.exec('ALTER TABLE monthly_plans ADD COLUMN slots TEXT');
-  if (!planColumns.some(column => column.name === 'content')) db.exec('ALTER TABLE monthly_plans ADD COLUMN content TEXT');
+  if (!planColumns.some(column => column.name === 'content'))
+    db.exec('ALTER TABLE monthly_plans ADD COLUMN content TEXT');
   const offerCols = db.pragma('table_info(offers)') as any[];
   // plan_slot marks an offer as a month's newcomer / lapsed / renewal option; plan_rank 1 = primary, 2+ = alternates.
   if (!offerCols.some(column => column.name === 'plan_slot')) db.exec('ALTER TABLE offers ADD COLUMN plan_slot TEXT');
@@ -260,6 +262,9 @@ export function initSchema() {
     db.exec('ALTER TABLE offers ADD COLUMN plan_rank INTEGER');
   if (!offerColumns.some(column => column.name === 'provenance'))
     db.exec("ALTER TABLE offers ADD COLUMN provenance TEXT NOT NULL DEFAULT '{}'");
+  // run_ads is a planning mark — will we put paid media behind this offer — not a mechanic.
+  if (!offerColumns.some(column => column.name === 'run_ads'))
+    db.exec('ALTER TABLE offers ADD COLUMN run_ads INTEGER NOT NULL DEFAULT 0');
 }
 initSchema();
 
