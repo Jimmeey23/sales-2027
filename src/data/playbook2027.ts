@@ -545,11 +545,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'First-time clients (phone verified).',
           mechanic:
-            "Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy in January and you're pre-registered for February's challenge (target scaled)",
+            "Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
           economics:
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹55.7k vs the ₹3.6L stream plan) · 18 buyers',
           logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
           kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
           lever: 'conversion',
         },
@@ -559,11 +559,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Clients lapsed 61–365 days.',
           mechanic:
-            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Buy in January and you're pre-registered for February's challenge",
+            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Come back in January and the desk books your first four classes of the year",
           economics:
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹50.4k vs the ₹3.6L stream plan) · 48 buyers',
           logic:
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
           kpi: 'Lapsed clients buying before 24 Jan.',
           lever: 'winback',
         },
@@ -573,7 +573,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
           mechanic:
-            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; Entry to February’s challenge, target scaled to the new term",
+            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year",
           economics:
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers',
           logic:
@@ -675,9 +675,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           actions: [
             'The First Seven Days: Seven days unlimited. Then decide.',
             'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
-            "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
+            "The Annual Re-Up: The January annuals renew at list, and the rate for the year is settled in one sitting.",
           ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, and the 30-day challenge picks it up from there.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. The month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
         },
         {
           month: 'Feb',
@@ -1419,11 +1419,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'First-time clients (phone verified).',
           mechanic:
-            "Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy in January and you're pre-registered for February's challenge (target scaled)",
+            "Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
           economics:
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.1L counted (+₹42k vs the ₹2.7L stream plan) · 19 buyers',
           logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
           kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
           lever: 'conversion',
         },
@@ -1433,11 +1433,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Clients lapsed 61–365 days.',
           mechanic:
-            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Buy in January and you're pre-registered for February's challenge",
+            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Come back in January and the desk books your first four classes of the year",
           economics:
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.5L counted (+₹38.9k vs the ₹2.2L stream plan) · 38 buyers',
           logic:
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
           kpi: 'Lapsed clients buying before 24 Jan.',
           lever: 'winback',
         },
@@ -1447,7 +1447,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
           mechanic:
-            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; Entry to February’s challenge, target scaled to the new term",
+            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year",
           economics:
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers',
           logic:
@@ -1549,9 +1549,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           actions: [
             'The First Seven Days: Seven days unlimited. Then decide.',
             'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
-            "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
+            "The Annual Re-Up: The January annuals renew at list, and the rate for the year is settled in one sitting.",
           ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, and the 30-day challenge picks it up from there.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. The month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
         },
         {
           month: 'Feb',
@@ -2283,11 +2283,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'First-time clients (phone verified).',
           mechanic:
-            "Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy in January and you're pre-registered for February's challenge (target scaled)",
+            "Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
           economics:
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹54.3k vs the ₹3.5L stream plan) · 26 buyers',
           logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
           kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
           lever: 'conversion',
         },
@@ -2297,11 +2297,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Clients lapsed 61–365 days.',
           mechanic:
-            "1M unlimited: ₹12.4k (15% off the ₹14.6k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Buy in January and you're pre-registered for February's challenge",
+            "1M unlimited: ₹12.4k (15% off the ₹14.6k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Come back in January and the desk books your first four classes of the year",
           economics:
             '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.3L counted (+₹17.5k vs the ₹1.1L stream plan) · 23 buyers',
           logic:
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
           kpi: 'Lapsed clients buying before 24 Jan.',
           lever: 'winback',
         },
@@ -2311,7 +2311,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
           mechanic:
-            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; Entry to February’s challenge, target scaled to the new term",
+            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year",
           economics:
             '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers',
           logic:
@@ -2413,9 +2413,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           actions: [
             'The First Seven Days: Seven days unlimited. Then decide.',
             'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
-            "The Annual Re-Up: The January annuals renew at list — and February's challenge comes with them.",
+            "The Annual Re-Up: The January annuals renew at list, and the rate for the year is settled in one sitting.",
           ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. Every January membership carries into February, and the 30-day challenge picks it up from there.',
+          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. The month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
         },
         {
           month: 'Feb',
@@ -2913,14 +2913,14 @@ export const PLAYBOOK_2027: PlaybookData = {
           event: 'New Year · Saturday squad · drop-in to pack',
           theme: 'Start Line',
           focus:
-            'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door — and a February pack carries a Stronger in 30 2.0 entry.',
+            'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door.',
           offers: ['First Drop-in Counts', 'Missed You at the Pop-up', "Credit Where It's Due"],
           actions: [
             'First Drop-in Counts: Your first class fee comes off your first pack.',
             'Missed You at the Pop-up: Your neighbourhood class is waiting.',
             "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
           ],
-          why: 'Nothing to enter this month: the work is pack conversion, the Saturday squad and the door. Packs bought in February carry a Stronger in 30 2.0 entry.',
+          why: 'Nothing to enter this month: the work is pack conversion, the Saturday squad and the door. January sells one drop-in at a time, and the pack closes at the desk.',
         },
         {
           month: 'Feb',
