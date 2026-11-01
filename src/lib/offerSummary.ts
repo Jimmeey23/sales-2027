@@ -12,7 +12,10 @@
 // stream it serves. The long copy stays where it belongs (customer copy, rationale, the
 // calculation), and this is the sentence that leads.
 
-import { planPricing, type PlanPricing } from './offerPricing';
+// The extension is not decoration. This module is imported by the API as well as by the
+// browser (the plan export describes every offer), and the serverless runtime runs Node's
+// ESM loader over compiled .js files, where an extensionless specifier does not resolve.
+import { planPricing, type PlanPricing } from './offerPricing.js';
 
 export interface OfferSummary {
   /** What is being sold: "3-month unlimited", "12-class pack", "7-day unlimited intro". */
