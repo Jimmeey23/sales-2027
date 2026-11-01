@@ -1,5 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Check, Download, FileJson, FileSpreadsheet, FileText, Loader2, X } from 'lucide-react';
+import {
+  Check,
+  ClipboardCheck,
+  ClipboardCopy,
+  Download,
+  FileJson,
+  FileSpreadsheet,
+  FileText,
+  Loader2,
+  X,
+} from 'lucide-react';
 import { api } from '../api';
 import { useApp } from '../App';
 import { APPROVED_STUDIOS } from '../data/approvedPlan2027';
@@ -11,9 +21,21 @@ import { moneyShort as lakh, number } from '../types';
    happens in a spreadsheet, a deck and an email. This dialog asks the two questions that
    change the file — which locations, and which format — shows what will be inside it, and
    then downloads it. The download is a real request against /api/plan/export rather than a
-   client-side rebuild, so the file carries the same numbers the screen does. */
+   client-side rebuild, so the file carries the same numbers the screen does.
+
+   Most of the time nobody wants a file at all: they want to paste the plan into a message, a
+   doc or a sheet. So the same document is also offered as text, Markdown, CSV and JSON,
+   copied straight to the clipboard — read from the server, never rebuilt here. */
 
 type Format = 'json' | 'csv' | 'xlsx' | 'md';
+type CopyFormat = 'text' | 'md' | 'csv' | 'json';
+
+const COPY_FORMATS: Array<{ id: CopyFormat; label: string; blurb: string }> = [
+  { id: 'text', label: 'Message', blurb: 'WhatsApp, Slack or email — no markup' },
+  { id: 'md', label: 'Markdown', blurb: 'Notion, GitHub, a shared doc' },
+  { id: 'csv', label: 'CSV', blurb: 'Paste straight into a spreadsheet' },
+  { id: 'json', label: 'JSON', blurb: 'Every field, for a script or import' },
+];
 
 const FORMATS: Array<{ id: Format; label: string; ext: string; blurb: string; Icon: typeof FileJson }> = [
   {
@@ -62,6 +84,10 @@ export default function PlanExportDialog({
   const [loading, setLoading] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copyFormat, setCopyFormat] = useState<CopyFormat>('text');
+  const [copyText, setCopyText] = useState('');
+  const [copyState, setCopyState] = useState<'idle' | 'loading' | 'copied' | 'error'>('idle');
+  const [copyNote, setCopyNote] = useState('');
 
   // Only these four carry a plan; the rest of the estate has no targets to export, so a
   // single-location file is always one of them.
@@ -82,6 +108,29 @@ export default function PlanExportDialog({
       .catch(err => setError(err.message || 'Could not read the plan.'))
       .finally(() => setLoading(false));
   }, [open, scopeQuery, year]);
+
+  // What the clipboard would receive, read from the same document the download writes.
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    setCopyState('loading');
+    setCopyNote('');
+    api(`/plan/copy?year=${year}&studios=${scopeQuery}&format=${copyFormat}`)
+      .then((payload: any) => {
+        if (cancelled) return;
+        setCopyText(payload.text || '');
+        setCopyState('idle');
+      })
+      .catch((err: any) => {
+        if (cancelled) return;
+        setCopyText('');
+        setCopyState('error');
+        setCopyNote(err.message || 'Could not prepare the text.');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, scopeQuery, year, copyFormat]);
 
   useEffect(() => {
     if (!open) return;
@@ -122,6 +171,37 @@ export default function PlanExportDialog({
       setBusy(false);
     }
   };
+
+  /* The clipboard API is only available on a secure origin and can still be refused; the
+     fallback is the oldest trick there is, and it keeps the button working everywhere. */
+  const copyPlan = async () => {
+    if (!copyText) return;
+    setCopyNote('');
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(copyText);
+      } else {
+        const area = document.createElement('textarea');
+        area.value = copyText;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        const ok = document.execCommand('copy');
+        area.remove();
+        if (!ok) throw new Error('The browser refused the copy.');
+      }
+      setCopyState('copied');
+      setTimeout(() => setCopyState(current => (current === 'copied' ? 'idle' : current)), 2600);
+    } catch (err: any) {
+      setCopyState('error');
+      setCopyNote(err?.message || 'Could not reach the clipboard.');
+    }
+  };
+
+  const copyActive = COPY_FORMATS.find(item => item.id === copyFormat) || COPY_FORMATS[0];
+  const copyPreview = copyText ? copyText.split('\n').slice(0, 6).join('\n') : '';
 
   if (!open) return null;
 
@@ -215,6 +295,49 @@ export default function PlanExportDialog({
             </div>
           </div>
 
+          <div className="pex-block">
+            <span className="pex-label-row">
+              <span className="pex-label">Or copy it</span>
+              <span className="pex-label-actions">
+                {copyState === 'loading' && 'Preparing…'}
+                {copyState === 'copied' && 'Copied'}
+                {copyState === 'error' && copyNote}
+              </span>
+            </span>
+            <div className="pex-copy-formats" role="group" aria-label="Copy format">
+              {COPY_FORMATS.map(item => (
+                <button
+                  key={item.id}
+                  type="button"
+                  title={item.blurb}
+                  className={copyFormat === item.id ? 'is-on' : ''}
+                  aria-pressed={copyFormat === item.id}
+                  onClick={() => setCopyFormat(item.id)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            <div className="pex-copy-sheet">
+              <div className="pex-copy-sheet-head">
+                <span>
+                  {copyActive.label} ·{' '}
+                  {copyText
+                    ? `${number(copyText.split('\n').length)} lines · ${number(copyText.length)} characters`
+                    : 'nothing to copy yet'}
+                </span>
+                <button type="button" className="pex-copy-mini" onClick={copyPlan} disabled={!copyText}>
+                  {copyState === 'copied' ? <ClipboardCheck size={13} /> : <ClipboardCopy size={13} />}
+                  {copyState === 'copied' ? 'Copied' : 'Copy'}
+                </button>
+              </div>
+              <pre className="pex-copy-preview" aria-hidden="true">
+                {copyPreview || (copyState === 'loading' ? 'Preparing the text…' : '—')}
+                {copyText && copyText.split('\n').length > 6 ? '\n…' : ''}
+              </pre>
+            </div>
+          </div>
+
           <div className="pex-preview">
             {loading && (
               <span className="pex-preview-loading">
@@ -256,6 +379,15 @@ export default function PlanExportDialog({
           <span className="pex-foot-note">Files are generated from the saved plan — nothing is recalculated.</span>
           <button type="button" className="pex-cancel" onClick={onClose}>
             Cancel
+          </button>
+          <button
+            type="button"
+            className="pex-ghost"
+            onClick={copyPlan}
+            disabled={!copyText || copyState === 'loading'}
+          >
+            {copyState === 'copied' ? <ClipboardCheck size={14} /> : <ClipboardCopy size={14} />}
+            {copyState === 'copied' ? 'Copied' : `Copy ${copyActive.label}`}
           </button>
           <button type="button" className="pex-go" onClick={download} disabled={busy || loading || !preview}>
             {busy ? <Loader2 size={14} className="spin" /> : <Download size={14} />}

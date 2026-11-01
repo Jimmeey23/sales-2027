@@ -4,6 +4,7 @@ import { db } from '../db.js';
 import { planEconomics } from './planEconomics.js';
 import { studioPlanDetail } from '../routes/studioPlans.js';
 import { keyDatesFor, KEY_DATE_LABELS } from '../../src/data/keyDates.js';
+import { offerSummary } from '../../src/lib/offerSummary.js';
 
 /* The year plan, as a document rather than a screen.
 
@@ -46,7 +47,7 @@ const money = (value: any) => round(value);
 type AnyRow = Record<string, any>;
 
 const offerColumns =
-  'id,name,headline,customer_copy,internal_description,rationale,objective,offer_type,audience,excluded_audience,benefit,mechanics,validity_start,validity_end,redemption_conditions,cta,target_purchases,expected_asp,expected_revenue,effective_discount,margin_impact,status,approval_status,run_ads,plan_slot,plan_rank';
+  'id,name,headline,customer_copy,internal_description,rationale,objective,offer_type,audience,excluded_audience,benefit,mechanics,provenance,eligible_products,validity_start,validity_end,redemption_conditions,cta,target_purchases,expected_asp,expected_revenue,effective_discount,margin_impact,status,approval_status,run_ads,plan_slot,plan_rank';
 
 function offersById(ids: number[]) {
   const clean = [...new Set(ids.filter(Boolean))];
@@ -72,10 +73,14 @@ function parseJson(value: any, fallback: any) {
 /** One offer, flattened into the shape a reader (or a spreadsheet) wants. */
 function offerRecord(row: AnyRow, slot: string | null) {
   const mechanics = parseJson(row.mechanics, {});
+  const provenance = parseJson(row.provenance, {});
+  // One plain sentence — the membership, what the client gets, and what the offer is for.
+  const description = offerSummary({ ...row, provenance, mechanics }).sentence;
   return {
     id: Number(row.id),
     slot: slot || row.plan_slot || null,
     name: row.name,
+    description,
     headline: row.headline || null,
     benefit: row.benefit || null,
     customerCopy: row.customer_copy || null,
@@ -93,7 +98,8 @@ function offerRecord(row: AnyRow, slot: string | null) {
     price: money(row.expected_asp),
     expectedRevenue: money(row.expected_revenue),
     buyers: round(row.target_purchases),
-    effectiveDiscountPercent: row.effective_discount === null ? null : Number(Number(row.effective_discount).toFixed(2)),
+    effectiveDiscountPercent:
+      row.effective_discount === null ? null : Number(Number(row.effective_discount).toFixed(2)),
     contributionMargin: money(row.margin_impact),
     validity: { start: row.validity_start || null, end: row.validity_end || null },
     mechanics,
@@ -155,7 +161,9 @@ export function buildYearPlan({ year, studioIds, userId }: PlanExportRequest) {
       const econ = economics.months?.[month - 1] || null;
       const slots: AnyRow = parseJson(plan?.slots, {});
       const extras: number[] = Array.isArray(plan?.offer_ids) ? plan.offer_ids.map(Number) : [];
-      const slotIds = Object.values(slots || {}).map(Number).filter(Boolean);
+      const slotIds = Object.values(slots || {})
+        .map(Number)
+        .filter(Boolean);
       const bank = offersById([...slotIds, ...extras]);
       const offers = [
         ...Object.entries(slots || {})
@@ -222,8 +230,7 @@ export function buildYearPlan({ year, studioIds, userId }: PlanExportRequest) {
       });
     }
 
-    const sum = (pick: (m: AnyRow) => number | null) =>
-      months.reduce((total, m) => total + (Number(pick(m)) || 0), 0);
+    const sum = (pick: (m: AnyRow) => number | null) => months.reduce((total, m) => total + (Number(pick(m)) || 0), 0);
     const trailing: AnyRow = economics.trailing || {};
 
     return {
@@ -333,6 +340,7 @@ export function renderPlanCsv(doc: AnyRow) {
           ...base,
           offerSlot: offer.slot || '',
           offerName: offer.name,
+          offerDescription: offer.description,
           offerHeadline: offer.headline,
           offerBenefit: offer.benefit,
           offerAudience: offer.audience,
@@ -356,16 +364,20 @@ export function renderPlanCsv(doc: AnyRow) {
     }
   }
   const columns = Object.keys(rows[0] || {});
-  const csv = stringify(rows.map(row => Object.fromEntries(Object.entries(row).map(([k, v]) => [k, csvValue(v)]))), {
-    header: true,
-    columns: columns.map(key => ({ key, header: key })),
-  });
+  const csv = stringify(
+    rows.map(row => Object.fromEntries(Object.entries(row).map(([k, v]) => [k, csvValue(v)]))),
+    {
+      header: true,
+      columns: columns.map(key => ({ key, header: key })),
+    },
+  );
   return `\uFEFF${csv}`;
 }
 
 /** A readable document, one section per location, that survives a paste into anything. */
 export function renderPlanMarkdown(doc: AnyRow) {
-  const rupees = (value: any) => (value === null || value === undefined ? '—' : `₹${Number(value).toLocaleString('en-IN')}`);
+  const rupees = (value: any) =>
+    value === null || value === undefined ? '—' : `₹${Number(value).toLocaleString('en-IN')}`;
   const pct = (value: any) => (value === null || value === undefined ? '—' : `${(Number(value) * 100).toFixed(0)}%`);
   const lines: string[] = [];
   lines.push(`# Physique 57 · ${doc.year} sales plan`);
@@ -380,7 +392,9 @@ export function renderPlanMarkdown(doc: AnyRow) {
     const offers = studio.months.reduce((n: number, m: AnyRow) => n + m.offers.length, 0);
     lines.push(
       `| ${studio.studio.name} | ${rupees(studio.year.target)} | ${rupees(studio.year.priorYear)} | ${
-        studio.year.growthPercent === null ? '—' : `${studio.year.growthPercent > 0 ? '+' : ''}${studio.year.growthPercent}%`
+        studio.year.growthPercent === null
+          ? '—'
+          : `${studio.year.growthPercent > 0 ? '+' : ''}${studio.year.growthPercent}%`
       } | ${offers} |`,
     );
   }
@@ -424,11 +438,11 @@ export function renderPlanMarkdown(doc: AnyRow) {
       );
       lines.push('');
       if (month.offers.length) {
-        lines.push('| Slot | Offer | Audience | Price | Revenue | Buyers | Discount | Approval |');
-        lines.push('| --- | --- | --- | ---: | ---: | ---: | ---: | --- |');
+        lines.push('| Slot | Offer | What it is | Audience | Price | Revenue | Buyers | Discount | Approval |');
+        lines.push('| --- | --- | --- | --- | ---: | ---: | ---: | ---: | --- |');
         for (const offer of month.offers) {
           lines.push(
-            `| ${offer.slot || '—'} | ${offer.name} | ${offer.audience || '—'} | ${rupees(offer.price)} | ${rupees(
+            `| ${offer.slot || '—'} | ${offer.name} | ${offer.description || '—'} | ${offer.audience || '—'} | ${rupees(offer.price)} | ${rupees(
               offer.expectedRevenue,
             )} | ${offer.buyers ?? '—'} | ${offer.effectiveDiscountPercent === null ? '—' : `${offer.effectiveDiscountPercent}%`} | ${
               offer.approval || offer.status || '—'
@@ -439,7 +453,9 @@ export function renderPlanMarkdown(doc: AnyRow) {
       }
       const dates = month.keyDates.filter((d: AnyRow) => d.kind !== 'awareness');
       if (dates.length) {
-        lines.push(`Key dates: ${dates.map((d: AnyRow) => `${d.day} ${month.name.slice(0, 3)} ${d.name}`).join(' · ')}`);
+        lines.push(
+          `Key dates: ${dates.map((d: AnyRow) => `${d.day} ${month.name.slice(0, 3)} ${d.name}`).join(' · ')}`,
+        );
         lines.push('');
       }
       if (month.sections.length) {
@@ -447,20 +463,86 @@ export function renderPlanMarkdown(doc: AnyRow) {
           lines.push(`**${section.title}**`);
           lines.push('');
           for (const item of section.items) {
-            lines.push(`- ${item.label}${item.value ? `: ${item.value}` : ''}${item.detail ? ` — ${item.detail}` : ''}`);
+            lines.push(
+              `- ${item.label}${item.value ? `: ${item.value}` : ''}${item.detail ? ` — ${item.detail}` : ''}`,
+            );
           }
           lines.push('');
         }
       }
-      lines.push(`Lead → trial ${pct(month.funnel.leadToTrial)} · trial → member ${pct(month.funnel.trialToMember)} · spend per visit ${rupees(
-        month.funnel.spendPerVisit,
-      )}`);
+      lines.push(
+        `Lead → trial ${pct(month.funnel.leadToTrial)} · trial → member ${pct(month.funnel.trialToMember)} · spend per visit ${rupees(
+          month.funnel.spendPerVisit,
+        )}`,
+      );
       lines.push('');
       lines.push('---');
       lines.push('');
     }
   }
   return lines.join('\n');
+}
+
+/** A message, not a document: the shape that survives a paste into WhatsApp, Slack or an
+ *  email — no tables, no markup, no line longer than a phone can show. */
+export function renderPlanText(doc: AnyRow) {
+  const rupees = (value: any) =>
+    value === null || value === undefined ? '—' : `₹${Number(value).toLocaleString('en-IN')}`;
+  const short = (value: any) =>
+    value === null || value === undefined || value === ''
+      ? '—'
+      : Number(value) >= 100000
+        ? `₹${(Number(value) / 100000).toFixed(1)}L`
+        : `₹${Math.round(Number(value)).toLocaleString('en-IN')}`;
+  const growth = (value: any) =>
+    value === null || value === undefined ? '—' : `${Number(value) > 0 ? '+' : ''}${value}%`;
+  const scope =
+    doc.scope.type === 'portfolio' ? 'ALL LOCATIONS' : String(doc.scope.studios[0]?.name || '').toUpperCase();
+  const lines: string[] = [];
+  lines.push(`P57 · ${doc.year} SALES PLAN — ${scope}`);
+  lines.push(`Generated ${new Date(doc.generatedAt).toISOString().slice(0, 10)} · amounts in INR`);
+  lines.push('');
+  lines.push(
+    `Year target ${short(doc.totals.target)} (${growth(doc.totals.growthPercent)} vs ${short(doc.totals.priorYear)}) · ${doc.totals.offers} offers`,
+  );
+
+  for (const studio of doc.studios) {
+    lines.push('');
+    lines.push(
+      `${studio.studio.name.toUpperCase()}${studio.studio.city ? ` · ${studio.studio.city}` : ''} — ${short(
+        studio.year.target,
+      )} (${growth(studio.year.growthPercent)} vs ${short(studio.year.priorYear)})`,
+    );
+    for (const month of studio.months) {
+      if (!month.offers.length && !month.theme) continue;
+      lines.push('');
+      lines.push(`${month.name} · ${month.theme || 'No theme set'} — ${short(month.target)}`);
+      for (const offer of month.offers) {
+        const money = offer.expectedRevenue ? ` (${short(offer.expectedRevenue)} forecast)` : '';
+        lines.push(`• ${offer.name}: ${offer.description || offer.headline || ''}${money}`);
+      }
+      const dates = month.keyDates.filter((d: AnyRow) => d.kind !== 'awareness').slice(0, 3);
+      if (dates.length)
+        lines.push(
+          `  Key dates: ${dates.map((d: AnyRow) => `${d.day} ${month.name.slice(0, 3)} ${d.name}`).join(' · ')}`,
+        );
+    }
+  }
+  lines.push('');
+  lines.push('Generated by P57 Sales Intelligence Studio. Figures come from the saved plan.');
+  return lines.join('\n');
+}
+
+/** Copyable forms of the same document. Text is the message; the rest match the download. */
+export function renderPlanCopy(doc: AnyRow, format: string) {
+  const normal = String(format || 'text').toLowerCase();
+  if (normal === 'md' || normal === 'markdown')
+    return { format: 'md', mime: 'text/markdown', text: renderPlanMarkdown(doc) };
+  if (normal === 'csv') return { format: 'csv', mime: 'text/csv', text: renderPlanCsv(doc) };
+  if (normal === 'json') return { format: 'json', mime: 'application/json', text: JSON.stringify(doc, null, 2) };
+  if (normal === 'text' || normal === 'txt' || normal === 'message')
+    return { format: 'text', mime: 'text/plain', text: renderPlanText(doc) };
+  return null;
 }
 
 /** Five sheets: the summary, the month grid, every offer, the dates, the assumptions. */
@@ -509,7 +591,14 @@ export async function renderPlanXlsx(doc: AnyRow) {
     ];
     r++;
   }
-  summary.getRow(r).values = ['Total', '', doc.totals.target, doc.totals.priorYear, doc.totals.growthPercent / 100, doc.totals.offers];
+  summary.getRow(r).values = [
+    'Total',
+    '',
+    doc.totals.target,
+    doc.totals.priorYear,
+    doc.totals.growthPercent / 100,
+    doc.totals.offers,
+  ];
   summary.getRow(r).font = { bold: true };
   summary.getColumn(3).numFmt = summary.getColumn(4).numFmt = '₹#,##0';
   summary.getColumn(5).numFmt = '0.0%';
@@ -569,7 +658,10 @@ export async function renderPlanXlsx(doc: AnyRow) {
   }
   for (const col of [5, 6, 8, 9, 10, 11]) months.getColumn(col).numFmt = '₹#,##0';
   for (const col of [7, 18, 19, 20]) months.getColumn(col).numFmt = '0.0%';
-  months.columns.forEach((column, index) => (column.width = [24, 12, 34, 10, 14, 14, 9, 13, 12, 11, 9, 9, 9, 10, 13, 11, 11, 10, 11, 12][index] || 12));
+  months.columns.forEach(
+    (column, index) =>
+      (column.width = [24, 12, 34, 10, 14, 14, 9, 13, 12, 11, 9, 9, 9, 10, 13, 11, 11, 10, 11, 12][index] || 12),
+  );
 
   const offers = workbook.addWorksheet('Offers', { views: [{ showGridLines: false }] });
   title(offers, 'Every offer in the plan', 'The month it belongs to, what it is, and what it is expected to make');
@@ -578,6 +670,7 @@ export async function renderPlanXlsx(doc: AnyRow) {
     'Month',
     'Slot',
     'Offer',
+    'What it is',
     'Audience',
     'Objective',
     'Type',
@@ -602,6 +695,7 @@ export async function renderPlanXlsx(doc: AnyRow) {
           month.name,
           offer.slot || '',
           offer.name,
+          offer.description || '',
           offer.audience || '',
           offer.objective || '',
           offer.type || '',
@@ -621,9 +715,12 @@ export async function renderPlanXlsx(doc: AnyRow) {
       }
     }
   }
-  for (const col of [8, 9, 12]) offers.getColumn(col).numFmt = '₹#,##0';
-  offers.getColumn(11).numFmt = '0.0%';
-  offers.columns.forEach((column, index) => (column.width = [22, 12, 11, 46, 26, 16, 16, 12, 16, 9, 11, 13, 12, 12, 10, 12, 8, 46][index] || 12));
+  for (const col of [9, 10, 13]) offers.getColumn(col).numFmt = '₹#,##0';
+  offers.getColumn(12).numFmt = '0.0%';
+  offers.columns.forEach(
+    (column, index) =>
+      (column.width = [22, 12, 11, 40, 64, 26, 16, 16, 12, 16, 9, 11, 13, 12, 12, 10, 12, 8, 46][index] || 12),
+  );
 
   const dates = workbook.addWorksheet('Key dates', { views: [{ showGridLines: false }] });
   title(dates, 'Key dates', 'The days that change how a month is bought');

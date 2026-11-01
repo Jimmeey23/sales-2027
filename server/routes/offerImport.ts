@@ -5,6 +5,7 @@ import { canAccessStudio, permission } from '../lib/auth.js';
 import { bodyError } from '../http.js';
 import { selection, saveSelection } from '../lib/linkedOffers.js';
 import { persistOffer, validateOfferForSave } from './offers.js';
+import { bindableRow } from '../lib/bindings.js';
 
 /* Importing offers from a file.
 
@@ -37,6 +38,63 @@ const numeric = (value: any) => {
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
 };
+
+const MONTH_NAMES = [
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
+];
+
+/* A sheet says "February", the app stores 2. Both are the same month, and a file that
+   spells it out should not need editing before it can be imported. */
+const monthNumber = (value: any): number | null => {
+  if (value === undefined || value === null || value === '') return null;
+  const asNumber = numeric(value);
+  if (asNumber !== null) return asNumber >= 1 && asNumber <= 12 ? Math.round(asNumber) : null;
+  const text = String(value).trim().toLowerCase();
+  if (!text) return null;
+  const index = MONTH_NAMES.findIndex(name => name === text || name.startsWith(text.slice(0, 3)));
+  if (index >= 0 && text.length >= 3) return index + 1;
+  const abbreviation = MONTH_NAMES.findIndex(name => name.slice(0, 3) === text);
+  return abbreviation >= 0 ? abbreviation + 1 : null;
+};
+
+/* And a sheet says "Kemps Corner" where the app stores 1. Resolve the location by id, name,
+   code or alias, so a CSV of the plan can be read back without a location picker. */
+type Studio = { id: number; name: string; code: string; aliases: string };
+function studioResolver(studios: Studio[]) {
+  const normalise = (value: string) =>
+    value
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ');
+  const byKey = new Map<string, number>();
+  for (const studio of studios) {
+    byKey.set(normalise(studio.name), studio.id);
+    byKey.set(normalise(studio.code), studio.id);
+    try {
+      for (const alias of JSON.parse(studio.aliases || '[]') as string[])
+        byKey.set(normalise(String(alias)), studio.id);
+    } catch {
+      /* an alias list that is not JSON simply adds nothing */
+    }
+  }
+  return (value: any): number | null => {
+    if (value === undefined || value === null || value === '') return null;
+    const asId = numeric(value);
+    if (asId !== null && studios.some(studio => studio.id === asId)) return asId;
+    return byKey.get(normalise(String(value))) ?? null;
+  };
+}
 
 /** The bulk edits a file can be put through before any row is validated. */
 type Bulk = {
@@ -146,7 +204,15 @@ function applyBulk(raw: any, bulk: Bulk) {
 }
 
 /** One incoming offer, in the field names the offer editor and the API already speak. */
-function toPayload(raw: any, defaults: { studioId: number | null; year: number; month: number | null }) {
+function toPayload(
+  raw: any,
+  defaults: {
+    studioId: number | null;
+    year: number;
+    month: number | null;
+    studioFor?: (value: any) => number | null;
+  },
+) {
   // Only carry a mechanics block when the file actually has one: an empty object would
   // overwrite the stored model and make the row's own forecast look inconsistent.
   const mechanics = raw.mechanics ?? raw.engineering ?? raw.mechanicsJson;
@@ -159,9 +225,9 @@ function toPayload(raw: any, defaults: { studioId: number | null; year: number; 
     rationale: raw.rationale ?? raw.why ?? undefined,
     objective: raw.objective ?? raw.goal ?? undefined,
     offerType: raw.offerType ?? raw.offer_type ?? raw.type ?? undefined,
-    studioId: asNumber(raw.studioId ?? raw.studio_id ?? raw.studio) ?? defaults.studioId,
+    studioId: defaults.studioFor?.(raw.studioId ?? raw.studio_id ?? raw.studio) ?? defaults.studioId,
     year: asNumber(raw.year) ?? defaults.year,
-    month: raw.month === null ? null : (asNumber(raw.month) ?? defaults.month),
+    month: raw.month === null ? null : (monthNumber(raw.month) ?? defaults.month),
     audience: raw.audience ?? undefined,
     excludedAudience: raw.excludedAudience ?? raw.excluded_audience ?? undefined,
     eligibleProducts: raw.eligibleProducts ?? raw.eligible_products ?? undefined,
@@ -397,6 +463,30 @@ const COLUMN_ALIASES: Record<string, string> = {
   location: 'studioId',
   month: 'month',
   year: 'year',
+  // This app's own plan export, read back in: one row per month, the offer in `offer*`
+  // columns. Without these the file imported as rows with no name at all.
+  offername: 'name',
+  // offerDescription is derived from the offer itself (membership, benefit, purpose), so it
+  // is read and ignored: importing it back must never overwrite the internal note.
+  offerheadline: 'headline',
+  offerbenefit: 'benefit',
+  offeraudience: 'audience',
+  offertype: 'offerType',
+  offerobjective: 'objective',
+  offerstatus: 'status',
+  offerapproval: 'approvalStatus',
+  offerrunads: 'runAds',
+  offerprice: 'expectedAsp',
+  offerrevenue: 'expectedRevenue',
+  offerbuyers: 'targetPurchases',
+  offreffectivediscount: 'effectiveDiscount',
+  offercontribution: 'marginImpact',
+  offervaliditystart: 'validityStart',
+  offervalidityend: 'validityEnd',
+  offerconditions: 'redemptionConditions',
+  offercta: 'cta',
+  offerslot: 'slot',
+  offernotes: 'notes',
   id: 'id',
 };
 
@@ -483,6 +573,18 @@ function collectIncoming(body: any): any[] {
   return [];
 }
 
+/** An import's failures are read by a studio manager, not by a database driver. */
+function readableImportError(error: any) {
+  const message = String(error?.message || 'Could not import this offer.');
+  if (/can only bind|Provided value cannot be bound/i.test(message))
+    return 'One value in this row is not a number or text — check the price, revenue and discount columns.';
+  if (/NOT NULL constraint failed: offers\./i.test(message))
+    return `A required field is empty (${message.split('offers.').pop()}).`;
+  if (/Offer name must contain at least 3 characters/i.test(message))
+    return 'This row has no offer name — check the name column, and that the sheet has a header row.';
+  return message;
+}
+
 export default function registerOfferImportRoutes(app: Express) {
   app.post('/api/offers/import', permission('offer_edit'), (req: any, res: any) => {
     const body = req.body || {};
@@ -511,6 +613,7 @@ export default function registerOfferImportRoutes(app: Express) {
     const limit = Math.max(1, Math.min(2000, numeric(body.limit) || 500));
     if (incoming.length > limit) throw bodyError(`Import at most ${limit} offers at a time.`, 413);
 
+    const studioFor = studioResolver(db.prepare('SELECT id,name,code,aliases FROM studios').all() as Studio[]);
     const rows: Array<{
       index: number;
       name: string;
@@ -529,10 +632,10 @@ export default function registerOfferImportRoutes(app: Express) {
           rows.push({ index, name: String(raw?.name ?? `Row ${index + 1}`), action: 'skip', messages: ['Left out.'] });
           return;
         }
-        const payload = toPayload(raw, { studioId: defaultStudio, year, month });
+        const payload = toPayload(raw, { studioId: defaultStudio, year, month, studioFor });
         if (!payload.name || payload.name.length < 3) throw bodyError('Offer name must contain at least 3 characters.');
         const studioId = asNumber(payload.studioId);
-        if (!studioId) throw bodyError('Each offer needs a studioId, or a studioId on the import.');
+        if (!studioId) throw bodyError('This row does not name a location — pick one, or add a studioId to the file.');
         if (!canAccessStudio(req.user, studioId))
           throw bodyError('Studios outside your access scope cannot be imported.', 403);
         const studio = db.prepare('SELECT id,name FROM studios WHERE id=?').get(studioId);
@@ -568,12 +671,15 @@ export default function registerOfferImportRoutes(app: Express) {
         // Creation goes through the same path as the offer form, including the discount cap.
         if (action === 'create') {
           merged.generationSource = merged.generationSource || 'json_import';
-          const validated = validateOfferForSave(merged, req.user, { reconcile: true });
+          const validated = bindableRow(validateOfferForSave(merged, req.user, { reconcile: true }));
           const offer = dryRun ? null : persistOffer(merged, req.user, { reconcile: true, allowApproved: true });
           const capMessage = capNote(validated, payload);
           if (capMessage) messages.push(capMessage);
           const revenueMessage = revenueNote(validated, payload.expectedRevenue);
           if (revenueMessage) messages.push(revenueMessage);
+          // 2027 offers are banked, and the month is a choice the plan makes. A file that
+          // names a month should hear that, rather than assume the import put it there.
+          if (payload.month && !month) messages.push('Saved to the bank — tick the month above to run it.');
           rows.push({
             index,
             name: payload.name,
@@ -585,7 +691,7 @@ export default function registerOfferImportRoutes(app: Express) {
           if (offer) written.push({ id: offer.id, studioId, slot: payload.planSlot ?? null });
           return;
         }
-        const row = validateOfferForSave(merged, req.user, { reconcile: true });
+        const row = bindableRow(validateOfferForSave(merged, req.user, { reconcile: true }));
         // 2027 offers live in the bank; the month owns the selection, not the offer. An
         // offer that already carries a month keeps it, so a re-import is never a "change".
         if (Number(row.year) === 2027) row.month = existing.month ?? null;
@@ -642,7 +748,7 @@ export default function registerOfferImportRoutes(app: Express) {
           index,
           name: String(raw?.name ?? raw?.offer ?? `Row ${index + 1}`),
           action: 'error',
-          messages: [String(error?.message || 'Could not import this offer.')],
+          messages: [readableImportError(error)],
         });
       }
     });

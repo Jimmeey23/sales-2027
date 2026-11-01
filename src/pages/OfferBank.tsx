@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { api, downloadCsv, post } from '../api';
 import { useApp } from '../App';
+import { offerSummary } from '../lib/offerSummary';
 import { useLoad } from '../hooks';
 import { MONTHS, OBJECTIVES, money, number, percent, titleCase } from '../types';
 import {
@@ -465,6 +466,8 @@ export default function OfferBank() {
                 {selected.performance_notes ||
                   'Expected values are planning scenarios until actual performance is recorded.'}
               </Callout>
+              <h3>In one line</h3>
+              <p className="offer-one-line">{offerSummary(selected).sentence}</p>
               <h3>Customer-facing copy</h3>
               <div className="customer-copy">
                 {selected.customer_copy || 'Not supplied for this historical promotion.'}

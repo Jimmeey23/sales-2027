@@ -3126,6 +3126,18 @@ button.mq-strip-item.is-interactive:hover .mq-strip-value {
   line-height: 1.6;
   color: var(--muted);
 }
+/* The offer in one sentence: membership, benefit, purpose. It leads wherever an offer is
+   described, and the long copy sits under it rather than instead of it. */
+.offer-one-line {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--gold-deep, #b8862b);
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(90deg, rgba(255, 214, 138, 0.16), rgba(255, 214, 138, 0.04));
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink-900);
+}
 .membership-terms summary,
 details.membership-terms > summary {
   font-size: 11.5px;
@@ -7364,11 +7376,15 @@ details.membership-terms > summary {
   color: var(--ink-soft);
   max-width: 62ch;
 }
+/* The one-sentence offer description: membership, benefit, purpose. It is the line a manager
+   repeats to a client, so it reads darker and a touch larger than the surrounding body copy. */
 .mw .oc.is-v3 .ocv-brief {
   margin: 0;
-  font-size: 12.4px;
-  line-height: 1.62;
-  color: var(--muted);
+  padding-left: 11px;
+  border-left: 2px solid rgba(184, 134, 43, 0.42);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-700, #3d392f);
   max-width: 74ch;
 }
 
@@ -9537,6 +9553,99 @@ details.membership-terms > summary {
 .pex-hint.is-warn {
   color: var(--red);
 }
+/* Copying the plan: the same document as the download, as text you can paste. The chips pick
+   the shape of the paste; the sheet below shows the first lines of exactly what will land on
+   the clipboard, so nobody has to paste it somewhere to find out. */
+.pex-copy-formats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.pex-copy-formats button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 12px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
+  cursor: pointer;
+  font: inherit;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.pex-copy-formats button:hover {
+  border-color: var(--line-strong);
+}
+.pex-copy-formats button.is-on {
+  border-color: var(--ink-900);
+  background: #fcfbf7;
+  box-shadow: 0 0 0 1px var(--ink-900) inset;
+}
+.pex-copy-formats button {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-700, var(--ink-900));
+  letter-spacing: 0.01em;
+}
+.pex-copy-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fbfaf8;
+  overflow: hidden;
+}
+.pex-copy-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px 8px 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 10.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.pex-copy-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--paper);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-900);
+  cursor: pointer;
+}
+.pex-copy-mini:hover:not(:disabled) {
+  border-color: var(--ink-900);
+}
+.pex-copy-mini:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.pex-copy-preview {
+  margin: 0;
+  padding: 10px 12px 12px;
+  max-height: 118px;
+  overflow: auto;
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--ink-900);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .pex-preview {
   display: flex;
   flex-direction: column;
@@ -9638,6 +9747,12 @@ details.membership-terms > summary {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  position: sticky;
+  top: -20px;
+  z-index: 2;
+  margin: -20px -24px 0;
+  padding: 20px 24px 0;
+  background: #fbfaf8;
 }
 .pex-recheck {
   display: inline-flex;
@@ -9822,6 +9937,50 @@ details.membership-terms > summary {
   background: #f6f2e9;
   color: #7a5a12;
 }
+/* The counts double as filters — 56 failures inside 153 rows is a list nobody should have to
+   scroll to find. A selected chip narrows the list; every chip is a button. */
+.pex-summary button {
+  padding: 3px 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.pex-summary button:hover {
+  border-color: rgba(23, 22, 15, 0.18);
+}
+.pex-summary button.is-on {
+  border-color: var(--ink-900);
+  box-shadow: 0 0 0 1px var(--ink-900) inset;
+}
+.pex-summary .is-create {
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+.pex-summary .is-update {
+  background: #eaf1fb;
+  color: #1f4e88;
+}
+.pex-summary .is-skip {
+  background: var(--canvas);
+  color: var(--muted);
+}
+.pex-summary .is-error {
+  background: var(--red-soft);
+  color: var(--red);
+}
+.pex-rows-empty {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  font-size: 11.5px;
+  color: var(--subtle);
+}
 .pex-rows {
   margin: 0;
   padding: 0;
@@ -9831,6 +9990,11 @@ details.membership-terms > summary {
   border-radius: 10px;
   overflow: hidden;
   background: var(--paper);
+  /* A preview can run to hundreds of rows. As a flex child of the preview pane this list
+     used to be squashed to the pane's height with its overflow hidden, so everything past
+     the first screenful — usually the failures — was unreachable. It keeps its full height
+     now and the pane scrolls instead. */
+  flex: 0 0 auto;
 }
 .pex-rows li {
   display: flex;
@@ -10002,6 +10166,7 @@ details.membership-terms > summary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
   height: 34px;
   padding: 0 15px;
   border-radius: 999px;
@@ -10073,6 +10238,11 @@ details.membership-terms > summary {
     max-height: none;
     overflow: visible;
   }
+  .pex-import .pex-preview-head {
+    position: static;
+    margin: 0;
+    padding: 0;
+  }
   .pex-modes {
     grid-template-columns: 1fr;
   }
@@ -10104,6 +10274,18 @@ details.membership-terms > summary {
   .pex-scopes,
   .pex-formats {
     grid-template-columns: 1fr;
+  }
+  .pex-copy-formats {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* On a phone the copy sheet is the point of the dialog, so it gets the room: the file
+     choices tighten up and the preview keeps enough lines to judge what will paste. */
+  .pex-body {
+    gap: 14px;
+    padding: 14px 16px;
+  }
+  .pex-copy-preview {
+    max-height: 104px;
   }
   .pex-foot {
     flex-wrap: wrap;

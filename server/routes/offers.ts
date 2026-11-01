@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import { stringify } from 'csv-stringify/sync';
 import { z } from 'zod';
 import { db, audit } from '../db.js';
+import { bindableRow } from '../lib/bindings.js';
 import { permission, canAccessStudio } from '../lib/auth.js';
 import { calculateOffer, solveRevenueGoal } from '../lib/calculations.js';
 import { generateConcepts, generateWithAI, randomConcept } from '../lib/offers.js';
@@ -14,6 +15,46 @@ import {
 } from '../lib/commercial.js';
 import { asyncRoute, bodyError, id, studioFilter } from '../http.js';
 import type { Express } from 'express';
+
+/* Imported rows come from a spreadsheet, an export, or a hand-written JSON file, and any of
+   those can carry a list where the app expects a line ("You get" bullets), a rupee string
+   where it expects a number, or a boolean where it expects 0/1. Coerce at the boundary so
+   the value that reaches SQLite is always storable. */
+function asTextValue(value: any): string | null {
+  if (value === undefined || value === null) return null;
+  if (Array.isArray(value)) {
+    const lines = value.map(item => asTextValue(item)).filter((line): line is string => Boolean(line));
+    return lines.length ? lines.join('\n') : null;
+  }
+  if (typeof value === 'object') {
+    const asString = Object.values(value)
+      .map(item => asTextValue(item))
+      .filter((line): line is string => Boolean(line));
+    return asString.length ? asString.join('\n') : null;
+  }
+  const text = String(value).trim();
+  return text ? text : null;
+}
+
+/** "₹24,940" and "15.0%" are numbers written the way the plan writes them. */
+function asNumeric(value: any): number | null {
+  if (value === undefined || value === null || value === '') return null;
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  const cleaned = String(value)
+    .replace(/[₹,\s]/g, '')
+    .replace(/%$/, '');
+  if (cleaned === '') return null;
+  const number = Number(cleaned);
+  return Number.isFinite(number) ? number : null;
+}
+
+/** A flag is 0 or 1 in the database — never a boolean, and never the word "yes". */
+function asFlag(value: any): number {
+  if (value === undefined || value === null || value === '') return 0;
+  if (typeof value === 'boolean') return value ? 1 : 0;
+  if (typeof value === 'number') return value ? 1 : 0;
+  return /^(1|true|yes|y|on)$/i.test(String(value).trim()) ? 1 : 0;
+}
 
 function offerRow(body: any) {
   const structured = (value: any, fallback: any) => {
@@ -28,46 +69,46 @@ function offerRow(body: any) {
   const mechanics = structured(body.mechanics, {});
   return {
     name: String(body.name || '').trim(),
-    headline: body.headline || null,
-    customer_copy: body.customerCopy || body.customer_copy || null,
-    internal_description: body.internalDescription || body.internal_description || null,
-    rationale: body.rationale || null,
-    objective: body.objective || 'revenue',
-    offer_type: body.offerType || body.offer_type || mechanics.mechanism || 'percentage',
-    studio_id: body.studioId || body.studio_id || null,
-    month: body.month || null,
-    year: body.year || null,
-    audience: body.audience || null,
-    excluded_audience: body.excludedAudience || body.excluded_audience || null,
+    headline: asTextValue(body.headline),
+    customer_copy: asTextValue(body.customerCopy ?? body.customer_copy),
+    internal_description: asTextValue(body.internalDescription ?? body.internal_description),
+    rationale: asTextValue(body.rationale),
+    objective: asTextValue(body.objective) || 'revenue',
+    offer_type: asTextValue(body.offerType ?? body.offer_type ?? mechanics?.mechanism) || 'percentage',
+    studio_id: asNumeric(body.studioId ?? body.studio_id),
+    month: asNumeric(body.month),
+    year: asNumeric(body.year),
+    audience: asTextValue(body.audience),
+    excluded_audience: asTextValue(body.excludedAudience ?? body.excluded_audience),
     eligible_products: JSON.stringify(structured(body.eligibleProducts ?? body.eligible_products, [])),
-    benefit: body.benefit || null,
+    benefit: asTextValue(body.benefit),
     mechanics: JSON.stringify(mechanics),
-    validity_start: body.validityStart || body.validity_start || null,
-    plan_slot: body.planSlot ?? body.plan_slot ?? null,
-    plan_rank: body.planRank ?? body.plan_rank ?? null,
-    run_ads: body.runAds ?? body.run_ads ?? 0,
-    validity_end: body.validityEnd || body.validity_end || null,
-    redemption_conditions: body.redemptionConditions || body.redemption_conditions || null,
-    target_purchases: body.targetPurchases ?? body.target_purchases ?? null,
-    expected_asp: body.expectedAsp ?? body.expected_asp ?? null,
-    expected_revenue: body.expectedRevenue ?? body.expected_revenue ?? null,
-    effective_discount: body.effectiveDiscount ?? body.effective_discount ?? null,
-    margin_impact: body.marginImpact ?? body.margin_impact ?? null,
-    required_leads: body.requiredLeads ?? body.required_leads ?? null,
-    required_trials: body.requiredTrials ?? body.required_trials ?? null,
-    expected_conversion: body.expectedConversion ?? body.expected_conversion ?? null,
-    expected_redemptions: body.expectedRedemptions ?? body.expected_redemptions ?? null,
-    revenue_target: body.revenueTarget ?? body.revenue_target ?? null,
-    status: body.status || 'draft',
-    approval_status: body.approvalStatus || body.approval_status || 'pending',
-    generation_source: body.generationSource || body.generation_source || 'manual',
-    data_mode: body.dataMode || body.data_mode || 'user',
-    performance_notes: body.performanceNotes || body.performance_notes || null,
+    validity_start: asTextValue(body.validityStart ?? body.validity_start),
+    plan_slot: asTextValue(body.planSlot ?? body.plan_slot),
+    plan_rank: asNumeric(body.planRank ?? body.plan_rank),
+    run_ads: asFlag(body.runAds ?? body.run_ads),
+    validity_end: asTextValue(body.validityEnd ?? body.validity_end),
+    redemption_conditions: asTextValue(body.redemptionConditions ?? body.redemption_conditions),
+    target_purchases: asNumeric(body.targetPurchases ?? body.target_purchases),
+    expected_asp: asNumeric(body.expectedAsp ?? body.expected_asp),
+    expected_revenue: asNumeric(body.expectedRevenue ?? body.expected_revenue),
+    effective_discount: asNumeric(body.effectiveDiscount ?? body.effective_discount),
+    margin_impact: asNumeric(body.marginImpact ?? body.margin_impact),
+    required_leads: asNumeric(body.requiredLeads ?? body.required_leads),
+    required_trials: asNumeric(body.requiredTrials ?? body.required_trials),
+    expected_conversion: asNumeric(body.expectedConversion ?? body.expected_conversion),
+    expected_redemptions: asNumeric(body.expectedRedemptions ?? body.expected_redemptions),
+    revenue_target: asNumeric(body.revenueTarget ?? body.revenue_target),
+    status: asTextValue(body.status) || 'draft',
+    approval_status: asTextValue(body.approvalStatus ?? body.approval_status) || 'pending',
+    generation_source: asTextValue(body.generationSource ?? body.generation_source) || 'manual',
+    data_mode: asTextValue(body.dataMode ?? body.data_mode) || 'user',
+    performance_notes: asTextValue(body.performanceNotes ?? body.performance_notes),
     financials: JSON.stringify(structured(body.financials, {})),
     risks: JSON.stringify(structured(body.risks, [])),
     success_metrics: JSON.stringify(structured(body.successMetrics ?? body.success_metrics, [])),
     provenance: JSON.stringify(structured(body.provenance, {})),
-    cta: body.cta || null,
+    cta: asTextValue(body.cta),
   };
 }
 export function validateOfferForSave(body: any, user: any, options: { reconcile?: boolean } = {}) {
@@ -130,8 +171,9 @@ export function persistOffer(body: any, user: any, options: { reconcile?: boolea
   // 2027 offers are saved to the location's offer bank; a month uses them only once its plan picks them.
   if (Number(row.year) === 2027) row.month = null;
   const uid = `P57-${new Date().getFullYear()}-${crypto.randomBytes(5).toString('hex').toUpperCase()}`;
-  const columns = Object.keys(row),
-    values = Object.values(row);
+  const storable = bindableRow(row);
+  const columns = Object.keys(storable),
+    values = Object.values(storable);
   const result = db
     .prepare(`INSERT INTO offers(offer_uid,created_by,${columns.join(',')}) VALUES (?,?${',?'.repeat(columns.length)})`)
     .run(uid, user.id, ...values);
@@ -669,7 +711,7 @@ export default function registerOffersRoutes(app: Express) {
       planRank: req.body.planRank ?? req.body.plan_rank ?? before.plan_rank,
       runAds: req.body.runAds ?? req.body.run_ads ?? before.run_ads,
     };
-    const row = validateOfferForSave(merged, req.user);
+    const row = bindableRow(validateOfferForSave(merged, req.user));
     const columns = Object.keys(row);
     db.prepare(
       `UPDATE offers SET ${columns.map(c => `${c}=?`).join(',')},version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`,
