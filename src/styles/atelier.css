@@ -5468,7 +5468,8 @@ details.membership-terms > summary {
 }
 
 /* Stillness is not an empty state: with motion off the trace stands finished, lit, with
-   no nib, no comet and no glint. */
+   no nib, no comet and no glint, the rail is a half-lit line rather than a travelling one,
+   and the three dots simply stand. */
 @media (prefers-reduced-motion: reduce) {
   .hb svg .hb-fill,
   .hb svg .hb-bleed {
@@ -5499,22 +5500,128 @@ details.membership-terms > summary {
   }
 }
 
-/* The panel loader: the mark, centred, on its own. */
+/* The panel loader: the mark on a stage of its own.
+   Neon cannot glow on paper, so inside a panel — where the content will land on a warm
+   sheet — the mark is given a small dark stage to be lit in: a rounded plate with one
+   hairline of light along its top edge. The caption says what is being fetched (it used to
+   be written for screen readers only), and the rail beneath it runs while it runs, so the
+   wait has a beginning, a direction and an end. */
 .p57-loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 220px;
-  padding: 24px;
+  display: grid;
+  place-items: center;
+  min-height: 200px;
+  padding: 22px;
   color: var(--muted);
 }
-.p57-loader .hb {
-  width: min(216px, 66%);
+.p57-loader-stage {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  width: min(330px, 100%);
+  padding: 22px 22px 18px;
+  border: 1px solid rgba(255, 226, 170, 0.13);
+  border-radius: 18px;
+  background: radial-gradient(110% 80% at 50% -10%, rgba(255, 194, 74, 0.14), transparent 62%),
+    linear-gradient(180deg, #16130c 0%, #0d0b08 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 205, 0.07),
+    0 20px 44px -30px rgba(14, 11, 6, 0.9);
+  animation: p57-stage-in 0.42s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+@keyframes p57-stage-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+}
+.p57-loader-stage .hb {
+  width: min(196px, 80%);
 }
 
-/* The boot screen: the heartbeat on the warm canvas, and nothing else. The title of the
-   app used to sit above it; the mark spells the studio's name, so a second name above
-   the first would only be a caption arguing with the trace. */
+/* The sentence, and the dots that say it is still going. The dots sit in the sentence's own
+   flow — as a flex sibling they were stranded at the far right of a second line whenever the
+   label wrapped. */
+.p57-loader-copy {
+  max-width: 100%;
+  margin: 0;
+  text-align: center;
+  text-wrap: balance;
+}
+.p57-loader-label {
+  display: inline;
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 620;
+  letter-spacing: 0.2em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: rgba(255, 233, 190, 0.6);
+}
+.p57-loader-dots {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: 7px;
+  vertical-align: middle;
+}
+.p57-loader-dots i {
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--pulse, #ffc24a);
+  opacity: 0.28;
+  animation: p57-dot 1.4s ease-in-out infinite;
+}
+.p57-loader-dots i:nth-child(2) {
+  animation-delay: 0.16s;
+}
+.p57-loader-dots i:nth-child(3) {
+  animation-delay: 0.32s;
+}
+@keyframes p57-dot {
+  0%,
+  70%,
+  100% {
+    opacity: 0.24;
+    transform: translateY(0);
+  }
+  35% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* The rail: a hairline of light that crosses the stage once every beat. */
+.p57-loader-rail {
+  position: relative;
+  width: min(190px, 66%);
+  height: 2px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 226, 170, 0.1);
+}
+.p57-loader-rail i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 42%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, #ffd27a 38%, #fff3ce 62%, transparent);
+  filter: drop-shadow(0 0 7px rgba(255, 194, 74, 0.55));
+  animation: p57-rail 2.1s cubic-bezier(0.55, 0.06, 0.4, 0.94) infinite;
+}
+@keyframes p57-rail {
+  from {
+    transform: translateX(-105%);
+  }
+  to {
+    transform: translateX(345%);
+  }
+}
+
+/* The boot screen: one plate of light in an empty room. The title of the app used to sit
+   above the mark; the mark spells the studio's name, so a second name above the first
+   would only be a caption arguing with the trace. */
 .app-loading {
   min-height: 100vh;
   display: grid;
@@ -5525,10 +5632,6 @@ details.membership-terms > summary {
 .app-loading .p57-loader {
   min-height: 0;
   padding: 0;
-}
-.app-loading .p57-loader .hb {
-  width: min(410px, 78vw);
-  animation: hb-arrive 0.75s cubic-bezier(0.22, 0.8, 0.24, 1) both;
 }
 @keyframes hb-arrive {
   from {
@@ -8835,42 +8938,107 @@ details.membership-terms > summary {
 
 /* ── 21b. The waiting screen, on its own ─────────────────────────────────────
    Waiting is the one moment when the app is allowed to take the whole screen: the
-   backdrop dims, everything else steps back, and the mark sits dead centre. The mark
-   itself is neon — the trace enters mint into cyan, and the stroke turns magenta as it
-   becomes the numerals, so the 57 is always a different colour from the line that
-   wrote it. One stroke, two neons, one centred composition. */
+   backdrop dims hard, everything else steps back, and the mark sits dead centre. The
+   mark is neon — the trace enters warm and the stroke turns to ice as it becomes the
+   numerals, so the 57 is always a different colour from the line that wrote it. One
+   stroke, two neons.
+
+   Printed on paper instead of lit on a stage, the same drawing cannot glow: the default
+   ink below is deep amber and teal, and only a lit surface — the boot screen, the panel
+   stage — is allowed the neon. */
 :root {
   --pulse: #ffc24a;
   --pulse-bright: #ffe6a6;
 }
 
+/* Ink on paper: the bare mark, wherever it is not on a stage. */
 .hb svg .hb-track {
-  stroke: rgba(200, 236, 255, 0.15);
+  stroke: rgba(32, 27, 18, 0.14);
+}
+.hb svg .hb-fill {
+  stroke: var(--hb-paper);
 }
 .hb svg .hb-bleed {
-  stroke: #35e1ff;
-  opacity: 0.22;
-  stroke-width: 7.6;
-  filter: blur(2.6px);
+  stroke: #c98a1e;
+  stroke-width: 7;
+  filter: blur(2.4px);
+  opacity: 0.16;
 }
 .hb svg .hb-trail {
-  stroke: #ffd98a;
+  stroke: #b57a16;
+  opacity: 0.3;
 }
 .hb svg .hb-bloom {
-  stroke: #ffc24a;
+  stroke: rgba(176, 118, 20, 0.75);
 }
 .hb svg .hb-core,
 .hb svg .hb-glint {
-  stroke: #ffffff;
+  stroke: #7a5312;
 }
 .hb svg .hb-ink {
-  filter: drop-shadow(0 0 5px rgba(255, 194, 74, 0.6)) drop-shadow(0 0 18px rgba(255, 158, 44, 0.34));
+  filter: drop-shadow(0 1px 2px rgba(122, 83, 18, 0.18));
 }
 .hb svg .hb-aura {
+  opacity: 0.55;
+}
+
+/* Lit: the boot screen and every panel stage carry the neon, and the 57 goes ice. */
+.app-loading .hb svg .hb-fill,
+.p57-loader .hb svg .hb-fill {
+  stroke: var(--hb-neon);
+}
+.app-loading .hb svg .hb-track,
+.p57-loader .hb svg .hb-track {
+  stroke: rgba(200, 236, 255, 0.16);
+}
+/* The bleed carries the same two inks as the stroke, so the halo under the 5 and 7 is ice
+   and the halo under the beat is gold — a cyan wash over the whole mark is what used to
+   turn the warm half cold. */
+.app-loading .hb svg .hb-bleed,
+.p57-loader .hb svg .hb-bleed {
+  stroke: var(--hb-neon);
+  stroke-width: 9;
+  filter: blur(3.2px);
+  opacity: 0.34;
+}
+.app-loading .hb svg .hb-trail,
+.p57-loader .hb svg .hb-trail {
+  stroke: #ffd98a;
+  opacity: 1;
+}
+.app-loading .hb svg .hb-bloom,
+.p57-loader .hb svg .hb-bloom {
+  stroke: #ffc24a;
+}
+.app-loading .hb svg .hb-core,
+.app-loading .hb svg .hb-glint,
+.p57-loader .hb svg .hb-core,
+.p57-loader .hb svg .hb-glint {
+  stroke: #ffffff;
+}
+/* One glow, kept neutral-warm: a coloured drop-shadow would repaint the ice half of the
+   stroke in gold, which is exactly the thing the two inks exist to avoid. */
+.app-loading .hb svg .hb-ink,
+.p57-loader .hb svg .hb-ink {
+  filter: drop-shadow(0 0 5px rgba(255, 244, 214, 0.42)) drop-shadow(0 0 22px rgba(255, 214, 140, 0.3));
+}
+.app-loading .hb svg .hb-aura,
+.p57-loader .hb svg .hb-aura {
   opacity: 0.85;
 }
 
-/* The overlay: fixed to the viewport, centred, and dimmed whatever is behind it. */
+/* The second lamp: ice under the numerals, so the mark is lit by two pools — gold under
+   the beat, cool under the 57 — instead of one warm wash trying to carry both. */
+.hb svg .hb-aura-cool {
+  opacity: 0;
+}
+.app-loading .hb svg .hb-aura-cool,
+.p57-loader .hb svg .hb-aura-cool {
+  opacity: 0.5;
+}
+
+/* The overlay: fixed to the viewport, centred, and dimmed well past legibility so the
+   room behind it reads as distance rather than as a page half-loaded. */
 .p57-loader.is-screen,
 .app-loading {
   position: fixed;
@@ -8881,22 +9049,53 @@ details.membership-terms > summary {
   min-height: 0;
   padding: 24px;
   color: #eaf7ff;
-  background: radial-gradient(
-    120% 90% at 50% 44%,
-    rgba(14, 11, 7, 0.88) 0%,
-    rgba(8, 7, 5, 0.94) 58%,
-    rgba(4, 4, 3, 0.97) 100%
-  );
-  -webkit-backdrop-filter: blur(16px) saturate(0.55) brightness(0.7);
-  backdrop-filter: blur(16px) saturate(0.55) brightness(0.7);
-  animation: p57-dim 0.3s ease both;
+  background: radial-gradient(52% 40% at 50% 48%, rgba(255, 178, 60, 0.09) 0%, rgba(255, 178, 60, 0) 68%),
+    radial-gradient(120% 100% at 50% 0%, rgba(20, 16, 10, 0.97) 0%, rgba(9, 7, 5, 0.985) 56%, #030302 100%);
+  -webkit-backdrop-filter: blur(20px) saturate(0.4) brightness(0.5);
+  backdrop-filter: blur(20px) saturate(0.4) brightness(0.5);
+  animation: p57-dim 0.32s ease both;
+}
+/* A faint grain of light over the dim: two hairlines of gold at the edges of the frame,
+   so the darkness has an edge instead of stopping at the window. */
+.p57-loader.is-screen::after,
+.app-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 226, 170, 0.055) 0%, transparent 22%),
+    linear-gradient(0deg, rgba(255, 226, 170, 0.04) 0%, transparent 26%);
 }
 .app-loading {
   z-index: 120;
 }
+
+/* On the screen the stage has no walls: the mark simply stands in the dark, larger, with
+   the sentence under it. */
+.p57-loader.is-screen .p57-loader-stage,
+.app-loading .p57-loader-stage {
+  width: min(520px, 88vw);
+  gap: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
 .p57-loader.is-screen .hb,
 .app-loading .p57-loader .hb {
-  width: min(360px, 68vw);
+  width: min(392px, 62vw);
+  animation: hb-arrive 0.8s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+.p57-loader.is-screen .p57-loader-label,
+.app-loading .p57-loader-label {
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  color: rgba(255, 236, 198, 0.72);
+}
+.p57-loader.is-screen .p57-loader-rail,
+.app-loading .p57-loader-rail {
+  width: min(220px, 52vw);
 }
 @keyframes p57-dim {
   from {
@@ -9934,5 +10133,20 @@ details.membership-terms > summary {
 @media (max-width: 560px) {
   .pex-pair {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p57-loader-rail i {
+    animation: none;
+    width: 62%;
+    opacity: 0.5;
+  }
+  .p57-loader-dots i {
+    animation: none;
+    opacity: 0.6;
+  }
+  .p57-loader-stage {
+    animation: none;
   }
 }
