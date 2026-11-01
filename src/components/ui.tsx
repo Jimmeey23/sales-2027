@@ -305,22 +305,43 @@ const HEART_MARK =
 export function Heartbeat({ className = '' }: { className?: string }) {
   const id = React.useId();
   return (
-    <span className={`hb ${className}`.trim()} aria-hidden="true">
+    <span
+      className={`hb ${className}`.trim()}
+      aria-hidden="true"
+      style={
+        {
+          // Two inks per instance: the stylesheet picks one by where the mark is used.
+          '--hb-neon': `url(#${id}-ink)`,
+          '--hb-paper': `url(#${id}-ink-paper)`,
+        } as React.CSSProperties
+      }
+    >
       <svg viewBox="0 0 252 124" focusable="false">
         <defs>
           {/* The ink: deep at the foot of the trace, electric where it turns up into the
               numerals. It is fixed in the drawing's own space, so a single stroke walks
               the whole ramp as it is laid down. */}
-          {/* Neon, twice over: the trace that enters and beats runs mint into cyan, and the
-              moment it turns into the numerals the colour changes — one stroke, two neons,
-              with the seam hidden in the corner where the 5 begins. */}
+          {/* Neon, twice over: the trace that enters and beats runs warm, and the moment it
+              turns into the numerals the colour changes — one stroke, two neons, with the
+              seam hidden in the corner where the 5 begins. */}
           <linearGradient id={`${id}-ink`} x1="0" y1="0" x2="252" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#FFF1B8" />
-            <stop offset="0.14" stopColor="#FFD977" />
-            <stop offset="0.232" stopColor="#FFC24A" />
-            <stop offset="0.236" stopColor="#FFAE2B" />
-            <stop offset="0.6" stopColor="#FFC24A" />
-            <stop offset="1" stopColor="#FFE08A" />
+            <stop offset="0" stopColor="#FFE9B8" />
+            <stop offset="0.1" stopColor="#FFD27A" />
+            <stop offset="0.232" stopColor="#FFB84D" />
+            <stop offset="0.236" stopColor="#B7EDFF" />
+            <stop offset="0.46" stopColor="#7CD8FA" />
+            <stop offset="0.62" stopColor="#CFF2FF" />
+            <stop offset="1" stopColor="#8CE2FF" />
+          </linearGradient>
+
+          {/* The same drawing in ink, for the places it is printed rather than lit: neon
+              cannot glow on paper, so the trace goes deep amber and the 57 goes teal. */}
+          <linearGradient id={`${id}-ink-paper`} x1="0" y1="0" x2="252" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#C58A22" />
+            <stop offset="0.232" stopColor="#A76F12" />
+            <stop offset="0.236" stopColor="#1C7C9C" />
+            <stop offset="0.7" stopColor="#14688A" />
+            <stop offset="1" stopColor="#1C7C9C" />
           </linearGradient>
 
           {/* The aura the whole mark sits in, and the soft edge of the paper rule. */}
@@ -329,6 +350,13 @@ export function Heartbeat({ className = '' }: { className?: string }) {
             <stop offset="0.42" stopColor="#FF9E2C" stopOpacity="0.1" />
             <stop offset="0.72" stopColor="#FFC24A" stopOpacity="0.035" />
             <stop offset="1" stopColor="#FFC24A" stopOpacity="0" />
+          </radialGradient>
+          {/* The cool lamp under the numerals. */}
+          <radialGradient id={`${id}-aura-cool`} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stopColor="#9EE6FF" stopOpacity="0.2" />
+            <stop offset="0.44" stopColor="#5DC7F0" stopOpacity="0.1" />
+            <stop offset="0.74" stopColor="#7CD8FA" stopOpacity="0.03" />
+            <stop offset="1" stopColor="#7CD8FA" stopOpacity="0" />
           </radialGradient>
           {/* A straight line has no height, so this has to be measured in user units or
               the gradient box collapses and the rule paints nothing at all. */}
@@ -343,7 +371,8 @@ export function Heartbeat({ className = '' }: { className?: string }) {
         {/* The rule the trace sits on: a hairline that runs past the mark and fades, so
             the composition has a horizon rather than a floating scribble. */}
         <path className="hb-rule" d="M -28 100 L 280 100" stroke={`url(#${id}-rule)`} />
-        <ellipse className="hb-aura" cx="126" cy="64" rx="154" ry="74" fill={`url(#${id}-aura)`} />
+        <ellipse className="hb-aura" cx="96" cy="66" rx="150" ry="76" fill={`url(#${id}-aura)`} />
+        <ellipse className="hb-aura hb-aura-cool" cx="176" cy="60" rx="120" ry="72" fill={`url(#${id}-aura-cool)`} />
 
         {/* What has not been written yet. */}
         <path className="hb-track" d={HEART_MARK} />
@@ -352,7 +381,7 @@ export function Heartbeat({ className = '' }: { className?: string }) {
           {/* The wet edge under the stroke, so the neon sits in the room rather than on it. */}
           <path className="hb-bleed" d={HEART_MARK} pathLength={100} />
           <path className="hb-trail" d={HEART_MARK} pathLength={100} />
-          <path className="hb-fill" d={HEART_MARK} pathLength={100} stroke={`url(#${id}-ink)`} />
+          <path className="hb-fill" d={HEART_MARK} pathLength={100} />
           <path className="hb-bloom" d={HEART_MARK} pathLength={100} />
           <path className="hb-core" d={HEART_MARK} pathLength={100} />
         </g>
@@ -364,10 +393,18 @@ export function Heartbeat({ className = '' }: { className?: string }) {
   );
 }
 
-/* Two weights of the same wait. Inside a panel the mark simply sits where the content
-   will be; when the whole screen is being replaced (`screen`) it dims what was there and
-   takes the middle of the viewport, so the wait never looks like a broken page. */
+/* Two weights of the same wait. Inside a panel the mark sits on its own dark stage — the
+   only way neon stays neon on paper — with the sentence that says what is being fetched and
+   a hairline that runs while it runs. When the whole screen is being replaced (`screen`) the
+   stage dissolves, what was there dims, and the mark takes the middle of the viewport, so
+   the wait never looks like a broken page.
+
+   The caption is not decoration: a bare mark leaves the reader guessing what is slow, and
+   the label was already being written for screen readers only. It reads the same now. */
 export function Loading({ label = 'Loading intelligence…', screen = false }: { label?: string; screen?: boolean }) {
+  // The label already ends in an ellipsis in most call sites; the dots below say that the
+  // sentence is continuing, so saying it twice would only stutter.
+  const caption = String(label).replace(/[\u2026.]+\s*$/, '');
   return (
     <div
       className={`loading p57-loader${screen ? ' is-screen' : ''}`}
@@ -375,7 +412,20 @@ export function Loading({ label = 'Loading intelligence…', screen = false }: {
       aria-live="polite"
       aria-label={label}
     >
-      <Heartbeat />
+      <div className="p57-loader-stage">
+        <Heartbeat />
+        <p className="p57-loader-copy" aria-hidden="true">
+          <span className="p57-loader-label">{caption}</span>
+          <span className="p57-loader-dots">
+            <i />
+            <i />
+            <i />
+          </span>
+        </p>
+        <span className="p57-loader-rail" aria-hidden="true">
+          <i />
+        </span>
+      </div>
     </div>
   );
 }
