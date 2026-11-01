@@ -593,27 +593,41 @@ function matchOffer(rows: any[], name: string, used: Set<number>) {
 export function focusPointsFor(month: ImportedMonth): string[] {
   if (month.focusPoints.length) return month.focusPoints;
   const name = MONTH_NAMES[month.month - 1];
+  const funnel = month.funnel || {};
   const points: string[] = [];
   if (month.target)
     points.push(
-      `**Hit ${lakh(month.target)}:** ${name}'s target${month.priorYear ? `, against ${lakh(month.priorYear)} last year` : ''}.`,
+      `Hit the ${name} target of ${lakh(month.target)}${month.priorYear ? ` (${lakh(month.priorYear)} last year)` : ''}.`,
     );
-  const mix = [
-    month.streams.newClient ? `new clients ${lakh(month.streams.newClient)}` : '',
-    month.streams.renewal ? `renewals ${lakh(month.streams.renewal)}` : '',
-    month.streams.reactivation ? `comebacks ${lakh(month.streams.reactivation)}` : '',
-    month.streams.other ? `other ${lakh(month.streams.other)}` : '',
-  ].filter(Boolean);
-  if (mix.length) points.push(`**Stream mix:** ${mix.join(' · ')}.`);
-  const funnel = month.funnel || {};
   const leads = numOf(funnel.leads);
   const trials = numOf(funnel.trials);
   const buyers = numOf(funnel.newBuyers);
   if (leads || trials || buyers)
-    points.push(`**Funnel:** ${leads ?? '—'} leads → ${trials ?? '—'} trials → ${buyers ?? '—'} new buyers.`);
-  if (month.offers.length)
-    points.push(`**This month's offers:** ${month.offers.map(offer => offer.name).join(' · ')}.`);
-  return points.slice(0, 5);
+    points.push(
+      `New clients: ${leads ?? '—'} leads → ${trials ?? '—'} trials → ${buyers ?? '—'} new buyers (${lakh(month.streams.newClient)}).`,
+    );
+  if (month.streams.renewal) {
+    const renewals = numOf(funnel.existingPayingRenewals);
+    const coverage = numOf(funnel.renewalCoverage);
+    const funded = coverage === null ? '' : `, ${Math.round(Math.min(1, coverage) * 100)}% of the expiring book funded`;
+    points.push(
+      renewals === null
+        ? `Renewals: ${lakh(month.streams.renewal)} planned${funded}.`
+        : `Renewals: ${renewals} memberships${funded} (${lakh(month.streams.renewal)}).`,
+    );
+  }
+  if (month.streams.reactivation || month.streams.other) {
+    const winbacks = numOf(funnel.winbacksNeeded);
+    points.push(
+      `Comebacks: ${winbacks === null ? 'lapsed clients returning' : `${winbacks} lapsed clients back`} (${lakh(month.streams.reactivation)}); privates, retail and drop-ins ${lakh(month.streams.other)}.`,
+    );
+  }
+  if (month.offers.length) {
+    const named = month.offers.map(offer => offer.name);
+    const listed = named.slice(0, 3).join(' · ') + (named.length > 3 ? ` · +${named.length - 3} more` : '');
+    points.push(`${month.offers.length} offers this month: ${listed}.`);
+  }
+  return points.slice(0, 6).map(point => (point.length > 240 ? `${point.slice(0, 237).trimEnd()}…` : point));
 }
 
 function strategyFor(month: ImportedMonth): string {
