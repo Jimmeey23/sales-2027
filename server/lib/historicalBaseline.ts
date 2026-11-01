@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { db, audit } from '../db.js';
 import { hashPassword } from './auth.js';
+import { seedCredentialPlan } from './credentialPolicy.js';
+import { writeCredentialReport } from './sharedCredentials.js';
 import { STUDIO_DEFINITIONS } from './studios.js';
 import { ensureCommercialSeed } from './commercialSeed.js';
 import { generateYearTargets } from './intelligence.js';
@@ -126,7 +128,8 @@ export function ensureStudiosAndUsers() {
   }
 
   const existingUsers = Number((db.prepare('SELECT COUNT(*) n FROM users').get() as any)?.n || 0);
-  if (existingUsers === 0 && process.env.NODE_ENV !== 'production') {
+  if (existingUsers === 0) {
+    const production = process.env.NODE_ENV === 'production';
     const studiosByName = new Map(
       (db.prepare('SELECT id, name FROM studios').all() as Array<{ id: number; name: string }>).map(s => [
         s.name,
@@ -136,25 +139,45 @@ export function ensureStudiosAndUsers() {
     const insertUser = db.prepare(
       'INSERT INTO users(email,name,password_hash,role,assigned_studio_id) VALUES (?,?,?,?,?)',
     );
-    const pw = hashPassword('P57demo!');
-    insertUser.run('admin@p57.demo', 'Jimmeey Gondaa', pw, 'administrator', null);
-    insertUser.run('management@p57.demo', 'Rohan Kapoor', pw, 'senior_management', null);
-    insertUser.run('sales@p57.demo', 'Meera Shah', pw, 'sales_manager', null);
-    insertUser.run(
-      'studio@p57.demo',
-      'Kemps Studio Manager',
-      pw,
-      'studio_manager',
-      studiosByName.get('Kemps Corner') ?? null,
-    );
-    insertUser.run(
-      'associate@p57.demo',
-      'Sales Associate',
-      pw,
-      'sales_associate',
-      studiosByName.get('Kemps Corner') ?? null,
-    );
-    insertUser.run('analyst@p57.demo', 'Read-only Analyst', pw, 'read_only_analyst', null);
+    // Development gets the whole demonstration cast on the published password, so every
+    // role can be exercised. A production database gets one administrator to sign in with —
+    // a server with no accounts at all can be neither used nor secured — and its password
+    // is SEED_PASSWORD or a generated one, never the demonstration string.
+    const credentials = seedCredentialPlan().filter(account => !production || account.role === 'administrator');
+    for (const account of credentials) {
+      insertUser.run(
+        account.email,
+        account.name,
+        hashPassword(account.password),
+        account.role,
+        account.studio ? studiosByName.get(account.studio) ?? null : null,
+      );
+    }
+    if (production) {
+      const reason =
+        'The database had no accounts, so a first administrator was created with SEED_PASSWORD or a generated password.';
+      let file: string | null = null;
+      try {
+        file = writeCredentialReport(
+          credentials.map(({ email, role, password }) => ({ email, role, password })),
+          reason,
+          'initial-credentials.txt',
+        );
+      } catch (error) {
+        console.warn('Could not write the bootstrap credentials to disk.', error instanceof Error ? error.message : error);
+      }
+      console.warn(
+        [
+          '',
+          '  First administrator created.',
+          file
+            ? `  Store the password now, then delete the file: ${file}`
+            : `  Sign in as ${credentials[0]?.email} with: ${credentials[0]?.password}`,
+          '  Set SEED_PASSWORD before seeding to choose it yourself.',
+          '',
+        ].join('\n'),
+      );
+    }
   }
 }
 

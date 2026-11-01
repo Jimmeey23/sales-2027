@@ -12,6 +12,7 @@ import { calculateOffer } from './lib/calculations.js';
 import { importCheckinsFile } from './lib/checkins.js';
 import { ensureCommercialSeed } from './lib/commercialSeed.js';
 import { ensureBaselineData } from './lib/historicalBaseline.js';
+import { DEMO_PASSWORD, credentialTable, seedCredentialPlan } from './lib/credentialPolicy.js';
 
 initSchema();
 const uploadDir = path.resolve('uploads');
@@ -65,27 +66,25 @@ const studioId = (value: unknown) => {
   return name ? (studioIds.get(name) as number) : null;
 };
 const userInsert = db.prepare('INSERT INTO users(email,name,password_hash,role,assigned_studio_id) VALUES (?,?,?,?,?)');
-const password = 'P57demo!';
-const adminId = Number(
-  userInsert.run('admin@p57.demo', 'Jimmeey Gondaa', hashPassword(password), 'administrator', null).lastInsertRowid,
-);
-userInsert.run('management@p57.demo', 'Rohan Kapoor', hashPassword(password), 'senior_management', null);
-userInsert.run('sales@p57.demo', 'Meera Shah', hashPassword(password), 'sales_manager', null);
-userInsert.run(
-  'studio@p57.demo',
-  'Kemps Studio Manager',
-  hashPassword(password),
-  'studio_manager',
-  studioIds.get('Kemps Corner'),
-);
-userInsert.run(
-  'associate@p57.demo',
-  'Sales Associate',
-  hashPassword(password),
-  'sales_associate',
-  studioIds.get('Kemps Corner'),
-);
-userInsert.run('analyst@p57.demo', 'Read-only Analyst', hashPassword(password), 'read_only_analyst', null);
+// Development keeps the documented demo sign-ins. A production seed must not create an
+// account that accepts the published demonstration password — the server would have to
+// re-key all six on first boot — so it takes SEED_PASSWORD or generates one per account.
+const credentials = seedCredentialPlan();
+let adminId = 0;
+for (const account of credentials) {
+  const id = Number(
+    userInsert
+      .run(
+        account.email,
+        account.name,
+        hashPassword(account.password),
+        account.role,
+        account.studio ? studioId(account.studio) : null,
+      )
+      .lastInsertRowid,
+  );
+  if (account.role === 'administrator' && !adminId) adminId = id;
+}
 
 function importRecord(filename: string, category: string, total: number) {
   return Number(
@@ -781,4 +780,15 @@ console.log('Seed complete.');
 console.log(
   `Studios: ${studioIds.size}; transactions: ${usableSales.length}; leads: ${leadValid}; historical offers: ${historical.length}`,
 );
-console.log('Demo sign-in: admin@p57.demo / P57demo!');
+if (credentials.some(account => account.generated)) {
+  console.log(
+    [
+      '',
+      'Sign-in credentials for this database — store them now, they are not shown again:',
+      credentialTable(credentials),
+      '',
+    ].join('\n'),
+  );
+} else {
+  console.log(`Demo sign-in: admin@p57.demo / ${DEMO_PASSWORD}`);
+}
