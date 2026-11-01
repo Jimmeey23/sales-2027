@@ -816,11 +816,13 @@ function documentStyles() {
   .tag { display: inline-block; font-size: 7.5px; letter-spacing: 0.09em; text-transform: uppercase;
          border: 1px solid var(--line); border-radius: 999px; padding: 1px 5px; color: var(--muted); }
   .tag.on { border-color: var(--accent); color: var(--accent); }
-  .week { margin-bottom: 6px; }
+  .weeks { column-count: 2; column-gap: 8mm; }
+  .week { margin-bottom: 6px; break-inside: avoid; }
   .week h4 { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
   ul { margin: 0 0 6px; padding-left: 14px; }
   li { margin-bottom: 1.5px; }
-  table.offers { table-layout: fixed; }
+  table.offers, table.crm { table-layout: fixed; }
+  table.crm td { word-break: break-word; }
   table.offers td { word-break: break-word; }
   td.slot, th.slot { width: 22mm; }
   td.when, th.when { width: 17mm; }
@@ -947,8 +949,22 @@ function monthSheet(studioName: string, month: AnyRow, page: number, year: numbe
     }</p>`,
   );
 
+  if (execution.strategy?.length || month.notes) {
+    parts.push(`<div class="rule"></div><div class="block"><div class="kicker">The thinking behind it</div>`);
+    for (const line of execution.strategy || []) {
+      parts.push(`<p>${line.label ? `<strong>${esc(line.label)}.</strong> ` : ''}${esc(line.text)}</p>`);
+    }
+    if (month.notes) parts.push(`<p class="muted"><strong>Notes.</strong> ${esc(month.notes)}</p>`);
+    parts.push(`</div>`);
+  }
+  parts.push(foot('the month', 1));
+  parts.push(`</section>`);
+
+  /* 2 · How the month actually runs, week by week. */
+  parts.push(`<section class="sheet">`);
+  parts.push(head('Execution'));
   if (execution.weeks?.length) {
-    parts.push(`<div class="rule"></div><div class="block"><div class="kicker">Execution</div><div class="grid g2">`);
+    parts.push(`<div class="block"><h3>Execution</h3><div class="weeks">`);
     for (const week of execution.weeks) {
       parts.push(
         `<div class="week"><h4>Week ${week.week}</h4><ul>${week.actions
@@ -961,10 +977,32 @@ function monthSheet(studioName: string, month: AnyRow, page: number, year: numbe
     }
     parts.push(`</div></div>`);
   }
-  parts.push(foot('the month', 1));
+
+  if (execution.activations?.length || execution.kpi || dates.length) {
+    parts.push(`<div class="rule"></div><div class="block"><div class="kicker">Activations & what to watch</div>`);
+    if (execution.activations?.length) {
+      parts.push(
+        `<ul>${execution.activations
+          .map(
+            (item: AnyRow) => `<li><strong>${esc(item.title)}</strong>${item.text ? ` — ${esc(item.text)}` : ''}</li>`,
+          )
+          .join('')}</ul>`,
+      );
+    }
+    if (execution.kpi) parts.push(`<p><strong>What to watch.</strong> ${esc(execution.kpi)}</p>`);
+    if (dates.length) {
+      parts.push(
+        `<p class="muted"><strong>Key dates.</strong> ${dates
+          .map((d: AnyRow) => `${esc(d.day)} ${esc(month.name.slice(0, 3))} — ${esc(d.name)}`)
+          .join(' · ')}</p>`,
+      );
+    }
+    parts.push(`</div>`);
+  }
+  parts.push(foot('execution', 2));
   parts.push(`</section>`);
 
-  /* 2 · What it sells, and when every message about it leaves the studio. */
+  /* 3 · What it sells, and when every message about it leaves the studio. */
   parts.push(`<section class="sheet">`);
   parts.push(head('Offers · CRM'));
 
@@ -1000,36 +1038,15 @@ function monthSheet(studioName: string, month: AnyRow, page: number, year: numbe
     parts.push(`</tbody></table></div>`);
   }
 
-  if (execution.activations?.length || execution.kpi || dates.length) {
-    parts.push(`<div class="rule"></div><div class="block"><div class="kicker">Activations & what to watch</div>`);
-    if (execution.activations?.length) {
-      parts.push(
-        `<ul>${execution.activations
-          .map(
-            (item: AnyRow) => `<li><strong>${esc(item.title)}</strong>${item.text ? ` — ${esc(item.text)}` : ''}</li>`,
-          )
-          .join('')}</ul>`,
-      );
-    }
-    if (execution.kpi) parts.push(`<p><strong>What to watch.</strong> ${esc(execution.kpi)}</p>`);
-    if (dates.length) {
-      parts.push(
-        `<p class="muted"><strong>Key dates.</strong> ${dates
-          .map((d: AnyRow) => `${esc(d.day)} ${esc(month.name.slice(0, 3))} — ${esc(d.name)}`)
-          .join(' · ')}</p>`,
-      );
-    }
-    parts.push(`</div>`);
-  }
-
-  parts.push(`<div class="rule"></div><div class="block keep"><h3>CRM calendar</h3>`);
+  parts.push(`<div class="rule"></div><div class="block"><h3>CRM calendar</h3>`);
   if (sends.length) {
     parts.push(`<p class="muted">${esc(month.crm?.rule || 'One audience, one send.')} ${sends.length} outreaches this month instead of ${
       month.crm?.ifSentPerOffer ?? sends.length
     }${month.crm?.saved ? ` — ${month.crm.saved} fewer` : ''}. Leads per send: WhatsApp ${
       month.crm?.leads?.whatsapp ?? '—'
     }, email ${month.crm?.leads?.email ?? '—'}, tent card ${month.crm?.leads?.tent ?? '—'}.</p>
-    <table><thead><tr><th class="when">Date</th><th class="slot">Channel</th><th>Send</th><th class="who">Audience</th><th>Offers</th></tr></thead><tbody>`);
+    <table class="crm"><colgroup><col style="width:15mm"><col style="width:24mm"><col style="width:30mm">
+      <col style="width:30mm"><col></colgroup><thead><tr><th>Date</th><th>Channel</th><th>Send</th><th>Audience</th><th>Offers</th></tr></thead><tbody>`);
     for (const send of sends) {
       parts.push(
         `<tr><td class="when">${esc(send.day)}</td><td class="slot"><span class="tag">${esc(
@@ -1044,10 +1061,10 @@ function monthSheet(studioName: string, month: AnyRow, page: number, year: numbe
     parts.push(`<p class="muted">No sends scheduled for this month.</p>`);
   }
   parts.push(`</div>`);
-  parts.push(foot('offers · CRM', 2));
+  parts.push(foot('offers · CRM', 3));
   parts.push(`</section>`);
 
-  /* 3 · What has to be made, the spec behind it, and the copy to use. */
+  /* 4 · What has to be made, the spec behind it, and the copy to use. */
   parts.push(`<section class="sheet">`);
   parts.push(head('Collateral'));
 
@@ -1084,16 +1101,7 @@ function monthSheet(studioName: string, month: AnyRow, page: number, year: numbe
   } else {
     parts.push(`<p class="muted">No collateral planned for this month.</p>`);
   }
-
-  if (execution.strategy?.length || month.notes) {
-    parts.push(`<div class="rule"></div><div class="block keep"><h3>The thinking behind it</h3>`);
-    for (const line of execution.strategy || []) {
-      parts.push(`<p>${line.label ? `<strong>${esc(line.label)}.</strong> ` : ''}${esc(line.text)}</p>`);
-    }
-    if (month.notes) parts.push(`<p class="muted"><strong>Notes.</strong> ${esc(month.notes)}</p>`);
-    parts.push(`</div>`);
-  }
-  parts.push(foot('collateral', 3));
+  parts.push(foot('collateral', 4));
   parts.push(`</section>`);
   return parts.join('\n');
 }
