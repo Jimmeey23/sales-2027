@@ -156,11 +156,20 @@ npm run plan:import-json -- path/to/plan.json --studio=1 --mode=modify --write
 The Kemps Corner year is kept as one file per month in `server/data/kc-2027/` — `month-01.json` … `month-12.json`, in the shape the importer reads: theme, objective, strategy, notes, target, prior year, streams, funnel, feasibility, key dates, the Week 1–4 sections with their owners, and the month's offers. The document the app imports is generated from those files, so there is one place to edit a month and no chance of the two drifting apart:
 
 ```bash
-npx tsx scripts/build-kc-plan.ts     # → server/data/kc-2027/plan-2027.json
+npx tsx scripts/build-kc-plan.ts     # months → server/data/kc-2027/plan-2027.json
 npm run plan:import-json -- server/data/kc-2027/plan-2027.json --studio=1 --mode=replace --write
 ```
 
-The build fails if the months stop adding up to the year the studio signed: ₹4,20,00,000 against ₹3,34,38,469 last year (+25.6%), 55 offers, and the stream split of ₹61.92L new clients, ₹2.64Cr renewals, ₹52.87L comebacks and ₹41.10L other. Every month's streams must also add to that month's target.
+The year contract — the location, the year block, the basis, the measured window, the trailing rates and the price book — lives beside the months in `year.json`, so the build checks the months against the year they belong to rather than against a number written into the script. Every month's streams must add to that month's target, and the twelve months must add to the year.
+
+A plan document that was authored elsewhere goes the other way, without paraphrasing anything:
+
+```bash
+npx tsx scripts/unpack-plan.ts path/to/plan.json          # → year.json + month-01..12.json
+npx tsx scripts/unpack-plan.ts path/to/plan.json --check   # report, write nothing
+```
+
+`build(unpack(x))` is `x`: only `name` and `growthPercent` are dropped, because the build derives them again. For the year the studio signed the figures are ₹4,20,00,000 against ₹3,34,38,469 (+25.6%), 55 offers, streams of ₹61.92L new clients, ₹2.64Cr renewals, ₹52.87L comebacks and ₹41.10L other.
 
 ### Advanced Reporting Studio and exports
 

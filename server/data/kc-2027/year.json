@@ -1,0 +1,48 @@
+{
+  "schema": "p57-sales-plan/1",
+  "generatedAt": "2026-11-01T12:00:00+05:30",
+  "year": 2027,
+  "currency": "INR",
+  "units": "rupees",
+  "studio": {
+    "id": 1,
+    "name": "Kemps Corner",
+    "city": "Mumbai"
+  },
+  "yearBlock": {
+    "target": 42000000,
+    "priorYear": 33438469,
+    "growthPercent": 25.6,
+    "streams": {
+      "newClient": 6192000,
+      "renewal": 26410544,
+      "reactivation": 5287456,
+      "other": 4110000
+    }
+  },
+  "offers": 55,
+  "basis": "observed_history",
+  "measuredWindow": {
+    "current": "2025-10-01 → 2026-09-30",
+    "trial": "2025-07-01 → 2026-06-30",
+    "note": "Twelve complete months of Kwality House trading, plus the trial window the trial-to-member rate is measured on."
+  },
+  "trailing": {
+    "firstSpend": 10694.114170854271,
+    "trialSpend": 1771.7326007326008,
+    "renewalTicket": 10416.355120718697,
+    "reactivationTicket": 11467.624133333333,
+    "trialToMember": 0.26865671641791045,
+    "leadToTrial": 0.8022922636103151,
+    "avgSpendPerVisit": 1727.1277977414722,
+    "renewalRate": 0.6613442257705161
+  },
+  "prices": {
+    "oneMonth": 20239,
+    "threeMonth": 57855,
+    "sixMonth": 113715,
+    "annual": 219450,
+    "twelveClassPack": 19688,
+    "privateThirty": 3333
+  }
+}
