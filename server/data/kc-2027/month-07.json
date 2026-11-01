@@ -1,0 +1,223 @@
+{
+  "month": 7,
+  "theme": "Rain Check",
+  "objective": "Monsoon floor: hold renewals with a race-entry story, protect August's race with a paid month, and refill the front with a 21-day challenge.",
+  "strategy": "Rain Check.\n\nCommercial job: Monsoon floor: hold renewals with a race-entry story, protect August's race with a paid month, and refill the front with a 21-day challenge.\n\nNewcomer: Kickstart 21: Race Ready (“21 days. A race entry. 20% off when you finish.”). A time-boxed challenge with a finish line the client can see beats a discount; the race gives 21 July starts a reason to keep paying into August.\n\nNewcomer: Warm-Up Lap (“Two weeks in, then 20% off if you stay.”). For people who won't commit before trying — the intro pays for itself and the 72-hour window closes it.\n\nWinback: Midyear Report Card (“See your 2026 in classes. Then get back to your best.”). Personal data is the most persuasive message a lapsed client can get, and it retargets the black hole.\n\nRenewal: Rain Check Renewal (“Rainy day? Freeze it. 20% off your next 3 months.”). Monsoon is the softest month for attendance; the freeze option removes the excuse to lapse and 20% moves 1M onto 3M before August.",
+  "notes": "Moment: P57 Amazing Race 2.0 sign-ups open (race final 8–9 Aug at Kwality); Rain Check cards handed to every lapsed client who restarts.\nBuild: new clients 40 buyers × ₹13,000 = ₹5.2L; reactivation 30 × ₹11,468 = ₹3.4L; privates/retail/drop-ins ₹2.0L; renewals ₹20.9L. First visits needed 160; CRM leads needed 199.",
+  "target": 3150000,
+  "priorYear": 2580030,
+  "streams": {
+    "newClient": 520000,
+    "renewal": 2085960,
+    "reactivation": 344040,
+    "other": 200000
+  },
+  "funnel": {
+    "leads": 199,
+    "trials": 160,
+    "newBuyers": 43,
+    "existingPayingRenewals": 185,
+    "winbacksNeeded": 30,
+    "expiringMemberships": 250,
+    "renewalCoverage": 0.74,
+    "leadToTrial": 0.8022922636103151,
+    "trialToMember": 0.26865671641791045,
+    "spendPerVisit": 1727,
+    "firstMonthSpend": 12000,
+    "renewalTicket": 11275,
+    "winbackTicket": 11468
+  },
+  "feasibility": "stretch",
+  "keyDates": [
+    {
+      "day": 1,
+      "name": "Amazing Race 2.0 sign-ups open",
+      "kind": "brand",
+      "approx": false,
+      "note": "Teams of 2; race day 8–9 Aug."
+    },
+    {
+      "day": 21,
+      "name": "Kickstart 21 begins",
+      "kind": "brand",
+      "approx": false,
+      "note": "21 July starts run to mid-August, into the race."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Set up Kickstart 21: Race Ready in Momence (1–21 Jul.): 1 Month Unlimited at 20% off (₹16,191) — 21 classes in 21 days unlocks the race entry (₹1,000 per pair) and a 20% credit toward your next month."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Warm-Up Lap in Momence (All July.): A 7-Day Unlimited Intro at ₹1,999 — ₹1,999 credited and 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Midyear Report Card in Momence (1–20 Jul.): 1 Month Unlimited at 20% off (₹16,191) — a printed 12-month report card and one 30-min private."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Rain Check Renewal in Momence (All July.): 3 Months Unlimited at 20% off (₹46,284) — 2 freezes and a priority place in the Amazing Race 2.0 team draw."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 July offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Kickstart 21: Race Ready to First-time clients."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Warm-Up Lap to First-time clients."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Midyear Report Card to Lapsed clients."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Rain Check Renewal to Members renewing in July."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Run the month's moment: P57 Amazing Race 2.0 sign-ups open (race final 8–9 Aug at Kwality); Rain Check cards handed to every lapsed client who restarts."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Weekly check: Kickstart 21: Race Ready: Day-21 finish rate (target 50%); race sign-ups. | Warm-Up Lap: Intro conversion. | Midyear Report Card: Report cards sent; conversations held; purchases. | Rain Check Renewal: 3M renewals; freezes used."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹31.5L: by the 15th aim for about half of 185 renewals, 30 reactivations and 40 new buyers (140 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Close July: tag every redemption by offer, record results, and brief August's offers."
+        }
+      ]
+    }
+  ],
+  "offers": [
+    {
+      "slot": "newcomer",
+      "name": "Kickstart 21: Race Ready",
+      "headline": "21 days. A race entry. 20% off when you finish.",
+      "benefit": "1 Month Unlimited at 20% off (₹16,191) — 21 classes in 21 days unlocks the race entry (₹1,000 per pair) and a 20% credit toward your next month",
+      "customerCopy": "21 days. A race entry. 20% off when you finish.\n• You buy: 1 Month Unlimited at 20% off (₹16,191)\n• You get: 21 classes in 21 days unlocks the race entry (₹1,000 per pair) and a 20% credit toward your next month\n• When: Start 1–21 July\n• Good to know: One entry per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "internalDescription": "140 in pool × 14.3% plan rate = 20 buyers × ₹16,191 ticket = ₹3.2L (67% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.8L at 20% effective.",
+      "rationale": "Why: A time-boxed challenge with a finish line the client can see beats a discount; the race gives 21 July starts a reason to keep paying into August.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "First-time clients.",
+      "conditions": "One entry per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "cta": "1–21 Jul.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 16191,
+      "expectedRevenue": 323820,
+      "buyers": 20,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-07-01",
+        "end": "2027-07-21"
+      }
+    },
+    {
+      "slot": "newcomer",
+      "name": "Warm-Up Lap",
+      "headline": "Two weeks in, then 20% off if you stay.",
+      "benefit": "A 7-Day Unlimited Intro at ₹1,999 — ₹1,999 credited and 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours",
+      "customerCopy": "Two weeks in, then 20% off if you stay.\n• You buy: A 7-Day Unlimited Intro at ₹1,999\n• You get: ₹1,999 credited and 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours\n• When: All July\n• Good to know: One intro per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "internalDescription": "140 in pool × 8.6% plan rate = 12 buyers × ₹16,191 ticket = ₹1.9L (40% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.5L at 20% effective.",
+      "rationale": "Why: For people who won't commit before trying — the intro pays for itself and the 72-hour window closes it.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "First-time clients.",
+      "conditions": "One intro per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "cta": "All July.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 194292,
+      "buyers": 12,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-07-01",
+        "end": "2027-07-31"
+      }
+    },
+    {
+      "slot": "lapsed",
+      "name": "Midyear Report Card",
+      "headline": "See your 2026 in classes. Then get back to your best.",
+      "benefit": "1 Month Unlimited at 20% off (₹16,191) — a printed 12-month report card and one 30-min private",
+      "customerCopy": "See your 2026 in classes. Then get back to your best.\n• You buy: 1 Month Unlimited at 20% off (₹16,191)\n• You get: a printed 12-month report card and one 30-min private\n• When: 1–20 Jul\n• Good to know: Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "internalDescription": "556 in pool × 3.6% plan rate = 20 buyers × ₹16,191 ticket = ₹3.2L (94% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.8L at 20% effective.",
+      "rationale": "Why: Personal data is the most persuasive message a lapsed client can get, and it retargets the black hole.",
+      "objective": "reactivation",
+      "type": "experience",
+      "audience": "Lapsed clients.",
+      "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "cta": "1–20 Jul.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 323820,
+      "buyers": 20,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-07-01",
+        "end": "2027-07-20"
+      }
+    },
+    {
+      "slot": "renewal",
+      "name": "Rain Check Renewal",
+      "headline": "Rainy day? Freeze it. 20% off your next 3 months.",
+      "benefit": "3 Months Unlimited at 20% off (₹46,284) — 2 freezes and a priority place in the Amazing Race 2.0 team draw",
+      "customerCopy": "Rainy day? Freeze it. 20% off your next 3 months.\n• You buy: 3 Months Unlimited at 20% off (₹46,284)\n• You get: 2 freezes and a priority place in the Amazing Race 2.0 team draw\n• When: Renew in July\n• Good to know: Freezes in blocks of 3+ days; Doesn't combine with any other campaign offer.",
+      "internalDescription": "250 in pool × 10.0% plan rate = 26 buyers × ₹46,284 ticket = ₹12.0L (77% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.4L at 20% effective.",
+      "rationale": "Why: Monsoon is the softest month for attendance; the freeze option removes the excuse to lapse and 20% moves 1M onto 3M before August.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Members renewing in July.",
+      "conditions": "Freezes in blocks of 3+ days; Doesn't combine with any other campaign offer.",
+      "cta": "All July.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 46284,
+      "expectedRevenue": 1203384,
+      "buyers": 26,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-07-01",
+        "end": "2027-07-31"
+      }
+    }
+  ]
+}

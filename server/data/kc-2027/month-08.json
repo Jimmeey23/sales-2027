@@ -1,0 +1,223 @@
+{
+  "month": 8,
+  "theme": "The Amazing Race 2.0",
+  "objective": "Make the race the acquisition and winback engine of the month (teams of two = pure acquisition), and carry July starters into September with a 57-day ticket.",
+  "strategy": "The Amazing Race 2.0.\n\nCommercial job: Make the race the acquisition and winback engine of the month (teams of two = pure acquisition), and carry July starters into September with a 57-day ticket.\n\nNewcomer: Starting Gun Week (“Race week, open to all. Buy your first month and run it.”). The race is the biggest social asset of the year; opening a week of it to non-members converts spectators.\n\nNewcomer: Tag Team (“Two people. One price. Race-ready.”). Teams of two are the race format, so the pair offer is the natural conversion: both must be new, both must buy.\n\nWinback: Back on Track (“Your team saved your spot. 20% off to take it.”). A team story is a better reason to return than a discount; the bonus pays for attendance, not the purchase.\n\nRenewal: Victory Lap (“Win or lose, you get a victory lap: 20% off 3 months.”). Races are inherently motivating; converting the high (finishers and near-missers) into a 3-month commitment is the cheapest retention there is.",
+  "notes": "Moment: Amazing Race 2.0 finale Fri 8–Sat 9 Aug at Kwality: teams of 2 run a class circuit, relay-format heats by age group, medal ceremony and after-party.\nBuild: new clients 84 buyers = ₹6.0L; reactivation 35 × ₹11,468 = ₹4.0L; privates/retail/drop-ins ₹3.8L; renewals ₹25.2L. First visits needed 186; CRM leads needed 232.",
+  "target": 3900000,
+  "priorYear": 2996981,
+  "streams": {
+    "newClient": 600000,
+    "renewal": 2520000,
+    "reactivation": 400000,
+    "other": 380000
+  },
+  "funnel": {
+    "leads": 232,
+    "trials": 186,
+    "newBuyers": 50,
+    "existingPayingRenewals": 226,
+    "winbacksNeeded": 35,
+    "expiringMemberships": 280,
+    "renewalCoverage": 0.807,
+    "leadToTrial": 0.8022922636103151,
+    "trialToMember": 0.26865671641791045,
+    "spendPerVisit": 1727,
+    "firstMonthSpend": 12000,
+    "renewalTicket": 11150,
+    "winbackTicket": 11468
+  },
+  "feasibility": "stretch",
+  "keyDates": [
+    {
+      "day": 8,
+      "name": "Amazing Race 2.0 finale",
+      "kind": "brand",
+      "approx": false,
+      "note": "Teams of two; relay heats; medal night."
+    },
+    {
+      "day": 9,
+      "name": "Race after-party",
+      "kind": "brand",
+      "approx": false,
+      "note": "Projected attendance peak."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Set up Starting Gun Week in Momence (1–9 Aug.): Any first class free during race week — buy within 72 hours for 20% off 1 Month (₹16,191)."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Tag Team in Momence (1–31 Aug.): Two new people, one 12-class pack at 20% off (₹15,750), shared between them."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Back on Track in Momence (All Aug.): 1 Month Unlimited at 20% off (₹16,191) — a race team entry and 2 bonus classes."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Victory Lap in Momence (All Aug.): 3 Months Unlimited at 20% off (₹46,284) — a finisher's medal and 2 bonus classes."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 August offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Starting Gun Week to First-time clients."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Tag Team to Two first-timers in a race team."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Back on Track to Lapsed clients."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Victory Lap to Members renewing in August."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Run the month's moment: Amazing Race 2.0 finale Fri 8–Sat 9 Aug at Kwality: teams of 2 run a class circuit, relay-format heats by age group, medal ceremony and after-party."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Weekly check: Starting Gun Week: Race-week first classes; 72-hour conversion. | Tag Team: Pairs registered; both-buy rate. | Back on Track: Lapsed purchases; bonus class usage. | Victory Lap: Finishers renewing; 3M share."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹39.0L: by the 15th aim for about half of 226 renewals, 36 reactivations and 84 new buyers (280 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Close August: tag every redemption by offer, record results, and brief September's offers."
+        }
+      ]
+    }
+  ],
+  "offers": [
+    {
+      "slot": "newcomer",
+      "name": "Starting Gun Week",
+      "headline": "Race week, open to all. Buy your first month and run it.",
+      "benefit": "Any first class free during race week — buy within 72 hours for 20% off 1 Month (₹16,191)",
+      "customerCopy": "Race week, open to all. Buy your first month and run it.\n• You buy: Any first class free during race week\n• You get: buy within 72 hours for 20% off 1 Month (₹16,191)\n• When: 1–9 Aug\n• Good to know: First-time clients only; one class per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "internalDescription": "280 in pool × 9.3% plan rate = 26 buyers × ₹16,191 ticket = ₹4.2L (70% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹1.1L at 20% effective.",
+      "rationale": "Why: The race is the biggest social asset of the year; opening a week of it to non-members converts spectators.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "First-time clients.",
+      "conditions": "First-time clients only; one class per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "cta": "1–9 Aug.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 16191,
+      "expectedRevenue": 420966,
+      "buyers": 26,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-08-01",
+        "end": "2027-08-09"
+      }
+    },
+    {
+      "slot": "newcomer",
+      "name": "Tag Team",
+      "headline": "Two people. One price. Race-ready.",
+      "benefit": "Two new people, one 12-class pack at 20% off (₹15,750), shared between them",
+      "customerCopy": "Two people. One price. Race-ready.\n• You buy: Two new people, one 12-class pack at 20% off (₹15,750), shared between them\n• You get: a team entry in the Amazing Race 2.0 heats\n• When: 1–31 Aug\n• Good to know: Both must be new (phone verified); one pack per pair, 6 classes each; Doesn't combine with any other campaign offer.",
+      "internalDescription": "280 in pool × 3.6% plan rate = 10 buyers × ₹15,750 ticket = ₹1.6L (26% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.4L at 25% effective.",
+      "rationale": "Why: Teams of two are the race format, so the pair offer is the natural conversion: both must be new, both must buy.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "Two first-timers in a race team.",
+      "conditions": "Both must be new (phone verified); one pack per pair, 6 classes each; Doesn't combine with any other campaign offer.",
+      "cta": "1–31 Aug.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 15750,
+      "expectedRevenue": 157500,
+      "buyers": 10,
+      "effectiveDiscountPercent": 25,
+      "validity": {
+        "start": "2027-08-01",
+        "end": "2027-08-31"
+      }
+    },
+    {
+      "slot": "lapsed",
+      "name": "Back on Track",
+      "headline": "Your team saved your spot. 20% off to take it.",
+      "benefit": "1 Month Unlimited at 20% off (₹16,191) — a race team entry and 2 bonus classes",
+      "customerCopy": "Your team saved your spot. 20% off to take it.\n• You buy: 1 Month Unlimited at 20% off (₹16,191)\n• You get: a race team entry and 2 bonus classes\n• When: All August\n• Good to know: Lapsed clients; race entry subject to heat capacity; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "internalDescription": "568 in pool × 3.0% plan rate = 18 buyers × ₹16,191 ticket = ₹2.9L (70% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 20% effective.",
+      "rationale": "Why: A team story is a better reason to return than a discount; the bonus pays for attendance, not the purchase.",
+      "objective": "reactivation",
+      "type": "experience",
+      "audience": "Lapsed clients.",
+      "conditions": "Lapsed clients; race entry subject to heat capacity; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "cta": "All August.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 291438,
+      "buyers": 18,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-08-01",
+        "end": "2027-08-31"
+      }
+    },
+    {
+      "slot": "renewal",
+      "name": "Victory Lap",
+      "headline": "Win or lose, you get a victory lap: 20% off 3 months.",
+      "benefit": "3 Months Unlimited at 20% off (₹46,284) — a finisher's medal and 2 bonus classes",
+      "customerCopy": "Win or lose, you get a victory lap: 20% off 3 months.\n• You buy: 3 Months Unlimited at 20% off (₹46,284)\n• You get: a finisher's medal and 2 bonus classes\n• When: All August\n• Good to know: Members renewing in August; race finishers get the medal round at close; Doesn't combine with any other campaign offer.",
+      "internalDescription": "280 in pool × 9.3% plan rate = 26 buyers × ₹46,284 ticket = ₹12.0L (58% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.4L at 20% effective.",
+      "rationale": "Why: Races are inherently motivating; converting the high (finishers and near-missers) into a 3-month commitment is the cheapest retention there is.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Members renewing in August.",
+      "conditions": "Members renewing in August; race finishers get the medal round at close; Doesn't combine with any other campaign offer.",
+      "cta": "All August.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 46284,
+      "expectedRevenue": 1203384,
+      "buyers": 26,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-08-01",
+        "end": "2027-08-31"
+      }
+    }
+  ]
+}

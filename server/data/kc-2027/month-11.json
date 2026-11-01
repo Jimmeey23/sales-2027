@@ -1,0 +1,227 @@
+{
+  "month": 11,
+  "theme": "Black Friday, Strong Monday",
+  "objective": "One genuinely scarce discount window (Black Friday), one deliberately cheap day (11.11), and the year's highest-value winback list — all without teaching the base to wait for a code.",
+  "strategy": "Black Friday, Strong Monday.\n\nCommercial job: One genuinely scarce discount window (Black Friday), one deliberately cheap day (11.11), and the year's highest-value winback list — all without teaching the base to wait for a code.\n\nNewcomer: Black Friday Week Zero (“Our only 25% of the year. Four days. Then it's gone.”). Scarcity plus the year's best price on the entry product: a four-day window converts fence-sitters without bleeding the rest of the year.\n\nWinback: High-Value Homecoming (“You've spent ₹{lifetime}. Here's a seat back, at 22% off.”). Clients with the deepest history respond to a personal, high-value restart, and a 3-month plan is the right unit for people who used to train often.\n\nRenewal: Commitment Issues? Solved. (“Three months instead of one. 20% off.”). November is the month 1 Month members drift; moving them onto 3 Months now carries them through the December shutdown and January.\n\nRenewal: 11% on 11.11 (“11% off. One day only. Every renewal.”). A small, single-day, high-volume discount clears the month's renewals before Black Friday, so Black Friday stays scarce.",
+  "notes": "Moment: Two dated windows and nothing else — 11.11 (one day, 11% off every renewal) and Black Friday Week Zero (Thu 25 – Sun 28 Nov, 25% off the entry product, 200 places).\nBuild: new clients 40 buyers = ₹3.8L; reactivation 35 × ₹11,468 = ₹4.0L; privates/retail/drop-ins ₹1.7L; renewals ₹17.0L. First visits needed 112; CRM leads needed 140.",
+  "target": 2650000,
+  "priorYear": 2158021,
+  "streams": {
+    "newClient": 380000,
+    "renewal": 1700000,
+    "reactivation": 400000,
+    "other": 170000
+  },
+  "funnel": {
+    "leads": 140,
+    "trials": 112,
+    "newBuyers": 30,
+    "existingPayingRenewals": 150,
+    "winbacksNeeded": 35,
+    "expiringMemberships": 230,
+    "renewalCoverage": 0.652,
+    "leadToTrial": 0.8022922636103151,
+    "trialToMember": 0.26865671641791045,
+    "spendPerVisit": 1727,
+    "firstMonthSpend": 12500,
+    "renewalTicket": 11333,
+    "winbackTicket": 11468
+  },
+  "feasibility": "balanced",
+  "keyDates": [
+    {
+      "day": 11,
+      "name": "11.11",
+      "kind": "retail",
+      "approx": false,
+      "note": "One day, 11% off every renewal."
+    },
+    {
+      "day": 26,
+      "name": "Black Friday",
+      "kind": "retail",
+      "approx": false,
+      "note": "25% off the entry product, 200 places, 25–28 Nov."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Set up Black Friday Week Zero in Momence (25–28 Nov.): 1 Month Unlimited at 25% off (₹15,179) for new clients — 200 places only, with a live counter at the desk."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up High-Value Homecoming in Momence (1–30 Nov.): 3 Months Unlimited at 22% off (₹45,127) — a personal call from the studio manager and a written 12-week plan."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Commitment Issues? Solved. in Momence (1–30 Nov.): 3 Months Unlimited at 20% off (₹46,284) — 2 freezes through December and priority booking for January."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up 11% on 11.11 in Momence (11 Nov, 00:00–23:59 only): 11% off any renewal — 1 Month (₹18,013), 3 Months (₹51,491) or 6 Months (₹1,01,206)."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 November offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Black Friday Week Zero to First-time clients."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch High-Value Homecoming to Lapsed clients with ≥₹75k lifetime spend."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Commitment Issues? Solved. to 1 Month members renewing in November."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch 11% on 11.11 to All members renewing 1–30 Nov."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "value": "Community lead",
+          "detail": "Run 11.11: a single-day push (WhatsApp, stories, desk) with the 11% code live only for 24 hours; publish the renewal tally at 9 pm."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Weekly check: Black Friday Week Zero: Places claimed vs 200; 72-hour conversion. | High-Value Homecoming: Calls made; 3M restarts. | Commitment Issues? Solved.: 1M → 3M upgrades. | 11% on 11.11: Renewals on 11 Nov; share of the month's renewals cleared early."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹26.5L: by the 15th aim for about half of 150 renewals, 30 reactivations and 40 new buyers (130 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Run the month's moment: Black Friday Week Zero (Thu 25 – Sun 28 Nov) with the 200-place counter, then close the window hard at 23:59 on Sunday — no extensions."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Close November: tag every redemption by offer, record results, and brief December's offers."
+        }
+      ]
+    }
+  ],
+  "offers": [
+    {
+      "slot": "newcomer",
+      "name": "Black Friday Week Zero",
+      "headline": "Our only 25% of the year. Four days. Then it's gone.",
+      "benefit": "1 Month Unlimited at 25% off (₹15,179) for new clients — 200 places only, with a live counter at the desk",
+      "customerCopy": "Our only 25% of the year. Four days. Then it's gone.\n• You buy: 1 Month Unlimited at 25% off (₹15,179) for new clients\n• You get: 200 places only, with a live counter at the desk\n• When: 25–28 Nov, 23:59\n• Good to know: First-time clients (phone verified); 200 places; no extensions; Doesn't combine with any other campaign offer.",
+      "internalDescription": "260 in pool × 7.7% plan rate = 20 buyers × ₹15,179 ticket = ₹3.0L (80% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹1.0L at 25% effective.",
+      "rationale": "Why: Scarcity plus the year's best price on the entry product: a four-day window converts fence-sitters without bleeding the rest of the year.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "First-time clients.",
+      "conditions": "First-time clients (phone verified); 200 places; no extensions; Doesn't combine with any other campaign offer.",
+      "cta": "25–28 Nov.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 15179,
+      "expectedRevenue": 303580,
+      "buyers": 20,
+      "effectiveDiscountPercent": 25,
+      "validity": {
+        "start": "2027-11-25",
+        "end": "2027-11-28"
+      }
+    },
+    {
+      "slot": "lapsed",
+      "name": "High-Value Homecoming",
+      "headline": "You've spent ₹{lifetime}. Here's a seat back, at 22% off.",
+      "benefit": "3 Months Unlimited at 22% off (₹45,127) — a personal call from the studio manager and a written 12-week plan",
+      "customerCopy": "You've spent ₹{lifetime}. Here's a seat back, at 22% off.\n• You buy: 3 Months Unlimited at 22% off (₹45,127)\n• You get: a personal call from the studio manager and a written 12-week plan\n• When: All November\n• Good to know: Lapsed clients with ≥₹75k lifetime spend; named list, no mass mailing; Doesn't combine with any other campaign offer.",
+      "internalDescription": "300 in pool × 2.0% plan rate = 6 buyers × ₹45,127 ticket = ₹2.7L (79% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 22% effective.",
+      "rationale": "Why: Clients with the deepest history respond to a personal, high-value restart, and a 3-month plan is the right unit for people who used to train often.",
+      "objective": "reactivation",
+      "type": "experience",
+      "audience": "Lapsed clients with ≥₹75k lifetime spend.",
+      "conditions": "Lapsed clients with ≥₹75k lifetime spend; named list, no mass mailing; Doesn't combine with any other campaign offer.",
+      "cta": "All November.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 45127,
+      "expectedRevenue": 270762,
+      "buyers": 6,
+      "effectiveDiscountPercent": 22,
+      "validity": {
+        "start": "2027-11-01",
+        "end": "2027-11-30"
+      }
+    },
+    {
+      "slot": "renewal",
+      "name": "Commitment Issues? Solved.",
+      "headline": "Three months instead of one. 20% off.",
+      "benefit": "3 Months Unlimited at 20% off (₹46,284) — 2 freezes through December and priority booking for January",
+      "customerCopy": "Three months instead of one. 20% off.\n• You buy: 3 Months Unlimited at 20% off (₹46,284)\n• You get: 2 freezes through December and priority booking for January\n• When: Renew 1–30 Nov\n• Good to know: 1 Month members renewing in November; freezes in blocks of 3+ days; Doesn't combine with any other campaign offer.",
+      "internalDescription": "230 in pool × 6.1% plan rate = 14 buyers × ₹46,284 ticket = ₹6.5L (40% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹1.6L at 20% effective.",
+      "rationale": "Why: November is the month 1 Month members drift; moving them onto 3 Months now carries them through the December shutdown and January.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "1 Month members renewing in November.",
+      "conditions": "1 Month members renewing in November; freezes in blocks of 3+ days; Doesn't combine with any other campaign offer.",
+      "cta": "All November.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 46284,
+      "expectedRevenue": 647976,
+      "buyers": 14,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-11-01",
+        "end": "2027-11-30"
+      }
+    },
+    {
+      "slot": "renewal",
+      "name": "11% on 11.11",
+      "headline": "11% off. One day only. Every renewal.",
+      "benefit": "11% off any renewal — 1 Month (₹18,013), 3 Months (₹51,491) or 6 Months (₹1,01,206)",
+      "customerCopy": "11% off. One day only. Every renewal.\n• You buy: 11% off any renewal — 1 Month (₹18,013), 3 Months (₹51,491) or 6 Months (₹1,01,206)\n• You get: a single-use code issued to your phone at 9 am, live until 23:59\n• When: 11 Nov only\n• Good to know: One use per member; renewals only, no new joins; no extensions; Doesn't combine with any other campaign offer.",
+      "internalDescription": "230 in pool × 19.6% plan rate = 45 buyers × ₹18,013 ticket = ₹8.1L (49% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹1.0L at 11% effective.",
+      "rationale": "Why: A small, single-day, high-volume discount clears the month's renewals before Black Friday, so Black Friday stays scarce.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "All members renewing 1–30 November.",
+      "conditions": "One use per member; renewals only, no new joins; no extensions; Doesn't combine with any other campaign offer.",
+      "cta": "11 Nov only.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 18013,
+      "expectedRevenue": 810585,
+      "buyers": 45,
+      "effectiveDiscountPercent": 11,
+      "validity": {
+        "start": "2027-11-11",
+        "end": "2027-11-11"
+      }
+    }
+  ]
+}

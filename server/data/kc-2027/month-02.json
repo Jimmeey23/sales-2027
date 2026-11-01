@@ -1,0 +1,263 @@
+{
+  "month": 2,
+  "theme": "Stronger in 30 2.0",
+  "objective": "Run Stronger in 30 2.0 (members-only, 1 Feb–2 Mar) as the attendance engine of Q1: late joiners in, lapsed clients back, finishers renewed at list. Valentine's pairs as the acquisition story.",
+  "strategy": "Stronger in 30 2.0.\n\nCommercial job: Run Stronger in 30 2.0 (members-only, 1 Feb–2 Mar) as the attendance engine of Q1: late joiners in, lapsed clients back, finishers renewed at list. Valentine's pairs as the acquisition story.\n\nNewcomer: Fashionably Late (“Missed the start? The challenge saved you a seat, and 20% off.”). The challenge creates FOMO; a scaled Rookie target and a time-boxed 20% make joining late feel like winning.\n\nNewcomer: The Plus-One Pact (“Bring your person. You both get 20% off and a date with a trainer.”). Replaces BOGO (79–94% of BOGO buyers were existing clients and renewed at 33–53%). Pairs keep each other attending; requiring both to buy makes it pure acquisition.\n\nWinback: Unfinished Business (“You left mid-sentence. Come finish it, at 20% off.”). A public, time-boxed goal brings lapsed clients back now; the reward for finishing is a longer, discounted renewal, not a free week.\n\nRenewal: Podium Pricing (“Finish Stronger in 30 and unlock the best renewal prices before April.”). Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. The challenge proves the habit; Podium Pricing turns it into a 3–12 month commitment.\n\nRenewal: Bring Your Person (“Renew, bring someone new, and you both win.”). Client referral is Kwality's third-largest lead source (231 leads since Oct-25). The renewer's reward is paid only when a new client buys, so it is acquisition spend.",
+  "notes": "Moment: Stronger in 30 2.0: 30 classes in 30 days (Rookie track: 16; Comeback track: 20). Live leaderboard by the desk, Galentine's hosted class Sat 13 Feb, finishers' medal night Tue 2 Mar.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 40 × ₹11,468 = ₹4.6L; privates/retail/drop-ins ₹2.8L; renewals ₹14.1L. First visits needed 156; CRM leads needed 194.",
+  "target": 2650000,
+  "priorYear": 1921110,
+  "streams": {
+    "newClient": 504000,
+    "renewal": 1407280,
+    "reactivation": 458720,
+    "other": 280000
+  },
+  "funnel": {
+    "leads": 194,
+    "trials": 156,
+    "newBuyers": 42,
+    "existingPayingRenewals": 158,
+    "winbacksNeeded": 40,
+    "expiringMemberships": 191,
+    "renewalCoverage": 0.827,
+    "leadToTrial": 0.8022922636103151,
+    "trialToMember": 0.26865671641791045,
+    "spendPerVisit": 1727,
+    "firstMonthSpend": 12000,
+    "renewalTicket": 8921,
+    "winbackTicket": 11468
+  },
+  "feasibility": "stretch",
+  "keyDates": [
+    {
+      "day": 1,
+      "name": "Stronger in 30 2.0 begins",
+      "kind": "brand",
+      "approx": false,
+      "note": "Members-only, 1 Feb–2 Mar."
+    },
+    {
+      "day": 13,
+      "name": "Galentine's",
+      "kind": "retail",
+      "approx": false,
+      "note": "Hosted class with a named associate."
+    },
+    {
+      "day": 14,
+      "name": "Valentine's Day",
+      "kind": "retail",
+      "approx": false,
+      "note": "The pair offer: bring someone, both train."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Set up Fashionably Late in Momence (1–14 Feb.): 7-Day Unlimited Intro for ₹1,999 (max 2 classes a day) — ₹1,999 credited, 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours, and a Rookie-track challenge entry (16 classes)."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up The Plus-One Pact in Momence (1–21 Feb.): A free first Barre class for two new people who come together — class 2 free for both within 7 days; if both buy within 72 hours: 1 Month Unlimited at 20% off each (₹16,191) and one shared 30-min duo private."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Unfinished Business in Momence (1–10 Feb.): 1 Month Unlimited at 20% off (₹16,191) — a Comeback-track challenge entry (20 classes); finish it and you unlock Podium Pricing on your next renewal."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Podium Pricing in Momence (15 Feb–10 Mar.): Finishers: 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588). Half-way finishers: 3 Months at 15% off (₹49,177) — a finisher's medal at the 2 Mar finishers' night. Staying on 1 Month? Finishers renew at list with +7 days."
+        },
+        {
+          "value": "Studio manager",
+          "detail": "Set up Bring Your Person in Momence (1–28 Feb.): Your current membership or pack at list price — a pass for a friend new to P57 (2 free classes + 20% off their first 1 Month, ₹16,191). If they buy within 14 days, you get +10 days on 1 Month or +3 classes on a pack."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Brief the team on the 5 February offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Fashionably Late to First-time clients (phone verified)."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch The Plus-One Pact to Two first-timers who trial together."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Unfinished Business to Clients lapsed 61–365 days."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Podium Pricing to Active members expiring 15 Feb–15 Mar."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Launch Bring Your Person to Active members renewing in February."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Run the month's moment: Stronger in 30 2.0: 30 classes in 30 days (Rookie track: 16; Comeback track: 20). Live leaderboard by the desk, Galentine's hosted class Sat 13 Feb, finishers' medal night Tue 2 Mar."
+        },
+        {
+          "value": "Sales lead",
+          "detail": "Weekly check: Fashionably Late: Rookie entries; intro → purchase (target 45%). | The Plus-One Pact: Pairs trialled; pair conversion (both buy). | Unfinished Business: Lapsed entries; Comeback-track finish rate. | Podium Pricing: Challenge finish rate; renewal yield of finishers vs non-finishers. | Bring Your Person: Passes issued; friend → purchase within 14 days (target 35%)."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹26.5L: by the 15th aim for about half of 158 renewals, 40 reactivations and 42 new buyers (132 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "value": "Studio manager",
+          "detail": "Close February: tag every redemption by offer, record results, and brief March's offers."
+        }
+      ]
+    }
+  ],
+  "offers": [
+    {
+      "slot": "newcomer",
+      "name": "Fashionably Late",
+      "headline": "Missed the start? The challenge saved you a seat, and 20% off.",
+      "benefit": "7-Day Unlimited Intro for ₹1,999 (max 2 classes a day) — ₹1,999 credited, 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours, and a Rookie-track challenge entry (16 classes)",
+      "customerCopy": "Missed the start? The challenge saved you a seat, and 20% off.\n• You buy: 7-Day Unlimited Intro for ₹1,999 (max 2 classes a day)\n• You get: ₹1,999 credited, 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours, and a Rookie-track challenge entry (16 classes)\n• When: Start 1–14 Feb\n• Good to know: One intro per person; start 1–14 Feb; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "internalDescription": "132 in pool × 12.1% plan rate = 16 buyers × ₹16,191 ticket = ₹2.6L (51% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.6L at 20% effective.",
+      "rationale": "Why: The challenge creates FOMO; a scaled Rookie target and a time-boxed 20% make joining late feel like winning.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "First-time clients (phone verified).",
+      "conditions": "One intro per person; start 1–14 Feb; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "cta": "1–14 Feb.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 259056,
+      "buyers": 16,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-02-01",
+        "end": "2027-02-14"
+      }
+    },
+    {
+      "slot": "newcomer",
+      "name": "The Plus-One Pact",
+      "headline": "Bring your person. You both get 20% off and a date with a trainer.",
+      "benefit": "A free first Barre class for two new people who come together — class 2 free for both within 7 days; if both buy within 72 hours: 1 Month Unlimited at 20% off each (₹16,191) and one shared 30-min duo private",
+      "customerCopy": "Bring your person. You both get 20% off and a date with a trainer.\n• You buy: A free first Barre class for two new people who come together\n• You get: class 2 free for both within 7 days; if both buy within 72 hours: 1 Month Unlimited at 20% off each (₹16,191) and one shared 30-min duo private\n• When: Trial 1–21 Feb\n• Good to know: Both must be new to P57; both must buy for the offer to apply; Doesn't combine with any other campaign offer.",
+      "internalDescription": "132 in pool × 9.1% plan rate = 12 buyers × ₹16,191 ticket = ₹1.9L (39% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.6L at 24% effective.",
+      "rationale": "Why: Replaces BOGO (79–94% of BOGO buyers were existing clients and renewed at 33–53%). Pairs keep each other attending; requiring both to buy makes it pure acquisition.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "Two first-timers who trial together.",
+      "conditions": "Both must be new to P57; both must buy for the offer to apply; Doesn't combine with any other campaign offer.",
+      "cta": "1–21 Feb.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 194292,
+      "buyers": 12,
+      "effectiveDiscountPercent": 24,
+      "validity": {
+        "start": "2027-02-01",
+        "end": "2027-02-21"
+      }
+    },
+    {
+      "slot": "lapsed",
+      "name": "Unfinished Business",
+      "headline": "You left mid-sentence. Come finish it, at 20% off.",
+      "benefit": "1 Month Unlimited at 20% off (₹16,191) — a Comeback-track challenge entry (20 classes); finish it and you unlock Podium Pricing on your next renewal",
+      "customerCopy": "You left mid-sentence. Come finish it, at 20% off.\n• You buy: 1 Month Unlimited at 20% off (₹16,191)\n• You get: a Comeback-track challenge entry (20 classes); finish it and you unlock Podium Pricing on your next renewal\n• When: Buy 1–10 Feb\n• Good to know: Clients lapsed 61–365 days; buy 1–10 Feb; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "internalDescription": "456 in pool × 5.3% plan rate = 24 buyers × ₹16,191 ticket = ₹3.9L (85% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹1.0L at 20% effective.",
+      "rationale": "Why: A public, time-boxed goal brings lapsed clients back now; the reward for finishing is a longer, discounted renewal, not a free week.",
+      "objective": "reactivation",
+      "type": "experience",
+      "audience": "Clients lapsed 61–365 days.",
+      "conditions": "Clients lapsed 61–365 days; buy 1–10 Feb; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "cta": "1–10 Feb.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 388584,
+      "buyers": 24,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-02-01",
+        "end": "2027-02-10"
+      }
+    },
+    {
+      "slot": "renewal",
+      "name": "Podium Pricing",
+      "headline": "Finish Stronger in 30 and unlock the best renewal prices before April.",
+      "benefit": "Finishers: 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588). Half-way finishers: 3 Months at 15% off (₹49,177) — a finisher's medal at the 2 Mar finishers' night. Staying on 1 Month? Finishers renew at list with +7 days",
+      "customerCopy": "Finish Stronger in 30 and unlock the best renewal prices before April.\n• You buy: Finishers: 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588). Half-way finishers: 3 Months at 15% off (₹49,177)\n• You get: a finisher's medal at the 2 Mar finishers' night. Staying on 1 Month? Finishers renew at list with +7 days\n• When: Renew 15 Feb–10 Mar\n• Good to know: Price unlocked by challenge attendance; renew 15 Feb–10 Mar; Doesn't combine with any other campaign offer.",
+      "internalDescription": "191 in pool × 13.6% plan rate = 26 buyers × ₹42,000 ticket = ₹10.9L (78% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.7L at 20% effective.",
+      "rationale": "Why: Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. The challenge proves the habit; Podium Pricing turns it into a 3–12 month commitment.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Active members expiring 15 Feb–15 Mar.",
+      "conditions": "Price unlocked by challenge attendance; renew 15 Feb–10 Mar; Doesn't combine with any other campaign offer.",
+      "cta": "15 Feb–10 Mar.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 42000,
+      "expectedRevenue": 1092000,
+      "buyers": 26,
+      "effectiveDiscountPercent": 20,
+      "validity": {
+        "start": "2027-02-15",
+        "end": "2027-03-10"
+      }
+    },
+    {
+      "slot": "renewal",
+      "name": "Bring Your Person",
+      "headline": "Renew, bring someone new, and you both win.",
+      "benefit": "Your current membership or pack at list price — a pass for a friend new to P57 (2 free classes + 20% off their first 1 Month, ₹16,191). If they buy within 14 days, you get +10 days on 1 Month or +3 classes on a pack",
+      "customerCopy": "Renew, bring someone new, and you both win.\n• You buy: Your current membership or pack at list price\n• You get: a pass for a friend new to P57 (2 free classes + 20% off their first 1 Month, ₹16,191). If they buy within 14 days, you get +10 days on 1 Month or +3 classes on a pack\n• When: Renew 1–28 Feb; passes valid to 14 Mar\n• Good to know: Friend must be new (phone verified); bonus only when the friend buys; passes valid to 14 Mar; Doesn't combine with any other campaign offer.",
+      "internalDescription": "191 in pool × 5.2% plan rate = 10 buyers × ₹18,300 ticket = ₹1.8L (13% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹0.2L at 10% effective.",
+      "rationale": "Why: Client referral is Kwality's third-largest lead source (231 leads since Oct-25). The renewer's reward is paid only when a new client buys, so it is acquisition spend.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Active members renewing in February.",
+      "conditions": "Friend must be new (phone verified); bonus only when the friend buys; passes valid to 14 Mar; Doesn't combine with any other campaign offer.",
+      "cta": "1–28 Feb.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 18300,
+      "expectedRevenue": 183000,
+      "buyers": 10,
+      "effectiveDiscountPercent": 10,
+      "validity": {
+        "start": "2027-02-01",
+        "end": "2027-02-28"
+      }
+    }
+  ]
+}
