@@ -74,6 +74,7 @@ import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 import { planPricing } from '../../lib/offerPricing';
+import { offerSummary } from '../../lib/offerSummary';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
 
@@ -5062,83 +5063,10 @@ function OfferCard({
     return o.benefit && o.benefit !== o.headline ? o.benefit : '';
   })();
 
-  // The hero explains, in one or two plain lines, what the offer actually is: what is being
-  // sold, at what price against list, and the mechanic that makes it work.
-  const offerDescription = (() => {
-    const firstSentences = (value: string, budget = 150) => {
-      const clean = String(value || '')
-        .replace(/\s+/g, ' ')
-        .trim();
-      if (!clean) return '';
-      const parts = (clean.match(/[^.!?]+[.!?]*/g) || [clean]).map(part => part.trim()).filter(Boolean);
-      let out = '';
-      for (const part of parts) {
-        if (out && out.length + part.length > budget) break;
-        const sentence = /[.!?]$/.test(part) ? part : `${part}.`;
-        out = out ? `${out} ${sentence}` : sentence;
-        if (out.length >= budget * 0.6) break;
-      }
-      if (out.length > budget) out = `${out.slice(0, budget).replace(/[,;:\s]+\S*$/, '')}…`;
-      return out;
-    };
-
-    // What is being sold and at what price — the plan's price when it states one, otherwise the
-    // average buyers actually pay, said as an average.
-    const what = productLabel || plan.label || (o.offer_type ? titleCase(o.offer_type) : '');
-    const price = offerPrice ? money(offerPrice) : '';
-    const headline = isAverageTicket
-      ? price
-        ? what
-          ? `${what}, ${price} average`
-          : `Average ticket ${price}`
-        : what
-      : what
-        ? price
-          ? `${what} at ${price}`
-          : what
-        : price
-          ? `Priced at ${price}`
-          : '';
-
-    const discount = (() => {
-      if (strikePrice && offerPrice && strikePrice > offerPrice * 1.01) {
-        return `${fmtPct(directPct * 100)} below the ${money(strikePrice)} list price`;
-      }
-      if (hasCashCut && list) return `${fmtPct(cashCutPct)} below the ${money(list)} list price`;
-      if (plan.credited) return `credited back at purchase`;
-      if (perkValuePct > 0) return `with ${fmtPct(perkValuePct)} back in perks and extras`;
-      if (effPct > 0) return `with ${fmtPct(effPct)} back in value`;
-      return '';
-    })();
-
-    // Client-facing copy reads most plainly; otherwise fall back to the written benefit with its
-    // internal asides removed, then to the mechanic.
-    const plain = (value: string) =>
-      String(value || '')
-        .replace(/\s*\([^)]*\)/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-    // The plan writes one plain line per offer ("3-month unlimited at 15% off + 2 freezes");
-    // that sentence is the description. Marketing copy is only a fallback.
-    const written = String(o.provenance?.plainUsage || '').trim();
-    const description = written
-      ? written
-      : firstSentences(o.customer_copy || plain(o.benefit) || plain(mechanicsText), 140);
-
-    const lead = [headline, discount].filter(Boolean).join(', ');
-    // The plan often repeats its own tagline as the customer copy; say it once.
-    const bare = (value: string) =>
-      value
-        .trim()
-        .replace(/[.!?]+$/, '')
-        .toLowerCase();
-    const repeatsHeadline =
-      bare(description) === bare(String(o.headline || '')) || bare(description) === bare(String(o.benefit || ''));
-    const parts = [lead ? (/[.!?]$/.test(lead) ? lead : `${lead}.`) : '', repeatsHeadline ? '' : description].filter(
-      Boolean,
-    );
-    return parts.join(' ').trim();
-  })();
+  // The hero's description answers the three questions an offer has to answer — what is being
+  // sold, what the client gets, what it is for — in one plain line, and nothing else. Every
+  // price, term and calculation stays in the figures and the spec sheet below it.
+  const offerDescription = offerSummary(o).sentence;
 
   // Bars are the chart line for each figure; they all share one 0–100 scale.
   const clampPct = (value: number) =>

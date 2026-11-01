@@ -29,6 +29,7 @@ import { Badge, Button, Callout, Field, Input, Loading, Select, StatusBadge, Tex
 import { planningLocations } from '../../data/locations';
 import { MONTH_OBJECTIVES } from '../../data/planDefaults';
 import { useLoad } from '../../hooks';
+import { offerSummary } from '../../lib/offerSummary';
 import { planPricing } from '../../lib/offerPricing';
 import { lakh, type PlanData } from './usePlanData';
 import { selectedInMonth } from './TargetsTab';
@@ -187,7 +188,7 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
           <span>{o.studio}</span>
         </div>
         <strong className="os-offer-name">{o.name}</strong>
-        <p>{o.benefit || o.headline || o.customer_copy}</p>
+        <p>{offerSummary(o).sentence}</p>
       </div>
       <dl className="os-offer-facts">
         <div>
