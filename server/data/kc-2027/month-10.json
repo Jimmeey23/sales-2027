@@ -1,47 +1,174 @@
 {
   "month": 10,
+  "name": "October",
+  "status": "draft",
   "theme": "Festival of Lights",
-  "objective": "Convert the Diwali runway into the year's biggest renewal month: 3 Months and 6 Months sales at festival prices, family gifting that brings genuinely new people in, and October starts that survive November's travel.",
-  "strategy": "Festival of Lights.\n\nCommercial job: Convert the Diwali runway into the year's biggest renewal month: 3 Months and 6 Months sales at festival prices, family gifting that brings genuinely new people in, and October starts that survive November's travel.\n\nNewcomer: Gift a Flight (“Give someone a flight of classes. Three months, 20% off.”). Diwali gifting is the one moment people will buy a membership for someone else; a 3-month gift at 20% is the natural unit.\n\nNewcomer: Pay It Forward (“Gift a month to someone who's never been. You get a fortnight.”). Members already refer; Diwali makes the ask normal. The member's reward unlocks only when the friend buys, so it stays acquisition spend.\n\nWinback: Come Home for Diwali (“Come home for the festival. Stay for the habit. 20% off.”). Diwali is the one week families regroup in Mumbai; lapsed clients are in town and sentimental.\n\nRenewal: Light Years Ahead (“Six months, 22% off, through Holi.”). Members who commit through the festival season skip the November–January lapse cycle, and the ticket lands before the year closes.",
-  "notes": "Moment: Festival of Lights: the Diwali gift desk (a wrapped gift card and a handwritten note with every gift purchase), the annual 'One Light' partner class raising money for a Mumbai charity, and the Diwali-week short-class timetable (29 Oct).\nBuild: new clients 42 buyers = ₹4.8L; reactivation 39 × ₹11,468 = ₹4.5L; privates/retail/drop-ins ₹4.2L; renewals ₹26.0L. First visits needed 134; CRM leads needed 167.",
+  "objective": "Gift-led acquisition and Diwali renewals without codes; upgrade 1 Month members to 3 Months before the November dip.",
+  "strategy": "Festival of Lights.\n\nCommercial job: Gift-led acquisition and Diwali renewals without codes; upgrade 1 Month members to 3 Months before the November dip.\n\nNewcomer: Gift a Flight (“Give someone three classes and a reason to stay.”). Gifting is real Diwali spend, and a Flight leads into the best-converting journey.\n\nWinback: Come Home for Diwali (“Your mat's still here, at 20% off.”). Simple, on-theme, and the pack fits festive schedules.\n\nRenewal: Pay It Forward (“Renew in October; get 10% back to gift a friend.”). Turns renewal value into new-client acquisition: the discount only exists if it brings someone new.\n\nRenewal: Light Years Ahead (“Upgrade for Diwali: 3 months at 20% off.”). Upgrading before November protects the base through the softest month of the year and lifts cash 2.3×.",
+  "notes": "Moment: Gift cards on sale from 1 Oct; candle-lit evening classes in Diwali week (25–28 Oct); a 'Lights On' community class on Sat 23 Oct.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹3.5L; renewals ₹26.8L. First visits needed 140 vs 102 last year (1.37×); CRM leads needed 280 vs 67 last year.",
   "target": 3950000,
   "priorYear": 3071247,
+  "growthPercent": 28.6,
   "streams": {
-    "newClient": 480000,
-    "renewal": 2600000,
-    "reactivation": 450000,
-    "other": 420000
+    "newClient": 504000,
+    "renewal": 2683152,
+    "reactivation": 412848,
+    "other": 350000
   },
   "funnel": {
-    "leads": 167,
-    "trials": 134,
-    "newBuyers": 36,
-    "existingPayingRenewals": 168,
-    "winbacksNeeded": 39,
-    "expiringMemberships": 300,
-    "renewalCoverage": 0.56,
-    "leadToTrial": 0.8022922636103151,
-    "trialToMember": 0.26865671641791045,
+    "leads": 280,
+    "trials": 140,
+    "newBuyers": 42,
+    "existingPayingRenewals": 208,
+    "winbacksNeeded": 36,
+    "expiringMemberships": 181,
+    "renewalCoverage": 0.609,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
     "spendPerVisit": 1727,
-    "firstMonthSpend": 13500,
-    "renewalTicket": 15476,
+    "firstMonthSpend": 12000,
+    "renewalTicket": 12906,
     "winbackTicket": 11468
   },
   "feasibility": "stretch",
+  "offers": [
+    {
+      "id": 2429,
+      "slot": "newcomer",
+      "name": "Gift a Flight",
+      "headline": "Give someone three classes and a reason to stay.",
+      "benefit": "A Tasting Flight gift card for ₹2,499 (3 classes in 10 days, 3 different formats) — the recipient's ₹2,499 is credited and they get 1 Month at 20% off (₹16,191) if they buy within 72 hours of class 3; the giver gets 1 bonus class when they do",
+      "customerCopy": "Give someone three classes and a reason to stay.\n• You buy: A Tasting Flight gift card for ₹2,499 (3 classes in 10 days, 3 different formats)\n• You get: the recipient's ₹2,499 is credited and they get 1 Month at 20% off (₹16,191) if they buy within 72 hours of class 3; the giver gets 1 bonus class when they do\n• When: Gift cards on sale 1 Oct–15 Nov\n• Good to know: Recipient must be new; activate within 60 days; Doesn't combine with any other campaign offer.",
+      "internalDescription": "140 in pool × 12.9% plan rate = 18 buyers × ₹16,191 ticket = ₹2.9L (58% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 20% effective.",
+      "rationale": "Why: Gifting is real Diwali spend, and a Flight leads into the best-converting journey.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "Anyone buying for a friend new to P57.",
+      "excludedAudience": null,
+      "conditions": "Recipient must be new; activate within 60 days; Doesn't combine with any other campaign offer.",
+      "cta": "1 Oct–15 Nov.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 16191,
+      "expectedRevenue": 291438,
+      "buyers": 18,
+      "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-10-01",
+        "end": "2027-11-15"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2430,
+      "slot": "lapsed",
+      "name": "Come Home for Diwali",
+      "headline": "Your mat's still here, at 20% off.",
+      "benefit": "A 12-class pack at 20% off (₹15,750) — a comeback class in Diwali week",
+      "customerCopy": "Your mat's still here, at 20% off.\n• You buy: A 12-class pack at 20% off (₹15,750)\n• You get: a comeback class in Diwali week\n• When: All October\n• Good to know: Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "internalDescription": "573 in pool × 3.8% plan rate = 22 buyers × ₹15,750 ticket = ₹3.5L (84% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 20% effective.",
+      "rationale": "Why: Simple, on-theme, and the pack fits festive schedules.",
+      "objective": "reactivation",
+      "type": "experience",
+      "audience": "Lapsed clients.",
+      "excludedAudience": null,
+      "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "cta": "All October.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 15750,
+      "expectedRevenue": 346500,
+      "buyers": 22,
+      "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-10-01",
+        "end": "2027-10-31"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2432,
+      "slot": "renewal",
+      "name": "Pay It Forward",
+      "headline": "Renew in October; get 10% back to gift a friend.",
+      "benefit": "Your current membership at list — 10% of what you pay back as credit, usable only on a P57 gift card for someone new",
+      "customerCopy": "Renew in October; get 10% back to gift a friend.\n• You buy: Your current membership at list\n• You get: 10% of what you pay back as credit, usable only on a P57 gift card for someone new\n• When: All October\n• Good to know: Credit valid until 15 Nov; Doesn't combine with any other campaign offer.",
+      "internalDescription": "181 in pool × 24.9% plan rate = 45 buyers × ₹21,000 ticket = ₹9.4L (35% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 9% effective.",
+      "rationale": "Why: Turns renewal value into new-client acquisition: the discount only exists if it brings someone new.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "October renewers.",
+      "excludedAudience": null,
+      "conditions": "Credit valid until 15 Nov; Doesn't combine with any other campaign offer.",
+      "cta": "All October.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 21000,
+      "expectedRevenue": 945000,
+      "buyers": 45,
+      "effectiveDiscountPercent": 9,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-10-01",
+        "end": "2027-10-31"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2516,
+      "slot": "renewal",
+      "name": "Light Years Ahead",
+      "headline": "Upgrade for Diwali: 3 months at 20% off.",
+      "benefit": "From 1 Month to 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698) — a festive box and the candle-lit Diwali week classes on us",
+      "customerCopy": "Upgrade for Diwali: 3 months at 20% off.\n• You buy: From 1 Month to 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698)\n• You get: a festive box and the candle-lit Diwali week classes on us\n• When: All October\n• Good to know: Current 1 Month members; Doesn't combine with any other campaign offer.",
+      "internalDescription": "120 in pool × 15.0% plan rate = 18 buyers × ₹52,000 ticket = ₹9.4L (35% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.5L at 21% effective.",
+      "rationale": "Why: Upgrading before November protects the base through the softest month of the year and lifts cash 2.3×.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "1 Month members.",
+      "excludedAudience": null,
+      "conditions": "Current 1 Month members; Doesn't combine with any other campaign offer.",
+      "cta": "All October.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 52000,
+      "expectedRevenue": 936000,
+      "buyers": 18,
+      "effectiveDiscountPercent": 21,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-10-01",
+        "end": "2027-10-31"
+      },
+      "mechanics": {}
+    }
+  ],
   "keyDates": [
     {
-      "day": 2,
-      "name": "Gandhi Jayanti",
-      "kind": "national",
+      "day": 23,
+      "end": null,
+      "date": "2027-10-23",
+      "name": "Lights On community class",
+      "kind": "brand",
+      "label": "P57 moment",
       "approx": false,
-      "note": "Holiday class timetable; gifting desk opens."
+      "note": "Plus the Diwali Fit Check re-test."
     },
     {
       "day": 29,
+      "end": null,
+      "date": "2027-10-29",
       "name": "Diwali",
       "kind": "festival",
+      "label": "Festival",
       "approx": true,
-      "note": "Short-class week and the 'One Light' partner class."
+      "note": "The gifting window."
     }
   ],
   "sections": [
@@ -49,40 +176,54 @@
       "title": "Week 1",
       "items": [
         {
+          "label": "",
           "value": "Studio manager",
-          "detail": "Set up Gift a Flight in Momence (1–31 Oct.): 3 Months Unlimited, gifted, at 20% off (₹46,284) — a wrapped gift card, a handwritten note and a free first class for the recipient."
+          "detail": "Set up Gift a Flight in Momence (1 Oct–15 Nov.): A Tasting Flight gift card for ₹2,499 (3 classes in 10 days, 3 different formats) — the recipient's ₹2,499 is credited and they get 1 Month at 20% off (₹16,191) if they buy within 72 hours of class 3; the giver gets 1 bonus class when they do."
         },
         {
+          "label": "",
           "value": "Studio manager",
-          "detail": "Set up Pay It Forward in Momence (1–31 Oct.): You buy a month for someone who has never trained at P57 — 1 Month at 20% off (₹16,191) for them; when they buy their own month within 30 days you get +14 days."
+          "detail": "Set up Come Home for Diwali in Momence (All October.): A 12-class pack at 20% off (₹15,750) — a comeback class in Diwali week."
         },
         {
+          "label": "",
           "value": "Studio manager",
-          "detail": "Set up Come Home for Diwali in Momence (1–31 Oct.): 1 Month Unlimited at 20% off (₹16,191) or 3 Months at 22% off (₹45,127) — a Diwali gift box and 2 bonus classes."
+          "detail": "Set up Pay It Forward in Momence (All October.): Your current membership at list — 10% of what you pay back as credit, usable only on a P57 gift card for someone new."
         },
         {
+          "label": "",
           "value": "Studio manager",
-          "detail": "Set up Light Years Ahead in Momence (1–30 Nov.): 6 Months Unlimited at 22% off (₹88,698) — a freeze bank of 10 days through the festival season and a seat in the 2028 Kickstart cohort."
+          "detail": "Set up Light Years Ahead in Momence (All October.): From 1 Month to 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698) — a festive box and the candle-lit Diwali week classes on us."
         },
         {
+          "label": "",
           "value": "Sales lead",
           "detail": "Brief the team on the 4 October offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
         },
         {
+          "label": "",
           "value": "Sales lead",
-          "detail": "Launch Gift a Flight to Members and clients gifting at Diwali."
+          "detail": "Launch Gift a Flight to Anyone buying for a friend new to P57."
         },
         {
-          "value": "Sales lead",
-          "detail": "Launch Pay It Forward to Active members with a friend who's never trained."
-        },
-        {
+          "label": "",
           "value": "Sales lead",
           "detail": "Launch Come Home for Diwali to Lapsed clients."
         },
         {
+          "label": "",
           "value": "Sales lead",
-          "detail": "Launch Light Years Ahead to Members expiring Oct–Dec."
+          "detail": "Launch Pay It Forward to October renewers."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Light Years Ahead to 1 Month members."
+        },
+        {
+          "label": "",
+          "value": "Marketing",
+          "detail": "Run paid lead ads for Gift a Flight: 280 CRM leads needed vs 67 in the same month last year."
         }
       ]
     },
@@ -90,12 +231,14 @@
       "title": "Week 2",
       "items": [
         {
+          "label": "",
           "value": "Studio manager",
-          "detail": "Run the month's moment: Festival of Lights — the Diwali gift desk (a wrapped gift card and a handwritten note with every gift purchase), the annual 'One Light' partner class raising money for a Mumbai charity, and the Diwali-week short-class timetable."
+          "detail": "Run the month's moment: Gift cards on sale from 1 Oct; candle-lit evening classes in Diwali week (25–28 Oct); a 'Lights On' community class on Sat 23 Oct."
         },
         {
+          "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Gift a Flight: Gift cards sold; recipients activating (target 70%). | Pay It Forward: Gifts bought; friend purchase within 30 days. | Come Home for Diwali: Lapsed purchases; bonus class usage. | Light Years Ahead: 6M share of renewals (target 30%)."
+          "detail": "Weekly check: Gift a Flight: Gift cards sold; activations; recipient conversion. | Come Home for Diwali: Reactivations. | Pay It Forward: Credit used on gift cards. | Light Years Ahead: 1M → 3M upgrades."
         }
       ]
     },
@@ -103,8 +246,9 @@
       "title": "Week 3",
       "items": [
         {
+          "label": "",
           "value": "Sales lead",
-          "detail": "Mid-month review against ₹39.5L: by the 15th aim for about half of 168 renewals, 60 reactivations and 46 new buyers (150 first visits). Push the lists, not a deeper discount."
+          "detail": "Mid-month review against ₹39.5L: by the 15th aim for about half of 208 renewals, 36 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
         }
       ]
     },
@@ -112,116 +256,11 @@
       "title": "Week 4",
       "items": [
         {
-          "value": "Community lead",
-          "detail": "Run the 'One Light' charity class and publish the amount raised; photograph the gift desk for the December Wrapped recap."
-        },
-        {
+          "label": "",
           "value": "Studio manager",
           "detail": "Close October: tag every redemption by offer, record results, and brief November's offers."
         }
       ]
-    }
-  ],
-  "offers": [
-    {
-      "slot": "newcomer",
-      "name": "Gift a Flight",
-      "headline": "Give someone a flight of classes. Three months, 20% off.",
-      "benefit": "3 Months Unlimited, gifted, at 20% off (₹46,284) — a wrapped gift card, a handwritten note and a free first class for the recipient",
-      "customerCopy": "Give someone a flight of classes. Three months, 20% off.\n• You buy: 3 Months Unlimited, gifted, at 20% off (₹46,284)\n• You get: a wrapped gift card, a handwritten note and a free first class for the recipient\n• When: Buy 1–31 Oct; gift activates by 31 Jan 2028\n• Good to know: Recipient must be new to P57 or lapsed 90+ days; one gift per recipient; gift activates by 31 Jan 2028; Doesn't combine with any other campaign offer.",
-      "internalDescription": "150 in pool × 4.0% plan rate = 6 buyers × ₹46,284 ticket = ₹2.8L (58% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 20% effective.",
-      "rationale": "Why: Diwali gifting is the one moment people will buy a membership for someone else; a 3-month gift at 20% is the natural unit.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "Members and clients gifting at Diwali.",
-      "conditions": "Recipient must be new to P57 or lapsed 90+ days; one gift per recipient; gift activates by 31 Jan 2028; Doesn't combine with any other campaign offer.",
-      "cta": "1–31 Oct.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 46284,
-      "expectedRevenue": 277704,
-      "buyers": 6,
-      "effectiveDiscountPercent": 20,
-      "validity": {
-        "start": "2027-10-01",
-        "end": "2027-10-31"
-      }
-    },
-    {
-      "slot": "newcomer",
-      "name": "Pay It Forward",
-      "headline": "Gift a month to someone who's never been. You get a fortnight.",
-      "benefit": "You buy a month for someone who has never trained at P57 — 1 Month at 20% off (₹16,191) for them; when they buy their own month within 30 days you get +14 days",
-      "customerCopy": "Gift a month to someone who's never been. You get a fortnight.\n• You buy: You buy a month for someone who has never trained at P57 — 1 Month at 20% off (₹16,191) for them\n• You get: when they buy their own month within 30 days you get +14 days\n• When: Buy 1–31 Oct\n• Good to know: Friend must be new to P57; the +14 days only lands when they buy; Doesn't combine with any other campaign offer.",
-      "internalDescription": "150 in pool × 4.0% plan rate = 6 buyers × ₹16,191 ticket = ₹1.0L (20% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.2L at 20% effective.",
-      "rationale": "Why: Members already refer; Diwali makes the ask normal. The member's reward unlocks only when the friend buys, so it stays acquisition spend.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "Active members with a friend who's never trained.",
-      "conditions": "Friend must be new to P57; the +14 days only lands when they buy; Doesn't combine with any other campaign offer.",
-      "cta": "1–31 Oct.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 16191,
-      "expectedRevenue": 97146,
-      "buyers": 6,
-      "effectiveDiscountPercent": 20,
-      "validity": {
-        "start": "2027-10-01",
-        "end": "2027-10-31"
-      }
-    },
-    {
-      "slot": "lapsed",
-      "name": "Come Home for Diwali",
-      "headline": "Come home for the festival. Stay for the habit. 20% off.",
-      "benefit": "1 Month Unlimited at 20% off (₹16,191) or 3 Months at 22% off (₹45,127) — a Diwali gift box and 2 bonus classes",
-      "customerCopy": "Come home for the festival. Stay for the habit. 20% off.\n• You buy: 1 Month Unlimited at 20% off (₹16,191) or 3 Months at 22% off (₹45,127)\n• You get: a Diwali gift box and 2 bonus classes\n• When: All October\n• Good to know: Lapsed clients; replaces the standing 15% lapsed perk; bonus classes expire 31 Jan; Doesn't combine with any other campaign offer.",
-      "internalDescription": "690 in pool × 3.6% plan rate = 25 buyers × ₹16,191 ticket = ₹4.0L (90% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹1.0L at 20% effective.",
-      "rationale": "Why: Diwali is the one week families regroup in Mumbai; lapsed clients are in town and sentimental.",
-      "objective": "reactivation",
-      "type": "experience",
-      "audience": "Lapsed clients.",
-      "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; bonus classes expire 31 Jan; Doesn't combine with any other campaign offer.",
-      "cta": "All October.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 16191,
-      "expectedRevenue": 404775,
-      "buyers": 25,
-      "effectiveDiscountPercent": 20,
-      "validity": {
-        "start": "2027-10-01",
-        "end": "2027-10-31"
-      }
-    },
-    {
-      "slot": "renewal",
-      "name": "Light Years Ahead",
-      "headline": "Six months, 22% off, through Holi.",
-      "benefit": "6 Months Unlimited at 22% off (₹88,698) — a freeze bank of 10 days through the festival season and a seat in the 2028 Kickstart cohort",
-      "customerCopy": "Six months, 22% off, through Holi.\n• You buy: 6 Months Unlimited at 22% off (₹88,698)\n• You get: a freeze bank of 10 days through the festival season and a seat in the 2028 Kickstart cohort\n• When: Renew 1 Oct–30 Nov\n• Good to know: Members expiring Oct–Dec; freeze bank expires with the plan; Doesn't combine with any other campaign offer.",
-      "internalDescription": "300 in pool × 8.0% plan rate = 22 buyers × ₹88,698 ticket = ₹19.5L (85% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹5.5L at 22% effective.",
-      "rationale": "Why: Members who commit through the festival season skip the November–January lapse cycle, and the ticket lands before the year closes.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "Members expiring October–December.",
-      "conditions": "Members expiring Oct–Dec; freeze bank expires with the plan; Doesn't combine with any other campaign offer.",
-      "cta": "1 Oct–30 Nov.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 88698,
-      "expectedRevenue": 1951356,
-      "buyers": 22,
-      "effectiveDiscountPercent": 22,
-      "validity": {
-        "start": "2027-10-01",
-        "end": "2027-11-30"
-      }
     }
   ]
 }

@@ -1,11 +1,14 @@
 {
   "month": 4,
+  "name": "April",
+  "status": "draft",
   "theme": "Cloud Nine Carnival · 9 years of Physique 57",
   "objective": "The year's flagship: ₹65L at Kwality with no open % codes. Every offer is tied to a carnival game or community event, discounts stay inside the caps (20% on 1 Month or shorter, 15% on 3 Months+), and the economics come from moving members up the ladder (3M, 6M, Club Nine annuals) and keeping April buyers into May.",
   "strategy": "Cloud Nine Carnival · 9 years of Physique 57.\n\nCommercial job: The year's flagship: ₹65L at Kwality with no open % codes. Every offer is tied to a carnival game or community event, discounts stay inside the caps (20% on 1 Month or shorter, 15% on 3 Months+), and the economics come from moving members up the ladder (3M, 6M, Club Nine annuals) and keeping April buyers into May.\n\nNewcomer: Nine Days on Cloud Nine (“Nine days unlimited for ₹999. Then the anniversary price.”). The anniversary deserves a headline entry price; nine days builds the 3+ visit habit that converts at 73–94%.\n\nNewcomer: The Birthday Guest List (“It's our birthday. Bring someone who's never been; you both get presents.”). Members' friends convert better than paid leads, and a party is easier to say yes to than a workout.\n\nWinback: Since Day One (“You first shook with us on {first-class date}. Here's 20% and a class for every year.”). A personal anniversary in the brand's anniversary month is the most relevant reason to come back.\n\nWinback: Nine Lives (“Everyone gets a ninth life. Yours comes at 25% off.”). Clients who bought big before fit a long restart; the deepest discount of the month is reserved for the longest commitment.\n\nRenewal: Pull & Renew (“10% off your renewal, then pull a Golden Envelope. Every envelope wins.”). April 2026 1M sales averaged ₹13,970 (31% off list) on blanket codes. A smaller sure discount plus a game keeps the average ticket near ₹18,000.\n\nRenewal: The Long Game (“The longer you go, the bigger the birthday present.”). Moving members up the ladder lifts cash per renewal 2.3–4.4× and carries them past the June–July trough. The biggest % sits on the longest plan.\n\nRenewal: Club Nine (“Nine numbered annuals. 20% off. Founder perks for life.”). Kwality sold 6 annuals in April 2026 at 25% off with no story. Numbered scarcity, 20% and founder perks should sell all nine.",
-  "notes": "Moment: Cloud Nine Carnival, 1–30 Apr: the Golden Envelope Wall (900 envelopes, published odds), the Wheel of Nine with a 'Keep or Swap' twist, the Passport to Nine, Club Nine Unveiling Night (Sat 17 Apr), Birthday Bash party classes (17–18 Apr), the '9 at 9' nine-instructor class (Sun 18 Apr, 9 am), the Throwback Reunion (Sat 24 Apr) and the 999 Challenge (12–18 Apr: if Kwality checks in 999 classes, every client gets a guest pass).\nBuild: new clients 48 buyers × ₹13,000 = ₹6.2L; reactivation 72 × ₹11,000 = ₹7.9L; privates/retail/drop-ins ₹5.5L; renewals ₹45.3L. First visits needed 179; CRM leads needed 223.",
+  "notes": "Moment: Cloud Nine Carnival, 1–30 Apr: the Golden Envelope Wall (900 envelopes, published odds), the Wheel of Nine with a 'Keep or Swap' twist, the Passport to Nine, Club Nine Unveiling Night (Sat 17 Apr), Birthday Bash party classes (17–18 Apr), the '9 at 9' nine-instructor class (Sun 18 Apr, 9 am), the Throwback Reunion (Sat 24 Apr) and the 999 Challenge (12–18 Apr: if Kwality checks in 999 classes, every client gets a guest pass).\nBuild: new clients 48 buyers × ₹13,000 = ₹6.2L; reactivation 72 × ₹11,000 = ₹7.9L; privates/retail/drop-ins ₹5.5L; renewals ₹45.3L. First visits needed 142 vs 91 last year (1.56×); CRM leads needed 284 vs 168 last year.\nApril guardrails: no offer above 25% effective; the deepest % sits on the longest plans (6 Months 22–25%, Annual 20% + perks), 1 Month renewals at 10% + envelope. Golden Envelope expected value ≈₹1,970 per pull (~10% of a 1M). Envelope stock: 900 (enough for all April renewals, Birthday Guest List referrers and March golden tickets). Product build: 9 Club Nine annuals ₹15.8L, ~21 3M + 7 6M ₹16.0L, ~60 1M/12-class renewals ₹10.8L, new and lapsed ₹12.7L, privates/retail ₹5.5L, BAU balance.",
   "target": 6500000,
   "priorYear": 5001388,
+  "growthPercent": 30,
   "streams": {
     "newClient": 624000,
     "renewal": 4534000,
@@ -13,167 +16,24 @@
     "other": 550000
   },
   "funnel": {
-    "leads": 223,
-    "trials": 179,
+    "leads": 284,
+    "trials": 142,
     "newBuyers": 48,
     "existingPayingRenewals": 290,
     "winbacksNeeded": 72,
-    "expiringMemberships": 320,
-    "renewalCoverage": 0.906,
-    "leadToTrial": 0.8022922636103151,
-    "trialToMember": 0.26865671641791045,
+    "expiringMemberships": 229,
+    "renewalCoverage": 0.552,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.34,
     "spendPerVisit": 1727,
     "firstMonthSpend": 13000,
     "renewalTicket": 15624,
     "winbackTicket": 11000
   },
   "feasibility": "stretch",
-  "keyDates": [
-    {
-      "day": 7,
-      "name": "World Health Day",
-      "kind": "awareness",
-      "approx": false,
-      "note": "Health-led message that opens the carnival."
-    },
-    {
-      "day": 17,
-      "name": "Club Nine Unveiling Night + Birthday Bash",
-      "kind": "brand",
-      "approx": false,
-      "note": "Numbered seats presented; party classes 17–18 Apr."
-    },
-    {
-      "day": 18,
-      "name": "Physique 57 anniversary · 9 years",
-      "kind": "brand",
-      "approx": false,
-      "note": "'9 at 9': a 9 am class taught by nine instructors."
-    },
-    {
-      "day": 24,
-      "name": "Throwback Reunion",
-      "kind": "brand",
-      "approx": false,
-      "note": "Class of 2018 to Class of 2026, plus the Nine Lives Comeback Class."
-    }
-  ],
-  "sections": [
-    {
-      "title": "Week 1 (1–4 Apr): Carnival opens",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Set up Nine Days on Cloud Nine in Momence (1–21 Apr.): 9-Day Unlimited Intro for ₹999 (Barre + powerCycle, max 2 a day, plus 1 Strength Lab Induction seat) — ₹999 credited in full, and if you buy within 72 hours of day 9: 1 Month Unlimited at 20% off (₹16,191) or a 12-class pack at 20% off (₹15,750)."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up The Birthday Guest List in Momence (1–24 Apr.): Your friend's first class free at a Birthday Bash party class (17–18 Apr) or any class 1–24 Apr — if your friend buys within 7 days: 1 Month at 20% off (₹16,191) and a Cloud Nine tote for them, and a Golden Envelope pull for you."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Since Day One in Momence (All April.): 1 Month Unlimited at 20% off (₹16,191) or a 12-class pack at 20% off (₹15,750) — 1 bonus class for every year since your first class (max 2), and a seat at the Throwback Reunion."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Nine Lives in Momence (All April.): 3 Months Unlimited at 22% off (₹45,127) or 6 Months Unlimited at 25% off (₹85,286) — a call from the studio manager, a 30-min private to restart, and a seat at the Nine Lives Comeback Class."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Pull & Renew in Momence (All April.): 1 Month Unlimited at 10% off (₹18,215) or a 12-class pack at 10% off (₹17,719) — one pull from the Golden Envelope Wall — every envelope wins (worth ~₹2,000 on average)."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up The Long Game in Momence (All April.): 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698) — the anniversary ladder — one spin on the Wheel of Nine (Keep or Swap) and +1 guest pass per month of membership."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Club Nine in Momence (1–30 Apr.): Annual Unlimited at 20% off (₹1,75,560, list ₹2,19,450), numbered 1 to 9 — 2 extra privates (4 in total), your name on the Club Nine wall, 48-hour early booking all year, 4 guest passes, a numbered jacket and an anniversary box."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Brief the team on the 7 April offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Nine Days on Cloud Nine to First-time clients (phone verified)."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch The Birthday Guest List to Active members inviting friends new to P57."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Since Day One to Lapsed clients 61 days–3 years with a known first-class date."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Nine Lives to Lapsed clients with ≥₹50k lifetime spend."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Pull & Renew to Active 1 Month and pack members renewing in April."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch The Long Game to Active members expiring April–June, and 1 Month members ready to upgrade."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Club Nine to Active members and lapsed clients with ≥₹1L lifetime spend."
-        },
-        {
-          "value": "Marketing",
-          "detail": "Run paid lead ads for Nine Days on Cloud Nine: 284 CRM leads needed vs 168 in the same month last year."
-        },
-        {
-          "value": "Community lead",
-          "detail": "Golden Envelope Wall live with published odds; Club Nine seat counter at the desk; Passports to Nine handed to every intro client."
-        }
-      ]
-    },
-    {
-      "title": "Week 2 (5–11 Apr): Passport week",
-      "items": [
-        {
-          "value": "Community lead",
-          "detail": "Daily Wheel of Nine spins at 7 pm (Keep or Swap); post the best swaps on Instagram stories."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Weekly check: Nine Days on Cloud Nine: Intros started vs spare seats; stamps per intro (target 5+); intro → purchase (target 45%). | The Birthday Guest List: Guests at Birthday Bash; guest → purchase (target 30%). | Since Day One: Personalised messages sent; reunion RSVPs; purchases. | Nine Lives: Manager calls made; 3M restarts. | Pull & Renew: Envelopes pulled; 1M average ticket (target ≥₹19,000 vs ₹13,970 in 2026). | The Long Game: 3M/6M share of renewal value (target ≥40%); spins taken. | Club Nine: Seat counter (plan 7 by 30 Apr)."
-        }
-      ]
-    },
-    {
-      "title": "Week 3 (12–18 Apr): Birthday week",
-      "items": [
-        {
-          "value": "Community lead",
-          "detail": "999 Challenge (12–18 Apr) with a live tally; Club Nine Unveiling Night Sat 17 Apr; Birthday Bash classes 17–18 Apr; '9 at 9' nine-instructor class Sun 18 Apr."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Mid-month review against ₹65.0L: by the 15th aim for about half of 290 renewals, 72 reactivations and 48 new buyers (142 first visits). Push the lists, not a deeper discount."
-        }
-      ]
-    },
-    {
-      "title": "Week 4 (19–30 Apr): Throwback and last call",
-      "items": [
-        {
-          "value": "Community lead",
-          "detail": "Throwback Reunion and Nine Lives Comeback Class Sat 24 Apr; last-week envelope countdown."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Hard close 30 Apr, 23:59. Tag every redemption; hand every April buyer to the May Afterparty plan with a week-1 call."
-        }
-      ]
-    }
-  ],
   "offers": [
     {
+      "id": 2399,
       "slot": "newcomer",
       "name": "Nine Days on Cloud Nine",
       "headline": "Nine days unlimited for ₹999. Then the anniversary price.",
@@ -184,6 +44,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "First-time clients (phone verified).",
+      "excludedAudience": null,
       "conditions": "One intro per person (phone verified); start 1–21 Apr; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
       "cta": "1–21 Apr.",
       "status": "draft",
@@ -193,12 +54,15 @@
       "expectedRevenue": 416000,
       "buyers": 26,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-21"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2507,
       "slot": "newcomer",
       "name": "The Birthday Guest List",
       "headline": "It's our birthday. Bring someone who's never been; you both get presents.",
@@ -209,6 +73,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "Active members inviting friends new to P57.",
+      "excludedAudience": null,
       "conditions": "Friend must be new to P57 (phone verified); one envelope per new buyer you bring; Doesn't combine with any other campaign offer.",
       "cta": "1–24 Apr.",
       "status": "draft",
@@ -218,12 +83,15 @@
       "expectedRevenue": 129528,
       "buyers": 8,
       "effectiveDiscountPercent": 24,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-24"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2400,
       "slot": "lapsed",
       "name": "Since Day One",
       "headline": "You first shook with us on {first-class date}. Here's 20% and a class for every year.",
@@ -234,6 +102,7 @@
       "objective": "reactivation",
       "type": "experience",
       "audience": "Lapsed clients 61 days–3 years with a known first-class date.",
+      "excludedAudience": null,
       "conditions": "Lapsed clients with a known first-class date; replaces the standing 15% lapsed perk; ≤25% effective; Doesn't combine with any other campaign offer.",
       "cta": "All April.",
       "status": "draft",
@@ -243,12 +112,15 @@
       "expectedRevenue": 448000,
       "buyers": 28,
       "effectiveDiscountPercent": 25,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2508,
       "slot": "lapsed",
       "name": "Nine Lives",
       "headline": "Everyone gets a ninth life. Yours comes at 25% off.",
@@ -259,6 +131,7 @@
       "objective": "reactivation",
       "type": "experience",
       "audience": "Lapsed clients with ≥₹50k lifetime spend.",
+      "excludedAudience": null,
       "conditions": "Lapsed clients with ≥₹50k lifetime spend; named list; Doesn't combine with any other campaign offer.",
       "cta": "All April.",
       "status": "draft",
@@ -268,12 +141,15 @@
       "expectedRevenue": 275000,
       "buyers": 5,
       "effectiveDiscountPercent": 24,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2509,
       "slot": "renewal",
       "name": "Pull & Renew",
       "headline": "10% off your renewal, then pull a Golden Envelope. Every envelope wins.",
@@ -284,6 +160,7 @@
       "objective": "retention",
       "type": "experience",
       "audience": "Active 1 Month and pack members renewing in April.",
+      "excludedAudience": null,
       "conditions": "One pull per renewal; ≈20% effective with the average prize; Doesn't combine with any other campaign offer.",
       "cta": "All April.",
       "status": "draft",
@@ -293,12 +170,15 @@
       "expectedRevenue": 1080000,
       "buyers": 60,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2402,
       "slot": "renewal",
       "name": "The Long Game",
       "headline": "The longer you go, the bigger the birthday present.",
@@ -309,6 +189,7 @@
       "objective": "retention",
       "type": "experience",
       "audience": "Active members expiring April–June, and 1 Month members ready to upgrade.",
+      "excludedAudience": null,
       "conditions": "Renewals and upgrades from 1 Month welcome; 1–30 Apr; Doesn't combine with any other campaign offer.",
       "cta": "All April.",
       "status": "draft",
@@ -318,12 +199,15 @@
       "expectedRevenue": 1596000,
       "buyers": 28,
       "effectiveDiscountPercent": 21,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2510,
       "slot": "renewal",
       "name": "Club Nine",
       "headline": "Nine numbered annuals. 20% off. Founder perks for life.",
@@ -334,6 +218,7 @@
       "objective": "retention",
       "type": "experience",
       "audience": "Active members and lapsed clients with ≥₹1L lifetime spend.",
+      "excludedAudience": null,
       "conditions": "9 seats only, public seat counter, no seats added; ≈25% effective with perks; Doesn't combine with any other campaign offer.",
       "cta": "1–30 Apr.",
       "status": "draft",
@@ -343,10 +228,191 @@
       "expectedRevenue": 1580040,
       "buyers": 9,
       "effectiveDiscountPercent": 25,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
-      }
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 7,
+      "end": null,
+      "date": "2027-04-07",
+      "name": "World Health Day",
+      "kind": "awareness",
+      "label": "Wellness moment",
+      "approx": false,
+      "note": "Health-led message that opens the carnival."
+    },
+    {
+      "day": 17,
+      "end": null,
+      "date": "2027-04-17",
+      "name": "Club Nine Unveiling Night + Birthday Bash",
+      "kind": "brand",
+      "label": "P57 moment",
+      "approx": false,
+      "note": "Numbered seats presented; party classes 17–18 Apr."
+    },
+    {
+      "day": 18,
+      "end": null,
+      "date": "2027-04-18",
+      "name": "Physique 57 anniversary · 9 years",
+      "kind": "brand",
+      "label": "P57 moment",
+      "approx": false,
+      "note": "'9 at 9': a 9 am class taught by nine instructors."
+    },
+    {
+      "day": 24,
+      "end": null,
+      "date": "2027-04-24",
+      "name": "Throwback Reunion",
+      "kind": "brand",
+      "label": "P57 moment",
+      "approx": false,
+      "note": "Class of 2018 to Class of 2026, plus the Nine Lives Comeback Class."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1 (1–4 Apr): Carnival opens",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Nine Days on Cloud Nine in Momence (1–21 Apr.): 9-Day Unlimited Intro for ₹999 (Barre + powerCycle, max 2 a day, plus 1 Strength Lab Induction seat) — ₹999 credited in full, and if you buy within 72 hours of day 9: 1 Month Unlimited at 20% off (₹16,191) or a 12-class pack at 20% off (₹15,750)."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The Birthday Guest List in Momence (1–24 Apr.): Your friend's first class free at a Birthday Bash party class (17–18 Apr) or any class 1–24 Apr — if your friend buys within 7 days: 1 Month at 20% off (₹16,191) and a Cloud Nine tote for them, and a Golden Envelope pull for you."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Since Day One in Momence (All April.): 1 Month Unlimited at 20% off (₹16,191) or a 12-class pack at 20% off (₹15,750) — 1 bonus class for every year since your first class (max 2), and a seat at the Throwback Reunion."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Nine Lives in Momence (All April.): 3 Months Unlimited at 22% off (₹45,127) or 6 Months Unlimited at 25% off (₹85,286) — a call from the studio manager, a 30-min private to restart, and a seat at the Nine Lives Comeback Class."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Pull & Renew in Momence (All April.): 1 Month Unlimited at 10% off (₹18,215) or a 12-class pack at 10% off (₹17,719) — one pull from the Golden Envelope Wall — every envelope wins (worth ~₹2,000 on average)."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The Long Game in Momence (All April.): 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698) — the anniversary ladder — one spin on the Wheel of Nine (Keep or Swap) and +1 guest pass per month of membership."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Club Nine in Momence (1–30 Apr.): Annual Unlimited at 20% off (₹1,75,560, list ₹2,19,450), numbered 1 to 9 — 2 extra privates (4 in total), your name on the Club Nine wall, 48-hour early booking all year, 4 guest passes, a numbered jacket and an anniversary box."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 7 April offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Nine Days on Cloud Nine to First-time clients (phone verified)."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The Birthday Guest List to Active members inviting friends new to P57."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Since Day One to Lapsed clients 61 days–3 years with a known first-class date."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Nine Lives to Lapsed clients with ≥₹50k lifetime spend."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Pull & Renew to Active 1 Month and pack members renewing in April."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The Long Game to Active members expiring April–June, and 1 Month members ready to upgrade."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Club Nine to Active members and lapsed clients with ≥₹1L lifetime spend."
+        },
+        {
+          "label": "",
+          "value": "Marketing",
+          "detail": "Run paid lead ads for Nine Days on Cloud Nine: 284 CRM leads needed vs 168 in the same month last year."
+        },
+        {
+          "label": "",
+          "value": "Community lead",
+          "detail": "Golden Envelope Wall live with published odds; Club Nine seat counter at the desk; Passports to Nine handed to every intro client."
+        }
+      ]
+    },
+    {
+      "title": "Week 2 (5–11 Apr): Passport week",
+      "items": [
+        {
+          "label": "",
+          "value": "Community lead",
+          "detail": "Daily Wheel of Nine spins at 7 pm (Keep or Swap); post the best swaps on Instagram stories."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: Nine Days on Cloud Nine: Intros started vs spare seats; stamps per intro (target 5+); intro → purchase (target 45%). | The Birthday Guest List: Guests at Birthday Bash; guest → purchase (target 30%). | Since Day One: Personalised messages sent; reunion RSVPs; purchases. | Nine Lives: Manager calls made; 3M restarts. | Pull & Renew: Envelopes pulled; 1M average ticket (target ≥₹19,000 vs ₹13,970 in 2026). | The Long Game: 3M/6M share of renewal value (target ≥40%); spins taken. | Club Nine: Seat counter (plan 7 by 30 Apr)."
+        }
+      ]
+    },
+    {
+      "title": "Week 3 (12–18 Apr): Birthday week",
+      "items": [
+        {
+          "label": "",
+          "value": "Community lead",
+          "detail": "999 Challenge (12–18 Apr) with a live tally; Club Nine Unveiling Night Sat 17 Apr; Birthday Bash classes 17–18 Apr; '9 at 9' nine-instructor class Sun 18 Apr."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹65.0L: by the 15th aim for about half of 290 renewals, 72 reactivations and 48 new buyers (142 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4 (19–30 Apr): Throwback and last call",
+      "items": [
+        {
+          "label": "",
+          "value": "Community lead",
+          "detail": "Throwback Reunion and Nine Lives Comeback Class Sat 24 Apr; last-week envelope countdown."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Hard close 30 Apr, 23:59. Tag every redemption; hand every April buyer to the May Afterparty plan with a week-1 call."
+        }
+      ]
     }
   ]
 }

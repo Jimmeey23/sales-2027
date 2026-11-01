@@ -1,11 +1,14 @@
 {
   "month": 1,
+  "name": "January",
+  "status": "draft",
   "theme": "The Dress Rehearsal",
   "objective": "Turn New Year intent into memberships that are active on 1 Feb, so every buyer walks into Stronger in 30 2.0 already in the habit. Re-up the 8 Jan-2026 annuals at list.",
   "strategy": "The Dress Rehearsal.\n\nCommercial job: Turn New Year intent into memberships that are active on 1 Feb, so every buyer walks into Stronger in 30 2.0 already in the habit. Re-up the 8 Jan-2026 annuals at list.\n\nNewcomer: Week Zero, Hero (“Seven days unlimited for ₹1,999. Then 20% off if you stay.”). Speed is the lever: 60% of first-timers never return, and buyers who decide inside 72 hours stay longer. A 20% window that shrinks to 10% rewards the fast yes.\n\nNewcomer: Resolution Insurance (“Keep your resolution and month two is 25% off.”). Only 34–40% of new clients buy a second time within 90 days. The bigger discount sits on purchase two and is earned by the attendance that predicts staying.\n\nNewcomer: Kickstart 21: Opening Act (“21 coached days, then 20% off and straight into the challenge.”). Nervous January starters need a group, a coach and a finish line; graduation lands on challenge day one.\n\nWinback: The Ex Factor (“Your ex wants you back. (It's us.) And it's paying 20% to say sorry.”). The challenge is members-only, so lapsed clients need a membership to join. A real 20% plus a deadline beats a reminder; the 3-month option lifts the ticket.\n\nRenewal: Thirteen Is the New Twelve (“Your annual: 15% off, and the 13th month is on us.”). ₹12.5L of annuals come due in January. Losing one costs ₹1.9L; a 21% effective renewal keeps them and the cash upfront.\n\nRenewal: Beat the Buzzer (“Renew before you expire, and go longer for less.”). Members whose plan lapses mid-challenge are the likeliest to drop. Rewarding early, longer renewals removes the gap and lifts cash per renewal 2.3–4.4×.",
-  "notes": "Moment: January is the rehearsal, February is the show: every January buyer is pre-registered for Stronger in 30 2.0 (1 Feb–2 Mar) and gets a 'rehearsal card' that counts January classes toward a head-start badge.\nBuild: new clients 52 buyers × ₹12,000 = ₹6.2L; reactivation 38 × ₹11,468 = ₹4.4L; privates/retail/drop-ins ₹3.0L; renewals ₹18.4L. First visits needed 194; CRM leads needed 242.",
+  "notes": "Moment: January is the rehearsal, February is the show: every January buyer is pre-registered for Stronger in 30 2.0 (1 Feb–2 Mar) and gets a 'rehearsal card' that counts January classes toward a head-start badge.\nBuild: new clients 52 buyers × ₹12,000 = ₹6.2L; reactivation 38 × ₹11,468 = ₹4.4L; privates/retail/drop-ins ₹3.0L; renewals ₹18.4L. First visits needed 174 vs 121 last year (1.44×); CRM leads needed 348 vs 177 last year.\nDiscount policy: max 25% effective on any offer; 20% is the campaign rate for 1 Month/12-class (replacing the standing 15%), 18–22% on 3–6 Months, 25% only on 6 Months/Annual in tentpole windows; 1 Month renewals get ≤10% plus non-price perks.\nAssumptions for the whole plan: lead→trial 50% (Kwality CRM Oct-25–Sep-26: 51%); trial→member 30% (observed 25–27%, lifted by the new client journeys; 32% Feb, 34% Apr); renewal rate 70% (observed 66%, lifted by finisher/afterparty bonuses); first-month spend ₹12,000 (observed ₹10,694; offers steer to 1M/12-class). Data gaps: no trial no-show data; CRM trial status misses walk-ins; lapsed response rates (3–6%) are hypotheses. Track all four weekly from January.",
   "target": 3200000,
   "priorYear": 2744705,
+  "growthPercent": 16.6,
   "streams": {
     "newClient": 624000,
     "renewal": 1840216,
@@ -13,126 +16,24 @@
     "other": 300000
   },
   "funnel": {
-    "leads": 242,
-    "trials": 194,
+    "leads": 348,
+    "trials": 174,
     "newBuyers": 52,
     "existingPayingRenewals": 185,
     "winbacksNeeded": 38,
     "expiringMemberships": 219,
-    "renewalCoverage": 0.845,
-    "leadToTrial": 0.8022922636103151,
-    "trialToMember": 0.26865671641791045,
+    "renewalCoverage": 0.83,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
     "spendPerVisit": 1727,
     "firstMonthSpend": 12000,
     "renewalTicket": 9959,
     "winbackTicket": 11468
   },
   "feasibility": "stretch",
-  "keyDates": [
-    {
-      "day": 1,
-      "name": "New Year",
-      "kind": "retail",
-      "approx": false,
-      "note": "Sell the restart — and the February challenge."
-    }
-  ],
-  "sections": [
-    {
-      "title": "Week 1",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Set up Week Zero, Hero in Momence (1–24 Jan.): 7-Day Unlimited Intro (Barre + powerCycle, max 2 a day) for ₹1,999 — the ₹1,999 credited in full, and if you buy within 72 hours of day 7: 1 Month Unlimited at 20% off (₹16,191, list ₹20,239) or a 12-class pack at 20% off (₹15,750, list ₹19,688). Days 4–14 after: 10% off."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Resolution Insurance in Momence (1–31 Jan.): 1 Month Unlimited at list (₹20,239) — take 12+ classes in your first 30 days and your second month is 25% off (₹15,179). Two months for ₹35,418."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Kickstart 21: Opening Act in Momence (Book by 2 Jan.): Kickstart 21 cohort for ₹9,999 (Mon 4 Jan – Sun 24 Jan): 21 days unlimited, a coach, 2 fitness checks and a WhatsApp group — graduates get 1 Month Unlimited at 20% off (₹16,191) within 7 days and a Rookie-track entry to Stronger in 30 2.0."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up The Ex Factor in Momence (1–31 Jan.): 1 Month Unlimited at 20% off (₹16,191) or 3 Months Unlimited at 22% off (₹45,127) — a free comeback class to book first, and automatic entry to Stronger in 30 2.0 if your membership is active on 1 Feb."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Thirteen Is the New Twelve in Momence (1–31 Jan.): Annual Unlimited at 15% off (₹1,86,533, list ₹2,19,450) — 13 months instead of 12, 2 guest passes and 48-hour early booking for Stronger in 30 week one."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Beat the Buzzer in Momence (10 Jan–5 Feb.): 3 Months Unlimited at 18% off (₹47,441) or 6 Months Unlimited at 22% off (₹88,698), renewed before your current plan ends — 48-hour early booking for challenge week one. Staying on 1 Month? Renew at list and get +3 days."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Brief the team on the 6 January offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Week Zero, Hero to First-time clients (phone verified)."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Resolution Insurance to First-time clients who want unlimited from day one."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Kickstart 21: Opening Act to First-time clients who want structure."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch The Ex Factor to Clients lapsed 61–365 days."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Thirteen Is the New Twelve to The 8 Jan-2026 annual members."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Beat the Buzzer to Active members expiring 10 Jan–15 Feb."
-        },
-        {
-          "value": "Marketing",
-          "detail": "Run paid lead ads for Week Zero, Hero: 348 CRM leads needed vs 177 in the same month last year."
-        }
-      ]
-    },
-    {
-      "title": "Week 2",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Run the month's moment: January is the rehearsal, February is the show: every January buyer is pre-registered for Stronger in 30 2.0 (1 Feb–2 Mar) and gets a 'rehearsal card' that counts January classes toward a head-start badge."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Weekly check: Week Zero, Hero: Intro → purchase (target 45%); 4+ classes in the intro week. | Resolution Insurance: Share hitting 12 classes; second-month take-up (target 70%). | Kickstart 21: Opening Act: Cohort fill (14 seats); graduates buying within 7 days (target 70%). | The Ex Factor: Comeback classes booked; comeback → purchase (target 35%). | Thirteen Is the New Twelve: Annuals re-upped (plan 4 of 8; each extra one is ₹2.2L). | Beat the Buzzer: Renewal yield on Jan–mid-Feb expiries (target 70%)."
-        }
-      ]
-    },
-    {
-      "title": "Week 3",
-      "items": [
-        {
-          "value": "Sales lead",
-          "detail": "Mid-month review against ₹32.0L: by the 15th aim for about half of 185 renewals, 38 reactivations and 52 new buyers (174 first visits). Push the lists, not a deeper discount."
-        }
-      ]
-    },
-    {
-      "title": "Week 4",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Close January: tag every redemption by offer, record results, and brief February's offers."
-        }
-      ]
-    }
-  ],
   "offers": [
     {
+      "id": 2712,
       "slot": "newcomer",
       "name": "Week Zero, Hero",
       "headline": "Seven days unlimited for ₹1,999. Then 20% off if you stay.",
@@ -143,6 +44,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "First-time clients (phone verified).",
+      "excludedAudience": null,
       "conditions": "One intro per person (phone verified); the 20% replaces the standing 15% new-client perk; Strength Lab not included; Doesn't combine with any other campaign offer.",
       "cta": "1–24 Jan.",
       "status": "draft",
@@ -152,12 +54,15 @@
       "expectedRevenue": 288000,
       "buyers": 18,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-01-01",
         "end": "2027-01-24"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2501,
       "slot": "newcomer",
       "name": "Resolution Insurance",
       "headline": "Keep your resolution and month two is 25% off.",
@@ -168,6 +73,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "First-time clients who want unlimited from day one.",
+      "excludedAudience": null,
       "conditions": "New clients only; replaces the standing 15% (you choose one); second month must start within 7 days of the first ending; Doesn't combine with any other campaign offer.",
       "cta": "1–31 Jan.",
       "status": "draft",
@@ -177,12 +83,15 @@
       "expectedRevenue": 141673,
       "buyers": 7,
       "effectiveDiscountPercent": 12.5,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-01-01",
         "end": "2027-01-31"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2502,
       "slot": "newcomer",
       "name": "Kickstart 21: Opening Act",
       "headline": "21 coached days, then 20% off and straight into the challenge.",
@@ -193,6 +102,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "First-time clients who want structure.",
+      "excludedAudience": null,
       "conditions": "Cohort fee not credited; max 14 per cohort; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
       "cta": "Book by 2 Jan.",
       "status": "draft",
@@ -202,12 +112,15 @@
       "expectedRevenue": 144000,
       "buyers": 8,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2026-12-15",
         "end": "2027-01-02"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2384,
       "slot": "lapsed",
       "name": "The Ex Factor",
       "headline": "Your ex wants you back. (It's us.) And it's paying 20% to say sorry.",
@@ -218,6 +131,7 @@
       "objective": "reactivation",
       "type": "experience",
       "audience": "Clients lapsed 61–365 days.",
+      "excludedAudience": null,
       "conditions": "Clients lapsed 61–365 days; the campaign % replaces the standing 15% lapsed perk; buy by 31 Jan; Doesn't combine with any other campaign offer.",
       "cta": "1–31 Jan.",
       "status": "draft",
@@ -227,12 +141,15 @@
       "expectedRevenue": 396000,
       "buyers": 18,
       "effectiveDiscountPercent": 21,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-01-01",
         "end": "2027-01-31"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2503,
       "slot": "renewal",
       "name": "Thirteen Is the New Twelve",
       "headline": "Your annual: 15% off, and the 13th month is on us.",
@@ -243,6 +160,7 @@
       "objective": "retention",
       "type": "experience",
       "audience": "The 8 Jan-2026 annual members.",
+      "excludedAudience": null,
       "conditions": "For the 8 members whose Jan-2026 annual is due; renew 1–31 Jan; ≈21% effective; Doesn't combine with any other campaign offer.",
       "cta": "1–31 Jan.",
       "status": "draft",
@@ -252,12 +170,15 @@
       "expectedRevenue": 932665,
       "buyers": 5,
       "effectiveDiscountPercent": 21,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-01-01",
         "end": "2027-01-31"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2386,
       "slot": "renewal",
       "name": "Beat the Buzzer",
       "headline": "Renew before you expire, and go longer for less.",
@@ -268,6 +189,7 @@
       "objective": "retention",
       "type": "experience",
       "audience": "Active members expiring 10 Jan–15 Feb.",
+      "excludedAudience": null,
       "conditions": "Members expiring 10 Jan–15 Feb; offer ends the day your plan expires; Doesn't combine with any other campaign offer.",
       "cta": "10 Jan–5 Feb.",
       "status": "draft",
@@ -277,10 +199,136 @@
       "expectedRevenue": 660000,
       "buyers": 22,
       "effectiveDiscountPercent": 18,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-01-10",
         "end": "2027-02-05"
-      }
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 1,
+      "end": null,
+      "date": "2027-01-01",
+      "name": "New Year",
+      "kind": "retail",
+      "label": "Retail moment",
+      "approx": false,
+      "note": "Sell the restart — and the February challenge."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Week Zero, Hero in Momence (1–24 Jan.): 7-Day Unlimited Intro (Barre + powerCycle, max 2 a day) for ₹1,999 — the ₹1,999 credited in full, and if you buy within 72 hours of day 7: 1 Month Unlimited at 20% off (₹16,191, list ₹20,239) or a 12-class pack at 20% off (₹15,750, list ₹19,688). Days 4–14 after: 10% off."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Resolution Insurance in Momence (1–31 Jan.): 1 Month Unlimited at list (₹20,239) — take 12+ classes in your first 30 days and your second month is 25% off (₹15,179). Two months for ₹35,418."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Kickstart 21: Opening Act in Momence (Book by 2 Jan.): Kickstart 21 cohort for ₹9,999 (Mon 4 Jan – Sun 24 Jan): 21 days unlimited, a coach, 2 fitness checks and a WhatsApp group — graduates get 1 Month Unlimited at 20% off (₹16,191) within 7 days and a Rookie-track entry to Stronger in 30 2.0."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The Ex Factor in Momence (1–31 Jan.): 1 Month Unlimited at 20% off (₹16,191) or 3 Months Unlimited at 22% off (₹45,127) — a free comeback class to book first, and automatic entry to Stronger in 30 2.0 if your membership is active on 1 Feb."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Thirteen Is the New Twelve in Momence (1–31 Jan.): Annual Unlimited at 15% off (₹1,86,533, list ₹2,19,450) — 13 months instead of 12, 2 guest passes and 48-hour early booking for Stronger in 30 week one."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Beat the Buzzer in Momence (10 Jan–5 Feb.): 3 Months Unlimited at 18% off (₹47,441) or 6 Months Unlimited at 22% off (₹88,698), renewed before your current plan ends — 48-hour early booking for challenge week one. Staying on 1 Month? Renew at list and get +3 days."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 6 January offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Week Zero, Hero to First-time clients (phone verified)."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Resolution Insurance to First-time clients who want unlimited from day one."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Kickstart 21: Opening Act to First-time clients who want structure."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The Ex Factor to Clients lapsed 61–365 days."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Thirteen Is the New Twelve to The 8 Jan-2026 annual members."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Beat the Buzzer to Active members expiring 10 Jan–15 Feb."
+        },
+        {
+          "label": "",
+          "value": "Marketing",
+          "detail": "Run paid lead ads for Week Zero, Hero: 348 CRM leads needed vs 177 in the same month last year."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Run the month's moment: January is the rehearsal, February is the show: every January buyer is pre-registered for Stronger in 30 2.0 (1 Feb–2 Mar) and gets a 'rehearsal card' that counts January classes toward a head-start badge."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: Week Zero, Hero: Intro → purchase (target 45%); 4+ classes in the intro week. | Resolution Insurance: Share hitting 12 classes; second-month take-up (target 70%). | Kickstart 21: Opening Act: Cohort fill (14 seats); graduates buying within 7 days (target 70%). | The Ex Factor: Comeback classes booked; comeback → purchase (target 35%). | Thirteen Is the New Twelve: Annuals re-upped (plan 4 of 8; each extra one is ₹2.2L). | Beat the Buzzer: Renewal yield on Jan–mid-Feb expiries (target 70%)."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹32.0L: by the 15th aim for about half of 185 renewals, 38 reactivations and 52 new buyers (174 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Close January: tag every redemption by offer, record results, and brief February's offers."
+        }
+      ]
     }
   ]
 }

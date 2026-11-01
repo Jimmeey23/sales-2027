@@ -1,186 +1,80 @@
 {
   "month": 9,
+  "name": "September",
+  "status": "draft",
   "theme": "57 Days to Diwali",
-  "objective": "Build the Diwali runway and sell the biggest tickets of the year (6 Months and privates) before the festival season, when clients commit for the season rather than the month.",
-  "strategy": "57 Days to Diwali.\n\nCommercial job: Build the Diwali runway and sell the biggest tickets of the year (6 Months and privates) before the festival season, when clients commit for the season rather than the month.\n\nNewcomer: The 57-Day Proof (“57 days. Then you'll know.”). A 57-day runway is the story of the quarter; a 3-month entry attaches newcomers to the whole festive season instead of a week.\n\nNewcomer: Private Matters (“Your first private, 25% off. Your first month, 20% off.”). Biggest ticket, best retention, and privates are capacity we already have.\n\nWinback: The Return Policy (“No penalties for the year you took off. Come back at 20%.”). Festival season is the natural moment for a reset, and the framing removes the guilt of the gap.\n\nRenewal: Festive Pause Button (“Freeze for the festivals. Pay for the season.”). Clients won't train Diwali week; selling 3 Months with freezes protects the renewal and the ticket.\n\nRenewal: Private Matters (renewal) — for existing 3M+ members, a private pack at 20% off keeps them in and lifts the ticket.",
-  "notes": "Moment: Diwali runway: 57 days to Diwali (29 Oct 2027) with a weekly countdown, a 'Festive Pause' plan for members travelling, and the Navratri / Durga Puja class window (28 Sep–1 Oct).\nBuild: new clients ₹6.2L (10 on the 3-month entry at ₹46,284); reactivation 38 × ₹11,468 = ₹4.3L; privates/retail/drop-ins ₹3.0L; renewals ₹26.0L. First visits needed 179; CRM leads needed 223.",
+  "objective": "Carry race momentum into the festive season; lock 3-month memberships before the October–December dip; grow privates.",
+  "strategy": "57 Days to Diwali.\n\nCommercial job: Carry race momentum into the festive season; lock 3-month memberships before the October–December dip; grow privates.\n\nNewcomer: The 57-Day Proof (“Measure on day 1. Re-test before Diwali. Or your next month is free.”). A results promise is more persuasive than a bigger %, and the 20-class condition makes the guarantee rarely paid.\n\nWinback: The Return Policy (“Come back within 7 days of your comeback class: 20% off and a bonus.”). A 7-day window keeps decisions fast.\n\nRenewal: Festive Pause Button (“Three months at 18% off. Diwali and year-end travel covered.”). October–December are troughs; locking 3 Months now carries members through them.\n\nRenewal: Private Matters (“Ten privates at 15% off, booked before the festive rush.”). Privates are Kwality's highest-value add-on (₹5.1L in Sep-2026); a pack sold before Diwali fills trainers' quiet October hours.",
+  "notes": "Moment: 57 Days to Diwali countdown (Thu 2 Sep → Thu 28 Oct): weekly countdown classes and a studio 'Diwali Fit Check' re-test day on Sat 23 Oct.\nBuild: new clients 44 buyers × ₹12,000 = ₹5.3L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹4.8L; renewals ₹25.3L. First visits needed 147 vs 136 last year (1.08×); CRM leads needed 294 vs 189 last year.",
   "target": 3950000,
   "priorYear": 3206431,
+  "growthPercent": 23.2,
   "streams": {
-    "newClient": 620000,
-    "renewal": 2599888,
-    "reactivation": 430112,
-    "other": 300000
+    "newClient": 528000,
+    "renewal": 2529152,
+    "reactivation": 412848,
+    "other": 480000
   },
   "funnel": {
-    "leads": 223,
-    "trials": 179,
-    "newBuyers": 48,
-    "existingPayingRenewals": 217,
-    "winbacksNeeded": 38,
-    "expiringMemberships": 290,
-    "renewalCoverage": 0.748,
-    "leadToTrial": 0.8022922636103151,
-    "trialToMember": 0.26865671641791045,
+    "leads": 294,
+    "trials": 147,
+    "newBuyers": 44,
+    "existingPayingRenewals": 242,
+    "winbacksNeeded": 36,
+    "expiringMemberships": 269,
+    "renewalCoverage": 0.779,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
     "spendPerVisit": 1727,
-    "firstMonthSpend": 13000,
-    "renewalTicket": 11981,
+    "firstMonthSpend": 12000,
+    "renewalTicket": 10458,
     "winbackTicket": 11468
   },
-  "feasibility": "stretch",
-  "keyDates": [
-    {
-      "day": 2,
-      "name": "57 Days to Diwali begins",
-      "kind": "brand",
-      "approx": false,
-      "note": "Diwali falls on 29 Oct 2027; every week is one week closer."
-    },
-    {
-      "day": 28,
-      "name": "Navratri / Durga Puja window",
-      "kind": "festival",
-      "approx": true,
-      "note": "Dates approx — confirm with the festival calendar."
-    }
-  ],
-  "sections": [
-    {
-      "title": "Week 1",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Set up The 57-Day Proof in Momence (1 Sep–15 Oct.): 3 Months Unlimited at 20% off (₹46,284) — 57 classes in 57 days unlocks 2 bonus privates and Diwali-week priority booking."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Private Matters in Momence (All Sept.): Your first 30-min private at 25% off (₹2,500) and 1 Month Unlimited at 20% off (₹16,191)."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up The Return Policy in Momence (All Sept.): 1 Month Unlimited at 20% off (₹16,191) or a 12-class pack at 20% off (₹15,750) — a written 'return policy' that waives any admin fee."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Festive Pause Button in Momence (All Sept.): 3 Months Unlimited at 15% off (₹49,177) — freezes around Diwali with no limit."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Brief the team on the 4 September offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch The 57-Day Proof to First-time clients."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Private Matters to First-time clients wanting 1:1."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch The Return Policy to Lapsed clients."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Festive Pause Button to Members renewing in September."
-        }
-      ]
-    },
-    {
-      "title": "Week 2",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Run the month's moment: Diwali runway: 57 days to Diwali with a weekly countdown, a 'Festive Pause' plan for members travelling, and Navratri / Durga Puja class window (28 Sep–1 Oct)."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Weekly check: The 57-Day Proof: 57-day entries; finish rate. | Private Matters: Privates sold; first-month conversion. | The Return Policy: Lapsed messages; purchases. | Festive Pause Button: 3M renewals; freezes. | Private Pack Renewal: Pack sales."
-        }
-      ]
-    },
-    {
-      "title": "Week 3",
-      "items": [
-        {
-          "value": "Sales lead",
-          "detail": "Mid-month review against ₹39.5L: by the 15th aim for about half of 260 renewals, 40 reactivations and 48 new buyers (146 first visits). Push the lists, not a deeper discount."
-        }
-      ]
-    },
-    {
-      "title": "Week 4",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Close September: tag every redemption by offer, record results, and brief October's offers."
-        }
-      ]
-    }
-  ],
+  "feasibility": "balanced",
   "offers": [
     {
+      "id": 2424,
       "slot": "newcomer",
       "name": "The 57-Day Proof",
-      "headline": "57 days. Then you'll know.",
-      "benefit": "3 Months Unlimited at 20% off (₹46,284) — 57 classes in 57 days unlocks 2 bonus privates and Diwali-week priority booking",
-      "customerCopy": "57 days. Then you'll know.\n• You buy: 3 Months Unlimited at 20% off (₹46,284)\n• You get: 57 classes in 57 days unlocks 2 bonus privates and Diwali-week priority booking\n• When: Start 1 Sep–15 Oct\n• Good to know: First purchase of 3 Months or longer; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
-      "internalDescription": "292 in pool × 3.4% plan rate = 10 buyers × ₹46,284 ticket = ₹4.6L (75% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹1.2L at 20% effective.",
-      "rationale": "Why: A 57-day runway is the story of the quarter; a 3-month entry attaches newcomers to the whole festive season instead of a week.",
+      "headline": "Measure on day 1. Re-test before Diwali. Or your next month is free.",
+      "benefit": "1 Month Unlimited at 15% off (₹17,203) — a fitness check on day 1, coach check-ins, and a re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures = your next month free",
+      "customerCopy": "Measure on day 1. Re-test before Diwali. Or your next month is free.\n• You buy: 1 Month Unlimited at 15% off (₹17,203)\n• You get: a fitness check on day 1, coach check-ins, and a re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures = your next month free\n• When: Buy 2–30 Sep\n• Good to know: Same protocol for everyone; buy 2–30 Sep; Doesn't combine with any other campaign offer.",
+      "internalDescription": "147 in pool × 15.0% plan rate = 22 buyers × ₹17,203 ticket = ₹3.8L (72% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 15% effective.",
+      "rationale": "Why: A results promise is more persuasive than a bigger %, and the 20-class condition makes the guarantee rarely paid.",
       "objective": "acquisition",
       "type": "experience",
       "audience": "First-time clients.",
-      "conditions": "First purchase of 3 Months or longer; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
-      "cta": "1 Sep–15 Oct.",
+      "excludedAudience": null,
+      "conditions": "Same protocol for everyone; buy 2–30 Sep; Doesn't combine with any other campaign offer.",
+      "cta": "2–30 Sep.",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 46284,
-      "expectedRevenue": 462840,
-      "buyers": 10,
-      "effectiveDiscountPercent": 20,
+      "price": 17203,
+      "expectedRevenue": 378466,
+      "buyers": 22,
+      "effectiveDiscountPercent": 15,
+      "contributionMargin": 0,
       "validity": {
-        "start": "2027-09-01",
-        "end": "2027-10-15"
-      }
-    },
-    {
-      "slot": "newcomer",
-      "name": "Private Matters",
-      "headline": "Your first private, 25% off. Your first month, 20% off.",
-      "benefit": "Your first 30-min private at 25% off (₹2,500) and 1 Month Unlimited at 20% off (₹16,191)",
-      "customerCopy": "Your first private, 25% off. Your first month, 20% off.\n• You buy: Your first 30-min private at 25% off (₹2,500) and 1 Month Unlimited at 20% off (₹16,191)\n• You get: a written 4-week plan from your trainer\n• When: All September\n• Good to know: First-time private buyers in their first 30 days; one private per person; Doesn't combine with any other campaign offer.",
-      "internalDescription": "292 in pool × 2.4% plan rate = 7 buyers × ₹18,691 ticket = ₹1.3L (21% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.3L at 23% effective.",
-      "rationale": "Why: Biggest ticket, best retention, and privates are capacity we already have.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "First-time clients wanting 1:1.",
-      "conditions": "First-time private buyers in their first 30 days; one private per person; Doesn't combine with any other campaign offer.",
-      "cta": "All September.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 18691,
-      "expectedRevenue": 130837,
-      "buyers": 7,
-      "effectiveDiscountPercent": 23,
-      "validity": {
-        "start": "2027-09-01",
+        "start": "2027-09-02",
         "end": "2027-09-30"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2425,
       "slot": "lapsed",
       "name": "The Return Policy",
-      "headline": "No penalties for the year you took off. Come back at 20%.",
-      "benefit": "1 Month Unlimited at 20% off (₹16,191) or a 12-class pack at 20% off (₹15,750) — a written 'return policy' that waives any admin fee",
-      "customerCopy": "No penalties for the year you took off. Come back at 20%.\n• You buy: 1 Month Unlimited at 20% off (₹16,191) or a 12-class pack at 20% off (₹15,750)\n• You get: a written 'return policy' that waives any admin fee\n• When: All September\n• Good to know: Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "internalDescription": "600 in pool × 3.7% plan rate = 22 buyers × ₹16,000 ticket = ₹3.5L (77% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 20% effective.",
-      "rationale": "Why: Festival season is the natural moment for a reset, and the framing removes the guilt of the gap.",
+      "headline": "Come back within 7 days of your comeback class: 20% off and a bonus.",
+      "benefit": "1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off — a free comeback class first, and 1 bonus class if you buy within 7 days of it",
+      "customerCopy": "Come back within 7 days of your comeback class: 20% off and a bonus.\n• You buy: 1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off\n• You get: a free comeback class first, and 1 bonus class if you buy within 7 days of it\n• When: All September\n• Good to know: Clients lapsed 61–365 days; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "internalDescription": "593 in pool × 3.7% plan rate = 22 buyers × ₹16,000 ticket = ₹3.5L (85% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹1.1L at 24% effective.",
+      "rationale": "Why: A 7-day window keeps decisions fast.",
       "objective": "reactivation",
       "type": "experience",
-      "audience": "Lapsed clients.",
-      "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "audience": "Clients lapsed 61–365 days.",
+      "excludedAudience": null,
+      "conditions": "Clients lapsed 61–365 days; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
       "cta": "All September.",
       "status": "draft",
       "approval": "pending",
@@ -188,36 +82,180 @@
       "price": 16000,
       "expectedRevenue": 352000,
       "buyers": 22,
-      "effectiveDiscountPercent": 20,
+      "effectiveDiscountPercent": 24,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-09-01",
         "end": "2027-09-30"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2427,
       "slot": "renewal",
       "name": "Festive Pause Button",
-      "headline": "Freeze for the festivals. Pay for the season.",
-      "benefit": "3 Months Unlimited at 15% off (₹49,177) — freezes around Diwali with no limit",
-      "customerCopy": "Freeze for the festivals. Pay for the season.\n• You buy: 3 Months Unlimited at 15% off (₹49,177)\n• You get: freezes around Diwali with no limit\n• When: Renew in September\n• Good to know: Freezes in blocks of 3+ days; plan ends within 6 months; Doesn't combine with any other campaign offer.",
-      "internalDescription": "290 in pool × 9.0% plan rate = 26 buyers × ₹49,177 ticket = ₹12.8L (52% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.3L at 15% effective.",
-      "rationale": "Why: Clients won't train Diwali week; selling 3 Months with freezes protects the renewal and the ticket.",
+      "headline": "Three months at 18% off. Diwali and year-end travel covered.",
+      "benefit": "3 Months Unlimited at 18% off (₹47,441) — unlimited freezes (used within 6 months) and a festive gift box",
+      "customerCopy": "Three months at 18% off. Diwali and year-end travel covered.\n• You buy: 3 Months Unlimited at 18% off (₹47,441)\n• You get: unlimited freezes (used within 6 months) and a festive gift box\n• When: All September\n• Good to know: 1 Month and 3 Months renewers; Doesn't combine with any other campaign offer.",
+      "internalDescription": "269 in pool × 9.7% plan rate = 26 buyers × ₹47,441 ticket = ₹12.3L (49% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹3.1L at 20% effective.",
+      "rationale": "Why: October–December are troughs; locking 3 Months now carries members through them.",
       "objective": "retention",
       "type": "experience",
-      "audience": "Members renewing in September.",
-      "conditions": "Freezes in blocks of 3+ days; plan ends within 6 months; Doesn't combine with any other campaign offer.",
+      "audience": "1 Month and 3 Months renewers.",
+      "excludedAudience": null,
+      "conditions": "1 Month and 3 Months renewers; Doesn't combine with any other campaign offer.",
       "cta": "All September.",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 49177,
-      "expectedRevenue": 1278602,
+      "price": 47441,
+      "expectedRevenue": 1233466,
       "buyers": 26,
-      "effectiveDiscountPercent": 15,
+      "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-09-01",
         "end": "2027-09-30"
-      }
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2515,
+      "slot": "renewal",
+      "name": "Private Matters",
+      "headline": "Ten privates at 15% off, booked before the festive rush.",
+      "benefit": "A 10-private pack at 15% off (₹44,625, list ₹52,500) — a posture and strength assessment in session one",
+      "customerCopy": "Ten privates at 15% off, booked before the festive rush.\n• You buy: A 10-private pack at 15% off (₹44,625, list ₹52,500)\n• You get: a posture and strength assessment in session one\n• When: All September\n• Good to know: Privates valid 6 months; Doesn't combine with any other campaign offer.",
+      "internalDescription": "80 in pool × 7.5% plan rate = 6 buyers × ₹44,625 ticket = ₹2.7L (56% of the month's privates/other plan; the rest is business-as-usual sales). Discount given ≈ ₹0.5L at 15% effective.",
+      "rationale": "Why: Privates are Kwality's highest-value add-on (₹5.1L in Sep-2026); a pack sold before Diwali fills trainers' quiet October hours.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Active members and private clients.",
+      "excludedAudience": null,
+      "conditions": "Privates valid 6 months; Doesn't combine with any other campaign offer.",
+      "cta": "All September.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 44625,
+      "expectedRevenue": 267750,
+      "buyers": 6,
+      "effectiveDiscountPercent": 15,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-09-01",
+        "end": "2027-09-30"
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 2,
+      "end": null,
+      "date": "2027-09-02",
+      "name": "57 Days to Diwali begins",
+      "kind": "brand",
+      "label": "P57 moment",
+      "approx": false,
+      "note": "Countdown to 28 Oct."
+    },
+    {
+      "day": 29,
+      "end": null,
+      "date": "2027-09-29",
+      "name": "World Heart Day",
+      "kind": "awareness",
+      "label": "Wellness moment",
+      "approx": false,
+      "note": "Cardio and cycle formats get a reason to be talked about."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The 57-Day Proof in Momence (2–30 Sep.): 1 Month Unlimited at 15% off (₹17,203) — a fitness check on day 1, coach check-ins, and a re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures = your next month free."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The Return Policy in Momence (All September.): 1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off — a free comeback class first, and 1 bonus class if you buy within 7 days of it."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Festive Pause Button in Momence (All September.): 3 Months Unlimited at 18% off (₹47,441) — unlimited freezes (used within 6 months) and a festive gift box."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Private Matters in Momence (All September.): A 10-private pack at 15% off (₹44,625, list ₹52,500) — a posture and strength assessment in session one."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 September offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The 57-Day Proof to First-time clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The Return Policy to Clients lapsed 61–365 days."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Festive Pause Button to 1 Month and 3 Months renewers."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Private Matters to Active members and private clients."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Run the month's moment: 57 Days to Diwali countdown (Thu 2 Sep → Thu 28 Oct): weekly countdown classes and a studio 'Diwali Fit Check' re-test day on Sat 23 Oct."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: The 57-Day Proof: Day-1 checks done; October renewals of September joiners. | The Return Policy: Comeback classes → purchase within 7 days. | Festive Pause Button: 3M renewals and upgrades. | Private Matters: Packs sold; trainer utilisation."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹39.5L: by the 15th aim for about half of 242 renewals, 36 reactivations and 44 new buyers (147 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Close September: tag every redemption by offer, record results, and brief October's offers."
+        }
+      ]
     }
   ]
 }

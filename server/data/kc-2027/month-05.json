@@ -1,11 +1,14 @@
 {
   "month": 5,
+  "name": "May",
+  "status": "draft",
   "theme": "The Afterparty",
   "objective": "Keep April's buyers (target ≥55% renewing at next expiry vs 24.5% for 2026 anniversary-code buyers) and use Mother's Day for duo acquisition.",
   "strategy": "The Afterparty.\n\nCommercial job: Keep April's buyers (target ≥55% renewing at next expiry vs 24.5% for 2026 anniversary-code buyers) and use Mother's Day for duo acquisition.\n\nNewcomer: Mum's the Word (“Bring your mum. You both get 20% off and a trainer to yourselves.”). Duo trials with a booked second class convert best; Mother's Day gives the reason.\n\nNewcomer: The Second Date (Evergreen) (“Your second class is booked before you leave.”). The default journey for every first-timer outside a campaign.\n\nWinback: A Class for Mum (“Come back at 20% off, and bring your mum for free.”). On-theme, and the gift class is a warm new lead.\n\nRenewal: Afterparty Pricing (“Show up in May, and your next renewal costs less.”). April buyers who attend in May are the ones who renew (2026 anniversary-code buyers renewed at only 24.5%). The discount is earned by attendance, not handed out.",
-  "notes": "Moment: The Afterparty: every April buyer gets a 30-day plan — a week-1 call, and 8 classes in May unlocks a hosted Afterparty class and a trainer progress check.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹3.2L; renewals ₹18.1L. First visits needed 156; CRM leads needed 194.",
+  "notes": "Moment: The Afterparty: every April buyer gets a 30-day plan — a week-1 call, and 8 classes in May unlocks a hosted Afterparty class and a trainer progress check.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹3.2L; renewals ₹18.1L. First visits needed 140 vs 118 last year (1.19×); CRM leads needed 280 vs 127 last year.",
   "target": 3050000,
   "priorYear": 2428386,
+  "growthPercent": 25.6,
   "streams": {
     "newClient": 504000,
     "renewal": 1813152,
@@ -13,106 +16,24 @@
     "other": 320000
   },
   "funnel": {
-    "leads": 194,
-    "trials": 156,
+    "leads": 280,
+    "trials": 140,
     "newBuyers": 42,
     "existingPayingRenewals": 217,
     "winbacksNeeded": 36,
     "expiringMemberships": 234,
-    "renewalCoverage": 0.927,
-    "leadToTrial": 0.8022922636103151,
-    "trialToMember": 0.26865671641791045,
+    "renewalCoverage": 0.756,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
     "spendPerVisit": 1727,
     "firstMonthSpend": 12000,
     "renewalTicket": 8368,
     "winbackTicket": 11468
   },
   "feasibility": "balanced",
-  "keyDates": [
-    {
-      "day": 9,
-      "name": "Mother's Day",
-      "kind": "retail",
-      "approx": false,
-      "note": "Daughters buying for mothers, and mothers for daughters."
-    }
-  ],
-  "sections": [
-    {
-      "title": "Week 1",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Set up Mum's the Word in Momence (1–16 May.): A free first Barre class for a mother and a family member who are both new — class 2 free for both within 7 days; if both buy within 72 hours: 1 Month at 20% off each (₹16,191) and one shared 30-min duo private."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up The Second Date (Evergreen) in Momence (All May.): A free first Barre class — class 2 free within 7 days; buy within 72 hours of class 2 for 20% off 1 Month or a 12-class pack; 10% until day 14."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up A Class for Mum in Momence (1–16 May.): A 12-class pack at 20% off (₹15,750) — a free class for your mum (or any mum you choose)."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Afterparty Pricing in Momence (All May.): Next renewal: 3 Months at 20% off (₹46,284) or 1 Month at 10% off (₹18,215) — unlocked by booking 8 classes in May, plus a hosted Afterparty class and a trainer progress check."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Brief the team on the 4 May offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Mum's the Word to A mother and a family member, both new."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch The Second Date (Evergreen) to First-time clients."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch A Class for Mum to Lapsed clients."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Afterparty Pricing to April buyers and May renewers."
-        }
-      ]
-    },
-    {
-      "title": "Week 2",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Run the month's moment: The Afterparty: every April buyer gets a 30-day plan — a week-1 call, and 8 classes in May unlocks a hosted Afterparty class and a trainer progress check."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Weekly check: Mum's the Word: Duos trialled; both-buy rate. | The Second Date (Evergreen): Second-visit share (target 55%). | A Class for Mum: Gift classes booked; mums converting. | Afterparty Pricing: April cohort attendance in May (target 8+); next-expiry renewal (target 55%)."
-        }
-      ]
-    },
-    {
-      "title": "Week 3",
-      "items": [
-        {
-          "value": "Sales lead",
-          "detail": "Mid-month review against ₹30.5L: by the 15th aim for about half of 217 renewals, 36 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
-        }
-      ]
-    },
-    {
-      "title": "Week 4",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Close May: tag every redemption by offer, record results, and brief June's offers."
-        }
-      ]
-    }
-  ],
   "offers": [
     {
+      "id": 2404,
       "slot": "newcomer",
       "name": "Mum's the Word",
       "headline": "Bring your mum. You both get 20% off and a trainer to yourselves.",
@@ -123,6 +44,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "A mother and a family member, both new.",
+      "excludedAudience": null,
       "conditions": "Both must be new and both must buy; trial 1–16 May; Doesn't combine with any other campaign offer.",
       "cta": "1–16 May.",
       "status": "draft",
@@ -132,12 +54,15 @@
       "expectedRevenue": 194292,
       "buyers": 12,
       "effectiveDiscountPercent": 24,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-05-01",
         "end": "2027-05-16"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2511,
       "slot": "newcomer",
       "name": "The Second Date (Evergreen)",
       "headline": "Your second class is booked before you leave.",
@@ -148,6 +73,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "First-time clients.",
+      "excludedAudience": null,
       "conditions": "Strength Lab not included; Doesn't combine with any other campaign offer.",
       "cta": "All May.",
       "status": "draft",
@@ -157,12 +83,15 @@
       "expectedRevenue": 192000,
       "buyers": 12,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-05-01",
         "end": "2027-05-31"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2405,
       "slot": "lapsed",
       "name": "A Class for Mum",
       "headline": "Come back at 20% off, and bring your mum for free.",
@@ -173,6 +102,7 @@
       "objective": "reactivation",
       "type": "experience",
       "audience": "Lapsed clients.",
+      "excludedAudience": null,
       "conditions": "Gift class within 30 days; replaces the standing 15% lapsed perk; buy 1–16 May; Doesn't combine with any other campaign offer.",
       "cta": "1–16 May.",
       "status": "draft",
@@ -182,12 +112,15 @@
       "expectedRevenue": 346500,
       "buyers": 22,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-05-01",
         "end": "2027-05-16"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2406,
       "slot": "renewal",
       "name": "Afterparty Pricing",
       "headline": "Show up in May, and your next renewal costs less.",
@@ -198,6 +131,7 @@
       "objective": "retention",
       "type": "experience",
       "audience": "April buyers and May renewers.",
+      "excludedAudience": null,
       "conditions": "April buyers and May renewers; price valid at your next expiry through 30 Jun; Doesn't combine with any other campaign offer.",
       "cta": "All May.",
       "status": "draft",
@@ -207,10 +141,111 @@
       "expectedRevenue": 1260000,
       "buyers": 45,
       "effectiveDiscountPercent": 15,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-05-01",
         "end": "2027-05-31"
-      }
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 9,
+      "end": null,
+      "date": "2027-05-09",
+      "name": "Mother's Day",
+      "kind": "retail",
+      "label": "Retail moment",
+      "approx": false,
+      "note": "Daughters buying for mothers, and mothers for daughters."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Mum's the Word in Momence (1–16 May.): A free first Barre class for a mother and a family member who are both new — class 2 free for both within 7 days; if both buy within 72 hours: 1 Month at 20% off each (₹16,191) and one shared 30-min duo private."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The Second Date (Evergreen) in Momence (All May.): A free first Barre class — class 2 free within 7 days; buy within 72 hours of class 2 for 20% off 1 Month or a 12-class pack; 10% until day 14."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up A Class for Mum in Momence (1–16 May.): A 12-class pack at 20% off (₹15,750) — a free class for your mum (or any mum you choose)."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Afterparty Pricing in Momence (All May.): Next renewal: 3 Months at 20% off (₹46,284) or 1 Month at 10% off (₹18,215) — unlocked by booking 8 classes in May, plus a hosted Afterparty class and a trainer progress check."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 May offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Mum's the Word to A mother and a family member, both new."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The Second Date (Evergreen) to First-time clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch A Class for Mum to Lapsed clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Afterparty Pricing to April buyers and May renewers."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Run the month's moment: The Afterparty: every April buyer gets a 30-day plan — a week-1 call, and 8 classes in May unlocks a hosted Afterparty class and a trainer progress check."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: Mum's the Word: Duos trialled; both-buy rate. | The Second Date (Evergreen): Second-visit share (target 55%). | A Class for Mum: Gift classes booked; mums converting. | Afterparty Pricing: April cohort attendance in May (target 8+); next-expiry renewal (target 55%)."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹30.5L: by the 15th aim for about half of 217 renewals, 36 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Close May: tag every redemption by offer, record results, and brief June's offers."
+        }
+      ]
     }
   ]
 }

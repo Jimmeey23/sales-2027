@@ -1,11 +1,14 @@
 {
   "month": 3,
+  "name": "March",
+  "status": "draft",
   "theme": "Main Character Energy",
   "objective": "Hold conversion in the March trough, widen members' formats (one-format members renew at 58–67% vs 85–87% on 4+), and stop March expiries from waiting for April by giving them a reason to renew now.",
   "strategy": "Main Character Energy.\n\nCommercial job: Hold conversion in the March trough, widen members' formats (one-format members renew at 58–67% vs 85–87% on 4+), and stop March expiries from waiting for April by giving them a reason to renew now.\n\nNewcomer: The Second Date (“Your second class is booked before you leave. Decide fast, save 20%.”). Buyers by month-one return visits: 0 → 10.8%, 1 → 43.9%, 2 → 73.3%. The booked second class plus a closing window is the lever.\n\nNewcomer: Earn the Lab (“Three classes in 14 days unlock the Strength Lab.”). Kwality's Lab is 83% full and can't be free, which makes it a reward worth earning; clients on 2+ formats stay longer.\n\nWinback: Beat Your Best (“Remember your best month? Beat it, and we'll pay for the effort.”). Personal data beats a generic offer and turns the reward into attendance, which predicts the next renewal.\n\nRenewal: Early Bird, Golden Ticket (“Anniversary prices, one month early. Plus a golden ticket.”). In 2026 Kwality's March expiries waited for April's 25–31% codes. Near-anniversary prices on longer plans now remove the reason to wait and lift the ticket.",
-  "notes": "Moment: International Women's Day (Mon 8 Mar): 'Main Character' class week with a member-nominated 'Main Character of the Month' wall. Anniversary teaser and Golden Envelope Wall reveal from 22 Mar.\nBuild: new clients 36 buyers × ₹12,000 = ₹4.3L; reactivation 32 × ₹11,468 = ₹3.7L; privates/retail/drop-ins ₹3.0L; renewals ₹14.0L. First visits needed 134; CRM leads needed 167.",
+  "notes": "Moment: International Women's Day (Mon 8 Mar): 'Main Character' class week with a member-nominated 'Main Character of the Month' wall. Anniversary teaser and Golden Envelope Wall reveal from 22 Mar.\nBuild: new clients 36 buyers × ₹12,000 = ₹4.3L; reactivation 32 × ₹11,468 = ₹3.7L; privates/retail/drop-ins ₹3.0L; renewals ₹14.0L. First visits needed 120 vs 95 last year (1.26×); CRM leads needed 240 vs 162 last year.",
   "target": 2500000,
   "priorYear": 2018321,
+  "growthPercent": 23.9,
   "streams": {
     "newClient": 432000,
     "renewal": 1401024,
@@ -13,117 +16,24 @@
     "other": 300000
   },
   "funnel": {
-    "leads": 167,
-    "trials": 134,
+    "leads": 240,
+    "trials": 120,
     "newBuyers": 36,
     "existingPayingRenewals": 135,
     "winbacksNeeded": 32,
     "expiringMemberships": 186,
-    "renewalCoverage": 0.726,
-    "leadToTrial": 0.8022922636103151,
-    "trialToMember": 0.26865671641791045,
+    "renewalCoverage": 0.968,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
     "spendPerVisit": 1727,
     "firstMonthSpend": 12000,
     "renewalTicket": 10416,
     "winbackTicket": 11468
   },
   "feasibility": "balanced",
-  "keyDates": [
-    {
-      "day": 2,
-      "name": "Stronger in 30 finishers' night",
-      "kind": "brand",
-      "approx": false,
-      "note": "Medals and Finish Line renewals."
-    },
-    {
-      "day": 8,
-      "name": "International Women's Day",
-      "kind": "global",
-      "approx": false,
-      "note": "The studio's core audience. Programme the room, not the price."
-    }
-  ],
-  "sections": [
-    {
-      "title": "Week 1",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Set up The Second Date in Momence (All March.): A free first Barre class — class 2 free within 7 days (booked at the desk); buy within 72 hours of class 2 for 20% off 1 Month (₹16,191) or a 12-class pack (₹15,750); 10% until day 14."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Earn the Lab in Momence (All March.): Your first 1 Month Unlimited or 12-class pack at the standing 15% (₹17,203 / ₹16,734) — take 3 classes in your first 14 days and unlock a 4-person Strength Lab Induction (normally ₹999) plus one Lab class."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Beat Your Best in Momence (All March.): 1 Month Unlimited at 15% off (₹17,203) or a 12-class pack at 20% off (₹15,750) — match your personal best month's class count and get +5 days."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Early Bird, Golden Ticket in Momence (All March.): 3 Months at 18% off (₹47,441) or 6 Months at 20% off (₹90,972), for members expiring in March — a reserved pull from April's Golden Envelope Wall and first booking for the anniversary party classes. Staying on 1 Month? Renew at list with +5 days and the golden ticket."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Brief the team on the 4 March offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch The Second Date to First-time clients starting with Barre."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Earn the Lab to New clients in their first 14 days."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Beat Your Best to Lapsed clients with a recorded best month."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Early Bird, Golden Ticket to Members expiring 1–31 March."
-        }
-      ]
-    },
-    {
-      "title": "Week 2",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Run the month's moment: International Women's Day (Mon 8 Mar): 'Main Character' class week with a member-nominated 'Main Character of the Month' wall. Anniversary teaser and Golden Envelope Wall reveal from 22 Mar."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Weekly check: The Second Date: Second-visit share (target 55%); purchase within 14 days. | Earn the Lab: Inductions unlocked; Lab bookings in month 2. | Beat Your Best: Best-month messages sent; share matching their best. | Early Bird, Golden Ticket: March renewals vs due; golden tickets issued."
-        }
-      ]
-    },
-    {
-      "title": "Week 3",
-      "items": [
-        {
-          "value": "Sales lead",
-          "detail": "Mid-month review against ₹25.0L: by the 15th aim for about half of 135 renewals, 32 reactivations and 36 new buyers (120 first visits). Push the lists, not a deeper discount."
-        }
-      ]
-    },
-    {
-      "title": "Week 4",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Close March: tag every redemption by offer, record results, and brief April's offers."
-        },
-        {
-          "value": "Community lead",
-          "detail": "From 22 Mar: reveal the Golden Envelope Wall, fill 900 envelopes to the published odds, print Passports to Nine, build the Club Nine seat counter."
-        }
-      ]
-    }
-  ],
   "offers": [
     {
+      "id": 2394,
       "slot": "newcomer",
       "name": "The Second Date",
       "headline": "Your second class is booked before you leave. Decide fast, save 20%.",
@@ -134,6 +44,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "First-time clients starting with Barre.",
+      "excludedAudience": null,
       "conditions": "Strength Lab not included; the % replaces the standing 15%; Doesn't combine with any other campaign offer.",
       "cta": "All March.",
       "status": "draft",
@@ -143,12 +54,15 @@
       "expectedRevenue": 256000,
       "buyers": 16,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-03-01",
         "end": "2027-03-31"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2506,
       "slot": "newcomer",
       "name": "Earn the Lab",
       "headline": "Three classes in 14 days unlock the Strength Lab.",
@@ -159,6 +73,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "New clients in their first 14 days.",
+      "excludedAudience": null,
       "conditions": "Lab seats are limited (7 per class); inductions at 6 am and 7 pm; Doesn't combine with any other campaign offer.",
       "cta": "All March.",
       "status": "draft",
@@ -168,12 +83,15 @@
       "expectedRevenue": 103218,
       "buyers": 6,
       "effectiveDiscountPercent": 24,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-03-01",
         "end": "2027-03-31"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2396,
       "slot": "lapsed",
       "name": "Beat Your Best",
       "headline": "Remember your best month? Beat it, and we'll pay for the effort.",
@@ -184,6 +102,7 @@
       "objective": "reactivation",
       "type": "experience",
       "audience": "Lapsed clients with a recorded best month.",
+      "excludedAudience": null,
       "conditions": "Lapsed clients with a recorded best month; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
       "cta": "All March.",
       "status": "draft",
@@ -193,12 +112,15 @@
       "expectedRevenue": 297000,
       "buyers": 18,
       "effectiveDiscountPercent": 22,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-03-01",
         "end": "2027-03-31"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2397,
       "slot": "renewal",
       "name": "Early Bird, Golden Ticket",
       "headline": "Anniversary prices, one month early. Plus a golden ticket.",
@@ -209,6 +131,7 @@
       "objective": "retention",
       "type": "experience",
       "audience": "Members expiring 1–31 March.",
+      "excludedAudience": null,
       "conditions": "Members expiring 1–31 Mar only, so April's renewals aren't pulled forward twice; Doesn't combine with any other campaign offer.",
       "cta": "All March.",
       "status": "draft",
@@ -218,10 +141,126 @@
       "expectedRevenue": 1140000,
       "buyers": 38,
       "effectiveDiscountPercent": 17,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-03-01",
         "end": "2027-03-31"
-      }
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 2,
+      "end": null,
+      "date": "2027-03-02",
+      "name": "Stronger in 30 finishers' night",
+      "kind": "brand",
+      "label": "P57 moment",
+      "approx": false,
+      "note": "Medals and Finish Line renewals."
+    },
+    {
+      "day": 8,
+      "end": null,
+      "date": "2027-03-08",
+      "name": "International Women's Day",
+      "kind": "global",
+      "label": "Awareness day",
+      "approx": false,
+      "note": "The studio's core audience. Programme the room, not the price."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The Second Date in Momence (All March.): A free first Barre class — class 2 free within 7 days (booked at the desk); buy within 72 hours of class 2 for 20% off 1 Month (₹16,191) or a 12-class pack (₹15,750); 10% until day 14."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Earn the Lab in Momence (All March.): Your first 1 Month Unlimited or 12-class pack at the standing 15% (₹17,203 / ₹16,734) — take 3 classes in your first 14 days and unlock a 4-person Strength Lab Induction (normally ₹999) plus one Lab class."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Beat Your Best in Momence (All March.): 1 Month Unlimited at 15% off (₹17,203) or a 12-class pack at 20% off (₹15,750) — match your personal best month's class count and get +5 days."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Early Bird, Golden Ticket in Momence (All March.): 3 Months at 18% off (₹47,441) or 6 Months at 20% off (₹90,972), for members expiring in March — a reserved pull from April's Golden Envelope Wall and first booking for the anniversary party classes. Staying on 1 Month? Renew at list with +5 days and the golden ticket."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 March offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The Second Date to First-time clients starting with Barre."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Earn the Lab to New clients in their first 14 days."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Beat Your Best to Lapsed clients with a recorded best month."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Early Bird, Golden Ticket to Members expiring 1–31 March."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Run the month's moment: International Women's Day (Mon 8 Mar): 'Main Character' class week with a member-nominated 'Main Character of the Month' wall. Anniversary teaser and Golden Envelope Wall reveal from 22 Mar."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: The Second Date: Second-visit share (target 55%); purchase within 14 days. | Earn the Lab: Inductions unlocked; Lab bookings in month 2. | Beat Your Best: Best-month messages sent; share matching their best. | Early Bird, Golden Ticket: March renewals vs due; golden tickets issued."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹25.0L: by the 15th aim for about half of 135 renewals, 32 reactivations and 36 new buyers (120 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Close March: tag every redemption by offer, record results, and brief April's offers."
+        },
+        {
+          "label": "",
+          "value": "Community lead",
+          "detail": "From 22 Mar: reveal the Golden Envelope Wall, fill 900 envelopes to the published odds, print Passports to Nine, build the Club Nine seat counter."
+        }
+      ]
     }
   ]
 }

@@ -1,11 +1,14 @@
 {
   "month": 6,
+  "name": "June",
+  "status": "draft",
   "theme": "Out of Office",
   "objective": "Stop summer lapses with flexibility, not discounts; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.",
   "strategy": "Out of Office.\n\nCommercial job: Stop summer lapses with flexibility, not discounts; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.\n\nNewcomer: Home for the Holidays (“Back in town? A week unlimited, then 20% off if you stay.”). Summer visitors and returning students need a short, intense entry and a reason to commit before they leave again.\n\nNewcomer: Golden Hours (“Student hours, student price: 25% off.”). Fills Kwality's emptiest slots (27–41% full) with a younger audience; the discount only exists where seats would otherwise be empty.\n\nWinback: Out of Office, Not Out of Shape (“Freeze when you fly. Train when you're home. 20% off.”). Travel is the most common lapse reason; freezes answer it and the 20% gets the decision made.\n\nRenewal: The Pause Button (“Three months, 15% off, freeze as often as you like.”). Travel is the main reason to let a membership lapse; flexibility plus 15% moves 1 Month members onto 3 Months before the summer.",
-  "notes": "Moment: Golden Hours launch for students and under-25s; 'Postcard Wall' where travelling members send a photo of their travel workout.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 32 × ₹11,468 = ₹3.7L; privates/retail/drop-ins ₹2.8L; renewals ₹15.0L. First visits needed 156; CRM leads needed 194.",
+  "notes": "Moment: Golden Hours launch for students and under-25s; 'Postcard Wall' where travelling members send a photo of their travel workout.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 32 × ₹11,468 = ₹3.7L; privates/retail/drop-ins ₹2.8L; renewals ₹15.0L. First visits needed 140 vs 128 last year (1.09×); CRM leads needed 280 vs 129 last year.",
   "target": 2650000,
   "priorYear": 2180716,
+  "growthPercent": 21.5,
   "streams": {
     "newClient": 504000,
     "renewal": 1499024,
@@ -13,106 +16,24 @@
     "other": 280000
   },
   "funnel": {
-    "leads": 194,
-    "trials": 156,
+    "leads": 280,
+    "trials": 140,
     "newBuyers": 42,
     "existingPayingRenewals": 169,
     "winbacksNeeded": 32,
     "expiringMemberships": 264,
-    "renewalCoverage": 0.64,
-    "leadToTrial": 0.8022922636103151,
-    "trialToMember": 0.26865671641791045,
+    "renewalCoverage": 1.092,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
     "spendPerVisit": 1727,
     "firstMonthSpend": 12000,
     "renewalTicket": 8855,
     "winbackTicket": 11468
   },
   "feasibility": "balanced",
-  "keyDates": [
-    {
-      "day": 20,
-      "name": "Father's Day",
-      "kind": "retail",
-      "approx": false,
-      "note": "A low-effort pairing window."
-    }
-  ],
-  "sections": [
-    {
-      "title": "Week 1",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Set up Home for the Holidays in Momence (All June.): 7-Day Unlimited Intro for ₹1,999 — ₹1,999 credited and 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Golden Hours in Momence (1 Jun–15 Jul.): An 8-class pack at 25% off list — valid for classes Mon–Fri 10 am–12 pm and Sat–Sun 4–7 pm."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up Out of Office, Not Out of Shape in Momence (All June.): 1 Month Unlimited at 20% off (₹16,191) — 2 extra freezes and a written travel workout plan."
-        },
-        {
-          "value": "Studio manager",
-          "detail": "Set up The Pause Button in Momence (All June.): 3 Months Unlimited at 15% off (₹49,177) — unlimited freezes, used within 6 months of purchase."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Brief the team on the 4 June offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Home for the Holidays to First-time clients."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Golden Hours to Students and under-25s."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch Out of Office, Not Out of Shape to Lapsed clients."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Launch The Pause Button to 1 Month and 3 Months members renewing in June."
-        }
-      ]
-    },
-    {
-      "title": "Week 2",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Run the month's moment: Golden Hours launch for students and under-25s; 'Postcard Wall' where travelling members send a photo of their travel workout."
-        },
-        {
-          "value": "Sales lead",
-          "detail": "Weekly check: Home for the Holidays: Intro conversion (target 40%). | Golden Hours: Golden Hours fill; repeat purchases. | Out of Office, Not Out of Shape: Freeze usage; purchases. | The Pause Button: 3M renewals and 1M→3M upgrades."
-        }
-      ]
-    },
-    {
-      "title": "Week 3",
-      "items": [
-        {
-          "value": "Sales lead",
-          "detail": "Mid-month review against ₹26.5L: by the 15th aim for about half of 169 renewals, 32 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
-        }
-      ]
-    },
-    {
-      "title": "Week 4",
-      "items": [
-        {
-          "value": "Studio manager",
-          "detail": "Close June: tag every redemption by offer, record results, and brief July's offers."
-        }
-      ]
-    }
-  ],
   "offers": [
     {
+      "id": 2408,
       "slot": "newcomer",
       "name": "Home for the Holidays",
       "headline": "Back in town? A week unlimited, then 20% off if you stay.",
@@ -123,6 +44,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "First-time clients.",
+      "excludedAudience": null,
       "conditions": "One intro per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
       "cta": "All June.",
       "status": "draft",
@@ -132,12 +54,15 @@
       "expectedRevenue": 259056,
       "buyers": 16,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-06-01",
         "end": "2027-06-30"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2512,
       "slot": "newcomer",
       "name": "Golden Hours",
       "headline": "Student hours, student price: 25% off.",
@@ -148,6 +73,7 @@
       "objective": "acquisition",
       "type": "experience",
       "audience": "Students and under-25s.",
+      "excludedAudience": null,
       "conditions": "Students and under-25s (ID checked); off-peak classes only; one pack at a time; buy 1 Jun–15 Jul; Doesn't combine with any other campaign offer.",
       "cta": "1 Jun–15 Jul.",
       "status": "draft",
@@ -157,12 +83,15 @@
       "expectedRevenue": 157600,
       "buyers": 16,
       "effectiveDiscountPercent": 25,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-06-01",
         "end": "2027-07-15"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2409,
       "slot": "lapsed",
       "name": "Out of Office, Not Out of Shape",
       "headline": "Freeze when you fly. Train when you're home. 20% off.",
@@ -173,6 +102,7 @@
       "objective": "reactivation",
       "type": "experience",
       "audience": "Lapsed clients.",
+      "excludedAudience": null,
       "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
       "cta": "All June.",
       "status": "draft",
@@ -182,12 +112,15 @@
       "expectedRevenue": 323820,
       "buyers": 20,
       "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-06-01",
         "end": "2027-06-30"
-      }
+      },
+      "mechanics": {}
     },
     {
+      "id": 2411,
       "slot": "renewal",
       "name": "The Pause Button",
       "headline": "Three months, 15% off, freeze as often as you like.",
@@ -198,6 +131,7 @@
       "objective": "retention",
       "type": "experience",
       "audience": "1 Month and 3 Months members renewing in June.",
+      "excludedAudience": null,
       "conditions": "Freezes in blocks of 3+ days; plan must end within 6 months of purchase; Doesn't combine with any other campaign offer.",
       "cta": "All June.",
       "status": "draft",
@@ -207,10 +141,111 @@
       "expectedRevenue": 1081894,
       "buyers": 22,
       "effectiveDiscountPercent": 15,
+      "contributionMargin": 0,
       "validity": {
         "start": "2027-06-01",
         "end": "2027-06-30"
-      }
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 20,
+      "end": null,
+      "date": "2027-06-20",
+      "name": "Father's Day",
+      "kind": "retail",
+      "label": "Retail moment",
+      "approx": false,
+      "note": "A low-effort pairing window."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Home for the Holidays in Momence (All June.): 7-Day Unlimited Intro for ₹1,999 — ₹1,999 credited and 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Golden Hours in Momence (1 Jun–15 Jul.): An 8-class pack at 25% off list — valid for classes Mon–Fri 10 am–12 pm and Sat–Sun 4–7 pm."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Out of Office, Not Out of Shape in Momence (All June.): 1 Month Unlimited at 20% off (₹16,191) — 2 extra freezes and a written travel workout plan."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The Pause Button in Momence (All June.): 3 Months Unlimited at 15% off (₹49,177) — unlimited freezes, used within 6 months of purchase."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 June offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Home for the Holidays to First-time clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Golden Hours to Students and under-25s."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Out of Office, Not Out of Shape to Lapsed clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The Pause Button to 1 Month and 3 Months members renewing in June."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Run the month's moment: Golden Hours launch for students and under-25s; 'Postcard Wall' where travelling members send a photo of their travel workout."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: Home for the Holidays: Intro conversion (target 40%). | Golden Hours: Golden Hours fill; repeat purchases. | Out of Office, Not Out of Shape: Freeze usage; purchases. | The Pause Button: 3M renewals and 1M→3M upgrades."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹26.5L: by the 15th aim for about half of 169 renewals, 32 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Close June: tag every redemption by offer, record results, and brief July's offers."
+        }
+      ]
     }
   ]
 }

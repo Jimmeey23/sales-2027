@@ -650,6 +650,10 @@ function contentFor(month: ImportedMonth, plan: SalesPlanDocument, context: Impo
     : month.offers.map(offer => `${offer.name}: ${offer.audience || offer.rationale || 'watch take-up'}`);
   const content: Record<string, any> = {
     ...(month.kicker ? { kicker: month.kicker } : {}),
+    // The document's own statement of the month last year. It is kept beside the row because
+    // the target row carries the measured history instead, and the plan's growth is against
+    // the number the studio wrote — not against whichever vintage the database happens to hold.
+    ...(month.priorYear ? { priorYear: month.priorYear } : {}),
     focusPoints,
     ...(kpis.length ? { kpis, kpi: kpis[0] } : {}),
     ...(month.keyDates.length ? { keyDates: month.keyDates } : {}),

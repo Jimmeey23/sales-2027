@@ -7,7 +7,8 @@
   "studio": {
     "id": 1,
     "name": "Kemps Corner",
-    "city": "Mumbai"
+    "city": "Mumbai",
+    "code": "KC"
   },
   "yearBlock": {
     "target": 42000000,
@@ -23,9 +24,10 @@
   "offers": 55,
   "basis": "observed_history",
   "measuredWindow": {
-    "current": "2025-10-01 → 2026-09-30",
-    "trial": "2025-07-01 → 2026-06-30",
-    "note": "Twelve complete months of Kwality House trading, plus the trial window the trial-to-member rate is measured on."
+    "from": "2025-10",
+    "to": "2026-09",
+    "trialFrom": "2025-07",
+    "trialTo": "2026-06"
   },
   "trailing": {
     "firstSpend": 10694.114170854271,
@@ -38,11 +40,10 @@
     "renewalRate": 0.6613442257705161
   },
   "prices": {
-    "oneMonth": 20239,
-    "threeMonth": 57855,
-    "sixMonth": 113715,
-    "annual": 219450,
-    "twelveClassPack": 19688,
-    "privateThirty": 3333
+    "oneMonth": 19275,
+    "threeMonth": 55100,
+    "sixMonth": 108300,
+    "annual": 209000,
+    "privates": 50000
   }
 }

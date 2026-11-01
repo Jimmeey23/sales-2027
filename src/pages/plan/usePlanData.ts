@@ -176,7 +176,9 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
       target,
       approved: t?.approved_target !== null && t?.approved_target !== undefined,
       planApproved: plan?.status === 'approved',
-      lastYear: num(t?.historical_revenue || e?.benchmark?.prior2026Revenue),
+      // An imported month carries the plan's own prior year; the card should not quote a different
+      // one from the measured history.
+      lastYear: num(plan?.content?.priorYear || t?.historical_revenue || e?.benchmark?.prior2026Revenue),
       actual: num(detail.actuals.find((x: any) => x.month === month)?.revenue),
       newClient,
       renewal,

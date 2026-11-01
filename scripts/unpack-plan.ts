@@ -8,8 +8,8 @@ import path from 'node:path';
      npx tsx scripts/unpack-plan.ts path/to/plan.json --check    → report, write nothing
 
    This is how a plan that was authored elsewhere becomes the source of truth in the repo: the
-   document is not paraphrased, its months are written out as they are. Only the two fields the
-   builder derives again (`name`, `growthPercent`) are dropped, so build(unpack(x)) is x. */
+   document is not paraphrased, its months are written out as they are, so build(unpack(x)) is x
+   field for field. */
 
 const args = process.argv.slice(2);
 const file = args.find(arg => !arg.startsWith('--'));
@@ -38,9 +38,6 @@ if (months.length !== 12) {
   process.exit(1);
 }
 
-// Fields the builder writes from the year block, not from the month.
-const DERIVED = new Set(['name', 'growthPercent']);
-
 const written: string[] = [];
 for (const month of months) {
   const number = Number(month.month);
@@ -48,8 +45,8 @@ for (const month of months) {
     console.error(`A month is numbered “${month.month}”, which is not 1–12.`);
     process.exit(1);
   }
-  const out: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(month)) if (!DERIVED.has(key)) out[key] = value;
+  // Written as they are: a month the studio authored is not edited on the way in.
+  const out: Record<string, unknown> = { ...month };
   const target = path.join(dir, `month-${String(number).padStart(2, '0')}.json`);
   written.push(
     `month-${String(number).padStart(2, '0')}.json · ${month.theme || '(no theme)'} · ₹${Number(month.target || 0).toLocaleString('en-IN')} · ${(month.offers || []).length} offers`,
