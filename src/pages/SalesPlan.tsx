@@ -13,6 +13,7 @@ import CampaignsTab from './plan/CampaignsTab';
 import MarketingTab from './plan/MarketingTab';
 import PlanExportDialog from '../components/PlanExportDialog';
 import OfferImportDialog from '../components/OfferImportDialog';
+import PlanImportDialog from '../components/PlanImportDialog';
 
 // Plan has exactly six tabs: Target Metrics, Approvals & Calculations, Sales Plan,
 // Activations & Community Activations, Anniversary Plan, Marketing & Performance Marketing.
@@ -29,6 +30,7 @@ export default function SalesPlan() {
   // inside one tab: the same two files serve the review and the next edit of the year.
   const [exporting, setExporting] = React.useState(false);
   const [importing, setImporting] = React.useState(false);
+  const [planImporting, setPlanImporting] = React.useState(false);
   return (
     <div className="ws-page">
       {/* A short head, not a dashboard: the page's content starts within a screenful.
@@ -61,6 +63,10 @@ export default function SalesPlan() {
           </dl>
         )}
         <div className="ws-strip-actions">
+          <button type="button" className="ws-strip-action" onClick={() => setPlanImporting(true)}>
+            <Upload size={13} />
+            Import plan
+          </button>
           <button type="button" className="ws-strip-action" onClick={() => setImporting(true)}>
             <Upload size={13} />
             Import offers
@@ -72,6 +78,13 @@ export default function SalesPlan() {
         </div>
       </header>
       <PlanExportDialog open={exporting} onClose={() => setExporting(false)} defaultScope={studio ? 'studio' : 'all'} />
+      <PlanImportDialog
+        open={planImporting}
+        onClose={() => setPlanImporting(false)}
+        studioId={studioId ?? null}
+        year={year}
+        onImported={() => reload().catch(() => {})}
+      />
       <OfferImportDialog
         open={importing}
         onClose={() => setImporting(false)}

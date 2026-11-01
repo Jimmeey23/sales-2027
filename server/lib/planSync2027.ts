@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { db, audit } from '../db.js';
 import { offerRow, monthPlan, type PlanMonth } from './approvedPlan2027.js';
+import { planWasImported } from './salesPlanImport.js';
 
 /* Rebuilds the 2027 plan months from server/data/approved-plan-2027.json — the approved plan
  * is the source of truth for the offers, their copy and the month's brief.
@@ -79,6 +80,8 @@ export function syncPlanMonths(months: number[] = [1, 2]): PlanSyncReport | null
   db.transaction(() => {
     // 1. The challenge offers leave January for February, keeping their ids, notes and history.
     for (const studio of studios.values()) {
+      // A location that imported its own plan keeps it: no offer of its is moved by this build.
+      if (planWasImported(studio, YEAR)) continue;
       const rows = db
         .prepare(
           "SELECT id,name,provenance FROM offers WHERE studio_id=? AND year=? AND month=1 AND status NOT IN ('archived','rejected')",
@@ -95,6 +98,9 @@ export function syncPlanMonths(months: number[] = [1, 2]): PlanSyncReport | null
       for (const m of plan.filter(r => r.month === month)) {
         const studioId = studios.get(m.studio);
         if (!studioId) continue;
+        // An imported month is the studio's own document; re-issuing the shipped plan over it
+        // would silently undo the import.
+        if (planWasImported(studioId, YEAR, month)) continue;
         const existing = db
           .prepare(
             "SELECT * FROM offers WHERE studio_id=? AND year=? AND month=? AND status NOT IN ('archived','rejected')",
@@ -239,6 +245,17 @@ export function syncPlanMonths(months: number[] = [1, 2]): PlanSyncReport | null
     }
   })();
   return report;
+}
+
+/* A location whose year was imported from a plan document is no longer the shipped plan's to
+ * rewrite. The import is newer than the file, so the sync leaves those months alone — the
+ * document the studio pasted is the plan of record until it imports another one. */
+export function importedPlanYears(): Array<{ studioId: number; year: number }> {
+  const rows = db.prepare("SELECT key FROM settings WHERE key LIKE 'plan_import:%'").all() as any[];
+  return rows
+    .map(row => String(row.key).split(':'))
+    .map(([, studioId, year]) => ({ studioId: Number(studioId), year: Number(year) }))
+    .filter(entry => Number.isInteger(entry.studioId) && Number.isInteger(entry.year));
 }
 
 /* Whether a stored January is what the plan now says it is: three offers of its own, none of

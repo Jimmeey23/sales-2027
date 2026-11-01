@@ -39,6 +39,11 @@ export interface MonthStoryInput {
   renewalCoverage: number | null;
   offers: number;
   offerRevenue: number;
+  /* A plan that was imported names its own theme, its own commercial job and its own offers.
+     When those are given the voice speaks in the month's words, not the shipped plan's. */
+  theme?: string | null;
+  objective?: string | null;
+  planOffers?: { newcomer?: string | null; lapsed?: string | null; renewal?: string | null };
 }
 
 export interface MonthStory {
@@ -112,9 +117,14 @@ export function isLegacyTheme(theme: string | null | undefined, month?: number) 
    and the final plan's offers for the month. */
 function voice(month: number, c: MonthStoryInput): MonthStory {
   const e = approvedEntry(c.studio, month) || approvedMonth(month);
-  const offer = (slot: 'newcomer' | 'lapsed' | 'renewal') => approvedOffer(e, slot)?.name || '—';
+  // The month's own words win: an imported plan renames the theme, rewrites the job and runs
+  // its own offers, and the cover has to describe the plan the studio is actually running.
+  const theme = String(c.theme || '').trim() || e.theme;
+  const job = String(c.objective || '').trim() || e.job;
+  const offer = (slot: 'newcomer' | 'lapsed' | 'renewal') =>
+    String(c.planOffers?.[slot] || '').trim() || approvedOffer(e, slot)?.name || '—';
   return {
-    split: `${e.theme}: of ${L(c.target)}, ${L(c.streams.newClient)} (${share(c.streams.newClient, c.target)}) comes from new clients, ${L(c.streams.renewal)} (${share(c.streams.renewal, c.target)}) from renewals and ${L(c.streams.reactivation)} (${share(c.streams.reactivation, c.target)}) from lapsed clients coming back. ${e.job}`,
+    split: `${theme}: of ${L(c.target)}, ${L(c.streams.newClient)} (${share(c.streams.newClient, c.target)}) comes from new clients, ${L(c.streams.renewal)} (${share(c.streams.renewal, c.target)}) from renewals and ${L(c.streams.reactivation)} (${share(c.streams.reactivation, c.target)}) from lapsed clients coming back. ${job}`,
     leads: `${N(c.leads)} leads → ${N(c.trials)} trials → ${N(c.buyers)} first purchases at ${conv(c)} trial conversion. Newcomer offer: ${offer('newcomer')}; lapsed offer: ${offer('lapsed')}.`,
     renewals: `${N(c.renewalsDue)} memberships expire and the plan funds ${P(c.renewalCoverage)} of that renewal book. Renewal offer: ${offer('renewal')}.`,
   };

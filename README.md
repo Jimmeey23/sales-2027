@@ -131,6 +131,26 @@ CSV, XLSX, and XLSM files follow this path:
 
 The importer supports eight categories, including Checkins, plus reusable mapping templates, unknown-studio review, row-level error reports, source IDs, duplicate checks, import IDs, and original filenames. Validation and commit are staged; only valid, non-duplicate rows are committed. Existing records are not silently replaced. Checkins error reports exclude source names and email addresses.
 
+### Importing a year plan
+
+The whole year plan leaves the app as a `p57-sales-plan/1` document (Export plan, JSON) and comes back the same way. **Import plan** in the Plan header takes the file or the pasted JSON and writes, for the location the document names:
+
+- each month's **theme, kicker, objective, strategy, notes and status**;
+- the **target**, its **new-client / renewal / comeback / other** split, the **funnel** and the assumptions the plan was built on;
+- the **Week 1–4 sections** as the month's action plan, each line keeping its owners;
+- the **key dates**, focus points and any rationale or risks the document carries;
+- every **offer** with its headline, benefit, customer copy, internal description, rationale, audience, conditions, CTA, price, buyers, expected revenue, effective discount, validity, ads flag, approval and status — and the month's slot selection.
+
+Three modes decide what happens to what the file does not mention: **Add months** plans only months that are not planned yet, **Update the plan** rewrites the months it carries and keeps the rest, **Replace the year** makes the location's year exactly the document, retiring the offers it no longer names. Nothing is written until Import; the preview is the server's own dry run. An imported year is authoritative — the shipped plan sync no longer rewrites those months.
+
+The same document can be imported from a terminal:
+
+```bash
+npm run plan:import-json -- path/to/plan.json --studio=1 --mode=modify --write
+```
+
+`--mode=add|modify|replace`, `--approve` to write the targets as approved, `--no-rates` to leave the measured-rate overrides alone. Without `--write` it is a dry run.
+
 ### Advanced Reporting Studio and exports
 
 The reporting workspace contains **21 executable reports**: five Executive, six Commercial, three Retention, four Operations and three Governance reports. Coverage includes monthly/annual performance, revenue streams, target attainment and scenarios, products, discount exposure, offer economics, campaigns, experiments, leads, renewal dues, package lifecycle, historical renewal revenue, attendance/cancellations, class and trainer delivery, capacity, import lineage, data quality and aggregate audit activity.

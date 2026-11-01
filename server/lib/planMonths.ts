@@ -92,12 +92,24 @@ export interface MonthSections {
 export function monthSections(input: MonthSectionInput): MonthSections {
   const { year, month, studioName, plan, offers, revenues, funnel } = input;
   const chapter = monthChapter(month);
+  const content = parseJson(plan?.content, {});
+  /* An imported plan owns its month: its theme, brief and risk print as filed. Only a row
+     that has not been through an import is judged against the shipped plan's chapters. */
+  const imported = Boolean(content?.planImport);
   const savedTheme = plan?.theme || input.target?.theme || null;
   // A saved theme the final plan does not give this month is a leftover, not a choice.
-  const theme = savedTheme && !isLegacyTheme(savedTheme, month) ? savedTheme : chapter.theme;
+  const theme = imported
+    ? savedTheme || chapter.theme
+    : savedTheme && !isLegacyTheme(savedTheme, month)
+      ? savedTheme
+      : chapter.theme;
   const status = plan?.status || input.target?.status || 'draft';
+  const planOffers: Record<string, string> = {};
+  for (const offer of offers) {
+    const slot = String(offer?.slot || '');
+    if (slot && !planOffers[slot]) planOffers[slot] = String(offer?.name || '');
+  }
 
-  const content = parseJson(plan?.content, {});
   const story = monthStory(month, {
     studio: studioName,
     target: revenues.target,
@@ -110,6 +122,9 @@ export function monthSections(input: MonthSectionInput): MonthSections {
     renewalCoverage: funnel.renewalCoverage ?? null,
     offers: offers.length,
     offerRevenue: offers.reduce((total, offer) => total + (Number(offer.expectedRevenue) || 0), 0),
+    theme,
+    objective: plan?.objective || chapter.objective,
+    planOffers,
   });
 
   const carried = revenues.target
@@ -121,12 +136,12 @@ export function monthSections(input: MonthSectionInput): MonthSections {
 
   /* ── Cover: the argument the month opens with ─────────────────────────────── */
   const cover = {
-    kicker: chapter.kicker,
+    kicker: String(content?.kicker || '').trim() || chapter.kicker,
     theme,
     moment: chapter.moment,
     objective: plan?.objective || chapter.objective,
-    brief: chapter.brief,
-    risk: chapter.risk,
+    brief: imported ? String(plan?.notes || plan?.objective || chapter.brief) : chapter.brief,
+    risk: imported ? String(content?.ai?.risks?.[0] || '') || chapter.risk : chapter.risk,
     // "The move" names the offers the month actually carries, not the ones the chapter was
     // written against: a month that has swapped an offer must not claim the old one in print.
     signature: offers.length ? offers.map(offer => String(offer.name)).join(' · ') : chapter.signature,
