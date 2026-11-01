@@ -1319,11 +1319,17 @@ export default function MonthWorkspace({
     { key: 'reactivation', label: 'Comeback', value: n(form.streams.reactivation) },
   ];
   const chapter = monthChapter(month);
+  /* A month imported from a plan document carries its own theme, brief, risk and offers. The
+     shipped plan's chapter is a fallback for months that have not been through an import —
+     never a replacement for the words the studio actually filed. */
+  const importedPlan = Boolean(form.content?.planImport);
+  const savedTheme = form.theme || row.theme || chapter.theme;
   // Months planned before the narrative rewrite carry a generic label; the chapter names them now.
-  const displayTheme =
-    isLegacyTheme(form.theme, month) || isLegacyTheme(row.theme, month)
+  const displayTheme = importedPlan
+    ? savedTheme
+    : isLegacyTheme(form.theme, month) || isLegacyTheme(row.theme, month)
       ? chapter.theme
-      : form.theme || row.theme || chapter.theme;
+      : savedTheme;
   // A different cover photograph every month, from a set the offer cards never draw on.
   const coverPhoto = coverPhotoFor(month);
 
@@ -1353,6 +1359,22 @@ export default function MonthWorkspace({
     }
     return chapter.signature ? [{ week: 1, label: 'The move', text: chapter.signature }] : [];
   })();
+  const planOfferNames = (() => {
+    const bySlot: Record<string, string> = {};
+    for (const offer of selected) {
+      const slot = offer.plan_slot || slotOf(offer.id);
+      if (slot && !bySlot[slot]) bySlot[slot] = String(offer.name || '');
+    }
+    return bySlot;
+  })();
+  const coverBrief = importedPlan ? String(form.notes || form.objective || chapter.brief) : chapter.brief;
+  const coverRisk = importedPlan ? String(form.content?.ai?.risks?.[0] || '') || undefined : chapter.risk;
+  const coverSignature = importedPlan
+    ? selected
+        .map((offer: any) => String(offer.name || ''))
+        .filter(Boolean)
+        .join(' · ') || chapter.signature
+    : chapter.signature;
   const story = monthStory(month, {
     studio: studio.name,
     target: effective,
@@ -1369,6 +1391,9 @@ export default function MonthWorkspace({
     renewalCoverage: coverage,
     offers: selected.length,
     offerRevenue,
+    theme: displayTheme,
+    objective: form.objective || row.objective || null,
+    planOffers: planOfferNames,
   });
   const showOnPage = (key: string) => isSectionVisible(key) && PAGE_OF_SECTION[key] === page;
   const pageTabs: Array<{ id: PlanPage; label: string; meta?: string }> = [
@@ -4321,9 +4346,9 @@ export default function MonthWorkspace({
             year={year}
             studioName={studio.name}
             theme={displayTheme}
-            brief={chapter.brief}
-            risk={chapter.risk}
-            signature={chapter.signature}
+            brief={coverBrief}
+            risk={coverRisk}
+            signature={coverSignature}
             plan={coverPlan}
             target={effective}
             lastYear={row.lastYear}

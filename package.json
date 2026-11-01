@@ -24,7 +24,8 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"server/**/*.ts\" \"api/**/*.ts\" \"e2e/**/*.ts\"",
     "plan:january": "tsx scripts/import-january-offers.ts",
     "plan:offers": "tsx scripts/import-sales-offer-plan.ts",
-    "plan:library": "tsx scripts/import-membership-library.ts"
+    "plan:library": "tsx scripts/import-membership-library.ts",
+    "plan:import-json": "tsx scripts/import-year-plan.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.7.0",

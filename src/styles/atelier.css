@@ -10138,6 +10138,29 @@ details.membership-terms > summary {
 .pex-row-note {
   color: var(--subtle);
 }
+.pex-warnings {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 9px 11px;
+  list-style: none;
+  border: 1px solid rgba(176, 58, 42, 0.18);
+  border-radius: 9px;
+  background: var(--red-soft);
+}
+.pex-warnings li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--red);
+}
+.pex-warnings li svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
 .pex-done {
   margin: 0;
   display: flex;
