@@ -88,11 +88,23 @@ export function monthChapter(month: number): MonthChapter {
   return MONTH_CHAPTERS[Math.min(12, Math.max(1, month)) - 1];
 }
 
-/** True when a saved theme is not one of the final plan's themes, so the final chapter leads. */
+/** The final plan's themes, and the month each one belongs to. */
 const FINAL_THEMES = new Set(APPROVED_PLAN_2027.map(e => e.theme.trim().toLowerCase()));
+const THEMES_BY_MONTH = new Map<number, Set<string>>();
+for (const entry of APPROVED_PLAN_2027) {
+  const set = THEMES_BY_MONTH.get(entry.month) || new Set<string>();
+  set.add(entry.theme.trim().toLowerCase());
+  THEMES_BY_MONTH.set(entry.month, set);
+}
 
-export function isLegacyTheme(theme: string | null | undefined) {
-  return !!theme && !FINAL_THEMES.has(theme.trim().toLowerCase());
+/* True when a saved theme is not one the final plan gives *this* month, so the final chapter
+   leads. The month matters: "Stronger in 30 2.0" is a real 2027 theme, but it is February's,
+   so a January row still carrying it is a leftover from the old calendar rather than a choice. */
+export function isLegacyTheme(theme: string | null | undefined, month?: number) {
+  if (!theme) return false;
+  const saved = theme.trim().toLowerCase();
+  const own = month ? THEMES_BY_MONTH.get(Math.min(12, Math.max(1, month))) : undefined;
+  return own ? !own.has(saved) : !FINAL_THEMES.has(saved);
 }
 
 /* ── The voice ────────────────────────────────────────────────────────────────

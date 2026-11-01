@@ -38,7 +38,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     hook: 'New Year · seven days unlimited · the annual re-up',
     job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, and the 30-day challenge picks it up from there.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: the month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
     figures: {
       target: 3120000,
       projected: 3280000,
@@ -57,7 +57,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
         name: 'The First Seven Days',
         tagline: 'Seven days unlimited. Then decide.',
         fields: {
-          Journey: ['Week Zero'],
+          Journey: ['Start Line'],
           'Commercial job': ['Convert high-intent January leads fast'],
           'Who qualifies': ['First-time clients (phone verified).'],
           'You pay': [
@@ -68,7 +68,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Goal-setting chat after class 1; owner check-in on day 3',
             '• Lab Induction seat at Kwality/Bandra',
             '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
-            "• Buy in January and you're pre-registered for February's challenge (target scaled)",
+            "• Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
           ],
           When: ['1–24 Jan 2027.'],
           Rules: [
@@ -83,13 +83,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹4.1L counted (+₹55.7k vs the ₹3.6L stream plan) · 18 buyers'],
           'Rate of sale': ['Needs ≈18 renewal purchases (plan 14).'],
           'Why it works': [
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
           ],
           'What to watch': [
             'Intro → purchase (24% measured — plan at that rate); classes in the intro week (target 4+).',
           ],
           'Offer auditor': [
-            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it starts the habit in week one.',
           ],
           Model: [
             '59 in pool × 23.7% plan rate × 1.25 conversion factor = 17.5 buyers × ₹26.7k ticket = ₹4.7L modelled; 50% of uplift counted',
@@ -107,7 +107,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'You get': [
             '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
             '• A free comeback class to book before buying',
-            "• Buy in January and you're pre-registered for February's challenge",
+            "• Come back in January and the desk books your first four classes of the year",
           ],
           When: ['Buy by 24 Jan 2027.'],
           Rules: [
@@ -121,7 +121,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹4.1L counted (+₹50.4k vs the ₹3.6L stream plan) · 48 buyers'],
           'Rate of sale': ['Needs ≈11 1M unlimited sales vs 29 a month today (all buyers).'],
           'Why it works': [
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
           ],
           'What to watch': ['Lapsed clients buying before 24 Jan.'],
           'Offer auditor': [
@@ -135,14 +135,14 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'The Annual Re-Up',
-        tagline: "The January annuals renew at list — and February's challenge comes with them.",
+        tagline: "The January annuals renew at list, and the rate for the year is settled in one sitting.",
         fields: {
           'Commercial job': ['Re-up the January-2026 annuals at list'],
           'Who qualifies': ['Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
             '• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan',
-            '• Entry to February’s challenge, target scaled to the new term',
+            '• The 2027 rate locked for the whole term — no re-price mid-year',
           ],
           When: ['2–31 Jan 2027.'],
           Rules: [
@@ -1589,7 +1589,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     hook: 'New Year · seven days unlimited · the annual re-up',
     job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, and the 30-day challenge picks it up from there.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: the month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
     figures: {
       target: 1760000,
       projected: 1870000,
@@ -1608,7 +1608,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
         name: 'The First Seven Days',
         tagline: 'Seven days unlimited. Then decide.',
         fields: {
-          Journey: ['Week Zero'],
+          Journey: ['Start Line'],
           'Commercial job': ['Convert high-intent January leads fast'],
           'Who qualifies': ['First-time clients (phone verified).'],
           'You pay': [
@@ -1619,7 +1619,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Goal-setting chat after class 1; owner check-in on day 3',
             '• Lab Induction seat at Kwality/Bandra',
             '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
-            "• Buy in January and you're pre-registered for February's challenge (target scaled)",
+            "• Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
           ],
           When: ['1–24 Jan 2027.'],
           Rules: [
@@ -1634,13 +1634,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹3.1L counted (+₹42k vs the ₹2.7L stream plan) · 19 buyers'],
           'Rate of sale': ['Needs ≈19 renewal purchases (plan 15).'],
           'Why it works': [
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
           ],
           'What to watch': [
             'Intro → purchase (18% measured — plan at that rate); classes in the intro week (target 4+).',
           ],
           'Offer auditor': [
-            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it starts the habit in week one.',
           ],
           Model: [
             '87 in pool × 17.2% plan rate × 1.25 conversion factor = 18.8 buyers × ₹18.8k ticket = ₹3.5L modelled; 50% of uplift counted',
@@ -1658,7 +1658,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'You get': [
             '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
             '• A free comeback class to book before buying',
-            "• Buy in January and you're pre-registered for February's challenge",
+            "• Come back in January and the desk books your first four classes of the year",
           ],
           When: ['Buy by 24 Jan 2027.'],
           Rules: [
@@ -1672,7 +1672,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹2.5L counted (+₹38.9k vs the ₹2.2L stream plan) · 38 buyers'],
           'Rate of sale': ['Needs ≈9 1M unlimited sales vs 19.7 a month today (all buyers).'],
           'Why it works': [
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
           ],
           'What to watch': ['Lapsed clients buying before 24 Jan.'],
           'Offer auditor': [
@@ -1686,14 +1686,14 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'The Annual Re-Up',
-        tagline: "The January annuals renew at list — and February's challenge comes with them.",
+        tagline: "The January annuals renew at list, and the rate for the year is settled in one sitting.",
         fields: {
           'Commercial job': ['Re-up the January-2026 annuals at list'],
           'Who qualifies': ['Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
             '• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan',
-            '• Entry to February’s challenge, target scaled to the new term',
+            '• The 2027 rate locked for the whole term — no re-price mid-year',
           ],
           When: ['2–31 Jan 2027.'],
           Rules: [
@@ -3151,7 +3151,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     hook: 'New Year · seven days unlimited · the annual re-up',
     job: 'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
     moment:
-      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: every January membership carries into February, and the 30-day challenge picks it up from there.',
+      'January is the first week — a credited seven-day intro, a free comeback class and the annual re-up at list. Nothing launches early: the month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
     figures: {
       target: 1290000,
       projected: 1380000,
@@ -3170,7 +3170,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
         name: 'The First Seven Days',
         tagline: 'Seven days unlimited. Then decide.',
         fields: {
-          Journey: ['Week Zero'],
+          Journey: ['Start Line'],
           'Commercial job': ['Convert high-intent January leads fast'],
           'Who qualifies': ['First-time clients (phone verified).'],
           'You pay': [
@@ -3181,7 +3181,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
             '• Goal-setting chat after class 1; owner check-in on day 3',
             '• Lab Induction seat at Kwality/Bandra',
             '• Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%',
-            "• Buy in January and you're pre-registered for February's challenge (target scaled)",
+            "• Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
           ],
           When: ['1–24 Jan 2027.'],
           Rules: [
@@ -3196,13 +3196,13 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹4.0L counted (+₹54.3k vs the ₹3.5L stream plan) · 26 buyers'],
           'Rate of sale': ['Needs ≈26 renewal purchases (plan 20).'],
           'Why it works': [
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and a January purchase hands February a warm list.',
+            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
           ],
           'What to watch': [
             'Intro → purchase (25% measured — plan at that rate); classes in the intro week (target 4+).',
           ],
           'Offer auditor': [
-            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it hands February a warm list.',
+            '22/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 4). Strongest January entry: bold, clear credit rule, and it starts the habit in week one.',
           ],
           Model: [
             '81 in pool × 25.2% plan rate × 1.25 conversion factor = 25.5 buyers × ₹17.9k ticket = ₹4.6L modelled; 50% of uplift counted',
@@ -3220,7 +3220,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'You get': [
             '• 1M unlimited or a 12-class pack at the standing 15% lapsed perk',
             '• A free comeback class to book before buying',
-            "• Buy in January and you're pre-registered for February's challenge",
+            "• Come back in January and the desk books your first four classes of the year",
           ],
           When: ['Buy by 24 Jan 2027.'],
           Rules: [
@@ -3234,7 +3234,7 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
           'Expected revenue': ['₹1.3L counted (+₹17.5k vs the ₹1.1L stream plan) · 23 buyers'],
           'Rate of sale': ['Needs ≈5 1M unlimited sales vs 17.3 a month today (all buyers).'],
           'Why it works': [
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them in February's challenge.",
+            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
           ],
           'What to watch': ['Lapsed clients buying before 24 Jan.'],
           'Offer auditor': [
@@ -3248,14 +3248,14 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
       {
         slot: 'renewal',
         name: 'The Annual Re-Up',
-        tagline: "The January annuals renew at list — and February's challenge comes with them.",
+        tagline: "The January annuals renew at list, and the rate for the year is settled in one sitting.",
         fields: {
           'Commercial job': ['Re-up the January-2026 annuals at list'],
           'Who qualifies': ['Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).'],
           'You pay': ["Renewal at your product's list price (no % off)."],
           'You get': [
             '• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan',
-            '• Entry to February’s challenge, target scaled to the new term',
+            '• The 2027 rate locked for the whole term — no re-price mid-year',
           ],
           When: ['2–31 Jan 2027.'],
           Rules: [
@@ -4702,9 +4702,9 @@ export const APPROVED_PLAN_2027: ApprovedEntry[] = [
     month: 1,
     theme: 'Start Line',
     hook: 'New Year · Saturday squad · drop-in to pack',
-    job: 'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door — and a February pack carries an entry into the 30-day challenge.',
+    job: 'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door — and January is about turning the first drop-in into a pack while the class is still the best part of their week.',
     moment:
-      'January is the first drop-in, the Saturday squad and the pack conversation at the door. Packs bought in February carry an entry into the 30-day challenge.',
+      'January is the first drop-in, the Saturday squad and the pack conversation at the door. The work is one drop-in at a time, and the pack sold at the door.',
     figures: {
       target: 160000,
       newClientPlan: 20000,

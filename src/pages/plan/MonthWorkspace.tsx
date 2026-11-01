@@ -1320,7 +1320,9 @@ export default function MonthWorkspace({
   const chapter = monthChapter(month);
   // Months planned before the narrative rewrite carry a generic label; the chapter names them now.
   const displayTheme =
-    isLegacyTheme(form.theme) || isLegacyTheme(row.theme) ? chapter.theme : form.theme || row.theme || chapter.theme;
+    isLegacyTheme(form.theme, month) || isLegacyTheme(row.theme, month)
+      ? chapter.theme
+      : form.theme || row.theme || chapter.theme;
   // A different cover photograph every month, from a set the offer cards never draw on.
   const coverPhoto = coverPhotoFor(month);
 

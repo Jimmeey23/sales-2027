@@ -191,7 +191,7 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
       // cards, the cover and the workspace all name the month the same way.
       theme: (() => {
         const planned = plan?.theme || detail.themes?.[month];
-        return planned && !isLegacyTheme(planned) ? planned : MONTH_THEMES[i];
+        return planned && !isLegacyTheme(planned, i + 1) ? planned : MONTH_THEMES[i];
       })(),
       renewalTarget: e?.renewal.target ?? renewal,
       expectedRenewal: e?.renewal.expected || 0,

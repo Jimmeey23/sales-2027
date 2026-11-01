@@ -5,6 +5,7 @@ import { db, audit } from '../db.js';
 import { hashPassword } from './auth.js';
 import { seedCredentialPlan } from './credentialPolicy.js';
 import { writeCredentialReport } from './sharedCredentials.js';
+import { ensurePlanJanFebSync } from './planSync2027.js';
 import { STUDIO_DEFINITIONS } from './studios.js';
 import { ensureCommercialSeed } from './commercialSeed.js';
 import { generateYearTargets } from './intelligence.js';
@@ -150,7 +151,7 @@ export function ensureStudiosAndUsers() {
         account.name,
         hashPassword(account.password),
         account.role,
-        account.studio ? studiosByName.get(account.studio) ?? null : null,
+        account.studio ? (studiosByName.get(account.studio) ?? null) : null,
       );
     }
     if (production) {
@@ -164,7 +165,10 @@ export function ensureStudiosAndUsers() {
           'initial-credentials.txt',
         );
       } catch (error) {
-        console.warn('Could not write the bootstrap credentials to disk.', error instanceof Error ? error.message : error);
+        console.warn(
+          'Could not write the bootstrap credentials to disk.',
+          error instanceof Error ? error.message : error,
+        );
       }
       console.warn(
         [
@@ -1485,6 +1489,11 @@ export function ensureBaselineData() {
       after: curated,
       reason: 'Replaced older 2027 campaigns and playbook content with the final plan.',
     });
+
+  // The approved plan is stored, not only shipped: every seeded database keeps its own copy of
+  // the months. Walk those copies forward when the plan itself changes (January lost the
+  // Stronger in 30 challenge to February), once per plan version.
+  ensurePlanJanFebSync();
 
   if (history.seeded) {
     audit({
