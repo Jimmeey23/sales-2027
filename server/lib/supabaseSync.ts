@@ -329,10 +329,23 @@ export async function startSupabaseSync() {
   }
   if (process.env.VERCEL) return counts; // serverless: each write request flushes before responding
   // Locally, edits made elsewhere (e.g. on Vercel) are pulled on this timer instead of before each request.
+  // One sync at a time; while offline, back off (up to 60s) and log only the first failure and the recovery.
+  let busy = false, failures = 0, nextAt = 0;
   timer = setInterval(() => {
+    if (busy || Date.now() < nextAt) return;
+    busy = true;
     flushOutbox()
       .then(() => pullRemoteChanges())
-      .catch(error => console.error(`Supabase pull failed: ${error?.message || error}`));
+      .then(() => {
+        if (failures) console.log(`Supabase: reconnected after ${failures} failed attempt(s).`);
+        failures = 0;
+      })
+      .catch(error => {
+        if (!failures) console.error(`Supabase pull failed: ${error?.message || error} — retrying quietly until it is back.`);
+        failures++;
+        nextAt = Date.now() + Math.min(60000, 1500 * 2 ** Math.min(failures, 6));
+      })
+      .finally(() => { busy = false; });
   }, 1500);
   const shutdown = async () => {
     if (timer) clearInterval(timer);
