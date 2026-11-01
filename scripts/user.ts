@@ -1,5 +1,7 @@
 import { db, audit } from '../server/db.js';
 import { hashPassword, ROLE_PERMISSIONS } from '../server/lib/auth.js';
+import { credentialTable } from '../server/lib/credentialPolicy.js';
+import { rotateSharedCredentialAccounts } from '../server/lib/sharedCredentials.js';
 
 const [command, rawEmail, ...rest] = process.argv.slice(2);
 const email = String(rawEmail || '').trim().toLowerCase();
@@ -7,7 +9,22 @@ const usage =
   'Usage: npm run user -- create user@example.com "Full Name" <role> "long-password" [studioId]\n' +
   '       npm run user -- password user@example.com "new-long-password"\n' +
   '       npm run user -- deactivate user@example.com\n' +
+  '       npm run user -- secure-all   (re-key every account still on the demo password)\n' +
   `Roles: ${Object.keys(ROLE_PERMISSIONS).join(', ')}`;
+if (command === 'secure-all') {
+  const rotated = rotateSharedCredentialAccounts({
+    reason: 'Shared demonstration password rotated from the command line.',
+  });
+  if (!rotated.length) {
+    console.log('No active account accepts the shared demonstration password; nothing to rotate.');
+    process.exit(0);
+  }
+  console.log('Each account below was given its own random password; existing sessions were revoked.');
+  console.log(credentialTable(rotated));
+  console.log('\nStore these now — they are not shown again. Replace any of them with your own with:');
+  console.log('  npm run user -- password <email> "<a long unique password>"');
+  process.exit(0);
+}
 if (!['create', 'password', 'deactivate'].includes(command) || !email) {
   console.error(usage);
   process.exit(1);

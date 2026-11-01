@@ -4,9 +4,10 @@ import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import path from 'node:path';
 import { db, initSchema } from './db.js';
-import { authenticate, requireAuth, verifyPassword } from './lib/auth.js';
+import { authenticate, requireAuth } from './lib/auth.js';
 import { ensureCommercialSeed } from './lib/commercialSeed.js';
 import { ensureBaselineData, ensureHistoricalCohorts } from './lib/historicalBaseline.js';
+import { enforceSharedCredentialPolicy } from './lib/sharedCredentials.js';
 import { recalculateSegments } from './lib/segments.js';
 import { syncBreakdownFunnels } from './lib/targetBreakdown.js';
 import { flushOutbox, pullRemoteChanges, startSupabaseSync } from './lib/supabaseSync.js';
@@ -32,15 +33,10 @@ if (process.env.NODE_ENV === 'production') {
     throw new Error(
       'Refusing production startup with DIRECT_WORKSPACE=true; this grants every visitor administrator access.',
     );
-  const demoAccounts = db.prepare('SELECT email,password_hash FROM users WHERE active=1').all() as Array<{
-    email: string;
-    password_hash: string;
-  }>;
-  const sharedDemoAccounts = demoAccounts.filter(account => verifyPassword('P57demo!', account.password_hash));
-  if (sharedDemoAccounts.length)
-    throw new Error(
-      `Refusing production startup while ${sharedDemoAccounts.length} active seeded account(s) still use the shared demonstration password. Rotate or disable them first.`,
-    );
+  // A production database must never serve an account that accepts the published
+  // demonstration password. Rather than refuse to start and strand the operator, the
+  // affected accounts are re-keyed before anything is served (see lib/sharedCredentials).
+  enforceSharedCredentialPolicy();
 }
 ensureBaselineData();
 ensureCommercialSeed();

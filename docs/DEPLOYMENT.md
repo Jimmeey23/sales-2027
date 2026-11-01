@@ -26,6 +26,7 @@ COOKIE_SECURE=true
 DIRECT_WORKSPACE=false
 DATABASE_PATH=./p57-data/studio.db
 MEMBER_HASH_SALT=<long-random-secret>
+SEED_PASSWORD=<long-unique-secret-for-the-seeded-accounts>
 PORT=3001
 ```
 
@@ -57,19 +58,27 @@ The seed command reads the files in `uploads/`. Keep those files available for a
 
 ## 4. Secure the seeded accounts
 
-Every seeded demonstration account initially uses `P57demo!`. Rotate the administrator password with a production password of at least 12 characters:
+The demonstration accounts start on `P57demo!` in development only. That password is published in this guide, in the seed output and in the smoke tests, so nothing in production may ever accept it.
 
-```bash
-npm run user -- password admin@p57.demo "replace-with-a-long-unique-password"
-```
+- A production seed never writes it. Give the operator-chosen password through `SEED_PASSWORD` (at least 12 characters) or let the seed generate one password per account and print the table once:
 
-Rotate or deactivate every other demonstration account:
+  ```bash
+  SEED_PASSWORD="<long unique secret>" FORCE_SEED=true npm run seed
+  ```
 
-```bash
-npm run user -- deactivate analyst@p57.demo
-```
+- A production database that already contains accounts still on the demonstration password — restored from a backup, copied from a development install, or seeded before this rule existed — is re-keyed as the server starts. Each affected account receives its own random password, every session for it is revoked, and the new credentials are written to `p57-data/rotated-credentials.txt` with mode `600`. Move them into your secret store and delete that file. The boot log names the affected accounts and the file.
 
-Password rotation and deactivation revoke existing sessions. The CLI prevents deactivating the last active administrator. Do not expose the application until the shared demonstration credentials have been removed from active use.
+- A database with no accounts at all — the bundled baseline, or a fresh production volume — gets a single administrator on first start: `SEED_PASSWORD` if set, otherwise a generated password written to `p57-data/initial-credentials.txt`. The development cast of six accounts is created in development only.
+
+- To re-key without starting the server, or to rotate deliberately:
+
+  ```bash
+  npm run user -- secure-all
+  npm run user -- password admin@p57.demo "replace-with-a-long-unique-password"
+  npm run user -- deactivate analyst@p57.demo
+  ```
+
+Password rotation and deactivation revoke existing sessions. The CLI prevents deactivating the last active administrator. `DIRECT_WORKSPACE=true` still refuses to start in production, because it grants every visitor administrator access.
 
 ## 5. Start and expose the application
 
