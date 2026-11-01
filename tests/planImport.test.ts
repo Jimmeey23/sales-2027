@@ -247,7 +247,7 @@ describe('focus points, when the document does not spell them out', () => {
   it('states the target, the mix, the funnel and the offers', () => {
     const points = focusPointsFor(plan.months[0]);
     expect(points[0]).toContain('₹32.0L');
-    expect(points.join(' ')).toContain('renewals ₹24.0L');
+    expect(points.join(' ')).toContain('₹24.0L planned');
     expect(points.join(' ')).toContain('269 leads → 206 trials → 49 new buyers');
     expect(points.join(' ')).toContain('Week Zero, Hero');
   });

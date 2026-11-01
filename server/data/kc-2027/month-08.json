@@ -1,0 +1,261 @@
+{
+  "month": 8,
+  "name": "August",
+  "status": "draft",
+  "theme": "The Amazing Race 2.0",
+  "objective": "Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; Mumbai's second seasonal peak.",
+  "strategy": "The Amazing Race 2.0.\n\nCommercial job: Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; Mumbai's second seasonal peak.\n\nNewcomer: Starting Gun Week (“Seven days unlimited from the day the race starts. Then 20% off.”). A Rookie leaderboard and an unlimited week make an individual race winnable for beginners.\n\nNewcomer: Tag Team (“Friendship Day: race with a friend who's never been.”). Friendship Day and the race start on the same day; referred friends convert above paid leads.\n\nWinback: Back on Track (“Your lane is still open. 20% off to get back in it.”). The race is the reason; the 20% is the push.\n\nRenewal: Victory Lap (“Finish the race, unlock the podium prices.”). The race lifts attendance, attendance lifts renewals; the best prices go to the people most likely to stay.",
+  "notes": "Moment: The Amazing Race 2.0 (1–31 Aug): every client races on their own against the studio leaderboard; Rookie leaderboard for first-timers; Independence Day 'Freedom Ride' powerCycle (Sun 15 Aug).\nBuild: new clients 48 buyers × ₹12,000 = ₹5.8L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹3.2L; renewals ₹25.9L. First visits needed 160 vs 145 last year (1.10×); CRM leads needed 320 vs 213 last year.",
+  "target": 3900000,
+  "priorYear": 2996981,
+  "growthPercent": 30.1,
+  "streams": {
+    "newClient": 576000,
+    "renewal": 2591152,
+    "reactivation": 412848,
+    "other": 320000
+  },
+  "funnel": {
+    "leads": 320,
+    "trials": 160,
+    "newBuyers": 48,
+    "existingPayingRenewals": 270,
+    "winbacksNeeded": 36,
+    "expiringMemberships": 288,
+    "renewalCoverage": 0.746,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
+    "spendPerVisit": 1727,
+    "firstMonthSpend": 12000,
+    "renewalTicket": 9591,
+    "winbackTicket": 11468
+  },
+  "feasibility": "stretch",
+  "offers": [
+    {
+      "id": 2418,
+      "slot": "newcomer",
+      "name": "Starting Gun Week",
+      "headline": "Seven days unlimited from the day the race starts. Then 20% off.",
+      "benefit": "7-Day Unlimited Intro for ₹1,999 (max 2 a day); every class counts on the Rookie leaderboard — ₹1,999 credited, 1 Month at 20% off (₹16,191) if you buy within 72 hours, and a race kit (bib + tote)",
+      "customerCopy": "Seven days unlimited from the day the race starts. Then 20% off.\n• You buy: 7-Day Unlimited Intro for ₹1,999 (max 2 a day); every class counts on the Rookie leaderboard\n• You get: ₹1,999 credited, 1 Month at 20% off (₹16,191) if you buy within 72 hours, and a race kit (bib + tote)\n• When: Start 1–20 Aug\n• Good to know: One intro per person; start 1–20 Aug; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "internalDescription": "160 in pool × 15.0% plan rate = 24 buyers × ₹16,191 ticket = ₹3.9L (67% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹1.0L at 20% effective.",
+      "rationale": "Why: A Rookie leaderboard and an unlimited week make an individual race winnable for beginners.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "First-time clients.",
+      "excludedAudience": null,
+      "conditions": "One intro per person; start 1–20 Aug; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
+      "cta": "1–20 Aug.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 388584,
+      "buyers": 24,
+      "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-08-01",
+        "end": "2027-08-20"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2514,
+      "slot": "newcomer",
+      "name": "Tag Team",
+      "headline": "Friendship Day: race with a friend who's never been.",
+      "benefit": "Your friend's first 2 classes free (1–15 Aug) — if your friend buys within 7 days: 1 Month at 20% off for them, +5 days for you, and you race as a Tag Team on the leaderboard",
+      "customerCopy": "Friendship Day: race with a friend who's never been.\n• You buy: Your friend's first 2 classes free (1–15 Aug)\n• You get: if your friend buys within 7 days: 1 Month at 20% off for them, +5 days for you, and you race as a Tag Team on the leaderboard\n• When: 1–15 Aug\n• Good to know: Friend must be new (phone verified); Doesn't combine with any other campaign offer.",
+      "internalDescription": "160 in pool × 5.0% plan rate = 8 buyers × ₹16,191 ticket = ₹1.3L (22% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.4L at 22% effective.",
+      "rationale": "Why: Friendship Day and the race start on the same day; referred friends convert above paid leads.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "Active members and friends new to P57.",
+      "excludedAudience": null,
+      "conditions": "Friend must be new (phone verified); Doesn't combine with any other campaign offer.",
+      "cta": "1–15 Aug.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 129528,
+      "buyers": 8,
+      "effectiveDiscountPercent": 22,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-08-01",
+        "end": "2027-08-15"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2420,
+      "slot": "lapsed",
+      "name": "Back on Track",
+      "headline": "Your lane is still open. 20% off to get back in it.",
+      "benefit": "1 Month Unlimited at 20% off (₹16,191) — a race entry; finish your race target and get a bonus class",
+      "customerCopy": "Your lane is still open. 20% off to get back in it.\n• You buy: 1 Month Unlimited at 20% off (₹16,191)\n• You get: a race entry; finish your race target and get a bonus class\n• When: Buy 1–15 Aug\n• Good to know: Lapsed clients; buy 1–15 Aug; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "internalDescription": "554 in pool × 4.0% plan rate = 22 buyers × ₹16,191 ticket = ₹3.6L (86% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹1.0L at 22% effective.",
+      "rationale": "Why: The race is the reason; the 20% is the push.",
+      "objective": "reactivation",
+      "type": "experience",
+      "audience": "Lapsed clients.",
+      "excludedAudience": null,
+      "conditions": "Lapsed clients; buy 1–15 Aug; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "cta": "1–15 Aug.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 356202,
+      "buyers": 22,
+      "effectiveDiscountPercent": 22,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-08-01",
+        "end": "2027-08-15"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2422,
+      "slot": "renewal",
+      "name": "Victory Lap",
+      "headline": "Finish the race, unlock the podium prices.",
+      "benefit": "Race finishers: 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698). Everyone else: 3 Months at 15% off (₹49,177) — race progress carries over; finishers staying on 1 Month renew at list with +7 days",
+      "customerCopy": "Finish the race, unlock the podium prices.\n• You buy: Race finishers: 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698). Everyone else: 3 Months at 15% off (₹49,177)\n• You get: race progress carries over; finishers staying on 1 Month renew at list with +7 days\n• When: All August\n• Good to know: Members expiring in August or early September; Doesn't combine with any other campaign offer.",
+      "internalDescription": "288 in pool × 17.4% plan rate = 50 buyers × ₹38,000 ticket = ₹19.0L (73% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹4.2L at 18% effective.",
+      "rationale": "Why: The race lifts attendance, attendance lifts renewals; the best prices go to the people most likely to stay.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Members expiring in August or early September.",
+      "excludedAudience": null,
+      "conditions": "Members expiring in August or early September; Doesn't combine with any other campaign offer.",
+      "cta": "All August.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 38000,
+      "expectedRevenue": 1900000,
+      "buyers": 50,
+      "effectiveDiscountPercent": 18,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-08-01",
+        "end": "2027-08-31"
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 1,
+      "end": null,
+      "date": "2027-08-01",
+      "name": "Friendship Day + race start",
+      "kind": "retail",
+      "label": "Retail moment",
+      "approx": false,
+      "note": "Tag Team launches with the race."
+    },
+    {
+      "day": 15,
+      "end": null,
+      "date": "2027-08-15",
+      "name": "Independence Day",
+      "kind": "holiday",
+      "label": "Holiday",
+      "approx": false,
+      "note": "'Freedom Ride' powerCycle class."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Starting Gun Week in Momence (1–20 Aug.): 7-Day Unlimited Intro for ₹1,999 (max 2 a day); every class counts on the Rookie leaderboard — ₹1,999 credited, 1 Month at 20% off (₹16,191) if you buy within 72 hours, and a race kit (bib + tote)."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Tag Team in Momence (1–15 Aug.): Your friend's first 2 classes free (1–15 Aug) — if your friend buys within 7 days: 1 Month at 20% off for them, +5 days for you, and you race as a Tag Team on the leaderboard."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Back on Track in Momence (1–15 Aug.): 1 Month Unlimited at 20% off (₹16,191) — a race entry; finish your race target and get a bonus class."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Victory Lap in Momence (All August.): Race finishers: 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698). Everyone else: 3 Months at 15% off (₹49,177) — race progress carries over; finishers staying on 1 Month renew at list with +7 days."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 August offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Starting Gun Week to First-time clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Tag Team to Active members and friends new to P57."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Back on Track to Lapsed clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Victory Lap to Members expiring in August or early September."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Run the month's moment: The Amazing Race 2.0 (1–31 Aug): every client races on their own against the studio leaderboard; Rookie leaderboard for first-timers; Independence Day 'Freedom Ride' powerCycle (Sun 15 Aug)."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: Starting Gun Week: Rookie entries; intro conversion (target 45%). | Tag Team: Tag Teams formed; friend purchases. | Back on Track: Lapsed racers finishing. | Victory Lap: Race finish rate; renewal yield."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹39.0L: by the 15th aim for about half of 270 renewals, 36 reactivations and 48 new buyers (160 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Close August: tag every redemption by offer, record results, and brief September's offers."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+{
+  "month": 11,
+  "name": "November",
+  "status": "draft",
+  "theme": "Black Friday, Strong Monday",
+  "objective": "Long commitments in the softest Mumbai month, without a Black Friday percentage.",
+  "strategy": "Black Friday, Strong Monday.\n\nCommercial job: Long commitments in the softest Mumbai month, without a Black Friday percentage.\n\nNewcomer: Black Friday Week Zero (“Seven days unlimited, fully credited, then 20% off.”). Black Friday urgency on a credited intro, with an upgrade path built in.\n\nWinback: High-Value Homecoming (“A manager call, the year's best long-plan price and a private.”). These clients bought big before; a long plan at a serious price fits them.\n\nRenewal: Commitment Issues? Solved. (“Black Friday to Strong Monday: the year's best prices on long plans.”). November is Kwality's trough (₹18.5L in 2025). Four days of the year's best long-plan prices bring December–March cash forward without discounting 1 Month.\n\nRenewal: 11% on 11.11 (“One day only: 11% off, and one more class on us.”). Singles' Day reads in India as a self-purchase day; a 24-hour window creates urgency.",
+  "notes": "Moment: Club Nine last seats reopen Fri 26 Nov; 'Strong Monday' strength class on Mon 29 Nov; 11.11 'Party of One' self-gift day.\nBuild: new clients 34 buyers × ₹12,000 = ₹4.1L; reactivation 30 × ₹11,468 = ₹3.4L; privates/retail/drop-ins ₹2.8L; renewals ₹16.2L. First visits needed 114 vs 125 last year (0.91×); CRM leads needed 228 vs 125 last year.",
+  "target": 2650000,
+  "priorYear": 2158021,
+  "growthPercent": 22.8,
+  "streams": {
+    "newClient": 408000,
+    "renewal": 1617960,
+    "reactivation": 344040,
+    "other": 280000
+  },
+  "funnel": {
+    "leads": 228,
+    "trials": 114,
+    "newBuyers": 34,
+    "existingPayingRenewals": 158,
+    "winbacksNeeded": 30,
+    "expiringMemberships": 152,
+    "renewalCoverage": 0.675,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
+    "spendPerVisit": 1727,
+    "firstMonthSpend": 12000,
+    "renewalTicket": 10268,
+    "winbackTicket": 11468
+  },
+  "feasibility": "balanced",
+  "offers": [
+    {
+      "id": 2434,
+      "slot": "newcomer",
+      "name": "Black Friday Week Zero",
+      "headline": "Seven days unlimited, fully credited, then 20% off.",
+      "benefit": "7-Day Unlimited Intro for ₹1,999 — ₹1,999 credited, 1 Month at 20% off (₹16,191) within 72 hours, and if you upgrade to 3 Months before day 21, that month's price is credited too",
+      "customerCopy": "Seven days unlimited, fully credited, then 20% off.\n• You buy: 7-Day Unlimited Intro for ₹1,999\n• You get: ₹1,999 credited, 1 Month at 20% off (₹16,191) within 72 hours, and if you upgrade to 3 Months before day 21, that month's price is credited too\n• When: Start 20 Nov–5 Dec\n• Good to know: One intro per person; start 20 Nov–5 Dec; Doesn't combine with any other campaign offer.",
+      "internalDescription": "114 in pool × 15.8% plan rate = 18 buyers × ₹16,191 ticket = ₹2.9L (71% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 20% effective.",
+      "rationale": "Why: Black Friday urgency on a credited intro, with an upgrade path built in.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "First-time clients.",
+      "excludedAudience": null,
+      "conditions": "One intro per person; start 20 Nov–5 Dec; Doesn't combine with any other campaign offer.",
+      "cta": "20 Nov–5 Dec.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16191,
+      "expectedRevenue": 291438,
+      "buyers": 18,
+      "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-11-20",
+        "end": "2027-12-05"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2435,
+      "slot": "lapsed",
+      "name": "High-Value Homecoming",
+      "headline": "A manager call, the year's best long-plan price and a private.",
+      "benefit": "3 Months at 22% off (₹45,127) or 6 Months at 25% off (₹85,286) — unlimited freezes and one 30-min private",
+      "customerCopy": "A manager call, the year's best long-plan price and a private.\n• You buy: 3 Months at 22% off (₹45,127) or 6 Months at 25% off (₹85,286)\n• You get: unlimited freezes and one 30-min private\n• When: All November\n• Good to know: Named list: lapsed clients with ≥₹50k lifetime spend; Doesn't combine with any other campaign offer.",
+      "internalDescription": "400 in pool × 1.2% plan rate = 5 buyers × ₹55,000 ticket = ₹2.8L (80% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 24% effective.",
+      "rationale": "Why: These clients bought big before; a long plan at a serious price fits them.",
+      "objective": "reactivation",
+      "type": "experience",
+      "audience": "Lapsed clients with ≥₹50k lifetime spend.",
+      "excludedAudience": null,
+      "conditions": "Named list: lapsed clients with ≥₹50k lifetime spend; Doesn't combine with any other campaign offer.",
+      "cta": "All November.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 55000,
+      "expectedRevenue": 275000,
+      "buyers": 5,
+      "effectiveDiscountPercent": 24,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-11-01",
+        "end": "2027-11-30"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2437,
+      "slot": "renewal",
+      "name": "Commitment Issues? Solved.",
+      "headline": "Black Friday to Strong Monday: the year's best prices on long plans.",
+      "benefit": "3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588) — a Strong Monday class (29 Nov) and a year-end box",
+      "customerCopy": "Black Friday to Strong Monday: the year's best prices on long plans.\n• You buy: 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588)\n• You get: a Strong Monday class (29 Nov) and a year-end box\n• When: All November\n• Good to know: Fri 26 – Mon 29 Nov only; active and recently expired members; Doesn't combine with any other campaign offer.",
+      "internalDescription": "152 in pool × 9.2% plan rate = 14 buyers × ₹60,000 ticket = ₹8.4L (52% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.4L at 22% effective.",
+      "rationale": "Why: November is Kwality's trough (₹18.5L in 2025). Four days of the year's best long-plan prices bring December–March cash forward without discounting 1 Month.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Members expiring November–December.",
+      "excludedAudience": null,
+      "conditions": "Fri 26 – Mon 29 Nov only; active and recently expired members; Doesn't combine with any other campaign offer.",
+      "cta": "All November.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 60000,
+      "expectedRevenue": 840000,
+      "buyers": 14,
+      "effectiveDiscountPercent": 22,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-11-01",
+        "end": "2027-11-30"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2517,
+      "slot": "renewal",
+      "name": "11% on 11.11",
+      "headline": "One day only: 11% off, and one more class on us.",
+      "benefit": "A 12-class pack at 11% off (₹17,522), Thu 11 Nov only — 1 bonus class and a post-class smoothie",
+      "customerCopy": "One day only: 11% off, and one more class on us.\n• You buy: A 12-class pack at 11% off (₹17,522), Thu 11 Nov only\n• You get: 1 bonus class and a post-class smoothie\n• When: 11 Nov, 00:00–23:59\n• Good to know: Active members; max 1 per person; 00:00–23:59; Doesn't combine with any other campaign offer.",
+      "internalDescription": "300 in pool × 6.0% plan rate = 18 buyers × ₹17,522 ticket = ₹3.2L (19% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 18% effective.",
+      "rationale": "Why: Singles' Day reads in India as a self-purchase day; a 24-hour window creates urgency.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Active members.",
+      "excludedAudience": null,
+      "conditions": "Active members; max 1 per person; 00:00–23:59; Doesn't combine with any other campaign offer.",
+      "cta": "11 Nov.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 17522,
+      "expectedRevenue": 315396,
+      "buyers": 18,
+      "effectiveDiscountPercent": 18,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-11-11",
+        "end": "2027-11-11"
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 11,
+      "end": null,
+      "date": "2027-11-11",
+      "name": "Singles' Day (11.11)",
+      "kind": "retail",
+      "label": "Retail moment",
+      "approx": false,
+      "note": "Party of One, 24 hours only."
+    },
+    {
+      "day": 26,
+      "end": null,
+      "date": "2027-11-26",
+      "name": "Black Friday",
+      "kind": "retail",
+      "label": "Retail moment",
+      "approx": false,
+      "note": "Club Nine last seats; no open discount."
+    },
+    {
+      "day": 29,
+      "end": null,
+      "date": "2027-11-29",
+      "name": "Strong Monday",
+      "kind": "brand",
+      "label": "P57 moment",
+      "approx": false,
+      "note": "Strength class; bonus days applied."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Black Friday Week Zero in Momence (20 Nov–5 Dec.): 7-Day Unlimited Intro for ₹1,999 — ₹1,999 credited, 1 Month at 20% off (₹16,191) within 72 hours, and if you upgrade to 3 Months before day 21, that month's price is credited too."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up High-Value Homecoming in Momence (All November.): 3 Months at 22% off (₹45,127) or 6 Months at 25% off (₹85,286) — unlimited freezes and one 30-min private."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Commitment Issues? Solved. in Momence (All November.): 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588) — a Strong Monday class (29 Nov) and a year-end box."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up 11% on 11.11 in Momence (11 Nov.): A 12-class pack at 11% off (₹17,522), Thu 11 Nov only — 1 bonus class and a post-class smoothie."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 4 November offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Black Friday Week Zero to First-time clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch High-Value Homecoming to Lapsed clients with ≥₹50k lifetime spend."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Commitment Issues? Solved. to Members expiring November–December."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch 11% on 11.11 to Active members."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Run the month's moment: Club Nine last seats reopen Fri 26 Nov; 'Strong Monday' strength class on Mon 29 Nov; 11.11 'Party of One' self-gift day."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: Black Friday Week Zero: Intro conversion; day-21 upgrades. | High-Value Homecoming: Manager calls; 3M restarts. | Commitment Issues? Solved.: Renewal yield on Nov expiries. | 11% on 11.11: 11.11 packs sold."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹26.5L: by the 15th aim for about half of 158 renewals, 30 reactivations and 34 new buyers (114 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Close November: tag every redemption by offer, record results, and brief December's offers."
+        }
+      ]
+    }
+  ]
+}

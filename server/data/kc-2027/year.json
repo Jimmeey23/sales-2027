@@ -1,0 +1,49 @@
+{
+  "schema": "p57-sales-plan/1",
+  "generatedAt": "2026-11-01T12:00:00+05:30",
+  "year": 2027,
+  "currency": "INR",
+  "units": "rupees",
+  "studio": {
+    "id": 1,
+    "name": "Kemps Corner",
+    "city": "Mumbai",
+    "code": "KC"
+  },
+  "yearBlock": {
+    "target": 42000000,
+    "priorYear": 33438469,
+    "growthPercent": 25.6,
+    "streams": {
+      "newClient": 6192000,
+      "renewal": 26410544,
+      "reactivation": 5287456,
+      "other": 4110000
+    }
+  },
+  "offers": 55,
+  "basis": "observed_history",
+  "measuredWindow": {
+    "from": "2025-10",
+    "to": "2026-09",
+    "trialFrom": "2025-07",
+    "trialTo": "2026-06"
+  },
+  "trailing": {
+    "firstSpend": 10694.114170854271,
+    "trialSpend": 1771.7326007326008,
+    "renewalTicket": 10416.355120718697,
+    "reactivationTicket": 11467.624133333333,
+    "trialToMember": 0.26865671641791045,
+    "leadToTrial": 0.8022922636103151,
+    "avgSpendPerVisit": 1727.1277977414722,
+    "renewalRate": 0.6613442257705161
+  },
+  "prices": {
+    "oneMonth": 19275,
+    "threeMonth": 55100,
+    "sixMonth": 108300,
+    "annual": 209000,
+    "privates": 50000
+  }
+}

@@ -151,6 +151,26 @@ npm run plan:import-json -- path/to/plan.json --studio=1 --mode=modify --write
 
 `--mode=add|modify|replace`, `--approve` to write the targets as approved, `--no-rates` to leave the measured-rate overrides alone. Without `--write` it is a dry run.
 
+### Kemps Corner 2027, month by month
+
+The Kemps Corner year is kept as one file per month in `server/data/kc-2027/` — `month-01.json` … `month-12.json`, in the shape the importer reads: theme, objective, strategy, notes, target, prior year, streams, funnel, feasibility, key dates, the Week 1–4 sections with their owners, and the month's offers. The document the app imports is generated from those files, so there is one place to edit a month and no chance of the two drifting apart:
+
+```bash
+npx tsx scripts/build-kc-plan.ts     # months → server/data/kc-2027/plan-2027.json
+npm run plan:import-json -- server/data/kc-2027/plan-2027.json --studio=1 --mode=replace --write
+```
+
+The year contract — the location, the year block, the basis, the measured window, the trailing rates and the price book — lives beside the months in `year.json`, so the build checks the months against the year they belong to rather than against a number written into the script. Every month's streams must add to that month's target, and the twelve months must add to the year.
+
+A plan document that was authored elsewhere goes the other way, without paraphrasing anything:
+
+```bash
+npx tsx scripts/unpack-plan.ts path/to/plan.json          # → year.json + month-01..12.json
+npx tsx scripts/unpack-plan.ts path/to/plan.json --check   # report, write nothing
+```
+
+`build(unpack(x))` is `x`: only `name` and `growthPercent` are dropped, because the build derives them again. For the year the studio signed the figures are ₹4,20,00,000 against ₹3,34,38,469 (+25.6%), 55 offers, streams of ₹61.92L new clients, ₹2.64Cr renewals, ₹52.87L comebacks and ₹41.10L other.
+
 ### Advanced Reporting Studio and exports
 
 The reporting workspace contains **21 executable reports**: five Executive, six Commercial, three Retention, four Operations and three Governance reports. Coverage includes monthly/annual performance, revenue streams, target attainment and scenarios, products, discount exposure, offer economics, campaigns, experiments, leads, renewal dues, package lifecycle, historical renewal revenue, attendance/cancellations, class and trainer delivery, capacity, import lineage, data quality and aggregate audit activity.

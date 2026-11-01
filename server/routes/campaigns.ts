@@ -36,7 +36,16 @@ export function planCampaigns(studioIds: number[], year: number) {
   WHERE c.year=? AND c.data_mode!='demo' AND c.studio_id IN (${ids.length ? ids.map(() => '?').join(',') : 'NULL'}) ORDER BY c.start_date`,
     )
     .all(year, ...ids) as any[];
-  return rows.map(c => ({ ...c, tasks: JSON.parse(c.tasks || '[]'), conflicts: campaignConflicts(c, c.id) }));
+  // A row comes back with the table's snake_case columns, while the overlap check speaks the
+  // API's camelCase body — hand it the fields it asks for rather than the whole row.
+  return rows.map(c => ({
+    ...c,
+    tasks: JSON.parse(c.tasks || '[]'),
+    conflicts: campaignConflicts(
+      { studioId: c.studio_id, startDate: c.start_date, endDate: c.end_date, audience: c.audience },
+      c.id,
+    ),
+  }));
 }
 
 export default function registerCampaignsRoutes(app: Express) {

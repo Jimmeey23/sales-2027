@@ -182,7 +182,11 @@ export function buildYearPlan({ year, studioIds, userId }: PlanExportRequest) {
       ].filter(Boolean) as AnyRow[];
 
       const revenueTarget = Number(target?.approved_target || target?.proposed_target || econ?.revenue?.target || 0);
-      const priorYear = Number(target?.historical_revenue || econ?.benchmark?.prior2026Revenue || 0);
+      // An imported month states its own prior year; the plan's growth is measured against the
+      // number the studio filed, so the file it exports says the same thing the file it
+      // imported said. Only months with no plan behind them read the measured history.
+      const plannedPrior = Number(parseJson(plan?.content, {})?.priorYear || 0);
+      const priorYear = Number(plannedPrior || target?.historical_revenue || econ?.benchmark?.prior2026Revenue || 0);
       const streams = {
         newClient: money(target?.new_client_target) ?? 0,
         renewal: money(target?.renewal_target) ?? 0,

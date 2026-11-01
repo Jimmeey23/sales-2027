@@ -150,7 +150,13 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
     const newClient = Math.max(0, target - renewal - reactivation - other);
     // The lead offer is the month's first pick from the offer bank, never a written default.
     const leadOffer: string = plan?.offers?.[0]?.name || 'No offer picked yet';
-    const objective = pb.objective || src?.objective || plan?.objective || monthChapter(i + 1).objective;
+    // A month that came in through a plan import carries the studio's own words. Nothing in the
+    // shipped plan may overwrite them: the theme, the job and the offers on the card are the
+    // ones the studio filed, so the year plan and the month workspace name the month the same way.
+    const importedMonth = Boolean(plan?.content?.planImport);
+    const objective = importedMonth
+      ? String(plan?.objective || monthChapter(i + 1).objective)
+      : pb.objective || src?.objective || plan?.objective || monthChapter(i + 1).objective;
     // Bottom-up economics take priority when unit economics are resolved; fall back to stored funnel/playbook counts if ever zeroed.
     const e = economics.months[i];
     const fallbackBuyers = num(f.requiredNewBuyers ?? pb.buyers ?? src?.buyers ?? wb.newPaying);
@@ -170,7 +176,9 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
       target,
       approved: t?.approved_target !== null && t?.approved_target !== undefined,
       planApproved: plan?.status === 'approved',
-      lastYear: num(t?.historical_revenue || e?.benchmark?.prior2026Revenue),
+      // An imported month carries the plan's own prior year; the card should not quote a different
+      // one from the measured history.
+      lastYear: num(plan?.content?.priorYear || t?.historical_revenue || e?.benchmark?.prior2026Revenue),
       actual: num(detail.actuals.find((x: any) => x.month === month)?.revenue),
       newClient,
       renewal,
@@ -188,9 +196,12 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
       leadOffer,
       // Months planned before the narrative chapters carry a generic label ("Fresh Start",
       // "Stronger Together"). Those fall back to the month's chapter theme, so the year plan
-      // cards, the cover and the workspace all name the month the same way.
+      // cards, the cover and the workspace all name the month the same way. An imported month is
+      // never "legacy": its theme is the name the studio chose, even when the shipped plan has a
+      // different one.
       theme: (() => {
         const planned = plan?.theme || detail.themes?.[month];
+        if (importedMonth) return planned || MONTH_THEMES[i];
         return planned && !isLegacyTheme(planned, i + 1) ? planned : MONTH_THEMES[i];
       })(),
       renewalTarget: e?.renewal.target ?? renewal,
