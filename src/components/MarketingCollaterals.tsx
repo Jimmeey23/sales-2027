@@ -16,17 +16,22 @@ import {
 } from 'lucide-react';
 import { MONTHS } from '../types';
 import { keyDatesFor } from '../data/keyDates';
+import { SLOT_LABEL, VOICE, collateralCopy, clip, hash, noPrice } from '../lib/collateralPlan';
+import {
+  AUDIENCE,
+  CHANNEL_NAME,
+  buildCommsSends,
+  buildSingleSends,
+  dayKey,
+  fmtDay,
+  type CollateralCustomChannel,
+  type CommsChannel,
+} from '../lib/commsPlan';
 
 // Marketing & collaterals for one studio-month: one row per channel (WhatsApp, email, in-studio tent card), each
 // with a production-style sample built from the chosen offer and Physique 57 India photography, and the specs,
 // deadline and brand-voice copy the studio team needs beside it. Everything is derived from the offer, so switching
 // or replacing an offer rewrites the creatives and copy.
-
-const SLOT_LABEL: Record<string, string> = {
-  newcomer: 'New to Physique 57',
-  lapsed: 'Welcome back',
-  renewal: 'Members only',
-};
 
 // Photography in public/p57/pro. `pos` keeps faces in frame when the photo is cropped; `tags` match offer wording.
 type Photo = { id: string; pos: string; tags: string[]; fresh?: boolean };
@@ -136,337 +141,10 @@ const THEMES: [RegExp, string][] = [
   [/barre|first class|trial|intro|welcome/, 'barre'],
 ];
 
-const VOICE = {
-  newcomer: {
-    headlines: [
-      'Your first shake starts here.',
-      'Fifty-seven minutes. A whole new you.',
-      'Lift. Tuck. Shake. Repeat.',
-      'Strong looks good on you.',
-    ],
-    intro: (o: string, s: string) =>
-      `Physique 57 is 57 minutes of small, precise movements that work every muscle to the point of the shake. ${o} is the easiest way to start at ${s}, with instructors who will meet you exactly where you are.`,
-    subjects: (o: string, m: string) => [
-      `Meet the shake: ${o}`,
-      '57 minutes. Your new favourite hour.',
-      `${m} starts at the barre`,
-      'New to Physique 57? This one is for you',
-    ],
-    preheaders: [
-      'Small moves, serious results — your first step is sorted.',
-      'Book your spot before the month runs out.',
-    ],
-    cta: 'Book my first class',
-    wa: 'Reply YES and we’ll save your spot at the barre.',
-    closing: ['Fifty-seven minutes.', 'Everything else follows.'],
-  },
-  lapsed: {
-    headlines: [
-      'Your spot at the barre is waiting.',
-      'Missed you at the barre.',
-      'Back to the shake.',
-      'Pick up where you left off.',
-    ],
-    intro: (o: string, s: string) =>
-      `It’s been a while, and your body remembers more than you think. ${o} brings you back to ${s} with everything you need to find your rhythm again — no pressure, just the shake.`,
-    subjects: (o: string, m: string) => [
-      'Your spot at the barre is still yours',
-      `We saved you a mat this ${m}`,
-      `Come back to the shake: ${o}`,
-      'It’s been a while. Let’s fix that.',
-    ],
-    preheaders: ['A comeback offer, made for returning members.', 'Same studio, same shake, a softer way back in.'],
-    cta: 'Claim my comeback',
-    wa: 'Reply YES and we’ll hold a mat for your first class back.',
-    closing: ['Same energy. New goals.', 'Let’s make it happen.'],
-  },
-  renewal: {
-    headlines: [
-      'Keep the shake going.',
-      'Stronger, every single month.',
-      'Your results are just getting started.',
-      'Thank you for showing up.',
-    ],
-    intro: (o: string, s: string) =>
-      `You’ve put in the work, and it shows. ${o} keeps your momentum going at ${s} — the community, the instructors and the results you’ve earned.`,
-    subjects: (o: string, m: string) => [
-      `Keep the shake going: ${o}`,
-      'Your results called. They want more.',
-      `A thank-you for staying, this ${m}`,
-      'Renew now, before your plan runs out',
-    ],
-    preheaders: ['A members-only thank-you for renewing early.', 'Lock in your next chapter at the barre.'],
-    cta: 'Renew my membership',
-    wa: 'Reply YES and we’ll renew you before your plan runs out.',
-    closing: ['Thank you for showing up.', 'Now let’s go further.'],
-  },
-} as const;
 
-const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
-const fmtDay = (d: Date) => `${d.getDate()} ${MONTHS[d.getMonth()].slice(0, 3)}`;
-// Public creatives never quote prices or discount numbers: drop rupee amounts and % figures from offer wording.
-const noPrice = (s: string) =>
-  s
-    .replace(/\s*\([^)]*(₹|%)[^)]*\)/g, '')
-    .replace(/\s*(at|for|from|of|worth)?\s*₹\s?[\d.,]+\s?(k|l|lakh)?/gi, '')
-    .replace(/\b\d+(\.\d+)?%\s*off\b/gi, 'a member saving')
-    .replace(/\b\d+(\.\d+)?%\s*of\b/gi, 'part of')
-    .replace(/\b(the )?standing \d+(\.\d+)?%/gi, 'the standing perk')
-    .replace(/\s*\d+(\.\d+)?%/g, '')
-    .replace(/\s+\b(at|for|from|of|worth)\s*(?=[+·,.;:—–-]|$)/gi, ' ')
-    .replace(/\s{2,}/g, ' ')
-    .trim();
-const clip = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
 
-/* ── The CRM calendar ────────────────────────────────────────────────────────
-   A month of outreach, arranged by the day it leaves the studio. The rule that shapes
-   it is the one a small team has to live by: one audience, one send. Everything that
-   speaks to the same people — newcomers, lapsed members, renewals — folds into the same
-   broadcast, the same email and the same tent card, so six offers do not become
-   twenty-four messages. The calendar is derived, never typed: change an offer's lead
-   time or replace the offer and the sends move with it. */
-type CommsChannel = 'whatsapp' | 'email' | 'tent' | 'custom';
-
-type CommsSend = {
-  key: string;
-  channel: CommsChannel;
-  label: string;
-  date: Date;
-  audience: string | null;
-  names: string[];
-  ids: number[];
-  note?: string;
-};
-
-const CHANNEL_NAME: Record<CommsChannel, string> = {
-  whatsapp: 'WhatsApp',
-  email: 'Email',
-  tent: 'Tent card',
-  custom: 'Channel',
-};
-
-const dayKey = (d: Date) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-const AUDIENCE: Record<string, string> = {
-  newcomer: 'New to Physique 57',
-  lapsed: 'Welcome back',
-  renewal: 'Members only',
-};
-
-function buildCommsSends(
-  offers: any[],
-  {
-    year,
-    month,
-    hidden,
-    custom,
-    leads,
-    reminder,
-    slots,
-  }: {
-    year: number;
-    month: number;
-    hidden: string[];
-    custom: CollateralCustomChannel[];
-    leads: { whatsapp: number; email: number; tent: number };
-    reminder: Date;
-    slots: string[];
-  },
-): { sends: CommsSend[]; groups: { key: string; date: Date; sends: CommsSend[] }[]; naive: number } {
-  const sends: CommsSend[] = [];
-  const bySlot = new Map<string, any[]>();
-  for (const offer of offers) {
-    const slot = slots.includes(offer?.plan_slot) ? offer.plan_slot : 'newcomer';
-    bySlot.set(slot, [...(bySlot.get(slot) || []), offer]);
-  }
-  const leadDate = (lead: number) => new Date(year, month - 1, 1 - lead);
-  const audience = (slot: string) => AUDIENCE[slot] || slot;
-
-  for (const [slot, group] of bySlot) {
-    const names = group.map(o => o.name).filter(Boolean);
-    const ids = group.map(o => Number(o.id));
-    // The earliest lead in the group wins: the send goes out when the first of these
-    // offers needs it, and the copy carries the rest.
-    if (!hidden.includes('whatsapp')) {
-      sends.push({
-        key: `wa-${slot}`,
-        channel: 'whatsapp',
-        label: 'Launch broadcast',
-        date: leadDate(Math.min(...group.map(o => leads.whatsapp))),
-        audience: audience(slot),
-        names,
-        ids,
-        note: names.length > 1 ? `one broadcast · ${names.length} offers` : 'one broadcast',
-      });
-      sends.push({
-        key: `wa-rem-${slot}`,
-        channel: 'whatsapp',
-        label: 'Last call',
-        date: reminder,
-        audience: audience(slot),
-        names,
-        ids,
-        note: names.length > 1 ? `one reminder · ${names.length} offers` : 'one reminder',
-      });
-    }
-    if (!hidden.includes('email')) {
-      sends.push({
-        key: `em-${slot}`,
-        channel: 'email',
-        label: 'Email campaign',
-        date: leadDate(Math.min(...group.map(o => leads.email))),
-        audience: audience(slot),
-        names,
-        ids,
-        note: names.length > 1 ? `one email · ${names.length} offers` : 'one email',
-      });
-    }
-  }
-
-  // The print shop is one order, whatever the audience: every card in the month goes to
-  // the desk together, so the calendar shows a single print run rather than three.
-  if (!hidden.includes('tent') && offers.length) {
-    sends.push({
-      key: 'te-print',
-      channel: 'tent',
-      label: 'Print run',
-      date: leadDate(leads.tent),
-      audience: null,
-      names: offers.map(o => o.name).filter(Boolean),
-      ids: offers.map(o => Number(o.id)),
-      note: `one print order · ${offers.length} card${offers.length === 1 ? '' : 's'}`,
-    });
-  }
-
-  // A team-added channel has no audience split, so it carries the month in one go.
-  for (const channel of custom) {
-    if (hidden.includes(channel.id)) continue;
-    sends.push({
-      key: channel.id,
-      channel: 'custom',
-      label: channel.title,
-      date: leadDate(channel.lead),
-      audience: null,
-      names: offers.map(o => o.name).filter(Boolean),
-      ids: offers.map(o => Number(o.id)),
-      note: offers.length > 1 ? `one send · ${offers.length} offers` : 'one send',
-    });
-  }
-
-  sends.sort((a, b) => a.date.getTime() - b.date.getTime() || a.label.localeCompare(b.label));
-
-  const groups: { key: string; date: Date; sends: CommsSend[] }[] = [];
-  for (const send of sends) {
-    const key = dayKey(send.date);
-    const last = groups[groups.length - 1];
-    if (last && last.key === key) last.sends.push(send);
-    else groups.push({ key, date: send.date, sends: [send] });
-  }
-
-  // What the month would cost without the rule: every offer its own broadcast, its own
-  // email, its own card and its own reminder.
-  const wa = hidden.includes('whatsapp') ? 0 : 1;
-  const channels = wa + (hidden.includes('email') ? 0 : 1) + (hidden.includes('tent') ? 0 : 1);
-  const naive = offers.length * (channels + wa) + custom.filter(c => !hidden.includes(c.id)).length;
-  return { sends, groups, naive: Math.max(naive, sends.length) };
-}
-
-/** The same month if every offer were left to fend for itself — the comparison the
-    clubbed calendar is measured against. */
-function buildSingleSends(
-  offers: any[],
-  {
-    year,
-    month,
-    hidden,
-    custom,
-    leads,
-    reminder,
-    slots,
-  }: {
-    year: number;
-    month: number;
-    hidden: string[];
-    custom: CollateralCustomChannel[];
-    leads: { whatsapp: number; email: number; tent: number };
-    reminder: Date;
-    slots: string[];
-  },
-) {
-  const sends: CommsSend[] = [];
-  const leadDate = (lead: number) => new Date(year, month - 1, 1 - lead);
-  for (const offer of offers) {
-    const slot = slots.includes(offer?.plan_slot) ? offer.plan_slot : 'newcomer';
-    const names = [offer.name].filter(Boolean);
-    const ids = [Number(offer.id)];
-    const audience = AUDIENCE[slot] || slot;
-    if (!hidden.includes('whatsapp')) {
-      sends.push({
-        key: `wa-${offer.id}`,
-        channel: 'whatsapp',
-        label: 'Launch broadcast',
-        date: leadDate(leads.whatsapp),
-        audience,
-        names,
-        ids,
-        note: 'one broadcast',
-      });
-      sends.push({
-        key: `wa-rem-${offer.id}`,
-        channel: 'whatsapp',
-        label: 'Last call',
-        date: reminder,
-        audience,
-        names,
-        ids,
-        note: 'one reminder',
-      });
-    }
-    if (!hidden.includes('email'))
-      sends.push({
-        key: `em-${offer.id}`,
-        channel: 'email',
-        label: 'Email campaign',
-        date: leadDate(leads.email),
-        audience,
-        names,
-        ids,
-        note: 'one email',
-      });
-    if (!hidden.includes('tent'))
-      sends.push({
-        key: `te-${offer.id}`,
-        channel: 'tent',
-        label: 'Print run',
-        date: leadDate(leads.tent),
-        audience,
-        names,
-        ids,
-        note: 'one card',
-      });
-  }
-  for (const channel of custom) {
-    if (hidden.includes(channel.id)) continue;
-    sends.push({
-      key: `${channel.id}-single`,
-      channel: 'custom',
-      label: channel.title,
-      date: leadDate(channel.lead),
-      audience: null,
-      names: offers.map(o => o.name).filter(Boolean),
-      ids: offers.map(o => Number(o.id)),
-      note: 'one send',
-    });
-  }
-  sends.sort((a, b) => a.date.getTime() - b.date.getTime() || a.label.localeCompare(b.label));
-  const groups: { key: string; date: Date; sends: CommsSend[] }[] = [];
-  for (const send of sends) {
-    const key = dayKey(send.date);
-    const last = groups[groups.length - 1];
-    if (last && last.key === key) last.sends.push(send);
-    else groups.push({ key, date: send.date, sends: [send] });
-  }
-  return { sends, groups, naive: sends.length };
-}
+/* The CRM calendar itself lives in src/lib/commsPlan.ts: the export renders the same month,
+   and a calendar computed twice would eventually disagree with itself. */
 
 const CHANNEL_ICON: Record<CommsChannel, React.ReactNode> = {
   whatsapp: <MessageCircle size={10} />,
@@ -778,14 +456,7 @@ function pickPhotos(offer: any, slot: string, month: number, studio: string): Ph
   return out;
 }
 
-export interface CollateralCustomChannel {
-  id: string;
-  title: string;
-  lead: number;
-  items: string[];
-  copyLabel: string;
-  copyText: string;
-}
+export type { CollateralCustomChannel } from '../lib/commsPlan';
 
 export interface CollateralOfferOverride {
   kicker?: string;
@@ -1040,11 +711,8 @@ export default function MarketingCollaterals({
       </div>
     );
 
-  const v = VOICE[slot];
-  const end = new Date(year, month, 0);
   const n = Math.max(1, offers.length);
-  const seed = hash(`${offer.id}${month}`);
-  const tagline = String(offer.customer_copy || '').trim();
+  const offerName = clip(String(offer.name), 44);
   const ov: CollateralOfferOverride = state.byOffer?.[String(offer.id)] || {};
   const patchOfferOv = (patch: Partial<CollateralOfferOverride>) =>
     patchState({
@@ -1054,17 +722,39 @@ export default function MarketingCollaterals({
       },
     });
 
-  // The client-facing line makes the best headline — unless it simply repeats the offer's name,
-  // which would print the same words twice on the card.
+  const end = new Date(year, month, 0);
+  // Every word the month puts in front of a client comes from the shared builder: the exported
+  // plan prints the same copy this screen previews.
+  const shared = collateralCopy({ offer, year, month, studioName, theme, overrides: ov, offerCount: offers.length });
+  const v = VOICE[shared.slot];
+  const {
+    kicker,
+    headline,
+    altHead,
+    intro,
+    subjects,
+    preheader,
+    emailCta,
+    detail,
+    closes,
+    waLaunchText,
+    waLaunchButton,
+    waReminderHeadline,
+    waReminderText,
+    waReminderButton,
+    waWindow,
+    tentFront,
+  } = shared;
+  const waLead = shared.leads.whatsapp;
+  const emailLead = shared.leads.email;
+  const tentLead = shared.leads.tent;
+  const waItems = shared.items.whatsapp;
+  const emailItems = shared.items.email;
+  const tentItems = shared.items.tent;
   const bare = (value: string) =>
     String(value || '')
       .toLowerCase()
       .replace(/[^a-z0-9]/g, '');
-  const headlineIsName = !!tagline && bare(tagline) === bare(String(offer.name || ''));
-  const defaultHeadline =
-    tagline && !headlineIsName && tagline.length <= 46 ? tagline : v.headlines[seed % v.headlines.length];
-  const defaultAltHead = v.headlines[(seed + 1) % v.headlines.length];
-  const detail = noPrice(String(offer.benefit || offer.headline || ''));
   // A tent card is read standing up: one whole line, cut at a sentence or a clause boundary.
   const cardLine = (value: string, max: number, ellipsis = false) => {
     const clean = String(value || '')
@@ -1077,56 +767,6 @@ export default function MarketingCollaterals({
     if (stop > max * 0.45) return head.slice(0, stop).trim() + tail;
     return `${head.replace(/[\s,;:.]+\S*$/, '')}${tail}`;
   };
-  const offerName = clip(String(offer.name), 44);
-  const defaultKicker = `${SLOT_LABEL[slot]} · ${monthName}`;
-  const kicker = ov.kicker ?? defaultKicker;
-  const headline = ov.headline ?? defaultHeadline;
-  const altHead = ov.altHead ?? defaultAltHead;
-  const closes = `Until ${fmtDay(end)}`;
-  const defaultIntro = v.intro(offer.name, studioName);
-  const intro = ov.intro ?? defaultIntro;
-  const defaultSubjects = v.subjects(offerName, monthName);
-  const subjects = ov.subjects ?? defaultSubjects;
-  const preheader = ov.preheader ?? v.preheaders.join(' / ');
-  const emailCta = ov.emailCta ?? v.cta;
-  const defaultWaCopy = `Hi {first_name} ✨\n\n*${defaultHeadline}*\n*${offer.name}*: ${clip(detail, 110)}\n\n${v.wa} Until ${fmtDay(end)}, ${studioName}.\n\n— Team Physique 57\nReply STOP to opt out`;
-  const defaultReminderCopy = `Hi {first_name} ⏳\n\n*Last call: ${offer.name}* closes ${fmtDay(end)}.\n\n${v.wa}\n\n— Team Physique 57\nReply STOP to opt out`;
-
-  const waLaunchText = ov.waLaunchText ?? defaultWaCopy;
-  const waLaunchButton = ov.waLaunchButton ?? 'Book my spot';
-  const waReminderHeadline = ov.waReminderHeadline ?? `Ends ${fmtDay(end)}.`;
-  const waReminderText = ov.waReminderText ?? defaultReminderCopy;
-  const waReminderButton = ov.waReminderButton ?? 'Claim before it ends';
-  const waWindow = ov.waWindow ?? `Tue–Thu, 9–11 am or 6–8 pm. Reminder 48h before ${fmtDay(end)}.`;
-
-  const defaultWaItems = [
-    `${n} broadcast${n > 1 ? 's' : ''} (one per offer) + 1 reminder 48h before close`,
-    'A4 portrait creative (2480×3508 px, sent at 1240×1754), text ≤ 20% of image',
-    'Message ≤ 450 characters, one link, opt-out line',
-    'Business template submitted for approval 3 days ahead',
-  ];
-  const defaultEmailItems = [
-    `1 launch email featuring all ${n} offer${n > 1 ? 's' : ''} + 1 last-chance email`,
-    'A4 portrait creative (2480×3508 px), exported at 600 px wide for the template, dark-mode safe',
-    'Subject ≤ 45 characters + preheader ≤ 90 characters',
-    'Segmented sends: new leads, lapsed 61–365 days, renewals due',
-  ];
-  const defaultTentItems = [
-    `${n} designs, double-sided A4 (210×297 mm) on 350 gsm matte, folded into an A-frame`,
-    `Quantity: ${4 * n} per studio (reception, changing room, two on the floor)`,
-    'QR to the Momence checkout with a tracking tag per offer',
-    'Printed and placed by the 25th of the previous month',
-  ];
-  const waItems = ov.waItems ?? defaultWaItems;
-  const emailItems = ov.emailItems ?? defaultEmailItems;
-  const tentItems = ov.tentItems ?? defaultTentItems;
-  const waLead = ov.waLead ?? 10;
-  const emailLead = ov.emailLead ?? 12;
-  const tentLead = ov.tentLead ?? 15;
-  // A tent card is read standing up: it takes the shortest line the voice offers,
-  // so the print stays one confident line the way the studio's own card does.
-  const cardHeadline = [...v.headlines].sort((a, b) => a.length - b.length)[0];
-  const tentFront = ov.tentFront ?? cardHeadline;
   // One confident line, sized to the measure — a poster fits its line, it never wraps it.
   const tentHeadSize = Math.min(7.2, 152 / Math.max(8, tentFront.length));
   const tentKickSize = Math.min(4.05, 100 / Math.max(12, kicker.length));
@@ -1163,7 +803,7 @@ export default function MarketingCollaterals({
     document.fonts?.ready.then(() => fitCard()).catch(() => undefined);
     return () => ro.disconnect();
   }, [fitCard, tentFront, kicker, detail, month]);
-  const tentBack = ov.tentBack ?? v.closing.join(' ');
+  const tentBack = shared.tentBack;
   // The back card states the offer in three clauses and closes with two short lines.
   const perks = tentPerks([detail, String(offer.provenance?.pricing?.mechanic || ''), String(offer.benefit || '')], {
     studio: studioName,

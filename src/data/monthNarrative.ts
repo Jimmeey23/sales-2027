@@ -8,7 +8,7 @@ import {
   approvedOffer,
   field,
   type ApprovedEntry,
-} from './approvedPlan2027';
+} from './approvedPlan2027.js';
 
 export interface MonthChapter {
   /** Editable campaign theme, used when a month has no saved theme. */

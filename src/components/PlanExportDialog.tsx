@@ -8,26 +8,34 @@ import {
   FileSpreadsheet,
   FileText,
   Loader2,
+  Printer,
   X,
 } from 'lucide-react';
 import { api } from '../api';
 import { useApp } from '../App';
 import { APPROVED_STUDIOS } from '../data/approvedPlan2027';
+import { MONTH_CHAPTERS } from '../data/monthNarrative';
 import { moneyShort as lakh, number } from '../types';
 
 /* Exporting the year.
 
    The plan already exists in the app, but a regional review does not happen in the app: it
-   happens in a spreadsheet, a deck and an email. This dialog asks the two questions that
-   change the file — which locations, and which format — shows what will be inside it, and
-   then downloads it. The download is a real request against /api/plan/export rather than a
-   client-side rebuild, so the file carries the same numbers the screen does.
+   happens in a spreadsheet, a deck and an email. This dialog asks the three questions that
+   change the file — which locations, how much of the year, and which format — shows what will
+   be inside it, and then downloads it. The download is a real request against
+   /api/plan/export rather than a client-side rebuild, so the file carries the same numbers the
+   screen does.
+
+   What comes out is the whole plan, not the offer list: the cover's argument, the overview,
+   the week-by-week execution, the offers with their maths, the collateral to produce with its
+   copy and due dates, and the CRM calendar. The print format opens that as an A4 document —
+   a page per month — which is the fastest route to a PDF.
 
    Most of the time nobody wants a file at all: they want to paste the plan into a message, a
    doc or a sheet. So the same document is also offered as text, Markdown, CSV and JSON,
    copied straight to the clipboard — read from the server, never rebuilt here. */
 
-type Format = 'json' | 'csv' | 'xlsx' | 'md';
+type Format = 'print' | 'xlsx' | 'md' | 'json' | 'csv';
 type CopyFormat = 'text' | 'md' | 'csv' | 'json';
 
 const COPY_FORMATS: Array<{ id: CopyFormat; label: string; blurb: string }> = [
@@ -37,7 +45,31 @@ const COPY_FORMATS: Array<{ id: CopyFormat; label: string; blurb: string }> = [
   { id: 'json', label: 'JSON', blurb: 'Every field, for a script or import' },
 ];
 
+const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 const FORMATS: Array<{ id: Format; label: string; ext: string; blurb: string; Icon: typeof FileJson }> = [
+  {
+    id: 'print',
+    label: 'Print / PDF',
+    ext: '.html',
+    blurb: 'The full plan laid out for A4 print — opens in the browser, save as PDF.',
+    Icon: Printer,
+  },
+  {
+    id: 'xlsx',
+    label: 'Excel',
+    ext: '.xlsx',
+    blurb:
+      'One sheet per section: summary, cover, overview, execution, offers, CRM, collateral, months, dates, assumptions.',
+    Icon: FileSpreadsheet,
+  },
+  {
+    id: 'md',
+    label: 'Document',
+    ext: '.md',
+    blurb: 'The same plan as a readable file, ready to paste into a brief.',
+    Icon: FileText,
+  },
   {
     id: 'json',
     label: 'JSON',
@@ -46,25 +78,11 @@ const FORMATS: Array<{ id: Format; label: string; ext: string; blurb: string; Ic
     Icon: FileJson,
   },
   {
-    id: 'xlsx',
-    label: 'Excel',
-    ext: '.xlsx',
-    blurb: 'Five sheets: summary, months, offers, key dates, assumptions.',
-    Icon: FileSpreadsheet,
-  },
-  {
     id: 'csv',
     label: 'CSV',
     ext: '.csv',
     blurb: 'One row per offer with its month and location — filter and pivot.',
     Icon: FileSpreadsheet,
-  },
-  {
-    id: 'md',
-    label: 'Document',
-    ext: '.md',
-    blurb: 'A readable plan per location, ready to paste into a brief.',
-    Icon: FileText,
   },
 ];
 
@@ -79,7 +97,9 @@ export default function PlanExportDialog({
 }) {
   const { boot, studioId, year } = useApp();
   const [scope, setScope] = useState<'studio' | 'all'>(defaultScope);
-  const [format, setFormat] = useState<Format>('xlsx');
+  // null is the whole year; 1–12 is that month. Every section of that month travels with it.
+  const [month, setMonth] = useState<number | null>(null);
+  const [format, setFormat] = useState<Format>('print');
   const [preview, setPreview] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -97,17 +117,18 @@ export default function PlanExportDialog({
   );
   const resolved = planning.find(item => item.id === studio) || planning[0];
   const scopeQuery = scope === 'all' ? 'all' : String(resolved?.id ?? '');
+  const monthQuery = month ? `&month=${month}` : '';
 
   useEffect(() => {
     if (!open) return;
     setPreview(null);
     setError(null);
     setLoading(true);
-    api(`/plan/export/preview?year=${year}&studios=${scopeQuery}`)
+    api(`/plan/export/preview?year=${year}&studios=${scopeQuery}${monthQuery}`)
       .then(setPreview)
       .catch(err => setError(err.message || 'Could not read the plan.'))
       .finally(() => setLoading(false));
-  }, [open, scopeQuery, year]);
+  }, [open, scopeQuery, monthQuery, year]);
 
   // What the clipboard would receive, read from the same document the download writes.
   useEffect(() => {
@@ -115,7 +136,7 @@ export default function PlanExportDialog({
     let cancelled = false;
     setCopyState('loading');
     setCopyNote('');
-    api(`/plan/copy?year=${year}&studios=${scopeQuery}&format=${copyFormat}`)
+    api(`/plan/copy?year=${year}&studios=${scopeQuery}${monthQuery}&format=${copyFormat}`)
       .then((payload: any) => {
         if (cancelled) return;
         setCopyText(payload.text || '');
@@ -130,7 +151,7 @@ export default function PlanExportDialog({
     return () => {
       cancelled = true;
     };
-  }, [open, scopeQuery, year, copyFormat]);
+  }, [open, scopeQuery, monthQuery, year, copyFormat]);
 
   useEffect(() => {
     if (!open) return;
@@ -143,11 +164,27 @@ export default function PlanExportDialog({
 
   const active = useMemo(() => FORMATS.find(f => f.id === format)!, [format]);
 
+  const query = `year=${year}&studios=${scopeQuery}${monthQuery}&format=${format}`;
+
   const download = async () => {
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch(`/api/plan/export?year=${year}&studios=${scopeQuery}&format=${format}`, {
+      // The print document is meant to be looked at, then printed: open it rather than
+      // dropping an .html in the downloads folder nobody will double-click.
+      if (format === 'print') {
+        // An anchor, not window.open: no pop-up blocker, and no null return to misread.
+        const link = document.createElement('a');
+        link.href = `/api/plan/export?${query}`;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setBusy(false);
+        return;
+      }
+      const response = await fetch(`/api/plan/export?${query}`, {
         credentials: 'same-origin',
       });
       if (!response.ok) {
@@ -215,8 +252,8 @@ export default function PlanExportDialog({
             <span className="pex-kicker">Export</span>
             <h2>The {year} plan, as a file</h2>
             <p>
-              Targets, stream splits, funnel requirements, every offer with its maths, the key dates and the measured
-              assumptions — in one download.
+              The month-on-month plan in full — cover write-ups, overview, execution, offers with their maths,
+              collateral with its copy and due dates, and the CRM calendar — for the year or a single month.
             </p>
           </div>
           <button type="button" className="pex-close" onClick={onClose} aria-label="Close export">
@@ -258,6 +295,51 @@ export default function PlanExportDialog({
                     onClick={() => setStudio(item.id)}
                   >
                     {item.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="pex-block">
+            <span className="pex-label-row">
+              <span className="pex-label">Period</span>
+              <span className="pex-label-actions">
+                {month ? `${MONTH_CHAPTERS[month - 1]?.theme || ''}` : 'the whole year'}
+              </span>
+            </span>
+            <div className="pex-scopes" role="group" aria-label="Period">
+              <button
+                type="button"
+                className={!month ? 'is-on' : ''}
+                aria-pressed={!month}
+                onClick={() => setMonth(null)}
+              >
+                <strong>The whole year</strong>
+                <em>twelve months, in order</em>
+              </button>
+              <button
+                type="button"
+                className={month ? 'is-on' : ''}
+                aria-pressed={Boolean(month)}
+                onClick={() => setMonth(month || new Date().getMonth() + 1)}
+              >
+                <strong>One month</strong>
+                <em>its cover, execution, offers, collateral and CRM</em>
+              </button>
+            </div>
+            {month && (
+              <div className="pex-switch" role="group" aria-label="Which month">
+                {MONTH_CHAPTERS.map((chapter, index) => (
+                  <button
+                    key={chapter.theme}
+                    type="button"
+                    title={chapter.theme}
+                    className={month === index + 1 ? 'is-on' : ''}
+                    aria-pressed={month === index + 1}
+                    onClick={() => setMonth(index + 1)}
+                  >
+                    {MONTH_LABELS[index]}
                   </button>
                 ))}
               </div>
@@ -361,14 +443,25 @@ export default function PlanExportDialog({
                     <dd>{number(counts?.offers)}</dd>
                   </div>
                   <div>
-                    <dt>Year target</dt>
+                    <dt>{month ? 'Month target' : 'Year target'}</dt>
                     <dd>{lakh(preview.totals?.target)}</dd>
+                  </div>
+                  <div>
+                    <dt>Collateral</dt>
+                    <dd>{number(counts?.collateralPieces)}</dd>
+                  </div>
+                  <div>
+                    <dt>CRM sends</dt>
+                    <dd>{number(counts?.crmSends)}</dd>
                   </div>
                 </dl>
                 <span className="pex-preview-note">
                   {preview.scope?.type === 'portfolio'
-                    ? `${counts?.studios} locations, ${counts?.monthsWithOffers} months with offers`
-                    : `${preview.scope?.studios?.[0]?.name} · ${counts?.monthsWithOffers} months with offers`}
+                    ? `${counts?.studios} locations · `
+                    : `${preview.scope?.studios?.[0]?.name} · `}
+                  {month
+                    ? `${MONTH_CHAPTERS[month - 1]?.theme} — cover, overview, execution, offers, collateral, CRM`
+                    : `${counts?.monthsWithOffers} months with offers — every section of every month`}
                 </span>
               </>
             )}
@@ -390,8 +483,14 @@ export default function PlanExportDialog({
             {copyState === 'copied' ? 'Copied' : `Copy ${copyActive.label}`}
           </button>
           <button type="button" className="pex-go" onClick={download} disabled={busy || loading || !preview}>
-            {busy ? <Loader2 size={14} className="spin" /> : <Download size={14} />}
-            Download {active.label}
+            {busy ? (
+              <Loader2 size={14} className="spin" />
+            ) : format === 'print' ? (
+              <Printer size={14} />
+            ) : (
+              <Download size={14} />
+            )}
+            {format === 'print' ? 'Open print document' : `Download ${active.label}`}
           </button>
         </footer>
       </section>
