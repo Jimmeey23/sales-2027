@@ -9747,6 +9747,12 @@ details.membership-terms > summary {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  position: sticky;
+  top: -20px;
+  z-index: 2;
+  margin: -20px -24px 0;
+  padding: 20px 24px 0;
+  background: #fbfaf8;
 }
 .pex-recheck {
   display: inline-flex;
@@ -9931,6 +9937,50 @@ details.membership-terms > summary {
   background: #f6f2e9;
   color: #7a5a12;
 }
+/* The counts double as filters — 56 failures inside 153 rows is a list nobody should have to
+   scroll to find. A selected chip narrows the list; every chip is a button. */
+.pex-summary button {
+  padding: 3px 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.pex-summary button:hover {
+  border-color: rgba(23, 22, 15, 0.18);
+}
+.pex-summary button.is-on {
+  border-color: var(--ink-900);
+  box-shadow: 0 0 0 1px var(--ink-900) inset;
+}
+.pex-summary .is-create {
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+.pex-summary .is-update {
+  background: #eaf1fb;
+  color: #1f4e88;
+}
+.pex-summary .is-skip {
+  background: var(--canvas);
+  color: var(--muted);
+}
+.pex-summary .is-error {
+  background: var(--red-soft);
+  color: var(--red);
+}
+.pex-rows-empty {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  font-size: 11.5px;
+  color: var(--subtle);
+}
 .pex-rows {
   margin: 0;
   padding: 0;
@@ -9940,6 +9990,11 @@ details.membership-terms > summary {
   border-radius: 10px;
   overflow: hidden;
   background: var(--paper);
+  /* A preview can run to hundreds of rows. As a flex child of the preview pane this list
+     used to be squashed to the pane's height with its overflow hidden, so everything past
+     the first screenful — usually the failures — was unreachable. It keeps its full height
+     now and the pane scrolls instead. */
+  flex: 0 0 auto;
 }
 .pex-rows li {
   display: flex;
@@ -10182,6 +10237,11 @@ details.membership-terms > summary {
   .pex-import .pex-pane-preview {
     max-height: none;
     overflow: visible;
+  }
+  .pex-import .pex-preview-head {
+    position: static;
+    margin: 0;
+    padding: 0;
   }
   .pex-modes {
     grid-template-columns: 1fr;

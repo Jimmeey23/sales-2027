@@ -120,6 +120,7 @@ export default function OfferImportDialog({
   const [done, setDone] = useState<any>(null);
   const [leftOut, setLeftOut] = useState<Record<number, boolean>>({});
   const [openRow, setOpenRow] = useState<number | null>(null);
+  const [rowFilter, setRowFilter] = useState<'all' | 'create' | 'update' | 'skip' | 'error'>('all');
   const [dragging, setDragging] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
   const previewRef = useRef<HTMLDivElement | null>(null);
@@ -136,6 +137,7 @@ export default function OfferImportDialog({
     setShowBulk(false);
     setLeftOut({});
     setOpenRow(null);
+    setRowFilter('all');
   };
 
   useEffect(() => {
@@ -229,39 +231,65 @@ export default function OfferImportDialog({
     return first.includes(',') || first.includes('\t') || first.includes(';');
   }, [text]);
 
-  const rowCount = useMemo(() => {
-    if (!text.trim()) return 0;
-    if (looksLikeCsv) return Math.max(0, text.trim().split(/\r?\n/).filter(Boolean).length - 1);
+  /* A plan export already says which location every offer belongs to, section by section, so
+     asking for a location once more would be busywork — and made a correct file look
+     unimportable, because the Preview button stayed disabled until one was picked. */
+  const source = useMemo(() => {
+    if (!text.trim()) return { count: 0, selfLocationed: false };
+    if (looksLikeCsv) {
+      const lines = text.trim().split(/\r?\n/);
+      const header = (lines[0] || '').toLowerCase();
+      const namesLocation = /(^|,|\t|;)\s*(studio|studio_?id|location)\s*(,|\t|;|$)/.test(header);
+      return { count: Math.max(0, lines.filter(Boolean).length - 1), selfLocationed: namesLocation };
+    }
     try {
       const value = JSON.parse(text);
-      if (Array.isArray(value)) return value.length;
-      if (Array.isArray(value?.offers)) return value.offers.length;
-      if (Array.isArray(value?.studios))
-        return value.studios.flatMap((s: any) => (s?.months || []).flatMap((m: any) => m?.offers || [])).length;
-      return 0;
+      if (Array.isArray(value)) {
+        const named = value.filter(
+          row => row && (row.studioId ?? row.studio_id ?? row.studio ?? row.location) != null,
+        ).length;
+        return { count: value.length, selfLocationed: value.length > 0 && named === value.length };
+      }
+      if (Array.isArray(value?.offers)) {
+        const named = value.offers.filter(
+          (row: any) => row && (row.studioId ?? row.studio_id ?? row.studio ?? row.location) != null,
+        ).length;
+        return { count: value.offers.length, selfLocationed: value.offers.length > 0 && named === value.offers.length };
+      }
+      if (Array.isArray(value?.studios)) {
+        const sections = value.studios.filter((section: any) => section?.studio?.id ?? section?.studioId);
+        return {
+          count: value.studios.flatMap((s: any) => (s?.months || []).flatMap((m: any) => m?.offers || [])).length,
+          selfLocationed: sections.length === value.studios.length && value.studios.length > 0,
+        };
+      }
+      return { count: 0, selfLocationed: false };
     } catch {
-      return -1;
+      return { count: -1, selfLocationed: false };
     }
   }, [text, looksLikeCsv]);
+  const rowCount = source.count;
+  const needsStudio = !source.selfLocationed;
 
   // Checking is free (a dry run), so the panel keeps itself up to date: change the file,
   // the month or a bulk edit and the preview re-runs a beat later. Nothing is written.
   useEffect(() => {
     if (!open || done || busy) return;
-    if (!text.trim() || rowCount < 1 || !studio) return;
+    if (!text.trim() || rowCount < 1 || (needsStudio && !studio)) return;
     const timer = window.setTimeout(() => {
       run(true).catch(() => {});
     }, 700);
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text, studio, mode, month, attach, bulk, leftOut, rowCount, open, done]);
+  }, [text, studio, needsStudio, mode, month, attach, bulk, leftOut, rowCount, open, done]);
 
   if (!open) return null;
 
   const rows: any[] = preview?.rows || [];
   const summary = preview?.summary;
+  const shown = rowFilter === 'all' ? rows : rows.filter(row => row.action === rowFilter);
   const actionable = rows.filter(r => r.action !== 'error' && r.action !== 'skip').length;
-  const blocked = !text.trim() || rowCount < 1 || !studio || (mode === 'replace' && !month);
+  const blocked = !text.trim() || rowCount < 1 || (needsStudio && !studio) || (mode === 'replace' && !month);
 
   return (
     <div className="pex-backdrop" onMouseDown={e => e.target === e.currentTarget && onClose()} role="presentation">
@@ -603,17 +631,57 @@ export default function OfferImportDialog({
             {error && <p className="pex-error">{error}</p>}
             {preview && summary && (
               <>
-                <div className="pex-summary">
-                  <span className="is-create">{summary.create} new</span>
-                  <span className="is-update">{summary.update} updated</span>
-                  {summary.skip > 0 && <span className="is-skip">{summary.skip} skipped</span>}
-                  {summary.error > 0 && <span className="is-error">{summary.error} failed</span>}
+                {/* The counts are also the way through the list: a file with 56 failures in it
+                    should not need a scroll to find them. */}
+                <div className="pex-summary" role="group" aria-label="Filter the preview">
+                  <button
+                    type="button"
+                    className={`is-create${rowFilter === 'all' ? ' is-on' : ''}`}
+                    aria-pressed={rowFilter === 'all'}
+                    onClick={() => setRowFilter('all')}
+                  >
+                    {summary.create} new
+                  </button>
+                  <button
+                    type="button"
+                    className={`is-update${rowFilter === 'update' ? ' is-on' : ''}`}
+                    aria-pressed={rowFilter === 'update'}
+                    onClick={() => setRowFilter('update')}
+                  >
+                    {summary.update} updated
+                  </button>
+                  {summary.skip > 0 && (
+                    <button
+                      type="button"
+                      className={`is-skip${rowFilter === 'skip' ? ' is-on' : ''}`}
+                      aria-pressed={rowFilter === 'skip'}
+                      onClick={() => setRowFilter('skip')}
+                    >
+                      {summary.skip} skipped
+                    </button>
+                  )}
+                  {summary.error > 0 && (
+                    <button
+                      type="button"
+                      className={`is-error${rowFilter === 'error' ? ' is-on' : ''}`}
+                      aria-pressed={rowFilter === 'error'}
+                      onClick={() => setRowFilter('error')}
+                    >
+                      {summary.error} failed — show {rowFilter === 'error' ? 'all' : 'only these'}
+                    </button>
+                  )}
                   {summary.changedFields > 0 && (
                     <span className="is-fields">{summary.changedFields} fields change</span>
                   )}
                 </div>
+                {rowFilter !== 'all' && (
+                  <p className="pex-hint">
+                    Showing {shown.length} of {rows.length} rows.
+                  </p>
+                )}
+                {shown.length === 0 && <p className="pex-rows-empty">No rows in this state.</p>}
                 <ul className="pex-rows">
-                  {rows.map(row => {
+                  {shown.map(row => {
                     const changes: any[] = row.changes || [];
                     const open = openRow === row.index;
                     return (
@@ -682,8 +750,8 @@ export default function OfferImportDialog({
 
         <footer className="pex-foot">
           <span className="pex-foot-note">
-            {!studio
-              ? 'Choose the location these offers belong to.'
+            {needsStudio && !studio
+              ? 'Choose the location these offers belong to — or import a file that names its own.'
               : mode === 'replace' && !month
                 ? 'Choose a month to replace its selection, or switch to Add & update.'
                 : 'Nothing is written until you press Import.'}
