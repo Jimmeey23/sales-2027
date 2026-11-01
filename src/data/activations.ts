@@ -1,6 +1,6 @@
 // 2027 activations from the final approved plan: each month's theme and moment, hook and commercial job,
 // and the renewal offer that holds the book.
-import { approvedMonth, approvedOffer, field } from './approvedPlan2027';
+import { approvedMonth, approvedOffer, field } from './approvedPlan2027.js';
 
 export interface MonthActivation {
   challenge: [string, string];
