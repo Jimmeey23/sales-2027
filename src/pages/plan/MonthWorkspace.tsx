@@ -1821,6 +1821,71 @@ export default function MonthWorkspace({
               />
             )}
 
+            {/* ─── The brief the plan document filed for this month ─── */}
+            {page === 'overview' &&
+              (() => {
+                const content = form.content || {};
+                const collateral = content.collateral || null;
+                const crm = content.crm || null;
+                const pieces = Array.isArray(collateral?.pieces) ? collateral.pieces : [];
+                const sends = Array.isArray(crm?.sends) ? crm.sends : [];
+                const filed = Number(content.offersPlannedRevenue) || 0;
+                if (!content.focus && !content.studioRole && !collateral && !crm) return null;
+                return (
+                  <div className="mw-section mw-brief">
+                    <div className="mw-brief-head">
+                      <span className="mw-brief-kicker">As filed</span>
+                      {content.studioRole ? <em>{inline(String(content.studioRole))}</em> : null}
+                    </div>
+                    {content.focus ? <p className="mw-brief-focus">{inline(String(content.focus))}</p> : null}
+                    <dl className="mw-brief-meta">
+                      <div>
+                        <dt>Offers planned</dt>
+                        <dd>{lakh(filed || offerRevenue)}</dd>
+                      </div>
+                      {collateral?.title ? (
+                        <div>
+                          <dt>Collateral</dt>
+                          <dd>
+                            {inline(String(collateral.title))}
+                            {pieces.length ? ` · ${pieces.length} piece${pieces.length === 1 ? '' : 's'}` : ''}
+                          </dd>
+                        </div>
+                      ) : null}
+                      {crm?.rule || sends.length ? (
+                        <div>
+                          <dt>CRM</dt>
+                          <dd>
+                            {sends.length ? `${sends.length} send${sends.length === 1 ? '' : 's'}` : 'No sends'}
+                            {crm?.rule ? ` · ${inline(String(crm.rule))}` : ''}
+                          </dd>
+                        </div>
+                      ) : null}
+                    </dl>
+                    {pieces.length > 0 && (
+                      <ul className="mw-brief-pieces">
+                        {pieces.slice(0, 6).map((piece: any, index: number) => (
+                          <li key={`${piece?.offerId || index}`}>
+                            <b>{inline(String(piece?.headline || piece?.offerId || 'Piece'))}</b>
+                            {piece?.detail ? <em>{inline(String(piece.detail))}</em> : null}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {sends.length > 0 && (
+                      <ul className="mw-brief-pieces mw-brief-sends">
+                        {sends.slice(0, 6).map((send: any, index: number) => (
+                          <li key={`${send?.offerId || index}`}>
+                            <b>{inline(String(send?.audience || send?.offerId || 'Audience'))}</b>
+                            {send?.message ? <em>{inline(String(send.message))}</em> : null}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })()}
+
             {/* ─── Section 1: Important days ─── */}
             {showOnPage('days') &&
               (() => {

@@ -114,12 +114,21 @@ const lakh = (rupees: number) => {
 
 export interface ImportedOffer {
   name: string;
-  slot: Slot | null;
+  /** The plan's slot for the offer — newcomer, renewal, lapsed, or a campaign slot such as
+      spot, referral, upgrade, privates, bookout, corporate or goodwill. Kept as written. */
+  slot: string | null;
+  /** The offer bank's id for this offer (O27-01 …), when the document carries one. */
+  bankId: string | null;
   headline: string;
   benefit: string;
   customerCopy: string;
   internalDescription: string;
+  /** The long-form description some plans file beside the customer copy. */
+  description: string;
   rationale: string;
+  excludedAudience: string;
+  mechanicTags: string[];
+  kpi: string;
   audience: string;
   conditions: string;
   cta: string;
@@ -170,6 +179,15 @@ export interface ImportedMonth {
   funnel: Record<string, any>;
   feasibility: string;
   status: string;
+  /** The one-line focus the plan gives the month, where it gives one. */
+  focus: string;
+  /** The part this location plays in the portfolio's month (retention-led, acquisition-led…). */
+  studioRole: string;
+  /** What the plan expects its offers alone to carry, when it states it. */
+  offersPlannedRevenue: number | null;
+  /** The month's collateral and CRM plan, as filed. */
+  collateral: any;
+  crm: any;
   keyDates: ImportedKeyDate[];
   sections: ImportedSection[];
   focusPoints: string[];
@@ -211,8 +229,10 @@ function offerFrom(raw: any, index: number): ImportedOffer | null {
   const price = numOf(first(source, ['price', 'expectedAsp', 'expected_asp', 'sellingPrice', 'asp']));
   const buyers = numOf(first(source, ['buyers', 'targetPurchases', 'target_purchases', 'units', 'expectedBuyers']));
   const revenue = numOf(first(source, ['expectedRevenue', 'expected_revenue', 'revenue', 'modelledRevenue']));
-  const rawSlot = textOf(first(source, ['slot', 'planSlot', 'plan_slot', 'journeySlot'])).toLowerCase();
-  const slot = (SLOTS as readonly string[]).includes(rawSlot) ? (rawSlot as Slot) : null;
+  // Every slot the plan uses is kept: the three journey slots fill the month's columns, the
+  // campaign slots (spot, referral, upgrade, privates, bookout, corporate, goodwill) are the
+  // month's other plays and still belong to it.
+  const slot = textOf(first(source, ['slot', 'planSlot', 'plan_slot', 'journeySlot'])).toLowerCase() || null;
   const discount = numOf(
     first(source, [
       'effectiveDiscountPercent',
@@ -231,12 +251,19 @@ function offerFrom(raw: any, index: number): ImportedOffer | null {
   return {
     name,
     slot,
+    bankId: textOf(first(source, ['bankId', 'bank_id', 'bank', 'offerBankId'])) || null,
     headline: textOf(first(source, ['headline', 'tagline', 'strapline'])),
     benefit: textOf(first(source, ['benefit', 'whatYouGet', 'value'])),
     customerCopy: textOf(first(source, ['customerCopy', 'customer_copy', 'clientCopy', 'copy'])),
     internalDescription: textOf(first(source, ['internalDescription', 'internal_description', 'internal'])),
+    description: textOf(first(source, ['description', 'longDescription', 'detail'])),
     rationale: textOf(first(source, ['rationale', 'why', 'whyItWorks', 'reasoning'])),
     audience: textOf(first(source, ['audience', 'whoQualifies', 'who', 'eligibility'])),
+    excludedAudience: textOf(first(source, ['excludedAudience', 'excluded_audience', 'whoDoesNot'])),
+    mechanicTags: listOf(first(source, ['mechanicTags', 'tags', 'mechanicsTags']))
+      .map(textOf)
+      .filter(Boolean),
+    kpi: textOf(first(source, ['kpi', 'KPI', 'measure', 'successMetric'])),
     conditions: textOf(first(source, ['conditions', 'redemptionConditions', 'redemption_conditions', 'rules'])),
     cta: textOf(first(source, ['cta', 'callToAction', 'call_to_action'])),
     objective: textOf(first(source, ['objective', 'job', 'stream'])) || guessObjective(slot),
@@ -273,11 +300,26 @@ function offerFrom(raw: any, index: number): ImportedOffer | null {
   };
 }
 
-function guessObjective(slot: Slot | null) {
-  if (slot === 'newcomer') return 'acquisition';
-  if (slot === 'lapsed') return 'reactivation';
-  if (slot === 'renewal') return 'retention';
-  return 'acquisition';
+const SLOT_OBJECTIVE: Record<string, string> = {
+  newcomer: 'acquisition',
+  lapsed: 'reactivation',
+  renewal: 'retention',
+  referral: 'referral',
+  upgrade: 'aov',
+  privates: 'aov',
+  bookout: 'additional_purchase',
+  goodwill: 'retention',
+  spot: 'acquisition',
+  corporate: 'acquisition',
+};
+
+function guessObjective(slot: string | null) {
+  return objectiveForSlot(slot);
+}
+
+/** A slot the document uses (any slot, not only the three the app's month grid draws). */
+function objectiveForSlot(slot: string | null) {
+  return SLOT_OBJECTIVE[String(slot || '').toLowerCase()] || 'acquisition';
 }
 
 /** "Week 2", "2", "Second week" — all the same week in the execution plan. */
@@ -387,7 +429,9 @@ function monthFrom(raw: any, fallbackMonth: number): ImportedMonth | null {
   const offers = listOf(first(raw, ['offers']))
     .map(offerFrom)
     .filter((offer): offer is ImportedOffer => Boolean(offer));
-  const focusPoints = listOf(first(raw, ['focusPoints', 'focus', 'focusAreas']))
+  // `focus` is a one-line label in the portfolio document, not a list: it becomes the month's
+  // kicker. Only an actual list of focus points is read as one.
+  const focusPoints = listOf(first(raw, ['focusPoints', 'focusAreas']))
     .map(textOf)
     .filter(Boolean);
   const reasoning = listOf(first(raw, ['reasoning', 'aiReasoning']))
@@ -406,6 +450,7 @@ function monthFrom(raw: any, fallbackMonth: number): ImportedMonth | null {
     month,
     theme: textOf(first(raw, ['theme', 'chapter', 'name'])),
     kicker: textOf(first(raw, ['kicker', 'hook', 'strapline', 'eyebrow'])),
+    focus: textOf(first(raw, ['focus', 'oneLine'])),
     objective: textOf(first(raw, ['objective', 'job', 'goal', 'commercialJob'])),
     strategy: textOf(first(raw, ['strategy', 'approach', 'plays', 'plan'])),
     notes: textOf(first(raw, ['notes', 'brief', 'moment', 'narrative'])),
@@ -420,6 +465,10 @@ function monthFrom(raw: any, fallbackMonth: number): ImportedMonth | null {
     status: ['draft', 'final'].includes((textOf(first(raw, ['status'])) || '').toLowerCase())
       ? (textOf(first(raw, ['status'])) || 'draft').toLowerCase()
       : 'draft',
+    studioRole: textOf(first(raw, ['studioRole', 'role', 'portfolioRole'])),
+    offersPlannedRevenue: numOf(first(raw, ['offersPlannedRevenue', 'offersRevenue', 'offerRevenue'])),
+    collateral: first(raw, ['collateral', 'collateralPlan']) ?? null,
+    crm: first(raw, ['crm', 'crmPlan']) ?? null,
     keyDates: keyDatesFrom(first(raw, ['keyDates', 'dates', 'moments'])),
     sections,
     focusPoints,
@@ -437,62 +486,49 @@ function monthFrom(raw: any, fallbackMonth: number): ImportedMonth | null {
   };
 }
 
-/** Reads any `p57-sales-plan/1`-shaped document into the one shape the writer understands. */
-export function parseSalesPlan(input: any): SalesPlanDocument {
-  const source = typeof input === 'string' ? JSON.parse(input) : input;
-  if (!isObj(source)) throw Object.assign(new Error('The plan must be a JSON object.'), { status: 400 });
+/** Everything a document states about one location, in the shape the writer understands. */
+function documentFor(source: any, block: any, rootMonths: any[]): SalesPlanDocument | null {
   const schema = textOf(source.schema) || PLAN_SCHEMA;
-  if (!/^p57-sales-plan\/\d+$/.test(schema))
-    throw Object.assign(
-      new Error(`This is not a plan document — expected schema “${PLAN_SCHEMA}”, found “${schema || 'none'}”.`),
-      { status: 400 },
-    );
-
-  // One location or several: a portfolio export is narrowed by the caller, a single location
-  // document is read as-is.
-  const studios = listOf(source.studios).filter(isObj);
-  const studioBlock = studios.length === 1 ? studios[0] : null;
-  const year = numOf(first(source, ['year', 'planningYear'])) ?? numOf(first(studioBlock, ['year'])) ?? 2027;
-  const studioInfo = isObj(source.studio) ? source.studio : isObj(studioBlock?.studio) ? studioBlock.studio : {};
+  const year = numOf(first(source, ['year', 'planningYear'])) ?? numOf(first(block, ['year'])) ?? 2027;
+  const studioInfo = isObj(block?.studio) ? block.studio : isObj(source.studio) ? source.studio : {};
   const scopeStudio =
     isObj(source.scope) && listOf(source.scope.studios).length === 1 ? listOf(source.scope.studios)[0] : null;
 
-  const rawMonths = listOf(
-    first(source, ['months']) ??
-      first(studioBlock, ['months']) ??
-      first(isObj(source.year) ? source.year : {}, ['months']),
-  );
+  const rawMonths = listOf(first(block, ['months']) ?? rootMonths);
   const months = rawMonths
     .map((raw, index) => monthFrom(raw, index + 1))
     .filter((month): month is ImportedMonth => Boolean(month))
     .sort((a, b) => a.month - b.month);
-  if (!months.length)
-    throw Object.assign(new Error('No months found in this plan. Expected a `months` list.'), { status: 400 });
+  if (!months.length) return null;
 
-  const yearBlock = isObj(studioBlock?.year) ? studioBlock.year : isObj(source.year) ? source.year : {};
+  const yearBlock = isObj(block?.year) ? block.year : {};
   const totalsRaw = isObj(source.totals) ? source.totals : {};
-  const target = numOf(first(totalsRaw, ['target', 'revenue'])) ?? months.reduce((sum, m) => sum + m.target, 0);
+  const monthTarget = months.reduce((sum, m) => sum + m.target, 0);
+  const monthPrior = months.reduce((sum, m) => sum + m.priorYear, 0);
+  // A portfolio document's `totals` are the portfolio's; a location's year comes from its own
+  // block. Only a single-location file reads the document totals.
+  const target =
+    numOf(first(yearBlock, ['target', 'revenue'])) ?? numOf(first(totalsRaw, ['target', 'revenue'])) ?? monthTarget;
   const priorYear =
-    numOf(first(totalsRaw, ['priorYear', 'lastYear'])) ??
     numOf(first(yearBlock, ['priorYear', 'lastYear'])) ??
-    months.reduce((sum, m) => sum + m.priorYear, 0);
-  const trailingRaw = isObj(first(studioBlock, ['trailing']) ?? first(source, ['trailing']))
-    ? (first(studioBlock, ['trailing']) ?? first(source, ['trailing']))
+    numOf(first(totalsRaw, ['priorYear', 'lastYear'])) ??
+    monthPrior;
+
+  const trailingRaw = isObj(first(block, ['trailing']) ?? first(source, ['trailing']))
+    ? (first(block, ['trailing']) ?? first(source, ['trailing']))
     : {};
   const trailing: Record<string, number> = {};
   for (const key of Object.keys(ASSUMPTION_KEYS) as AssumptionKey[]) {
     const value = numOf(trailingRaw[key]);
     if (value !== null && value !== 0) trailing[key] = value;
   }
-  const pricesSource = first(studioBlock, ['prices']) ?? first(source, ['prices']);
+  const pricesSource = first(block, ['prices']) ?? first(source, ['prices']);
   const pricesRaw: Record<string, any> = isObj(pricesSource) ? pricesSource : {};
   const prices: Record<string, number> = {};
   for (const [key, value] of Object.entries(pricesRaw)) {
     const n = numOf(value);
     if (n !== null) prices[key] = n;
   }
-
-  const hash = crypto.createHash('sha1').update(JSON.stringify(source)).digest('hex').slice(0, 16);
 
   return {
     schema,
@@ -513,11 +549,454 @@ export function parseSalesPlan(input: any): SalesPlanDocument {
     },
     trailing,
     prices,
-    basis: textOf(first(studioBlock, ['basis'])) || textOf(first(source, ['basis'])) || null,
-    measuredWindow: first(studioBlock, ['measuredWindow']) ?? first(source, ['measuredWindow']) ?? null,
+    basis: textOf(first(block, ['basis'])) || textOf(first(source, ['basis'])) || null,
+    measuredWindow: first(block, ['measuredWindow']) ?? first(source, ['measuredWindow']) ?? null,
     months,
-    hash,
+    hash: crypto.createHash('sha1').update(JSON.stringify(source)).digest('hex').slice(0, 16),
   };
+}
+
+export interface SalesPlanSet {
+  schema: string;
+  version: string | null;
+  generatedAt: string | null;
+  year: number;
+  hash: string;
+  /** The year's framing, the part that is not any one location: the discount policy, the gaps
+      the document admits to, what changed since the last one, the portfolio totals. */
+  totals: any;
+  policy: any;
+  dataGaps: string[];
+  changesFromPrevious: string[];
+  /** The year's catalogue of offers, before a location takes its own copy of one. */
+  offerBank: any[];
+  /** What the document knows about each location, under its own short key (KC, BA, KK, POP). */
+  studioIntelligence: Record<string, any>;
+  documents: SalesPlanDocument[];
+}
+
+/** Every location a document describes, one document each. A single-location file yields one. */
+export function parseSalesPlanSet(input: any): SalesPlanSet {
+  const source = typeof input === 'string' ? JSON.parse(input) : input;
+  if (!isObj(source)) throw Object.assign(new Error('The plan must be a JSON object.'), { status: 400 });
+  const schema = textOf(source.schema) || PLAN_SCHEMA;
+  if (!/^p57-sales-plan\/\d+$/.test(schema))
+    throw Object.assign(
+      new Error(`This is not a plan document — expected schema “${PLAN_SCHEMA}”, found “${schema || 'none'}”.`),
+      { status: 400 },
+    );
+
+  const blocks = listOf(source.studios).filter(isObj);
+  const rootMonths = listOf(first(source, ['months']));
+  const documents = (blocks.length ? blocks : [{}])
+    .map(block => documentFor(source, block, rootMonths))
+    .filter((document): document is SalesPlanDocument => Boolean(document));
+  if (!documents.length)
+    throw Object.assign(new Error('No months found in this plan. Expected a `months` list.'), { status: 400 });
+
+  const intelligenceRaw = first(source, ['studioIntelligence']);
+  const studioIntelligence: Record<string, any> = {};
+  if (isObj(intelligenceRaw))
+    for (const [key, value] of Object.entries(intelligenceRaw))
+      if (isObj(value)) studioIntelligence[key.toUpperCase()] = value;
+
+  return {
+    schema,
+    version: textOf(first(source, ['version'])) || null,
+    generatedAt: textOf(first(source, ['generatedAt', 'generated_at'])) || null,
+    year: documents[0].year,
+    hash: documents[0].hash,
+    totals: first(source, ['totals']) ?? null,
+    policy: first(source, ['policy']) ?? null,
+    dataGaps: listOf(first(source, ['dataGaps']))
+      .map(textOf)
+      .filter(Boolean),
+    changesFromPrevious: listOf(first(source, ['changesFromPrevious']))
+      .map(textOf)
+      .filter(Boolean),
+    offerBank: listOf(first(source, ['offerBank'])).filter(isObj),
+    studioIntelligence,
+    documents,
+  };
+}
+
+/** Reads any `p57-sales-plan/1`-shaped document into the one shape the writer understands.
+
+    A document that describes several locations has several documents in it — one per location,
+    each with its own year block, rates and months — so callers that import a portfolio ask for
+    `parseSalesPlanSet` and get all of them. This single-location entry point stays for the files
+    that name one place. */
+export function parseSalesPlan(input: any): SalesPlanDocument {
+  const set = parseSalesPlanSet(input);
+  if (set.documents.length > 1)
+    throw Object.assign(
+      new Error(
+        `This document describes ${set.documents.length} locations. Import it as a portfolio so every location lands in its own year.`,
+      ),
+      { status: 400 },
+    );
+  return set.documents[0];
+}
+
+/** A location the document names, matched to the workspace's studio — by id, name, alias or code. */
+export function resolveStudioId(
+  studios: Array<{ id: number; name: string; code?: string | null; aliases?: string | null }>,
+  target: { id?: number | null; name?: string | null; code?: string | null },
+): number | null {
+  if (target.id && studios.some(studio => studio.id === Number(target.id))) return Number(target.id);
+
+  const normalise = (value: any) =>
+    String(value ?? '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+  // "Bandra (Supreme HQ)" is Bandra; the bracketed half is a second name to try, not noise.
+  const withoutParens = (value: any) => String(value ?? '').replace(/\([^)]*\)/g, ' ');
+  const words = (value: any) => normalise(value).split(' ').filter(Boolean);
+  // "Pop-up" and "Pop-ups" are the same word when a document is naming places.
+  const token = (value: string) => value.replace(/s$/, '');
+  const aliasesOf = (studio: any) => {
+    try {
+      return JSON.parse(studio.aliases || '[]') as string[];
+    } catch {
+      return [];
+    }
+  };
+  const byExact = (value: any) => {
+    const full = normalise(value);
+    const plain = normalise(withoutParens(value));
+    if (!full) return null;
+    const hit = studios.find(
+      studio =>
+        [normalise(studio.name), normalise(studio.code), ...aliasesOf(studio).map(normalise)].includes(full) ||
+        [normalise(studio.name), normalise(studio.code), ...aliasesOf(studio).map(normalise)].includes(plain),
+    );
+    return hit ? hit.id : null;
+  };
+
+  const exact = byExact(target.name) ?? byExact(target.code);
+  if (exact) return exact;
+
+  // "Bandra (Supreme HQ)" and "Bengaluru Pop-ups (Copper + Cloves, Plash Pilates)" are the
+  // locations the workspace calls Bandra and Pop-up. Score every studio's names and aliases
+  // against the document's words and take the earliest, longest match — a venue named in
+  // brackets must not beat the pop-up the brackets belong to.
+  const candidate = words(target.name).map(token);
+  if (!candidate.length) return null;
+  // Either the studio's name sits inside the document's longer name ("Bandra" in "Bandra
+  // (Supreme HQ)") or the document names only part of it ("Kwality House" for "Kwality House,
+  // Kemps Corner"). Both are the same location, and a name beats an alias.
+  const insideOf = (needle: string[], hay: string[]) => {
+    if (!needle.length || needle.length > hay.length) return -1;
+    for (let start = 0; start + needle.length <= hay.length; start += 1)
+      if (needle.every((word, offset) => hay[start + offset] === word)) return start;
+    return -1;
+  };
+  const scored = studios
+    .map(studio => {
+      const names = [
+        { text: studio.name, alias: false },
+        ...aliasesOf(studio).map(alias => ({ text: alias, alias: true })),
+      ];
+      let best: { start: number; length: number; alias: boolean; partial: boolean } | null = null;
+      for (const entry of names) {
+        const tokens = words(entry.text).map(token);
+        const named = insideOf(tokens, candidate);
+        const partial = named < 0;
+        const start = partial ? insideOf(candidate, tokens) : named;
+        if (start < 0) continue;
+        const score = { start, length: tokens.length, alias: entry.alias, partial };
+        if (
+          !best ||
+          score.start < best.start ||
+          (score.start === best.start && Number(score.partial) < Number(best.partial)) ||
+          (score.start === best.start && score.partial === best.partial && score.length > best.length)
+        )
+          best = score;
+      }
+      return best ? { id: studio.id, ...best } : null;
+    })
+    .filter((entry): entry is { id: number; start: number; length: number; alias: boolean; partial: boolean } =>
+      Boolean(entry),
+    )
+    .sort(
+      (a, b) =>
+        a.start - b.start ||
+        Number(a.partial) - Number(b.partial) ||
+        b.length - a.length ||
+        Number(a.alias) - Number(b.alias) ||
+        a.id - b.id,
+    );
+  return scored.length ? scored[0].id : null;
+}
+
+/* ── Several locations in one document ──────────────────────────────────────
+   A portfolio file is imported location by location, each write in its own transaction so a
+   location that cannot be read leaves the others whole. What the file says about the year —
+   the discount policy, the offer bank, the notes on each location — is written once, after. */
+
+export interface PortfolioImport {
+  studio: { id: number; name: string } | null;
+  totals: SalesPlanDocument['totals'];
+  mode: ImportMode;
+  result: ImportResult;
+}
+
+export interface PortfolioContextReport {
+  settings: string[];
+  bank: { created: number; retired: number; locations: number };
+  policies: number;
+  locations: Array<{ key: string; studioId: number | null }>;
+}
+
+export const PORTFOLIO_SETTING = 'plan.portfolio';
+const intelligenceKey = (studioId: number) => `plan.studioIntelligence.${studioId}`;
+
+/** The document's own short keys (KC, BA, KK, POP) mapped to this workspace's studios. */
+export function studioKeys(
+  set: SalesPlanSet,
+  studios: Array<{ id: number; name: string; code?: string | null; aliases?: string | null }>,
+): Map<string, number> {
+  const keys = new Map<string, number>();
+  for (const [key, block] of Object.entries(set.studioIntelligence)) {
+    const id = resolveStudioId(studios, { name: block?.studio ?? null });
+    if (id) keys.set(key, id);
+  }
+  // A document can carry an offer bank without the intelligence block; the offers then name
+  // their locations only by key, so fall back to the code or the leading word of the name.
+  for (const offer of set.offerBank)
+    for (const key of listOf(offer.studios)
+      .map(textOf)
+      .filter(Boolean)
+      .map(k => k.toUpperCase())) {
+      if (keys.has(key)) continue;
+      const id = resolveStudioId(studios, { code: key, name: key });
+      if (id) keys.set(key, id);
+    }
+  return keys;
+}
+
+const percentIn = (value: any): number | null => {
+  const match = textOf(value).match(/(\d+(?:\.\d+)?)\s*%/);
+  return match ? Number(match[1]) : null;
+};
+
+/** The year's policy, bank and location notes — everything in the file that is not a month. */
+export function writePortfolioContext(
+  set: SalesPlanSet,
+  targetStudioIds: number[],
+  keys: Map<string, number>,
+): PortfolioContextReport {
+  const setting = (key: string, value: any) =>
+    db
+      .prepare(
+        'INSERT INTO settings(key,value,updated_at) VALUES (?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=CURRENT_TIMESTAMP',
+      )
+      .run(key, typeof value === 'string' ? value : JSON.stringify(value));
+  const written: string[] = [];
+
+  const report: PortfolioContextReport = {
+    settings: written,
+    bank: { created: 0, retired: 0, locations: 0 },
+    policies: 0,
+    locations: [...keys.entries()].map(([key, studioId]) => ({ key, studioId })),
+  };
+
+  db.transaction(() => {
+    const locations = [...keys.entries()]
+      .filter(([, studioId]) => targetStudioIds.includes(studioId))
+      .map(([key, studioId]) => {
+        const block = set.studioIntelligence[key] || {};
+        const studio = db.prepare('SELECT name FROM studios WHERE id=?').get(studioId) as any;
+        return {
+          key,
+          studioId,
+          name: textOf(block.studio) || studio?.name || null,
+          role: textOf(first(block, ['role'])) || null,
+          findings: listOf(block.findings).map(textOf).filter(Boolean),
+        };
+      });
+
+    setting(PORTFOLIO_SETTING, {
+      schema: set.schema,
+      version: set.version,
+      generatedAt: set.generatedAt,
+      year: set.year,
+      hash: set.hash,
+      totals: set.totals,
+      policy: set.policy,
+      dataGaps: set.dataGaps,
+      changesFromPrevious: set.changesFromPrevious,
+      offerBank: set.offerBank.length,
+      locations,
+      importedAt: new Date().toISOString(),
+    });
+    written.push(PORTFOLIO_SETTING);
+
+    for (const location of locations) {
+      const block = set.studioIntelligence[location.key];
+      if (!block) continue;
+      const key = intelligenceKey(location.studioId);
+      setting(key, block);
+      if (!written.includes(key)) written.push(key);
+
+      // The standing discounts the document states become the location's own policy; the rest
+      // of the policy text — caps, stacking, journeys — travels in the notes beside it.
+      const policy = isObj(set.policy) ? set.policy : {};
+      const standing = isObj(policy.standing) ? policy.standing : {};
+      const discounts: Array<[string, any]> = [
+        ['first_membership_discount', standing.newcomerFirstMembership],
+        ['lapsed_return_discount', standing.lapsedFirstPurchaseBack],
+        ['class_pack_discount', standing.classPacks10_20_30],
+        ['six_month_discount', standing.sixMonthUnlimited],
+        ['annual_discount', standing.annual],
+      ];
+      const values = discounts
+        .map(([column, text]) => [column, percentIn(text)] as const)
+        .filter((entry): entry is readonly [string, number] => entry[1] !== null);
+      const journey = textOf(policy.journeys?.[location.name || '']) || null;
+      const notes = [
+        textOf(policy.discountCaps) ? `Discount caps: ${textOf(policy.discountCaps)}` : '',
+        textOf(policy.stacking) ? `Stacking: ${textOf(policy.stacking)}` : '',
+        journey ? `Journey: ${journey}` : '',
+      ]
+        .filter(Boolean)
+        .join('  ');
+      const existing = db
+        .prepare('SELECT * FROM studio_offer_policies WHERE studio_id=?')
+        .get(location.studioId) as any;
+      if (existing) {
+        if (values.length || notes) {
+          db.prepare(
+            `UPDATE studio_offer_policies SET ${values.map(([column]) => `${column}=?`).join(',')}${
+              values.length && notes ? ',' : ''
+            }${notes ? 'notes=?' : ''}, updated_at=CURRENT_TIMESTAMP WHERE studio_id=?`,
+          ).run(...values.map(([, value]) => value), ...(notes ? [notes] : []), location.studioId);
+          report.policies++;
+        }
+      }
+    }
+
+    // The bank is the year's catalogue: each offer lands once per location that may run it,
+    // with no month of its own. A month's copy carries the bank id, so the two stay linked.
+    const banks = listOf(set.offerBank).filter(isObj);
+    if (banks.length) {
+      const targetIds = locations.map(location => location.studioId);
+      for (const studioId of targetIds) {
+        report.bank.retired += Number(
+          db
+            .prepare(
+              "UPDATE offers SET status='archived', updated_at=CURRENT_TIMESTAMP WHERE studio_id=? AND year=? AND month IS NULL AND generation_source='offer_bank' AND COALESCE(status,'')!='archived'",
+            )
+            .run(studioId, set.year).changes,
+        );
+      }
+      const keyOf = new Map([...keys.entries()].map(([key, id]) => [id, key]));
+      for (const studioId of targetIds) {
+        report.bank.locations++;
+        const studioKey = keyOf.get(studioId) || null;
+        for (const offer of banks) {
+          const keysForOffer = listOf(offer.studios)
+            .map(textOf)
+            .filter(Boolean)
+            .map(key => key.toUpperCase());
+          const applies = keysForOffer.some(key => keys.get(key) === studioId);
+          if (!applies) continue;
+          const plan = studioKey && isObj(offer.planByStudio?.[studioKey]) ? offer.planByStudio[studioKey] : null;
+          const validity = isObj(offer.validity) ? offer.validity : {};
+          const columns: Record<string, any> = {
+            name: textOf(offer.name) || 'Untitled offer',
+            headline: textOf(offer.headline) || null,
+            customer_copy: textOf(offer.customerMessage) || null,
+            internal_description: textOf(offer.offerDetails) || null,
+            rationale: textOf(offer.logic) || null,
+            objective: objectiveForSlot(textOf(offer.slot) || null),
+            offer_type: textOf(offer.type) || textOf(offer.slot) || 'Offer',
+            studio_id: studioId,
+            month: null,
+            year: set.year,
+            benefit: null,
+            redemption_conditions: textOf(offer.rules) || null,
+            plan_slot: textOf(offer.slot) || null,
+            validity_start: textOf(validity.start) || null,
+            validity_end: textOf(validity.end) || null,
+            target_purchases: numOf(plan?.buyers),
+            expected_asp: numOf(plan?.price),
+            expected_revenue: numOf(plan?.revenue),
+            effective_discount: numOf(plan?.discount),
+            mechanics: JSON.stringify({
+              bankId: textOf(offer.id) || null,
+              mechanicTags: listOf(offer.mechanicTags).map(textOf).filter(Boolean),
+              commercialJob: textOf(offer.commercialJob) || null,
+              rules: textOf(offer.rules) || null,
+              pricesByCity: offer.pricesByCity || null,
+              effectiveDiscountByCity: offer.effectiveDiscountByCity || null,
+              discountRuleCheck: offer.discountRuleCheck || null,
+              planByStudio: offer.planByStudio || null,
+            }),
+            success_metrics: JSON.stringify([textOf(offer.kpi)].filter(Boolean)),
+            provenance: JSON.stringify({
+              source: 'sales_plan_portfolio',
+              bankId: textOf(offer.id) || null,
+              month: numOf(offer.month),
+              monthName: textOf(offer.monthName) || null,
+              focus: textOf(offer.focus) || null,
+              mechanicTags: listOf(offer.mechanicTags).map(textOf).filter(Boolean),
+              studios: keysForOffer,
+              planId: textOf(offer.id) || null,
+            }),
+            status: 'draft',
+            approval_status: 'pending',
+            run_ads: 0,
+            data_mode: 'user',
+            generation_source: 'offer_bank',
+          };
+          const uid = `P57-${set.year}-${crypto.randomBytes(5).toString('hex').toUpperCase()}`;
+          const cols = Object.keys(columns);
+          db.prepare(`INSERT INTO offers(offer_uid,${cols.join(',')}) VALUES (?${',?'.repeat(cols.length)})`).run(
+            uid,
+            ...Object.values(columns),
+          );
+          report.bank.created++;
+        }
+      }
+    }
+  })();
+
+  return report;
+}
+
+export function applySalesPlans(
+  set: SalesPlanSet,
+  context: Omit<ImportContext, 'studioId'>,
+  studios: Array<{ id: number; name: string; code?: string | null; aliases?: string | null }>,
+): {
+  studios: PortfolioImport[];
+  unresolved: Array<{ name: string | null; id: number | null }>;
+  context: PortfolioContextReport | null;
+} {
+  const written: PortfolioImport[] = [];
+  const unresolved: Array<{ name: string | null; id: number | null }> = [];
+  for (const document of set.documents) {
+    const studioId = resolveStudioId(studios, { id: document.studioId, name: document.studioName });
+    if (!studioId) {
+      unresolved.push({ name: document.studioName, id: document.studioId });
+      continue;
+    }
+    const studio = db.prepare('SELECT id,name FROM studios WHERE id=?').get(studioId) as any;
+    const result = applySalesPlan(document, { ...context, studioId });
+    written.push({
+      studio: studio ? { id: studio.id, name: studio.name } : null,
+      totals: document.totals,
+      mode: context.mode,
+      result,
+    });
+  }
+  // The year's own material is written once, for the locations this import reached.
+  const keys = studioKeys(set, studios);
+  const reached = written.map(entry => entry.studio?.id).filter((id): id is number => Number.isInteger(id));
+  const extra = keys.size || set.offerBank.length || set.policy ? writePortfolioContext(set, reached, keys) : null;
+  return { studios: written, unresolved, context: extra };
 }
 
 /* ── What the import would change ───────────────────────────────────────────── */
@@ -654,6 +1133,13 @@ function contentFor(month: ImportedMonth, plan: SalesPlanDocument, context: Impo
     // the target row carries the measured history instead, and the plan's growth is against
     // the number the studio wrote — not against whichever vintage the database happens to hold.
     ...(month.priorYear ? { priorYear: month.priorYear } : {}),
+    // The rest of the month's brief, kept as written: the one-line focus, who leads the month,
+    // what its offers are planned to bring in, and the collateral and CRM it schedules.
+    ...(month.focus ? { focus: month.focus } : {}),
+    ...(month.studioRole ? { studioRole: month.studioRole } : {}),
+    ...(month.offersPlannedRevenue ? { offersPlannedRevenue: month.offersPlannedRevenue } : {}),
+    ...(month.collateral ? { collateral: month.collateral } : {}),
+    ...(month.crm ? { crm: month.crm } : {}),
     focusPoints,
     ...(kpis.length ? { kpis, kpi: kpis[0] } : {}),
     ...(month.keyDates.length ? { keyDates: month.keyDates } : {}),
@@ -701,7 +1187,9 @@ function offerColumnsFor(offer: ImportedOffer, month: ImportedMonth, context: Im
     name: offer.name,
     headline: offer.headline || null,
     customer_copy: offer.customerCopy || null,
-    internal_description: offer.internalDescription || null,
+    // A plan can carry a long description beside the customer copy; the offer row has one
+    // internal description, so the description is used when no internal one is written.
+    internal_description: offer.internalDescription || offer.description || null,
     rationale: offer.rationale || null,
     objective: offer.objective,
     offer_type: offer.offerType,
@@ -709,6 +1197,7 @@ function offerColumnsFor(offer: ImportedOffer, month: ImportedMonth, context: Im
     month: month.month,
     year: context.year,
     audience: offer.audience || null,
+    excluded_audience: offer.excludedAudience || null,
     benefit: offer.benefit || null,
     redemption_conditions: offer.conditions || null,
     cta: offer.cta || null,
@@ -727,12 +1216,20 @@ function offerColumnsFor(offer: ImportedOffer, month: ImportedMonth, context: Im
       source: PLAN_IMPORT_SOURCE,
       planMonth: month.month,
       slot: offer.slot,
+      ...(offer.bankId ? { bankId: offer.bankId } : {}),
+      ...(offer.mechanicTags.length ? { mechanicTags: offer.mechanicTags } : {}),
+      ...(offer.kpi ? { kpi: offer.kpi } : {}),
+      ...(offer.description && offer.description !== offer.internalDescription
+        ? { description: offer.description }
+        : {}),
       ...(offer.fields ? { fields: offer.fields } : {}),
     }),
     status: ['draft', 'approved', 'active', 'completed', 'rejected'].includes(offer.status) ? offer.status : 'draft',
     approval_status: ['pending', 'approved', 'rejected'].includes(offer.approval) ? offer.approval : 'pending',
     run_ads: offer.runAds ? 1 : 0,
-    success_metrics: JSON.stringify(offer.successMetrics.length ? offer.successMetrics : kpisOf(offer)),
+    success_metrics: JSON.stringify(
+      offer.successMetrics.length ? offer.successMetrics : offer.kpi ? [offer.kpi] : kpisOf(offer),
+    ),
     risks: JSON.stringify(offer.risks),
     data_mode: 'user',
     generation_source: PLAN_IMPORT_SOURCE,
@@ -862,7 +1359,7 @@ export function previewSalesPlan(
 function writeOffers(month: ImportedMonth, context: ImportContext) {
   const rows = existingOffers(context.studioId, context.year, month.month);
   const used = new Set<number>();
-  const written: Array<{ id: number; slot: Slot | null; rank: number }> = [];
+  const written: Array<{ id: number; slot: string | null; rank: number }> = [];
   let created = 0,
     updated = 0,
     unchanged = 0;
@@ -975,12 +1472,16 @@ function writeTarget(month: ImportedMonth, context: ImportContext, plan: SalesPl
       ).lastInsertRowid as number;
     return { id, created: true };
   }
+  // The prior year the document states is part of the month: a plan that restates last year
+  // must correct the row even when its target and streams are unchanged.
+  const restatedPrior = month.priorYear || null;
   const changed =
     Number(existing.proposed_target) !== target ||
     (approved !== null && Number(existing.approved_target) !== approved) ||
     Number(existing.new_client_target) !== Math.round(month.streams.newClient) ||
     Number(existing.renewal_target) !== Math.round(month.streams.renewal) ||
-    Number(existing.reactivation_target) !== Math.round(month.streams.reactivation);
+    Number(existing.reactivation_target) !== Math.round(month.streams.reactivation) ||
+    (restatedPrior !== null && Number(existing.historical_revenue ?? 0) !== Number(restatedPrior));
   if (!changed) return { id: existing.id, created: false };
   const version = Number(existing.version || 1) + 1;
   db.prepare(

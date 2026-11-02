@@ -82,8 +82,8 @@ describe('Checkins provenance, privacy and behavioural metrics', () => {
 
 describe('Kemps Corner January 2027 rent-aware planning', () => {
   it('retains monthly seasonality around a ₹35L average inside the directed ₹20–70L guardrail with a preserved baseline and rationale', () => {
-    // The ₹20–60L guardrail still holds for eleven months. April 2027 is the studio's nine-year
-    // anniversary month in the plan of record (Cloud Nine Carnival), and it is planned at ₹65L.
+    // The ₹20–60L guardrail holds all year in the portfolio plan of record (v5): April 2027 is
+    // the studio's nine-year anniversary month (Cloud Nine Carnival) and is planned at ₹60L.
     const cap = (month: number) => (month === 4 ? 7000000 : 6000000);
     const rows = db
       .prepare(`SELECT * FROM monthly_targets WHERE studio_id=? AND year=2027 ORDER BY month`)
@@ -103,7 +103,7 @@ describe('Kemps Corner January 2027 rent-aware planning', () => {
     }
     const april = rows.find(row => row.month === 4);
     expect(april.baseline_forecast).toBeGreaterThan(5000000);
-    expect(april.proposed_target).toBe(6500000);
+    expect(april.proposed_target).toBe(6000000);
   });
 
   it('reapplies the rent constraint on regeneration without rewriting the baseline forecast', () => {

@@ -6,24 +6,39 @@ import { db } from '../server/db.js';
    a screen: themes, targets and streams, the funnel, notes, key dates, the Week 1–4 execution
    plan with its owners, and every offer's copy and economics. */
 
-const file = process.argv[2];
-if (!file) throw new Error('Usage: npx tsx scripts/verify-kc-import.ts <plan.json>');
+const file = process.argv.slice(2).find(arg => !arg.startsWith('--'));
+if (!file) throw new Error('Usage: npx tsx scripts/verify-kc-import.ts <plan.json> [--studio=1]');
 const document = JSON.parse(fs.readFileSync(file, 'utf8'));
-const studio = document.studios[0];
+// A portfolio file holds one block per location; a single-location file holds one. The studio
+// flag says which block to read back, and defaults to the only one a 2027 file used to have.
+const studioArg = Number((process.argv.find(arg => arg.startsWith('--studio=')) || '').split('=')[1]) || null;
+const blocks = Array.isArray(document.studios) ? document.studios : [];
+const studio =
+  blocks.find((block: any) => Number(block?.studio?.id) === studioArg) || (blocks.length === 1 ? blocks[0] : blocks[0]);
+if (!studio) throw new Error('The document carries no studio block.');
+const studioId = Number(studio.studio?.id) || studioArg || 1;
+const year = Number(studio.year || document.year) || 2027;
 
 const targets = db
-  .prepare('SELECT * FROM monthly_targets WHERE studio_id=1 AND year=2027 ORDER BY month')
-  .all() as any[];
-const plans = db.prepare('SELECT * FROM monthly_plans WHERE studio_id=1 AND year=2027 ORDER BY month').all() as any[];
+  .prepare('SELECT * FROM monthly_targets WHERE studio_id=? AND year=? ORDER BY month')
+  .all(studioId, year) as any[];
+const plans = db
+  .prepare('SELECT * FROM monthly_plans WHERE studio_id=? AND year=? ORDER BY month')
+  .all(studioId, year) as any[];
 const offers = db
   .prepare(
-    `SELECT * FROM offers WHERE studio_id=1 AND year=2027 AND generation_source='plan_import' ORDER BY month, plan_rank`,
+    `SELECT * FROM offers WHERE studio_id=? AND year=? AND generation_source='plan_import'
+       AND COALESCE(status,'')!='archived' ORDER BY month, plan_rank`,
   )
-  .all() as any[];
+  .all(studioId, year) as any[];
 
 const problems: string[] = [];
+const same = (actual: unknown, expected: unknown) => {
+  if (typeof actual === 'string' && typeof expected === 'string') return actual.trim() === expected.trim();
+  return JSON.stringify(actual) === JSON.stringify(expected);
+};
 const check = (label: string, actual: unknown, expected: unknown) => {
-  if (JSON.stringify(actual) !== JSON.stringify(expected)) problems.push(`${label}: ${actual} ≠ ${expected}`);
+  if (!same(actual, expected)) problems.push(`${label}: ${actual} ≠ ${expected}`);
 };
 
 let rows = 0;
@@ -41,6 +56,14 @@ for (const month of studio.months) {
   check(`M${month.month} notes`, plan.notes, month.notes);
   check(`M${month.month} status`, plan.status, month.status || 'draft');
   check(`M${month.month} target`, Number(target.proposed_target), month.target);
+  // The row's history as well as the plan's own copy of it: a restated prior year must land in
+  // both, or the month's growth is measured against a number the document never wrote.
+  check(`M${month.month} priorYear`, Math.round(Number(target.historical_revenue)), Math.round(month.priorYear || 0));
+  check(
+    `M${month.month} priorYear in content`,
+    Math.round(Number(content.priorYear)),
+    Math.round(month.priorYear || 0),
+  );
   check(
     `M${month.month} streams`,
     {
@@ -68,10 +91,11 @@ for (const month of studio.months) {
     check(`M${month.month} ${offer.name} copy`, row.customer_copy, offer.customerCopy);
     check(`M${month.month} ${offer.name} revenue`, Number(row.expected_revenue), offer.expectedRevenue);
     check(`M${month.month} ${offer.name} buyers`, Number(row.target_purchases), offer.buyers);
-    check(`M${month.month} ${offer.name} validity`, [row.validity_start, row.validity_end], [
-      offer.validity?.start,
-      offer.validity?.end,
-    ]);
+    check(
+      `M${month.month} ${offer.name} validity`,
+      [row.validity_start, row.validity_end],
+      [offer.validity?.start, offer.validity?.end],
+    );
   }
 }
 
@@ -85,9 +109,17 @@ const yearStreams = targets.reduce(
     Number(row.other_target),
   0,
 );
-check('year target', yearTarget, studio.year.target);
-check('year streams', yearStreams, studio.year.target);
-check('offer count', offers.length, document.totals.offers);
+const yearBlock = studio.year || document.totals || {};
+check('year target', yearTarget, yearBlock.target ?? yearTarget);
+check('year streams', yearStreams, yearBlock.target ?? yearStreams);
+const expectedOffers = (studio.months || []).reduce((n: number, m: any) => n + (m.offers || []).length, 0);
+check('offer count', offers.length, expectedOffers);
 
-console.log(`${rows} months · ${offers.length} offers · year ₹${yearTarget.toLocaleString('en-IN')}`);
-console.log(problems.length ? `\n${problems.length} differences:\n  ${problems.slice(0, 40).join('\n  ')}` : 'Every checked field matches the document.');
+console.log(
+  `${studio.studio?.name || studioId}: ${rows} months · ${offers.length} offers · year ₹${yearTarget.toLocaleString('en-IN')}`,
+);
+console.log(
+  problems.length
+    ? `\n${problems.length} differences:\n  ${problems.slice(0, 40).join('\n  ')}`
+    : 'Every checked field matches the document.',
+);
