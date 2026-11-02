@@ -48,22 +48,31 @@ const lakh = (value: any) => {
 };
 
 /** As much of the document's identity as the screen can honestly show before the server reads it. */
-function peek(text: string): { studio: string | null; year: number | null; schema: string | null } {
+function peek(text: string): {
+  studio: string | null;
+  locations: string[];
+  year: number | null;
+  schema: string | null;
+} {
   try {
     const parsed = JSON.parse(text);
+    const locations: string[] = (Array.isArray(parsed?.studios) ? parsed.studios : [])
+      .map((entry: any) => entry?.studio?.name)
+      .filter(Boolean);
     const studio =
-      parsed?.studios?.[0]?.studio?.name ||
+      locations[0] ||
       (typeof parsed?.studio === 'string' ? parsed.studio : parsed?.studio?.name) ||
       parsed?.scope?.studios?.[0]?.name ||
       parsed?.studioName ||
       null;
     return {
       studio: studio ? String(studio) : null,
+      locations,
       year: Number(parsed?.year) || null,
       schema: parsed?.schema ? String(parsed.schema) : null,
     };
   } catch {
-    return { studio: null, year: null, schema: null };
+    return { studio: null, locations: [], year: null, schema: null };
   }
 }
 
@@ -95,8 +104,10 @@ export default function PlanImportDialog({
 
   const mayApprove = can?.('target_approve') ?? false;
   const identity = useMemo(() => peek(text), [text]);
-  const targetStudio =
-    identity.studio || boot.studios.find(item => item.id === studioId)?.name || 'the document’s location';
+  const portfolio = identity.locations.length > 1;
+  const targetStudio = portfolio
+    ? `${identity.locations.length} locations`
+    : identity.studio || boot.studios.find(item => item.id === studioId)?.name || 'the document’s location';
 
   useEffect(() => {
     if (!open) return;
@@ -154,8 +165,19 @@ export default function PlanImportDialog({
       setDone(payload);
       setPreview(payload);
       const summary = payload?.summary || {};
+      const written = Array.isArray(payload?.studios)
+        ? payload.studios.reduce(
+            (acc: any, entry: any) => ({
+              months: acc.months + (entry.summary?.months ?? 0),
+              offers: acc.offers + (entry.summary?.offers ?? 0),
+            }),
+            { months: 0, offers: 0 },
+          )
+        : summary;
       toast?.(
-        `Imported ${summary.months ?? 0} months · ${summary.offers ?? 0} offer changes for ${payload?.studio?.name || 'the location'}.`,
+        Array.isArray(payload?.studios)
+          ? `Imported ${written.months} months · ${written.offers} offer changes across ${payload.studios.length} locations.`
+          : `Imported ${written.months ?? 0} months · ${written.offers ?? 0} offer changes for ${payload?.studio?.name || 'the location'}.`,
       );
       onImported?.();
     } catch (err: any) {
@@ -167,10 +189,29 @@ export default function PlanImportDialog({
 
   if (!open) return null;
 
-  const months: any[] = preview?.months || [];
-  const totals = preview?.totals;
-  const warnings: string[] = preview?.warnings || [];
+  /* A portfolio file answers with one block per location; a single-location file, with one.
+     Both are shown the same way: a location's totals, then its months. */
+  const locations: any[] = preview
+    ? Array.isArray(preview.studios)
+      ? preview.studios
+      : [
+          {
+            studio: preview.studio,
+            year: preview.year,
+            totals: preview.totals,
+            months: preview.months || [],
+            warnings: preview.warnings || [],
+            assumptions: preview.assumptions,
+            summary: preview.summary,
+          },
+        ]
+    : [];
+  const months: any[] = locations.flatMap((entry: any) => entry.months || []);
+  const totals = preview?.totals || preview?.portfolio?.totals;
+  const warnings: string[] = [...new Set(locations.flatMap((entry: any) => (entry.warnings || []) as string[]))];
   const actionable = months.filter(month => month.action !== 'skip').length;
+  const writtenMonths = locations.reduce((sum: number, entry: any) => sum + (entry.summary?.months ?? 0), 0);
+  const writtenOffers = locations.reduce((sum: number, entry: any) => sum + (entry.summary?.offers ?? 0), 0);
   const go = () => run(false);
 
   return (
@@ -355,8 +396,13 @@ export default function PlanImportDialog({
                       </div>
                     </dl>
                     <span className="pex-preview-note">
-                      {preview.studio?.name || targetStudio} · {preview.year}
-                      {preview.assumptions?.length ? ` · ${preview.assumptions.length} rates` : ''}
+                      {Array.isArray(preview.studios)
+                        ? `${preview.studios.length} locations · ${preview.studios
+                            .map((entry: any) => entry.studio?.name)
+                            .filter(Boolean)
+                            .join(' · ')}`
+                        : `${preview.studio?.name || targetStudio} · ${preview.year}`}
+                      {preview.portfolio?.offerBank ? ` · ${preview.portfolio.offerBank} bank offers` : ''}
                     </span>
                   </div>
                 )}
@@ -369,69 +415,95 @@ export default function PlanImportDialog({
                     ))}
                   </ul>
                 )}
-                <ul className="pex-rows">
-                  {months.map(month => {
-                    const changes: any[] = month.changes || [];
-                    const open = openMonth === month.month;
-                    return (
-                      <li
-                        key={month.month}
-                        className={`is-${month.action === 'skip' ? 'skip' : month.action === 'create' ? 'create' : 'update'}`}
-                      >
-                        <div className="pex-row-line">
-                          <b className="pex-row-action">{month.action}</b>
-                          <button
-                            type="button"
-                            className="pex-row-name"
-                            aria-expanded={open}
-                            onClick={() => setOpenMonth(open ? null : month.month)}
+                {locations.map((location: any) => (
+                  <div className="pex-location" key={location.studio?.id ?? location.studio?.name}>
+                    {locations.length > 1 && (
+                      <p className="pex-location-head">
+                        <b>{location.studio?.name}</b>
+                        <em>
+                          {lakh(location.totals?.target)} · {location.totals?.offers ?? location.months.length} offers
+                          {location.summary ? ` · ${location.summary.offers} written` : ''}
+                        </em>
+                      </p>
+                    )}
+                    <ul className="pex-rows">
+                      {(location.months || []).map((month: any) => {
+                        const changes: any[] = month.changes || [];
+                        const open = openMonth === month.month;
+                        return (
+                          <li
+                            key={month.month}
+                            className={`is-${month.action === 'skip' ? 'skip' : month.action === 'create' ? 'create' : 'update'}`}
                           >
-                            {MONTHS[month.month - 1]} · {month.theme || 'untitled'}
-                            <em>
-                              {lakh(month.target)} · {month.offers} offers · {month.actions} actions
-                              {changes.length ? ` · ${changes.length} change${changes.length === 1 ? '' : 's'}` : ''}
-                            </em>
-                          </button>
-                        </div>
-                        {month.messages?.length > 0 && <em className="pex-row-note">{month.messages.join(' · ')}</em>}
-                        {open && (
-                          <>
-                            <dl className="pex-row-changes">
-                              <div>
-                                <dt>Streams</dt>
-                                <dd>
-                                  New {lakh(month.streams.newClient)} · renew {lakh(month.streams.renewal)} · back{' '}
-                                  {lakh(month.streams.reactivation)}
-                                  {month.streams.other ? ` · other ${lakh(month.streams.other)}` : ''}
-                                </dd>
-                              </div>
-                              {changes.map(change => (
-                                <div key={change.field}>
-                                  <dt>{change.label}</dt>
-                                  <dd>
-                                    <s>{change.from}</s>
-                                    <span>{change.to}</span>
-                                  </dd>
-                                </div>
-                              ))}
-                              <div>
-                                <dt>Offers</dt>
-                                <dd>
-                                  {month.offersCreate} new · {month.offersUpdate} matched
-                                </dd>
-                              </div>
-                            </dl>
-                          </>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
+                            <div className="pex-row-line">
+                              <b className="pex-row-action">{month.action}</b>
+                              <button
+                                type="button"
+                                className="pex-row-name"
+                                aria-expanded={open}
+                                onClick={() => setOpenMonth(open ? null : month.month)}
+                              >
+                                {MONTHS[month.month - 1]} · {month.theme || 'untitled'}
+                                <em>
+                                  {lakh(month.target)} · {month.offers} offers · {month.actions} actions
+                                  {changes.length
+                                    ? ` · ${changes.length} change${changes.length === 1 ? '' : 's'}`
+                                    : ''}
+                                </em>
+                              </button>
+                            </div>
+                            {month.messages?.length > 0 && (
+                              <em className="pex-row-note">{month.messages.join(' · ')}</em>
+                            )}
+                            {open && (
+                              <>
+                                <dl className="pex-row-changes">
+                                  <div>
+                                    <dt>Streams</dt>
+                                    <dd>
+                                      New {lakh(month.streams.newClient)} · renew {lakh(month.streams.renewal)} · back{' '}
+                                      {lakh(month.streams.reactivation)}
+                                      {month.streams.other ? ` · other ${lakh(month.streams.other)}` : ''}
+                                    </dd>
+                                  </div>
+                                  {changes.map(change => (
+                                    <div key={change.field}>
+                                      <dt>{change.label}</dt>
+                                      <dd>
+                                        <s>{change.from}</s>
+                                        <span>{change.to}</span>
+                                      </dd>
+                                    </div>
+                                  ))}
+                                  <div>
+                                    <dt>Offers</dt>
+                                    <dd>
+                                      {month.offersCreate} new · {month.offersUpdate} matched
+                                    </dd>
+                                  </div>
+                                </dl>
+                              </>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
                 {done && (
                   <p className="pex-done">
-                    <Check size={13} /> Imported {done.summary?.months ?? months.length} months and{' '}
-                    {done.summary?.offers ?? 0} offer changes
-                    {done.assumptions ? ` · ${done.assumptions} rates written` : ''}.
+                    <Check size={13} /> Imported{' '}
+                    {Array.isArray(done.studios) ? writtenMonths : (done.summary?.months ?? months.length)} months and{' '}
+                    {Array.isArray(done.studios) ? writtenOffers : (done.summary?.offers ?? 0)} offer changes
+                    {Array.isArray(done.studios) ? ` across ${done.studios.length} locations` : ''}
+                    {Array.isArray(done.studios)
+                      ? done.context
+                        ? ` · ${done.context.bank.created} bank offers · ${done.context.policies} policies · ${done.context.settings.length} year notes`
+                        : ''
+                      : done.assumptions
+                        ? ` · ${done.assumptions} rates written`
+                        : ''}
+                    .
                   </p>
                 )}
               </>

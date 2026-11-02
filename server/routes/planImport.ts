@@ -5,9 +5,13 @@ import { bodyError } from '../http.js';
 import {
   IMPORT_MODES,
   applySalesPlan,
+  applySalesPlans,
   importedPlan,
-  parseSalesPlan,
+  parseSalesPlanSet,
   previewSalesPlan,
+  resolveStudioId,
+  studioKeys,
+  PORTFOLIO_SETTING,
   type ImportMode,
 } from '../lib/salesPlanImport.js';
 
@@ -51,6 +55,34 @@ function studioResolver(studios: Studio[]) {
 }
 
 export default function registerPlanImportRoutes(app: Express) {
+  /** What the last portfolio import said about the year: its policy, the gaps it admits to,
+      what changed since the last document, and what it knows about each location. */
+  app.get('/api/plan/portfolio', (req: any, res) => {
+    const row = db.prepare('SELECT value, updated_at FROM settings WHERE key=?').get(PORTFOLIO_SETTING) as any;
+    if (!row) return res.json({ portfolio: null, intelligence: [] });
+    let stored: any = null;
+    try {
+      stored = JSON.parse(row.value);
+    } catch {
+      stored = null;
+    }
+    const intelligence = (stored?.locations || [])
+      .filter((entry: any) => entry.studioId && canAccessStudio(req.user!, entry.studioId))
+      .map((entry: any) => {
+        const saved = db
+          .prepare('SELECT value FROM settings WHERE key=?')
+          .get(`plan.studioIntelligence.${entry.studioId}`) as any;
+        let detail: any = null;
+        try {
+          detail = saved ? JSON.parse(saved.value) : null;
+        } catch {
+          detail = null;
+        }
+        return { ...entry, intelligence: detail };
+      });
+    res.json({ portfolio: stored, intelligence, updatedAt: row.updated_at });
+  });
+
   /** What a location's year was last imported from, so the screen can say so. */
   app.get('/api/plan/import/state', (req: any, res) => {
     const studioId = Number(req.query.studio || req.query.studioId || 0);
@@ -80,9 +112,118 @@ export default function registerPlanImportRoutes(app: Express) {
     }
     if (typeof raw === 'string' && !document) throw bodyError('That document is empty.');
 
-    const plan = parseSalesPlan(document);
-
+    const set = parseSalesPlanSet(document);
     const studios = db.prepare('SELECT id,name,code,aliases FROM studios ORDER BY id').all() as Studio[];
+
+    /* A document that names several locations is a portfolio: every location in it is imported,
+       into its own studio and its own year. Nothing is written until every location has been
+       matched and cleared for access, so a portfolio never lands in half the buildings. */
+    if (set.documents.length > 1) {
+      const resolved = set.documents.map(entry => ({
+        document: entry,
+        studioId: resolveStudioId(studios, { id: entry.studioId, name: entry.studioName }),
+      }));
+      const unresolved = resolved.filter(entry => !entry.studioId);
+      if (unresolved.length)
+        throw bodyError(
+          `The document names ${unresolved
+            .map(entry => `“${entry.document.studioName || entry.document.studioId || 'an unnamed location'}”`)
+            .join(', ')}, which ${
+            unresolved.length === 1 ? 'is not a location' : 'are not locations'
+          } in this workspace.`,
+        );
+      const blocked = resolved.filter(entry => !canAccessStudio(req.user!, entry.studioId!));
+      if (blocked.length)
+        throw bodyError(
+          `This portfolio covers ${blocked
+            .map(entry => studios.find(studio => studio.id === entry.studioId)?.name)
+            .join(', ')}, outside your access scope.`,
+          403,
+        );
+
+      const keys = studioKeys(set, studios);
+      const locations = resolved.map(entry => ({
+        key: [...keys.entries()].find(([, id]) => id === entry.studioId)?.[0] || null,
+        studio: studios.find(studio => studio.id === entry.studioId) || null,
+        year: entry.document.year,
+        schema: entry.document.schema,
+        hash: entry.document.hash,
+        totals: entry.document.totals,
+      }));
+      const portfolio = {
+        version: set.version,
+        generatedAt: set.generatedAt,
+        year: set.year,
+        hash: set.hash,
+        totals: set.totals,
+        dataGaps: set.dataGaps,
+        changesFromPrevious: set.changesFromPrevious,
+        policy: set.policy,
+        offerBank: set.offerBank.length,
+        locations: locations.map(entry => ({
+          key: entry.key,
+          studioId: entry.studio?.id ?? null,
+          name: entry.studio?.name ?? null,
+          year: entry.year,
+          target: entry.totals.target,
+          priorYear: entry.totals.priorYear,
+          growthPercent: entry.totals.growthPercent,
+          offers: entry.totals.offers,
+        })),
+      };
+
+      if (dryRun) {
+        const previews = resolved.map(entry => {
+          const preview = previewSalesPlan(entry.document, {
+            studioId: entry.studioId!,
+            year: Number(body.year) || entry.document.year,
+            mode,
+            approve,
+            useRates,
+            userId: req.user!.id,
+          });
+          return {
+            studio: { id: entry.studioId, name: studios.find(s => s.id === entry.studioId)?.name },
+            year: Number(body.year) || entry.document.year,
+            schema: entry.document.schema,
+            hash: entry.document.hash,
+            totals: preview.totals,
+            months: preview.months,
+            warnings: preview.warnings,
+            imported: importedPlan(entry.studioId!, Number(body.year) || entry.document.year),
+          };
+        });
+        return res.json({ dryRun, mode, portfolio, studios: previews });
+      }
+
+      const applied = applySalesPlans(
+        set,
+        {
+          year: Number(body.year) || set.year,
+          mode,
+          approve,
+          useRates,
+          userId: req.user!.id,
+        },
+        studios,
+      );
+      return res.json({
+        dryRun,
+        mode,
+        portfolio,
+        studios: applied.studios.map(entry => ({
+          studio: entry.studio,
+          totals: entry.totals,
+          summary: entry.result.summary,
+          assumptions: entry.result.assumptions,
+          months: entry.result.months,
+        })),
+        unresolved: applied.unresolved,
+        context: applied.context,
+      });
+    }
+
+    const plan = set.documents[0];
     const resolve = studioResolver(studios);
     // The document knows which location it belongs to; a location chosen in the app is the
     // fallback for a file that does not say.

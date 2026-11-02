@@ -151,6 +151,24 @@ npm run plan:import-json -- path/to/plan.json --studio=1 --mode=modify --write
 
 `--mode=add|modify|replace`, `--approve` to write the targets as approved, `--no-rates` to leave the measured-rate overrides alone. Without `--write` it is a dry run.
 
+### The 2027 portfolio plan of record
+
+`server/data/portfolio-2027/v5-portfolio.json` is the plan of record for all four locations — Kemps Corner, Bandra, Kenkere House and the Bengaluru pop-ups — and the file below is what the app's 2027 data comes from:
+
+```bash
+npm run plan:import-json -- server/data/portfolio-2027/v5-portfolio.json --mode=replace --write
+```
+
+A portfolio document names several locations, so it is imported location by location: each block is matched to its studio by id, name, alias or code, and written in its own transaction — its twelve months, its year target and prior year, its rates and prices, and every offer with its copy and maths. One location failing access or matching stops the whole file before anything is written. Together the four are ₹7,97,11,540 against ₹6,44,59,711 last year (+23.7%) and 172 offers.
+
+What the file says about the year rather than about one location is written once, after the months:
+
+- the **offer bank** — its 50 catalogue offers become the year's bank in every location that may run one, carrying no month of their own; each month's copy keeps the `bankId` it came from;
+- the **discount policy** — the standing percentages become the location's offer policy, and its caps, stacking rule and journey travel in the policy notes;
+- **studio intelligence**, the **data gaps** the document admits to and **what changed** since the previous one — kept as filed and readable at `GET /api/plan/portfolio`.
+
+`GET /api/plan/portfolio` returns that year-level material and each location's own findings. The import preview shows the same thing on screen: four locations, their targets, their months and their offers, before anything is written.
+
 ### Kemps Corner 2027, month by month
 
 The Kemps Corner year is kept as one file per month in `server/data/kc-2027/` — `month-01.json` … `month-12.json`, in the shape the importer reads: theme, objective, strategy, notes, target, prior year, streams, funnel, feasibility, key dates, the Week 1–4 sections with their owners, and the month's offers. The document the app imports is generated from those files, so there is one place to edit a month and no chance of the two drifting apart:

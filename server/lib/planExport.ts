@@ -185,7 +185,8 @@ export function buildYearPlan({ year, studioIds, userId }: PlanExportRequest) {
       // An imported month states its own prior year; the plan's growth is measured against the
       // number the studio filed, so the file it exports says the same thing the file it
       // imported said. Only months with no plan behind them read the measured history.
-      const plannedPrior = Number(parseJson(plan?.content, {})?.priorYear || 0);
+      const planContent = parseJson(plan?.content, {}) || {};
+      const plannedPrior = Number(planContent?.priorYear || 0);
       const priorYear = Number(plannedPrior || target?.historical_revenue || econ?.benchmark?.prior2026Revenue || 0);
       const streams = {
         newClient: money(target?.new_client_target) ?? 0,
@@ -228,6 +229,10 @@ export function buildYearPlan({ year, studioIds, userId }: PlanExportRequest) {
         name: MONTH_NAMES[month - 1],
         status: target?.status || plan?.status || 'draft',
         theme: plan?.theme || null,
+        // The rest of the month's brief: the one-line focus, who leads the month, and what its
+        // offers are planned to bring in. A file that carries these imports them again.
+        focus: planContent?.focus || null,
+        studioRole: planContent?.studioRole || null,
         objective: plan?.objective || null,
         strategy: plan?.strategy || null,
         notes: plan?.notes || null,
@@ -248,6 +253,10 @@ export function buildYearPlan({ year, studioIds, userId }: PlanExportRequest) {
         },
         feasibility: econ?.benchmark?.feasibility || null,
         offers,
+        offersPlannedRevenue:
+          Number(planContent?.offersPlannedRevenue) ||
+          offers.reduce((total: number, offer: AnyRow) => total + (Number(offer?.expectedRevenue) || 0), 0) ||
+          null,
         keyDates: keyDatesFor(year, month).map(date => ({
           day: date.day,
           end: date.end ?? null,

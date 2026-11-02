@@ -4,6 +4,9 @@ import {
   focusPointsFor,
   numOf,
   parseSalesPlan,
+  parseSalesPlanSet,
+  resolveStudioId,
+  studioKeys,
   textOf,
   weekOf,
 } from '../server/lib/salesPlanImport.js';
@@ -283,5 +286,167 @@ describe('reading values generously', () => {
   it('flattens copy that arrives as a list', () => {
     expect(textOf(['One rule.', 'Another rule.'])).toBe('One rule.\nAnother rule.');
     expect(textOf({ text: 'Written plainly.' })).toBe('Written plainly.');
+  });
+});
+
+/* A portfolio file names several locations in one document. Each location is its own year —
+   its own totals, its own rates, its own months — and must be matched to the workspace's
+   studio by name, not by position. */
+const monthFor = (target: number, theme: string, offerName: string) => ({
+  month: 1,
+  theme,
+  focus: `${theme}, said once`,
+  studioRole: 'Retention-led',
+  objective: 'Hold the renewal base.',
+  strategy: 'Sell the annual before the price moves.',
+  notes: 'Nothing launches early.',
+  target,
+  priorYear: Math.round(target / 1.2),
+  streams: { newClient: 1000, renewal: target - 1000, reactivation: 0, other: 0 },
+  offersPlannedRevenue: 123456,
+  offers: [
+    {
+      id: 'O27-01-KC',
+      bankId: 'O27-01',
+      slot: 'spot',
+      name: offerName,
+      headline: '57 hours only',
+      customerCopy: 'One month, flat.',
+      price: 15000,
+      expectedRevenue: 123456,
+      buyers: 8,
+      mechanicTags: ['flat spot price'],
+      kpi: 'Packs with all 3 classes used',
+      validity: { start: '2027-01-01', end: '2027-01-03' },
+    },
+  ],
+  collateral: { title: 'Resolutions', pieces: [{ offerId: 'O27-01', headline: 'Top line' }] },
+  crm: { rule: 'One audience, one send.', sends: [{ offerId: 'O27-01', audience: 'Lapsed' }] },
+  keyDates: [],
+  sections: [],
+});
+
+const portfolio = {
+  schema: 'p57-sales-plan/1',
+  version: 'v5-portfolio',
+  generatedAt: '2026-11-01T12:00:00+00:00',
+  year: 2027,
+  totals: { target: 9000000, priorYear: 7000000, offers: 2, offerBankSize: 1 },
+  policy: { discountCaps: 'Campaign ≤20%.', standing: { newcomerFirstMembership: '15% off' } },
+  dataGaps: ['Trial attendance is unmeasured.'],
+  changesFromPrevious: ['156 offers folded into a 50-offer bank.'],
+  studioIntelligence: {
+    KC: { studio: 'Kemps Corner (Kwality House)', role: 'Retention-led', findings: ['Best renewal yield.'] },
+    BA: { studio: 'Bandra (Supreme HQ)', role: 'Reactivation-led', findings: [] },
+  },
+  offerBank: [
+    {
+      id: 'O27-01',
+      month: 1,
+      monthName: 'January',
+      name: 'The 57-Hour Hangover Sale',
+      slot: 'spot',
+      type: 'Spot price (flash)',
+      studios: ['KC', 'BA'],
+      mechanicTags: ['flat spot price'],
+      headline: 'Hungover? Same.',
+      customerMessage: 'One month unlimited, flat.',
+      offerDetails: '1 Month Unlimited at a flat ₹15,000.',
+      logic: 'Front-load January cash.',
+      rules: 'One per person.',
+      kpi: '57 memberships per city',
+      validity: { start: '2027-01-01', end: '2027-01-03' },
+      priceByCity: { Mumbai: 15000 },
+      planByStudio: { KC: { buyers: 20, price: 15000, revenue: 300000 } },
+    },
+  ],
+  studios: [
+    {
+      studio: { id: 1, name: 'Kemps Corner (Kwality House)', city: 'Mumbai', code: 'KH' },
+      year: { target: 6000000, priorYear: 4500000 },
+      trailing: { trialToMember: 0.269 },
+      months: [monthFor(6000000, 'Resolutions with Receipts', 'Hangover Sale')],
+    },
+    {
+      studio: { id: 2, name: 'Bandra (Supreme HQ)', city: 'Mumbai', code: 'SU' },
+      year: { target: 3000000, priorYear: 2500000 },
+      trailing: { trialToMember: 0.31 },
+      months: [monthFor(3000000, 'Back to the Barre', 'Bandra Comeback')],
+    },
+  ],
+};
+
+const studios = [
+  { id: 1, name: 'Kemps Corner', code: 'KC', aliases: '["Kwality House, Kemps Corner"]' },
+  { id: 2, name: 'Bandra', code: 'BA', aliases: '["Supreme HQ"]' },
+  { id: 3, name: 'Kenkere House', code: 'KK', aliases: null },
+  { id: 4, name: 'Pop-up', code: 'POP', aliases: '["Popup","Pop up"]' },
+  { id: 5, name: 'Copper + Cloves', code: 'CC', aliases: '["The Studio by Copper + Cloves"]' },
+  { id: 6, name: 'Plash Pilates', code: 'PP', aliases: '["Plash Pilates"]' },
+];
+
+describe('a document that describes several locations', () => {
+  it('reads one document per location, each with its own totals', () => {
+    const set = parseSalesPlanSet(portfolio);
+    expect(set.documents).toHaveLength(2);
+    expect(set.documents.map(document => document.studioName)).toEqual([
+      'Kemps Corner (Kwality House)',
+      'Bandra (Supreme HQ)',
+    ]);
+    expect(set.documents[0].totals.target).toBe(6000000);
+    expect(set.documents[1].totals.target).toBe(3000000);
+    // The location's own year block wins over the portfolio's totals.
+    expect(set.documents[0].totals.priorYear).toBe(4500000);
+  });
+
+  it('keeps the year-level material the file carries', () => {
+    const set = parseSalesPlanSet(portfolio);
+    expect(set.version).toBe('v5-portfolio');
+    expect(set.offerBank).toHaveLength(1);
+    expect(set.dataGaps).toEqual(['Trial attendance is unmeasured.']);
+    expect(set.changesFromPrevious).toHaveLength(1);
+    expect(set.policy.discountCaps).toBe('Campaign ≤20%.');
+    expect(Object.keys(set.studioIntelligence)).toEqual(['KC', 'BA']);
+  });
+
+  it('reads a month brief and an offer the way the file writes them', () => {
+    const month = parseSalesPlanSet(portfolio).documents[0].months[0];
+    expect(month.focus).toBe('Resolutions with Receipts, said once');
+    expect(month.studioRole).toBe('Retention-led');
+    expect(month.offersPlannedRevenue).toBe(123456);
+    expect(month.collateral?.title).toBe('Resolutions');
+    expect(month.crm?.sends).toHaveLength(1);
+    const offer = month.offers[0];
+    expect(offer.slot).toBe('spot');
+    expect(offer.bankId).toBe('O27-01');
+    expect(offer.mechanicTags).toEqual(['flat spot price']);
+    expect(offer.kpi).toBe('Packs with all 3 classes used');
+    expect(offer.validityStart).toBe('2027-01-01');
+  });
+
+  it('refuses to read a portfolio as a single location', () => {
+    expect(() => parseSalesPlan(portfolio)).toThrow(/describes 2 locations/i);
+  });
+
+  it('matches each location to the studio by name, alias or code', () => {
+    expect(resolveStudioId(studios, { id: 2 })).toBe(2);
+    expect(resolveStudioId(studios, { name: 'Kemps Corner (Kwality House)' })).toBe(1);
+    expect(resolveStudioId(studios, { name: 'Bandra (Supreme HQ)' })).toBe(2);
+    expect(resolveStudioId(studios, { name: 'Bengaluru Pop-ups (Copper + Cloves, Plash Pilates)' })).toBe(4);
+    expect(resolveStudioId(studios, { name: 'Kenkere House' })).toBe(3);
+    // The umbrella pop-up wins over the venue named in its brackets …
+    expect(resolveStudioId(studios, { name: 'Copper + Cloves' })).toBe(5);
+    expect(resolveStudioId(studios, { name: 'Plash Pilates' })).toBe(6);
+    // … and a document that names part of a studio is still that studio.
+    expect(resolveStudioId(studios, { name: 'Kwality House' })).toBe(1);
+    expect(resolveStudioId(studios, { code: 'KC' })).toBe(1);
+    expect(resolveStudioId(studios, { name: 'Somewhere else' })).toBeNull();
+  });
+
+  it('maps the document’s short location keys onto studios', () => {
+    const set = parseSalesPlanSet(portfolio);
+    const keys = studioKeys(set, studios);
+    expect(keys.get('KC')).toBe(1);
+    expect(keys.get('BA')).toBe(2);
   });
 });
