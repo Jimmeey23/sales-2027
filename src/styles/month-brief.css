@@ -1,0 +1,436 @@
+/* Imported launch briefs own one inset sheet so the page-canvas reset cannot
+   strip their spacing. The two source formats share this readable layout. */
+.mw .mw-brief-sheet {
+  container: month-brief / inline-size;
+  min-width: 0;
+  margin-top: 22px;
+  margin-bottom: 24px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--paper);
+}
+.mw .mw-brief-header {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.mw .mw-brief-header .mw-brief-kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 650;
+  color: var(--gold-deep);
+}
+.mw .mw-brief-kicker em {
+  margin-left: auto;
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.mw .mw-brief-header h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--ink-900);
+  overflow-wrap: anywhere;
+}
+.mw .mw-brief-role {
+  max-width: 100ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.65;
+}
+.mw .mw-brief-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 24px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--canvas);
+}
+.mw .mw-brief-stats > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+}
+.mw .mw-brief-stats dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--muted);
+}
+.mw .mw-brief-stats dd {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  color: var(--ink-900);
+  font-variant-numeric: tabular-nums;
+}
+.mw .mw-brief-stats dd > strong {
+  font-weight: 650;
+}
+.mw .mw-brief-stats .is-revenue dd {
+  color: var(--red-dark);
+}
+.mw .mw-brief-stats dd > span {
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+.mw .mw-brief-stats .mw-brief-filed {
+  margin-top: 4px;
+}
+.mw .mw-brief-filed b {
+  font-weight: 600;
+}
+.mw .mw-brief-panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 20px;
+}
+.mw .mw-brief-panel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+}
+.mw .mw-brief-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--canvas);
+  color: var(--gold-deep);
+}
+.mw .mw-brief-panel-head h4 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: var(--ink-900);
+  font: 600 12px / 1.5 var(--font-sans);
+}
+.mw .mw-brief-panel-head em {
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+}
+.mw .mw-brief-panel-note,
+.mw .mw-brief-rule,
+.mw .mw-brief-empty {
+  margin: 0;
+  padding: 13px 16px;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.mw .mw-brief-rule {
+  background: var(--paper-warm);
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line);
+}
+.mw .mw-brief-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mw .mw-brief-list > li {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.mw .mw-brief-list > li:last-child {
+  border-bottom: 0;
+}
+.mw .mw-brief-item-title {
+  color: var(--ink-900);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 650;
+}
+.mw .mw-brief-list p {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  white-space: pre-line;
+}
+.mw .mw-brief-list .mw-brief-headline {
+  color: var(--ink-900);
+  font-weight: 550;
+}
+.mw .mw-brief-channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.mw .mw-brief-channels > li {
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 9.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.mw .mw-brief-copy summary {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  color: var(--gold-deep);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mw .mw-brief-copy summary::before {
+  content: '+';
+  margin-right: 7px;
+}
+.mw .mw-brief-copy[open] summary::before {
+  content: '−';
+}
+.mw .mw-brief-copy summary:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 2px;
+}
+.mw .mw-brief-send-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  color: var(--gold-deep);
+  font-size: 10px;
+  font-weight: 600;
+}
+.mw .mw-brief-send-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.mw .mw-brief-list .mw-brief-audience {
+  color: var(--muted);
+}
+.mw .mw-brief-send-offers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 7px;
+}
+.mw .mw-brief-send-offers > span:first-child {
+  color: var(--muted);
+}
+.mw .mw-brief-send-offers > span:not(:first-child) {
+  font-weight: 550;
+}
+
+/* The total belongs to the selected month, not to all offers in the library. */
+.mw .mw-offer-total {
+  margin: 0 26px 8px;
+  padding: 22px 24px 0;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--red);
+  border-radius: 14px;
+  background: linear-gradient(130deg, var(--paper-warm), var(--paper) 65%);
+}
+.mw .mw-offer-total-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.mw .mw-offer-total-main {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+.mw .mw-offer-total-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  line-height: 1.5;
+  font-weight: 650;
+  color: var(--ink-soft);
+}
+.mw .mw-offer-total-value {
+  font-size: clamp(34px, 3.5vw, 44px);
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+  color: var(--red-dark);
+}
+.mw .mw-offer-total-main p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+.mw .mw-offer-total-main p > span {
+  color: var(--muted);
+}
+.mw .mw-offer-total-target {
+  display: grid;
+  gap: 4px;
+  min-width: 140px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.mw .mw-offer-total-target strong {
+  color: var(--ink-900);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.mw .mw-offer-total-target b {
+  color: var(--ink-soft);
+  font-weight: 550;
+}
+.mw .mw-offer-total-target progress {
+  width: 100%;
+  height: 5px;
+  margin: 5px 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  accent-color: var(--gold-deep);
+  background: var(--line);
+}
+.mw .mw-offer-total-target progress::-webkit-progress-bar {
+  background: var(--line);
+  border-radius: 8px;
+}
+.mw .mw-offer-total-target progress::-webkit-progress-value {
+  background: var(--gold-deep);
+  border-radius: 8px;
+}
+.mw .mw-offer-total-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.mw .mw-offer-total-breakdown > div {
+  flex: 1 1 100px;
+  min-width: 0;
+}
+.mw .mw-offer-total-breakdown dt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.mw .mw-offer-total-breakdown dt span {
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.mw .mw-offer-total-breakdown dd {
+  margin: 5px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-900);
+}
+.mw .mw-offer-total-warning {
+  margin: 0;
+  padding: 10px 0 14px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--red-dark);
+}
+@container month-brief (max-width: 680px) {
+  .mw .mw-brief-panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@container month-brief (max-width: 420px) {
+  .mw .mw-brief-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 16px;
+  }
+  .mw .mw-brief-stats > .is-revenue {
+    grid-column: 1 / -1;
+  }
+  .mw .mw-brief-header h3 {
+    font-size: 21px;
+  }
+}
+@media (max-width: 620px) {
+  .mw .mw-brief-sheet {
+    padding: 16px;
+  }
+  .mw .mw-offer-total {
+    margin: 0 12px 8px;
+    padding: 18px 16px 0;
+  }
+  .mw .mw-offer-total-head {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .mw .mw-offer-total-target {
+    grid-template-columns: 1fr auto;
+    width: 100%;
+    align-items: center;
+  }
+  .mw .mw-offer-total-target progress {
+    grid-column: 1 / -1;
+  }
+  .mw .mw-offer-total-target > span:last-child {
+    grid-column: 1 / -1;
+  }
+  .mw .mw-offer-total-breakdown {
+    gap: 16px 12px;
+  }
+  .mw .mw-offer-total-breakdown > div {
+    flex-basis: calc(50% - 12px);
+  }
+  .mw .mw-brief-copy summary {
+    min-height: 44px;
+  }
+}

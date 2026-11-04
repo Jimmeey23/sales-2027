@@ -254,3 +254,25 @@ export function offerSummary(offer: any): OfferSummary {
 export function offerDescription(offer: any): string {
   return offerSummary(offer).sentence;
 }
+
+export interface OfferHighlights {
+  /** The actual price/terms from the offer, not its marketing headline. */
+  terms: string;
+  inclusions: string[];
+}
+
+/** The commercial promise leads the card, without truncating conditions or perks. */
+export function offerHighlights(offer: any): OfferHighlights {
+  const fields = fieldsOf(offer);
+  const terms =
+    field(fields, 'You pay', 'What you pay', 'Price', 'The offer') ||
+    asText(offer?.benefit) ||
+    asText(offer?.mechanics) ||
+    offerSummary(offer).sentence;
+  const includedKey =
+    fields && Object.keys(fields).find(key => /^(you get|what you get|what.s included|includes|perks)$/i.test(key));
+  const included = includedKey && fields ? fields[includedKey] : [];
+  const items = Array.isArray(included) ? included : typeof included === 'string' ? included.split(/\n+/) : [included];
+  const inclusions = [...new Set(items.map(asText).filter(text => text && text !== terms))];
+  return { terms, inclusions };
+}
