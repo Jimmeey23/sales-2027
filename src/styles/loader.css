@@ -1,0 +1,363 @@
+/* ═══ Loader — a lit signature in a dark room ═══════════════════════════════
+   No plate behind the mark: the screen itself goes dark while it loads, and the
+   mark is drawn in bright neon like a signature being written, with a soft glow.
+   Panel loaders get the same dark surface so the neon always reads. */
+
+.p57-loader {
+  min-height: 220px;
+  padding: 28px;
+  border-radius: 18px;
+  background: radial-gradient(70% 80% at 50% 45%, #1a1510 0%, #0b0907 70%, #060504 100%);
+}
+.p57-loader-stage,
+.app-loading .p57-loader-stage {
+  position: relative;
+  gap: 18px;
+  width: min(340px, 100%);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  animation: p57-stage-in 0.5s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+.p57-loader-stage::before,
+.p57-loader-stage::after {
+  content: none;
+}
+
+/* Full-screen: the whole room goes dark, with one warm pool of light behind the mark. */
+.app-loading {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(42% 38% at 50% 46%, rgba(255, 170, 60, 0.12), transparent 70%),
+    radial-gradient(30% 30% at 58% 44%, rgba(90, 210, 255, 0.08), transparent 70%),
+    radial-gradient(120% 120% at 50% 50%, #0f0c08 0%, #050403 100%);
+}
+.app-loading::before {
+  content: none;
+}
+.app-loading .p57-loader {
+  min-height: 0;
+  padding: 0;
+  background: none;
+}
+.p57-loader.is-screen {
+  background: rgba(6, 5, 4, 0.92);
+  backdrop-filter: blur(6px);
+}
+
+/* The mark: brighter neon inks and a stronger glow, like fresh ink catching light. */
+.p57-loader .hb {
+  width: min(240px, 84%);
+}
+.app-loading .hb svg .hb-fill,
+.p57-loader .hb svg .hb-fill {
+  stroke: var(--hb-neon);
+  stroke-width: 6.5;
+}
+.app-loading .hb svg .hb-track,
+.p57-loader .hb svg .hb-track {
+  stroke: rgba(220, 240, 255, 0.07);
+}
+.app-loading .hb svg .hb-bleed,
+.p57-loader .hb svg .hb-bleed {
+  stroke: var(--hb-neon);
+  stroke-width: 12;
+  filter: blur(5px);
+  opacity: 0.55;
+}
+.app-loading .hb svg .hb-trail,
+.p57-loader .hb svg .hb-trail {
+  stroke: #fff1c2;
+  opacity: 1;
+}
+.app-loading .hb svg .hb-bloom,
+.p57-loader .hb svg .hb-bloom {
+  stroke: #ffd36b;
+}
+.app-loading .hb svg .hb-core,
+.app-loading .hb svg .hb-glint,
+.p57-loader .hb svg .hb-core,
+.p57-loader .hb svg .hb-glint {
+  stroke: #ffffff;
+}
+.app-loading .hb svg .hb-ink,
+.p57-loader .hb svg .hb-ink {
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 12px rgba(255, 200, 110, 0.55))
+    drop-shadow(0 0 28px rgba(110, 215, 255, 0.35));
+}
+.app-loading .hb svg .hb-aura,
+.app-loading .hb svg .hb-aura-cool,
+.p57-loader .hb svg .hb-aura,
+.p57-loader .hb svg .hb-aura-cool {
+  opacity: 1;
+}
+
+/* Caption, dots, rail — light on dark. */
+.p57-loader-label {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.26em;
+  color: rgba(255, 238, 205, 0.78);
+}
+.p57-loader-dots i {
+  width: 4px;
+  height: 4px;
+  background: #ffd36b;
+}
+.p57-loader-rail {
+  width: min(220px, 70%);
+  height: 2px;
+  background: rgba(255, 238, 205, 0.1);
+  box-shadow: none;
+}
+.p57-loader-rail i {
+  width: 40%;
+  background: linear-gradient(90deg, transparent, #ffb84d 30%, #fff3ce 55%, #7cd8fa 80%, transparent);
+  filter: drop-shadow(0 0 8px rgba(255, 194, 74, 0.7));
+}
+.app-loading .p57-loader::after {
+  content: 'Physique 57 · Commercial OS';
+  display: block;
+  margin-top: 28px;
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: 0.36em;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(255, 238, 205, 0.32);
+  animation: p57-stage-in 0.6s 0.25s cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p57-loader-stage,
+  .p57-loader-rail i,
+  .p57-loader-dots i {
+    animation: none;
+  }
+}
+
+/* ═══ Write once, then shine ════════════════════════════════════════════════
+   The mark is written a single time, start to finish, and stays. Once written, a
+   glossy highlight sweeps it on a loop and the gold breathes, so a long wait keeps
+   moving without the line ever being erased and redrawn. */
+.p57-loader {
+  --p57-write: 1.9s;
+}
+
+/* Bright gold, glossy: the ink gradient's stops are restyled in place. */
+.p57-loader linearGradient[id$='-ink'] stop:nth-child(1) { stop-color: #fff6d0; }
+.p57-loader linearGradient[id$='-ink'] stop:nth-child(2) { stop-color: #ffe08a; }
+.p57-loader linearGradient[id$='-ink'] stop:nth-child(3) { stop-color: #ffc93d; }
+.p57-loader linearGradient[id$='-ink'] stop:nth-child(4) { stop-color: #ffcf4a; }
+.p57-loader linearGradient[id$='-ink'] stop:nth-child(5) { stop-color: #f5b301; }
+.p57-loader linearGradient[id$='-ink'] stop:nth-child(6) { stop-color: #ffe38f; }
+.p57-loader linearGradient[id$='-ink'] stop:nth-child(7) { stop-color: #ffd257; }
+.p57-loader radialGradient[id$='-aura-cool'] stop { stop-color: #ffc24a; }
+
+.p57-loader .hb svg .hb-ink {
+  animation: none;
+  opacity: 1;
+  filter: drop-shadow(0 0 2px rgba(255, 250, 225, 0.7)) drop-shadow(0 0 10px rgba(255, 196, 60, 0.6))
+    drop-shadow(0 0 26px rgba(255, 170, 30, 0.35));
+}
+.p57-loader .hb svg .hb-fill,
+.p57-loader .hb svg .hb-bleed {
+  animation: p57-write var(--p57-write) cubic-bezier(0.55, 0.08, 0.35, 1) forwards;
+}
+.p57-loader .hb svg .hb-fill {
+  stroke-width: 6;
+}
+.p57-loader .hb svg .hb-bleed {
+  stroke-width: 13;
+  filter: blur(5px);
+  opacity: 0.6;
+}
+@keyframes p57-write {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+/* The nib rides the tip once, then lifts. */
+.p57-loader .hb svg .hb-bloom,
+.p57-loader .hb svg .hb-core {
+  animation: p57-nib var(--p57-write) cubic-bezier(0.55, 0.08, 0.35, 1) forwards;
+}
+.p57-loader .hb svg .hb-bloom {
+  stroke: #ffd36b;
+}
+@keyframes p57-nib {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+.p57-loader .hb svg .hb-trail {
+  stroke: #fff4cc;
+  animation: p57-comet var(--p57-write) cubic-bezier(0.55, 0.08, 0.35, 1) forwards;
+}
+@keyframes p57-comet {
+  0% {
+    stroke-dashoffset: 2.4;
+    opacity: 0;
+  }
+  8%,
+  92% {
+    opacity: 0.55;
+  }
+  100% {
+    stroke-dashoffset: -97.6;
+    opacity: 0;
+  }
+}
+/* The gloss: a bright highlight that runs the finished mark, on a loop. */
+.p57-loader .hb svg .hb-glint {
+  stroke: #ffffff;
+  stroke-width: 2.6;
+  stroke-dasharray: 9 900;
+  filter: blur(1px);
+  animation: p57-gloss 2.6s ease-in-out calc(var(--p57-write) + 0.1s) infinite;
+}
+@keyframes p57-gloss {
+  0% {
+    stroke-dashoffset: 9;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  70% {
+    stroke-dashoffset: -100;
+    opacity: 0.95;
+  }
+  78%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+/* After writing, the gold breathes. */
+.p57-loader .hb {
+  animation: p57-breathe 2.6s ease-in-out var(--p57-write) infinite;
+}
+@keyframes p57-breathe {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.18);
+  }
+}
+.p57-loader .hb svg .hb-aura {
+  animation: none;
+  opacity: 0.9;
+}
+
+/* Type: an italic display face for the sentence, small caps for the brand. */
+.p57-loader-copy {
+  margin-top: 2px;
+}
+.p57-loader-label {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  background: linear-gradient(100deg, #f7e2a8 0%, #fff8e0 40%, #e9b949 60%, #fff1c6 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: p57-sheen 3.2s ease-in-out infinite;
+}
+@keyframes p57-sheen {
+  0%,
+  100% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+}
+.p57-loader-dots i {
+  background: #ffcf4a;
+  box-shadow: 0 0 6px rgba(255, 207, 74, 0.7);
+}
+
+/* Rail: fills once, left to right, in step with the writing, then a gloss runs it. */
+.p57-loader-rail {
+  width: min(240px, 72%);
+  height: 3px;
+  background: rgba(255, 220, 140, 0.1);
+}
+.p57-loader-rail i {
+  width: 100%;
+  transform: none;
+  transform-origin: left center;
+  background:
+    linear-gradient(90deg, transparent 0 40%, rgba(255, 255, 255, 0.85) 50%, transparent 60% 100%) no-repeat,
+    linear-gradient(90deg, #c88a12, #ffcf4a 55%, #fff1c2);
+  background-size: 40% 100%, 100% 100%;
+  background-position: -60% 0, 0 0;
+  filter: drop-shadow(0 0 6px rgba(255, 196, 60, 0.7));
+  animation:
+    p57-fill var(--p57-write) cubic-bezier(0.55, 0.08, 0.35, 1) forwards,
+    p57-rail-gloss 2.6s ease-in-out calc(var(--p57-write) + 0.1s) infinite;
+}
+@keyframes p57-fill {
+  from {
+    clip-path: inset(0 100% 0 0 round 999px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 999px);
+  }
+}
+@keyframes p57-rail-gloss {
+  from {
+    background-position: -60% 0, 0 0;
+  }
+  to {
+    background-position: 160% 0, 0 0;
+  }
+}
+
+.app-loading .p57-loader::after {
+  margin-top: 30px;
+  font-size: 10px;
+  letter-spacing: 0.42em;
+  color: rgba(255, 214, 120, 0.42);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p57-loader .hb,
+  .p57-loader .hb svg .hb-fill,
+  .p57-loader .hb svg .hb-bleed,
+  .p57-loader .hb svg .hb-glint,
+  .p57-loader-label,
+  .p57-loader-rail i {
+    animation: none;
+  }
+  .p57-loader .hb svg .hb-fill,
+  .p57-loader .hb svg .hb-bleed {
+    stroke-dashoffset: 0;
+  }
+}

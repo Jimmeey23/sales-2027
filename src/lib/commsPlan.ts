@@ -51,11 +51,42 @@ export const PHASE_LABEL: Record<CommsPhase, { title: string; hint: string }> = 
 export function phaseOf(date: Date, year: number, month: number): CommsPhase {
   const start = new Date(year, month - 1, 1);
   if (date < start) return 'prep';
-  const d = date.getMonth() === month - 1 ? date.getDate() : 31;
+  const inMonth = date.getFullYear() === year && date.getMonth() === month - 1;
+  const d = inMonth ? date.getDate() : 31;
   if (d <= 7) return 'launch';
   if (d <= 21) return 'nudge';
   return 'close';
 }
+
+/* The window a group of offers actually runs in: from the earliest start to the latest end,
+   falling back to the calendar month. Sends are placed inside it, never before an offer opens
+   or after it closes. */
+const parseDay = (v: unknown) => {
+  const m = String(v || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : null;
+};
+export function offerWindow(offers: any[], year: number, month: number) {
+  const monthStart = new Date(year, month - 1, 1);
+  const monthEnd = new Date(year, month, 0);
+  const starts = offers.map(o => parseDay(o?.validity_start)).filter(Boolean) as Date[];
+  const ends = offers.map(o => parseDay(o?.validity_end)).filter(Boolean) as Date[];
+  const start = starts.length ? new Date(Math.min(...starts.map(d => d.getTime()))) : monthStart;
+  const end = ends.length ? new Date(Math.max(...ends.map(d => d.getTime()))) : monthEnd;
+  return end < start ? { start: monthStart, end: monthEnd } : { start, end };
+}
+const addDays = (d: Date, n: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+const clampDay = (d: Date, lo: Date, hi: Date) => (d < lo ? lo : d > hi ? hi : d);
+/** Launch on the first live day, nudge and follow-up proportionally through the window, last call 2 days before close. */
+export function sendDates(win: { start: Date; end: Date }, year: number, month: number) {
+  const span = Math.max(0, Math.round((win.end.getTime() - win.start.getTime()) / 86400000));
+  const launch = clampDay(new Date(year, month - 1, 1), win.start, win.end);
+  const lastCall = clampDay(addDays(win.end, -2), launch, win.end);
+  const at = (share: number, fixed: number) =>
+    clampDay(span >= 20 ? new Date(year, month - 1, fixed) : addDays(win.start, Math.round(span * share)), launch, lastCall);
+  return { launch, nudge: at(0.4, 12), follow: at(0.55, 16), lastCall };
+}
+const fmtLong = (d: Date) => `${d.getDate()} ${MONTH_NAMES_SHORT[d.getMonth()]}`;
+const MONTH_NAMES_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -66,7 +97,13 @@ const list = (names: string[]) =>
   names.length <= 1 ? names[0] || 'this month’s offer' : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
 
 /* The copy is a draft for the team to adapt — short, one ask, one deadline. */
-function draft(kind: string, slot: string | null, names: string[], month: number): { goal: string; message: string; time: string } {
+function draft(
+  kind: string,
+  slot: string | null,
+  names: string[],
+  month: number,
+  closes?: Date,
+): { goal: string; message: string; time: string } {
   const m = MONTH_NAMES[month - 1];
   const lead = names[0] || 'this month’s offer';
   const offers = list(names);
@@ -105,7 +142,7 @@ function draft(kind: string, slot: string | null, names: string[], month: number
       return {
         time: '11:00 am',
         goal: 'Create urgency 48 hours before the offers close',
-        message: `Last call, {first_name}: ${lead} closes on ${m}’s last day. Reply now and the desk will lock in your price.`,
+        message: `Last call, {first_name}: ${lead} closes on ${closes ? fmtLong(closes) : `${m}’s last day`}. Reply now and the desk will lock in your price.`,
       };
     case 'em-launch':
       return {
@@ -202,6 +239,19 @@ export function buildCommsSends(
   for (const [slot, group] of bySlot) {
     const names = group.map(o => o.name).filter(Boolean);
     const ids = group.map(o => Number(o.id));
+    const win = offerWindow(group, year, month);
+    const dates = sendDates(win, year, month);
+    // A send only carries the offers that are actually live on its day.
+    const liveOn = (d: Date) =>
+      group.filter(o => {
+        const own = offerWindow([o], year, month);
+        return d >= own.start && d <= own.end;
+      });
+    const pick = (d: Date) => {
+      const live = liveOn(d);
+      return { names: live.map(o => o.name).filter(Boolean), ids: live.map(o => Number(o.id)) };
+    };
+    const late = group.filter(o => offerWindow([o], year, month).start > dates.launch);
     // The earliest lead in the group wins: the send goes out when the first of these
     // offers needs it, and the copy carries the rest.
     if (!hidden.includes('whatsapp')) {
@@ -220,34 +270,46 @@ export function buildCommsSends(
         key: `wa-launch-${slot}`,
         channel: 'whatsapp',
         label: 'Launch broadcast',
-        date: new Date(year, month - 1, 1),
+        date: dates.launch,
         audience: audience(slot),
-        names,
-        ids,
-        note: names.length > 1 ? `one broadcast · ${names.length} offers` : 'one broadcast',
-        ...draft('wa-launch', slot, names, month),
+        ...pick(dates.launch),
+        note: names.length > 1 ? `one broadcast · ${pick(dates.launch).names.length} offers` : 'one broadcast',
+        ...draft('wa-launch', slot, pick(dates.launch).names, month),
       });
+      // Offers that open later in the month get their own go-live message on their first day.
+      for (const offer of late) {
+        const start = offerWindow([offer], year, month).start;
+        sends.push({
+          key: `wa-live-${slot}-${offer.id}`,
+          channel: 'whatsapp',
+          label: 'Goes live',
+          date: start,
+          audience: audience(slot),
+          names: [offer.name].filter(Boolean),
+          ids: [Number(offer.id)],
+          note: 'opens mid-month',
+          ...draft('wa-launch', slot, [offer.name].filter(Boolean), month),
+        });
+      }
       sends.push({
         key: `wa-nudge-${slot}`,
         channel: 'whatsapp',
         label: 'Mid-month nudge',
-        date: new Date(year, month - 1, 12),
+        date: dates.nudge,
         audience: audience(slot),
-        names,
-        ids,
+        ...pick(dates.nudge),
         note: 'to everyone who opened but has not bought',
-        ...draft('wa-nudge', slot, names, month),
+        ...draft('wa-nudge', slot, pick(dates.nudge).names, month),
       });
       sends.push({
         key: `wa-rem-${slot}`,
         channel: 'whatsapp',
         label: 'Last call',
-        date: reminder,
+        date: dates.lastCall,
         audience: audience(slot),
-        names,
-        ids,
+        ...pick(dates.lastCall),
         note: names.length > 1 ? `one reminder · ${names.length} offers` : 'one reminder',
-        ...draft('wa-last', slot, names, month),
+        ...draft('wa-last', slot, pick(dates.lastCall).names, month, win.end),
       });
     }
     if (!hidden.includes('email')) {
@@ -266,12 +328,11 @@ export function buildCommsSends(
         key: `em-follow-${slot}`,
         channel: 'email',
         label: 'Follow-up email',
-        date: new Date(year, month - 1, 16),
+        date: dates.follow,
         audience: audience(slot),
-        names,
-        ids,
+        ...pick(dates.follow),
         note: 'skips anyone who already bought',
-        ...draft('em-follow', slot, names, month),
+        ...draft('em-follow', slot, pick(dates.follow).names, month),
       });
     }
   }
@@ -307,6 +368,8 @@ export function buildCommsSends(
     });
   }
 
+  // A send with nothing live on its day is dropped rather than sent empty.
+  for (let i = sends.length - 1; i >= 0; i--) if (!sends[i].names.length && sends[i].channel !== 'custom') sends.splice(i, 1);
   sends.sort((a, b) => a.date.getTime() - b.date.getTime() || a.label.localeCompare(b.label));
   for (const send of sends) send.phase = phaseOf(send.date, year, month);
 
@@ -331,12 +394,13 @@ export function buildSingleSends(
     const names = [offer.name].filter(Boolean);
     const ids = [Number(offer.id)];
     const audience = AUDIENCE[slot] || slot;
+    const dates = sendDates(offerWindow([offer], year, month), year, month);
     if (!hidden.includes('whatsapp')) {
       sends.push({
         key: `wa-${offer.id}`,
         channel: 'whatsapp',
         label: 'Launch broadcast',
-        date: new Date(year, month - 1, 1),
+        date: dates.launch,
         audience,
         names,
         ids,
@@ -346,14 +410,14 @@ export function buildSingleSends(
         key: `wa-rem-${offer.id}`,
         channel: 'whatsapp',
         label: 'Last call',
-        date: reminder,
+        date: dates.lastCall,
         audience,
         names,
         ids,
         note: 'one reminder',
       });
       sends.push({ key: `wa-tease-${offer.id}`, channel: 'whatsapp', label: 'Early-access teaser', date: due(leads.whatsapp), audience, names, ids, note: 'one teaser' });
-      sends.push({ key: `wa-nudge-${offer.id}`, channel: 'whatsapp', label: 'Mid-month nudge', date: new Date(year, month - 1, 12), audience, names, ids, note: 'one nudge' });
+      sends.push({ key: `wa-nudge-${offer.id}`, channel: 'whatsapp', label: 'Mid-month nudge', date: dates.nudge, audience, names, ids, note: 'one nudge' });
     }
     if (!hidden.includes('email'))
       sends.push({
@@ -367,7 +431,7 @@ export function buildSingleSends(
         note: 'one email',
       });
     if (!hidden.includes('email'))
-      sends.push({ key: `em-follow-${offer.id}`, channel: 'email', label: 'Follow-up email', date: new Date(year, month - 1, 16), audience, names, ids, note: 'one email' });
+      sends.push({ key: `em-follow-${offer.id}`, channel: 'email', label: 'Follow-up email', date: dates.follow, audience, names, ids, note: 'one email' });
     if (!hidden.includes('tent'))
       sends.push({
         key: `te-${offer.id}`,

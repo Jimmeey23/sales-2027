@@ -14,6 +14,7 @@ import {
   validateStudioOfferPolicy,
 } from '../lib/commercial.js';
 import { asyncRoute, bodyError, id, studioFilter } from '../http.js';
+import { expectedRevenueOf, forecastMatchesModel, hasValidForecast, parseFinancials } from '../../src/lib/forecast.js';
 import type { Express } from 'express';
 
 /* Imported rows come from a spreadsheet, an export, or a hand-written JSON file, and any of
@@ -111,7 +112,35 @@ function offerRow(body: any) {
     cta: asTextValue(body.cta),
   };
 }
-export function validateOfferForSave(body: any, user: any, options: { reconcile?: boolean } = {}) {
+const IMPORT_SOURCES = new Set(['plan_import', 'json_import']);
+
+/* Discount policy (studio_offer_policies.notes): campaign offers ≤ the studio cap (20%);
+   up to 25% only for spot offers, annuals, bulk privates and bulk purchases. Intro products
+   (3-for-2, credited passes, gift cards, free trials) are acquisition cost, not a campaign
+   discount, so the cap does not apply to them. Returns the cap that applies, or null. */
+export const EXTENDED_DISCOUNT_CAP = 25;
+export function discountCapFor(row: { name?: any; offer_type?: any }, studioCap: number): number | null {
+  const label = `${row.name ?? ''} ${row.offer_type ?? ''}`.toLowerCase();
+  if (/3[- ]?for[- ]?2|credited|gift ?(card|voucher)|free[_ ]trial|\bintro\b/.test(label)) return null;
+  if (/\bspot\b|annual|\bbulk\b/.test(label)) return Math.max(studioCap, EXTENDED_DISCOUNT_CAP);
+  return studioCap;
+}
+export function discountPolicyViolation(row: any): string | null {
+  if (!row.studio_id || row.effective_discount == null) return null;
+  const studio = db.prepare('SELECT max_discount_percent FROM studios WHERE id=?').get(row.studio_id) as any;
+  const studioCap = Number(studio?.max_discount_percent);
+  if (!Number.isFinite(studioCap) || studioCap <= 0) return null;
+  const cap = discountCapFor(row, studioCap);
+  const discount = Number(row.effective_discount);
+  if (cap == null || !Number.isFinite(discount) || discount <= cap + 0.05) return null;
+  return `Effective discount ${discount.toFixed(1)}% exceeds the ${cap}% cap for this offer (campaign offers ≤${studioCap}%; ${EXTENDED_DISCOUNT_CAP}% only for spot offers, annuals and bulk).`;
+}
+
+export function validateOfferForSave(
+  body: any,
+  user: any,
+  options: { reconcile?: boolean; warnings?: string[] } = {},
+) {
   const row = offerRow(body);
   if (!row.name || row.name.length < 3) throw bodyError('Offer name must contain at least 3 characters.');
   if (!row.objective) throw bodyError('Campaign objective is required.');
@@ -119,7 +148,9 @@ export function validateOfferForSave(body: any, user: any, options: { reconcile?
   if (row.month && (row.month < 1 || row.month > 12)) throw bodyError('Month must be between 1 and 12.');
   if (row.validity_start && row.validity_end && row.validity_end < row.validity_start)
     throw bodyError('Offer validity end must be on or after its start.');
+  let modelRan = false;
   if (row.studio_id && row.mechanics !== '{}') {
+    modelRan = true;
     const studio = db.prepare('SELECT max_discount_percent FROM studios WHERE id=?').get(row.studio_id) as any;
     const mechanics = JSON.parse(row.mechanics);
     const eligible = JSON.parse(row.eligible_products || '[]');
@@ -137,18 +168,32 @@ export function validateOfferForSave(body: any, user: any, options: { reconcile?
     if (result.errors.length && !['draft', 'rejected'].includes(row.status))
       throw bodyError(`Offer guardrails failed: ${result.errors.join(' ')}`, 422);
   }
-  const financials = typeof row.financials === 'string' ? JSON.parse(row.financials || '{}') : row.financials || {};
+  const financials = parseFinancials(row.financials);
+  // Expected revenue is units × price whenever both are known, unless the model records an
+  // explicit override (deposits, zero-revenue offers, financials.revenueOverride). Skipped when
+  // the mechanics engine just priced the offer — there target_purchases is buyers *required*
+  // for the goal, not buyers expected — and when a hand save would contradict a stored model.
+  const isImport = Boolean(options.reconcile) || IMPORT_SOURCES.has(String(row.generation_source));
+  if (!modelRan && (financials.expectedRevenue == null || options.reconcile)) {
+    const derived = expectedRevenueOf({ ...row, financials });
+    if (derived != null) row.expected_revenue = derived;
+  }
+  const violation = discountPolicyViolation(row);
+  if (violation) {
+    if (!isImport) throw bodyError(violation, 422);
+    // Imports carry the studio's own document; they are stored, but flagged.
+    options.warnings?.push(violation);
+    const risks = JSON.parse(row.risks || '[]');
+    if (!risks.includes(violation)) row.risks = JSON.stringify([...risks, violation]);
+  }
   const staleModels =
-    financials.expectedRevenue != null &&
-    row.expected_revenue != null &&
-    Math.abs(Number(row.expected_revenue) - Number(financials.expectedRevenue)) >
-      Math.max(2, Math.abs(Number(financials.expectedRevenue)) * 0.0001);
+    row.expected_revenue != null && !forecastMatchesModel(row.expected_revenue, financials.expectedRevenue);
   if (staleModels) {
     // An import carries the studio's own numbers. When the file does not restate the
     // mechanics, the stored model is simply older than the row it describes, so the
     // forecast in the file wins and the model is re-pointed at it rather than rejected.
     if (!options.reconcile) throw bodyError('Expected revenue does not match the saved offer financial model.', 422);
-    const rebuilt = { ...financials, expectedRevenue: Number(row.expected_revenue) };
+    const rebuilt: Record<string, any> = { ...financials, expectedRevenue: Number(row.expected_revenue) };
     if (row.expected_asp != null) rebuilt.sellingPrice = Number(row.expected_asp);
     if (row.target_purchases != null) rebuilt.requiredBuyers = Number(row.target_purchases);
     rebuilt.reconciled = true;
@@ -167,7 +212,8 @@ export function persistOffer(body: any, user: any, options: { reconcile?: boolea
     (!options.allowApproved && (body.approvalStatus === 'approved' || body.approval_status === 'approved'))
   )
     throw bodyError('New offers must be saved as drafts; use the approval action after review.', 422);
-  const row = validateOfferForSave(body, user, { reconcile: options.reconcile });
+  const warnings: string[] = [];
+  const row = validateOfferForSave(body, user, { reconcile: options.reconcile, warnings });
   // 2027 offers are saved to the location's offer bank; a month uses them only once its plan picks them.
   if (Number(row.year) === 2027) row.month = null;
   const uid = `P57-${new Date().getFullYear()}-${crypto.randomBytes(5).toString('hex').toUpperCase()}`;
@@ -191,8 +237,9 @@ export function persistOffer(body: any, user: any, options: { reconcile?: boolea
     entityId: offer.id,
     studioId: offer.studio_id,
     after: offer,
+    ...(warnings.length ? { reason: `Policy warnings: ${warnings.join(' ')}` } : {}),
   });
-  return offer;
+  return warnings.length ? { ...offer, warnings } : offer;
 }
 // Every offer a plan view can show for a set of locations, in one query.
 // The year plan used to page /api/offers 100 rows at a time per location (up to twenty
@@ -202,9 +249,12 @@ export function planOffers(studioIds: number[], year: number) {
   const ids = [...new Set(studioIds.filter(Boolean))];
   const rows = db
     .prepare(
-      `SELECT o.*,s.name studio,s.city,u.name created_by_name FROM offers o LEFT JOIN studios s ON s.id=o.studio_id
+      `SELECT o.*,
+  COALESCE(o.month, CASE WHEN o.validity_start GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]*'
+    THEN CAST(substr(o.validity_start,6,2) AS INTEGER) END) AS month,
+  s.name studio,s.city,u.name created_by_name FROM offers o LEFT JOIN studios s ON s.id=o.studio_id
   LEFT JOIN users u ON u.id=o.created_by
-  WHERE COALESCE(o.data_mode,'')!='demo' AND COALESCE(o.generation_source,'')!='demo_seed'
+  WHERE COALESCE(o.data_mode,'') NOT IN ('demo','scenario') AND COALESCE(o.generation_source,'')!='demo_seed'
   AND COALESCE(o.status,'')!='archived' AND o.year=?
   AND (o.studio_id IN (${ids.length ? ids.map(() => '?').join(',') : 'NULL'}) OR o.studio_id IS NULL)
   ORDER BY o.updated_at DESC,o.id DESC`,
@@ -791,12 +841,7 @@ export default function registerOffersRoutes(app: Express) {
         return res.status(422).json({ error: 'Resolve financial guardrail errors before approval.' });
       if (action === 'approve' && (before.expected_asp == null || before.expected_revenue == null))
         return res.status(422).json({ error: 'A price and expected revenue forecast are required before approval.' });
-      if (
-        action === 'approve' &&
-        financials.expectedRevenue != null &&
-        Math.abs(Number(before.expected_revenue) - Number(financials.expectedRevenue)) >
-          Math.max(2, Math.abs(Number(financials.expectedRevenue)) * 0.0001)
-      )
+      if (action === 'approve' && !hasValidForecast({ ...before, data_mode: null, generation_source: null }))
         return res
           .status(422)
           .json({ error: 'Reconcile the stored revenue forecast with its financial model before approval.' });

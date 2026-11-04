@@ -225,7 +225,9 @@ export default function registerTargetsRoutes(app: Express) {
     const rawOther = Number(req.body.otherTarget ?? before.other_target);
     if (!Number.isFinite(rawOther) || rawOther < 0)
       throw bodyError('Other revenue must be a finite, non-negative amount.');
-    const other = req.body.requireFullCoverage ? 0 : rawOther;
+    // Full coverage means every stream, including the stored other/repeat lines, adds up to the
+    // target. Other is kept rather than zeroed so a workspace save never drops it.
+    const other = rawOther;
     const assumptions = JSON.parse(before.assumptions || '{}');
     const observedRates = observedFunnel(before.studio_id);
     const rates = { ...observedRates, ...(assumptions.conversionRates || {}) };
@@ -280,9 +282,9 @@ export default function registerTargetsRoutes(app: Express) {
       throw bodyError('Revenue stream allocations exceed the selected target. Adjust allocations before saving.');
     if (
       req.body.requireFullCoverage &&
-      Math.abs(streams.newClient + streams.renewal + streams.reactivation - selected) > 1
+      Math.abs(streams.newClient + streams.renewal + streams.reactivation + streams.repeat + other - selected) > 1
     )
-      throw bodyError('New-client, renewal, and comeback revenue must add up to the selected monthly target.');
+      throw bodyError('The revenue streams must add up to the selected monthly target.');
     const nextVersion = before.version + 1;
     const saveTogether = db.transaction(() => {
       db.prepare(

@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useMemo, useState } from 'react';
+import { forecastMatchesModel } from '../../lib/forecast';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   AlignJustify,
@@ -175,9 +176,7 @@ function OfferRow({
   const modeledRevenue = financials.expectedRevenue;
   const forecastConsistent =
     completeForecast &&
-    (modeledRevenue == null ||
-      Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <=
-        Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
+    forecastMatchesModel(o.expected_revenue, modeledRevenue);
   const expectedSales = financials.expectedBuyers ?? (asp ? Math.round(Number(o.expected_revenue) / asp) : null);
   const original = listPrice && ticket && listPrice > ticket ? listPrice : null;
   const saved = original && ticket ? original - ticket : 0;
@@ -325,9 +324,7 @@ function Planned({
               o.expected_revenue !== null &&
               o.expected_revenue !== undefined &&
               Number.isFinite(Number(o.expected_revenue)) &&
-              (modeledRevenue == null ||
-                Math.abs(Number(o.expected_revenue) - Number(modeledRevenue)) <=
-                  Math.max(2, Math.abs(Number(modeledRevenue)) * 0.0001));
+              forecastMatchesModel(o.expected_revenue, modeledRevenue);
             return sum + (valid ? Number(o.expected_revenue) : 0);
           }, 0),
           cover = m.target ? Math.min(100, Math.max(0, (expected / m.target) * 100)) : 0;

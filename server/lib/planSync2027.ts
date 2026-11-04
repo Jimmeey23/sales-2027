@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import { db, audit } from '../db.js';
 import { offerRow, monthPlan, type PlanMonth } from './approvedPlan2027.js';
 import { planWasImported } from './salesPlanImport.js';
+import { APPROVED_PLAN_2027 } from '../../src/data/approvedPlan2027.js';
 
 /* Rebuilds the 2027 plan months from server/data/approved-plan-2027.json — the approved plan
  * is the source of truth for the offers, their copy and the month's brief.
@@ -277,9 +278,50 @@ export function januaryIsClean() {
   return !offers.some(offer => isChallengeOffer(offer.name, offer.provenance));
 }
 
+/* monthly_targets is the single source of a 2027 month's target; the approved-plan file's
+ * figures.target is a snapshot that may have drifted. Nothing is rewritten — the months where
+ * the two disagree (by more than ₹1,000) are listed so they can be reconciled by hand. */
+export interface TargetDrift {
+  studio: string;
+  month: number;
+  file: number;
+  db: number;
+}
+export function targetDrift2027(): TargetDrift[] {
+  const rows = db
+    .prepare(
+      `SELECT s.name studio, t.month, COALESCE(t.approved_target, t.proposed_target) target
+         FROM monthly_targets t JOIN studios s ON s.id=t.studio_id WHERE t.year=?`,
+    )
+    .all(YEAR) as any[];
+  const stored = new Map(rows.map(r => [`${r.studio}|${Number(r.month)}`, Number(r.target)]));
+  const drift: TargetDrift[] = [];
+  for (const entry of APPROVED_PLAN_2027) {
+    const file = Number(entry.figures?.target);
+    const dbTarget = stored.get(`${entry.studio}|${entry.month}`);
+    if (!Number.isFinite(file) || dbTarget == null || !Number.isFinite(dbTarget)) continue;
+    if (Math.abs(file - dbTarget) > 1000) drift.push({ studio: entry.studio, month: entry.month, file, db: dbTarget });
+  }
+  return drift;
+}
+export function warnTargetDrift2027() {
+  const drift = targetDrift2027();
+  if (drift.length)
+    console.warn(
+      `Plan targets: ${drift.length} 2027 month(s) where approvedPlan2027.ts disagrees with monthly_targets (DB wins): ` +
+        drift.map(d => `${d.studio} M${d.month} file ${d.file} vs db ${d.db}`).join('; '),
+    );
+  return drift;
+}
+
 /* Runs once per database version, and again whenever a stored plan contradicts the JSON — a
  * seeded database keeps its own copy of the months, so the file alone only fixes fresh installs. */
 export function ensurePlanJanFebSync() {
+  try {
+    warnTargetDrift2027();
+  } catch {
+    // A database without monthly_targets yet has nothing to compare.
+  }
   const current = db.prepare('SELECT value FROM settings WHERE key=?').get(PLAN_SYNC_KEY) as any;
   if (current?.value === PLAN_SYNC_VERSION && januaryIsClean()) return null;
   const report = syncPlanMonths([1, 2]);

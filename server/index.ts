@@ -104,7 +104,19 @@ if (process.env.DATABASE_URL && process.env.VERCEL)
     if (process.env.VERCEL && req.method !== 'GET') {
       const end = res.end.bind(res);
       (res as any).end = (...args: any[]) => {
-        flushOutbox().finally(() => end(...args));
+        flushOutbox()
+          .catch(() => false)
+          .then(saved => {
+            // The write only lives in this instance's SQLite copy; don't report success for it.
+            if (!saved && !res.headersSent && res.statusCode < 400) {
+              res.statusCode = 503;
+              for (const h of ['Content-Length', 'ETag']) res.removeHeader(h);
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.setHeader('Retry-After', '5');
+              return end(JSON.stringify({ error: 'Your change could not be saved to the database. Please try again.' }));
+            }
+            end(...args);
+          });
         return res;
       };
     }

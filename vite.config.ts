@@ -29,6 +29,14 @@ export default defineConfig({
           if (/node_modules[\\/](react|react-dom|react-router|react-router-dom|scheduler)[\\/]/.test(id))
             return 'react';
           if (id.includes('node_modules/lucide-react')) return 'icons';
+          // Recharts and the d3 modules it pulls in are only needed by chart views, so they get
+          // their own chunk instead of being inlined into whichever page imports a chart first.
+          if (
+            /node_modules[\\/](recharts|recharts-scale|d3-[^\\/]+|internmap|victory-vendor|decimal\.js-light)[\\/]/.test(
+              id,
+            )
+          )
+            return 'charts';
         },
       },
     },

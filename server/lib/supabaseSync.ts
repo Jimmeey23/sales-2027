@@ -29,10 +29,17 @@ export const SYNC_TABLES: Array<{ table: string; pk: string }> = [
 ];
 
 let pool: pg.Pool | null = null;
-let flushing: Promise<void> | null = null,
+let flushing: Promise<boolean> | null = null,
   timer: NodeJS.Timeout | null = null;
 // Highest Supabase change-log entry this process has applied (see pullRemoteChanges).
 let lastSeq = 0;
+// _changes.seq is a bigserial: a lower seq can commit after a higher one is already visible, so each
+// pull re-reads this trailing window and applies only the entries it has not seen yet.
+const SEQ_WINDOW = 500;
+const seenSeqs = new Set<number>();
+const pruneSeen = () => {
+  for (const seq of seenSeqs) if (seq <= lastSeq - SEQ_WINDOW) seenSeqs.delete(seq);
+};
 const quote = (name: string) => `"${name.replaceAll('"', '""')}"`;
 // The local schema is fixed once the server has started, and load paths ask per cell, so cache it.
 const columnCache = new Map<string, any[]>();
@@ -49,6 +56,7 @@ function installTriggers() {
   db.exec(
     'CREATE TABLE IF NOT EXISTS _sync_outbox (id INTEGER PRIMARY KEY AUTOINCREMENT, tbl TEXT NOT NULL, pk TEXT NOT NULL)',
   );
+  db.exec('CREATE TABLE IF NOT EXISTS _sync_state (key TEXT PRIMARY KEY, value TEXT)');
   for (const { table, pk } of SYNC_TABLES) {
     for (const [event, ref] of [
       ['INSERT', 'NEW'],
@@ -180,16 +188,17 @@ const toLocal = (table: string, column: string, value: any) =>
       : value;
 
 // Sends every queued local change to Supabase and records it in the shared change log.
-export function flushOutbox(): Promise<void> {
-  if (!pool) return Promise.resolve();
+// Resolves true once the outbox is empty, false if sending failed (the changes stay queued).
+export function flushOutbox(): Promise<boolean> {
+  if (!pool) return Promise.resolve(true);
   if (flushing) return flushing.then(() => flushOutbox());
-  let run: Promise<void> | null = null;
+  let run: Promise<boolean> | null = null;
   run = (async () => {
     await Promise.resolve(); // let `flushing` be assigned before any early return clears it
     try {
       for (;;) {
         const pending = db.prepare('SELECT * FROM _sync_outbox ORDER BY id LIMIT 5000').all() as any[];
-        if (!pending.length) return;
+        if (!pending.length) return true;
         const latest = new Map<string, { tbl: string; pk: string }>();
         for (const item of pending) latest.set(`${item.tbl}:${item.pk}`, item);
         const client = await pool!.connect();
@@ -221,6 +230,7 @@ export function flushOutbox(): Promise<void> {
       }
     } catch (error: any) {
       console.error(`Supabase sync failed; changes are queued and will retry: ${error.message}`);
+      return false;
     } finally {
       if (flushing === run) flushing = null;
     }
@@ -233,10 +243,11 @@ export function flushOutbox(): Promise<void> {
 // Applies changes other processes (e.g. other Vercel instances) wrote since this one last looked.
 export async function pullRemoteChanges() {
   if (!pool) return;
-  const { rows: changes } = await pool.query(
+  const { rows: windowRows } = await pool.query(
     'SELECT seq, tbl, pk FROM "_changes" WHERE seq > $1 ORDER BY seq LIMIT 5000',
-    [lastSeq],
+    [Math.max(0, lastSeq - SEQ_WINDOW)],
   );
+  const changes = windowRows.filter(c => !seenSeqs.has(Number(c.seq)));
   if (!changes.length) return;
   const fetched: Array<{ spec: (typeof SYNC_TABLES)[number]; keys: string[]; rows: any[] }> = [];
   for (const spec of SYNC_TABLES) {
@@ -251,7 +262,14 @@ export async function pullRemoteChanges() {
   db.pragma('foreign_keys = OFF');
   try {
     db.transaction(() => {
-      for (const { spec, keys, rows } of fetched) {
+      // Local edits not yet sent to Supabase win: never overwrite or delete those rows here.
+      // (Read inside the transaction so no write can slip in between this check and the upserts.)
+      const pendingKeys = new Set(
+        (db.prepare('SELECT tbl, pk FROM _sync_outbox WHERE id<=?').all(before) as any[]).map(p => `${p.tbl}:${p.pk}`),
+      );
+      for (const { spec, keys: allKeys, rows: allRows } of fetched) {
+        const keys = allKeys.filter(k => !pendingKeys.has(`${spec.table}:${k}`));
+        const rows = allRows.filter(r => !pendingKeys.has(`${spec.table}:${String(r[spec.pk])}`));
         const cols = columnsOf(spec.table).map(c => c.name);
         const upsert =
           db.prepare(`INSERT INTO ${spec.table} (${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})
@@ -270,7 +288,9 @@ export async function pullRemoteChanges() {
   } finally {
     db.pragma('foreign_keys = ON');
   }
-  lastSeq = Number(changes[changes.length - 1].seq);
+  for (const c of changes) seenSeqs.add(Number(c.seq));
+  lastSeq = Math.max(lastSeq, Number(changes[changes.length - 1].seq));
+  pruneSeen();
   clearJsonCache();
 }
 
@@ -282,9 +302,13 @@ export async function startSupabaseSync() {
   }
   // Supabase requires SSL; a local Postgres (for testing) usually has none.
   const local = /@(localhost|127\.0\.0\.1)|^postgres(ql)?:\/\/\//.test(process.env.DATABASE_URL!);
+  // Verify the server certificate when a CA is supplied (Supabase's PEM in SUPABASE_CA_CERT).
+  const ca = process.env.SUPABASE_CA_CERT?.replace(/\\n/g, '\n');
+  if (!local && !ca)
+    console.warn('Supabase: SUPABASE_CA_CERT is not set; the TLS certificate is not verified.');
   pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: local ? false : { rejectUnauthorized: false },
+    ssl: local ? false : ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: false },
     max: process.env.VERCEL ? 2 : 4,
     idleTimeoutMillis: 10000,
   });
@@ -304,8 +328,11 @@ export async function startSupabaseSync() {
   }
   try {
     // First run pushes everything; otherwise send changes queued before the last shutdown, so loading from Supabase never loses them.
-    // A fresh Vercel instance only holds the downloaded snapshot plus startup seeding; Supabase is authoritative.
-    if (process.env.VERCEL) db.prepare('DELETE FROM _sync_outbox').run();
+    // A fresh Vercel instance only holds the downloaded snapshot plus startup seeding; Supabase is authoritative,
+    // so its queue is dropped. A database file that has already synced (a reused /tmp copy) may hold edits
+    // that never reached Supabase, so its queue is kept and sent like any other.
+    const synced = db.prepare("SELECT 1 FROM _sync_state WHERE key='synced'").get();
+    if (process.env.VERCEL && !synced) db.prepare('DELETE FROM _sync_outbox').run();
     if (!remoteEmpty) {
       const queued = (db.prepare('SELECT COUNT(*) n FROM _sync_outbox').get() as any).n;
       if (queued) console.log(`Supabase: sending ${queued} queued changes…`);
@@ -318,6 +345,11 @@ export async function startSupabaseSync() {
     try {
       counts = await reconcile(again, remoteEmpty);
       lastSeq = Number((await again.query('SELECT COALESCE(MAX(seq),0) n FROM "_changes"')).rows[0].n);
+      // Entries already committed are part of the snapshot just loaded; only later commits need applying.
+      seenSeqs.clear();
+      for (const r of (await again.query('SELECT seq FROM "_changes" WHERE seq > $1', [Math.max(0, lastSeq - SEQ_WINDOW)])).rows)
+        seenSeqs.add(Number(r.seq));
+      db.prepare("INSERT OR REPLACE INTO _sync_state(key, value) VALUES ('synced', ?)").run(new Date().toISOString());
       step('planning data loaded');
       clearJsonCache();
     } finally {
@@ -335,7 +367,11 @@ export async function startSupabaseSync() {
     if (busy || Date.now() < nextAt) return;
     busy = true;
     flushOutbox()
-      .then(() => pullRemoteChanges())
+      .then(ok => {
+        // Pulling now could load remote rows over edits still waiting to be sent.
+        if (!ok) throw new Error('queued changes could not be sent');
+        return pullRemoteChanges();
+      })
       .then(() => {
         if (failures) console.log(`Supabase: reconnected after ${failures} failed attempt(s).`);
         failures = 0;
