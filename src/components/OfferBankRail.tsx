@@ -15,6 +15,7 @@ import {
 import { api, post } from '../api';
 import { useApp } from '../App';
 import { useLoad } from '../hooks';
+import { groupOffersByCategory, offerCategory, OFFER_CATEGORY_LABELS } from '../lib/offerCategory';
 import { LoadingRows } from './ui';
 import { MONTHS, MONTHS_SHORT, money, number, percent, titleCase } from '../types';
 import { selectedInMonth } from '../pages/plan/TargetsTab';
@@ -35,6 +36,7 @@ type BankOffer = {
   name: string;
   studio?: string;
   objective?: string;
+  plan_slot?: string | null;
   offer_type?: string;
   effective_discount?: number | null;
   expected_revenue?: number | null;
@@ -87,10 +89,17 @@ export default function OfferBankRail({
     const needle = q.trim().toLowerCase();
     return [...all]
       .filter(o => !onPlanIds.has(Number(o.id)))
-      .filter(o => !needle || `${o.name} ${o.studio} ${o.objective} ${o.audience || ''}`.toLowerCase().includes(needle))
+      .filter(
+        o =>
+          !needle ||
+          `${o.name} ${o.studio} ${o.objective} ${o.audience || ''} ${OFFER_CATEGORY_LABELS[offerCategory(o)]}`
+            .toLowerCase()
+            .includes(needle),
+      )
       .sort((a, b) => Number(!!b.provenance?.recommended) - Number(!!a.provenance?.recommended))
       .slice(0, 40);
   }, [bank, q, onPlanIds]);
+  const groups = useMemo(() => groupOffersByCategory(rows), [rows]);
 
   // Auto-hide: pinned keeps it open; otherwise the rail folds the moment the pointer leaves.
   const leave = () => {
@@ -219,80 +228,97 @@ export default function OfferBankRail({
               {q ? 'Nothing matches that search.' : 'Every matching offer is already on this month.'}
             </p>
           ) : (
-            rows.map(offer => {
-              const discount = Number(offer.effective_discount) || 0;
-              const revenue = Number(offer.actual_revenue ?? offer.expected_revenue) || 0;
-              const isSwapping = swapFor?.id === offer.id;
-              return (
-                <article key={offer.id} className={`bank-card${isSwapping ? ' is-swapping' : ''}`}>
-                  <div className="bank-card-top">
-                    <span className="bank-card-kicker">
-                      {offer.provenance?.recommended && (
-                        <b>
-                          <Sparkles size={10} /> Pick
-                        </b>
-                      )}
-                      {titleCase(offer.objective || '')}
-                    </span>
-                    <span className="bank-card-studio">{offer.studio || 'All studios'}</span>
-                  </div>
-                  <strong className="bank-card-name">{offer.name}</strong>
-                  <div className="bank-card-facts">
-                    <span>
-                      <b>{discount > 0 ? percent(discount) : '—'}</b> off
-                    </span>
-                    <span>
-                      <b>{revenue ? lakh(revenue) : '—'}</b> forecast
-                    </span>
-                    <span>{titleCase(offer.offer_type || '')}</span>
-                  </div>
+            groups.map(group => (
+              <section
+                key={group.key}
+                className="bank-category"
+                data-offer-category={group.key}
+                aria-label={`${group.label} offers`}
+              >
+                <h4 className="offer-category-heading">
+                  <span>{group.label}</span>
+                  <em>{group.offers.length}</em>
+                </h4>
+                {group.offers.map(offer => {
+                  const discount = Number(offer.effective_discount) || 0;
+                  const revenue = Number(offer.actual_revenue ?? offer.expected_revenue) || 0;
+                  const isSwapping = swapFor?.id === offer.id;
+                  return (
+                    <article
+                      key={offer.id}
+                      data-offer-category={group.key}
+                      className={`bank-card${isSwapping ? ' is-swapping' : ''}`}
+                    >
+                      <div className="bank-card-top">
+                        <span className="bank-card-kicker">
+                          {offer.provenance?.recommended && (
+                            <b>
+                              <Sparkles size={10} /> Pick
+                            </b>
+                          )}
+                          {OFFER_CATEGORY_LABELS[group.key]}
+                        </span>
+                        <span className="bank-card-studio">{offer.studio || 'All studios'}</span>
+                      </div>
+                      <strong className="bank-card-name">{offer.name}</strong>
+                      <div className="bank-card-facts">
+                        <span>
+                          <b>{discount > 0 ? percent(discount) : '—'}</b> off
+                        </span>
+                        <span>
+                          <b>{revenue ? lakh(revenue) : '—'}</b> forecast
+                        </span>
+                        <span>{titleCase(offer.offer_type || '')}</span>
+                      </div>
 
-                  {isSwapping ? (
-                    <div className="bank-swap">
-                      <span>Replace which offer in {MONTHS[month - 1]}?</span>
-                      {onPlan.length === 0 && <em>Nothing is on this month yet — add it instead.</em>}
-                      {onPlan.map(item => (
-                        <button
-                          key={item.id}
-                          type="button"
-                          disabled={busy !== null}
-                          onClick={() => send(offer, 'replace', item.id)}
-                        >
-                          <ArrowRightLeft size={11} />
-                          {item.name}
-                        </button>
-                      ))}
-                      <button type="button" className="bank-swap-cancel" onClick={() => setSwapFor(null)}>
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="bank-card-actions">
-                      <button
-                        type="button"
-                        className="bank-add"
-                        disabled={!editable || busy !== null}
-                        title={`Add ${offer.name} to ${MONTHS[month - 1]}`}
-                        onClick={() => send(offer, 'add')}
-                      >
-                        {busy === offer.id ? <Check size={12} /> : <Plus size={12} />}
-                        Add to {MONTHS_SHORT[month - 1]}
-                      </button>
-                      <button
-                        type="button"
-                        className="bank-replace"
-                        disabled={!editable || onPlan.length === 0 || busy !== null}
-                        title="Swap this offer in for one already on the month"
-                        onClick={() => setSwapFor(offer)}
-                      >
-                        <ArrowRightLeft size={12} />
-                        Replace
-                      </button>
-                    </div>
-                  )}
-                </article>
-              );
-            })
+                      {isSwapping ? (
+                        <div className="bank-swap">
+                          <span>Replace which offer in {MONTHS[month - 1]}?</span>
+                          {onPlan.length === 0 && <em>Nothing is on this month yet — add it instead.</em>}
+                          {onPlan.map(item => (
+                            <button
+                              key={item.id}
+                              type="button"
+                              disabled={busy !== null}
+                              onClick={() => send(offer, 'replace', item.id)}
+                            >
+                              <ArrowRightLeft size={11} />
+                              {item.name}
+                            </button>
+                          ))}
+                          <button type="button" className="bank-swap-cancel" onClick={() => setSwapFor(null)}>
+                            Cancel
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="bank-card-actions">
+                          <button
+                            type="button"
+                            className="bank-add"
+                            disabled={!editable || busy !== null}
+                            title={`Add ${offer.name} to ${MONTHS[month - 1]}`}
+                            onClick={() => send(offer, 'add')}
+                          >
+                            {busy === offer.id ? <Check size={12} /> : <Plus size={12} />}
+                            Add to {MONTHS_SHORT[month - 1]}
+                          </button>
+                          <button
+                            type="button"
+                            className="bank-replace"
+                            disabled={!editable || onPlan.length === 0 || busy !== null}
+                            title="Swap this offer in for one already on the month"
+                            onClick={() => setSwapFor(offer)}
+                          >
+                            <ArrowRightLeft size={12} />
+                            Replace
+                          </button>
+                        </div>
+                      )}
+                    </article>
+                  );
+                })}
+              </section>
+            ))
           )}
         </div>
 

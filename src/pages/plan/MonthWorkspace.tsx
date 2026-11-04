@@ -70,11 +70,14 @@ import OfferLibrary from './OfferLibrary';
 import { selectedForPlan } from './TargetsTab';
 import { PAGE_PHOTOS, coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
+import MonthBrief from './MonthBrief';
+import OfferRevenueSummary from './OfferRevenueSummary';
 import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 import { planPricing } from '../../lib/offerPricing';
-import { offerSummary } from '../../lib/offerSummary';
+import { offerSummary, offerHighlights } from '../../lib/offerSummary';
+import { groupOffersByCategory, offerCategory, OFFER_CATEGORY_LABELS } from '../../lib/offerCategory';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
 
@@ -574,7 +577,9 @@ export default function MonthWorkspace({
     SLOT_KEYS.map(slot => [slot, exists(saved?.slots?.[slot]) ? saved.slots[slot] : null]),
   );
   const extras: number[] = Array.isArray(saved?.offer_ids) ? saved.offer_ids.filter(exists) : [];
-  const selectedIds = [...(Object.values(slots).filter(Boolean) as number[]), ...extras];
+  // An imported plan can reference one offer in both a primary slot and extras.
+  // Render and forecast it once, matching the other month-plan views.
+  const selectedIds = [...new Set([...(Object.values(slots).filter(Boolean) as number[]), ...extras])];
   const selected = selectedIds.map(id => ownOffers.find(o => o.id === id)).filter(Boolean) as any[];
   const slotOf = (id: number) => Object.entries(slots).find(([, v]) => v === id)?.[0];
   // What this location already runs in any month, so the library's quick actions speak
@@ -590,10 +595,8 @@ export default function MonthWorkspace({
         n(b.expected_revenue) - n(a.expected_revenue),
     );
   const offerRevenue = selected.reduce((s, o) => s + forecastRevenue(o), 0);
-  const groups = ['New clients', 'Ticket & renewal', 'Comeback / reactivation', 'Other'].map(g => ({
-    label: g,
-    offers: selected.filter(o => (STREAM_OF[o.objective] || 'Other') === g),
-  }));
+  const forecastedCount = selected.filter(hasValidForecast).length;
+  const groups = groupOffersByCategory(selected, o => slotOf(o.id));
 
   const initialEffectiveTarget = targetRow?.approved_target ?? targetRow?.proposed_target;
   const initialScale =
@@ -1751,7 +1754,7 @@ export default function MonthWorkspace({
                 description="Every offer that carries the month: the photograph, the promise, the maths behind it and its approval, in one card."
                 meta={[
                   { label: 'Offers', value: `${selected.length}` },
-                  { label: 'Carried', value: lakh(offerRevenue) },
+                  { label: 'Projected revenue', value: forecastedCount ? lakh(offerRevenue) : '—' },
                   { label: 'Of target', value: effective ? `${Math.round((offerRevenue / effective) * 100)}%` : '—' },
                 ]}
               />
@@ -1812,6 +1815,7 @@ export default function MonthWorkspace({
                 buyers={row.buyers}
                 offers={selected.length}
                 offerRevenue={offerRevenue}
+                forecastedOffers={forecastedCount}
                 renewalsDue={econ?.renewal.projectedExpiries || row.renewalsDue || 0}
                 renewalCoverage={coverage}
                 streams={coverStreams}
@@ -1821,70 +1825,16 @@ export default function MonthWorkspace({
               />
             )}
 
-            {/* ─── The brief the plan document filed for this month ─── */}
-            {page === 'overview' &&
-              (() => {
-                const content = form.content || {};
-                const collateral = content.collateral || null;
-                const crm = content.crm || null;
-                const pieces = Array.isArray(collateral?.pieces) ? collateral.pieces : [];
-                const sends = Array.isArray(crm?.sends) ? crm.sends : [];
-                const filed = Number(content.offersPlannedRevenue) || 0;
-                if (!content.focus && !content.studioRole && !collateral && !crm) return null;
-                return (
-                  <div className="mw-section mw-brief">
-                    <div className="mw-brief-head">
-                      <span className="mw-brief-kicker">As filed</span>
-                      {content.studioRole ? <em>{inline(String(content.studioRole))}</em> : null}
-                    </div>
-                    {content.focus ? <p className="mw-brief-focus">{inline(String(content.focus))}</p> : null}
-                    <dl className="mw-brief-meta">
-                      <div>
-                        <dt>Offers planned</dt>
-                        <dd>{lakh(filed || offerRevenue)}</dd>
-                      </div>
-                      {collateral?.title ? (
-                        <div>
-                          <dt>Collateral</dt>
-                          <dd>
-                            {inline(String(collateral.title))}
-                            {pieces.length ? ` · ${pieces.length} piece${pieces.length === 1 ? '' : 's'}` : ''}
-                          </dd>
-                        </div>
-                      ) : null}
-                      {crm?.rule || sends.length ? (
-                        <div>
-                          <dt>CRM</dt>
-                          <dd>
-                            {sends.length ? `${sends.length} send${sends.length === 1 ? '' : 's'}` : 'No sends'}
-                            {crm?.rule ? ` · ${inline(String(crm.rule))}` : ''}
-                          </dd>
-                        </div>
-                      ) : null}
-                    </dl>
-                    {pieces.length > 0 && (
-                      <ul className="mw-brief-pieces">
-                        {pieces.slice(0, 6).map((piece: any, index: number) => (
-                          <li key={`${piece?.offerId || index}`}>
-                            <b>{inline(String(piece?.headline || piece?.offerId || 'Piece'))}</b>
-                            {piece?.detail ? <em>{inline(String(piece.detail))}</em> : null}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    {sends.length > 0 && (
-                      <ul className="mw-brief-pieces mw-brief-sends">
-                        {sends.slice(0, 6).map((send: any, index: number) => (
-                          <li key={`${send?.offerId || index}`}>
-                            <b>{inline(String(send?.audience || send?.offerId || 'Audience'))}</b>
-                            {send?.message ? <em>{inline(String(send.message))}</em> : null}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                );
-              })()}
+            {/* The filed launch brief, with the live projection kept distinct from its estimate. */}
+            {page === 'overview' && (
+              <MonthBrief
+                content={form.content}
+                offers={selected}
+                revenue={offerRevenue}
+                forecastedCount={forecastedCount}
+                renderText={inline}
+              />
+            )}
 
             {/* ─── Section 1: Important days ─── */}
             {showOnPage('days') &&
@@ -3464,49 +3414,36 @@ export default function MonthWorkspace({
 
                         return (
                           <div className="mw-offers-board">
-                            {effective > 0 &&
-                              selected.length > 0 &&
-                              (() => {
-                                const ratio = offerRevenue / effective;
-                                const tone = ratio > 1.1 ? 'over' : ratio < 0.9 ? 'under' : 'ok';
-                                const diff = Math.abs(offerRevenue - effective);
-                                return (
-                                  <div className={`mw-rev-check is-${tone}`} role="status">
-                                    <div className="mw-rev-check-text">
-                                      <strong>
-                                        {tone === 'over'
-                                          ? 'Offer plan exceeds target'
-                                          : tone === 'under'
-                                            ? 'Offer plan is below target'
-                                            : 'Offer plan is in line with target'}
-                                      </strong>
-                                      <span>
-                                        {lakh(offerRevenue)} forecast vs {lakh(effective)} target ·{' '}
-                                        {tone === 'ok'
-                                          ? `${Math.round(ratio * 100)}% covered`
-                                          : tone === 'over'
-                                            ? `${lakh(diff)} (${Math.round((ratio - 1) * 100)}%) over — check unit assumptions or trim an offer`
-                                            : `${lakh(diff)} (${Math.round((1 - ratio) * 100)}%) short — add or raise offers`}
-                                      </span>
-                                    </div>
-                                    <div className="mw-rev-check-meter" aria-hidden="true">
-                                      <i style={{ width: `${Math.min(100, (ratio / 1.25) * 100)}%` }} />
-                                      <b style={{ left: `${100 / 1.25}%` }} />
-                                    </div>
-                                  </div>
-                                );
-                              })()}
+                            <OfferRevenueSummary
+                              revenue={offerRevenue}
+                              count={selected.length}
+                              forecastedCount={forecastedCount}
+                              target={effective}
+                              categories={activeGroups.map(group => ({
+                                key: group.key,
+                                label: group.label,
+                                count: group.offers.length,
+                                forecastedCount: group.offers.filter(hasValidForecast).length,
+                                revenue: group.offers.reduce((sum, offer) => sum + forecastRevenue(offer), 0),
+                              }))}
+                            />
                             <div className={`mw-offer-list ${offerColumns === 2 ? 'is-two-up' : 'is-one-up'}`}>
                               {activeGroups.flatMap(g => {
                                 const total = g.offers.reduce((sum, o) => sum + forecastRevenue(o), 0);
                                 return [
-                                  <div key={`divider-${g.label}`} className={`mp-offer-divider stream-${g.label}`}>
+                                  <div
+                                    key={`divider-${g.key}`}
+                                    className={`mp-offer-divider category-${g.key}`}
+                                    data-offer-category={g.key}
+                                    role="heading"
+                                    aria-level={4}
+                                  >
                                     <span>{g.label}</span>
                                     <em>
                                       {g.offers.length} {g.offers.length === 1 ? 'offer' : 'offers'}
                                     </em>
                                     <i aria-hidden="true" />
-                                    <b>{lakh(total)}</b>
+                                    <b>{g.offers.some(hasValidForecast) ? lakh(total) : '—'}</b>
                                   </div>,
                                   ...g.offers.map(o => {
                                     // Keep alternatives with their own card, so a full-width alternate
@@ -3515,6 +3452,7 @@ export default function MonthWorkspace({
                                     return (
                                       <div
                                         key={o.id}
+                                        data-offer-category={g.key}
                                         className={`mw-offer-item${g.offers.length === 1 || editing === o.id ? ' is-wide' : ''}`}
                                       >
                                         {renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label)}
@@ -5077,7 +5015,8 @@ function OfferCard({
           ? `+${fmtPct(effPct)} perk value`
           : 'Value-add, no price cut';
 
-  const slotLabel = slot === 'lapsed' ? 'Winback' : slot ? titleCase(slot) : null;
+  const category = offerCategory(o, slot);
+  const slotLabel = OFFER_CATEGORY_LABELS[category];
   const membership = productLabel || o.provenance?.pricing?.product || (o.offer_type ? titleCase(o.offer_type) : '');
   const objectiveLabel = o.objective ? titleCase(o.objective) : null;
   const showObjective = objectiveLabel && (!membership || objectiveLabel.toLowerCase() !== membership.toLowerCase());
@@ -5157,10 +5096,10 @@ function OfferCard({
     return o.benefit && o.benefit !== o.headline ? o.benefit : '';
   })();
 
-  // The hero's description answers the three questions an offer has to answer — what is being
-  // sold, what the client gets, what it is for — in one plain line, and nothing else. Every
-  // price, term and calculation stays in the figures and the spec sheet below it.
+  // Lead with the written commercial terms and inclusions, not just the campaign
+  // hook. The derived description still helps deduplicate the supporting record.
   const offerDescription = offerSummary(o).sentence;
+  const highlights = offerHighlights(o);
 
   // Bars are the chart line for each figure; they all share one 0–100 scale.
   const clampPct = (value: number) =>
@@ -5193,9 +5132,10 @@ function OfferCard({
       const hit = reasons.find(entry => names.some(name => new RegExp(name, 'i').test(entry[1])));
       return tidy(hit?.[2]);
     };
-    // Never print the same sentence twice: the hero brief and the stat bar already carry
-    // their own copy, so a row only lands when it adds something.
-    const fresh = (value: string) => value && !offerDescription.includes(value.slice(0, 60));
+    // Avoid exact duplicates of the highlighted terms, but keep distinct
+    // conditions even when they start with the same words.
+    const fresh = (value: string) =>
+      value && ![offerDescription, highlights.terms, ...highlights.inclusions].some(text => text === value);
 
     // Who is eligible is already the "Who" column above; only the exclusion needs saying.
     const excluded = tidy(o.excluded_audience);
@@ -5273,6 +5213,7 @@ function OfferCard({
     <article
       className={`oc is-v3${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}
       aria-labelledby={`ocv-title-${o.id}`}
+      data-offer-category={category}
     >
       {/* A photo-led masthead and a clean commercial sheet share the same hierarchy in
           one- and two-column views. The card itself is the named container-query target. */}
@@ -5413,7 +5354,22 @@ function OfferCard({
               </div>
             </div>
 
-            {offerDescription && <p className="ocv-brief">{offerDescription}</p>}
+            <section className="ocv-offer-highlight" aria-label={`${o.name} — offer details`}>
+              <span className="ocv-offer-kicker">
+                <Gift size={13} /> The offer
+              </span>
+              <p className="ocv-brief">{inline(highlights.terms)}</p>
+              {highlights.inclusions.length > 0 && (
+                <ul className="ocv-inclusions">
+                  {highlights.inclusions.map((inclusion, index) => (
+                    <li key={index}>
+                      <Check size={13} aria-hidden="true" />
+                      <span>{inline(inclusion)}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
           </header>
 
           {/* Anniversary offers are played, not just read: the wheel, the ticket and the nine

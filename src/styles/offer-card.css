@@ -339,13 +339,58 @@
 .mw .oc.is-v3 .ocv-tool:disabled {
   opacity: 0.4;
 }
+.mw .oc.is-v3 .ocv-offer-highlight {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 17px 18px;
+  border: 1px solid color-mix(in srgb, var(--oc-accent) 22%, var(--oc-line));
+  border-left: 3px solid var(--oc-accent);
+  border-radius: 4px 12px 12px 4px;
+  background: color-mix(in srgb, var(--oc-accent) 5%, var(--paper));
+}
+.mw .oc.is-v3 .ocv-offer-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--oc-accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
 .mw .oc.is-v3 .ocv-brief {
   max-width: 82ch;
   margin: 0;
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+  color: var(--oc-ink);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-inclusions {
+  display: grid;
+  gap: 7px;
+  margin: 2px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--oc-accent) 14%, var(--oc-line));
+  list-style: none;
+}
+.mw .oc.is-v3 .ocv-inclusions > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  min-width: 0;
+  font-size: 12.5px;
+  line-height: 1.65;
   color: var(--ink-soft);
   overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-inclusions > li > svg {
+  flex: none;
+  margin-top: 4px;
+  color: var(--oc-accent);
 }
 
 /* ── Financial hierarchy: one decisive figure, two supporting figures ───── */

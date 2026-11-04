@@ -63,7 +63,7 @@ Defined once in `src/data/locations.ts`.
 | Surface | Component | Notes |
 | --- | --- | --- |
 | Location switcher | `components/LocationSwitcher.tsx` | A popover off the header bar with five views — vertical timeline (default), cards, list, pills and a single selector. The choice is remembered; each row carries that location's annual target. |
-| Offer card | `pages/plan/MonthWorkspace.tsx` (`.oc.is-v3`, `.ocv-*`), `styles/offer-card.css` | Photo-led masthead with the title, category and scope; a high-contrast forecast with quieter supporting metrics; a compact pricing rail; the always-visible commercial record; explicit audience/timing/notes disclosure and an approval/media footer. Named `offer-card` container queries adapt to the actual card width, including the docked library. A lone offer fills its stream's row; mobile avoids nested gutters and opens the library only on request. Hover is subtle, focus is visible, touch targets are enlarged, and reduced motion is respected. |
+| Offer card | `pages/plan/MonthWorkspace.tsx` (`.oc.is-v3`, `.ocv-*`), `styles/offer-card.css` | Photo-led masthead with the title, category and scope; a high-contrast forecast with quieter supporting metrics; a compact pricing rail; the always-visible commercial record; explicit audience/timing/notes disclosure and an approval/media footer. Named `offer-card` container queries adapt to the actual card width, including the docked library. A lone offer fills its category's row; mobile avoids nested gutters and opens the library only on request. Hover is subtle, focus is visible, touch targets are enlarged, and reduced motion is respected. |
 | Target breakdown | `pages/plan/TargetBreakdown.tsx` | The complete 12-month table. It renders in the month plan's **Targets & mix** page (scoped with the `studio` prop) as well as on its own route. |
 | WhatsApp proofs | `components/MarketingCollaterals.tsx` (`.wa-pair.is-duo`) | Both sends — launch broadcast and the 48-hour reminder — sit side by side on one proof board. |
 | Month plan | `pages/plan/MonthWorkspace.tsx` | Opened per month from Offers › Planned promotions, so the target, the mix and the offers live in one place. Arrow keys and `1`–`5` move between months and pages. |
@@ -73,6 +73,20 @@ Defined once in `src/data/locations.ts`.
 | Loaders | `components/ui.tsx` (`Loading`, `Heartbeat`, `LoadingRows`), `atelier.css` §21 | A single heartbeat: a quiet ECG trace with one gold pulse travelling its length. That is the whole loading state — no label, no dots, no mark stacked beside it; the label survives only as the accessible name. Skeleton rows remain for lists still arriving. |
 | Keyboard | `components/Layout.tsx` (`ShortcutsSheet`), `atelier.css` §24 | `⌘K` palette, `?` for the key map, `Esc` to close. Shortcuts never fire while a field has focus. |
 | Offer studio density | `pages/plan/OffersTab.tsx` (`.os-density`, `atelier.css` §25) | Comfortable or compact rows, remembered per browser. |
+
+## Offer categories
+
+Offer cards, the docked library, planned promotions, the bank rail and the paginated offer bank all use **New → Winback → Renewal → Other**, defined in `src/lib/offerCategory.ts`. A month's assigned primary slot takes precedence over the offer's saved slot; unslotted offers fall back to their objective. Newcomer/acquisition/trial/referral offers are New, lapsed/reactivation offers are Winback, and renewal/retention offers are Renewal. Generic upsells, AOV campaigns, other non-lifecycle slots and unclassified offers stay in Other rather than being assumed to be renewals.
+
+The library filters are exclusive and include Other. Membership remains visible on each library entry, and search, sorting, selection, add/swap actions and forecast values are preserved. Groups have a fixed order while the chosen sort is retained within each group. Counts in the paginated bank describe the current page. This is presentation grouping only: stored offers, monthly allocations and financial calculations are not rewritten.
+
+## Month offer details, projections and the launch brief
+
+Offer cards lead with a highlighted **The offer** block: the exact written price/terms and all included benefits, drawn first from the plan's `You pay` / `You get` fields, then the offer's benefit/mechanics. These are not replaced by the campaign headline or the model's average ticket. Conditions and inclusions are not truncated; the supporting commercial record and existing editing/disclosure controls remain available.
+
+Overview and Offers name the **combined projected revenue** explicitly. The Offers total includes the lifecycle subtotals, month target and target coverage. It sums the selected offers' valid, unrounded forecasts, excluding unselected library offers and invalid/demo projections. A duplicate slot/extra reference counts once, and missing forecasts are disclosed rather than presented as confirmed zero revenue. This is a projection, not actual sales.
+
+`MonthBrief.tsx` and `lib/monthBrief.ts` render both portfolio-style and round-tripped export briefs. The inset sheet contains the focus and studio role, live projection (separate from any filed estimate), the complete collateral list, channel/deadline tags, expandable copy and the full CRM schedule with dates, audiences, offer names and delivery notes. Counts match the detailed lists; differing imported send totals are flagged. Formatted React text is rendered as children, never interpolated into strings. The panels stack on narrow containers and keep their own gutters inside the month-page reset.
 
 ## Bulk target actions (Approvals & calculations)
 

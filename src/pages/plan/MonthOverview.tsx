@@ -91,6 +91,7 @@ export default function MonthOverview({
   buyers,
   offers,
   offerRevenue,
+  forecastedOffers = offers,
   renewalsDue,
   renewalCoverage,
   streams = [],
@@ -111,6 +112,7 @@ export default function MonthOverview({
   buyers: number;
   offers: number;
   offerRevenue: number;
+  forecastedOffers?: number;
   renewalsDue: number;
   renewalCoverage: number | null;
   streams?: OverviewStream[];
@@ -172,10 +174,10 @@ export default function MonthOverview({
                 </strong>
               </div>
               <div>
-                <span>Offers on the plan</span>
-                <strong>
-                  {offers}
-                  <em>{offers ? ` · ${lakh(offerRevenue)} carried` : ' · none yet'}</em>
+                <span>Combined projected revenue</span>
+                <strong title={forecastedOffers ? lakh(offerRevenue) : undefined}>
+                  {forecastedOffers ? <Counter to={offerRevenue} format={lakh} animate={animate} /> : '—'}
+                  <em>{offers ? ` · from ${offers} ${offers === 1 ? 'offer' : 'offers'}` : ' · no offers yet'}</em>
                 </strong>
               </div>
             </div>
