@@ -361,3 +361,24 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* Circuit-chip loader (after Uiverse.io, Vosoone). */
+.chip-loader { display: flex; justify-content: center; align-items: center; width: min(420px, 100%); margin: 0 auto; }
+.chip-loader svg { width: 100%; height: auto; display: block; }
+.chip-loader .trace-bg { stroke: #333; stroke-width: 1.8; fill: none; }
+.chip-loader .trace-flow {
+  stroke-width: 1.8; fill: none;
+  stroke-dasharray: 40 400; stroke-dashoffset: 438;
+  filter: drop-shadow(0 0 6px currentColor);
+  animation: chip-flow 3s cubic-bezier(0.5, 0, 0.9, 1) infinite;
+}
+.chip-loader .yellow { stroke: #ffea00; color: #ffea00; }
+.chip-loader .blue { stroke: #00ccff; color: #00ccff; }
+.chip-loader .green { stroke: #00ff15; color: #00ff15; }
+.chip-loader .purple { stroke: #9900ff; color: #9900ff; }
+.chip-loader .red { stroke: #ff3300; color: #ff3300; }
+.chip-loader .chip-body { filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.8)); }
+.chip-loader .chip-text { font-weight: bold; letter-spacing: 1px; }
+.chip-loader .chip-pin { stroke: #444; stroke-width: 0.5; filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.6)); }
+@keyframes chip-flow { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .chip-loader .trace-flow { animation: none; stroke-dasharray: none; } }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useId } from 'react';
 import { AlertCircle, Check, ChevronDown, Info, X } from 'lucide-react';
 import { titleCase } from '../types';
 
@@ -393,6 +393,68 @@ export function Heartbeat({ className = '' }: { className?: string }) {
   );
 }
 
+/* The circuit-chip mark: eight traces carry coloured pulses into a chip that reads "Loading".
+   Gradient ids are per-instance so two loaders on one page never share a definition. */
+const CHIP_TRACES: [string, string][] = [
+  ['M100 100 H200 V210 H326', 'purple'],
+  ['M80 180 H180 V230 H326', 'blue'],
+  ['M60 260 H150 V250 H326', 'yellow'],
+  ['M100 350 H200 V270 H326', 'green'],
+  ['M700 90 H560 V210 H474', 'blue'],
+  ['M740 160 H580 V230 H474', 'green'],
+  ['M720 250 H590 V250 H474', 'red'],
+  ['M680 340 H570 V270 H474', 'yellow'],
+];
+const CHIP_PINS = [205, 225, 245, 265];
+const CHIP_ENDS: [number, number][] = [
+  [100, 100], [80, 180], [60, 260], [100, 350],
+  [700, 90], [740, 160], [720, 250], [680, 340],
+];
+
+export function ChipLoader({ label = 'Loading' }: { label?: string }) {
+  const uid = useId().replace(/:/g, '');
+  const chip = `chip-${uid}`, text = `text-${uid}`, pin = `pin-${uid}`;
+  return (
+    <div className="chip-loader" aria-hidden="true">
+      <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id={chip} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#2d2d2d" />
+            <stop offset="100%" stopColor="#0f0f0f" />
+          </linearGradient>
+          <linearGradient id={text} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#eeeeee" />
+            <stop offset="100%" stopColor="#888888" />
+          </linearGradient>
+          <linearGradient id={pin} x1="1" y1="0" x2="0" y2="0">
+            <stop offset="0%" stopColor="#bbbbbb" />
+            <stop offset="50%" stopColor="#888888" />
+            <stop offset="100%" stopColor="#555555" />
+          </linearGradient>
+        </defs>
+        <g>
+          {CHIP_TRACES.map(([d, colour], i) => (
+            <React.Fragment key={i}>
+              <path d={d} className="trace-bg" />
+              <path d={d} className={`trace-flow ${colour}`} />
+            </React.Fragment>
+          ))}
+        </g>
+        <rect x="330" y="190" width="140" height="100" rx="20" ry="20" fill={`url(#${chip})`} stroke="#222" strokeWidth="3" className="chip-body" />
+        {[322, 470].map(x =>
+          CHIP_PINS.map(y => <rect key={`${x}-${y}`} x={x} y={y} width="8" height="10" rx="2" fill={`url(#${pin})`} className="chip-pin" />),
+        )}
+        <text x="400" y="240" fontFamily="Arial, sans-serif" fontSize="22" fill={`url(#${text})`} textAnchor="middle" dominantBaseline="middle" className="chip-text">
+          {label}
+        </text>
+        {CHIP_ENDS.map(([cx, cy]) => (
+          <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="5" fill="black" />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 /* Two weights of the same wait. Inside a panel the mark sits on its own dark stage — the
    only way neon stays neon on paper — with the sentence that says what is being fetched and
    a hairline that runs while it runs. When the whole screen is being replaced (`screen`) the
@@ -413,7 +475,7 @@ export function Loading({ label = 'Loading intelligence…', screen = false }: {
       aria-label={label}
     >
       <div className="p57-loader-stage">
-        <Heartbeat />
+        <ChipLoader />
         <p className="p57-loader-copy" aria-hidden="true">
           <span className="p57-loader-label">{caption}</span>
           <span className="p57-loader-dots">
