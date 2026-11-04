@@ -1237,3 +1237,135 @@
 .mw .oc.is-v3 .ocv-fine > li + li::before {
   content: ' · ';
 }
+
+/* ── Flip: the offer on the front, the reasoning on the back ─────────────── */
+.mw .oc.is-v3 .ocv-flip {
+  display: grid;
+  perspective: 1400px;
+  cursor: pointer;
+  border-radius: 4px 12px 12px 4px;
+  outline: none;
+}
+.mw .oc.is-v3 .ocv-flip:focus-visible {
+  box-shadow: 0 0 0 2px var(--oc-accent);
+}
+.mw .oc.is-v3 .ocv-face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s;
+  transform-style: preserve-3d;
+}
+.mw .oc.is-v3 .ocv-face.is-back {
+  transform: rotateY(180deg);
+  border-left-color: var(--ink-900, #1a1710);
+  background: color-mix(in srgb, var(--paper-warm, #f7f3ec) 80%, var(--paper));
+}
+.mw .oc.is-v3 .ocv-flip.is-flipped .ocv-face.is-front {
+  transform: rotateY(-180deg);
+}
+.mw .oc.is-v3 .ocv-flip.is-flipped .ocv-face.is-back {
+  transform: rotateY(0);
+}
+.mw .oc.is-v3 .ocv-flip:hover .ocv-flip-hint {
+  opacity: 1;
+}
+.mw .oc.is-v3 .ocv-flip-hint {
+  margin-left: auto;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--muted);
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.mw .oc.is-v3 .ocv-offer-kicker {
+  width: 100%;
+}
+.mw .oc.is-v3 .is-back .ocv-offer-kicker {
+  color: var(--ink-900, #1a1710);
+}
+.mw .oc.is-v3 .ocv-why-goal {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.45;
+  color: var(--oc-ink);
+}
+.mw .oc.is-v3 .ocv-why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px 18px;
+  padding-top: 10px;
+  border-top: 1px solid var(--oc-line);
+}
+.mw .oc.is-v3 .ocv-why-block {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-width: 0;
+}
+.mw .oc.is-v3 .ocv-why-block > span {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oc-accent);
+}
+.mw .oc.is-v3 .ocv-why-block ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mw .oc.is-v3 .ocv-why-block li {
+  position: relative;
+  padding-left: 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-why-block li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--oc-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc.is-v3 .ocv-face {
+    transition: none;
+  }
+}
+
+/* The face on show sets the height; the hidden face is laid over it, so the front never
+   stretches to the length of the reasoning on the back. */
+.mw .oc.is-v3 .ocv-flip {
+  position: relative;
+  display: block;
+}
+.mw .oc.is-v3 .ocv-face {
+  align-content: start;
+}
+.mw .oc.is-v3 .ocv-face.is-back {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.mw .oc.is-v3 .ocv-flip.is-flipped .ocv-face.is-back {
+  position: relative;
+  inset: auto;
+  overflow: visible;
+}
+.mw .oc.is-v3 .ocv-flip.is-flipped .ocv-face.is-front {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}

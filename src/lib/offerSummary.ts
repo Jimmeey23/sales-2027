@@ -337,3 +337,81 @@ export function offerDetails(offer: any): OfferDetails {
     fine,
   };
 }
+
+export interface OfferReasoning {
+  /** The commercial job this offer does. */
+  goal: string;
+  /** Why it is shaped the way it is — the evidence behind the mechanic. */
+  why: string[];
+  /** Why here and now: the studio, the month and the stream it carries. */
+  fit: string[];
+  /** The plan maths: units × price, share of the month, discount. */
+  logic: string[];
+  /** What would tell the team it is working, or not. */
+  watch: string[];
+}
+
+const listOf = (v: unknown): string[] => {
+  if (Array.isArray(v)) return v.map(asText).filter(Boolean);
+  if (typeof v === 'string') {
+    try {
+      const parsed = JSON.parse(v);
+      if (Array.isArray(parsed)) return parsed.map(asText).filter(Boolean);
+    } catch {
+      /* plain text */
+    }
+    return v.trim() ? [v.trim()] : [];
+  }
+  return [];
+};
+const inr = (v: number) => `₹${Math.round(v).toLocaleString('en-IN')}`;
+const lakhs = (v: number) => `₹${(v / 100000).toLocaleString('en-IN', { maximumFractionDigits: 2 })}L`;
+
+/** Why this offer was planned for this studio and month, from the offer's own record. */
+export function offerReasoning(
+  offer: any,
+  ctx: { studio?: string; month?: string; theme?: string; job?: string; monthTarget?: number; stream?: string } = {},
+): OfferReasoning {
+  const fields = fieldsOf(offer);
+  const goal = asText(offer?.objective) || field(fields, 'Job', 'Objective', 'Goal') || offerSummary(offer).purpose;
+  const why = [
+    ...splitPoints(asText(offer?.rationale)),
+    ...splitPoints(field(fields, 'Why it works', 'Why')),
+  ].filter((p, i, all) => all.findIndex(q => norm(q) === norm(p)) === i);
+
+  const fit: string[] = [];
+  if (ctx.studio && ctx.month) fit.push(`Planned for ${ctx.studio} in ${ctx.month}${ctx.theme ? ` — “${ctx.theme}”` : ''}`);
+  if (ctx.job) {
+    const plain = ctx.job.replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+    const first = splitPoints(plain)[0] || plain;
+    fit.push(`Month’s job: ${first.replace(/\.$/, '')}`);
+  }
+  const purpose = purposeOf(offer);
+  fit.push(`Its role in the plan: ${purpose}`);
+  const who = asText(offer?.audience).replace(/\s*\([^)]*\)/g, '').replace(/\.$/, '');
+  if (who) fit.push(`Aimed at ${who.charAt(0).toLowerCase()}${who.slice(1)}`);
+
+  const logic: string[] = [];
+  const plan = asText(offer?.internal_description);
+  if (plan) logic.push(plan.replace(/^plan:\s*/i, 'Plan: ').replace(/\.$/, ''));
+  const buyers = Number(offer?.target_purchases) || 0;
+  const asp = Number(offer?.expected_asp) || 0;
+  const revenue = Number(offer?.expected_revenue) || buyers * asp;
+  if (!plan && buyers && asp) logic.push(`${buyers} buyers × ${inr(asp)} = ${inr(buyers * asp)}`);
+  if (revenue && ctx.monthTarget)
+    logic.push(`${lakhs(revenue)} is ${Math.round((revenue / ctx.monthTarget) * 1000) / 10}% of the ${lakhs(ctx.monthTarget)} month target`);
+  const discount = Number(offer?.effective_discount);
+  if (Number.isFinite(discount) && discount > 0) logic.push(`Effective discount ${Math.round(discount)}%`);
+
+  const watch = [...listOf(offer?.risks), ...splitPoints(field(fields, 'What to watch', 'Risk'))];
+  // Without written risks, turn the plan into checkpoints the team can actually read mid-month.
+  if (watch.length < 2 && buyers) {
+    const perWeek = Math.max(1, Math.round(buyers / 4));
+    watch.push(`On track at about ${perWeek} buyer${perWeek === 1 ? '' : 's'} a week`);
+    watch.push(`Under ${Math.ceil(buyers / 2)} buyers by mid-month → push the nudge and follow-up sends`);
+  }
+  if (watch.length < 3 && Number.isFinite(discount) && discount > 0)
+    watch.push(`Keep the discount at ${Math.round(discount)}% — don’t stack it with the standing perk`);
+
+  return { goal, why, fit, logic, watch: watch.slice(0, 4) };
+}

@@ -3070,6 +3070,10 @@ export default function MonthWorkspace({
                               monthUnits={slotRequirement(slotOf(o.id) || o.plan_slot) || monthUnitsTotal}
                               monthUnitsLabel={SLOT_NEED[String(slotOf(o.id) || o.plan_slot)] || ''}
                               photo={photoById.get(o.id)}
+                              studioName={studio.name}
+                              monthName={`${MONTHS[month - 1]} ${year}`}
+                              monthTheme={displayTheme}
+                              monthJob={form.objective}
                             />
                           );
 

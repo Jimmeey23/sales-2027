@@ -26,7 +26,7 @@ import { MONTHS, money, number, titleCase } from '../../../types';
 import { MechanicStage } from '../AnniversaryMechanics';
 import { lakh } from '../usePlanData';
 import { planPricing } from '../../../lib/offerPricing';
-import { offerSummary, offerHighlights, offerDetails, splitPoints } from '../../../lib/offerSummary';
+import { offerSummary, offerHighlights, offerDetails, splitPoints, offerReasoning } from '../../../lib/offerSummary';
 import { hasValidForecast } from '../../../lib/forecast';
 import { offerCategory, OFFER_CATEGORY_LABELS } from '../../../lib/offerCategory';
 import { inline, n } from './shared';
@@ -190,7 +190,13 @@ export function OfferCard({
   monthUnits = 0,
   monthUnitsLabel = '',
   photo,
+  studioName = '',
+  monthName = '',
+  monthTheme = '',
+  monthJob = '',
 }: any) {
+  // The banner flips to say why the offer is in this month at this studio.
+  const [flipped, setFlipped] = useState(false);
   const linked = !!o.provenance?.linkGroup;
   // The two decisions a team makes around an offer, plus the note that explains them. Both
   // are optimistic: the refetch that follows a save is the confirmation, not the trigger.
@@ -676,9 +682,24 @@ export function OfferCard({
               </div>
             </div>
 
-            <section className="ocv-offer-highlight" aria-label={`${o.name} — offer details`}>
+            <div
+              className={`ocv-flip${flipped ? ' is-flipped' : ''}`}
+              role="button"
+              tabIndex={0}
+              aria-pressed={flipped}
+              aria-label={flipped ? `${o.name}: show the offer` : `${o.name}: show why this offer was planned`}
+              onClick={() => setFlipped(v => !v)}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setFlipped(v => !v);
+                }
+              }}
+            >
+            <section className="ocv-offer-highlight ocv-face is-front" aria-hidden={flipped} aria-label={`${o.name} — offer details`}>
               <span className="ocv-offer-kicker">
                 <Gift size={13} /> The offer
+                <em className="ocv-flip-hint">Why this offer? ↻</em>
               </span>
               {(() => {
                 const deal = details.deal.length ? details.deal : [highlights.terms];
@@ -722,6 +743,43 @@ export function OfferCard({
                 );
               })()}
             </section>
+            {(() => {
+              const r = offerReasoning(o, {
+                studio: studioName,
+                month: monthName,
+                theme: monthTheme,
+                job: monthJob,
+                monthTarget,
+                stream: streamLabel,
+              });
+              const block = (title: string, items: string[]) =>
+                items.length > 0 && (
+                  <div className="ocv-why-block">
+                    <span>{title}</span>
+                    <ul>
+                      {items.map((item, index) => (
+                        <li key={index}>{inline(item)}</li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              return (
+                <section className="ocv-offer-highlight ocv-face is-back" aria-hidden={!flipped}>
+                  <span className="ocv-offer-kicker">
+                    <Sparkles size={13} /> Why this offer
+                    <em className="ocv-flip-hint">Back to the offer ↻</em>
+                  </span>
+                  {r.goal && <p className="ocv-why-goal">{inline(r.goal)}</p>}
+                  <div className="ocv-why-grid">
+                    {block('The reasoning', r.why)}
+                    {block('Why here, why now', r.fit)}
+                    {block('The logic', r.logic)}
+                    {block('What to watch', r.watch)}
+                  </div>
+                </section>
+              );
+            })()}
+            </div>
           </header>
 
           {/* Anniversary offers are played, not just read: the wheel, the ticket and the nine
