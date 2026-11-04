@@ -57,7 +57,7 @@ import OfferRevenueSummary from './OfferRevenueSummary';
 import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type PlanData } from './usePlanData';
-import { offerDetails } from '../../lib/offerSummary';
+import { offerDescription, offerDetails } from '../../lib/offerSummary';
 import { hasValidForecast, forecastRevenue } from '../../lib/forecast';
 import { groupOffersByCategory } from '../../lib/offerCategory';
 import {
@@ -1464,8 +1464,22 @@ export default function MonthWorkspace({
             {page === 'overview' && (
               <MonthOverview
                 month={month}
-                chapter={chapter}
-                theme={displayTheme}
+                chapter={{
+                  ...chapter,
+                  // The lede is the month's own filed job; the shipped plan's only when nothing is picked.
+                  objective: String(form.objective || row.objective || (selected.length ? '' : chapter.objective)),
+                  // The brief names this month's live offers, never the shipped plan's.
+                  briefPoints: selected.map((o: any) => ({
+                    name: String(o.name || o.title || 'Offer'),
+                    line: offerDescription(o),
+                  })),
+                }}
+                theme={
+                  // The headline is the month's saved theme; failing that, the live offers lead.
+                  importedPlan || !(isLegacyTheme(form.theme, month) || isLegacyTheme(row.theme, month))
+                    ? form.theme || row.theme || selected.map((o: any) => o.name).filter(Boolean).join(' · ') || chapter.theme
+                    : selected.map((o: any) => o.name).filter(Boolean).join(' · ') || chapter.theme
+                }
                 studioName={studio.name}
                 roomAngle={locationPlaybook(studio.name).theme}
                 story={story}
