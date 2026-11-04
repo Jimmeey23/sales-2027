@@ -10459,3 +10459,8 @@ details.membership-terms > summary {
   color: var(--muted);
   line-height: 1.45;
 }
+.mw-brief-rule {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--muted);
+}

@@ -1847,7 +1847,7 @@ export default function MonthWorkspace({
                         <div>
                           <dt>Collateral</dt>
                           <dd>
-                            {inline(String(collateral.title))}
+                            {String(collateral.title)}
                             {pieces.length ? ` · ${pieces.length} piece${pieces.length === 1 ? '' : 's'}` : ''}
                           </dd>
                         </div>
@@ -1855,33 +1855,11 @@ export default function MonthWorkspace({
                       {crm?.rule || sends.length ? (
                         <div>
                           <dt>CRM</dt>
-                          <dd>
-                            {sends.length ? `${sends.length} send${sends.length === 1 ? '' : 's'}` : 'No sends'}
-                            {crm?.rule ? ` · ${inline(String(crm.rule))}` : ''}
-                          </dd>
+                          <dd>{sends.length ? `${sends.length} send${sends.length === 1 ? '' : 's'}` : 'No sends'}</dd>
                         </div>
                       ) : null}
                     </dl>
-                    {pieces.length > 0 && (
-                      <ul className="mw-brief-pieces">
-                        {pieces.slice(0, 6).map((piece: any, index: number) => (
-                          <li key={`${piece?.offerId || index}`}>
-                            <b>{inline(String(piece?.headline || piece?.offerId || 'Piece'))}</b>
-                            {piece?.detail ? <em>{inline(String(piece.detail))}</em> : null}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    {sends.length > 0 && (
-                      <ul className="mw-brief-pieces mw-brief-sends">
-                        {sends.slice(0, 6).map((send: any, index: number) => (
-                          <li key={`${send?.offerId || index}`}>
-                            <b>{inline(String(send?.audience || send?.offerId || 'Audience'))}</b>
-                            {send?.message ? <em>{inline(String(send.message))}</em> : null}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {crm?.rule ? <p className="mw-brief-rule">{String(crm.rule)}</p> : null}
                   </div>
                 );
               })()}
