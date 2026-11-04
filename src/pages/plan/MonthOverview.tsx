@@ -98,6 +98,8 @@ export default function MonthOverview({
   photo,
   status,
   onOpenOffers,
+  offerList = [],
+  job = '',
 }: {
   month: number;
   chapter: MonthChapter;
@@ -119,6 +121,10 @@ export default function MonthOverview({
   photo: { url: string; pos: string };
   status: 'approved' | 'locked' | 'proposed';
   onOpenOffers?: () => void;
+  /** The offers actually selected for this month, in plan order. */
+  offerList?: Array<{ name: string; line: string; revenue: number; stream: string }>;
+  /** The month's commercial job, as saved on the plan. */
+  job?: string;
 }) {
   const reduce =
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
@@ -129,6 +135,20 @@ export default function MonthOverview({
   }, []);
 
   const yoy = lastYear ? target / lastYear - 1 : null;
+  // The overview is written from this month's own record: its theme, the offers actually
+  // selected and the target — not the shipped plan's copy, which an import may have replaced.
+  const share = target > 0 ? Math.round((offerRevenue / target) * 100) : 0;
+  const rest = Math.max(0, target - offerRevenue);
+  const lede = target
+    ? `${offerList.length || offers} offer${(offerList.length || offers) === 1 ? '' : 's'} built to deliver ${lakh(target)} this month${
+        yoy !== null ? ` (${yoy >= 0 ? '+' : ''}${Math.round(yoy * 100)}% on last year)` : ''
+      }. ${
+        forecastedOffers
+          ? `The offers are forecast to bring in ${lakh(offerRevenue)} (${share}% of the target); the remaining ${lakh(rest)} comes from full-price renewals, packs and walk-ins.`
+          : 'Offer forecasts are still to be set.'
+      }`
+    : chapter.objective;
+  const jobLine = String(job || '').replace(/\s+/g, ' ').trim();
   const coverage = target > 0 ? (offerRevenue / target) * 100 : 0;
   const coveragePct = Math.min(100, Math.max(0, (renewalCoverage ?? 0) * 100));
   const total = streams.reduce((sum, s) => sum + Math.max(0, s.value), 0) || 1;
@@ -158,7 +178,7 @@ export default function MonthOverview({
               </em>
             </span>
             <h1>{theme}</h1>
-            <p className="mo2-lede">{chapter.objective}</p>
+            <p className="mo2-lede">{lede}</p>
             <div className="mo2-hero-figures">
               <div>
                 <span>Revenue target</span>
@@ -189,7 +209,20 @@ export default function MonthOverview({
       <div className="mo2-body">
         <div className="mo2-brief">
           <span className="mo2-label">The brief</span>
-          {chapter.briefPoints.length ? (
+          {jobLine && <p className="mo2-job">{jobLine}</p>}
+          {offerList.length ? (
+            <ul className="mo2-points is-brief">
+              {offerList.map((point, i) => (
+                <li key={i}>
+                  <b>
+                    {point.name}
+                    {point.revenue > 0 && <em className="mo2-point-rev">{lakh(point.revenue)}</em>}
+                  </b>
+                  {point.line ? <span>{point.line}</span> : null}
+                </li>
+              ))}
+            </ul>
+          ) : chapter.briefPoints.length ? (
             <ul className="mo2-points is-brief">
               {chapter.briefPoints.map((point, i) => (
                 <li key={i}>
@@ -326,7 +359,7 @@ export default function MonthOverview({
             <span className="mo2-label">
               <Sparkles size={12} /> The move
             </span>
-            <p>{chapter.signature}</p>
+            <p>{offerList.length ? offerList.map(o => o.name).join(' · ') : chapter.signature}</p>
           </article>
           <article className="is-room">
             <span className="mo2-label">
