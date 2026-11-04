@@ -24,6 +24,8 @@ import {
   buildSingleSends,
   dayKey,
   fmtDay,
+  PHASE_LABEL,
+  type CommsPhase,
   type CollateralCustomChannel,
   type CommsChannel,
 } from '../lib/commsPlan';
@@ -329,36 +331,66 @@ function CommsCalendar({
               </button>
             )}
           </div>
-          <ol>
-            {list.map(group => (
-              <li key={group.key}>
-                <div className="crm-sched-date">
-                  <b>{group.date.getDate()}</b>
-                  <span>{MONTHS[group.date.getMonth()].slice(0, 3)}</span>
-                </div>
-                <div className="crm-sched-sends">
-                  {group.sends.map(send => (
-                    <article key={send.key} className={`crm-send is-${send.channel}`}>
-                      <span className="crm-send-top">
-                        <i className="crm-send-ch">
-                          {CHANNEL_ICON[send.channel]}
-                          {CHANNEL_NAME[send.channel]}
-                        </i>
-                        <b>{send.label}</b>
-                        {send.audience && <em>{send.audience}</em>}
-                      </span>
-                      <span className="crm-send-offers">
-                        {send.names.map((name, index) => (
-                          <b key={`${send.key}-${index}`}>{name}</b>
-                        ))}
-                      </span>
-                      {send.note && send.names.length > 1 && <span className="crm-send-note">{send.note}</span>}
-                    </article>
-                  ))}
-                </div>
-              </li>
-            ))}
-          </ol>
+          <div className="crm-phases">
+            {(['prep', 'launch', 'nudge', 'close'] as CommsPhase[]).map(phase => {
+              const inPhase = list.filter(group => (group.sends[0]?.phase || 'launch') === phase);
+              if (!inPhase.length) return null;
+              const count = inPhase.reduce((sum, group) => sum + group.sends.length, 0);
+              return (
+                <section key={phase} className={`crm-phase is-${phase}`}>
+                  <header className="crm-phase-head">
+                    <i aria-hidden="true" />
+                    <div>
+                      <b>{PHASE_LABEL[phase].title}</b>
+                      <span>{PHASE_LABEL[phase].hint}</span>
+                    </div>
+                    <em>
+                      {count} {count === 1 ? 'send' : 'sends'}
+                    </em>
+                  </header>
+                  <ol>
+                    {inPhase.map(group => (
+                      <li key={group.key}>
+                        <div className="crm-sched-date">
+                          <b>{group.date.getDate()}</b>
+                          <span>{MONTHS[group.date.getMonth()].slice(0, 3)}</span>
+                          <small>{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][group.date.getDay()]}</small>
+                        </div>
+                        <div className="crm-sched-sends">
+                          {group.sends.map(send => (
+                            <article key={send.key} className={`crm-send is-${send.channel}`}>
+                              <span className="crm-send-top">
+                                <i className="crm-send-ch">
+                                  {CHANNEL_ICON[send.channel]}
+                                  {CHANNEL_NAME[send.channel]}
+                                </i>
+                                <b>{send.label}</b>
+                                {send.audience && <em>{send.audience}</em>}
+                                {send.time && <time>{send.time}</time>}
+                              </span>
+                              {send.goal && <p className="crm-send-goal">{send.goal}</p>}
+                              {send.message && (
+                                <details className="crm-send-msg">
+                                  <summary>Draft message</summary>
+                                  <p>{send.message}</p>
+                                </details>
+                              )}
+                              <span className="crm-send-offers">
+                                {send.names.map((name, index) => (
+                                  <b key={`${send.key}-${index}`}>{name}</b>
+                                ))}
+                              </span>
+                              {send.note && <span className="crm-send-note">{send.note}</span>}
+                            </article>
+                          ))}
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -368,7 +400,7 @@ function CommsCalendar({
           same audience
         </span>
         <span>
-          Leads: WhatsApp −{leads.whatsapp}d · email −{leads.email}d · print −{leads.tent}d · reminder 48h before close
+          Leads: WhatsApp −{leads.whatsapp}d · email −{leads.email}d · print −{leads.tent}d · nudge day 12 · follow-up day 16 · last call 48h before close
         </span>
       </footer>
     </section>

@@ -369,72 +369,41 @@
   color: var(--oc-ink);
   overflow-wrap: anywhere;
 }
-.mw .oc.is-v3 .ocv-offer-groups {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px 22px;
-  min-width: 0;
+.mw .oc.is-v3 .ocv-offer-highlight {
+  gap: 14px;
+  padding: 20px 24px;
 }
-.mw .oc.is-v3 .ocv-offer-group {
-  display: grid;
-  align-content: start;
-  gap: 8px;
-  min-width: 0;
+.mw .oc.is-v3 .ocv-offer-kicker {
+  font-size: 12px;
+  letter-spacing: 0.06em;
 }
-.mw .oc.is-v3 .ocv-offer-group-label {
-  font-size: 9.5px;
-  font-weight: 650;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
+.mw .oc.is-v3 .ocv-brief {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.6;
 }
-.mw .oc.is-v3 .ocv-terms,
 .mw .oc.is-v3 .ocv-inclusions {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   margin: 0;
-  padding: 0;
+  padding: 16px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--oc-accent) 16%, var(--oc-line));
   list-style: none;
-}
-.mw .oc.is-v3 .ocv-terms > li {
-  position: relative;
-  padding-left: 18px;
-  font-size: 14.5px;
-  font-weight: 620;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: var(--oc-ink);
-  overflow-wrap: anywhere;
-}
-.mw .oc.is-v3 .ocv-terms > li::before {
-  content: '';
-  position: absolute;
-  left: 2px;
-  top: 0.55em;
-  width: 7px;
-  height: 7px;
-  border-radius: 2px;
-  transform: rotate(45deg);
-  background: var(--oc-accent);
 }
 .mw .oc.is-v3 .ocv-inclusions > li {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 10px;
   min-width: 0;
-  font-size: 12.8px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--ink-soft);
   overflow-wrap: anywhere;
 }
 .mw .oc.is-v3 .ocv-inclusions > li > svg {
   flex: none;
-  margin-top: 3px;
-  padding: 2px;
-  box-sizing: content-box;
-  border-radius: 50%;
+  margin-top: 4px;
   color: var(--oc-accent);
-  background: color-mix(in srgb, var(--oc-accent) 12%, transparent);
 }
 
 /* ── Financial hierarchy: one decisive figure, two supporting figures ───── */

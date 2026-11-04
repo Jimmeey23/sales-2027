@@ -259,8 +259,6 @@ export interface OfferHighlights {
   /** The actual price/terms from the offer, not its marketing headline. */
   terms: string;
   inclusions: string[];
-  /** The terms broken into short clauses, one per bullet. */
-  termPoints: string[];
 }
 
 /* "Then any pack at 15% off; 10% until day 14." → two clean clauses, capitalised. */
@@ -291,5 +289,5 @@ export function offerHighlights(offer: any): OfferHighlights {
   const included = includedKey && fields ? fields[includedKey] : [];
   const items = Array.isArray(included) ? included : typeof included === 'string' ? included.split(/\n+/) : [included];
   const inclusions = [...new Set(items.map(asText).filter(text => text && text !== terms))];
-  return { terms, inclusions, termPoints: splitPoints(terms) };
+  return { terms, inclusions };
 }

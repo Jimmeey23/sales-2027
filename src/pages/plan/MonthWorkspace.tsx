@@ -1315,6 +1315,30 @@ export default function MonthWorkspace({
   const challenge = local.find(a => a.Format?.toLowerCase().includes('challenge'));
   const event = local.find(a => !a.Format?.toLowerCase().includes('challenge'));
   const fieldProps = { disabled: !editable };
+  // Ticking a step off is progress, not editing: anyone who can edit plans can mark it, even
+  // once the plan is approved. When the page is read-only only the actions list is saved.
+  const [collapsedWeeks, setCollapsedWeeks] = useState<number[]>([]);
+  const toggleWeek = (week: number) =>
+    setCollapsedWeeks(list => (list.includes(week) ? list.filter(w => w !== week) : [...list, week]));
+  // The editing passcode hides pencils, not progress: ticking only needs the plan permission.
+  const canTick = boot.user.permissions.includes('target_edit') && !!studio?.id;
+  const toggleDone = async (index: number, done: boolean) => {
+    if (!canTick) return;
+    const next = form.actions.map((x, j) => (j === index ? { ...x, done } : x));
+    set({ actions: next });
+    if (editable) return;
+    try {
+      await api(`/studio-plans/${studio.id}/${year}/${month}`, {
+        method: 'PUT',
+        body: JSON.stringify({ actions: next.filter(a => String(a.text || '').trim()) }),
+      });
+      skipReset.current = true;
+      await onSaved();
+    } catch (e: any) {
+      set({ actions: form.actions });
+      toast(e.message || 'Could not save the step.', 'error');
+    }
+  };
   const coverage = econ?.renewal.coverage ?? null;
   const coverStreams = [
     { key: 'newClient', label: 'New clients', value: n(form.streams.newClient) },
@@ -3568,7 +3592,10 @@ export default function MonthWorkspace({
                                 <i style={{ width: `${Math.min(100, (r.offer / scale) * 100)}%` }} />
                                 <b style={{ left: `${Math.min(100, (r.target / scale) * 100)}%` }} title="Target" />
                               </span>
-                              <span className={`mw-gp-state ${state}`}>
+                              <span
+                                className={`mw-gp-state ${state}`}
+                                style={{ ['--p' as string]: Math.min(100, Math.round(ratio * 100)) } as React.CSSProperties}
+                              >
                                 {Math.round(ratio * 100)}%
                                 {state === 'short' ? (
                                   <em>{lakh(r.gap)} short</em>
@@ -3831,114 +3858,131 @@ export default function MonthWorkspace({
                           <ol className="mp-track">
                             {phases.map((phase, gi) => {
                               const phaseDone = phase.items.filter(e => e.action.done).length;
+                              const open = !collapsedWeeks.includes(phase.week);
+                              const complete = phase.items.length > 0 && phaseDone === phase.items.length;
+                              const pct = phase.items.length ? Math.round((phaseDone / phase.items.length) * 100) : 0;
+                              const editing = sectionEditable('actions');
                               return (
                                 <li
                                   key={phase.week}
-                                  className={`mp-phase${phase.items.length ? ' has-steps' : ' is-empty'}`}
-                                  style={{ '--i': gi } as React.CSSProperties}
+                                  className={`mp-phase${phase.items.length ? ' has-steps' : ' is-empty'}${open ? ' is-open' : ' is-closed'}${complete ? ' is-complete' : ''}`}
+                                  style={{ '--i': gi, '--pct': `${pct}%` } as React.CSSProperties}
                                 >
-                                  <div className="mp-phase-rail" aria-hidden="true">
-                                    <span>
-                                      <i>W</i>
-                                      {String(phase.week).padStart(2, '0')}
+                                  <button
+                                    type="button"
+                                    className="mp-phase-toggle"
+                                    aria-expanded={open}
+                                    onClick={() => toggleWeek(phase.week)}
+                                  >
+                                    <span className="mp-phase-badge">
+                                      <small>Week</small>
+                                      <b>{String(phase.week).padStart(2, '0')}</b>
                                     </span>
-                                    {phase.range && <em>{phase.range}</em>}
-                                  </div>
-                                  <div className="mp-phase-body">
-                                    <header className="mp-phase-head">
-                                      <div>
-                                        <h5>{phase.label}</h5>
-                                        <p>{phase.hint}</p>
-                                      </div>
-                                      <span
-                                        className={`mp-phase-count${phaseDone === phase.items.length && phase.items.length ? ' is-done' : ''}`}
-                                      >
-                                        {phase.items.length ? `${phaseDone}/${phase.items.length}` : '—'}
-                                      </span>
-                                    </header>
+                                    <span className="mp-phase-title">
+                                      <strong>{phase.label}</strong>
+                                      <em>
+                                        {phase.range ? `${MONTHS[month - 1].slice(0, 3)} ${phase.range} · ` : ''}
+                                        {phase.hint}
+                                      </em>
+                                    </span>
+                                    <span className="mp-phase-progress" aria-hidden="true">
+                                      <i />
+                                    </span>
+                                    <span className={`mp-phase-count${complete ? ' is-done' : ''}`}>
+                                      {complete ? <Check size={12} /> : null}
+                                      {phase.items.length ? `${phaseDone}/${phase.items.length}` : '—'}
+                                    </span>
+                                    <ChevronDown size={16} className="mp-phase-chev" aria-hidden="true" />
+                                  </button>
 
-                                    {phase.items.length > 0 && (
-                                      <div className="mp-steps">
-                                        {phase.items.map(({ action, index }) => (
-                                          <div key={index} className={`mp-step${action.done ? ' is-done' : ''}`}>
-                                            <label className="mp-step-check">
-                                              <input
-                                                type="checkbox"
-                                                checked={action.done}
-                                                aria-label={`Mark “${action.text || 'step'}” done`}
-                                                onChange={e => patchAt(index, { done: e.target.checked })}
-                                                {...fieldProps}
-                                              />
-                                              <i aria-hidden="true">
-                                                <Check size={11} />
-                                              </i>
-                                            </label>
-                                            <div className="mp-step-body">
-                                              <input
-                                                className="mp-step-text"
-                                                value={action.text}
-                                                placeholder="What happens"
-                                                aria-label={`Step ${index + 1}`}
-                                                onChange={e => patchAt(index, { text: e.target.value })}
-                                                {...fieldProps}
-                                              />
-                                              <div className="mp-step-meta">
+                                  {open && (
+                                    <div className="mp-phase-body">
+                                      {phase.items.length > 0 && (
+                                        <ul className="mp-steps">
+                                          {phase.items.map(({ action, index }) => (
+                                            <li key={index} className={`mp-step${action.done ? ' is-done' : ''}`}>
+                                              <label className="mp-step-check">
                                                 <input
-                                                  className="mp-step-owner"
-                                                  value={action.owner}
-                                                  placeholder="Owner"
-                                                  aria-label={`Owner for step ${index + 1}`}
-                                                  onChange={e => patchAt(index, { owner: e.target.value })}
-                                                  {...fieldProps}
+                                                  type="checkbox"
+                                                  checked={action.done}
+                                                  aria-label={`Mark “${action.text || 'step'}” done`}
+                                                  onChange={e => toggleDone(index, e.target.checked)}
+                                                  disabled={!canTick}
                                                 />
-                                                <select
-                                                  value={action.week}
-                                                  aria-label={`Week for step ${index + 1}`}
-                                                  onChange={e => patchAt(index, { week: n(e.target.value) })}
-                                                  {...fieldProps}
-                                                >
-                                                  {[1, 2, 3, 4, 5].map(w => (
-                                                    <option key={w} value={w}>
-                                                      Week {w}
-                                                    </option>
-                                                  ))}
-                                                </select>
+                                                <i aria-hidden="true">
+                                                  <Check size={12} strokeWidth={3} />
+                                                </i>
+                                              </label>
+                                              <div className="mp-step-body">
+                                                {editing ? (
+                                                  <>
+                                                    <input
+                                                      className="mp-step-text"
+                                                      value={action.text}
+                                                      placeholder="What happens"
+                                                      aria-label={`Step ${index + 1}`}
+                                                      onChange={e => patchAt(index, { text: e.target.value })}
+                                                      {...fieldProps}
+                                                    />
+                                                    <div className="mp-step-meta">
+                                                      <input
+                                                        className="mp-step-owner"
+                                                        value={action.owner}
+                                                        placeholder="Owner"
+                                                        aria-label={`Owner for step ${index + 1}`}
+                                                        onChange={e => patchAt(index, { owner: e.target.value })}
+                                                        {...fieldProps}
+                                                      />
+                                                      <select
+                                                        value={action.week}
+                                                        aria-label={`Week for step ${index + 1}`}
+                                                        onChange={e => patchAt(index, { week: n(e.target.value) })}
+                                                        {...fieldProps}
+                                                      >
+                                                        {[1, 2, 3, 4, 5].map(w => (
+                                                          <option key={w} value={w}>
+                                                            Week {w}
+                                                          </option>
+                                                        ))}
+                                                      </select>
+                                                    </div>
+                                                  </>
+                                                ) : (
+                                                  <span className="mp-step-read" onClick={() => canTick && toggleDone(index, !action.done)}>
+                                                    {action.text ? inline(action.text) : <em>Untitled step</em>}
+                                                  </span>
+                                                )}
                                               </div>
-                                            </div>
-                                            {sectionEditable('actions') && (
-                                              <button
-                                                type="button"
-                                                className="mp-step-del"
-                                                aria-label="Remove step"
-                                                onClick={() =>
-                                                  set({ actions: form.actions.filter((_, j) => j !== index) })
-                                                }
-                                              >
-                                                <Trash2 size={13} />
-                                              </button>
-                                            )}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    )}
-
-                                    {sectionEditable('actions') && (
-                                      <button
-                                        type="button"
-                                        className="mp-phase-add"
-                                        onClick={() =>
-                                          set({
-                                            actions: [
-                                              ...form.actions,
-                                              { text: '', owner: '', week: phase.week, done: false },
-                                            ],
-                                          })
-                                        }
-                                      >
-                                        <Plus size={11} /> Add a step to week {phase.week}
-                                      </button>
-                                    )}
-                                  </div>
+                                              {!editing && action.owner && <span className="mp-step-owner-pill">{action.owner}</span>}
+                                              {editing && (
+                                                <button
+                                                  type="button"
+                                                  className="mp-step-del"
+                                                  aria-label="Remove step"
+                                                  onClick={() => set({ actions: form.actions.filter((_, j) => j !== index) })}
+                                                >
+                                                  <Trash2 size={13} />
+                                                </button>
+                                              )}
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      )}
+                                      {editing && (
+                                        <button
+                                          type="button"
+                                          className="mp-phase-add"
+                                          onClick={() =>
+                                            set({
+                                              actions: [...form.actions, { text: '', owner: '', week: phase.week, done: false }],
+                                            })
+                                          }
+                                        >
+                                          <Plus size={11} /> Add a step to week {phase.week}
+                                        </button>
+                                      )}
+                                    </div>
+                                  )}
                                 </li>
                               );
                             })}
@@ -5358,31 +5402,17 @@ function OfferCard({
               <span className="ocv-offer-kicker">
                 <Gift size={13} /> The offer
               </span>
-              <div className="ocv-offer-groups">
-                <div className="ocv-offer-group is-terms">
-                  <span className="ocv-offer-group-label">What they pay</span>
-                  <ul className="ocv-terms">
-                    {(highlights.termPoints.length ? highlights.termPoints : [highlights.terms]).map((point, index) => (
-                      <li key={index}>
-                        <span>{inline(point)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {highlights.inclusions.length > 0 && (
-                  <div className="ocv-offer-group">
-                    <span className="ocv-offer-group-label">What they get</span>
-                    <ul className="ocv-inclusions">
-                      {highlights.inclusions.flatMap(inclusion => splitPoints(inclusion)).map((inclusion, index) => (
-                        <li key={index}>
-                          <Check size={13} aria-hidden="true" />
-                          <span>{inline(inclusion)}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
+              <p className="ocv-brief">{inline(highlights.terms)}</p>
+              {highlights.inclusions.length > 0 && (
+                <ul className="ocv-inclusions">
+                  {highlights.inclusions.flatMap(inclusion => splitPoints(inclusion)).map((inclusion, index) => (
+                    <li key={index}>
+                      <Check size={14} aria-hidden="true" />
+                      <span>{inline(inclusion)}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </section>
           </header>
 

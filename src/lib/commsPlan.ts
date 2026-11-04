@@ -29,6 +29,110 @@ export interface CommsSend {
   names: string[];
   ids: number[];
   note?: string;
+  /** Send time, local — when the audience actually reads it. */
+  time?: string;
+  /** What this send has to achieve. */
+  goal?: string;
+  /** The draft message, ready to adapt. */
+  message?: string;
+  /** Where the send sits in the month's arc. */
+  phase?: CommsPhase;
+}
+
+export type CommsPhase = 'prep' | 'launch' | 'nudge' | 'close';
+
+export const PHASE_LABEL: Record<CommsPhase, { title: string; hint: string }> = {
+  prep: { title: 'Prep & tease', hint: 'Print, templates and early-access sends before the month opens' },
+  launch: { title: 'Launch week', hint: 'Offers go live — the biggest send of the month' },
+  nudge: { title: 'Mid-month nudge', hint: 'Follow up with everyone who opened but has not bought' },
+  close: { title: 'Close', hint: 'Deadline reminders and the last call' },
+};
+
+export function phaseOf(date: Date, year: number, month: number): CommsPhase {
+  const start = new Date(year, month - 1, 1);
+  if (date < start) return 'prep';
+  const d = date.getMonth() === month - 1 ? date.getDate() : 31;
+  if (d <= 7) return 'launch';
+  if (d <= 21) return 'nudge';
+  return 'close';
+}
+
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+const list = (names: string[]) =>
+  names.length <= 1 ? names[0] || 'this month’s offer' : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+
+/* The copy is a draft for the team to adapt — short, one ask, one deadline. */
+function draft(kind: string, slot: string | null, names: string[], month: number): { goal: string; message: string; time: string } {
+  const m = MONTH_NAMES[month - 1];
+  const lead = names[0] || 'this month’s offer';
+  const offers = list(names);
+  const who =
+    slot === 'lapsed' ? 'we’ve missed you' : slot === 'renewal' ? 'thank you for training with us' : 'welcome to Physique 57';
+  switch (kind) {
+    case 'wa-launch':
+      return {
+        time: '10:30 am',
+        goal: slot === 'renewal' ? 'Book renewal conversations before expiry' : 'Drive the first bookings of the month',
+        message:
+          slot === 'lapsed'
+            ? `Hi {first_name}, ${who}. ${m} is the month to come back — ${lead} is open now. Reply YES and we’ll hold your first class.`
+            : slot === 'renewal'
+              ? `Hi {first_name}, ${who}. Your membership is up soon — renew in ${m} with ${lead}. Reply RENEW and the desk will set it up.`
+              : `Hi {first_name}, ${who}! ${m} starts with ${lead}. Your first class is on us — reply BOOK to pick a time.`,
+      };
+    case 'wa-tease':
+      return {
+        time: '7:00 pm',
+        goal:
+          slot === 'renewal'
+            ? 'Let members know renewal terms before anyone else'
+            : slot === 'lapsed'
+              ? 'Re-open the conversation before the offer goes live'
+              : 'Build a waitlist before day 1',
+        message: `Hi {first_name}, a first look at ${m}: ${lead}${names.length > 1 ? ` and ${names.length - 1} more` : ''} go live on the 1st. Reply EARLY and we’ll hold a spot for you before it opens.`,
+      };
+    case 'wa-nudge':
+      return {
+        time: '6:30 pm',
+        goal: 'Convert people who opened the launch but have not booked',
+        message: `Hi {first_name}, quick one — ${offers} ${names.length > 1 ? 'are' : 'is'} still open, and spots this week are filling. Want us to save you one?`,
+      };
+    case 'wa-last':
+      return {
+        time: '11:00 am',
+        goal: 'Create urgency 48 hours before the offers close',
+        message: `Last call, {first_name}: ${lead} closes on ${m}’s last day. Reply now and the desk will lock in your price.`,
+      };
+    case 'em-launch':
+      return {
+        time: '8:00 am',
+        goal:
+          slot === 'renewal'
+            ? 'Show members exactly what renewing in this month gets them'
+            : slot === 'lapsed'
+              ? 'Give past clients one clear reason to come back'
+              : 'Explain every new-client offer in full, with prices and terms',
+        message: `Subject: ${m} at Physique 57 — ${lead}${names.length > 1 ? ` + ${names.length - 1} more` : ''}\n\nOne email, every offer: ${offers}. Each with what you get, what you pay and how long it runs. One button: book at the desk or online.`,
+      };
+    case 'em-follow':
+      return {
+        time: '8:00 am',
+        goal: 'Social proof for anyone still deciding',
+        message: `Subject: What ${m} looks like so far\n\nA member story, the class most booked this month, and a reminder that ${lead} runs until month end.`,
+      };
+    case 'tent':
+      return {
+        time: 'Order by 12 pm',
+        goal: 'Cards on every desk and mirror by day 1',
+        message: `Print order for ${names.length} card${names.length === 1 ? '' : 's'}: ${offers}. QR to the booking link on the back.`,
+      };
+    default:
+      return { time: '', goal: '', message: '' };
+  }
 }
 
 export interface CommsLeadDays {
@@ -104,12 +208,35 @@ export function buildCommsSends(
       sends.push({
         key: `wa-${slot}`,
         channel: 'whatsapp',
-        label: 'Launch broadcast',
+        label: 'Early-access teaser',
         date: due(Math.min(...group.map(o => leads.whatsapp))),
         audience: audience(slot),
         names,
         ids,
+        note: 'first look before the month opens',
+        ...draft('wa-tease', slot, names, month),
+      });
+      sends.push({
+        key: `wa-launch-${slot}`,
+        channel: 'whatsapp',
+        label: 'Launch broadcast',
+        date: new Date(year, month - 1, 1),
+        audience: audience(slot),
+        names,
+        ids,
         note: names.length > 1 ? `one broadcast · ${names.length} offers` : 'one broadcast',
+        ...draft('wa-launch', slot, names, month),
+      });
+      sends.push({
+        key: `wa-nudge-${slot}`,
+        channel: 'whatsapp',
+        label: 'Mid-month nudge',
+        date: new Date(year, month - 1, 12),
+        audience: audience(slot),
+        names,
+        ids,
+        note: 'to everyone who opened but has not bought',
+        ...draft('wa-nudge', slot, names, month),
       });
       sends.push({
         key: `wa-rem-${slot}`,
@@ -120,6 +247,7 @@ export function buildCommsSends(
         names,
         ids,
         note: names.length > 1 ? `one reminder · ${names.length} offers` : 'one reminder',
+        ...draft('wa-last', slot, names, month),
       });
     }
     if (!hidden.includes('email')) {
@@ -132,6 +260,18 @@ export function buildCommsSends(
         names,
         ids,
         note: names.length > 1 ? `one email · ${names.length} offers` : 'one email',
+        ...draft('em-launch', slot, names, month),
+      });
+      sends.push({
+        key: `em-follow-${slot}`,
+        channel: 'email',
+        label: 'Follow-up email',
+        date: new Date(year, month - 1, 16),
+        audience: audience(slot),
+        names,
+        ids,
+        note: 'skips anyone who already bought',
+        ...draft('em-follow', slot, names, month),
       });
     }
   }
@@ -148,6 +288,7 @@ export function buildCommsSends(
       names: offers.map(o => o.name).filter(Boolean),
       ids: offers.map(o => Number(o.id)),
       note: `one print order · ${offers.length} card${offers.length === 1 ? '' : 's'}`,
+      ...draft('tent', null, offers.map(o => o.name).filter(Boolean), month),
     });
   }
 
@@ -167,12 +308,13 @@ export function buildCommsSends(
   }
 
   sends.sort((a, b) => a.date.getTime() - b.date.getTime() || a.label.localeCompare(b.label));
+  for (const send of sends) send.phase = phaseOf(send.date, year, month);
 
   // What the month would cost without the rule: every offer its own broadcast, its own
   // email, its own card and its own reminder.
   const wa = hidden.includes('whatsapp') ? 0 : 1;
   const channels = wa + (hidden.includes('email') ? 0 : 1) + (hidden.includes('tent') ? 0 : 1);
-  const naive = offers.length * (channels + wa) + custom.filter(c => !hidden.includes(c.id)).length;
+  const naive = offers.length * (channels + wa * 3 + (hidden.includes('email') ? 0 : 1)) + custom.filter(c => !hidden.includes(c.id)).length;
   return { sends, groups: groupByDay(sends), naive: Math.max(naive, sends.length) };
 }
 
@@ -194,7 +336,7 @@ export function buildSingleSends(
         key: `wa-${offer.id}`,
         channel: 'whatsapp',
         label: 'Launch broadcast',
-        date: due(leads.whatsapp),
+        date: new Date(year, month - 1, 1),
         audience,
         names,
         ids,
@@ -210,6 +352,8 @@ export function buildSingleSends(
         ids,
         note: 'one reminder',
       });
+      sends.push({ key: `wa-tease-${offer.id}`, channel: 'whatsapp', label: 'Early-access teaser', date: due(leads.whatsapp), audience, names, ids, note: 'one teaser' });
+      sends.push({ key: `wa-nudge-${offer.id}`, channel: 'whatsapp', label: 'Mid-month nudge', date: new Date(year, month - 1, 12), audience, names, ids, note: 'one nudge' });
     }
     if (!hidden.includes('email'))
       sends.push({
@@ -222,6 +366,8 @@ export function buildSingleSends(
         ids,
         note: 'one email',
       });
+    if (!hidden.includes('email'))
+      sends.push({ key: `em-follow-${offer.id}`, channel: 'email', label: 'Follow-up email', date: new Date(year, month - 1, 16), audience, names, ids, note: 'one email' });
     if (!hidden.includes('tent'))
       sends.push({
         key: `te-${offer.id}`,

@@ -1,0 +1,506 @@
+/* ═══ Execution — the run of the month ══════════════════════════════════════
+   A dashboard header, a week ribbon, then one collapsible card per week with
+   real checkboxes. Scoped to the execution page; loaded last. */
+
+.mw .mw-main.is-page-execution {
+  --ex-line: var(--line, rgba(26, 23, 16, 0.1));
+  --ex-card: var(--paper, #fff);
+  --ex-soft: color-mix(in srgb, var(--paper-warm, #f7f3ec) 70%, var(--paper, #fff));
+  --ex-ink: var(--ink-900, #1a1710);
+  --ex-sub: var(--muted, #7a746a);
+  --ex-accent: var(--red, #d9352b);
+  --ex-ok: #2f8a5b;
+}
+
+.mw .mw-main.is-page-execution .mp-run {
+  display: grid;
+  gap: 16px;
+}
+
+/* Header: summary left, four figures, completion meter full width. */
+.mw .mw-main.is-page-execution .mp-run-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px 24px;
+  margin: 0;
+  padding: 22px 24px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(125deg, var(--ex-ink), color-mix(in srgb, var(--ex-ink) 78%, var(--ex-accent)));
+  color: #fff;
+}
+.mw .mw-main.is-page-execution .mp-run-kicker {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+.mw .mw-main.is-page-execution .mp-run-summary strong {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.mw .mw-main.is-page-execution .mp-run-figures {
+  display: flex;
+  gap: 8px;
+}
+.mw .mw-main.is-page-execution .mp-run-figures > span {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 76px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.mw .mw-main.is-page-execution .mp-run-figures b {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  color: #fff;
+}
+.mw .mw-main.is-page-execution .mp-run-figures small {
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+.mw .mw-main.is-page-execution .mp-run-meter {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 8px;
+  margin: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: visible;
+}
+.mw .mw-main.is-page-execution .mp-run-meter > i {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #7fd3a6, var(--ex-ok));
+  transition: width 0.4s ease;
+}
+.mw .mw-main.is-page-execution .mp-run-meter > em {
+  position: absolute;
+  right: 0;
+  top: -22px;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Week ribbon: five equal tiles with a fill bar. */
+.mw .mw-main.is-page-execution .mp-ribbon {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mw .mw-main.is-page-execution .mp-ribbon > li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'w em small' 'bar bar bar';
+  align-items: center;
+  gap: 8px 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--ex-line);
+  border-radius: 12px;
+  background: var(--ex-card);
+}
+.mw .mw-main.is-page-execution .mp-ribbon > li.is-empty {
+  opacity: 0.55;
+}
+.mw .mw-main.is-page-execution .mp-ribbon > li > span {
+  grid-area: w;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ex-ink);
+}
+.mw .mw-main.is-page-execution .mp-ribbon > li > em {
+  grid-area: em;
+  font-size: 10.5px;
+  font-style: normal;
+  color: var(--ex-sub);
+}
+.mw .mw-main.is-page-execution .mp-ribbon > li > small {
+  grid-area: small;
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--ex-ink);
+}
+.mw .mw-main.is-page-execution .mp-ribbon > li > i {
+  grid-area: bar;
+  position: relative;
+  display: block;
+  height: 5px;
+  border-radius: 5px;
+  background: var(--ex-line);
+  overflow: hidden;
+}
+.mw .mw-main.is-page-execution .mp-ribbon > li > i > b {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--fill, 0%);
+  border-radius: 5px;
+  background: var(--ex-ok);
+}
+
+/* Key dates strip. */
+.mw .mw-main.is-page-execution .mp-run-calendar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px dashed var(--ex-line);
+  border-radius: 12px;
+  background: var(--ex-soft);
+}
+.mw .mw-main.is-page-execution .mp-run-calendar-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ex-sub);
+}
+.mw .mw-main.is-page-execution .mp-run-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mw .mw-main.is-page-execution .mp-run-dates > span {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--ex-line);
+  border-radius: 999px;
+  background: var(--ex-card);
+  font-size: 11.5px;
+  color: var(--ex-sub);
+}
+.mw .mw-main.is-page-execution .mp-run-dates b {
+  color: var(--ex-ink);
+}
+
+/* ── Week cards ─────────────────────────────────────────────────────────── */
+.mw .mw-main.is-page-execution .mp-track {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mw .mw-main.is-page-execution .mp-track::before,
+.mw .mw-main.is-page-execution .mp-phase::before,
+.mw .mw-main.is-page-execution .mp-phase::after {
+  display: none;
+}
+.mw .mw-main.is-page-execution .mp-phase {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--ex-line);
+  border-radius: 14px;
+  background: var(--ex-card);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.mw .mw-main.is-page-execution .mp-phase.is-open {
+  box-shadow: 0 8px 24px -18px rgba(26, 23, 16, 0.4);
+}
+.mw .mw-main.is-page-execution .mp-phase.is-complete {
+  border-color: color-mix(in srgb, var(--ex-ok) 35%, var(--ex-line));
+}
+.mw .mw-main.is-page-execution .mp-phase-toggle {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 120px auto 20px;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin: 0;
+  padding: 14px 18px;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+.mw .mw-main.is-page-execution .mp-phase-toggle:hover {
+  background: var(--ex-soft);
+}
+.mw .mw-main.is-page-execution .mp-phase-toggle:focus-visible {
+  outline: 2px solid var(--ex-accent);
+  outline-offset: -2px;
+}
+.mw .mw-main.is-page-execution .mp-phase-badge {
+  display: grid;
+  justify-items: center;
+  padding: 6px 0;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--ex-accent) 8%, transparent);
+  color: var(--ex-accent);
+  line-height: 1;
+}
+.mw .mw-main.is-page-execution .mp-phase.is-complete .mp-phase-badge {
+  background: color-mix(in srgb, var(--ex-ok) 12%, transparent);
+  color: var(--ex-ok);
+}
+.mw .mw-main.is-page-execution .mp-phase-badge small {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.mw .mw-main.is-page-execution .mp-phase-badge b {
+  margin-top: 3px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+}
+.mw .mw-main.is-page-execution .mp-phase-title {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.mw .mw-main.is-page-execution .mp-phase-title strong {
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--ex-ink);
+}
+.mw .mw-main.is-page-execution .mp-phase-title em {
+  overflow: hidden;
+  font-size: 12px;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ex-sub);
+}
+.mw .mw-main.is-page-execution .mp-phase-progress {
+  display: block;
+  height: 6px;
+  border-radius: 6px;
+  background: var(--ex-line);
+  overflow: hidden;
+}
+.mw .mw-main.is-page-execution .mp-phase-progress > i {
+  display: block;
+  width: var(--pct, 0%);
+  height: 100%;
+  border-radius: 6px;
+  background: var(--ex-ok);
+  transition: width 0.35s ease;
+}
+.mw .mw-main.is-page-execution .mp-phase-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 48px;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ex-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ex-ink);
+}
+.mw .mw-main.is-page-execution .mp-phase-count.is-done {
+  background: var(--ex-ok);
+  color: #fff;
+}
+.mw .mw-main.is-page-execution .mp-phase-chev {
+  color: var(--ex-sub);
+  transition: transform 0.2s ease;
+}
+.mw .mw-main.is-page-execution .mp-phase.is-open .mp-phase-chev {
+  transform: rotate(180deg);
+}
+
+.mw .mw-main.is-page-execution .mp-phase-body {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 4px 18px 16px;
+  border-top: 1px solid var(--ex-line);
+}
+.mw .mw-main.is-page-execution .mp-steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mw .mw-main.is-page-execution .mp-step {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  padding: 12px 0 12px 72px;
+  border: 0;
+  border-bottom: 1px solid var(--ex-line);
+  border-radius: 0;
+  background: none;
+}
+.mw .mw-main.is-page-execution .mp-step:last-child {
+  border-bottom: 0;
+}
+
+/* The checkbox: a real input, drawn as a rounded square that fills on check. */
+.mw .mw-main.is-page-execution .mp-step-check {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  cursor: pointer;
+}
+.mw .mw-main.is-page-execution .mp-step-check input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.mw .mw-main.is-page-execution .mp-step-check input:disabled {
+  cursor: not-allowed;
+}
+.mw .mw-main.is-page-execution .mp-step-check > i {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid color-mix(in srgb, var(--ex-ink) 30%, transparent);
+  border-radius: 7px;
+  background: var(--ex-card);
+  color: transparent;
+  pointer-events: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+.mw .mw-main.is-page-execution .mp-step-check:hover > i {
+  border-color: var(--ex-ok);
+}
+.mw .mw-main.is-page-execution .mp-step-check input:focus-visible + i {
+  outline: 2px solid var(--ex-ok);
+  outline-offset: 2px;
+}
+.mw .mw-main.is-page-execution .mp-step-check input:checked + i {
+  border-color: var(--ex-ok);
+  background: var(--ex-ok);
+  color: #fff;
+  transform: scale(1.04);
+}
+.mw .mw-main.is-page-execution .mp-step-body {
+  min-width: 0;
+}
+.mw .mw-main.is-page-execution .mp-step-read {
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ex-ink);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.mw .mw-main.is-page-execution .mp-step.is-done .mp-step-read {
+  color: var(--ex-sub);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--ex-sub) 60%, transparent);
+}
+.mw .mw-main.is-page-execution .mp-step-owner-pill {
+  padding: 3px 10px;
+  border: 1px solid var(--ex-line);
+  border-radius: 999px;
+  background: var(--ex-soft);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ex-sub);
+}
+.mw .mw-main.is-page-execution .mp-step-text {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--ex-line);
+  border-radius: 8px;
+  background: var(--ex-card);
+  font: inherit;
+  font-size: 13.5px;
+}
+.mw .mw-main.is-page-execution .mp-step-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.mw .mw-main.is-page-execution .mp-step-meta input,
+.mw .mw-main.is-page-execution .mp-step-meta select {
+  padding: 4px 8px;
+  border: 1px solid var(--ex-line);
+  border-radius: 8px;
+  background: var(--ex-card);
+  font: inherit;
+  font-size: 12px;
+}
+.mw .mw-main.is-page-execution .mp-phase-add {
+  justify-self: start;
+  margin-left: 72px;
+  padding: 6px 12px;
+  border: 1px dashed var(--ex-line);
+  border-radius: 999px;
+  background: none;
+  font-size: 12px;
+  color: var(--ex-sub);
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .mw .mw-main.is-page-execution .mp-run-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw .mw-main.is-page-execution .mp-run-figures {
+    flex-wrap: wrap;
+  }
+  .mw .mw-main.is-page-execution .mp-ribbon {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .mw .mw-main.is-page-execution .mp-phase-toggle {
+    grid-template-columns: 48px minmax(0, 1fr) auto 18px;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+  .mw .mw-main.is-page-execution .mp-phase-progress {
+    display: none;
+  }
+  .mw .mw-main.is-page-execution .mp-step {
+    padding-left: 0;
+    grid-template-columns: 22px minmax(0, 1fr) auto;
+  }
+  .mw .mw-main.is-page-execution .mp-step-owner-pill {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .mw .mw-main.is-page-execution .mp-phase-add {
+    margin-left: 0;
+  }
+}
+.mw .mw-main.is-page-execution .mp-run-meter {
+  margin-right: 52px;
+}
+.mw .mw-main.is-page-execution .mp-run-meter > em {
+  top: 50%;
+  right: -52px;
+  transform: translateY(-50%);
+}

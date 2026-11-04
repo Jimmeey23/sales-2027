@@ -1,0 +1,260 @@
+/* ═══ CRM calendar — outreach plan ═══════════════════════════════════════════
+   Calendar left (sticky), run sheet right grouped into the month's four phases:
+   prep, launch, nudge, close. Each send carries its time, goal and draft copy. */
+
+.mw .col-section .col-crm {
+  border: 1px solid var(--line, #e6ebee);
+  border-radius: 16px;
+  background: var(--paper, #fff);
+  box-shadow: 0 10px 30px -24px rgba(26, 23, 16, 0.4);
+}
+.mw .col-section .col-crm-head {
+  padding: 20px 22px 18px;
+  background: linear-gradient(125deg, #1a1710, #3a1f1a);
+  color: #fff;
+  border-bottom: 0;
+}
+.mw .col-section .col-crm-head small {
+  color: rgba(255, 255, 255, 0.6);
+}
+.mw .col-section .col-crm-head h5 {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+}
+.mw .col-section .col-crm-head p {
+  color: rgba(255, 255, 255, 0.72);
+}
+.mw .col-section .col-crm-head .crm-mode {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: transparent;
+}
+.mw .col-section .col-crm-head .crm-mode button {
+  color: rgba(255, 255, 255, 0.75);
+}
+.mw .col-section .col-crm-head .crm-mode button.is-on {
+  background: #fff;
+  color: #1a1710;
+}
+.mw .col-section .col-crm-head .col-crm-stats dt {
+  color: rgba(255, 255, 255, 0.55);
+}
+.mw .col-section .col-crm-head .col-crm-stats dd,
+.mw .col-section .col-crm-head .col-crm-stats dd em {
+  color: #fff;
+}
+
+.mw .col-section .col-crm-body {
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+  gap: 18px;
+  padding: 18px;
+  background: color-mix(in srgb, var(--paper-warm, #f7f3ec) 55%, var(--paper, #fff));
+}
+.mw .col-section .crm-cal {
+  position: sticky;
+  top: 12px;
+  padding: 14px;
+  border-radius: 14px;
+}
+.mw .col-section .crm-sched {
+  border: 0;
+  background: none;
+  overflow: visible;
+}
+.mw .col-section .crm-sched-head {
+  padding: 0 2px 10px;
+  border: 0;
+  background: none;
+}
+
+/* Phases */
+.mw .col-section .crm-phases {
+  display: grid;
+  gap: 14px;
+}
+.mw .col-section .crm-phase {
+  --ph: #8a7a5c;
+  border: 1px solid var(--line, #e6ebee);
+  border-radius: 14px;
+  background: var(--paper, #fff);
+  overflow: hidden;
+}
+.mw .col-section .crm-phase.is-prep { --ph: #8a7a5c; }
+.mw .col-section .crm-phase.is-launch { --ph: #d9352b; }
+.mw .col-section .crm-phase.is-nudge { --ph: #c47a1c; }
+.mw .col-section .crm-phase.is-close { --ph: #2f8a5b; }
+.mw .col-section .crm-phase-head {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line, #e6ebee);
+  background: color-mix(in srgb, var(--ph) 6%, var(--paper, #fff));
+}
+.mw .col-section .crm-phase-head > i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ph);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ph) 18%, transparent);
+}
+.mw .col-section .crm-phase-head b {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-900, #1a1710);
+}
+.mw .col-section .crm-phase-head span {
+  display: block;
+  font-size: 11.5px;
+  color: var(--muted, #7a746a);
+}
+.mw .col-section .crm-phase-head em {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--paper, #fff);
+  border: 1px solid var(--line, #e6ebee);
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ph);
+}
+.mw .col-section .crm-phase ol {
+  max-height: none;
+  margin: 0;
+  padding: 4px 16px;
+  list-style: none;
+  overflow: visible;
+}
+.mw .col-section .crm-phase ol > li {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line, #e6ebee);
+}
+.mw .col-section .crm-phase ol > li:first-child {
+  border-top: 0;
+}
+.mw .col-section .crm-sched-date {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 1px;
+  padding: 8px 0;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--ph) 8%, transparent);
+}
+.mw .col-section .crm-sched-date b {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1;
+  color: var(--ph);
+}
+.mw .col-section .crm-sched-date span,
+.mw .col-section .crm-sched-date small {
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted, #7a746a);
+}
+.mw .col-section .crm-sched-sends {
+  display: grid;
+  gap: 8px;
+}
+.mw .col-section .crm-send {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+.mw .col-section .crm-send-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+.mw .col-section .crm-send-top > time {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--paper, #fff);
+  border: 1px solid var(--line, #e6ebee);
+  font-size: 10.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-900, #1a1710);
+}
+.mw .col-section .crm-send-goal {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-soft, #3b362d);
+}
+.mw .col-section .crm-send-goal::before {
+  content: 'Goal · ';
+  font-weight: 700;
+  color: var(--muted, #7a746a);
+}
+.mw .col-section .crm-send-msg {
+  border-radius: 8px;
+}
+.mw .col-section .crm-send-msg summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--ph, #8a7a5c);
+  cursor: pointer;
+  list-style: none;
+}
+.mw .col-section .crm-send-msg summary::-webkit-details-marker {
+  display: none;
+}
+.mw .col-section .crm-send-msg summary::before {
+  content: '▸';
+  transition: transform 0.15s;
+}
+.mw .col-section .crm-send-msg[open] summary::before {
+  transform: rotate(90deg);
+}
+.mw .col-section .crm-send-msg p {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border-radius: 4px 12px 12px 12px;
+  background: var(--paper, #fff);
+  border: 1px solid var(--line, #e6ebee);
+  font-size: 12.5px;
+  line-height: 1.6;
+  white-space: pre-line;
+  color: var(--ink-900, #1a1710);
+}
+.mw .col-section .crm-send.is-whatsapp .crm-send-msg p {
+  background: #e7f7ec;
+  border-color: #cdebd6;
+}
+
+@media (max-width: 1100px) {
+  .mw .col-section .col-crm-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mw .col-section .crm-cal {
+    position: static;
+  }
+}
+.mw .col-section .col-crm {
+  overflow: visible;
+}
+.mw .col-section .col-crm-head {
+  border-radius: 16px 16px 0 0;
+}
+.mw .col-section .col-crm-foot {
+  border-radius: 0 0 16px 16px;
+}
+.mw .col-section .crm-cal {
+  top: 64px;
+}
