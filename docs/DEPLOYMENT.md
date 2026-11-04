@@ -160,3 +160,23 @@ The application is fully usable for internal planning, approvals, imports, calcu
   `npm run history:publish` so Vercel sees them. Imports made on the Vercel site itself are not kept.
 - Required env var: `DATABASE_URL` (Supabase pooler URI, password URL-encoded). The function switches
   to the transaction pooler (port 6543) automatically. `DATABASE_PATH` is ignored on Vercel.
+
+### Sales-plan and offer import sizes
+
+Sales-plan and offer imports (including their previews) accept up to **25 MiB of decoded
+JSON request data**, including the source document and import options. The browser measures
+UTF-8 bytes, checks selected files before reading them, and gzips requests of 256 KiB or more
+when browser compression is available. Both preview and commit use the same transport; a
+whole plan is never silently split into partial imports.
+
+The browser also enforces a **4 MiB upload limit**, leaving headroom below Vercel's function
+request cap. Unusually incompressible documents must be split into smaller imports even if
+they are below the decoded limit. Browsers without compression can still send requests up to
+4 MiB; larger requests explain how to proceed instead of sending a doomed upload.
+
+The API inflates `Content-Encoding: gzip` and applies the 25 MiB limit **after** decompression
+on `POST /api/plan/import` and `POST /api/offers/import` only. Other JSON endpoints keep their
+3 MiB limit. Existing permissions, offer row-count limits, validation, and dry-run semantics
+are unchanged. API integrations can also gzip import requests; do not remove the content
+encoding header in a reverse proxy. These limits are separate from the operational-history
+file uploads and local history-publishing workflow above.

@@ -2335,7 +2335,7 @@
   .mw .mw-main[class*='is-page-'] {
     padding: 14px 14px 30px;
   }
-  .mw .mw-main[class*='is-page-'] > .mw-section > :not(.mw-sh),
+  .mw .mw-main[class*='is-page-'] > .mw-section > :not(.mw-sh, .mw-offers-board),
   .mw .mw-main[class*='is-page-'] > .mw-days > :not(.mw-sh) {
     margin-right: 18px !important;
     margin-left: 18px !important;
@@ -2375,10 +2375,21 @@
     border-left: 0;
     border-top: 1px solid rgba(26, 23, 16, 0.07);
   }
-  .mw .mw-main.is-page-execution .mp-run,
-  .mw .mw-main.is-page-offers .mw-offers-board {
+  .mw .mw-main.is-page-execution .mp-run {
     padding-right: 18px;
     padding-left: 18px;
+  }
+  /* A card gets the reading column's full width on a phone, not three layers
+     of nested page, board and list gutters. */
+  .mw .mw-main.is-page-offers .mw-offer-list {
+    padding: 16px 0 0;
+  }
+  .mw .mw-main.is-page-offers .mw-rev-check {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
   }
   .mw .mw-main.is-page-offers .mw-copilot,
   .mw .mw-main.is-page-offers .mw-editor {
