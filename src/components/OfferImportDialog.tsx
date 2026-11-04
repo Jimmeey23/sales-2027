@@ -12,7 +12,8 @@ import {
   Upload,
   X,
 } from 'lucide-react';
-import { api } from '../api';
+import { postImport, readImportFile } from '../lib/importRequest';
+import { IMPORT_REQUEST_LIMIT_LABEL } from '../lib/importLimits';
 import { useApp } from '../App';
 import { MONTHS } from '../types';
 
@@ -187,7 +188,7 @@ export default function OfferImportDialog({
     setBusy(true);
     setError(null);
     try {
-      const result = await api('/offers/import', { method: 'POST', body: JSON.stringify(body(dryRun)) });
+      const result = await postImport('/offers/import', body(dryRun));
       if (dryRun) {
         setPreview(result);
         // Stacked (tablet and phone), the preview sits below the form; bring it into view
@@ -212,16 +213,17 @@ export default function OfferImportDialog({
     await run(true);
   };
 
-  const chooseFile = (file: File | null) => {
+  const chooseFile = async (file: File | null) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      setText(String(reader.result || ''));
-      setPreview(null);
-      setDone(null);
-      setLeftOut({});
-    };
-    reader.readAsText(file);
+    setPreview(null);
+    setDone(null);
+    setLeftOut({});
+    setError(null);
+    try {
+      setText(await readImportFile(file));
+    } catch (err: any) {
+      setError(err?.message || 'That file could not be read.');
+    }
   };
 
   const looksLikeCsv = useMemo(() => {
@@ -418,7 +420,10 @@ export default function OfferImportDialog({
                     type="file"
                     accept="application/json,.json,.csv,.tsv,text/csv,text/plain"
                     hidden
-                    onChange={e => chooseFile(e.target.files?.[0] || null)}
+                    onChange={e => {
+                      void chooseFile(e.target.files?.[0] || null);
+                      e.target.value = '';
+                    }}
                   />
                 </div>
               </div>
@@ -432,7 +437,7 @@ export default function OfferImportDialog({
                 onDrop={e => {
                   e.preventDefault();
                   setDragging(false);
-                  chooseFile(e.dataTransfer?.files?.[0] || null);
+                  void chooseFile(e.dataTransfer?.files?.[0] || null);
                 }}
               >
                 <textarea
@@ -467,6 +472,9 @@ export default function OfferImportDialog({
                     {looksLikeCsv ? ' from the table' : ' from JSON'}
                   </>
                 )}
+              </span>
+              <span className="pex-hint">
+                Up to {IMPORT_REQUEST_LIMIT_LABEL} before compression · large imports compress automatically.
               </span>
             </div>
 

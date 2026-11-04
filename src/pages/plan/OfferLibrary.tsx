@@ -11,6 +11,13 @@ import {
 } from 'lucide-react';
 import { MONTHS } from '../../types';
 import { lakh } from './usePlanData';
+import {
+  groupOffersByCategory,
+  offerCategory,
+  OFFER_CATEGORIES,
+  OFFER_CATEGORY_LABELS,
+  type OfferCategory,
+} from '../../lib/offerCategory';
 
 /* The offer library: every other offer this location could run, docked beside the month's
    own cards so adding one is a single decision rather than a round trip through a drawer.
@@ -38,7 +45,7 @@ export interface LibraryOffer {
   provenance?: { pricing?: { product?: string | null } | null } | null;
 }
 
-type Scope = 'all' | 'newcomer' | 'lapsed' | 'renewal';
+type Scope = 'all' | OfferCategory;
 type Sort = 'relevant' | 'revenue' | 'ticket' | 'name';
 
 const num = (v: unknown) => {
@@ -49,9 +56,7 @@ const titleCase = (v: string) => v.replace(/_/g, ' ').replace(/\b\w/g, c => c.to
 
 const SCOPE_LABELS: Array<[Scope, string]> = [
   ['all', 'All'],
-  ['newcomer', 'Newcomer'],
-  ['lapsed', 'Winback'],
-  ['renewal', 'Renewal'],
+  ...OFFER_CATEGORIES.map(({ key, label }): [Scope, string] => [key, label]),
 ];
 
 const SORTS: Array<[Sort, string]> = [
@@ -130,19 +135,7 @@ export default function OfferLibrary({
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     const list = offers.filter(o => {
-      if (
-        scope === 'newcomer' &&
-        o.plan_slot !== 'newcomer' &&
-        !['acquisition', 'trial_conversion', 'new_client', 'referral'].includes(o.objective || '')
-      )
-        return false;
-      if (scope === 'lapsed' && o.plan_slot !== 'lapsed' && o.objective !== 'reactivation') return false;
-      if (
-        scope === 'renewal' &&
-        o.plan_slot !== 'renewal' &&
-        !['retention', 'annual_membership', 'additional_purchase', 'aov'].includes(o.objective || '')
-      )
-        return false;
+      if (scope !== 'all' && offerCategory(o) !== scope) return false;
       if (alternatesOnly && !alternateFor(o, month)) return false;
       if (bigOnly && num(o.expected_revenue) < 500000) return false;
       if (!q) return true;
@@ -156,24 +149,9 @@ export default function OfferLibrary({
     return list;
   }, [offers, query, scope, sort, alternatesOnly, bigOnly, alternateFor, month]);
 
-  /* Grouped by the membership the offer prices against, in the order the price list runs —
-     the same shape the studio thinks in when it asks "what else can I sell on a 3-month?". */
-  const groups = useMemo(() => {
-    const map = new Map<string, LibraryOffer[]>();
-    for (const o of filtered) {
-      const key = membershipKey(o);
-      const label = key ? labels[key] || key : 'Other offers';
-      const list = map.get(label) || [];
-      list.push(o);
-      map.set(label, list);
-    }
-    const order = Object.values(labels);
-    return [...map.entries()].sort((a, b) => {
-      const ia = order.indexOf(a[0]);
-      const ib = order.indexOf(b[0]);
-      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
-    });
-  }, [filtered, labels]);
+  // The same exclusive categories as the month cards. Membership remains visible
+  // on each offer, and the selected sort is preserved inside its category.
+  const groups = useMemo(() => groupOffersByCategory(filtered), [filtered]);
 
   const reset = () => {
     setQuery('');
@@ -217,7 +195,7 @@ export default function OfferLibrary({
           )}
         </div>
 
-        <div className="olib-scopes" role="group" aria-label="Audience">
+        <div className="olib-scopes" role="group" aria-label="Offer category">
           {SCOPE_LABELS.map(([id, label]) => (
             <button
               key={id}
@@ -317,21 +295,24 @@ export default function OfferLibrary({
           </p>
         )}
 
-        {groups.map(([group, list]) => (
-          <section key={group} className="olib-group">
+        {groups.map(group => (
+          <section
+            key={group.key}
+            className="olib-group"
+            data-offer-category={group.key}
+            aria-label={`${group.label} offers`}
+          >
             <h5>
-              {group}
-              <em>{list.length}</em>
+              {group.label}
+              <em>{group.offers.length}</em>
             </h5>
-            {list.map((o, idx) => {
+            {group.offers.map((o, idx) => {
               const approved = o.approval_status === 'approved';
               const open = openId === o.id;
               const photo = photoFor(o, idx);
-              const slotText = o.plan_slot
-                ? o.plan_slot === 'lapsed'
-                  ? 'Winback'
-                  : titleCase(o.plan_slot)
-                : 'Any audience';
+              const slotText = OFFER_CATEGORY_LABELS[offerCategory(o)];
+              const membership = membershipKey(o);
+              const membershipLabel = membership ? labels[membership] || membership : null;
               return (
                 <article
                   key={o.id}
@@ -352,6 +333,7 @@ export default function OfferLibrary({
                       <span className="olib-copy">
                         <span className="olib-tags">
                           {slotText}
+                          {membershipLabel && <span className="olib-membership"> · {membershipLabel}</span>}
                           {approved && <b>Approved</b>}
                           {isRecommended(o, month) && <b className="is-rec">Recommended</b>}
                         </span>

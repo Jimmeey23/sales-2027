@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { offerDescription, offerSummary } from '../src/lib/offerSummary';
+import { offerDescription, offerSummary, offerHighlights } from '../src/lib/offerSummary';
 
 /* An offer's description has one job: say what is being sold, what the client gets, and what
    the offer is for — in words a studio manager can repeat to a client. These tests hold the
@@ -117,5 +117,50 @@ describe('offerDescription', () => {
   it('is the sentence, for callers that only need the line', () => {
     const offer = { benefit: '1M unlimited (15% off list).', objective: 'reactivation' };
     expect(offerDescription(offer)).toBe(offerSummary(offer).sentence);
+  });
+});
+
+describe('highlighted offer details', () => {
+  it('leads with the exact written price, not the marketing headline or the average ticket', () => {
+    const highlights = offerHighlights({
+      headline: 'Seven days. Then decide.',
+      expected_asp: 22778,
+      benefit: 'A less detailed benefit',
+      provenance: {
+        fields: {
+          'You pay': ['₹2,000 for the 7-day unlimited intro; credited in full on a purchase within 72 hours.'],
+          'You get': ['• Unlimited classes for 7 days', '• Standing 15% first-purchase perk'],
+        },
+      },
+    });
+    expect(highlights.terms).toBe(
+      '₹2,000 for the 7-day unlimited intro; credited in full on a purchase within 72 hours.',
+    );
+    expect(highlights.inclusions).toEqual(['Unlimited classes for 7 days', 'Standing 15% first-purchase perk']);
+    expect(highlights.terms).not.toContain('22,778');
+  });
+  it('keeps long conditions and all inclusions visible without truncating them', () => {
+    const terms =
+      `1-month unlimited at the campaign price. ${'A qualifying purchase must follow the written campaign rules. '.repeat(8)}`.trim();
+    const inclusions = Array.from({ length: 7 }, (_, i) => `Included benefit ${i + 1}`);
+    const offer = { benefit: terms, provenance: { fields: { 'You get': inclusions } } };
+    const before = structuredClone(offer);
+    expect(offerHighlights(offer)).toEqual({ terms, inclusions });
+    expect(offer).toEqual(before);
+  });
+  it('supports older benefits, case-insensitive fields and multiline perks without repeating exact duplicates', () => {
+    expect(offerHighlights({ benefit: '3-month unlimited at 15% off.' }).terms).toBe('3-month unlimited at 15% off.');
+    expect(
+      offerHighlights({
+        fields: { 'you pay': 'At list price', 'You get': '• Seven extra days\n• Seven extra days\n• Two freezes' },
+      }),
+    ).toEqual({ terms: 'At list price', inclusions: ['Seven extra days', 'Two freezes'] });
+  });
+  it('uses structured mechanics or a derived description when explicit terms are missing', () => {
+    expect(offerHighlights({ mechanics: { summary: 'Buy 3 classes for the price of 2.' } }).terms).toBe(
+      'Buy 3 classes for the price of 2.',
+    );
+    expect(offerHighlights({}).terms).toBeTruthy();
+    expect(offerHighlights({ benefit: { unknown: 'value' } }).terms).not.toContain('[object Object]');
   });
 });

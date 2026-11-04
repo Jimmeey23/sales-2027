@@ -1,1707 +1,1117 @@
-/* Sales Plan · month workspace offer cards.
-   Modelled on the studio's premium offer card: a deep-navy photo hero that carries the
-   offer number, month lockup, title, tagline and plain-language brief; then a six-figure
-   stats bar, a WHO / WHEN / HOW strip, a soft details panel with the approval control and
-   terms, and a three-column "why it works" close. Colour comes only from the selected
-   location's accent so cards belong to the studio's plan. */
+/* Month plan · photo-led offer cards.
+   Identity lives on the photograph; evidence lives on a quiet, readable sheet.
+   All layout queries are named so the offer library and the two-up board cannot
+   accidentally become a card's responsive breakpoint. */
 
-.mw .oc {
-  --oc-accent: var(--a1, #245e56);
-  --oc-highlight: color-mix(in srgb, var(--oc-accent) 26%, #3886b2);
-  --oc-navy: #0c171d;
-  --oc-line: #e6ecef;
-  --oc-line-soft: #eff2f4;
-  --oc-ink: #101d24;
-  --oc-muted: #6b7b85;
-  --oc-panel: #f5f6f7;
+.mw .oc.is-v3 {
+  --oc-accent: var(--a1, var(--gold-deep));
+  --oc-ink: var(--ink-900);
+  --oc-muted: var(--muted);
+  --oc-line: color-mix(in srgb, var(--line) 72%, var(--paper));
+  --oc-surface: color-mix(in srgb, var(--canvas) 58%, var(--paper));
+  --oc-pad: 22px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 0;
+  min-width: 0;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  container-type: inline-size;
-  border: 0;
+  container: offer-card / inline-size;
+  border: 1px solid var(--oc-line);
   border-radius: 22px;
-  background: #fff;
+  background: var(--paper);
+  color: var(--oc-ink);
   box-shadow:
-    0 1px 2px rgba(22, 20, 14, 0.06),
-    0 16px 30px -20px rgba(22, 20, 14, 0.28),
-    0 34px 64px -50px rgba(22, 20, 14, 0.5);
-  transition:
-    box-shadow 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.mw .oc:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 2px 5px rgba(22, 20, 14, 0.08),
-    0 28px 44px -20px rgba(22, 20, 14, 0.34),
-    0 56px 90px -52px rgba(22, 20, 14, 0.58);
-}
-.mw .oc.is-approved {
-  box-shadow:
-    0 0 0 1px rgba(31, 138, 95, 0.42),
-    0 16px 30px -20px rgba(13, 68, 46, 0.26),
-    0 34px 64px -50px rgba(13, 68, 46, 0.46);
-}
-
-/* ── Hero ─────────────────────────────────────────────────────────────────── */
-.mw .oc-hero {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 18px;
-  min-height: 232px;
-  padding: 16px 20px 15px;
-  cursor: pointer;
-  overflow: hidden;
-  isolation: isolate;
-  background: var(--oc-navy);
-}
-.mw .oc-hero-image {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-color: var(--oc-navy);
-  background-repeat: no-repeat;
-  background-size: cover;
-  filter: saturate(1.02) contrast(1.03);
-  transform: scale(1.015);
-  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.mw .oc:hover .oc-hero-image {
-  transform: scale(1.055);
-}
-/* A soft highlight travels across the photograph on hover. */
-.mw .oc-hero::after {
-  content: '';
-  position: absolute;
-  inset: -30% -60%;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    100deg,
-    transparent 38%,
-    rgba(255, 255, 255, 0.13) 48%,
-    rgba(255, 255, 255, 0.03) 55%,
-    transparent 62%
-  );
-  transform: translateX(-38%);
-  opacity: 0;
-  transition:
-    transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    opacity 320ms ease;
-}
-.mw .oc:hover .oc-hero::after {
-  transform: translateX(38%);
+    0 2px 4px -2px rgb(32 27 18 / 5%),
+    0 12px 30px -22px rgb(32 27 18 / 18%);
+  cursor: default;
+  transform: none;
+  filter: none;
   opacity: 1;
-}
-
-/* Navy on the left for the copy, photograph clear on the right, dark at the foot for the chips. */
-.mw .oc-hero-scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-      96deg,
-      rgba(16, 15, 10, 0.95) 0%,
-      rgba(16, 15, 10, 0.88) 30%,
-      rgba(16, 15, 10, 0.44) 60%,
-      rgba(16, 15, 10, 0.06) 84%,
-      rgba(16, 15, 10, 0.18) 100%
-    ),
-    linear-gradient(180deg, rgba(14, 13, 9, 0.54) 0%, rgba(14, 13, 9, 0.02) 32%, rgba(5, 12, 20, 0.86) 100%);
-}
-
-.mw .oc-hero-top {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  min-height: 34px;
-}
-.mw .oc-num-badge {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  color: #ffffff;
-  backdrop-filter: blur(6px);
   transition:
-    background-color 220ms ease,
-    border-color 220ms ease;
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
 }
-.mw .oc:hover .oc-num-badge {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.55);
+.mw .oc.is-v3::before,
+.mw .oc.is-v3::after {
+  display: none;
 }
-.mw .oc.is-approved .oc-num-badge {
-  border-color: rgba(150, 232, 194, 0.6);
-  color: #f2f7f5;
+.mw .oc.is-v3.is-approved {
+  border-color: color-mix(in srgb, var(--green) 32%, var(--oc-line));
+  box-shadow:
+    0 2px 4px -2px rgb(32 27 18 / 5%),
+    0 12px 30px -22px rgb(32 27 18 / 18%);
 }
-
-.mw .oc-hero-bottom {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  min-width: 0;
+.mw .oc.is-v3:focus-within {
+  border-color: color-mix(in srgb, var(--oc-accent) 38%, var(--oc-line));
 }
-.mw .oc-headline {
-  min-width: 0;
+.mw .oc.is-v3 :is(button, textarea) {
+  font-family: var(--font-sans);
 }
-.mw .oc-hero-copy {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 0;
-  max-width: min(56ch, 100%);
-  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+.mw .oc.is-v3 :is(button, textarea):focus-visible {
+  outline: 2px solid var(--oc-accent);
+  outline-offset: 3px;
 }
-.mw .oc:hover .oc-hero-copy {
-  transform: translateY(-1px);
-}
-.mw .oc h3.oc-title {
-  margin: 0;
-  flex: 1 1 auto;
-  min-width: 0;
-  font-family: inherit;
-  font-size: clamp(25px, 3.4cqi, 34px);
-  font-weight: 760;
-  line-height: 1.05;
-  letter-spacing: -0.032em;
-  color: #ffffff;
-  text-shadow: 0 2px 24px rgba(4, 10, 18, 0.4);
-}
-.mw .oc-title-accent {
-  color: var(--oc-highlight);
-}
-.mw .oc .oc-job {
-  margin: 0;
-  max-width: 44ch;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  color: #ffffff;
-  text-shadow: 0 1px 16px rgba(4, 10, 18, 0.4);
-}
-.mw .oc .oc-brief {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  margin: 0;
-  max-width: 52ch;
-  font-size: 12.6px;
-  font-weight: 400;
-  line-height: 1.45;
-  color: rgba(219, 232, 243, 0.84);
-  text-shadow: 0 1px 14px rgba(4, 10, 18, 0.35);
-}
-
-/* Chips and controls ride together along the foot of the photograph. */
-/* Small glass chips along the foot of the hero. */
-.mw .oc-chips {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 7px;
-  min-width: 0;
-  margin: 0;
-  padding-top: 2px;
-}
-.mw .oc-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 26px;
-  padding: 0 12px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  background: rgba(22, 20, 14, 0.4);
-  color: #eff3f5;
-  font-size: 11px;
-  font-weight: 550;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  backdrop-filter: blur(10px) saturate(120%);
-}
-.mw .oc-chip svg {
-  flex: none;
-  color: rgba(233, 243, 250, 0.72);
-}
-.mw .oc-chip.is-slot {
-  border-color: rgba(255, 255, 255, 0.34);
-  background: rgba(255, 255, 255, 0.16);
-  color: #ffffff;
-  font-weight: 620;
-}
-.mw .oc-chip.is-stream {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.1);
-}
-.mw .oc-chip.is-linked {
-  border-color: rgba(150, 226, 188, 0.36);
-  background: rgba(21, 92, 65, 0.36);
-  color: #e4edea;
-}
-.mw .oc-chip.is-linked svg {
-  color: #bde9da;
-}
-.mw .oc-chip.is-solo {
-  border-color: rgba(246, 199, 112, 0.4);
-  background: rgba(104, 70, 16, 0.36);
-  color: #eedbcc;
-}
-.mw .oc-chip.is-solo svg {
-  color: #b26f38;
-}
-.mw .oc-chip.is-icon {
-  padding: 0 8px;
-}
-
-/* Controls float over the photograph, in the same glass language as the chips. */
-.mw .oc-toolbar {
-  position: static;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex: none;
-  margin-left: auto;
-}
-.mw .oc-toolbar .oc-icon-group {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  background: rgba(9, 18, 28, 0.5);
-  backdrop-filter: blur(10px) saturate(130%);
-}
-.mw .oc-toolbar .oc-icon-btn {
-  display: inline-grid;
-  place-items: center;
-  width: 25px;
-  height: 25px;
-  padding: 0;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.82);
-  cursor: pointer;
-  transition:
-    background-color 140ms ease,
-    color 140ms ease;
-}
-.mw .oc-toolbar .oc-icon-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.18);
-  color: #ffffff;
-}
-.mw .oc-toolbar .oc-icon-btn.ai {
-  color: var(--oc-highlight);
-}
-.mw .oc-toolbar .oc-icon-btn.danger:hover:not(:disabled) {
-  background: rgba(214, 88, 68, 0.36);
-  color: #f1eceb;
-}
-.mw .oc-toolbar .oc-icon-btn:disabled {
-  opacity: 0.38;
+.mw .oc.is-v3 button:disabled {
   cursor: not-allowed;
 }
 
-/* ── Sheet ────────────────────────────────────────────────────────────────── */
-.mw .oc-sheet {
-  position: relative;
-  z-index: 3;
+/* Each column owns a card and its alternatives. Single-offer streams and
+   open editors use the whole row; paired cards remain side by side. */
+.mw .mw-offer-list > .mw-offer-item {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  margin-top: 0;
-  padding: 0 20px 14px;
-  border-radius: 0;
-  background: #fff;
-  box-shadow: none;
+  gap: 12px;
+  min-width: 0;
 }
-.mw .oc-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  font-weight: 620;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #7d8d97;
+.mw .mw-offer-list.is-two-up > .mw-offer-item {
+  margin-bottom: 18px;
+}
+.mw .mw-offer-list.is-two-up > .mw-offer-item.is-wide {
+  grid-column: 1 / -1;
+}
+.mw .mw-offer-item > .oc.is-v3 {
+  flex: 1;
+}
+.mw .mw-offer-item .mw-offer-alts {
+  margin: 0;
+  border-left-color: var(--line-strong);
+}
+.mw .mw-offer-item .mw-offer-alt {
+  background: var(--paper-warm);
+}
+.mw .mw-offer-item .mw-alt-tag {
+  background: var(--canvas-deep);
+  color: var(--muted);
+}
+.mw .oc.is-v3 .ocv-shell {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
 }
 
-/* Six figures on one rail. Each tile is a softly raised surface with its icon set
-   apart, so the numbers read as designed objects rather than a flat table. */
-.mw .oc-stats {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0 -20px;
-  padding: 15px 20px 14px;
-  border-bottom: 1px solid var(--oc-line);
-  background: linear-gradient(180deg, #fcfcfc 0%, #ffffff 78%);
-}
-.mw .oc-stat {
+/* ── Masthead ───────────────────────────────────────────────────────────── */
+.mw .oc.is-v3 .ocv-plate {
   position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  justify-content: space-between;
+  gap: 36px;
+  min-height: 280px;
   min-width: 0;
-  padding: 10px 11px 9px;
-  border: 1px solid #eef2f4;
-  border-radius: 13px;
-  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
-  box-shadow:
-    0 1px 1px rgba(16, 32, 46, 0.03),
-    0 6px 14px -10px rgba(16, 32, 46, 0.18);
-  transition:
-    border-color 200ms ease,
-    box-shadow 200ms ease,
-    transform 200ms ease;
+  padding: 20px var(--oc-pad) 24px;
+  overflow: hidden;
+  background: var(--ink-800);
+  color: var(--paper);
 }
-.mw .oc:hover .oc-stat {
-  border-color: #e6ebee;
-  box-shadow:
-    0 1px 1px rgba(16, 32, 46, 0.04),
-    0 10px 20px -12px rgba(16, 32, 46, 0.26);
+.mw .oc.is-v3 .ocv-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: var(--photo-focus, center 32%);
+  transform: scale(1.015);
+  transition: transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.mw .oc-stat-label {
+.mw .oc.is-v3 .ocv-wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgb(12 16 18 / 36%), rgb(12 16 18 / 6%) 30%, rgb(12 16 18 / 88%) 100%),
+    linear-gradient(105deg, rgb(12 16 18 / 52%), rgb(12 16 18 / 8%) 85%);
+}
+.mw .oc.is-v3 .ocv-plate-top {
   display: flex;
   align-items: center;
-  gap: 5px;
-  order: 1;
-  overflow: hidden;
+  justify-content: space-between;
+  gap: 12px;
+}
+.mw .oc.is-v3 .ocv-index,
+.mw .oc.is-v3 .ocv-link {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 7px;
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 8px;
+  background: rgb(12 16 18 / 32%);
+  color: var(--paper);
+  backdrop-filter: blur(12px);
+}
+.mw .oc.is-v3 .ocv-index em {
   font-size: 9px;
-  font-weight: 650;
+  font-style: normal;
+  font-weight: 550;
+  line-height: 1;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #93a3ad;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  color: rgb(255 255 255 / 82%);
 }
-.mw .oc-stat-label svg {
-  flex: none;
-  padding: 2px;
-  width: 16px;
-  height: 16px;
-  box-sizing: border-box;
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--oc-accent) 8%, #f5f6f7);
-  color: color-mix(in srgb, var(--oc-accent) 48%, #8b9ba4);
-}
-.mw .oc-stat-value {
-  order: 2;
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
-  overflow: hidden;
-  font-size: 16.5px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  font-variant-numeric: tabular-nums;
-  color: var(--oc-ink);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.mw .oc-stat-value s {
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 0;
-  color: #9fafb8;
-}
-.mw .oc-stat-value em {
-  font-size: 10.5px;
-  font-style: normal;
-  font-weight: 550;
-  letter-spacing: 0;
-  color: #93a3ac;
-}
-.mw .oc-stat-value.is-muted {
-  font-size: 16.5px;
-  font-weight: 600;
-  color: #a7b5bd;
-}
-.mw .oc-stat-note {
-  order: 4;
-  overflow: hidden;
-  font-size: 9.8px;
-  line-height: 1.3;
-  color: #97a6af;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-/* WHO / WHEN / HOW */
-.mw .oc-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding: 13px 0;
-  border-bottom: 1px solid var(--oc-line);
-}
-.mw .oc-meta-item {
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
-  align-items: start;
-  gap: 7px;
-  min-width: 0;
-  padding: 0 16px;
-}
-.mw .oc-meta-item:nth-child(3n + 1) {
-  padding-left: 0;
-}
-.mw .oc-meta-item + .oc-meta-item {
-  border-left: 1px solid var(--oc-line-soft);
-}
-.mw .oc-meta-icon {
-  display: inline-grid;
-  place-items: center;
-  margin-top: 1px;
-  color: #8d9ea8;
-}
-.mw .oc-meta-item > div {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-.mw .oc-meta-item b {
-  font-size: 12.5px;
-  font-weight: 500;
-  line-height: 1.45;
-  color: #3b4952;
-}
-
-/* Details panel — soft blue, the approval control sits in its header. */
-.mw .oc-details {
-  flex: none;
-  margin: 14px 0 0;
-  padding: 13px 16px 13px;
-  border-radius: 14px;
-  background: var(--oc-panel);
-}
-.mw .oc-details-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.mw .oc-details-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  font-family: inherit;
-  font-size: 14.5px;
-  font-weight: 660;
-  letter-spacing: -0.015em;
-  color: #15232b;
-  cursor: pointer;
-}
-.mw .oc-details-toggle .oc-chevron {
-  color: #7c8d97;
-  transition: transform 180ms ease;
-}
-.mw .oc-details-toggle.is-open .oc-chevron {
-  transform: rotate(180deg);
-}
-.mw .oc .oc-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  /* The legacy unscoped `.oc-actions` rule dims this group to 55% until hover. */
-  opacity: 1;
-}
-.mw .oc .oc-actions .oc-check {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 34px;
-  padding: 0 16px;
-  border: 1px solid #182d38;
-  border-radius: 999px;
-  background: #182d38;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 12.5px;
-  font-weight: 620;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition:
-    background-color 150ms ease,
-    border-color 150ms ease;
-}
-.mw .oc .oc-actions .oc-check:hover:not(:disabled),
-.mw .oc .oc-actions .oc-check:focus-visible,
-.mw .oc .oc-actions .oc-check:active {
-  background: #213d4d;
-  border-color: #213d4d;
-  color: #ffffff;
-}
-.mw .oc .oc-actions .oc-check.is-on {
-  border-color: #22664e;
-  background: #22664e;
-  box-shadow: 0 2px 10px rgba(20, 122, 85, 0.24);
-}
-.mw .oc .oc-actions .oc-check.is-on:hover:not(:disabled),
-.mw .oc .oc-actions .oc-check.is-on:focus-visible {
-  background: #1c5440;
-  border-color: #1c5440;
-  color: #ffffff;
-}
-.mw .oc .oc-actions .oc-check.is-saving {
-  opacity: 0.72;
-  cursor: progress;
-}
-.mw .oc-status-approved {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 14px;
-  border: 1px solid #bce3d5;
-  border-radius: 999px;
-  background: #eff5f3;
-  color: #1e5944;
-  font-size: 12px;
+.mw .oc.is-v3 .ocv-index b {
+  padding-left: 7px;
+  border-left: 1px solid rgb(255 255 255 / 28%);
+  font-size: 13px;
   font-weight: 650;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
-
-.mw .oc-details-body {
-  display: grid;
-  gap: 0;
-  margin-top: 12px;
-  padding-top: 13px;
-  border-top: 1px solid rgba(20, 32, 28, 0.08);
+.mw .oc.is-v3 .ocv-link {
+  gap: 5px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: 0.04em;
 }
-.mw .oc-term {
-  display: grid;
-  grid-template-columns: 26px minmax(0, 1fr);
-  align-items: start;
-  gap: 10px;
+.mw .oc.is-v3 .ocv-link.is-linked svg {
+  color: var(--champagne);
 }
-.mw .oc-term-icon {
-  display: inline-grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  margin-top: 1px;
-  border-radius: 50%;
-  background: #ffffff;
-  color: #4d7085;
-  box-shadow: 0 1px 2px rgba(20, 32, 28, 0.08);
-}
-.mw .oc-term > div {
+.mw .oc.is-v3 .ocv-plate-foot {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-.mw .oc-term b {
-  font-size: 12.8px;
-  font-weight: 400;
-  line-height: 1.55;
-  color: #33434c;
-}
-
-/* Expanded details: one label-over-value column that lines up with the terms text,
-   separated by hairlines, so nothing floats or wraps raggedly. */
-.mw .oc-drawer {
-  display: grid;
-  gap: 0;
-  margin-top: 12px;
-  padding-top: 2px;
-  border-top: 1px solid rgba(20, 32, 28, 0.07);
-}
-.mw .oc-drawer-row {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-  padding: 11px 0 11px 36px;
-}
-.mw .oc-drawer-row + .oc-drawer-row {
-  border-top: 1px solid rgba(20, 32, 28, 0.06);
-}
-.mw .oc-drawer-row p {
-  margin: 0;
-  font-size: 12.6px;
-  font-weight: 400;
-  line-height: 1.58;
-  color: #3a4b54;
-}
-.mw .oc-quote {
-  display: flex;
   align-items: flex-start;
   gap: 9px;
-  margin: 11px 0 0 36px;
-  padding: 11px 14px;
-  border: 0;
-  border-radius: 10px;
-  background: #ffffff;
-  font-size: 12.8px;
-  font-style: italic;
-  line-height: 1.55;
-  color: #23333c;
-}
-.mw .oc-quote svg {
-  flex: none;
-  margin-top: 3px;
-  color: #9aaab4;
-}
-.mw .oc-drawer-actions {
-  display: flex;
-  justify-content: flex-end;
-  padding: 11px 0 0 36px;
-}
-
-/* Why it works: equal columns, each with an icon + label head and clamped copy, so
-   the three blocks line up whatever the length of the written reasoning. */
-.mw .oc-why {
-  padding: 15px 0 14px;
-  border-top: 0; /* legacy unscoped .oc-why rules draw a dashed top border */
-  border-bottom: 1px solid var(--oc-line);
-}
-.mw .oc-why-heading {
-  display: block;
-  margin-bottom: 12px;
-  font-size: 13.5px;
-  font-weight: 660;
-  letter-spacing: -0.01em;
-  color: #15232b;
-}
-.mw .oc-why-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--oc-why-cols, 3), minmax(0, 1fr));
-  align-items: stretch;
-  width: 100%;
-}
-.mw .oc-why-col {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
   min-width: 0;
-  padding: 0 16px;
 }
-.mw .oc-why-col:first-child {
-  padding-left: 0;
+.mw .oc.is-v3 .ocv-eyebrow {
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--champagne-soft);
 }
-.mw .oc-why-col:last-child {
-  padding-right: 0;
+.mw .oc.is-v3 h3.ocv-title {
+  max-width: 27ch;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 4.5cqi, 44px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  color: var(--paper);
 }
-.mw .oc-why-col + .oc-why-col {
-  border-left: 1px solid var(--oc-line-soft);
+.mw .oc.is-v3 .ocv-title-accent {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 450;
+  letter-spacing: -0.035em;
+  color: var(--champagne-soft);
 }
-.mw .oc-why-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 26px;
-}
-.mw .oc-why-icon {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: 26px;
-  height: 26px;
-  border: 1px solid #dee5e9;
-  border-radius: 50%;
-  background: #fff;
-  color: #748c9a;
-}
-.mw .oc-why-head .oc-label {
-  color: #6d7e88;
-}
-.mw .oc-why-col p {
-  /* The unscoped `.oc-why p` rule in workspace.css lays paragraphs out as a 56px label
-     grid; reset it so the reasoning reads full width. */
-  display: block;
-  grid-template-columns: none;
+.mw .oc.is-v3 .ocv-lede {
+  max-width: 60ch;
   margin: 0;
   font-size: 12px;
-  line-height: 1.6;
-  color: #5e594f;
-  overflow-wrap: break-word;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 86%);
 }
-
-/* Closing rule with the offer's plan line. */
-.mw .oc-sign {
+.mw .oc.is-v3 .ocv-chips {
   display: flex;
-  margin-top: auto;
-  align-items: center;
-  gap: 12px;
-  padding-top: 12px;
-  font-size: 9px;
-  font-weight: 620;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #9aaab4;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 3px;
 }
-.mw .oc-sign span {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.mw .oc-sign i {
-  flex: none;
-  margin-left: auto;
-  font-size: 12px;
-  font-style: normal;
-  letter-spacing: 0.08em;
-  color: #c2cdd4;
-}
-
-/* ── Narrow cards ─────────────────────────────────────────────────────────── */
-@container (max-width: 720px) {
-  .mw .oc-hero {
-    padding: 16px 16px 14px;
-  }
-  .mw .oc-sheet {
-    padding: 0 16px 13px;
-  }
-  .mw .oc-stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 7px;
-    margin: 0 -16px;
-    padding: 13px 16px;
-  }
-  .mw .oc-stat {
-    padding: 9px 10px 8px;
-  }
-  .mw .oc-meta-item {
-    padding: 0 11px;
-  }
-  .mw .oc-meta-item b {
-    font-size: 12px;
-  }
-}
-
-@container (max-width: 560px) {
-  .mw .oc-hero {
-    min-height: 186px;
-    padding: 14px 16px 13px;
-  }
-  .mw .oc.is-collapsed .oc-hero {
-    min-height: 172px;
-  }
-  .mw .oc-hero-copy {
-    max-width: 100%;
-  }
-  .mw .oc-toolbar .oc-icon-btn {
-    width: 23px;
-    height: 23px;
-  }
-  .mw .oc h3.oc-title {
-    font-size: 25px;
-  }
-  .mw .oc .oc-job {
-    font-size: 13.5px;
-  }
-  .mw .oc .oc-brief {
-    -webkit-line-clamp: 2;
-    font-size: 12.3px;
-  }
-  .mw .oc-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .mw .oc-details {
-    padding: 12px 13px 13px;
-  }
-  .mw .oc-meta-item {
-    grid-template-columns: 16px minmax(0, 1fr);
-    gap: 5px;
-    padding: 0 10px;
-  }
-  .mw .oc-meta-item b {
-    font-size: 11.5px;
-    line-height: 1.42;
-  }
-  .mw .oc-meta-icon svg {
-    width: 13px;
-    height: 13px;
-  }
-  .mw .oc-why-col {
-    padding: 0 12px;
-  }
-  .mw .oc-why-head {
-    gap: 6px;
-    min-height: 22px;
-  }
-  .mw .oc-why-icon {
-    width: 22px;
-    height: 22px;
-  }
-  .mw .oc-why-col p {
-    font-size: 11.5px;
-    line-height: 1.55;
-  }
-}
-
-/* Two-up cards sit on a shared subgrid, so the hero row already matches; these rules keep
-   every section below it on the same baseline by fixing each block's line budget. */
-.mw .mw-offer-list.is-two-up .oc-hero {
-  padding: 16px 16px 14px;
-  min-height: 244px;
-  height: 100%;
-}
-.mw .mw-offer-list.is-two-up .oc-sheet {
-  padding: 0 15px 13px;
-}
-.mw .mw-offer-list.is-two-up .oc h3.oc-title {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  min-height: 2.2em;
-  font-size: 25px;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-job {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  min-height: 2.64em;
-  font-size: 13.5px;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-brief {
-  height: 3em;
-  -webkit-line-clamp: 2;
-  font-size: 12.3px;
-}
-.mw .mw-offer-list.is-two-up .oc-stats {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
-  margin: 0 -15px;
-  padding: 13px 15px;
-}
-.mw .mw-offer-list.is-two-up .oc-stat {
-  padding: 9px 10px 8px;
-}
-.mw .mw-offer-list.is-two-up .oc-meta {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: start;
-}
-.mw .mw-offer-list.is-two-up .oc-meta-item {
-  grid-template-columns: 16px minmax(0, 1fr);
-  gap: 5px;
-  padding: 0 10px;
-}
-.mw .mw-offer-list.is-two-up .oc-meta-item:nth-child(3n + 1) {
-  padding-left: 0;
-}
-.mw .mw-offer-list.is-two-up .oc-meta-icon svg {
-  width: 13px;
-  height: 13px;
-}
-.mw .mw-offer-list.is-two-up .oc-meta-item b {
-  min-height: 2.84em;
-  font-size: 11.5px;
-  line-height: 1.42;
-}
-.mw .mw-offer-list.is-two-up .oc-term b {
-  font-size: 12px;
-}
-.mw .mw-offer-list.is-two-up .oc-why-grid {
-  grid-template-columns: minmax(0, 1fr);
-}
-.mw .mw-offer-list.is-two-up .oc-why-col,
-.mw .mw-offer-list.is-two-up .oc-why-col:first-child,
-.mw .mw-offer-list.is-two-up .oc-why-col:last-child {
-  padding: 11px 0;
-}
-.mw .mw-offer-list.is-two-up .oc-why-col:first-child {
-  padding-top: 0;
-}
-.mw .mw-offer-list.is-two-up .oc-why-col:last-child {
-  padding-bottom: 0;
-}
-.mw .mw-offer-list.is-two-up .oc-why-col + .oc-why-col {
-  border-left: 0;
-  border-top: 1px solid var(--oc-line-soft);
-}
-.mw .mw-offer-list.is-two-up .oc-why-col p {
-  font-size: 11.5px;
-  line-height: 1.55;
-}
-.mw .mw-offer-list.is-two-up .oc-sign {
-  margin-top: auto;
-}
-
-/* Collapsed cards keep only the hero photograph and its copy. */
-.mw .oc.is-collapsed .oc-sheet {
-  display: none;
-}
-.mw .oc.is-collapsed .oc-hero {
-  min-height: 212px;
-}
-
-/* The full card is the collapse target. */
-.mw .oc {
-  cursor: pointer;
-}
-.mw .oc button,
-.mw .oc a,
-.mw .oc input,
-.mw .oc textarea,
-.mw .oc label {
-  cursor: auto;
-}
-.mw .oc button {
-  cursor: pointer;
-}
-.mw .oc-collapse {
-  display: inline-grid;
-  place-items: center;
-  width: 25px;
-  height: 25px;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 7px;
-  background: rgba(9, 18, 28, 0.5);
-  color: rgba(255, 255, 255, 0.85);
-  cursor: pointer;
-  backdrop-filter: blur(10px) saturate(130%);
-  transition:
-    background-color 140ms ease,
-    color 140ms ease;
-}
-.mw .oc-collapse:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-}
-.mw .oc-toolbar {
+.mw .oc.is-v3 .ocv-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  max-width: 100%;
+  padding: 5px 9px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 10%);
+  font-size: 10px;
+  font-weight: 450;
+  line-height: 1.4;
+  color: var(--paper);
+  overflow-wrap: anywhere;
+  backdrop-filter: blur(10px);
+}
+.mw .oc.is-v3 .ocv-chip svg {
+  flex: none;
+  opacity: 0.8;
+}
+.mw .oc.is-v3 .ocv-chip.is-moment {
+  border-color: color-mix(in srgb, var(--champagne) 42%, transparent);
+  color: var(--champagne-soft);
 }
 
-/* ═══ Refinement: an offer card reads like a page of the plan, not a dashboard ══ */
-/* Same photograph, serif and hairlines as the page heroes. Everything that was a tile is
-   now a ruled cell, so the card has one surface and one type voice. */
-
-.mw .oc {
-  border-radius: 20px;
-  box-shadow:
-    0 1px 2px rgba(22, 20, 14, 0.05),
-    0 20px 40px -30px rgba(22, 20, 14, 0.34);
+/* ── Offer brief and quiet utility controls ──────────────────────────────── */
+.mw .oc.is-v3 .ocv-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  padding: 20px var(--oc-pad) 0;
+  background: var(--paper);
 }
-.mw .oc:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 2px 5px rgba(22, 20, 14, 0.07),
-    0 30px 54px -30px rgba(22, 20, 14, 0.44);
-}
-
-/* ── Hero ─────────────────────────────────────────────────────────────────── */
-.mw .oc-hero {
-  min-height: 288px;
-  padding: 18px 22px 17px;
-  gap: 14px;
-}
-.mw .oc-hero-image {
-  transform: scale(1.02);
-  filter: saturate(1.04) contrast(1.04);
-}
-.mw .oc:hover .oc-hero-image {
-  transform: scale(1.05);
-}
-/* Keep the photograph readable: the navy stays on the left third and at the foot. */
-.mw .oc-hero-scrim {
-  background: linear-gradient(
-      96deg,
-      rgba(16, 15, 10, 0.9) 0%,
-      rgba(16, 15, 10, 0.72) 34%,
-      rgba(16, 15, 10, 0.2) 68%,
-      rgba(16, 15, 10, 0.04) 88%
-    ),
-    linear-gradient(180deg, rgba(14, 13, 9, 0.5) 0%, rgba(14, 13, 9, 0.02) 34%, rgba(5, 12, 20, 0.9) 100%);
-}
-.mw .oc-hero-copy {
-  gap: 6px;
-  max-width: min(54ch, 100%);
-}
-.mw .oc h3.oc-title {
-  font-family: var(--font-display);
-  font-size: clamp(26px, 3.2cqi, 34px);
-  font-weight: 500;
-  line-height: 1.04;
-  letter-spacing: -0.026em;
-  text-wrap: balance;
-}
-.mw .oc-title-accent {
-  color: #ffffff;
-  font-style: italic;
-}
-.mw .oc .oc-job {
-  max-width: 46ch;
-  font-size: 13px;
-  font-weight: 550;
-  line-height: 1.35;
-  letter-spacing: 0;
-  color: rgba(255, 255, 255, 0.82);
-}
-.mw .oc .oc-brief {
-  max-width: 52ch;
-  font-size: 12.4px;
-  line-height: 1.5;
-  color: rgba(219, 232, 243, 0.74);
-}
-.mw .oc-hero-bottom {
+.mw .oc.is-v3 .ocv-head {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
-.mw .oc-chip {
-  height: 24px;
-  padding: 0 10px;
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(22, 20, 14, 0.34);
-  font-size: 10.5px;
-  font-weight: 550;
-  letter-spacing: 0.01em;
-}
-.mw .oc-hero-top .oc-num-badge,
-.mw .oc-num-badge {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-}
-
-/* ── The sheet: one rail of figures, then the who/when/how line ───────────── */
-.mw .oc-sheet {
-  padding: 0 22px 15px;
-}
-.mw .oc-stats {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0;
-  margin: 0 -22px;
-  padding: 17px 22px 15px;
-  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
-  background: transparent;
-}
-.mw .oc-stat {
-  gap: 6px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-.mw .oc:hover .oc-stat {
-  border: 0;
-  box-shadow: none;
-}
-.mw .oc-stat:first-child {
-  padding-left: 0;
-}
-.mw .oc-stat + .oc-stat {
-  border-left: 1px solid rgba(26, 23, 16, 0.07);
-}
-.mw .oc-stat-label {
-  gap: 5px;
-  font-size: 8.5px;
-  font-weight: 750;
-  letter-spacing: 0.12em;
-  color: #a5a198;
-}
-.mw .oc-stat-label svg {
-  width: 12px;
-  height: 12px;
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
-  color: #b2babd;
-}
-.mw .oc-stat-value {
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: #181f22;
-}
-.mw .oc-stat-value.is-muted {
-  font-size: 19px;
-  font-weight: 500;
-  color: #b2babd;
-}
-.mw .oc-stat-value s {
-  font-family: inherit;
-  font-size: 11px;
-  color: #b2babd;
-}
-.mw .oc-stat-value em {
-  font-family: inherit;
-  font-size: 9.5px;
-  font-weight: 600;
-  color: #a5a198;
-}
-.mw .oc-stat-note {
-  font-size: 9.4px;
-  line-height: 1.35;
-  color: #a5a198;
-}
-.mw .oc-meta {
-  padding: 14px 0 15px;
-  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
-}
-.mw .oc-meta-icon svg {
-  width: 13px;
-  height: 13px;
-}
-.mw .oc-meta-icon {
-  margin-top: 2px;
-  color: #b2babd;
-}
-.mw .oc-meta-item {
-  gap: 8px;
-  padding: 0 16px;
-}
-.mw .oc-meta-item + .oc-meta-item {
-  border-left: 1px solid rgba(26, 23, 16, 0.07);
-}
-.mw .oc-label {
-  font-size: 8.5px;
-  font-weight: 750;
-  letter-spacing: 0.14em;
-  color: #a5a198;
-}
-.mw .oc-meta-item b {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #555148;
-}
-
-/* ── Details: paper, not a blue panel ─────────────────────────────────────── */
-.mw .oc-details {
-  margin: 15px 0 0;
-  padding: 14px 16px 15px;
-  border: 1px solid rgba(26, 23, 16, 0.07);
-  border-radius: 14px;
-  background: #f9f8f8;
-}
-.mw .oc-details-toggle {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: #181f22;
-}
-.mw .oc .oc-actions .oc-check {
-  height: 32px;
-  padding: 0 15px;
-  border-color: #181f22;
-  border-radius: 999px;
-  background: #181f22;
-  font-size: 11.5px;
-  font-weight: 650;
-}
-.mw .oc .oc-actions .oc-check:hover:not(:disabled),
-.mw .oc .oc-actions .oc-check:focus-visible,
-.mw .oc .oc-actions .oc-check:active {
-  background: #283236;
-  border-color: #283236;
-  color: #ffffff;
-}
-.mw .oc .oc-actions .oc-check.is-on {
-  border-color: #22664e;
-  background: #22664e;
-  box-shadow: none;
-}
-.mw .oc-details-body {
-  margin-top: 13px;
-  padding-top: 13px;
-  border-top-color: rgba(26, 23, 16, 0.08);
-}
-.mw .oc-term-icon {
-  width: 24px;
-  height: 24px;
-  border: 1px solid rgba(26, 23, 16, 0.07);
-  background: #ffffff;
-  box-shadow: none;
-  color: #7b766c;
-}
-.mw .oc-term b {
-  color: #555148;
-}
-.mw .oc-drawer-row p {
-  color: #555148;
-}
-.mw .oc-quote {
-  border: 1px solid rgba(26, 23, 16, 0.07);
-  background: #ffffff;
-  color: #283236;
-}
-.mw .oc-drawer-row + .oc-drawer-row {
-  border-top-color: rgba(26, 23, 16, 0.07);
-}
-
-/* ── Why it works: ruled columns under a serif heading ────────────────────── */
-.mw .oc-why {
-  padding: 17px 0 15px;
-  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
-}
-.mw .oc-why-heading {
-  margin-bottom: 12px;
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: 0;
-  color: #555148;
-}
-.mw .oc-why-col + .oc-why-col {
-  border-left: 1px solid rgba(26, 23, 16, 0.07);
-}
-.mw .oc-why-icon {
-  color: #b2babd;
-}
-.mw .oc-why-head span {
-  font-size: 8.5px;
-  font-weight: 750;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #a5a198;
-}
-.mw .oc-why-col p {
-  font-size: 11.8px;
-  line-height: 1.6;
-  color: #7b766c;
-}
-
-/* ── Two-up: a tighter version of the same card ───────────────────────────── */
-.mw .mw-offer-list.is-two-up .oc-hero {
-  min-height: 262px;
-  padding: 16px 17px 15px;
-}
-.mw .mw-offer-list.is-two-up .oc-sheet {
-  padding: 0 17px 14px;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-stats {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px 0;
-  margin: 0 -17px;
-  padding: 15px 17px 13px;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-stat {
-  padding: 0 11px;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-stat:nth-child(3n + 1) {
-  padding-left: 0;
-  border-left: 0;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-stat:nth-child(n + 4) {
-  padding-top: 12px;
-  border-top: 1px solid rgba(26, 23, 16, 0.07);
-}
-.mw .mw-offer-list.is-two-up .oc h3.oc-title {
-  font-size: 25px;
-}
-.mw .mw-offer-list.is-two-up .oc-hero-copy {
-  max-width: 100%;
-}
-.mw .mw-offer-list.is-two-up .oc-details {
-  padding: 12px 13px 13px;
-}
-
-/* ── One-up: the full read ────────────────────────────────────────────────── */
-.mw .mw-offer-list.is-one-up {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 18px;
-  margin-bottom: 0;
-}
-.mw .mw-offer-list.is-one-up > .oc {
-  display: grid;
-  grid-template-rows: auto auto;
-  margin-bottom: 0;
-}
-.mw .mw-offer-list.is-one-up .oc-hero {
-  min-height: 330px;
-  padding: 22px 26px 20px;
-}
-.mw .mw-offer-list.is-one-up .oc h3.oc-title {
-  font-size: clamp(30px, 3vw, 40px);
-}
-.mw .mw-offer-list.is-one-up .oc .oc-jobs,
-.mw .mw-offer-list.is-one-up .oc .oc-job {
-  font-size: 14px;
-}
-.mw .mw-offer-list.is-one-up .oc .oc-brief {
-  font-size: 13px;
-  max-width: 68ch;
-}
-.mw .mw-offer-list.is-one-up .oc-sheet {
-  padding: 0 26px 18px;
-}
-.mw .mw-offer-list.is-one-up .oc .oc-stats {
-  margin: 0 -26px;
-  padding: 19px 26px 16px;
-}
-.mw .mw-offer-list.is-one-up .oc-stat-value {
-  font-size: 21px;
-}
-.mw .mw-offer-list.is-one-up .oc-stat {
-  padding: 0 18px;
-}
-.mw .mw-offer-list.is-one-up .oc-meta {
-  padding: 16px 0 17px;
-}
-.mw .mw-offer-list.is-one-up .oc-details {
-  padding: 16px 18px 17px;
-}
-.mw .mw-offer-list.is-one-up .oc-why {
-  padding: 19px 0 17px;
-}
-
-@media (max-width: 900px) {
-  .mw .mw-offer-list.is-one-up .oc-hero {
-    min-height: 268px;
-    padding: 18px;
-  }
-  .mw .mw-offer-list.is-one-up .oc-sheet {
-    padding: 0 18px 16px;
-  }
-  .mw .mw-offer-list.is-one-up .oc .oc-stats {
-    margin: 0 -18px;
-    padding: 16px 18px 14px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px 0;
-  }
-  .mw .mw-offer-list.is-one-up .oc-stat {
-    padding: 0 11px;
-  }
-  .mw .mw-offer-list.is-one-up .oc-stat:nth-child(3n + 1) {
-    padding-left: 0;
-    border-left: 0;
-  }
-  .mw .mw-offer-list.is-one-up .oc-stat:nth-child(n + 4) {
-    padding-top: 12px;
-    border-top: 1px solid rgba(26, 23, 16, 0.07);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mw .oc,
-  .mw .oc-hero-image,
-  .mw .oc-hero-copy {
-    transition: none;
-  }
-  .mw .oc:hover {
-    transform: none;
-  }
-  .mw .oc:hover .oc-hero-image {
-    transform: scale(1.02);
-  }
-}
-
-/* The moment a card is built around — the key date from the month's calendar. */
-.mw .oc-chip.is-moment {
-  border: 1px solid color-mix(in srgb, var(--a1) 34%, transparent);
-  background: color-mix(in srgb, var(--a1) 12%, #ffffff);
-  color: color-mix(in srgb, var(--a1) 72%, #181f22);
-  font-weight: 650;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Iteration 20 — offer spec sheet
-   The commercial record of an offer, printed under the figures. It borrows the
-   card's own type: Bodoni for the panel title, the .oc-label caps for the row
-   labels, and the same 12px body ink the who / when / how strip uses.
-   ───────────────────────────────────────────────────────────────────────────── */
-.mw .oc-spec {
-  flex: none;
-  margin: 15px 0 0;
-  padding: 14px 16px 15px;
-  border: 1px solid rgba(26, 23, 16, 0.07);
-  border-radius: 14px;
-  background: #f9f8f8;
-}
-
-.mw .oc-spec-head {
+.mw .oc.is-v3 .ocv-head-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  min-height: 34px;
-  margin-bottom: 8px;
-  padding-bottom: 11px;
-  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
+  flex-wrap: wrap;
+  gap: 10px;
 }
-
-.mw .oc-spec-title {
+.mw .oc.is-v3 .ocv-state {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-display);
-  font-size: 16px;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1px solid var(--oc-line);
+  border-radius: 6px;
+  background: var(--oc-surface);
+  font-size: 10px;
   font-weight: 500;
-  letter-spacing: -0.01em;
-  color: #181f22;
+  line-height: 1.3;
+  color: var(--oc-muted);
 }
-
-.mw .oc-spec-title svg {
-  color: #979289;
+.mw .oc.is-v3 .ocv-state i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
 }
-
-.mw .oc-spec-row {
+.mw .oc.is-v3 .ocv-state.is-approved {
+  border-color: var(--emerald-line);
+  background: var(--green-soft);
+  color: var(--green);
+}
+.mw .oc.is-v3 .ocv-head-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+.mw .oc.is-v3 .ocv-tools {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--oc-line);
+  border-radius: 10px;
+  background: var(--oc-surface);
+}
+.mw .oc.is-v3 .ocv-tool {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--oc-muted);
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+.mw .oc.is-v3 .ocv-tool:hover:not(:disabled) {
+  background: var(--paper);
+  color: var(--oc-ink);
+  box-shadow: var(--shadow-xs);
+}
+.mw .oc.is-v3 .ocv-tool.is-ai {
+  color: var(--gold-deep);
+}
+.mw .oc.is-v3 .ocv-tool.is-danger:hover:not(:disabled) {
+  background: var(--red-soft);
+  color: var(--red-dark);
+}
+.mw .oc.is-v3 .ocv-tool:disabled {
+  opacity: 0.4;
+}
+.mw .oc.is-v3 .ocv-offer-highlight {
   display: grid;
-  grid-template-columns: 116px minmax(0, 1fr);
-  align-items: baseline;
-  gap: 14px;
-  padding: 8px 0;
-}
-
-.mw .oc-spec-row + .oc-spec-row {
-  border-top: 1px solid rgba(26, 23, 16, 0.055);
-}
-
-.mw .oc-spec-label {
-  font-size: 8.5px;
-  font-weight: 750;
-  line-height: 1.6;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #a5a198;
-}
-
-.mw .oc .oc-spec-value {
-  margin: 0;
+  gap: 10px;
   min-width: 0;
-  font-size: 12px;
+  padding: 17px 18px;
+  border: 1px solid color-mix(in srgb, var(--oc-accent) 22%, var(--oc-line));
+  border-left: 3px solid var(--oc-accent);
+  border-radius: 4px 12px 12px 4px;
+  background: color-mix(in srgb, var(--oc-accent) 5%, var(--paper));
+}
+.mw .oc.is-v3 .ocv-offer-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--oc-accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.mw .oc.is-v3 .ocv-brief {
+  max-width: 82ch;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
   line-height: 1.55;
-  color: #555148;
+  letter-spacing: -0.015em;
+  color: var(--oc-ink);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-inclusions {
+  display: grid;
+  gap: 7px;
+  margin: 2px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--oc-accent) 14%, var(--oc-line));
+  list-style: none;
+}
+.mw .oc.is-v3 .ocv-inclusions > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  min-width: 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-inclusions > li > svg {
+  flex: none;
+  margin-top: 4px;
+  color: var(--oc-accent);
+}
+
+/* ── Financial hierarchy: one decisive figure, two supporting figures ───── */
+.mw .oc.is-v3 .ocv-figures {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  align-items: stretch;
+  gap: 8px;
+}
+.mw .oc.is-v3 .ocv-fig {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 15px 13px 13px;
+  border: 1px solid var(--oc-line);
+  border-radius: 12px;
+  background: var(--oc-surface);
+}
+.mw .oc.is-v3 .ocv-fig.is-hero {
+  border-color: transparent;
+  background: radial-gradient(
+      ellipse at 100% 0%,
+      color-mix(in srgb, var(--oc-accent) 24%, transparent),
+      transparent 75%
+    ),
+    var(--ink-800);
+  color: var(--paper);
+}
+.mw .oc.is-v3 .ocv-fig-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-fig-label svg {
+  flex: none;
+  opacity: 0.8;
+}
+.mw .oc.is-v3 .ocv-fig.is-hero .ocv-fig-label {
+  color: var(--champagne-soft);
+}
+.mw .oc.is-v3 .ocv-fig-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 6px;
+  min-width: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(24px, 3.7cqi, 32px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+  color: var(--oc-ink);
+}
+.mw .oc.is-v3 .ocv-fig.is-hero .ocv-fig-value {
+  color: var(--paper);
+}
+.mw .oc.is-v3 .ocv-fig-value em {
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-fig-value.is-muted {
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-fig-note {
+  font-size: 10px;
+  line-height: 1.55;
+  color: var(--oc-muted);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-fig.is-hero .ocv-fig-note {
+  color: rgb(255 255 255 / 72%);
+}
+.mw .oc.is-v3 .ocv-meter {
+  display: block;
+  height: 3px;
+  margin-top: auto;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--line-strong) 68%, transparent);
+}
+.mw .oc.is-v3 .ocv-meter i {
+  display: block;
+  width: var(--fill, 0%);
+  height: 100%;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--oc-accent) 65%, var(--gold));
+}
+.mw .oc.is-v3 .ocv-fig.is-hero .ocv-meter {
+  background: rgb(255 255 255 / 18%);
+}
+.mw .oc.is-v3 .ocv-fig.is-hero .ocv-meter i {
+  background: var(--champagne);
+}
+
+/* Pricing is a single calm rail, not three competing miniature charts. */
+.mw .oc.is-v3 .ocv-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 15px 0;
+  border-top: 1px solid var(--oc-line);
+  border-bottom: 1px solid var(--oc-line);
+}
+.mw .oc.is-v3 .ocv-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  padding: 0 13px;
+  border-left: 1px solid var(--oc-line);
+}
+.mw .oc.is-v3 .ocv-fact:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.mw .oc.is-v3 .ocv-fact:last-child {
+  padding-right: 0;
+}
+.mw .oc.is-v3 .ocv-fact-label {
+  font-size: 9px;
+  font-weight: 550;
+  line-height: 1.5;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-fact b {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 6px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  color: var(--oc-ink);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-fact b.is-muted {
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-fact b s {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-fact em {
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1.55;
+  color: var(--oc-muted);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-fact-bar {
+  display: none;
+}
+
+/* ── Commercial record: always readable, never hidden behind a hover ────── */
+.mw .oc.is-v3 .ocv-record {
+  border: 1px solid var(--oc-line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--paper);
+}
+.mw .oc.is-v3 .ocv-record-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--oc-line);
+  background: var(--oc-surface);
+}
+.mw .oc.is-v3 .ocv-record-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+.mw .oc.is-v3 .ocv-record-title svg {
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-record-meta {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-spec {
+  display: grid;
+  margin: 0;
+  padding: 0 15px;
+}
+.mw .oc.is-v3 .ocv-spec-row {
+  display: grid;
+  grid-template-columns: 98px minmax(0, 1fr);
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--oc-line);
+}
+.mw .oc.is-v3 .ocv-spec-row:last-child {
+  border-bottom: 0;
+}
+.mw .oc.is-v3 .ocv-spec-row dt {
+  font-size: 10px;
+  font-weight: 550;
+  line-height: 1.6;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-spec-row dd {
+  min-width: 0;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--ink-soft);
   overflow-wrap: anywhere;
 }
 
-.mw .oc .oc-spec-value b {
-  font-weight: 650;
-  color: #322f2a;
-  font-variant-numeric: tabular-nums;
-}
-
-.mw .oc .oc-spec-value i {
-  font-style: normal;
-  color: #322f2a;
-}
-
-/* In a two-up card the label sits above its value so the text keeps its width. */
-@container (max-width: 560px) {
-  .mw .oc-spec {
-    padding: 12px 13px 13px;
-  }
-  .mw .oc-spec-row {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2px;
-    padding: 7px 0;
-  }
-  .mw .oc-spec-label {
-    font-size: 8px;
-    letter-spacing: 0.15em;
-  }
-  .mw .oc .oc-spec-value {
-    font-size: 11.7px;
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Iteration 22 — the figures as gauges
-   Six dials on one rail: each figure is an arc that fills to its own value, with
-   the number beside it, so the plate reads as a dashboard rather than six boxes
-   of text. Where an offer carries cash plus perk value, the arc is nested.
-   ───────────────────────────────────────────────────────────────────────────── */
-.mw .oc-stats {
-  align-items: stretch;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0;
-  margin: 0 -22px;
-  padding: 14px 22px 12px;
-  border-bottom: 1px solid rgba(26, 23, 16, 0.08);
-  background: linear-gradient(180deg, #fcfcfc 0%, #ffffff 72%);
-}
-
-.mw .oc-stat {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 38px;
-  grid-template-areas:
-    'label gauge'
-    'value gauge'
-    'note gauge';
-  align-content: start;
-  gap: 0;
-  min-width: 0;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-}
-
-.mw .oc-stat:first-child {
-  padding-left: 0;
-}
-.mw .oc-stat + .oc-stat {
-  border-left: 1px solid rgba(26, 23, 16, 0.07);
-}
-
-.mw .oc-gauge {
-  grid-area: gauge;
-  align-self: center;
-  justify-self: end;
-  display: block;
-  width: 38px;
-  height: 38px;
-}
-
-.mw .oc-gauge svg {
-  display: block;
+/* ── Explicit disclosure: no accidental expansion while selecting text ──── */
+.mw .oc.is-v3 .ocv-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   width: 100%;
-  height: 100%;
-  overflow: visible;
-  transform: rotate(-90deg);
+  min-height: 44px;
+  margin-top: -7px;
+  padding: 6px 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--oc-muted);
+  text-align: left;
+  cursor: pointer;
+  transition: color 160ms ease;
 }
-
-.mw .oc-gauge circle {
-  fill: none;
-  stroke-linecap: round;
-  transition: stroke-dasharray 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
+.mw .oc.is-v3 .ocv-more-label,
+.mw .oc.is-v3 .ocv-more-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
 }
-
-.mw .oc-gauge-track {
-  stroke: #ebeff1;
-  stroke-width: 3.4;
+.mw .oc.is-v3 .ocv-more-action {
+  flex: none;
+  color: var(--oc-ink);
 }
-
-.mw .oc-gauge-arc {
-  stroke: var(--oc-accent);
-  stroke-width: 3.4;
+.mw .oc.is-v3 .ocv-more-action svg {
+  transition: transform 180ms ease;
 }
-
-.mw .oc-gauge-soft {
-  stroke: color-mix(in srgb, var(--oc-accent) 34%, #e3e9ed);
-  stroke-width: 2.6;
+.mw .oc.is-v3 .ocv-more:hover,
+.mw .oc.is-v3 .ocv-more.is-open {
+  color: var(--oc-ink);
 }
-
-.mw .oc-stat-label {
-  grid-area: label;
-  min-height: 14px;
-  font-size: 8.5px;
-  font-weight: 750;
-  letter-spacing: 0.13em;
-  color: #a5a198;
+.mw .oc.is-v3 .ocv-more.is-open .ocv-more-action svg {
+  transform: rotate(180deg);
 }
-
-.mw .oc-stat-value {
-  grid-area: value;
-  margin-top: 4px;
-  font-size: 19px;
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.015em;
-  color: #181f22;
+.mw .oc.is-v3 .ocv-extra {
+  display: none;
 }
-
-.mw .oc-stat-note {
-  grid-area: note;
-  margin-top: 5px;
-  font-size: 9.2px;
-  line-height: 1.35;
-  color: #a5a198;
+.mw .oc.is-v3 .ocv-extra.is-open {
+  display: block;
+  margin-top: -9px;
 }
-
-/* The one-up card has room for a bigger dial; two-up keeps it tight. */
-.mw .mw-offer-list.is-one-up .oc-stat {
-  grid-template-columns: minmax(0, 1fr) 46px;
+.mw .oc.is-v3 .ocv-extra-in {
+  display: grid;
+  gap: 14px;
 }
-.mw .mw-offer-list.is-one-up .oc-gauge {
-  width: 46px;
-  height: 46px;
-}
-.mw .mw-offer-list.is-one-up .oc-stat-value {
-  font-size: 21px;
-}
-.mw .mw-offer-list.is-one-up .oc-stat {
-  padding: 0 18px;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-stat {
-  grid-template-columns: minmax(0, 1fr) 30px;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-gauge {
-  width: 30px;
-  height: 30px;
-}
-.mw .mw-offer-list.is-two-up .oc .oc-stat-value {
-  font-size: 17px;
-}
-
-@container (max-width: 520px) {
-  .mw .oc-stat {
-    grid-template-columns: minmax(0, 1fr) 28px;
-  }
-  .mw .oc-gauge {
-    width: 28px;
-    height: 28px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mw .oc-gauge circle {
-    transition: none;
-  }
-}
-
-/* Who / when / how sit under the record as one ruled strip. */
-.mw .oc-meta {
+.mw .oc.is-v3 .ocv-who {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  margin: 14px 0 0;
-  padding: 12px 0 1px;
-  border-top: 1px solid rgba(26, 23, 16, 0.08);
-  border-bottom: 0;
-}
-.mw .oc-meta-item {
   gap: 8px;
-  padding: 0 15px;
 }
-.mw .oc-meta-item:nth-child(3n + 1) {
-  padding-left: 0;
+.mw .oc.is-v3 .ocv-who-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--oc-line);
+  border-radius: 10px;
+  background: var(--oc-surface);
 }
-.mw .oc-meta-item b {
+.mw .oc.is-v3 .ocv-who-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 550;
+  line-height: 1.4;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-who-cell b {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-log {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--oc-line);
+  border-radius: 12px;
+  background: var(--oc-surface);
+}
+.mw .oc.is-v3 .ocv-log-head,
+.mw .oc.is-v3 .ocv-log-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.mw .oc.is-v3 .ocv-log-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 550;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+.mw .oc.is-v3 .ocv-log-state {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-log-state.is-dirty {
+  color: var(--gold-deep);
+}
+.mw .oc.is-v3 .ocv-log-state.is-saved {
+  color: var(--green);
+}
+.mw .oc.is-v3 .ocv-log-state.is-error {
+  color: var(--red-dark);
+}
+.mw .oc.is-v3 .ocv-note {
+  width: 100%;
+  min-height: 78px;
+  padding: 11px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--paper);
   font-size: 12px;
-  line-height: 1.45;
-  color: #555148;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  resize: vertical;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
 }
-.mw .oc-meta-icon {
-  margin-top: 1px;
-  color: #b2babd;
+.mw .oc.is-v3 .ocv-note::placeholder {
+  color: var(--subtle);
+}
+.mw .oc.is-v3 .ocv-note:focus {
+  outline: 0;
+  border-color: var(--oc-accent);
+  box-shadow: var(--ring);
+}
+.mw .oc.is-v3 .ocv-log-hint {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: var(--ink-800);
+  font-size: 11px;
+  font-weight: 550;
+  line-height: 1.4;
+  color: var(--paper);
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    opacity 160ms ease;
+}
+.mw .oc.is-v3 .ocv-save:hover:not(:disabled) {
+  background: var(--oc-accent);
+}
+.mw .oc.is-v3 .ocv-save:disabled {
+  opacity: 0.4;
+}
+/* Notes remain writable in a passcode-locked plan; server permissions still
+   decide whether they can be saved. Do not inherit the read-only field reset. */
+.mw.is-readonly .mw-main .oc.is-v3 .ocv-note {
+  pointer-events: auto;
+  padding: 11px 12px !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: 8px;
+  background: var(--paper) !important;
+  resize: vertical;
+}
+.mw.is-readonly .mw-main .oc.is-v3 .ocv-note:focus {
+  border-color: var(--oc-accent) !important;
+  box-shadow: var(--ring) !important;
 }
 
+/* ── Action foot: visible states, comfortable hit targets ───────────────── */
+.mw .oc.is-v3 .ocv-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  margin: auto calc(-1 * var(--oc-pad)) 0;
+  padding: 15px var(--oc-pad);
+  border-top: 1px solid var(--oc-line);
+  background: var(--oc-surface);
+}
+.mw .oc.is-v3 .ocv-sign {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-marks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.mw .oc.is-v3 .ocv-check {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 9px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  background: var(--paper);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+.mw .oc.is-v3 .ocv-check:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--oc-accent) 40%, var(--line-strong));
+  box-shadow: var(--shadow-xs);
+}
+.mw .oc.is-v3 .ocv-check:disabled {
+  opacity: 0.65;
+}
+.mw .oc.is-v3 .ocv-check-box {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  background: var(--paper);
+  color: transparent;
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+.mw .oc.is-v3 .ocv-check-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.mw .oc.is-v3 .ocv-check-copy b {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+.mw .oc.is-v3 .ocv-check-copy em {
+  font-size: 9.5px;
+  font-style: normal;
+  line-height: 1.4;
+  color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-check.is-approve.is-on {
+  border-color: var(--emerald-line);
+  background: var(--green-soft);
+}
+.mw .oc.is-v3 .ocv-check.is-approve.is-on .ocv-check-box {
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--paper);
+}
+.mw .oc.is-v3 .ocv-check.is-approve.is-on .ocv-check-copy b {
+  color: var(--green-dark);
+}
+.mw .oc.is-v3 .ocv-check.is-ads.is-on {
+  border-color: color-mix(in srgb, var(--gold) 40%, var(--oc-line));
+  background: var(--gold-soft);
+}
+.mw .oc.is-v3 .ocv-check.is-ads.is-on .ocv-check-box {
+  border-color: var(--gold-deep);
+  background: var(--gold-deep);
+  color: var(--paper);
+}
+.mw .oc.is-v3 .ocv-check.is-ads.is-on .ocv-check-copy b {
+  color: var(--gold-deep);
+}
+
+/* ── Card-width responsiveness, independent of the open library rail ────── */
+@container offer-card (min-width: 720px) {
+  .mw .oc.is-v3 .ocv-plate {
+    min-height: 300px;
+    padding: 24px 30px 28px;
+  }
+  .mw .oc.is-v3 .ocv-body {
+    padding: 24px 30px 0;
+    gap: 22px;
+  }
+  .mw .oc.is-v3 .ocv-lede {
+    font-size: 13px;
+  }
+  .mw .oc.is-v3 .ocv-figures {
+    gap: 12px;
+  }
+  .mw .oc.is-v3 .ocv-fig {
+    gap: 8px;
+    padding: 18px;
+  }
+  .mw .oc.is-v3 .ocv-fig-label {
+    font-size: 10px;
+  }
+  .mw .oc.is-v3 .ocv-fig-value {
+    font-size: 34px;
+  }
+  .mw .oc.is-v3 .ocv-fig-note {
+    font-size: 11px;
+  }
+  .mw .oc.is-v3 .ocv-fact {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .mw .oc.is-v3 .ocv-fact:first-child {
+    padding-left: 0;
+  }
+  .mw .oc.is-v3 .ocv-fact:last-child {
+    padding-right: 0;
+  }
+  .mw .oc.is-v3 .ocv-fact b {
+    font-size: 20px;
+  }
+  .mw .oc.is-v3 .ocv-spec {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 28px;
+    padding: 0 18px;
+  }
+  .mw .oc.is-v3 .ocv-spec-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+    padding: 15px 0;
+  }
+  .mw .oc.is-v3 .ocv-spec-row:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+  .mw .oc.is-v3 .ocv-spec-row dt {
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .mw .oc.is-v3 .ocv-foot {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: -30px;
+    margin-right: -30px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .mw .oc.is-v3 .ocv-check {
+    min-width: 155px;
+  }
+}
+@container offer-card (max-width: 560px) {
+  .mw .oc.is-v3 .ocv-fig-label svg {
+    display: none;
+  }
+  .mw .oc.is-v3 .ocv-who {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@container offer-card (max-width: 420px) {
+  .mw .oc.is-v3 .ocv-plate {
+    min-height: 272px;
+    padding: 17px 17px 21px;
+  }
+  .mw .oc.is-v3 .ocv-body {
+    gap: 18px;
+    padding: 18px 17px 0;
+  }
+  .mw .oc.is-v3 .ocv-figures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .mw .oc.is-v3 .ocv-fig.is-hero {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 7px 12px;
+    align-items: center;
+  }
+  .mw .oc.is-v3 .ocv-fig.is-hero .ocv-fig-value {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    font-size: 30px;
+  }
+  .mw .oc.is-v3 .ocv-fig.is-hero .ocv-meter {
+    grid-column: 1 / -1;
+  }
+  .mw .oc.is-v3 .ocv-fact {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+  .mw .oc.is-v3 .ocv-fact-label {
+    min-height: 26px;
+    font-size: 8.5px;
+    letter-spacing: 0.035em;
+  }
+  .mw .oc.is-v3 .ocv-fact b {
+    font-size: 15px;
+  }
+  .mw .oc.is-v3 .ocv-spec-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+  .mw .oc.is-v3 .ocv-spec-row dt {
+    font-weight: 600;
+  }
+  .mw .oc.is-v3 .ocv-more-label {
+    font-size: 10.5px;
+  }
+  .mw .oc.is-v3 .ocv-foot {
+    margin-left: -17px;
+    margin-right: -17px;
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+  .mw .oc.is-v3 .ocv-check {
+    gap: 7px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+/* Touch, motion and print are first-class states, not hover fallbacks. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .mw .oc.is-v3:hover {
+    border-color: color-mix(in srgb, var(--gold) 32%, var(--oc-line));
+    box-shadow:
+      0 3px 6px -3px rgb(32 27 18 / 8%),
+      0 20px 42px -24px rgb(32 27 18 / 23%);
+    transform: translateY(-2px);
+  }
+  .mw .oc.is-v3:hover .ocv-photo {
+    transform: scale(1.045);
+  }
+}
+@media (pointer: coarse) {
+  .mw .oc.is-v3 .ocv-tool {
+    width: 44px;
+    height: 44px;
+  }
+  .mw .oc.is-v3 .ocv-save {
+    min-height: 44px;
+  }
+  .mw .oc.is-v3 .ocv-note {
+    font-size: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc.is-v3:hover {
+    transform: none;
+  }
+  .mw .oc.is-v3,
+  .mw .oc.is-v3 :is(.ocv-photo, .ocv-tool, .ocv-check, .ocv-check-box, .ocv-note, .ocv-save, .ocv-more),
+  .mw .oc.is-v3 .ocv-more-action svg {
+    transition: none;
+    animation: none;
+  }
+}
+@media print {
+  .mw .oc.is-v3 {
+    break-inside: avoid;
+    box-shadow: none;
+    transform: none;
+  }
+  .mw .oc.is-v3 .ocv-tools,
+  .mw .oc.is-v3 .ocv-more {
+    display: none;
+  }
+  .mw .oc.is-v3 .ocv-extra.is-open {
+    display: block;
+  }
+}

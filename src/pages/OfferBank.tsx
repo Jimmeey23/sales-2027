@@ -20,6 +20,7 @@ import {
 import { api, downloadCsv, post } from '../api';
 import { useApp } from '../App';
 import { offerSummary } from '../lib/offerSummary';
+import { groupOffersByCategory } from '../lib/offerCategory';
 import { useLoad } from '../hooks';
 import { MONTHS, OBJECTIVES, money, number, percent, titleCase } from '../types';
 import {
@@ -94,6 +95,7 @@ export default function OfferBank() {
       ),
     [data, sort],
   );
+  const groups = useMemo(() => groupOffersByCategory(rows), [rows]);
   const set = (key: string, value: any) => {
     setFilters((f: any) => ({ ...f, [key]: value }));
     setPage(1);
@@ -300,93 +302,103 @@ export default function OfferBank() {
                       <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {rows.map((o: any) => (
-                      <tr key={o.id}>
-                        <td>
-                          <input
-                            type="checkbox"
-                            checked={compare.some(c => c.id === o.id)}
-                            onChange={() => toggleCompare(o)}
-                            aria-label={`Compare ${o.name}`}
-                          />
-                        </td>
-                        <td>
-                          <button className="offer-name-link" onClick={() => open(o)}>
-                            <strong>{o.name}</strong>
-                            <span>{o.offer_uid}</span>
-                          </button>
-                          {o.data_mode === 'demo' && <Badge tone="purple">Demo plan</Badge>}
-                          {o.provenance?.recommended && (
-                            <span
-                              title={
-                                o.provenance.recommendedMonths?.length
-                                  ? `Best fit for ${o.provenance.recommendedMonths.map((m: number) => MONTHS[m - 1]).join(', ')}`
-                                  : 'Best fit for the 2027 plan'
+                  {groups.map(group => (
+                    <tbody key={group.key} data-offer-category={group.key} aria-label={`${group.label} offers`}>
+                      <tr className="offer-bank-category">
+                        <th colSpan={10} scope="rowgroup">
+                          <strong>{group.label}</strong>
+                          <span>
+                            {group.offers.length} {group.offers.length === 1 ? 'offer' : 'offers'} on this page
+                          </span>
+                        </th>
+                      </tr>
+                      {group.offers.map((o: any) => (
+                        <tr key={o.id} data-offer-id={o.id}>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={compare.some(c => c.id === o.id)}
+                              onChange={() => toggleCompare(o)}
+                              aria-label={`Compare ${o.name}`}
+                            />
+                          </td>
+                          <td>
+                            <button className="offer-name-link" onClick={() => open(o)}>
+                              <strong>{o.name}</strong>
+                              <span>{o.offer_uid}</span>
+                            </button>
+                            {o.data_mode === 'demo' && <Badge tone="purple">Demo plan</Badge>}
+                            {o.provenance?.recommended && (
+                              <span
+                                title={
+                                  o.provenance.recommendedMonths?.length
+                                    ? `Best fit for ${o.provenance.recommendedMonths.map((m: number) => MONTHS[m - 1]).join(', ')}`
+                                    : 'Best fit for the 2027 plan'
+                                }
+                              >
+                                <Badge tone="green">
+                                  <Sparkles size={12} /> Recommended
+                                </Badge>
+                              </span>
+                            )}
+                          </td>
+                          <td>
+                            <strong>{o.studio || 'All studios'}</strong>
+                            <span>Offer bank {o.year}</span>
+                          </td>
+                          <td>
+                            <span>{titleCase(o.objective)}</span>
+                            <small>{o.audience || 'Audience not specified'}</small>
+                          </td>
+                          <td>{titleCase(o.offer_type)}</td>
+                          <td className="num">
+                            <strong>{money(o.actual_revenue ?? o.expected_revenue, true)}</strong>
+                            <small>{o.actual_revenue !== null ? 'Observed' : 'Scenario'}</small>
+                          </td>
+                          <td className="num">{percent(o.effective_discount)}</td>
+                          <td>
+                            <StatusBadge status={o.status} />
+                          </td>
+                          <td>
+                            <Badge
+                              tone={
+                                o.generation_source === 'openai'
+                                  ? 'purple'
+                                  : o.generation_source === 'historical_import'
+                                    ? 'green'
+                                    : 'neutral'
                               }
                             >
-                              <Badge tone="green">
-                                <Sparkles size={12} /> Recommended
-                              </Badge>
-                            </span>
-                          )}
-                        </td>
-                        <td>
-                          <strong>{o.studio || 'All studios'}</strong>
-                          <span>Offer bank {o.year}</span>
-                        </td>
-                        <td>
-                          <span>{titleCase(o.objective)}</span>
-                          <small>{o.audience || 'Audience not specified'}</small>
-                        </td>
-                        <td>{titleCase(o.offer_type)}</td>
-                        <td className="num">
-                          <strong>{money(o.actual_revenue ?? o.expected_revenue, true)}</strong>
-                          <small>{o.actual_revenue !== null ? 'Observed' : 'Scenario'}</small>
-                        </td>
-                        <td className="num">{percent(o.effective_discount)}</td>
-                        <td>
-                          <StatusBadge status={o.status} />
-                        </td>
-                        <td>
-                          <Badge
-                            tone={
-                              o.generation_source === 'openai'
-                                ? 'purple'
-                                : o.generation_source === 'historical_import'
-                                  ? 'green'
-                                  : 'neutral'
-                            }
-                          >
-                            {titleCase(o.generation_source)}
-                          </Badge>
-                        </td>
-                        <td>
-                          <div className="row-actions">
-                            <button title="View details" onClick={() => open(o)}>
-                              <Eye size={16} />
-                            </button>
-                            {can('offer_edit') && (
-                              <button title="Edit" onClick={() => navigate(`/offers/${o.id}/edit`)}>
-                                <Edit3 size={16} />
+                              {titleCase(o.generation_source)}
+                            </Badge>
+                          </td>
+                          <td>
+                            <div className="row-actions">
+                              <button title="View details" onClick={() => open(o)}>
+                                <Eye size={16} />
                               </button>
-                            )}
-                            {can('offer_edit') && (
-                              <button title={`Add ${o.name} to a month plan`} onClick={() => setPlanAdd(o)}>
-                                <CalendarPlus size={16} />
+                              {can('offer_edit') && (
+                                <button title="Edit" onClick={() => navigate(`/offers/${o.id}/edit`)}>
+                                  <Edit3 size={16} />
+                                </button>
+                              )}
+                              {can('offer_edit') && (
+                                <button title={`Add ${o.name} to a month plan`} onClick={() => setPlanAdd(o)}>
+                                  <CalendarPlus size={16} />
+                                </button>
+                              )}
+                              <button title="Duplicate" onClick={() => action(o, 'duplicate')}>
+                                <Copy size={16} />
                               </button>
-                            )}
-                            <button title="Duplicate" onClick={() => action(o, 'duplicate')}>
-                              <Copy size={16} />
-                            </button>
-                            <button title="More actions" onClick={() => open(o)}>
-                              <MoreHorizontal size={16} />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+                              <button title="More actions" onClick={() => open(o)}>
+                                <MoreHorizontal size={16} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  ))}
                 </table>
               </TableScroll>
             ) : (

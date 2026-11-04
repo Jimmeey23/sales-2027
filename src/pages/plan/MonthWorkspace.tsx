@@ -70,11 +70,14 @@ import OfferLibrary from './OfferLibrary';
 import { selectedForPlan } from './TargetsTab';
 import { PAGE_PHOTOS, coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
+import MonthBrief from './MonthBrief';
+import OfferRevenueSummary from './OfferRevenueSummary';
 import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 import { planPricing } from '../../lib/offerPricing';
-import { offerSummary } from '../../lib/offerSummary';
+import { offerSummary, offerHighlights } from '../../lib/offerSummary';
+import { groupOffersByCategory, offerCategory, OFFER_CATEGORY_LABELS } from '../../lib/offerCategory';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
 
@@ -503,9 +506,9 @@ export default function MonthWorkspace({
 }) {
   const { boot, year, can, toast, adminUnlocked: masterUnlocked, unlockAdmin, lockAdmin } = useApp(),
     navigate = useNavigate();
-  // The offer library is a drawer over the page, never a squeezed column beside it.
-  // The library is docked beside the month's cards, so it is open before the page is read.
-  const [libraryOpen, setLibraryOpen] = useState(true);
+  // Dock the library when it fits beside the cards. On smaller screens it is an
+  // opt-in sheet, so opening the offer page never covers the offers themselves.
+  const [libraryOpen, setLibraryOpen] = useState(() => window.matchMedia('(min-width: 1181px)').matches);
   const [studioIdx, setStudioIdx] = useState(0),
     [solo, setSolo] = useState(false),
     [mathsOpen, setMathsOpen] = useState(false),
@@ -574,7 +577,9 @@ export default function MonthWorkspace({
     SLOT_KEYS.map(slot => [slot, exists(saved?.slots?.[slot]) ? saved.slots[slot] : null]),
   );
   const extras: number[] = Array.isArray(saved?.offer_ids) ? saved.offer_ids.filter(exists) : [];
-  const selectedIds = [...(Object.values(slots).filter(Boolean) as number[]), ...extras];
+  // An imported plan can reference one offer in both a primary slot and extras.
+  // Render and forecast it once, matching the other month-plan views.
+  const selectedIds = [...new Set([...(Object.values(slots).filter(Boolean) as number[]), ...extras])];
   const selected = selectedIds.map(id => ownOffers.find(o => o.id === id)).filter(Boolean) as any[];
   const slotOf = (id: number) => Object.entries(slots).find(([, v]) => v === id)?.[0];
   // What this location already runs in any month, so the library's quick actions speak
@@ -590,10 +595,8 @@ export default function MonthWorkspace({
         n(b.expected_revenue) - n(a.expected_revenue),
     );
   const offerRevenue = selected.reduce((s, o) => s + forecastRevenue(o), 0);
-  const groups = ['New clients', 'Ticket & renewal', 'Comeback / reactivation', 'Other'].map(g => ({
-    label: g,
-    offers: selected.filter(o => (STREAM_OF[o.objective] || 'Other') === g),
-  }));
+  const forecastedCount = selected.filter(hasValidForecast).length;
+  const groups = groupOffersByCategory(selected, o => slotOf(o.id));
 
   const initialEffectiveTarget = targetRow?.approved_target ?? targetRow?.proposed_target;
   const initialScale =
@@ -1751,7 +1754,7 @@ export default function MonthWorkspace({
                 description="Every offer that carries the month: the photograph, the promise, the maths behind it and its approval, in one card."
                 meta={[
                   { label: 'Offers', value: `${selected.length}` },
-                  { label: 'Carried', value: lakh(offerRevenue) },
+                  { label: 'Projected revenue', value: forecastedCount ? lakh(offerRevenue) : '—' },
                   { label: 'Of target', value: effective ? `${Math.round((offerRevenue / effective) * 100)}%` : '—' },
                 ]}
               />
@@ -1812,6 +1815,7 @@ export default function MonthWorkspace({
                 buyers={row.buyers}
                 offers={selected.length}
                 offerRevenue={offerRevenue}
+                forecastedOffers={forecastedCount}
                 renewalsDue={econ?.renewal.projectedExpiries || row.renewalsDue || 0}
                 renewalCoverage={coverage}
                 streams={coverStreams}
@@ -1821,48 +1825,16 @@ export default function MonthWorkspace({
               />
             )}
 
-            {/* ─── The brief the plan document filed for this month ─── */}
-            {page === 'overview' &&
-              (() => {
-                const content = form.content || {};
-                const collateral = content.collateral || null;
-                const crm = content.crm || null;
-                const pieces = Array.isArray(collateral?.pieces) ? collateral.pieces : [];
-                const sends = Array.isArray(crm?.sends) ? crm.sends : [];
-                const filed = Number(content.offersPlannedRevenue) || 0;
-                if (!content.focus && !content.studioRole && !collateral && !crm) return null;
-                return (
-                  <div className="mw-section mw-brief">
-                    <div className="mw-brief-head">
-                      <span className="mw-brief-kicker">As filed</span>
-                      {content.studioRole ? <em>{inline(String(content.studioRole))}</em> : null}
-                    </div>
-                    {content.focus ? <p className="mw-brief-focus">{inline(String(content.focus))}</p> : null}
-                    <dl className="mw-brief-meta">
-                      <div>
-                        <dt>Offers planned</dt>
-                        <dd>{lakh(filed || offerRevenue)}</dd>
-                      </div>
-                      {collateral?.title ? (
-                        <div>
-                          <dt>Collateral</dt>
-                          <dd>
-                            {String(collateral.title)}
-                            {pieces.length ? ` · ${pieces.length} piece${pieces.length === 1 ? '' : 's'}` : ''}
-                          </dd>
-                        </div>
-                      ) : null}
-                      {crm?.rule || sends.length ? (
-                        <div>
-                          <dt>CRM</dt>
-                          <dd>{sends.length ? `${sends.length} send${sends.length === 1 ? '' : 's'}` : 'No sends'}</dd>
-                        </div>
-                      ) : null}
-                    </dl>
-                    {crm?.rule ? <p className="mw-brief-rule">{String(crm.rule)}</p> : null}
-                  </div>
-                );
-              })()}
+            {/* The filed launch brief, with the live projection kept distinct from its estimate. */}
+            {page === 'overview' && (
+              <MonthBrief
+                content={form.content}
+                offers={selected}
+                revenue={offerRevenue}
+                forecastedCount={forecastedCount}
+                renderText={inline}
+              />
+            )}
 
             {/* ─── Section 1: Important days ─── */}
             {showOnPage('days') &&
@@ -3442,86 +3414,78 @@ export default function MonthWorkspace({
 
                         return (
                           <div className="mw-offers-board">
-                            {effective > 0 &&
-                              selected.length > 0 &&
-                              (() => {
-                                const ratio = offerRevenue / effective;
-                                const tone = ratio > 1.1 ? 'over' : ratio < 0.9 ? 'under' : 'ok';
-                                const diff = Math.abs(offerRevenue - effective);
-                                return (
-                                  <div className={`mw-rev-check is-${tone}`} role="status">
-                                    <div className="mw-rev-check-text">
-                                      <strong>
-                                        {tone === 'over'
-                                          ? 'Offer plan exceeds target'
-                                          : tone === 'under'
-                                            ? 'Offer plan is below target'
-                                            : 'Offer plan is in line with target'}
-                                      </strong>
-                                      <span>
-                                        {lakh(offerRevenue)} forecast vs {lakh(effective)} target ·{' '}
-                                        {tone === 'ok'
-                                          ? `${Math.round(ratio * 100)}% covered`
-                                          : tone === 'over'
-                                            ? `${lakh(diff)} (${Math.round((ratio - 1) * 100)}%) over — check unit assumptions or trim an offer`
-                                            : `${lakh(diff)} (${Math.round((1 - ratio) * 100)}%) short — add or raise offers`}
-                                      </span>
-                                    </div>
-                                    <div className="mw-rev-check-meter" aria-hidden="true">
-                                      <i style={{ width: `${Math.min(100, (ratio / 1.25) * 100)}%` }} />
-                                      <b style={{ left: `${100 / 1.25}%` }} />
-                                    </div>
-                                  </div>
-                                );
-                              })()}
+                            <OfferRevenueSummary
+                              revenue={offerRevenue}
+                              count={selected.length}
+                              forecastedCount={forecastedCount}
+                              target={effective}
+                              categories={activeGroups.map(group => ({
+                                key: group.key,
+                                label: group.label,
+                                count: group.offers.length,
+                                forecastedCount: group.offers.filter(hasValidForecast).length,
+                                revenue: group.offers.reduce((sum, offer) => sum + forecastRevenue(offer), 0),
+                              }))}
+                            />
                             <div className={`mw-offer-list ${offerColumns === 2 ? 'is-two-up' : 'is-one-up'}`}>
                               {activeGroups.flatMap(g => {
                                 const total = g.offers.reduce((sum, o) => sum + forecastRevenue(o), 0);
                                 return [
-                                  <div key={`divider-${g.label}`} className={`mp-offer-divider stream-${g.label}`}>
+                                  <div
+                                    key={`divider-${g.key}`}
+                                    className={`mp-offer-divider category-${g.key}`}
+                                    data-offer-category={g.key}
+                                    role="heading"
+                                    aria-level={4}
+                                  >
                                     <span>{g.label}</span>
                                     <em>
                                       {g.offers.length} {g.offers.length === 1 ? 'offer' : 'offers'}
                                     </em>
                                     <i aria-hidden="true" />
-                                    <b>{lakh(total)}</b>
+                                    <b>{g.offers.some(hasValidForecast) ? lakh(total) : '—'}</b>
                                   </div>,
-                                  ...g.offers.flatMap(o => {
-                                    // The plan's alternatives for this offer sit beside it; they are never counted in the forecast.
+                                  ...g.offers.map(o => {
+                                    // Keep alternatives with their own card, so a full-width alternate
+                                    // row cannot push the next offer out of a two-column layout.
                                     const alts = alternates.filter(a => alternateFor(a, month)?.for === o.name);
-                                    return [
-                                      renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label),
-                                      ...(alts.length
-                                        ? [
-                                            <div key={`alts-${o.id}`} className="mw-offer-alts">
-                                              {alts.map(a => (
-                                                <div key={a.id} className="mw-offer-alt">
-                                                  <b className="mw-alt-tag">Alternate</b>
-                                                  <span>
-                                                    <strong>{a.name}</strong>
-                                                    <em>{a.headline || a.benefit}</em>
-                                                  </span>
-                                                  <small title="Scenario only — not counted in the month's forecast">
-                                                    {forecastRevenue(a) > 0
-                                                      ? `${lakh(forecastRevenue(a))} scenario`
-                                                      : 'No forecast'}
-                                                  </small>
-                                                  {o.approval_status !== 'approved' && (
-                                                    <button
-                                                      type="button"
-                                                      disabled={busy}
-                                                      onClick={() => replaceOffer(o.id, a)}
-                                                      title={`Swap ${a.name} in for ${o.name}`}
-                                                    >
-                                                      <RefreshCcw size={12} /> Swap in
-                                                    </button>
-                                                  )}
-                                                </div>
-                                              ))}
-                                            </div>,
-                                          ]
-                                        : []),
-                                    ];
+                                    return (
+                                      <div
+                                        key={o.id}
+                                        data-offer-category={g.key}
+                                        className={`mw-offer-item${g.offers.length === 1 || editing === o.id ? ' is-wide' : ''}`}
+                                      >
+                                        {renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label)}
+                                        {alts.length > 0 && (
+                                          <div className="mw-offer-alts">
+                                            {alts.map(a => (
+                                              <div key={a.id} className="mw-offer-alt">
+                                                <b className="mw-alt-tag">Alternate</b>
+                                                <span>
+                                                  <strong>{a.name}</strong>
+                                                  <em>{a.headline || a.benefit}</em>
+                                                </span>
+                                                <small title="Scenario only — not counted in the month's forecast">
+                                                  {forecastRevenue(a) > 0
+                                                    ? `${lakh(forecastRevenue(a))} scenario`
+                                                    : 'No forecast'}
+                                                </small>
+                                                {o.approval_status !== 'approved' && (
+                                                  <button
+                                                    type="button"
+                                                    disabled={busy}
+                                                    onClick={() => replaceOffer(o.id, a)}
+                                                    title={`Swap ${a.name} in for ${o.name}`}
+                                                  >
+                                                    <RefreshCcw size={12} /> Swap in
+                                                  </button>
+                                                )}
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
                                   }),
                                 ];
                               })}
@@ -4913,8 +4877,8 @@ function OfferCard({
   const [noteDraft, setNoteDraft] = useState<string>(String(o.performance_notes || ''));
   const [noteState, setNoteState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [adsPending, setAdsPending] = useState(false);
-  // A card opens on its headline, its figures and the record. Who/When/How and the note
-  // field are secondary, so they wait for a click — the record itself never folds away.
+  // The commercial record stays visible. Audience, timing and the team's notes are
+  // secondary fields, opened explicitly without turning the whole card into a click target.
   const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     const next = String(o.performance_notes || '');
@@ -5051,7 +5015,8 @@ function OfferCard({
           ? `+${fmtPct(effPct)} perk value`
           : 'Value-add, no price cut';
 
-  const slotLabel = slot === 'lapsed' ? 'Winback' : slot ? titleCase(slot) : null;
+  const category = offerCategory(o, slot);
+  const slotLabel = OFFER_CATEGORY_LABELS[category];
   const membership = productLabel || o.provenance?.pricing?.product || (o.offer_type ? titleCase(o.offer_type) : '');
   const objectiveLabel = o.objective ? titleCase(o.objective) : null;
   const showObjective = objectiveLabel && (!membership || objectiveLabel.toLowerCase() !== membership.toLowerCase());
@@ -5131,10 +5096,10 @@ function OfferCard({
     return o.benefit && o.benefit !== o.headline ? o.benefit : '';
   })();
 
-  // The hero's description answers the three questions an offer has to answer — what is being
-  // sold, what the client gets, what it is for — in one plain line, and nothing else. Every
-  // price, term and calculation stays in the figures and the spec sheet below it.
+  // Lead with the written commercial terms and inclusions, not just the campaign
+  // hook. The derived description still helps deduplicate the supporting record.
   const offerDescription = offerSummary(o).sentence;
+  const highlights = offerHighlights(o);
 
   // Bars are the chart line for each figure; they all share one 0–100 scale.
   const clampPct = (value: number) =>
@@ -5167,9 +5132,10 @@ function OfferCard({
       const hit = reasons.find(entry => names.some(name => new RegExp(name, 'i').test(entry[1])));
       return tidy(hit?.[2]);
     };
-    // Never print the same sentence twice: the hero brief and the stat bar already carry
-    // their own copy, so a row only lands when it adds something.
-    const fresh = (value: string) => value && !offerDescription.includes(value.slice(0, 60));
+    // Avoid exact duplicates of the highlighted terms, but keep distinct
+    // conditions even when they start with the same words.
+    const fresh = (value: string) =>
+      value && ![offerDescription, highlights.terms, ...highlights.inclusions].some(text => text === value);
 
     // Who is eligible is already the "Who" column above; only the exclusion needs saying.
     const excluded = tidy(o.excluded_audience);
@@ -5244,12 +5210,15 @@ function OfferCard({
   })();
 
   return (
-    <article className={`oc is-v3${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}>
-      {/* The shell is the container-query target: a stacked card on a narrow column, an
-          editorial split — plate beside body — once there is room for both. */}
+    <article
+      className={`oc is-v3${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}
+      aria-labelledby={`ocv-title-${o.id}`}
+      data-offer-category={category}
+    >
+      {/* A photo-led masthead and a clean commercial sheet share the same hierarchy in
+          one- and two-column views. The card itself is the named container-query target. */}
       <div className="ocv-shell">
-        {/* The plate: the photograph the offer is sold on, carrying its number, what it runs
-          at and where. */}
+        {/* The image carries the identity; the white sheet carries the evidence. */}
         <div className="ocv-plate">
           <div
             className="ocv-photo"
@@ -5257,8 +5226,7 @@ function OfferCard({
             style={
               {
                 backgroundImage: `url(${heroPhoto.url})`,
-                // The framing is a custom property so the layout can re-crop: a wide band and a
-                // tall plate need different crops of the same shot.
+                // Keep each photograph's focal point as the masthead changes width.
                 '--photo-focus': heroPhoto.pos,
               } as React.CSSProperties
             }
@@ -5281,7 +5249,18 @@ function OfferCard({
           </div>
 
           <div className="ocv-plate-foot">
-            <span className="ocv-plate-label">{titleCase(o.offer_type) || slotLabel || streamLabel || 'Offer'}</span>
+            <span className="ocv-eyebrow">
+              {[slotLabel || streamLabel, objectiveLabel && showObjective ? objectiveLabel : null]
+                .filter(Boolean)
+                .join(' · ') || 'Offer plan'}
+            </span>
+            <h3 className="ocv-title" id={`ocv-title-${o.id}`}>
+              {titleLead && <>{titleLead} </>}
+              <span className="ocv-title-accent">{titleAccent}</span>
+            </h3>
+            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
+              <p className="ocv-lede">{o.headline}</p>
+            )}
             <div className="ocv-chips">
               {membership && (
                 <span className="ocv-chip">
@@ -5289,7 +5268,6 @@ function OfferCard({
                   {membership}
                 </span>
               )}
-              {objectiveLabel && showObjective && <span className="ocv-chip">{objectiveLabel}</span>}
               {o.provenance?.moment && (
                 <span className="ocv-chip is-moment" title={`Built around ${o.provenance.moment} this month`}>
                   <CalendarHeart size={10} />
@@ -5300,35 +5278,14 @@ function OfferCard({
           </div>
         </div>
 
-        <div
-          className="ocv-body"
-          onClick={event => {
-            // Clicking the card anywhere but on a control opens the secondary fields.
-            if (expanded) return;
-            const target = event.target as HTMLElement | null;
-            if (target?.closest('button, a, input, textarea, select, label')) return;
-            setExpanded(true);
-          }}
-        >
+        <div className="ocv-body">
           <header className="ocv-head">
             <div className="ocv-head-top">
-              <span className="ocv-eyebrow">
-                {[slotLabel || streamLabel, objectiveLabel && showObjective ? objectiveLabel : null]
-                  .filter(Boolean)
-                  .join(' · ') || 'Offer plan'}
+              <span className={`ocv-state${shown ? ' is-approved' : ''}`}>
+                {shown ? <Check size={12} strokeWidth={2.5} /> : <i aria-hidden="true" />}
+                {shown ? 'Approved' : 'Awaiting sign-off'}
               </span>
               <div className="ocv-head-actions">
-                <button
-                  type="button"
-                  className={`ocv-more${expanded ? ' is-open' : ''}`}
-                  aria-expanded={expanded}
-                  aria-controls={`ocv-extra-${o.id}`}
-                  title={expanded ? 'Hide the extra fields' : 'Show who, when, how and the notes'}
-                  onClick={() => setExpanded(value => !value)}
-                >
-                  <ChevronDown size={12} />
-                  {expanded ? 'Hide extras' : 'Extras'}
-                </button>
                 {(editable || (canSwap && !shown)) && (
                   <div className="ocv-tools">
                     {canSwap && !shown && (
@@ -5397,15 +5354,22 @@ function OfferCard({
               </div>
             </div>
 
-            <h3 className="ocv-title">
-              {titleLead && <>{titleLead} </>}
-              <span className="ocv-title-accent">{titleAccent}</span>
-            </h3>
-
-            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
-              <p className="ocv-lede">{o.headline}</p>
-            )}
-            {offerDescription && <p className="ocv-brief">{offerDescription}</p>}
+            <section className="ocv-offer-highlight" aria-label={`${o.name} — offer details`}>
+              <span className="ocv-offer-kicker">
+                <Gift size={13} /> The offer
+              </span>
+              <p className="ocv-brief">{inline(highlights.terms)}</p>
+              {highlights.inclusions.length > 0 && (
+                <ul className="ocv-inclusions">
+                  {highlights.inclusions.map((inclusion, index) => (
+                    <li key={index}>
+                      <Check size={13} aria-hidden="true" />
+                      <span>{inline(inclusion)}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
           </header>
 
           {/* Anniversary offers are played, not just read: the wheel, the ticket and the nine
@@ -5549,9 +5513,9 @@ function OfferCard({
             <div className="ocv-record-head">
               <span className="ocv-record-title">
                 <FileText size={13} />
-                The record
+                Commercial details
               </span>
-              <span className="ocv-record-meta">{specRows.length} lines</span>
+              <span className="ocv-record-meta">{specRows.length} details</span>
             </div>
             <dl className="ocv-spec">
               {specRows.map(row => (
@@ -5562,6 +5526,23 @@ function OfferCard({
               ))}
             </dl>
           </section>
+
+          <button
+            type="button"
+            className={`ocv-more${expanded ? ' is-open' : ''}`}
+            aria-expanded={expanded}
+            aria-controls={`ocv-extra-${o.id}`}
+            onClick={() => setExpanded(value => !value)}
+          >
+            <span className="ocv-more-label">
+              <StickyNote size={14} />
+              Audience, timing &amp; notes
+            </span>
+            <span className="ocv-more-action">
+              {expanded ? 'Hide' : 'View'}
+              <ChevronDown size={14} />
+            </span>
+          </button>
 
           {/* Secondary fields: folded on arrival, kept mounted so a half-written note survives. */}
           <div className={`ocv-extra${expanded ? ' is-open' : ''}`} id={`ocv-extra-${o.id}`} inert={!expanded}>
@@ -5609,7 +5590,9 @@ function OfferCard({
                           ? 'Unsaved'
                           : noteState === 'saved'
                             ? 'Saved'
-                            : 'No note yet'}
+                            : savedNote.current
+                              ? 'Saved note'
+                              : 'No note yet'}
                   </span>
                 </div>
                 <textarea
@@ -5647,14 +5630,17 @@ function OfferCard({
           </div>
 
           <footer className="ocv-foot">
-            <span className="ocv-sign">
-              {[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}
+            <span className="ocv-sign" title="Offer validity">
+              <Calendar size={12} />
+              {windowText}
             </span>
             <div className="ocv-marks">
               <button
                 type="button"
                 role="checkbox"
                 aria-checked={shown}
+                aria-label={`Approve ${o.name}`}
+                aria-busy={pending !== null}
                 className={`ocv-check is-approve${shown ? ' is-on' : ''}`}
                 title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
                 disabled={!canApprove || pending !== null}
@@ -5668,7 +5654,7 @@ function OfferCard({
                   <Check size={11} strokeWidth={3} />
                 </span>
                 <span className="ocv-check-copy">
-                  <b>{pending !== null ? 'Saving…' : 'Approve'}</b>
+                  <b>{pending !== null ? 'Saving…' : shown ? 'Approved' : 'Approve offer'}</b>
                   <em>{shown ? 'Signed off' : 'Awaiting sign-off'}</em>
                 </span>
               </button>
@@ -5677,6 +5663,8 @@ function OfferCard({
                 type="button"
                 role="checkbox"
                 aria-checked={runAds}
+                aria-label={`Run ads for ${o.name}`}
+                aria-busy={adsPending}
                 className={`ocv-check is-ads${runAds ? ' is-on' : ''}`}
                 title={runAds ? 'Paid media planned · click to remove' : 'Plan paid media behind this offer'}
                 disabled={!onPlanning || adsPending}
@@ -5686,7 +5674,7 @@ function OfferCard({
                   <Check size={11} strokeWidth={3} />
                 </span>
                 <span className="ocv-check-copy">
-                  <b>Run ads</b>
+                  <b>{adsPending ? 'Saving…' : 'Run ads'}</b>
                   <em>{runAds ? 'Media planned' : 'Organic only'}</em>
                 </span>
               </button>

@@ -31,6 +31,7 @@ import { MONTH_OBJECTIVES } from '../../data/planDefaults';
 import { useLoad } from '../../hooks';
 import { offerSummary } from '../../lib/offerSummary';
 import { planPricing } from '../../lib/offerPricing';
+import { groupOffersByCategory, type OfferCategory } from '../../lib/offerCategory';
 import { lakh, type PlanData } from './usePlanData';
 import { selectedInMonth } from './TargetsTab';
 import MonthWorkspace from './MonthWorkspace';
@@ -145,7 +146,17 @@ const parseJson = (v: any) => {
 const shortDate = (d?: string | null) =>
   d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
 
-function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selected: boolean }) {
+function OfferRow({
+  o,
+  onOpen,
+  selected,
+  category,
+}: {
+  o: any;
+  onOpen: () => void;
+  selected: boolean;
+  category: OfferCategory;
+}) {
   const provenance = parseJson(o.provenance);
   const pricing = provenance.pricing || {};
   const financials = parseJson(o.financials);
@@ -177,7 +188,7 @@ function OfferRow({ o, onOpen, selected }: { o: any; onOpen: () => void; selecte
         ? `${MONTHS_SHORT[o.month - 1]} ${o.year}`
         : '—';
   return (
-    <button className="os-offer" onClick={onOpen}>
+    <button className="os-offer" data-offer-category={category} onClick={onOpen}>
       <div className="os-offer-main">
         <div className="os-offer-kicker">
           <span>{titleCase(o.offer_type)}</span>
@@ -320,6 +331,14 @@ function Planned({
             return sum + (valid ? Number(o.expected_revenue) : 0);
           }, 0),
           cover = m.target ? Math.min(100, Math.max(0, (expected / m.target) * 100)) : 0;
+        const monthSlots = new Map<number, string>();
+        for (const plan of data.plans) {
+          const saved = plan.detail.plans.find((entry: any) => entry.month === m.month);
+          for (const [slot, id] of Object.entries(saved?.slots || {})) {
+            if (id) monthSlots.set(Number(id), slot);
+          }
+        }
+        const groups = groupOffersByCategory(offers, offer => monthSlots.get(Number(offer.id)));
         return (
           <section key={m.month} className="os-month">
             <header className="os-month-head">
@@ -357,13 +376,29 @@ function Planned({
             </header>
             {offers.length ? (
               <div className="os-offer-list">
-                {offers.map(o => (
-                  <OfferRow
-                    key={o.id}
-                    o={o}
-                    selected={selectedIds.has(Number(o.id))}
-                    onOpen={() => navigate(`/offers/${o.id}/edit`)}
-                  />
+                {groups.map(group => (
+                  <section
+                    key={group.key}
+                    className="os-offer-category"
+                    data-offer-category={group.key}
+                    aria-label={`${group.label} offers`}
+                  >
+                    <h4 className="offer-category-heading">
+                      <span>{group.label}</span>
+                      <em>
+                        {group.offers.length} {group.offers.length === 1 ? 'offer' : 'offers'}
+                      </em>
+                    </h4>
+                    {group.offers.map(o => (
+                      <OfferRow
+                        key={o.id}
+                        o={o}
+                        category={group.key}
+                        selected={selectedIds.has(Number(o.id))}
+                        onOpen={() => navigate(`/offers/${o.id}/edit`)}
+                      />
+                    ))}
+                  </section>
                 ))}
               </div>
             ) : (
