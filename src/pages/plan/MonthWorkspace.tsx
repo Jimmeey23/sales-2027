@@ -503,9 +503,9 @@ export default function MonthWorkspace({
 }) {
   const { boot, year, can, toast, adminUnlocked: masterUnlocked, unlockAdmin, lockAdmin } = useApp(),
     navigate = useNavigate();
-  // The offer library is a drawer over the page, never a squeezed column beside it.
-  // The library is docked beside the month's cards, so it is open before the page is read.
-  const [libraryOpen, setLibraryOpen] = useState(true);
+  // Dock the library when it fits beside the cards. On smaller screens it is an
+  // opt-in sheet, so opening the offer page never covers the offers themselves.
+  const [libraryOpen, setLibraryOpen] = useState(() => window.matchMedia('(min-width: 1181px)').matches);
   const [studioIdx, setStudioIdx] = useState(0),
     [solo, setSolo] = useState(false),
     [mathsOpen, setMathsOpen] = useState(false),
@@ -3508,42 +3508,46 @@ export default function MonthWorkspace({
                                     <i aria-hidden="true" />
                                     <b>{lakh(total)}</b>
                                   </div>,
-                                  ...g.offers.flatMap(o => {
-                                    // The plan's alternatives for this offer sit beside it; they are never counted in the forecast.
+                                  ...g.offers.map(o => {
+                                    // Keep alternatives with their own card, so a full-width alternate
+                                    // row cannot push the next offer out of a two-column layout.
                                     const alts = alternates.filter(a => alternateFor(a, month)?.for === o.name);
-                                    return [
-                                      renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label),
-                                      ...(alts.length
-                                        ? [
-                                            <div key={`alts-${o.id}`} className="mw-offer-alts">
-                                              {alts.map(a => (
-                                                <div key={a.id} className="mw-offer-alt">
-                                                  <b className="mw-alt-tag">Alternate</b>
-                                                  <span>
-                                                    <strong>{a.name}</strong>
-                                                    <em>{a.headline || a.benefit}</em>
-                                                  </span>
-                                                  <small title="Scenario only — not counted in the month's forecast">
-                                                    {forecastRevenue(a) > 0
-                                                      ? `${lakh(forecastRevenue(a))} scenario`
-                                                      : 'No forecast'}
-                                                  </small>
-                                                  {o.approval_status !== 'approved' && (
-                                                    <button
-                                                      type="button"
-                                                      disabled={busy}
-                                                      onClick={() => replaceOffer(o.id, a)}
-                                                      title={`Swap ${a.name} in for ${o.name}`}
-                                                    >
-                                                      <RefreshCcw size={12} /> Swap in
-                                                    </button>
-                                                  )}
-                                                </div>
-                                              ))}
-                                            </div>,
-                                          ]
-                                        : []),
-                                    ];
+                                    return (
+                                      <div
+                                        key={o.id}
+                                        className={`mw-offer-item${g.offers.length === 1 || editing === o.id ? ' is-wide' : ''}`}
+                                      >
+                                        {renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label)}
+                                        {alts.length > 0 && (
+                                          <div className="mw-offer-alts">
+                                            {alts.map(a => (
+                                              <div key={a.id} className="mw-offer-alt">
+                                                <b className="mw-alt-tag">Alternate</b>
+                                                <span>
+                                                  <strong>{a.name}</strong>
+                                                  <em>{a.headline || a.benefit}</em>
+                                                </span>
+                                                <small title="Scenario only — not counted in the month's forecast">
+                                                  {forecastRevenue(a) > 0
+                                                    ? `${lakh(forecastRevenue(a))} scenario`
+                                                    : 'No forecast'}
+                                                </small>
+                                                {o.approval_status !== 'approved' && (
+                                                  <button
+                                                    type="button"
+                                                    disabled={busy}
+                                                    onClick={() => replaceOffer(o.id, a)}
+                                                    title={`Swap ${a.name} in for ${o.name}`}
+                                                  >
+                                                    <RefreshCcw size={12} /> Swap in
+                                                  </button>
+                                                )}
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
                                   }),
                                 ];
                               })}
@@ -4935,8 +4939,8 @@ function OfferCard({
   const [noteDraft, setNoteDraft] = useState<string>(String(o.performance_notes || ''));
   const [noteState, setNoteState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [adsPending, setAdsPending] = useState(false);
-  // A card opens on its headline, its figures and the record. Who/When/How and the note
-  // field are secondary, so they wait for a click — the record itself never folds away.
+  // The commercial record stays visible. Audience, timing and the team's notes are
+  // secondary fields, opened explicitly without turning the whole card into a click target.
   const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     const next = String(o.performance_notes || '');
@@ -5266,12 +5270,14 @@ function OfferCard({
   })();
 
   return (
-    <article className={`oc is-v3${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}>
-      {/* The shell is the container-query target: a stacked card on a narrow column, an
-          editorial split — plate beside body — once there is room for both. */}
+    <article
+      className={`oc is-v3${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}
+      aria-labelledby={`ocv-title-${o.id}`}
+    >
+      {/* A photo-led masthead and a clean commercial sheet share the same hierarchy in
+          one- and two-column views. The card itself is the named container-query target. */}
       <div className="ocv-shell">
-        {/* The plate: the photograph the offer is sold on, carrying its number, what it runs
-          at and where. */}
+        {/* The image carries the identity; the white sheet carries the evidence. */}
         <div className="ocv-plate">
           <div
             className="ocv-photo"
@@ -5279,8 +5285,7 @@ function OfferCard({
             style={
               {
                 backgroundImage: `url(${heroPhoto.url})`,
-                // The framing is a custom property so the layout can re-crop: a wide band and a
-                // tall plate need different crops of the same shot.
+                // Keep each photograph's focal point as the masthead changes width.
                 '--photo-focus': heroPhoto.pos,
               } as React.CSSProperties
             }
@@ -5303,7 +5308,18 @@ function OfferCard({
           </div>
 
           <div className="ocv-plate-foot">
-            <span className="ocv-plate-label">{titleCase(o.offer_type) || slotLabel || streamLabel || 'Offer'}</span>
+            <span className="ocv-eyebrow">
+              {[slotLabel || streamLabel, objectiveLabel && showObjective ? objectiveLabel : null]
+                .filter(Boolean)
+                .join(' · ') || 'Offer plan'}
+            </span>
+            <h3 className="ocv-title" id={`ocv-title-${o.id}`}>
+              {titleLead && <>{titleLead} </>}
+              <span className="ocv-title-accent">{titleAccent}</span>
+            </h3>
+            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
+              <p className="ocv-lede">{o.headline}</p>
+            )}
             <div className="ocv-chips">
               {membership && (
                 <span className="ocv-chip">
@@ -5311,7 +5327,6 @@ function OfferCard({
                   {membership}
                 </span>
               )}
-              {objectiveLabel && showObjective && <span className="ocv-chip">{objectiveLabel}</span>}
               {o.provenance?.moment && (
                 <span className="ocv-chip is-moment" title={`Built around ${o.provenance.moment} this month`}>
                   <CalendarHeart size={10} />
@@ -5322,35 +5337,14 @@ function OfferCard({
           </div>
         </div>
 
-        <div
-          className="ocv-body"
-          onClick={event => {
-            // Clicking the card anywhere but on a control opens the secondary fields.
-            if (expanded) return;
-            const target = event.target as HTMLElement | null;
-            if (target?.closest('button, a, input, textarea, select, label')) return;
-            setExpanded(true);
-          }}
-        >
+        <div className="ocv-body">
           <header className="ocv-head">
             <div className="ocv-head-top">
-              <span className="ocv-eyebrow">
-                {[slotLabel || streamLabel, objectiveLabel && showObjective ? objectiveLabel : null]
-                  .filter(Boolean)
-                  .join(' · ') || 'Offer plan'}
+              <span className={`ocv-state${shown ? ' is-approved' : ''}`}>
+                {shown ? <Check size={12} strokeWidth={2.5} /> : <i aria-hidden="true" />}
+                {shown ? 'Approved' : 'Awaiting sign-off'}
               </span>
               <div className="ocv-head-actions">
-                <button
-                  type="button"
-                  className={`ocv-more${expanded ? ' is-open' : ''}`}
-                  aria-expanded={expanded}
-                  aria-controls={`ocv-extra-${o.id}`}
-                  title={expanded ? 'Hide the extra fields' : 'Show who, when, how and the notes'}
-                  onClick={() => setExpanded(value => !value)}
-                >
-                  <ChevronDown size={12} />
-                  {expanded ? 'Hide extras' : 'Extras'}
-                </button>
                 {(editable || (canSwap && !shown)) && (
                   <div className="ocv-tools">
                     {canSwap && !shown && (
@@ -5419,14 +5413,6 @@ function OfferCard({
               </div>
             </div>
 
-            <h3 className="ocv-title">
-              {titleLead && <>{titleLead} </>}
-              <span className="ocv-title-accent">{titleAccent}</span>
-            </h3>
-
-            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
-              <p className="ocv-lede">{o.headline}</p>
-            )}
             {offerDescription && <p className="ocv-brief">{offerDescription}</p>}
           </header>
 
@@ -5571,9 +5557,9 @@ function OfferCard({
             <div className="ocv-record-head">
               <span className="ocv-record-title">
                 <FileText size={13} />
-                The record
+                Commercial details
               </span>
-              <span className="ocv-record-meta">{specRows.length} lines</span>
+              <span className="ocv-record-meta">{specRows.length} details</span>
             </div>
             <dl className="ocv-spec">
               {specRows.map(row => (
@@ -5584,6 +5570,23 @@ function OfferCard({
               ))}
             </dl>
           </section>
+
+          <button
+            type="button"
+            className={`ocv-more${expanded ? ' is-open' : ''}`}
+            aria-expanded={expanded}
+            aria-controls={`ocv-extra-${o.id}`}
+            onClick={() => setExpanded(value => !value)}
+          >
+            <span className="ocv-more-label">
+              <StickyNote size={14} />
+              Audience, timing &amp; notes
+            </span>
+            <span className="ocv-more-action">
+              {expanded ? 'Hide' : 'View'}
+              <ChevronDown size={14} />
+            </span>
+          </button>
 
           {/* Secondary fields: folded on arrival, kept mounted so a half-written note survives. */}
           <div className={`ocv-extra${expanded ? ' is-open' : ''}`} id={`ocv-extra-${o.id}`} inert={!expanded}>
@@ -5631,7 +5634,9 @@ function OfferCard({
                           ? 'Unsaved'
                           : noteState === 'saved'
                             ? 'Saved'
-                            : 'No note yet'}
+                            : savedNote.current
+                              ? 'Saved note'
+                              : 'No note yet'}
                   </span>
                 </div>
                 <textarea
@@ -5669,14 +5674,17 @@ function OfferCard({
           </div>
 
           <footer className="ocv-foot">
-            <span className="ocv-sign">
-              {[slotLabel || streamLabel, objectiveLabel].filter(Boolean).join(' · ') || 'Offer plan'}
+            <span className="ocv-sign" title="Offer validity">
+              <Calendar size={12} />
+              {windowText}
             </span>
             <div className="ocv-marks">
               <button
                 type="button"
                 role="checkbox"
                 aria-checked={shown}
+                aria-label={`Approve ${o.name}`}
+                aria-busy={pending !== null}
                 className={`ocv-check is-approve${shown ? ' is-on' : ''}`}
                 title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
                 disabled={!canApprove || pending !== null}
@@ -5690,7 +5698,7 @@ function OfferCard({
                   <Check size={11} strokeWidth={3} />
                 </span>
                 <span className="ocv-check-copy">
-                  <b>{pending !== null ? 'Saving…' : 'Approve'}</b>
+                  <b>{pending !== null ? 'Saving…' : shown ? 'Approved' : 'Approve offer'}</b>
                   <em>{shown ? 'Signed off' : 'Awaiting sign-off'}</em>
                 </span>
               </button>
@@ -5699,6 +5707,8 @@ function OfferCard({
                 type="button"
                 role="checkbox"
                 aria-checked={runAds}
+                aria-label={`Run ads for ${o.name}`}
+                aria-busy={adsPending}
                 className={`ocv-check is-ads${runAds ? ' is-on' : ''}`}
                 title={runAds ? 'Paid media planned · click to remove' : 'Plan paid media behind this offer'}
                 disabled={!onPlanning || adsPending}
@@ -5708,7 +5718,7 @@ function OfferCard({
                   <Check size={11} strokeWidth={3} />
                 </span>
                 <span className="ocv-check-copy">
-                  <b>Run ads</b>
+                  <b>{adsPending ? 'Saving…' : 'Run ads'}</b>
                   <em>{runAds ? 'Media planned' : 'Organic only'}</em>
                 </span>
               </button>
