@@ -209,7 +209,7 @@
    {
     "slot": "renewal",
     "name": "The Annual Re-Up",
-    "tagline": "The January annuals renew at list, and the rate for the year is settled in one sitting.",
+    "tagline": "The January annuals renew at 10% off list, and the rate for the year is settled in one sitting.",
     "fields": {
      "Commercial job": [
       "Re-up the January-2026 annuals at list"
@@ -218,40 +218,39 @@
       "Annual members whose 2026 term started in January (8 annuals, ₹12.5L due)."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan",
+      "• 10% off the renewal when you re-up by 31 Jan",
       "• The 2027 rate locked for the whole term — no re-price mid-year"
      ],
      "When": [
       "2–31 Jan 2027."
      ],
      "Rules": [
-      "• No % discount",
-      "• Bonus days are earned by re-upping in January",
+      "• 10% off list, January re-ups only",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers"
+      "₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 93 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈83 renewal purchases (plan 79)."
+      "Needs ≈93 renewal purchases (plan 89)."
      ],
      "Why it works": [
-      "Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list."
+      "January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price."
      ],
      "What to watch": [
       "Annuals re-upped; renewal yield."
      ],
      "Offer auditor": [
-      "22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the set: the bonus is earned by showing up, not by discounting."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "120 in pool × 65.8% plan rate × 1.05 conversion factor = 83.0 buyers × ₹25.5k ticket = ₹21.2L modelled; 50% of uplift counted"
+      "120 in pool × 65.8% plan rate × 1.18 conversion factor = 93.0 buyers × ₹22.9k ticket = ₹21.2L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -512,40 +511,39 @@
       "Active members renewing in late February or early March."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 12% off your product's list price."
      ],
      "You get": [
-      "• Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer",
-      "• Members who reach 50% of the target get +3 days on 1M or +1 class on a pack"
+      "• Challenge finishers renew at 12% off list",
+      "• Members who reach 50% of the target renew at 8% off list"
      ],
      "When": [
       "Renew 22 Feb–10 Mar 2027."
      ],
      "Rules": [
-      "• No % discount",
-      "• Bonus is earned through challenge attendance",
+      "• 12% off for finishers, 8% for half-way; one renewal per member",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹8.9L counted · 34 buyers (the month runs two renewal routes; this is its share)"
+      "₹8.9L counted · 39 buyers (the month runs two renewal routes; this is its share)"
      ],
      "Rate of sale": [
-      "Needs ≈34 renewals in 28 days (8/wk)."
+      "Needs ≈39 renewals in 28 days (10/wk)."
      ],
      "Why it works": [
-      "Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts."
+      "Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals."
      ],
      "What to watch": [
       "Challenge finish rate; renewal yield."
      ],
      "Offer auditor": [
-      "22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the year: earned, cheap, on-theme."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "120 in pool × 65.8% plan rate × 1.05 conversion factor = 83.0 buyers × ₹25.5k ticket = ₹21.2L modelled; 50% of uplift counted"
+      "120 in pool × 65.8% plan rate × 1.20 conversion factor = 95.2 buyers × ₹22.4k ticket = ₹21.2L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -774,40 +772,40 @@
       "Two active members renewing in the same week."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer",
-      "• Both enter Stronger in 30 2.0; finishers keep the renewal bonus"
+      "• Both partners renew at 10% off list when you renew together",
+      "• Both enter Stronger in 30 2.0"
      ],
      "When": [
       "All February."
      ],
      "Rules": [
-      "• Both renewals at list",
+      "• 10% off list for each partner; both must renew the same day",
       "• Register the pair at the desk",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹6.9L counted · 36 buyers (the month runs two renewal routes; this is its share)"
+      "₹6.9L counted · 40 buyers (the month runs two renewal routes; this is its share)"
      ],
      "Rate of sale": [
-      "Needs ≈36 renewals in 28 days (9/wk)."
+      "Needs ≈40 renewals in 28 days (10/wk)."
      ],
      "Why it works": [
-      "Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it."
+      "Pairs keep each other attending, and attendance predicts renewal. Renewing together for 10% off each makes the pair the reason to commit. Tag pairs to measure it."
      ],
      "What to watch": [
       "Next-renewal rate of pairs vs singles."
      ],
      "Offer auditor": [
-      "22/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 5). Cheap, social, on-theme."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "83 in pool × 102.4% plan rate × 1.03 conversion factor = 87.5 buyers × ₹18.6k ticket = ₹16.3L modelled; 50% of uplift counted"
+      "83 in pool × 102.4% plan rate × 1.14 conversion factor = 97.2 buyers × ₹16.7k ticket = ₹16.3L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -979,41 +977,42 @@
       "Lapsed clients with a recorded best month."
      ],
      "You pay": [
-      "1M unlimited: ₹20.2k (list price)."
+      "1M unlimited at 15% off the list price."
      ],
      "You get": [
-      "• 1M unlimited at list",
-      "• Match your best month's class count → +6 days"
+      "• 1M unlimited at 15% off list",
+      "• Match your best month's class count → 2 complimentary classes"
      ],
      "When": [
       "All March."
      ],
      "Rules": [
+      "• 15% off list replaces the standing lapsed perk",
       "• Replaces the 15% lapsed perk",
       "• Needs a best-month field from Momence",
       "• Replaces the standing 15% perk; the two don't combine.",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "20.0% effective = 0% cash + 20.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "18.0% effective = 15% cash + 3.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹3.9L counted (+₹42k vs the ₹3.5L stream plan) · 47 buyers"
+      "₹3.9L counted (+₹42k vs the ₹3.5L stream plan) · 49 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈11 1M unlimited sales vs 29 a month today (all buyers)."
+      "Needs ≈12 1M unlimited sales vs 29 a month today (all buyers)."
      ],
      "Why it works": [
-      "Personal data beats generic offers and sets a goal; the reward is earned."
+      "Personal data sets a goal. 15% off brings them back, and the complimentary classes are earned by beating their own best month."
      ],
      "What to watch": [
       "Data build needed."
      ],
      "Offer auditor": [
-      "20/25 (Effect 4, Creativity 5, Clarity 4, Practical 3, Economics 4). Creative; depends on data work."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "561 in pool × 8.0% plan rate × 1.05 conversion factor = 47.3 buyers × ₹9.1k ticket (23% take the featured product) = ₹4.3L modelled; 50% of uplift counted"
+      "561 in pool × 8.0% plan rate × 1.09 conversion factor = 49.3 buyers × ₹8.8k ticket (23% take the featured product) = ₹4.3L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -1065,39 +1064,39 @@
       "Members expiring 1 Mar–15 Apr."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list + 2 bonus classes (packs) or +7 days (unlimited)",
+      "• Renew at 10% off list",
       "• First booking window for anniversary party classes"
      ],
      "When": [
       "All March."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list for renewals before the anniversary",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹14.4L counted (+₹28.2k vs the ₹14.1L stream plan) · 63 buyers"
+      "₹14.4L counted (+₹28.2k vs the ₹14.1L stream plan) · 70 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈63 renewal purchases (plan 61)."
+      "Needs ≈70 renewal purchases (plan 68)."
      ],
      "Why it works": [
-      "In 2026, ₹36.7L of Kwality's April came from early renewals at 30%+. Bonus time protects the ticket."
+      "In 2026, ₹36.7L of Kwality's April came from early renewals at 30%+. A capped 10% for renewing before the anniversary takes that demand without the deep code."
      ],
      "What to watch": [
       "March renewals vs due."
      ],
      "Offer auditor": [
-      "21/25 (Effect 4, Creativity 3, Clarity 5, Practical 5, Economics 4). Necessary guardrail before April."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "100 in pool × 61.0% plan rate × 1.04 conversion factor = 63.4 buyers × ₹23.1k ticket = ₹14.7L modelled; 50% of uplift counted"
+      "100 in pool × 61.0% plan rate × 1.16 conversion factor = 70.4 buyers × ₹20.8k ticket = ₹14.7L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -1269,40 +1268,41 @@
       "Lapsed clients (first-class date known)."
      ],
      "You pay": [
-      "12-class pack: ₹19.7k (list price)."
+      "12-class pack at 15% off the list price."
      ],
      "You get": [
-      "• 12-class pack at list",
-      "• 1 bonus class for each year since your first class (max 2)"
+      "• 12-class pack at 15% off list",
+      "• 1 complimentary class for each year since your first class (max 2)"
      ],
      "When": [
       "All April."
      ],
      "Rules": [
+      "• 15% off list replaces the standing lapsed perk",
       "• Replaces the 15% lapsed perk",
       "• Replaces the standing 15% perk; the two don't combine.",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "14.8% effective = 0% cash + 14.8% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹8.0L counted (+₹67.9k vs the ₹7.3L stream plan) · 80 buyers"
+      "₹8.0L counted (+₹67.9k vs the ₹7.3L stream plan) · 84 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈20 12-class pack sales vs 28 a month today (all buyers)."
+      "Needs ≈21 12-class pack sales vs 28 a month today (all buyers)."
      ],
      "Why it works": [
-      "Anniversary month, personal anniversary. First-visit dates are in the Day End – New export."
+      "Anniversary month, personal anniversary. 15% off a pack plus classes for each year makes the comeback personal. First-visit dates are in the Day End – New export."
      ],
      "What to watch": [
       "Personalisation needs a mail-merge of first-class dates."
      ],
      "Offer auditor": [
-      "22/25 (Effect 4, Creativity 5, Clarity 5, Practical 4, Economics 4). Personal and on-theme."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "951 in pool × 8.0% plan rate × 1.05 conversion factor = 79.8 buyers × ₹10.9k ticket (25% take the featured product) = ₹8.7L modelled; 50% of uplift counted"
+      "951 in pool × 8.0% plan rate × 1.10 conversion factor = 83.8 buyers × ₹10.5k ticket (25% take the featured product) = ₹8.7L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -2516,40 +2516,40 @@
       "Members expiring in August or early September."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list; race progress carries over",
-      "• Race finishers get +7 days on 1M or +14 days on 3M+",
+      "• Renew at 10% off list; race progress carries over",
+      "• Race finishers get 2 complimentary classes",
       "• Upgrade to 3M with unlimited freezes"
      ],
      "When": [
       "All August."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list, one renewal per member",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹23.6L counted (+₹1.5L vs the ₹22.1L stream plan) · 96 buyers"
+      "₹23.6L counted (+₹1.5L vs the ₹22.1L stream plan) · 107 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈96 renewal purchases (plan 91)."
+      "Needs ≈107 renewal purchases (plan 102)."
      ],
      "Why it works": [
-      "The race lifts attendance, and attendance lifts renewals; finisher bonuses are earned."
+      "The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing."
      ],
      "What to watch": [
       "Race finish rate; renewal yield."
      ],
      "Offer auditor": [
-      "23/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 5). Ties renewals to the race."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "143 in pool × 63.6% plan rate × 1.05 conversion factor = 95.5 buyers × ₹26.2k ticket = ₹25.1L modelled; 50% of uplift counted"
+      "143 in pool × 63.6% plan rate × 1.17 conversion factor = 106.4 buyers × ₹23.6k ticket = ₹25.1L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -2806,10 +2806,10 @@
       "1M and 3M renewers."
      ],
      "You pay": [
-      "3M unlimited: ₹57.9k (list price)."
+      "3M unlimited at 10% off the list price."
      ],
      "You get": [
-      "• 3M at list",
+      "• 3M at 10% off list",
       "• Unlimited freezes (use within 6 months)",
       "• Festive gift (≈₹1,000)"
      ],
@@ -2817,29 +2817,29 @@
       "All September."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list on 3M only",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "1.7% effective = 0% cash + 1.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹24.2L counted (+₹2.2L vs the ₹22.1L stream plan) · 78 buyers"
+      "₹24.2L counted (+₹2.2L vs the ₹22.1L stream plan) · 81 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈27 3M unlimited sales vs 9.8 a month today (all buyers)."
+      "Needs ≈29 3M unlimited sales vs 9.8 a month today (all buyers)."
      ],
      "Why it works": [
-      "October–December are troughs; locking 3M now carries members through them."
+      "October–December are troughs. 10% off 3M with freezes locks members in through the festive gaps."
      ],
      "What to watch": [
       "3M renewals."
      ],
      "Offer auditor": [
-      "23/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 5). Right timing."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "169 in pool × 45.0% plan rate × 1.02 conversion factor = 77.5 buyers × ₹34.1k ticket (35% take the featured product) = ₹26.4L modelled; 50% of uplift counted"
+      "169 in pool × 45.0% plan rate × 1.06 conversion factor = 80.5 buyers × ₹32.9k ticket (35% take the featured product) = ₹26.4L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -3095,38 +3095,40 @@
       "October renewers."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 8% off your product's list price."
      ],
      "You get": [
-      "• Renew at list → 5% back as credit usable only on a Gift a Shake card"
+      "• Renew at 8% off list",
+      "• 1 complimentary guest class to gift a friend"
      ],
      "When": [
       "All October."
      ],
      "Rules": [
+      "• 8% off list, one renewal per member",
       "• Credit valid until 15 Nov",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "5.0% effective = 0% cash + 5.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 8% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹30.0L counted (+₹44.3k vs the ₹29.5L stream plan) · 99 buyers"
+      "₹30.0L counted (+₹44.3k vs the ₹29.5L stream plan) · 108 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈99 renewal purchases (plan 96)."
+      "Needs ≈108 renewal purchases (plan 105)."
      ],
      "Why it works": [
-      "Turns renewal value into new-client acquisition."
+      "A real 8% on the renewal, plus a class to give away, turns every renewal into a referral."
      ],
      "What to watch": [
       "Credit used on gifts."
      ],
      "Offer auditor": [
-      "21/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 4). Smart loop."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "122 in pool × 78.7% plan rate × 1.03 conversion factor = 98.9 buyers × ₹30.8k ticket = ₹30.4L modelled; 50% of uplift counted"
+      "122 in pool × 78.7% plan rate × 1.12 conversion factor = 107.9 buyers × ₹28.3k ticket = ₹30.4L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -3671,39 +3673,39 @@
       "Members expiring Dec–Jan."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list so the membership covers January and February's challenge",
+      "• Renew at 10% off list so the membership covers January and February's challenge",
       "• February challenge kit (≈₹1,000)"
      ],
      "When": [
       "All December."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list for December renewals",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "4.0% effective = 0% cash + 4.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹19.5L counted (+₹47.5k vs the ₹19.0L stream plan) · 79 buyers"
+      "₹19.5L counted (+₹47.5k vs the ₹19.0L stream plan) · 88 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈79 renewal purchases (plan 75)."
+      "Needs ≈88 renewal purchases (plan 84)."
      ],
      "Why it works": [
-      "Members-only challenge = a natural reason to renew before it starts."
+      "A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December."
      ],
      "What to watch": [
       "December renewals of January expiries."
      ],
      "Offer auditor": [
-      "24/25 (Effect 5, Creativity 4, Clarity 5, Practical 5, Economics 5). Top December renewal."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "105 in pool × 71.4% plan rate × 1.05 conversion factor = 78.8 buyers × ₹25.3k ticket = ₹19.9L modelled; 50% of uplift counted"
+      "105 in pool × 71.4% plan rate × 1.17 conversion factor = 87.8 buyers × ₹22.8k ticket = ₹19.9L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -3955,7 +3957,7 @@
    {
     "slot": "renewal",
     "name": "The Annual Re-Up",
-    "tagline": "The January annuals renew at list, and the rate for the year is settled in one sitting.",
+    "tagline": "The January annuals renew at 10% off list, and the rate for the year is settled in one sitting.",
     "fields": {
      "Commercial job": [
       "Re-up the January-2026 annuals at list"
@@ -3964,40 +3966,39 @@
       "Annual members whose 2026 term started in January (8 annuals, ₹12.5L due)."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan",
+      "• 10% off the renewal when you re-up by 31 Jan",
       "• The 2027 rate locked for the whole term — no re-price mid-year"
      ],
      "When": [
       "2–31 Jan 2027."
      ],
      "Rules": [
-      "• No % discount",
-      "• Bonus days are earned by re-upping in January",
+      "• 10% off list, January re-ups only",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers"
+      "₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 59 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈53 renewal purchases (plan 50)."
+      "Needs ≈59 renewal purchases (plan 56)."
      ],
      "Why it works": [
-      "Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list."
+      "January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price."
      ],
      "What to watch": [
       "Annuals re-upped; renewal yield."
      ],
      "Offer auditor": [
-      "22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the set: the bonus is earned by showing up, not by discounting."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "60 in pool × 83.3% plan rate × 1.05 conversion factor = 52.5 buyers × ₹23k ticket = ₹12.1L modelled; 50% of uplift counted"
+      "60 in pool × 83.3% plan rate × 1.17 conversion factor = 58.4 buyers × ₹20.7k ticket = ₹12.1L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -4258,40 +4259,39 @@
       "Active members renewing in late February or early March."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 12% off your product's list price."
      ],
      "You get": [
-      "• Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer",
-      "• Members who reach 50% of the target get +3 days on 1M or +1 class on a pack"
+      "• Challenge finishers renew at 12% off list",
+      "• Members who reach 50% of the target renew at 8% off list"
      ],
      "When": [
       "Renew 22 Feb–10 Mar 2027."
      ],
      "Rules": [
-      "• No % discount",
-      "• Bonus is earned through challenge attendance",
+      "• 12% off for finishers, 8% for half-way; one renewal per member",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹5.9L counted · 25 buyers (the month runs two renewal routes; this is its share)"
+      "₹5.9L counted · 29 buyers (the month runs two renewal routes; this is its share)"
      ],
      "Rate of sale": [
-      "Needs ≈25 renewals in 28 days (6/wk)."
+      "Needs ≈29 renewals in 28 days (7/wk)."
      ],
      "Why it works": [
-      "Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts."
+      "Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals."
      ],
      "What to watch": [
       "Challenge finish rate; renewal yield."
      ],
      "Offer auditor": [
-      "22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the year: earned, cheap, on-theme."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "60 in pool × 83.3% plan rate × 1.05 conversion factor = 52.5 buyers × ₹23k ticket = ₹12.1L modelled; 50% of uplift counted"
+      "60 in pool × 83.3% plan rate × 1.22 conversion factor = 60.9 buyers × ₹20.2k ticket = ₹12.1L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -4521,40 +4521,40 @@
       "Two active members renewing in the same week."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer",
-      "• Both enter Stronger in 30 2.0; finishers keep the renewal bonus"
+      "• Both partners renew at 10% off list when you renew together",
+      "• Both enter Stronger in 30 2.0"
      ],
      "When": [
       "All February."
      ],
      "Rules": [
-      "• Both renewals at list",
+      "• 10% off list for each partner; both must renew the same day",
       "• Register the pair at the desk",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹6.0L counted · 33 buyers (the month runs two renewal routes; this is its share)"
+      "₹6.0L counted · 37 buyers (the month runs two renewal routes; this is its share)"
      ],
      "Rate of sale": [
-      "Needs ≈33 renewals in 28 days (8/wk)."
+      "Needs ≈37 renewals in 28 days (9/wk)."
      ],
      "Why it works": [
-      "Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it."
+      "Pairs keep each other attending, and attendance predicts renewal. Renewing together for 10% off each makes the pair the reason to commit. Tag pairs to measure it."
      ],
      "What to watch": [
       "Next-renewal rate of pairs vs singles."
      ],
      "Offer auditor": [
-      "22/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 5). Cheap, social, on-theme."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "66 in pool × 100.0% plan rate × 1.03 conversion factor = 68.0 buyers × ₹18k ticket = ₹12.2L modelled; 50% of uplift counted"
+      "66 in pool × 100.0% plan rate × 1.15 conversion factor = 76.2 buyers × ₹16.2k ticket = ₹12.2L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -4812,39 +4812,39 @@
       "Members expiring 1 Mar–15 Apr."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list + 2 bonus classes (packs) or +7 days (unlimited)",
+      "• Renew at 10% off list",
       "• First booking window for anniversary party classes"
      ],
      "When": [
       "All March."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list for renewals before the anniversary",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹8.3L counted (+₹16.2k vs the ₹8.1L stream plan) · 37 buyers"
+      "₹8.3L counted (+₹16.2k vs the ₹8.1L stream plan) · 42 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈37 renewal purchases (plan 36)."
+      "Needs ≈42 renewal purchases (plan 41)."
      ],
      "Why it works": [
-      "In 2026, ₹36.7L of Kwality's April came from early renewals at 30%+. Bonus time protects the ticket."
+      "In 2026, ₹36.7L of Kwality's April came from early renewals at 30%+. A capped 10% for renewing before the anniversary takes that demand without the deep code."
      ],
      "What to watch": [
       "March renewals vs due."
      ],
      "Offer auditor": [
-      "21/25 (Effect 4, Creativity 3, Clarity 5, Practical 5, Economics 4). Necessary guardrail before April."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "71 in pool × 50.7% plan rate × 1.04 conversion factor = 37.4 buyers × ₹22.6k ticket = ₹8.4L modelled; 50% of uplift counted"
+      "71 in pool × 50.7% plan rate × 1.18 conversion factor = 42.5 buyers × ₹20.3k ticket = ₹8.4L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -5102,40 +5102,40 @@
       "Members expiring 1 Apr–15 Jun only."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list",
-      "• +3 classes on packs, +7 days on 1M, +14 days on 3M or longer"
+      "• Renew at 10% off list",
+      "• Packs also get 2 complimentary classes"
      ],
      "When": [
       "All April."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list, one renewal per member",
       "• Members expiring after 15 Jun are not eligible",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "10.0% effective = 0% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹23.0L counted (+₹88.3k vs the ₹22.1L stream plan) · 95 buyers"
+      "₹23.0L counted (+₹88.3k vs the ₹22.1L stream plan) · 106 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈95 renewal purchases (plan 88)."
+      "Needs ≈106 renewal purchases (plan 99)."
      ],
      "Why it works": [
-      "2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price. Restricting eligibility limits pull-forward."
+      "2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price, so the cut is capped at 10% and eligibility stays restricted to limit pull-forward."
      ],
      "What to watch": [
       "Renewal purchases vs due (plan KH 130 vs 120 due)."
      ],
      "Offer auditor": [
-      "22/25 (Effect 5, Creativity 3, Clarity 5, Practical 5, Economics 4). The economic backbone of April."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "74 in pool × 118.9% plan rate × 1.08 conversion factor = 95.0 buyers × ₹25.1k ticket = ₹23.8L modelled; 50% of uplift counted"
+      "74 in pool × 118.9% plan rate × 1.21 conversion factor = 106.0 buyers × ₹22.6k ticket = ₹23.8L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -6259,40 +6259,40 @@
       "Members expiring in August or early September."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list; race progress carries over",
-      "• Race finishers get +7 days on 1M or +14 days on 3M+",
+      "• Renew at 10% off list; race progress carries over",
+      "• Race finishers get 2 complimentary classes",
       "• Upgrade to 3M with unlimited freezes"
      ],
      "When": [
       "All August."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list, one renewal per member",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹19.2L counted (+₹1.2L vs the ₹18.0L stream plan) · 74 buyers"
+      "₹19.2L counted (+₹1.2L vs the ₹18.0L stream plan) · 83 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈74 renewal purchases (plan 70)."
+      "Needs ≈83 renewal purchases (plan 79)."
      ],
      "Why it works": [
-      "The race lifts attendance, and attendance lifts renewals; finisher bonuses are earned."
+      "The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing."
      ],
      "What to watch": [
       "Race finish rate; renewal yield."
      ],
      "Offer auditor": [
-      "23/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 5). Ties renewals to the race."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "106 in pool × 66.0% plan rate × 1.05 conversion factor = 73.5 buyers × ₹27.7k ticket = ₹20.4L modelled; 50% of uplift counted"
+      "106 in pool × 66.0% plan rate × 1.18 conversion factor = 82.4 buyers × ₹24.9k ticket = ₹20.4L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -6549,10 +6549,10 @@
       "1M and 3M renewers."
      ],
      "You pay": [
-      "3M unlimited: ₹57.9k (list price)."
+      "3M unlimited at 10% off the list price."
      ],
      "You get": [
-      "• 3M at list",
+      "• 3M at 10% off list",
       "• Unlimited freezes (use within 6 months)",
       "• Festive gift (≈₹1,000)"
      ],
@@ -6560,29 +6560,29 @@
       "All September."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list on 3M only",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "1.7% effective = 0% cash + 1.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹13.0L counted (+₹1.6L vs the ₹11.4L stream plan) · 57 buyers"
+      "₹13.0L counted (+₹1.6L vs the ₹11.4L stream plan) · 59 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈16 3M unlimited sales vs 5 a month today (all buyers)."
+      "Needs ≈17 3M unlimited sales vs 5 a month today (all buyers)."
      ],
      "Why it works": [
-      "October–December are troughs; locking 3M now carries members through them."
+      "October–December are troughs. 10% off 3M with freezes locks members in through the festive gaps."
      ],
      "What to watch": [
       "3M renewals."
      ],
      "Offer auditor": [
-      "23/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 5). Right timing."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "114 in pool × 49.1% plan rate × 1.02 conversion factor = 57.1 buyers × ₹25.6k ticket (28% take the featured product) = ₹14.6L modelled; 50% of uplift counted"
+      "114 in pool × 49.1% plan rate × 1.06 conversion factor = 59.1 buyers × ₹24.9k ticket (28% take the featured product) = ₹14.6L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -6838,38 +6838,40 @@
       "October renewers."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 8% off your product's list price."
      ],
      "You get": [
-      "• Renew at list → 5% back as credit usable only on a Gift a Shake card"
+      "• Renew at 8% off list",
+      "• 1 complimentary guest class to gift a friend"
      ],
      "When": [
       "All October."
      ],
      "Rules": [
+      "• 8% off list, one renewal per member",
       "• Credit valid until 15 Nov",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "5.0% effective = 0% cash + 5.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 8% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹10.9L counted (+₹16.1k vs the ₹10.7L stream plan) · 59 buyers"
+      "₹10.9L counted (+₹16.1k vs the ₹10.7L stream plan) · 65 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈59 renewal purchases (plan 57)."
+      "Needs ≈65 renewal purchases (plan 63)."
      ],
      "Why it works": [
-      "Turns renewal value into new-client acquisition."
+      "A real 8% on the renewal, plus a class to give away, turns every renewal into a referral."
      ],
      "What to watch": [
       "Credit used on gifts."
      ],
      "Offer auditor": [
-      "21/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 4). Smart loop."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "89 in pool × 64.0% plan rate × 1.03 conversion factor = 58.7 buyers × ₹18.8k ticket = ₹11.0L modelled; 50% of uplift counted"
+      "89 in pool × 64.0% plan rate × 1.13 conversion factor = 64.7 buyers × ₹17.3k ticket = ₹11.0L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -7413,39 +7415,39 @@
       "Members expiring Dec–Jan."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list so the membership covers January and February's challenge",
+      "• Renew at 10% off list so the membership covers January and February's challenge",
       "• February challenge kit (≈₹1,000)"
      ],
      "When": [
       "All December."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list for December renewals",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "4.0% effective = 0% cash + 4.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹12.9L counted (+₹31.5k vs the ₹12.6L stream plan) · 54 buyers"
+      "₹12.9L counted (+₹31.5k vs the ₹12.6L stream plan) · 60 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈54 renewal purchases (plan 51)."
+      "Needs ≈60 renewal purchases (plan 57)."
      ],
      "Why it works": [
-      "Members-only challenge = a natural reason to renew before it starts."
+      "A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December."
      ],
      "What to watch": [
       "December renewals of January expiries."
      ],
      "Offer auditor": [
-      "24/25 (Effect 5, Creativity 4, Clarity 5, Practical 5, Economics 5). Top December renewal."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "81 in pool × 63.0% plan rate × 1.05 conversion factor = 53.6 buyers × ₹24.7k ticket = ₹13.2L modelled; 50% of uplift counted"
+      "81 in pool × 63.0% plan rate × 1.17 conversion factor = 59.6 buyers × ₹22.2k ticket = ₹13.2L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -7697,7 +7699,7 @@
    {
     "slot": "renewal",
     "name": "The Annual Re-Up",
-    "tagline": "The January annuals renew at list, and the rate for the year is settled in one sitting.",
+    "tagline": "The January annuals renew at 10% off list, and the rate for the year is settled in one sitting.",
     "fields": {
      "Commercial job": [
       "Re-up the January-2026 annuals at list"
@@ -7706,40 +7708,39 @@
       "Annual members whose 2026 term started in January (8 annuals, ₹12.5L due)."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan",
+      "• 10% off the renewal when you re-up by 31 Jan",
       "• The 2027 rate locked for the whole term — no re-price mid-year"
      ],
      "When": [
       "2–31 Jan 2027."
      ],
      "Rules": [
-      "• No % discount",
-      "• Bonus days are earned by re-upping in January",
+      "• 10% off list, January re-ups only",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers"
+      "₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 48 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈43 renewal purchases (plan 41)."
+      "Needs ≈48 renewal purchases (plan 46)."
      ],
      "Why it works": [
-      "Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list."
+      "January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price."
      ],
      "What to watch": [
       "Annuals re-upped; renewal yield."
      ],
      "Offer auditor": [
-      "22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the set: the bonus is earned by showing up, not by discounting."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "42 in pool × 97.4% plan rate × 1.05 conversion factor = 42.7 buyers × ₹16.1k ticket = ₹6.9L modelled; 50% of uplift counted"
+      "42 in pool × 97.4% plan rate × 1.17 conversion factor = 47.7 buyers × ₹14.5k ticket = ₹6.9L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -8000,40 +8001,39 @@
       "Active members renewing in late February or early March."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 12% off your product's list price."
      ],
      "You get": [
-      "• Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer",
-      "• Members who reach 50% of the target get +3 days on 1M or +1 class on a pack"
+      "• Challenge finishers renew at 12% off list",
+      "• Members who reach 50% of the target renew at 8% off list"
      ],
      "When": [
       "Renew 22 Feb–10 Mar 2027."
      ],
      "Rules": [
-      "• No % discount",
-      "• Bonus is earned through challenge attendance",
+      "• 12% off for finishers, 8% for half-way; one renewal per member",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹3.3L counted · 20 buyers (the month runs two renewal routes; this is its share)"
+      "₹3.3L counted · 23 buyers (the month runs two renewal routes; this is its share)"
      ],
      "Rate of sale": [
-      "Needs ≈20 renewals in 28 days (5/wk)."
+      "Needs ≈23 renewals in 28 days (6/wk)."
      ],
      "Why it works": [
-      "Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts."
+      "Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals."
      ],
      "What to watch": [
       "Challenge finish rate; renewal yield."
      ],
      "Offer auditor": [
-      "22/25 (Effect 5, Creativity 4, Clarity 4, Practical 4, Economics 5). Best renewal mechanic of the year: earned, cheap, on-theme."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "42 in pool × 97.4% plan rate × 1.05 conversion factor = 42.7 buyers × ₹16.1k ticket = ₹6.9L modelled; 50% of uplift counted"
+      "42 in pool × 97.4% plan rate × 1.21 conversion factor = 49.1 buyers × ₹14.2k ticket = ₹6.9L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -8262,40 +8262,40 @@
       "Two active members renewing in the same week."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer",
-      "• Both enter Stronger in 30 2.0; finishers keep the renewal bonus"
+      "• Both partners renew at 10% off list when you renew together",
+      "• Both enter Stronger in 30 2.0"
      ],
      "When": [
       "All February."
      ],
      "Rules": [
-      "• Both renewals at list",
+      "• 10% off list for each partner; both must renew the same day",
       "• Register the pair at the desk",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹3.4L counted · 25 buyers (the month runs two renewal routes; this is its share)"
+      "₹3.4L counted · 28 buyers (the month runs two renewal routes; this is its share)"
      ],
      "Rate of sale": [
-      "Needs ≈25 renewals in 28 days (6/wk)."
+      "Needs ≈29 renewals in 28 days (7/wk)."
      ],
      "Why it works": [
-      "Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it."
+      "Pairs keep each other attending, and attendance predicts renewal. Renewing together for 10% off each makes the pair the reason to commit. Tag pairs to measure it."
      ],
      "What to watch": [
       "Next-renewal rate of pairs vs singles."
      ],
      "Offer auditor": [
-      "22/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 5). Cheap, social, on-theme."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "44 in pool × 114.5% plan rate × 1.03 conversion factor = 51.9 buyers × ₹13.3k ticket = ₹6.9L modelled; 50% of uplift counted"
+      "44 in pool × 114.5% plan rate × 1.15 conversion factor = 58.1 buyers × ₹12.0k ticket = ₹6.9L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -8451,41 +8451,42 @@
       "Lapsed clients with a recorded best month."
      ],
      "You pay": [
-      "1M unlimited: ₹14.6k (list price)."
+      "1M unlimited at 15% off the list price."
      ],
      "You get": [
-      "• 1M unlimited at list",
-      "• Match your best month's class count → +6 days"
+      "• 1M unlimited at 15% off list",
+      "• Match your best month's class count → 2 complimentary classes"
      ],
      "When": [
       "All March."
      ],
      "Rules": [
+      "• 15% off list replaces the standing lapsed perk",
       "• Replaces the 15% lapsed perk",
       "• Needs a best-month field from Momence",
       "• Replaces the standing 15% perk; the two don't combine.",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "20.0% effective = 0% cash + 20.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "18.0% effective = 15% cash + 3.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹1.1L counted (+₹14.2k vs the ₹1.0L stream plan) · 21 buyers"
+      "₹1.1L counted (+₹14.2k vs the ₹1.0L stream plan) · 22 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈5 1M unlimited sales vs 17.3 a month today (all buyers)."
+      "Needs ≈6 1M unlimited sales vs 17.3 a month today (all buyers)."
      ],
      "Why it works": [
-      "Personal data beats generic offers and sets a goal; the reward is earned."
+      "Personal data sets a goal. 15% off brings them back, and the complimentary classes are earned by beating their own best month."
      ],
      "What to watch": [
       "Data build needed."
      ],
      "Offer auditor": [
-      "20/25 (Effect 4, Creativity 5, Clarity 4, Practical 3, Economics 4). Creative; depends on data work."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "262 in pool × 7.8% plan rate × 1.05 conversion factor = 21.4 buyers × ₹6k ticket (23% take the featured product) = ₹1.3L modelled; 50% of uplift counted"
+      "262 in pool × 7.8% plan rate × 1.10 conversion factor = 22.4 buyers × ₹5.8k ticket (23% take the featured product) = ₹1.3L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -8537,10 +8538,10 @@
       "1M renewers with 8+ visits a month."
      ],
      "You pay": [
-      "3M unlimited: ₹42.2k (list price)."
+      "3M unlimited at 10% off the list price."
      ],
      "You get": [
-      "• 3M unlimited at list",
+      "• 3M unlimited at 10% off list",
       "• Unlimited freezes (use within 6 months)",
       "• Anniversary tote (≈₹1,000)"
      ],
@@ -8548,29 +8549,29 @@
       "All March."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list on 3M only",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "2.4% effective = 0% cash + 2.4% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹5.3L counted (+₹48.2k vs the ₹4.8L stream plan) · 33 buyers"
+      "₹5.3L counted (+₹48.2k vs the ₹4.8L stream plan) · 34 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈7 3M unlimited sales vs 6 a month today (all buyers)."
+      "Needs ≈8 3M unlimited sales vs 6 a month today (all buyers)."
      ],
      "Why it works": [
-      "3M renews at 71% at Kenkere vs 59% for 1M."
+      "3M renews at 71% at Kenkere vs 59% for 1M. 10% off makes the step up from 1M easy before the anniversary."
      ],
      "What to watch": [
       "Tote stock."
      ],
      "Offer auditor": [
-      "22/25 (Effect 4, Creativity 4, Clarity 5, Practical 4, Economics 5). Good upgrade lever."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "48 in pool × 68.9% plan rate × 1.00 conversion factor = 33.2 buyers × ₹17.4k ticket (21% take the featured product) = ₹5.8L modelled; 50% of uplift counted"
+      "48 in pool × 68.9% plan rate × 1.03 conversion factor = 34.2 buyers × ₹17.0k ticket (21% take the featured product) = ₹5.8L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -8828,40 +8829,40 @@
       "Members expiring 1 Apr–15 Jun only."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list",
-      "• +3 classes on packs, +7 days on 1M, +14 days on 3M or longer"
+      "• Renew at 10% off list",
+      "• Packs also get 2 complimentary classes"
      ],
      "When": [
       "All April."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list, one renewal per member",
       "• Members expiring after 15 Jun are not eligible",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "10.0% effective = 0% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹8.6L counted (+₹32.9k vs the ₹8.2L stream plan) · 57 buyers"
+      "₹8.6L counted (+₹32.9k vs the ₹8.2L stream plan) · 64 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈57 renewal purchases (plan 53)."
+      "Needs ≈64 renewal purchases (plan 60)."
      ],
      "Why it works": [
-      "2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price. Restricting eligibility limits pull-forward."
+      "2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price, so the cut is capped at 10% and eligibility stays restricted to limit pull-forward."
      ],
      "What to watch": [
       "Renewal purchases vs due (plan KH 130 vs 120 due)."
      ],
      "Offer auditor": [
-      "22/25 (Effect 5, Creativity 3, Clarity 5, Practical 5, Economics 4). The economic backbone of April."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "53 in pool × 100.0% plan rate × 1.08 conversion factor = 56.7 buyers × ₹15.7k ticket = ₹8.9L modelled; 50% of uplift counted"
+      "53 in pool × 100.0% plan rate × 1.21 conversion factor = 63.7 buyers × ₹14.1k ticket = ₹8.9L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -9969,40 +9970,40 @@
       "Members expiring in August or early September."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list; race progress carries over",
-      "• Race finishers get +7 days on 1M or +14 days on 3M+",
+      "• Renew at 10% off list; race progress carries over",
+      "• Race finishers get 2 complimentary classes",
       "• Upgrade to 3M with unlimited freezes"
      ],
      "When": [
       "All August."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list, one renewal per member",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹7.9L counted (+₹49.9k vs the ₹7.4L stream plan) · 57 buyers"
+      "₹7.9L counted (+₹49.9k vs the ₹7.4L stream plan) · 64 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈57 renewal purchases (plan 55)."
+      "Needs ≈64 renewal purchases (plan 62)."
      ],
      "Why it works": [
-      "The race lifts attendance, and attendance lifts renewals; finisher bonuses are earned."
+      "The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing."
      ],
      "What to watch": [
       "Race finish rate; renewal yield."
      ],
      "Offer auditor": [
-      "23/25 (Effect 5, Creativity 4, Clarity 5, Practical 4, Economics 5). Ties renewals to the race."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "76 in pool × 71.9% plan rate × 1.05 conversion factor = 57.4 buyers × ₹14.7k ticket = ₹8.4L modelled; 50% of uplift counted"
+      "76 in pool × 71.9% plan rate × 1.18 conversion factor = 64.4 buyers × ₹13.2k ticket = ₹8.4L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -10819,38 +10820,38 @@
       "Members renewing 26–29 Nov."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 8% off list on 3M, 12% on 6M, 15% on Annual."
      ],
      "You get": [
-      "• 3M +7 days, 6M +14 days, Annual +30 days"
+      "• 3M 8% off, 6M 12% off, Annual 15% off list"
      ],
      "When": [
       "26–29 Nov."
      ],
      "Rules": [
-      "• Renew at list",
+      "• Discount set by term; one renewal per member",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "8.0% effective = 0% cash + 8.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹8.0L counted (+₹56.8k vs the ₹7.4L stream plan) · 51 buyers"
+      "₹8.0L counted (+₹56.8k vs the ₹7.4L stream plan) · 58 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈51 renewal purchases (plan 49)."
+      "Needs ≈58 renewal purchases (plan 56)."
      ],
      "Why it works": [
-      "Rewards length, not depth."
+      "The discount grows with the term, so the longest plans get the best rate."
      ],
      "What to watch": [
       "3M+ share."
      ],
      "Offer auditor": [
-      "21/25 (Effect 4, Creativity 3, Clarity 5, Practical 5, Economics 4). Solid."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "38 in pool × 131.5% plan rate × 1.03 conversion factor = 50.8 buyers × ₹16.8k ticket = ₹8.5L modelled; 50% of uplift counted"
+      "38 in pool × 131.5% plan rate × 1.17 conversion factor = 57.8 buyers × ₹14.8k ticket = ₹8.5L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [
@@ -11107,39 +11108,39 @@
       "Members expiring Dec–Jan."
      ],
      "You pay": [
-      "Renewal at your product's list price (no % off)."
+      "Renewal at 10% off your product's list price."
      ],
      "You get": [
-      "• Renew at list so the membership covers January and February's challenge",
+      "• Renew at 10% off list so the membership covers January and February's challenge",
       "• February challenge kit (≈₹1,000)"
      ],
      "When": [
       "All December."
      ],
      "Rules": [
-      "• No % discount",
+      "• 10% off list for December renewals",
       "• Doesn't combine with any other campaign offer."
      ],
      "Effective discount": [
-      "4.0% effective = 0% cash + 4.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero."
+      "10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero."
      ],
      "Expected revenue": [
-      "₹3.7L counted (+₹9.1k vs the ₹3.7L stream plan) · 27 buyers"
+      "₹3.7L counted (+₹9.1k vs the ₹3.7L stream plan) · 30 buyers"
      ],
      "Rate of sale": [
-      "Needs ≈27 renewal purchases (plan 26)."
+      "Needs ≈30 renewal purchases (plan 29)."
      ],
      "Why it works": [
-      "Members-only challenge = a natural reason to renew before it starts."
+      "A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December."
      ],
      "What to watch": [
       "December renewals of January expiries."
      ],
      "Offer auditor": [
-      "24/25 (Effect 5, Creativity 4, Clarity 5, Practical 5, Economics 5). Top December renewal."
+      "Revised Nov 2026: a real discount on list replaces the list-price bonus days. Counted revenue held; buyers needed rise to cover the lower ticket."
      ],
      "Model": [
-      "48 in pool × 53.3% plan rate × 1.05 conversion factor = 27.0 buyers × ₹14.2k ticket = ₹3.8L modelled; 50% of uplift counted"
+      "48 in pool × 53.3% plan rate × 1.17 conversion factor = 30.0 buyers × ₹12.8k ticket = ₹3.8L modelled; 50% of uplift counted"
      ]
     },
     "alternatives": [

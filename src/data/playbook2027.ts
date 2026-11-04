@@ -165,10 +165,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Mar',
           audience: 'Lapsed clients with a recorded best month.',
           mechanic:
-            "1M unlimited: ₹20.2k (list price). 1M unlimited at list; Match your best month's class count → +6 days",
+            '1M unlimited at 15% off the list price. 1M unlimited at 15% off list; Match your best month\'s class count → 2 complimentary classes',
           economics:
-            '20.0% effective = 0% cash + 20.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹3.9L counted (+₹42k vs the ₹3.5L stream plan) · 47 buyers',
-          logic: 'Personal data beats generic offers and sets a goal; the reward is earned.',
+            '18.0% effective = 15% cash + 3.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹3.9L counted (+₹42k vs the ₹3.5L stream plan) · 49 buyers',
+          logic: 'Personal data sets a goal. 15% off brings them back, and the complimentary classes are earned by beating their own best month.',
           kpi: 'Data build needed.',
           lever: 'winback',
         },
@@ -178,10 +178,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Mar',
           audience: 'Members expiring 1 Mar–15 Apr.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list + 2 bonus classes (packs) or +7 days (unlimited); First booking window for anniversary party classes",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list; First booking window for anniversary party classes',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹14.4L counted (+₹28.2k vs the ₹14.1L stream plan) · 63 buyers',
-          logic: "In 2026, ₹36.7L of Kwality's April came from early renewals at 30%+. Bonus time protects the ticket.",
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹14.4L counted (+₹28.2k vs the ₹14.1L stream plan) · 70 buyers',
+          logic: 'In 2026, ₹36.7L of Kwality\'s April came from early renewals at 30%+. A capped 10% for renewing before the anniversary takes that demand without the deep code.',
           kpi: 'March renewals vs due.',
           lever: 'annual',
         },
@@ -205,10 +205,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Apr',
           audience: 'Lapsed clients (first-class date known).',
           mechanic:
-            '12-class pack: ₹19.7k (list price). 12-class pack at list; 1 bonus class for each year since your first class (max 2)',
+            '12-class pack at 15% off the list price. 12-class pack at 15% off list; 1 complimentary class for each year since your first class (max 2)',
           economics:
-            '14.8% effective = 0% cash + 14.8% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹8.0L counted (+₹67.9k vs the ₹7.3L stream plan) · 80 buyers',
-          logic: 'Anniversary month, personal anniversary. First-visit dates are in the Day End – New export.',
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.0L counted (+₹67.9k vs the ₹7.3L stream plan) · 84 buyers',
+          logic: 'Anniversary month, personal anniversary. 15% off a pack plus classes for each year makes the comeback personal. First-visit dates are in the Day End – New export.',
           kpi: 'Personalisation needs a mail-merge of first-class dates.',
           lever: 'winback',
         },
@@ -375,10 +375,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Aug',
           audience: 'Members expiring in August or early September.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list; race progress carries over; Race finishers get +7 days on 1M or +14 days on 3M+; Upgrade to 3M with unlimited freezes",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list; race progress carries over; Race finishers get 2 complimentary classes; Upgrade to 3M with unlimited freezes',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹23.6L counted (+₹1.5L vs the ₹22.1L stream plan) · 96 buyers',
-          logic: 'The race lifts attendance, and attendance lifts renewals; finisher bonuses are earned.',
+            '12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹23.6L counted (+₹1.5L vs the ₹22.1L stream plan) · 107 buyers',
+          logic: 'The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing.',
           kpi: 'Race finish rate; renewal yield.',
           lever: 'annual',
         },
@@ -415,10 +415,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Sep',
           audience: '1M and 3M renewers.',
           mechanic:
-            '3M unlimited: ₹57.9k (list price). 3M at list; Unlimited freezes (use within 6 months); Festive gift (≈₹1,000)',
+            '3M unlimited at 10% off the list price. 3M at 10% off list; Unlimited freezes (use within 6 months); Festive gift (≈₹1,000)',
           economics:
-            '1.7% effective = 0% cash + 1.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹24.2L counted (+₹2.2L vs the ₹22.1L stream plan) · 78 buyers',
-          logic: 'October–December are troughs; locking 3M now carries members through them.',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹24.2L counted (+₹2.2L vs the ₹22.1L stream plan) · 81 buyers',
+          logic: 'October–December are troughs. 10% off 3M with freezes locks members in through the festive gaps.',
           kpi: '3M renewals.',
           lever: 'annual',
         },
@@ -455,10 +455,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Oct',
           audience: 'October renewers.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list → 5% back as credit usable only on a Gift a Shake card",
+            'Renewal at 8% off your product\'s list price. Renew at 8% off list; 1 complimentary guest class to gift a friend',
           economics:
-            '5.0% effective = 0% cash + 5.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹30.0L counted (+₹44.3k vs the ₹29.5L stream plan) · 99 buyers',
-          logic: 'Turns renewal value into new-client acquisition.',
+            '10.0% effective = 8% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹30.0L counted (+₹44.3k vs the ₹29.5L stream plan) · 108 buyers',
+          logic: 'A real 8% on the renewal, plus a class to give away, turns every renewal into a referral.',
           kpi: 'Credit used on gifts.',
           lever: 'annual',
         },
@@ -508,8 +508,8 @@ export const PLAYBOOK_2027: PlaybookData = {
           mechanic:
             'Kickstart 21 cohort: ₹10k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join the February challenge (2028) with a scaled target',
           economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.7L counted (−₹11.9k vs the ₹4.8L stream plan) · 21 buyers',
-          logic: 'Moves January demand into December cash and lands graduates in the members-only challenge.',
+            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.7L counted (−₹11.9k vs the ₹4.8L stream plan) · 22 buyers',
+          logic: 'Personal data sets a goal. 15% off brings them back, and the complimentary classes are earned by beating their own best month.',
           kpi: 'Pre-sales; January graduation.',
           lever: 'conversion',
         },
@@ -532,10 +532,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Dec',
           audience: 'Members expiring Dec–Jan.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list so the membership covers all of January; Stronger in 30 challenge kit (≈₹1,000)",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list so the membership covers January and February\'s challenge; February challenge kit (≈₹1,000)',
           economics:
-            '4.0% effective = 0% cash + 4.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹19.5L counted (+₹47.5k vs the ₹19.0L stream plan) · 79 buyers',
-          logic: 'Members-only challenge = a natural reason to renew before it starts.',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹19.5L counted (+₹47.5k vs the ₹19.0L stream plan) · 88 buyers',
+          logic: 'A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December.',
           kpi: 'December renewals of January expiries.',
           lever: 'annual',
         },
@@ -573,11 +573,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
           mechanic:
-            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year",
+            'Renewal at 10% off your product\'s list price. 10% off the renewal when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 93 buyers',
           logic:
-            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+            'January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price.',
           kpi: 'Annuals re-upped; renewal yield.',
           lever: 'annual',
         },
@@ -615,11 +615,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Feb',
           audience: 'Active members renewing in late February or early March.',
           mechanic:
-            "Renewal at your product's list price (no % off).; Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
+            'Renewal at 12% off your product\'s list price. Challenge finishers renew at 12% off list; Members who reach 50% of the target renew at 8% off list',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 83 buyers',
+            '12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 95 buyers',
           logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
+            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
           kpi: 'Challenge finish rate; renewal yield.',
           lever: 'annual',
         },
@@ -656,9 +656,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Feb',
           audience: 'Two active members renewing in the same week.',
           mechanic:
-            "Renewal at your product's list price (no % off).; Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer; Both enter Stronger in 30 2.0; finishers keep the renewal bonus",
+            'Renewal at 10% off your product\'s list price. Both partners renew at 10% off list when you renew together; Both enter Stronger in 30 2.0',
           economics:
-            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹16.1L counted (+₹23.8k vs the ₹15.8L stream plan) · 88 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹16.1L counted (+₹23.8k vs the ₹15.8L stream plan) · 88 buyers',
           logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
           kpi: 'Next-renewal rate of pairs vs singles.',
           lever: 'annual',
@@ -1041,9 +1041,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           mechanic:
             '12-class pack: ₹17.3k (12% off the ₹19.7k list price). Free reunion class; Buy within 7 days: 12-class pack at 12% off + 1 bonus class',
           economics:
-            '21.9% effective = 12% cash + 9.9% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹38.5k vs the ₹1.9L stream plan) · 33 buyers',
+            '21.9% effective = 12% cash + 9.9% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹38.5k vs the ₹1.9L stream plan) · 42 buyers',
           logic:
-            'May–Sep 2024 brought 1,000+ first visits at Bandra; 638 are now lapsed 1–2 years. Reaching people who already know the studio is the cheapest reach Bandra has.',
+            'In 2026, ₹36.7L of Kwality\'s April came from early renewals at 30%+. A capped 10% for renewing before the anniversary takes that demand without the deep code.',
           kpi: 'RSVPs → attendance → purchase. Repeat in September.',
           lever: 'winback',
         },
@@ -1053,9 +1053,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Mar',
           audience: 'Members expiring 1 Mar–15 Apr.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list + 2 bonus classes (packs) or +7 days (unlimited); First booking window for anniversary party classes",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list; First booking window for anniversary party classes',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹8.3L counted (+₹16.2k vs the ₹8.1L stream plan) · 37 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.3L counted (+₹16.2k vs the ₹8.1L stream plan) · 37 buyers',
           logic: "In 2026, ₹36.7L of Kwality's April came from early renewals at 30%+. Bonus time protects the ticket.",
           kpi: 'March renewals vs due.',
           lever: 'annual',
@@ -1094,11 +1094,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Apr',
           audience: 'Members expiring 1 Apr–15 Jun only.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list; +3 classes on packs, +7 days on 1M, +14 days on 3M or longer",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list; Packs also get 2 complimentary classes',
           economics:
-            '10.0% effective = 0% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹23.0L counted (+₹88.3k vs the ₹22.1L stream plan) · 95 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹23.0L counted (+₹88.3k vs the ₹22.1L stream plan) · 106 buyers',
           logic:
-            '2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price. Restricting eligibility limits pull-forward.',
+            '2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price, so the cut is capped at 10% and eligibility stays restricted to limit pull-forward.',
           kpi: 'Renewal purchases vs due (plan KH 130 vs 120 due).',
           lever: 'annual',
         },
@@ -1110,8 +1110,8 @@ export const PLAYBOOK_2027: PlaybookData = {
           mechanic:
             '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). Free first Barre class for both; Class 2 booked together, free within 7 days; Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private',
           economics:
-            '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹4.2L counted (+₹45.5k vs the ₹3.7L stream plan) · 27 buyers',
-          logic: 'Duo + booked second class.',
+            '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹4.2L counted (+₹45.5k vs the ₹3.7L stream plan) · 30 buyers',
+          logic: 'A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December.',
           kpi: 'Both new.',
           lever: 'conversion',
         },
@@ -1136,8 +1136,8 @@ export const PLAYBOOK_2027: PlaybookData = {
           mechanic:
             "Renewal at your product's list price (no % off). Book 8 classes in May → a free hosted class + a trainer progress check; Renew at list",
           economics:
-            '2.0% effective = 0% cash + 2.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹12.1L counted (+₹23.7k vs the ₹11.9L stream plan) · 57 buyers',
-          logic: 'Target ≥55% of April commitment buyers renewing at next expiry (2026 code buyers: 24.5% at Kwality).',
+            '2.0% effective = 0% cash + 2.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹12.1L counted (+₹23.7k vs the ₹11.9L stream plan) · 65 buyers',
+          logic: 'A real 8% on the renewal, plus a class to give away, turns every renewal into a referral.',
           kpi: 'April cohort attendance in May.',
           lever: 'annual',
         },
@@ -1227,9 +1227,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           mechanic:
             'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 7 days unlimited (max 2 a day); classes count on the Rookie leaderboard; Credited within 72 hours against any pack or membership + standing 15%; Race kit (bib and tote, ≈₹1,000) with the purchase',
           economics:
-            '21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹3.7L counted (+₹50.1k vs the ₹3.2L stream plan) · 20 buyers',
+            '21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹3.7L counted (+₹50.1k vs the ₹3.2L stream plan) · 23 buyers',
           logic:
-            'An individual race is intimidating for beginners; a Rookie leaderboard and an unlimited week make it winnable.',
+            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
           kpi: 'Rookie entries; intro conversion.',
           lever: 'conversion',
         },
@@ -1252,10 +1252,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Aug',
           audience: 'Members expiring in August or early September.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list; race progress carries over; Race finishers get +7 days on 1M or +14 days on 3M+; Upgrade to 3M with unlimited freezes",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list; race progress carries over; Race finishers get 2 complimentary classes; Upgrade to 3M with unlimited freezes',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹19.2L counted (+₹1.2L vs the ₹18.0L stream plan) · 74 buyers',
-          logic: 'The race lifts attendance, and attendance lifts renewals; finisher bonuses are earned.',
+            '12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹19.2L counted (+₹1.2L vs the ₹18.0L stream plan) · 83 buyers',
+          logic: 'The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing.',
           kpi: 'Race finish rate; renewal yield.',
           lever: 'annual',
         },
@@ -1291,10 +1291,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Sep',
           audience: '1M and 3M renewers.',
           mechanic:
-            '3M unlimited: ₹57.9k (list price). 3M at list; Unlimited freezes (use within 6 months); Festive gift (≈₹1,000)',
+            '3M unlimited at 10% off the list price. 3M at 10% off list; Unlimited freezes (use within 6 months); Festive gift (≈₹1,000)',
           economics:
-            '1.7% effective = 0% cash + 1.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹13.0L counted (+₹1.6L vs the ₹11.4L stream plan) · 57 buyers',
-          logic: 'October–December are troughs; locking 3M now carries members through them.',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹13.0L counted (+₹1.6L vs the ₹11.4L stream plan) · 64 buyers',
+          logic: '2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price, so the cut is capped at 10% and eligibility stays restricted to limit pull-forward.',
           kpi: '3M renewals.',
           lever: 'annual',
         },
@@ -1330,9 +1330,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Oct',
           audience: 'October renewers.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list → 5% back as credit usable only on a Gift a Shake card",
+            'Renewal at 8% off your product\'s list price. Renew at 8% off list; 1 complimentary guest class to gift a friend',
           economics:
-            '5.0% effective = 0% cash + 5.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹10.9L counted (+₹16.1k vs the ₹10.7L stream plan) · 59 buyers',
+            '10.0% effective = 8% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹10.9L counted (+₹16.1k vs the ₹10.7L stream plan) · 59 buyers',
           logic: 'Turns renewal value into new-client acquisition.',
           kpi: 'Credit used on gifts.',
           lever: 'annual',
@@ -1395,8 +1395,8 @@ export const PLAYBOOK_2027: PlaybookData = {
           mechanic:
             '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M at the standing 15%, start any day until 1 Jan; Eligible for Stronger in 30 (Jan 2028)',
           economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.9L counted (+₹18.7k vs the ₹1.7L stream plan) · 25 buyers',
-          logic: "The challenge is members-only; this is the lapsed client's ticket in.",
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.9L counted (+₹18.7k vs the ₹1.7L stream plan) · 29 buyers',
+          logic: 'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
           kpi: 'January starts.',
           lever: 'winback',
         },
@@ -1406,10 +1406,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Dec',
           audience: 'Members expiring Dec–Jan.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list so the membership covers all of January; Stronger in 30 challenge kit (≈₹1,000)",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list so the membership covers January and February\'s challenge; February challenge kit (≈₹1,000)',
           economics:
-            '4.0% effective = 0% cash + 4.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹12.9L counted (+₹31.5k vs the ₹12.6L stream plan) · 54 buyers',
-          logic: 'Members-only challenge = a natural reason to renew before it starts.',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹12.9L counted (+₹31.5k vs the ₹12.6L stream plan) · 60 buyers',
+          logic: 'A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December.',
           kpi: 'December renewals of January expiries.',
           lever: 'annual',
         },
@@ -1447,11 +1447,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
           mechanic:
-            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year",
+            'Renewal at 10% off your product\'s list price. 10% off the renewal when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 59 buyers',
           logic:
-            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+            'January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price.',
           kpi: 'Annuals re-upped; renewal yield.',
           lever: 'annual',
         },
@@ -1489,11 +1489,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Feb',
           audience: 'Active members renewing in late February or early March.',
           mechanic:
-            "Renewal at your product's list price (no % off).; Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
+            'Renewal at 12% off your product\'s list price. Challenge finishers renew at 12% off list; Members who reach 50% of the target renew at 8% off list',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 53 buyers',
+            '12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 61 buyers',
           logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
+            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
           kpi: 'Challenge finish rate; renewal yield.',
           lever: 'annual',
         },
@@ -1519,8 +1519,8 @@ export const PLAYBOOK_2027: PlaybookData = {
           mechanic:
             '12-class pack: ₹16.7k (15% off the ₹19.7k list price).; Lapsed client: 12-class pack at the standing 15%; Friend: free first class; If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month; Lapsed client and friend both enter Stronger in 30 2.0',
           economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.4L counted (+₹24.1k vs the ₹1.2L stream plan) · 25 buyers',
-          logic: 'One message, two streams: reactivation and a warm new lead.',
+            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.4L counted (+₹24.1k vs the ₹1.2L stream plan) · 28 buyers',
+          logic: 'Pairs keep each other attending, and attendance predicts renewal. Renewing together for 10% off each makes the pair the reason to commit. Tag pairs to measure it.',
           kpi: 'Friends who buy.',
           lever: 'winback',
         },
@@ -1530,9 +1530,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Feb',
           audience: 'Two active members renewing in the same week.',
           mechanic:
-            "Renewal at your product's list price (no % off).; Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer; Both enter Stronger in 30 2.0; finishers keep the renewal bonus",
+            'Renewal at 10% off your product\'s list price. Both partners renew at 10% off list when you renew together; Both enter Stronger in 30 2.0',
           economics:
-            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹12.1L counted (+₹17.8k vs the ₹11.9L stream plan) · 68 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹12.1L counted (+₹17.8k vs the ₹11.9L stream plan) · 68 buyers',
           logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
           kpi: 'Next-renewal rate of pairs vs singles.',
           lever: 'annual',
@@ -1902,9 +1902,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Mar',
           audience: 'Lapsed clients with a recorded best month.',
           mechanic:
-            "1M unlimited: ₹14.6k (list price). 1M unlimited at list; Match your best month's class count → +6 days",
+            '1M unlimited at 15% off the list price. 1M unlimited at 15% off list; Match your best month\'s class count → 2 complimentary classes',
           economics:
-            '20.0% effective = 0% cash + 20.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹1.1L counted (+₹14.2k vs the ₹1.0L stream plan) · 21 buyers',
+            '18.0% effective = 15% cash + 3.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹1.1L counted (+₹14.2k vs the ₹1.0L stream plan) · 21 buyers',
           logic: 'Personal data beats generic offers and sets a goal; the reward is earned.',
           kpi: 'Data build needed.',
           lever: 'winback',
@@ -1915,10 +1915,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Mar',
           audience: '1M renewers with 8+ visits a month.',
           mechanic:
-            '3M unlimited: ₹42.2k (list price). 3M unlimited at list; Unlimited freezes (use within 6 months); Anniversary tote (≈₹1,000)',
+            '3M unlimited at 10% off the list price. 3M unlimited at 10% off list; Unlimited freezes (use within 6 months); Anniversary tote (≈₹1,000)',
           economics:
-            '2.4% effective = 0% cash + 2.4% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹5.3L counted (+₹48.2k vs the ₹4.8L stream plan) · 33 buyers',
-          logic: '3M renews at 71% at Kenkere vs 59% for 1M.',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹5.3L counted (+₹48.2k vs the ₹4.8L stream plan) · 34 buyers',
+          logic: '3M renews at 71% at Kenkere vs 59% for 1M. 10% off makes the step up from 1M easy before the anniversary.',
           kpi: 'Tote stock.',
           lever: 'annual',
         },
@@ -1956,11 +1956,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Apr',
           audience: 'Members expiring 1 Apr–15 Jun only.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list; +3 classes on packs, +7 days on 1M, +14 days on 3M or longer",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list; Packs also get 2 complimentary classes',
           economics:
-            '10.0% effective = 0% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹8.6L counted (+₹32.9k vs the ₹8.2L stream plan) · 57 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.6L counted (+₹32.9k vs the ₹8.2L stream plan) · 64 buyers',
           logic:
-            '2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price. Restricting eligibility limits pull-forward.',
+            'The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing.',
           kpi: 'Renewal purchases vs due (plan KH 130 vs 120 due).',
           lever: 'annual',
         },
@@ -2114,9 +2114,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Aug',
           audience: 'Members expiring in August or early September.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list; race progress carries over; Race finishers get +7 days on 1M or +14 days on 3M+; Upgrade to 3M with unlimited freezes",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list; race progress carries over; Race finishers get 2 complimentary classes; Upgrade to 3M with unlimited freezes',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹7.9L counted (+₹49.9k vs the ₹7.4L stream plan) · 57 buyers',
+            '12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹7.9L counted (+₹49.9k vs the ₹7.4L stream plan) · 57 buyers',
           logic: 'The race lifts attendance, and attendance lifts renewals; finisher bonuses are earned.',
           kpi: 'Race finish rate; renewal yield.',
           lever: 'annual',
@@ -2196,8 +2196,8 @@ export const PLAYBOOK_2027: PlaybookData = {
           mechanic:
             "Renewal at your product's list price (no % off). Renew 1M or longer at list; 1 extra freeze for festive travel + 2 guest passes for family",
           economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.5L counted (+₹6.6k vs the ₹4.4L stream plan) · 36 buyers',
-          logic: "Kenkere's October is a travel trough.",
+            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.5L counted (+₹6.6k vs the ₹4.4L stream plan) · 40 buyers',
+          logic: 'Pairs keep each other attending, and attendance predicts renewal. Renewing together for 10% off each makes the pair the reason to commit. Tag pairs to measure it.',
           kpi: 'October yield.',
           lever: 'annual',
         },
@@ -2231,10 +2231,10 @@ export const PLAYBOOK_2027: PlaybookData = {
           tag: 'Renewal',
           months: 'Nov',
           audience: 'Members renewing 26–29 Nov.',
-          mechanic: "Renewal at your product's list price (no % off). 3M +7 days, 6M +14 days, Annual +30 days",
+          mechanic: 'Renewal at 8% off list on 3M, 12% on 6M, 15% on Annual. 3M 8% off, 6M 12% off, Annual 15% off list',
           economics:
-            '8.0% effective = 0% cash + 8.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹8.0L counted (+₹56.8k vs the ₹7.4L stream plan) · 51 buyers',
-          logic: 'Rewards length, not depth.',
+            '12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.0L counted (+₹56.8k vs the ₹7.4L stream plan) · 58 buyers',
+          logic: 'The discount grows with the term, so the longest plans get the best rate.',
           kpi: '3M+ share.',
           lever: 'annual',
         },
@@ -2270,9 +2270,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Dec',
           audience: 'Members expiring Dec–Jan.',
           mechanic:
-            "Renewal at your product's list price (no % off). Renew at list so the membership covers all of January; Stronger in 30 challenge kit (≈₹1,000)",
+            'Renewal at 10% off your product\'s list price. Renew at 10% off list so the membership covers January and February\'s challenge; February challenge kit (≈₹1,000)',
           economics:
-            '4.0% effective = 0% cash + 4.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹3.7L counted (+₹9.1k vs the ₹3.7L stream plan) · 27 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.7L counted (+₹9.1k vs the ₹3.7L stream plan) · 27 buyers',
           logic: 'Members-only challenge = a natural reason to renew before it starts.',
           kpi: 'December renewals of January expiries.',
           lever: 'annual',
@@ -2311,11 +2311,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Jan',
           audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
           mechanic:
-            "Renewal at your product's list price (no % off).; +7 days on 3M, +14 days on 6M or 12M when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year",
+            'Renewal at 10% off your product\'s list price. 10% off the renewal when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 48 buyers',
           logic:
-            'Full-price renewers renew again at 61–68% vs 50–54% after a discount. January is when the annuals fall due; a small term bonus is cheaper than a percentage, and it starts the year at list.',
+            'January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price.',
           kpi: 'Annuals re-upped; renewal yield.',
           lever: 'annual',
         },
@@ -2353,11 +2353,11 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Feb',
           audience: 'Active members renewing in late February or early March.',
           mechanic:
-            "Renewal at your product's list price (no % off).; Challenge finishers renew at list and get: +7 days on 1M, +2 classes on a pack, +14 days on 3M or longer; Members who reach 50% of the target get +3 days on 1M or +1 class on a pack",
+            'Renewal at 12% off your product\'s list price. Challenge finishers renew at 12% off list; Members who reach 50% of the target renew at 8% off list',
           economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 43 buyers',
+            '12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 49 buyers',
           logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. Rewarding finishers pays for the behaviour that produces renewals; full-price renewers renew again at 61–68% vs 50–54% after discounts.',
+            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
           kpi: 'Challenge finish rate; renewal yield.',
           lever: 'annual',
         },
@@ -2394,9 +2394,9 @@ export const PLAYBOOK_2027: PlaybookData = {
           months: 'Feb',
           audience: 'Two active members renewing in the same week.',
           mechanic:
-            "Renewal at your product's list price (no % off).; Each gets +3 days on 1M, +1 class on a pack, or +7 days on 3M or longer; Both enter Stronger in 30 2.0; finishers keep the renewal bonus",
+            'Renewal at 10% off your product\'s list price. Both partners renew at 10% off list when you renew together; Both enter Stronger in 30 2.0',
           economics:
-            '6.0% effective = 0% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.8L counted (+₹10.1k vs the ₹6.7L stream plan) · 52 buyers',
+            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹6.8L counted (+₹10.1k vs the ₹6.7L stream plan) · 52 buyers',
           logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
           kpi: 'Next-renewal rate of pairs vs singles.',
           lever: 'annual',

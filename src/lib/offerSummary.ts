@@ -160,7 +160,7 @@ function extrasOf(offer: any) {
   const extras: string[] = [];
   const days = /\+\s*(\d+)\s*days?/i.exec(haystack) || /(\d+)\s*(?:extra|bonus)\s+days?/i.exec(haystack);
   if (days && Number(days[1]) > 0) extras.push(`${Number(days[1])} extra days`);
-  const classes = /(\d+)\s*(?:free|bonus|extra)\s+classes?/i.exec(haystack);
+  const classes = /(\d+)\s*(?:free|bonus|extra|complimentary)\s+classes?/i.exec(haystack);
   if (classes && Number(classes[1]) > 0) extras.push(`${Number(classes[1])} free classes`);
   const freezes = /(\d+)\s*(?:extra\s+|more\s+)?freezes?/i.exec(haystack);
   if (freezes && Number(freezes[1]) > 0) extras.push(`${Number(freezes[1])} extra freezes`);
