@@ -76,7 +76,7 @@ import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 import { planPricing } from '../../lib/offerPricing';
-import { offerSummary, offerHighlights } from '../../lib/offerSummary';
+import { offerSummary, offerHighlights, splitPoints } from '../../lib/offerSummary';
 import { groupOffersByCategory, offerCategory, OFFER_CATEGORY_LABELS } from '../../lib/offerCategory';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
@@ -5358,17 +5358,31 @@ function OfferCard({
               <span className="ocv-offer-kicker">
                 <Gift size={13} /> The offer
               </span>
-              <p className="ocv-brief">{inline(highlights.terms)}</p>
-              {highlights.inclusions.length > 0 && (
-                <ul className="ocv-inclusions">
-                  {highlights.inclusions.map((inclusion, index) => (
-                    <li key={index}>
-                      <Check size={13} aria-hidden="true" />
-                      <span>{inline(inclusion)}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <div className="ocv-offer-groups">
+                <div className="ocv-offer-group is-terms">
+                  <span className="ocv-offer-group-label">What they pay</span>
+                  <ul className="ocv-terms">
+                    {(highlights.termPoints.length ? highlights.termPoints : [highlights.terms]).map((point, index) => (
+                      <li key={index}>
+                        <span>{inline(point)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {highlights.inclusions.length > 0 && (
+                  <div className="ocv-offer-group">
+                    <span className="ocv-offer-group-label">What they get</span>
+                    <ul className="ocv-inclusions">
+                      {highlights.inclusions.flatMap(inclusion => splitPoints(inclusion)).map((inclusion, index) => (
+                        <li key={index}>
+                          <Check size={13} aria-hidden="true" />
+                          <span>{inline(inclusion)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </section>
           </header>
 

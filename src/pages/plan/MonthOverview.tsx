@@ -189,7 +189,18 @@ export default function MonthOverview({
       <div className="mo2-body">
         <div className="mo2-brief">
           <span className="mo2-label">The brief</span>
-          <p>{chapter.brief}</p>
+          {chapter.briefPoints.length ? (
+            <ul className="mo2-points is-brief">
+              {chapter.briefPoints.map((point, i) => (
+                <li key={i}>
+                  <b>{point.name}</b>
+                  {point.line ? <span>{point.line}</span> : null}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>{chapter.brief}</p>
+          )}
           <p className="mo2-moment">{chapter.moment}</p>
         </div>
 
@@ -276,19 +287,31 @@ export default function MonthOverview({
             <span className="mo2-note-head">
               <i>01</i> Where the money comes from
             </span>
-            <p>{story.split}</p>
+            <ul className="mo2-points">
+              {story.points.split.map((point, i) => (
+                <li key={i}>{point}</li>
+              ))}
+            </ul>
           </article>
           <article>
             <span className="mo2-note-head">
               <i>02</i> Who has to walk in
             </span>
-            <p>{story.leads}</p>
+            <ul className="mo2-points">
+              {story.points.leads.map((point, i) => (
+                <li key={i}>{point}</li>
+              ))}
+            </ul>
           </article>
           <article>
             <span className="mo2-note-head">
               <i>03</i> Who has to stay
             </span>
-            <p>{story.renewals}</p>
+            <ul className="mo2-points">
+              {story.points.renewals.map((point, i) => (
+                <li key={i}>{point}</li>
+              ))}
+            </ul>
           </article>
         </div>
 

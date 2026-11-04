@@ -21,6 +21,8 @@ export interface MonthChapter {
   objective: string;
   /** Two to three sentences of story: why the month works the way it does. */
   brief: string;
+  /** The brief as bullets: each primary offer and the line that sells it. */
+  briefPoints: { name: string; line: string }[];
   /** What usually goes wrong. */
   risk: string;
   /** The one move the month is built around. */
@@ -53,6 +55,8 @@ export interface MonthStory {
   leads: string;
   /** Who has to stay. */
   renewals: string;
+  /** The same three notes as short, plain bullet points. */
+  points: { split: string[]; leads: string[]; renewals: string[] };
 }
 
 const L = (v: number) =>
@@ -84,6 +88,7 @@ export const MONTH_CHAPTERS: MonthChapter[] = Array.from({ length: 12 }, (_, i) 
     moment: e.moment,
     objective: e.job,
     brief: offers.map(o => `${o.name}: ${o.tagline}`).join(' '),
+    briefPoints: offers.map(o => ({ name: o.name, line: o.tagline })),
     risk: field(approvedOffer(e, 'newcomer'), 'What to watch'),
     signature: offers.map(o => o.name).join(' · '),
   };
@@ -127,6 +132,27 @@ function voice(month: number, c: MonthStoryInput): MonthStory {
     split: `${theme}: of ${L(c.target)}, ${L(c.streams.newClient)} (${share(c.streams.newClient, c.target)}) comes from new clients, ${L(c.streams.renewal)} (${share(c.streams.renewal, c.target)}) from renewals and ${L(c.streams.reactivation)} (${share(c.streams.reactivation, c.target)}) from lapsed clients coming back. ${job}`,
     leads: `${N(c.leads)} leads → ${N(c.trials)} trials → ${N(c.buyers)} first purchases at ${conv(c)} trial conversion. Newcomer offer: ${offer('newcomer')}; lapsed offer: ${offer('lapsed')}.`,
     renewals: `${N(c.renewalsDue)} memberships expire and the plan funds ${P(c.renewalCoverage)} of that renewal book. Renewal offer: ${offer('renewal')}.`,
+    points: {
+      split: [
+        `Goal this month: ${L(c.target)}`,
+        `New clients bring ${L(c.streams.newClient)} (${share(c.streams.newClient, c.target)})`,
+        `Members who renew bring ${L(c.streams.renewal)} (${share(c.streams.renewal, c.target)})`,
+        `Past clients coming back bring ${L(c.streams.reactivation)} (${share(c.streams.reactivation, c.target)})`,
+        ...(job ? [`Main focus: ${job}`] : []),
+      ],
+      leads: [
+        `${N(c.leads)} people enquire`,
+        `${N(c.trials)} take a trial class`,
+        `${N(c.buyers)} buy a pack or membership (${conv(c)} of trials)`,
+        `New-client offer: ${offer('newcomer')}`,
+        `Win-back offer: ${offer('lapsed')}`,
+      ],
+      renewals: [
+        `${N(c.renewalsDue)} memberships run out this month`,
+        `The plan expects to renew ${P(c.renewalCoverage)} of them`,
+        `Renewal offer: ${offer('renewal')}`,
+      ],
+    },
   };
 }
 
