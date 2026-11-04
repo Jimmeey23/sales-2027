@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AlertTriangle, Check, FileJson, Loader2, RotateCcw, Upload, X } from 'lucide-react';
-import { api } from '../api';
+import { postImport, readImportFile } from '../lib/importRequest';
+import { IMPORT_REQUEST_LIMIT_LABEL } from '../lib/importLimits';
 import { useApp } from '../App';
 import { MONTHS } from '../types';
 
@@ -125,11 +126,13 @@ export default function PlanImportDialog({
   useEffect(() => {
     setPreview(null);
     setDone(null);
-  }, [mode, approve, useRates]);
+  }, [text, mode, approve, useRates, studioId, year]);
 
   const readFile = async (file: File) => {
+    setPreview(null);
+    setDone(null);
     try {
-      const content = await file.text();
+      const content = await readImportFile(file);
       setText(content);
       setError(null);
     } catch (err: any) {
@@ -146,17 +149,14 @@ export default function PlanImportDialog({
     setError(null);
     if (dryRun) setPreview(null);
     try {
-      const payload = await api('/plan/import', {
-        method: 'POST',
-        body: JSON.stringify({
-          text,
-          mode,
-          dryRun,
-          approve: approve && mayApprove,
-          useRates,
-          studioId: identity.studio ? undefined : (studioId ?? undefined),
-          year,
-        }),
+      const payload = await postImport('/plan/import', {
+        text,
+        mode,
+        dryRun,
+        approve: approve && mayApprove,
+        useRates,
+        studioId: identity.studio ? undefined : (studioId ?? undefined),
+        year,
       });
       if (dryRun) {
         setPreview(payload);
@@ -320,6 +320,9 @@ export default function PlanImportDialog({
                     {identity.year ? ` · ${identity.year}` : ''}
                   </>
                 )}
+              </p>
+              <p className="pex-hint">
+                Up to {IMPORT_REQUEST_LIMIT_LABEL} before compression · large imports compress automatically.
               </p>
             </div>
 

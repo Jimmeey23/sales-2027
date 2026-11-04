@@ -72,11 +72,15 @@ async function readBody(response: Response) {
   const payload = contentType.includes('application/json') ? await response.json() : await response.text();
   if (!response.ok) {
     if (response.status === 401) window.dispatchEvent(new Event('p57-unauthorised'));
-    throw new ApiError(
-      typeof payload === 'object' ? payload.error || 'Request failed.' : payload,
-      response.status,
-      payload,
-    );
+    const message =
+      payload && typeof payload === 'object' && payload.error
+        ? payload.error
+        : response.status === 413
+          ? 'This upload is too large for the server. Try a smaller file or split the document into smaller imports.'
+          : typeof payload === 'string' && payload
+            ? payload
+            : 'Request failed.';
+    throw new ApiError(message, response.status, payload);
   }
   return payload;
 }

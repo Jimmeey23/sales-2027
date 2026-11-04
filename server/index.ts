@@ -1,5 +1,6 @@
 import express from 'express';
 import compression from 'compression';
+import { jsonRequestBody } from './lib/requestBody.js';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import path from 'node:path';
@@ -83,7 +84,7 @@ app.use((_req, res, next) => {
 // JSON planning payloads compress about 8:1 (a year of offers is ~1 MB of mostly repeated
 // keys and copy). This is the single biggest transfer win on a slow connection.
 app.use(compression({ threshold: 1024 }));
-app.use(express.json({ limit: '3mb' }));
+app.use(jsonRequestBody);
 app.use(cookieParser());
 // Serverless (Vercel): several short-lived instances share Supabase. Each request first applies
 // changes made elsewhere, and a write only answers once its changes are safely in Supabase.
