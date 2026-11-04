@@ -9447,21 +9447,3 @@ details.membership-terms > summary {
 .mw .mo2-points.is-brief > li > span {
   color: var(--muted);
 }
-.mw .mo2-job {
-  margin: 10px 0 0;
-  max-width: 92ch;
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--muted);
-}
-.mw .mo2-point-rev {
-  margin-left: 8px;
-  padding: 1px 8px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--gold) 14%, transparent);
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 650;
-  color: var(--gold-deep);
-}

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { buildRunOfMonth, weekTarget } from '../../lib/runOfMonth';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
@@ -58,7 +57,7 @@ import OfferRevenueSummary from './OfferRevenueSummary';
 import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type PlanData } from './usePlanData';
-import { offerDetails, offerHighlights } from '../../lib/offerSummary';
+import { offerDetails } from '../../lib/offerSummary';
 import { hasValidForecast, forecastRevenue } from '../../lib/forecast';
 import { groupOffersByCategory } from '../../lib/offerCategory';
 import {
@@ -482,29 +481,6 @@ export default function MonthWorkspace({
     saveTimer.current = setTimeout(flushSave, 1000);
   }, [form, editable]);
   useEffect(() => () => void flushSave(), [month, studioIdx]);
-  // Closing or reloading the tab inside the 1s debounce would drop the last edit: send it with
-  // keepalive so the request outlives the page.
-  useEffect(() => {
-    const onHide = () => {
-      const p = pendingSave.current;
-      if (!p) return;
-      pendingSave.current = null;
-      clearTimeout(saveTimer.current);
-      void fetch(p.url.startsWith('/api') ? p.url : `/api${p.url}`, {
-        method: 'PUT',
-        body: p.body,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        keepalive: true,
-      });
-    };
-    window.addEventListener('pagehide', onHide);
-    window.addEventListener('beforeunload', onHide);
-    return () => {
-      window.removeEventListener('pagehide', onHide);
-      window.removeEventListener('beforeunload', onHide);
-    };
-  }, []);
 
   // Persists a whole form snapshot, including the stream split when it differs from the saved target.
   const persistForm = async (f: ReturnType<typeof initialForm>) => {
@@ -969,38 +945,6 @@ export default function MonthWorkspace({
     setCollapsedWeeks(list => (list.includes(week) ? list.filter(w => w !== week) : [...list, week]));
   // The editing passcode hides pencils, not progress: ticking only needs the plan permission.
   const canTick = boot.user.permissions.includes('target_edit') && !!studio?.id;
-  // Rewrites the checklist from the month's own offers, target and funnel. Saved like a tick:
-  // through autosave when editing, otherwise as an actions-only save.
-  const rewriteRun = async () => {
-    if (!canTick) return;
-    if (form.actions.length && !window.confirm('Replace this month’s checklist with a plan written from its current offers and target?'))
-      return;
-    const next = buildRunOfMonth({
-      year,
-      month,
-      target: effective,
-      offers: selected,
-      leads: n(econ?.newClient.leads ?? row.leads),
-      trials: n(econ?.newClient.trials ?? row.trials),
-      buyers: n(econ?.newClient.buyers ?? row.buyers),
-      renewalsDue: n(econ?.renewal.projectedExpiries || row.renewalsDue || 0),
-      keyDates: (form.content?.keyDates || keyDatesFor(year, month)) as any,
-    });
-    setForm(f => ({ ...f, actions: next }));
-    actionsRef.current = next;
-    if (editable) return;
-    saving.current += 1;
-    try {
-      await api(`/studio-plans/${studio.id}/${year}/${month}`, { method: 'PUT', body: JSON.stringify({ actions: next }) });
-      skipReset.current = resetKey.current;
-      await onSaved();
-      toast('Checklist rewritten and saved.');
-    } catch (e: any) {
-      toast(e.message || 'Could not save the checklist.', 'error');
-    } finally {
-      saving.current -= 1;
-    }
-  };
   // Ticks save one at a time, each sending the latest list, so fast clicks can't land out of order.
   const actionsRef = useRef(form.actions);
   actionsRef.current = form.actions;
@@ -1087,24 +1031,7 @@ export default function MonthWorkspace({
     }
     return bySlot;
   })();
-  // The cover says, in one breath, what the month is selling and how it gets to its number —
-  // written from the live offers and target, never from the import's working notes.
-  const coverBrief = (() => {
-    if (!effective) return chapter.brief;
-    const lastYearRev = n(row.lastYear);
-    const yoyPct = lastYearRev ? Math.round((effective / lastYearRev - 1) * 100) : null;
-    const offersLine = selected.length
-      ? `${selected.length} offer${selected.length === 1 ? '' : 's'} built to deliver ${lakh(effective)}${
-          yoyPct !== null ? ` (${yoyPct >= 0 ? '+' : ''}${yoyPct}% on last year)` : ''
-        }.`
-      : `A ${lakh(effective)} month with no offers chosen yet.`;
-    const carry = forecastedCount
-      ? ` Offers are forecast to bring in ${lakh(offerRevenue)} (${Math.round((offerRevenue / effective) * 100)}%); the other ${lakh(
-          Math.max(0, effective - offerRevenue),
-        )} comes from full-price renewals, packs and walk-ins.`
-      : '';
-    return `${offersLine}${carry}`;
-  })();
+  const coverBrief = importedPlan ? String(form.notes || form.objective || chapter.brief) : chapter.brief;
   const coverRisk = importedPlan ? String(form.content?.ai?.risks?.[0] || '') || undefined : chapter.risk;
   const coverSignature = importedPlan
     ? selected
@@ -1556,19 +1483,6 @@ export default function MonthWorkspace({
                 photo={coverPhoto}
                 status={coverStatus}
                 onOpenOffers={() => setPage('offers')}
-                job={form.objective}
-                offerList={selected.map(o => {
-                  // The offer's terms, not its marketing hook: the overview says what the client gets.
-                  const terms = offerHighlights(o).terms;
-                  const d = offerDetails(o);
-                  const line = terms && terms.length > 12 ? terms : d.deal[0] || terms;
-                  return {
-                    name: o.name,
-                    line: line.charAt(0).toUpperCase() + line.slice(1),
-                    revenue: forecastRevenue(o),
-                    stream: STREAM_OF[o.objective] || '',
-                  };
-                })}
               />
             )}
 
@@ -3534,11 +3448,6 @@ export default function MonthWorkspace({
                               <i style={{ width: `${total ? (done / total) * 100 : 0}%` }} />
                               <em>{total ? `${Math.round((done / total) * 100)}%` : '0%'}</em>
                             </div>
-                            {canTick && selected.length > 0 && (
-                              <button type="button" className="mp-run-rewrite" onClick={rewriteRun}>
-                                <Sparkles size={12} /> Rewrite from this month’s offers
-                              </button>
-                            )}
                           </header>
 
                           {/* One segment per week, filled to the share of that week's steps already done. */}
@@ -3611,14 +3520,7 @@ export default function MonthWorkspace({
                                       <b>{String(phase.week).padStart(2, '0')}</b>
                                     </span>
                                     <span className="mp-phase-title">
-                                      <strong>
-                                        {phase.label}
-                                        {phase.week <= 4 && effective > 0 && (
-                                          <b className="mp-phase-goal">
-                                            {lakh(weekTarget(effective, phase.week))} by week end
-                                          </b>
-                                        )}
-                                      </strong>
+                                      <strong>{phase.label}</strong>
                                       <em>
                                         {phase.range ? `${MONTHS[month - 1].slice(0, 3)} ${phase.range} · ` : ''}
                                         {phase.hint}
