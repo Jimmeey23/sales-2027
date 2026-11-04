@@ -1128,3 +1128,112 @@
     display: block;
   }
 }
+
+/* Offer banner facts: validity and audience as a labelled strip, then the fine print. */
+.mw .oc.is-v3 .ocv-offer-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 14px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--oc-accent) 16%, var(--oc-line));
+}
+.mw .oc.is-v3 .ocv-offer-facts > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--oc-accent) 14%, var(--oc-line));
+  border-radius: 10px;
+  background: var(--paper);
+}
+.mw .oc.is-v3 .ocv-offer-facts dt {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oc-accent);
+}
+.mw .oc.is-v3 .ocv-offer-facts dd {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--oc-ink);
+  overflow-wrap: anywhere;
+}
+.mw .oc.is-v3 .ocv-fine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mw .oc.is-v3 .ocv-fine > li {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--oc-accent) 7%, transparent);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* Sleek banner: tight rhythm, facts as a compact inline row, fine print as one muted line. */
+.mw .oc.is-v3 .ocv-offer-highlight {
+  gap: 10px;
+  padding: 16px 20px;
+}
+.mw .oc.is-v3 .ocv-brief {
+  font-size: 18px;
+  line-height: 1.45;
+}
+.mw .oc.is-v3 .ocv-inclusions {
+  gap: 6px;
+  padding-top: 12px;
+}
+.mw .oc.is-v3 .ocv-inclusions > li {
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.mw .oc.is-v3 .ocv-inclusions > li > svg {
+  margin-top: 3px;
+}
+.mw .oc.is-v3 .ocv-offer-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  padding: 10px 0 0;
+}
+.mw .oc.is-v3 .ocv-offer-facts > div {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+.mw .oc.is-v3 .ocv-offer-facts dt {
+  flex: none;
+  font-size: 9.5px;
+}
+.mw .oc.is-v3 .ocv-offer-facts dd {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+.mw .oc.is-v3 .ocv-fine {
+  display: block;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.mw .oc.is-v3 .ocv-fine > li {
+  display: inline;
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  color: inherit;
+}
+.mw .oc.is-v3 .ocv-fine > li + li::before {
+  content: ' · ';
+}

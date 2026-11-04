@@ -291,3 +291,49 @@ export function offerHighlights(offer: any): OfferHighlights {
   const inclusions = [...new Set(items.map(asText).filter(text => text && text !== terms))];
   return { terms, inclusions };
 }
+
+export interface OfferDetails {
+  /** Every clause of the client-facing copy, one per bullet. */
+  deal: string[];
+  /** When it runs. */
+  validity: string;
+  /** Who it is for, and who it is not. */
+  who: string;
+  notFor: string;
+  /** House rules that the deal bullets do not already say. */
+  fine: string[];
+}
+
+const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9%₹]+/g, ' ').trim();
+
+/** All of an offer's details, broken into short bullets for the offer banner. */
+export function offerDetails(offer: any): OfferDetails {
+  const name = clean(offer?.name || '');
+  let copy = asText(offer?.customer_copy) || asText(offer?.provenance?.description) || '';
+  // "Name: 8 classes…" — the name is already the card's title.
+  if (name && copy.toLowerCase().startsWith(name.toLowerCase())) copy = copy.slice(name.length).replace(/^\s*[:—–-]\s*/, '');
+  const points = splitPoints(copy);
+  const validity = points.find(p => /^valid\b/i.test(p)) || '';
+  // A bracketed rule of three words or more reads better as its own bullet.
+  const deal = points
+    .filter(p => p !== validity && !/^prices? exclude gst$/i.test(p))
+    .flatMap(p => {
+      const inner = [...p.matchAll(/\s*\(([^()]{12,})\)/g)];
+      if (!inner.length) return [p];
+      const main = p.replace(/\s*\(([^()]{12,})\)/g, '').replace(/\s+/g, ' ').trim();
+      return [main, ...inner.map(m => m[1].charAt(0).toUpperCase() + m[1].slice(1))];
+    });
+  const gst = points.some(p => /^prices? exclude gst$/i.test(p));
+  const said = new Set(points.map(norm));
+  const fine = splitPoints(asText(offer?.redemption_conditions))
+    .filter(p => !/^valid\b/i.test(p) || !validity)
+    .filter(p => !said.has(norm(p)));
+  if (gst && !fine.some(p => /gst/i.test(p))) fine.unshift('Prices exclude GST');
+  return {
+    deal,
+    validity: validity.replace(/^valid\s*/i, ''),
+    who: asText(offer?.audience).replace(/\.$/, ''),
+    notFor: asText(offer?.excluded_audience).replace(/\.$/, ''),
+    fine,
+  };
+}

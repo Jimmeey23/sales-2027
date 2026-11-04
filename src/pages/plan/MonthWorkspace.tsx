@@ -76,7 +76,7 @@ import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
 import { lakh, type MonthEconomics, type PlanData } from './usePlanData';
 import { planPricing } from '../../lib/offerPricing';
-import { offerSummary, offerHighlights, splitPoints } from '../../lib/offerSummary';
+import { offerSummary, offerHighlights, offerDetails, splitPoints } from '../../lib/offerSummary';
 import { groupOffersByCategory, offerCategory, OFFER_CATEGORY_LABELS } from '../../lib/offerCategory';
 
 const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
@@ -5144,6 +5144,7 @@ function OfferCard({
   // hook. The derived description still helps deduplicate the supporting record.
   const offerDescription = offerSummary(o).sentence;
   const highlights = offerHighlights(o);
+  const details = offerDetails(o);
 
   // Bars are the chart line for each figure; they all share one 0–100 scale.
   const clampPct = (value: number) =>
@@ -5402,17 +5403,51 @@ function OfferCard({
               <span className="ocv-offer-kicker">
                 <Gift size={13} /> The offer
               </span>
-              <p className="ocv-brief">{inline(highlights.terms)}</p>
-              {highlights.inclusions.length > 0 && (
-                <ul className="ocv-inclusions">
-                  {highlights.inclusions.flatMap(inclusion => splitPoints(inclusion)).map((inclusion, index) => (
-                    <li key={index}>
-                      <Check size={14} aria-hidden="true" />
-                      <span>{inline(inclusion)}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {(() => {
+                const deal = details.deal.length ? details.deal : [highlights.terms];
+                const seen = new Set(deal.map(d => d.toLowerCase()));
+                const extras = highlights.inclusions
+                  .flatMap(inclusion => splitPoints(inclusion))
+                  .filter(p => !seen.has(p.toLowerCase()));
+                const [lead, ...rest] = deal;
+                const facts = [
+                  details.validity && { label: 'Valid', value: details.validity },
+                  details.who && { label: 'For', value: details.who },
+                  details.notFor && { label: 'Not for', value: details.notFor },
+                ].filter(Boolean) as Array<{ label: string; value: string }>;
+                return (
+                  <>
+                    <p className="ocv-brief">{inline(lead)}</p>
+                    {[...rest, ...extras].length > 0 && (
+                      <ul className="ocv-inclusions">
+                        {[...rest, ...extras].map((point, index) => (
+                          <li key={index}>
+                            <Check size={14} aria-hidden="true" />
+                            <span>{inline(point)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {facts.length > 0 && (
+                      <dl className="ocv-offer-facts">
+                        {facts.map(fact => (
+                          <div key={fact.label}>
+                            <dt>{fact.label}</dt>
+                            <dd>{inline(fact.value)}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                    {details.fine.length > 0 && (
+                      <ul className="ocv-fine">
+                        {details.fine.map((point, index) => (
+                          <li key={index}>{inline(point)}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </>
+                );
+              })()}
             </section>
           </header>
 
