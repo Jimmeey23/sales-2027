@@ -19,13 +19,17 @@
   padding: 0;
   overflow: hidden;
   container: offer-card / inline-size;
-  border: 1px solid var(--oc-line);
+  border: 1px solid color-mix(in srgb, var(--line) 48%, transparent);
   border-radius: 26px;
   background: var(--paper);
   color: var(--oc-ink);
+  /* Contact, mid and ambient layers, so the card sits on the page rather than
+     floating over it. The inset hairline keeps the top edge catching the light. */
   box-shadow:
-    0 2px 4px -2px rgb(32 27 18 / 5%),
-    0 12px 30px -22px rgb(32 27 18 / 18%);
+    inset 0 1px 0 rgb(255 255 255 / 70%),
+    0 1px 2px -1px rgb(32 27 18 / 5%),
+    0 6px 16px -10px rgb(32 27 18 / 9%),
+    0 28px 56px -36px rgb(32 27 18 / 24%);
   cursor: default;
   transform: none;
   filter: none;
@@ -123,8 +127,14 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgb(12 16 18 / 36%), rgb(12 16 18 / 6%) 30%, rgb(12 16 18 / 88%) 100%),
-    linear-gradient(105deg, rgb(12 16 18 / 52%), rgb(12 16 18 / 8%) 85%);
+  background: linear-gradient(
+      180deg,
+      rgb(12 16 18 / 34%) 0%,
+      rgb(12 16 18 / 3%) 24%,
+      rgb(12 16 18 / 58%) 68%,
+      rgb(12 16 18 / 93%) 100%
+    ),
+    linear-gradient(105deg, rgb(12 16 18 / 46%), rgb(12 16 18 / 5%) 88%);
 }
 .mw .oc.is-v3 .ocv-plate-top {
   display: flex;
@@ -227,16 +237,18 @@
   align-items: center;
   gap: 5px;
   max-width: 100%;
-  padding: 5px 9px;
-  border: 1px solid rgb(255 255 255 / 24%);
-  border-radius: 6px;
-  background: rgb(255 255 255 / 10%);
+  padding: 5px 11px;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 12%);
   font-size: 10px;
-  font-weight: 450;
+  font-weight: 500;
   line-height: 1.4;
+  letter-spacing: 0.01em;
   color: var(--paper);
   overflow-wrap: anywhere;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px) saturate(130%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%);
 }
 .mw .oc.is-v3 .ocv-chip svg {
   flex: none;
@@ -273,13 +285,14 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 8px;
-  border: 1px solid var(--oc-line);
-  border-radius: 6px;
+  padding: 5px 11px 5px 9px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border-radius: 999px;
   background: var(--oc-surface);
   font-size: 10px;
   font-weight: 500;
   line-height: 1.3;
+  letter-spacing: 0.015em;
   color: var(--oc-muted);
 }
 .mw .oc.is-v3 .ocv-state i {
@@ -344,19 +357,26 @@
   gap: 10px;
   min-width: 0;
   padding: 17px 18px;
-  border: 1px solid color-mix(in srgb, var(--oc-accent) 22%, var(--oc-line));
+  border: 1px solid color-mix(in srgb, var(--oc-accent) 20%, var(--oc-line));
   border-left: 3px solid var(--oc-accent);
-  border-radius: 4px 12px 12px 4px;
-  background: color-mix(in srgb, var(--oc-accent) 5%, var(--paper));
+  border-radius: 6px 16px 16px 6px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--oc-accent) 8%, var(--paper)),
+    color-mix(in srgb, var(--oc-accent) 3%, var(--paper))
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 60%),
+    0 1px 2px -1px color-mix(in srgb, var(--oc-accent) 12%, transparent);
 }
 .mw .oc.is-v3 .ocv-offer-kicker {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   color: var(--oc-accent);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .mw .oc.is-v3 .ocv-brief {
@@ -411,7 +431,7 @@
   display: grid;
   grid-template-columns: 1.15fr 1fr 1fr;
   align-items: stretch;
-  gap: 10px;
+  gap: 16px;
 }
 .mw .oc.is-v3 .ocv-fig {
   position: relative;
@@ -419,13 +439,17 @@
   flex-direction: column;
   gap: 9px;
   min-width: 0;
-  padding: 20px 18px 18px;
-  border: 1px solid var(--oc-line);
-  border-radius: 16px;
-  background: var(--oc-surface);
+  padding: 2px 0;
+}
+/* The hero carries the emphasis; its neighbours are plain columns, so the row
+   reads as one strip of figures rather than three boxes competing for attention. */
+.mw .oc.is-v3 .ocv-fig + .ocv-fig {
+  padding-left: 18px;
+  border-left: 1px solid var(--oc-line);
 }
 .mw .oc.is-v3 .ocv-fig.is-hero {
-  border-color: transparent;
+  padding: 20px;
+  border-radius: 18px;
   background: radial-gradient(
       ellipse at 100% 0%,
       color-mix(in srgb, var(--oc-accent) 24%, transparent),
@@ -513,10 +537,10 @@
 
 /* ── Commercial record: always readable, never hidden behind a hover ────── */
 .mw .oc.is-v3 .ocv-record {
-  border: 1px solid var(--oc-line);
-  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 52%, transparent);
+  border-radius: 16px;
   overflow: hidden;
-  background: var(--paper);
+  background: color-mix(in srgb, var(--oc-surface) 42%, transparent);
 }
 .mw .oc.is-v3 .ocv-record-head {
   display: flex;
@@ -806,9 +830,9 @@
   align-items: stretch;
   gap: 12px;
   margin: auto calc(-1 * var(--oc-pad)) 0;
-  padding: 15px var(--oc-pad);
-  border-top: 1px solid var(--oc-line);
-  background: var(--oc-surface);
+  padding: 16px var(--oc-pad);
+  border-top: 1px solid color-mix(in srgb, var(--line) 52%, transparent);
+  background: color-mix(in srgb, var(--oc-surface) 55%, transparent);
 }
 .mw .oc.is-v3 .ocv-sign {
   display: inline-flex;
@@ -829,16 +853,25 @@
   gap: 9px;
   min-width: 0;
   min-height: 48px;
-  padding: 9px 11px;
-  border: 1px solid var(--line-strong);
-  border-radius: 9px;
+  padding: 10px 13px;
+  border: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
+  border-radius: 12px;
   background: var(--paper);
   text-align: left;
   cursor: pointer;
   transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    box-shadow 160ms ease;
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .mw .oc.is-v3 .ocv-check:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+  .mw .oc.is-v3 .ocv-check:active:not(:disabled) {
+    transform: translateY(0);
+  }
 }
 .mw .oc.is-v3 .ocv-check:hover:not(:disabled) {
   border-color: color-mix(in srgb, var(--oc-accent) 40%, var(--line-strong));
@@ -853,8 +886,8 @@
   flex: none;
   width: 18px;
   height: 18px;
-  border: 1px solid var(--line-strong);
-  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  border-radius: 6px;
   background: var(--paper);
   color: transparent;
   transition:
@@ -922,8 +955,13 @@
     gap: 12px;
   }
   .mw .oc.is-v3 .ocv-fig {
-    gap: 8px;
-    padding: 18px;
+    gap: 11px;
+  }
+  .mw .oc.is-v3 .ocv-fig.is-hero {
+    padding: 22px;
+  }
+  .mw .oc.is-v3 .ocv-fig + .ocv-fig {
+    padding-left: 22px;
   }
   .mw .oc.is-v3 .ocv-fig-label {
     font-size: 10px;
@@ -1025,14 +1063,16 @@
 /* Touch, motion and print are first-class states, not hover fallbacks. */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .mw .oc.is-v3:hover {
-    border-color: color-mix(in srgb, var(--gold) 32%, var(--oc-line));
+    border-color: color-mix(in srgb, var(--gold) 30%, var(--oc-line));
     box-shadow:
-      0 3px 6px -3px rgb(32 27 18 / 8%),
-      0 20px 42px -24px rgb(32 27 18 / 23%);
-    transform: translateY(-2px);
+      inset 0 1px 0 rgb(255 255 255 / 70%),
+      0 2px 4px -2px rgb(32 27 18 / 6%),
+      0 12px 26px -14px rgb(32 27 18 / 12%),
+      0 36px 64px -36px rgb(32 27 18 / 30%);
+    transform: translateY(-3px);
   }
   .mw .oc.is-v3:hover .ocv-photo {
-    transform: scale(1.045);
+    transform: scale(1.06);
   }
 }
 @media (pointer: coarse) {
@@ -1187,7 +1227,7 @@
   display: grid;
   perspective: 1400px;
   cursor: pointer;
-  border-radius: 4px 12px 12px 4px;
+  border-radius: 6px 16px 16px 6px;
   outline: none;
 }
 .mw .oc.is-v3 .ocv-flip:focus-visible {
