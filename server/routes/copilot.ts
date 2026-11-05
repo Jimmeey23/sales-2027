@@ -7,7 +7,7 @@ import { answerQuestion, engineCapability, warmCopilot } from '../lib/copilot/en
 import { cacheStats, invalidateCopilotCache } from '../lib/copilot/context.js';
 import { asyncRoute, bodyError, id, studioFilter } from '../http.js';
 import { persistOffer } from './offers.js';
-import { aiEdits, ruleEdits, type OfferEditInput } from '../lib/offerEditCopilot.js';
+import { aiEdits, claudeConfigured, ruleEdits, type OfferEditInput } from '../lib/offerEditCopilot.js';
 import type { Express } from 'express';
 
 export default function registerCopilotRoutes(app: Express) {
@@ -50,18 +50,29 @@ export default function registerCopilotRoutes(app: Express) {
             product: pricing.product ?? null,
             discount: typeof pricing.discount === 'number' ? pricing.discount : null,
             approval_status: r.approval_status,
+            objective: r.objective,
+            offer_type: r.offer_type,
+            rationale: r.rationale ? String(r.rationale).slice(0, 800) : null,
+            list_price: typeof pricing.customListPrice === 'number' ? pricing.customListPrice : null,
           };
         });
       if (!offers.length) throw bodyError('Offer not found.', 404);
       const history = (Array.isArray(req.body.history) ? req.body.history : [])
         .slice(-8)
         .map((h: any) => ({ role: String(h.role), content: String(h.content || '').slice(0, 2000) }));
+      const studioRow = rows.find(r => r.studio_id)?.studio_id
+        ? (db.prepare('SELECT name, max_discount_percent FROM studios WHERE id=?').get(rows.find(r => r.studio_id).studio_id) as any)
+        : null;
       const context = {
         month: Number(req.body.month) || null,
         year: Number(req.body.year) || null,
-        studio: req.body.studio ? String(req.body.studio).slice(0, 80) : null,
+        studio: studioRow?.name || (req.body.studio ? String(req.body.studio).slice(0, 80) : null),
+        theme: req.body.theme ? String(req.body.theme).slice(0, 200) : null,
+        objective: req.body.objective ? String(req.body.objective).slice(0, 1000) : null,
+        target: Number(req.body.target) || null,
+        maxDiscountPercent: studioRow?.max_discount_percent != null ? Number(studioRow.max_discount_percent) : null,
       };
-      if (!process.env.OPENAI_API_KEY) return res.json(ruleEdits(message, offers));
+      if (!claudeConfigured()) return res.json(ruleEdits(message, offers));
       try {
         res.json(await aiEdits(message, offers, history, context));
       } catch (error: any) {

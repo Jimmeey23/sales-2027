@@ -20,6 +20,10 @@ export interface OfferEditInput {
   product?: string | null;
   discount?: number | null;
   approval_status?: string | null;
+  objective?: string | null;
+  offer_type?: string | null;
+  rationale?: string | null;
+  list_price?: number | null;
 }
 
 export interface OfferEditProposal {
@@ -143,76 +147,99 @@ export function ruleEdits(message: string, offers: OfferEditInput[]): OfferEditR
   return { reply: [reply, ...notes].join(' '), edits, mode: 'rules' };
 }
 
-/** Asks the configured model for edits, then validates every one against the schema. */
+/** Month and studio facts the model reasons with, so edits fit the plan, not just the sentence. */
+export interface OfferEditContext {
+  month?: number | null;
+  year?: number | null;
+  studio?: string | null;
+  theme?: string | null;
+  objective?: string | null;
+  target?: number | null;
+  maxDiscountPercent?: number | null;
+}
+
+export const COPILOT_MODEL = process.env.ANTHROPIC_MODEL || 'claude-haiku-5-5';
+export const claudeConfigured = () => Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
+
+// Nullable everywhere: the model sets only what the request changes and nulls the rest.
+const aiReplySchema = z.object({
+  reply: z.string(),
+  edits: z.array(
+    z.object({
+      offerId: z.number().int(),
+      why: z.string(),
+      changes: z.object({
+        name: z.string().nullable(),
+        headline: z.string().nullable(),
+        benefit: z.string().nullable(),
+        customer_copy: z.string().nullable(),
+        audience: z.string().nullable(),
+        cta: z.string().nullable(),
+        redemption_conditions: z.string().nullable(),
+        validity_start: z.string().nullable(),
+        validity_end: z.string().nullable(),
+        target_purchases: z.number().nullable(),
+        expected_asp: z.number().nullable(),
+        discount_percent: z.number().nullable(),
+      }),
+    }),
+  ),
+});
+
+const SYSTEM = `You are the offer copilot inside Physique 57 India's 2027 sales plan. Studio managers ask you to change the membership and class-pack offers in a month.
+
+You receive the request, the month's context (studio, theme, commercial job, revenue target, the studio's maximum discount) and every offer in scope with its current terms. Prices are in Indian rupees.
+
+How to answer:
+- Change only what the request asks for. Every field you are not changing must be null.
+- When the request applies to "all", "every" or "the month's" offers, return one edit per offer in scope.
+- Relative requests ("raise by 10%", "make it shorter", "warmer tone") are applied to each offer's current value.
+- discount_percent is the cash discount off list price, 0–50, and never above the studio's maximum discount. If asked to exceed it, cap it and say so in reply.
+- Dates are YYYY-MM-DD and must sit inside the plan month unless the request says otherwise.
+- Copy is short, concrete and premium; no emojis, no exclamation marks, no invented claims or statistics.
+- Offers whose approval_status is "approved" are locked: return no edit for them and mention it.
+- If the request is a question, unclear, or asks for something outside these fields, answer in reply and return no edits.
+- reply is at most two plain sentences describing what you changed.`;
+
+/** Asks Claude for edits, then validates every one against the save schema. */
 export async function aiEdits(
   message: string,
   offers: OfferEditInput[],
   history: { role: string; content: string }[],
-  context: { month?: number | null; year?: number | null; studio?: string | null },
+  context: OfferEditContext,
 ): Promise<OfferEditReply> {
-  const schema = {
-    type: 'object',
-    additionalProperties: false,
-    required: ['reply', 'edits'],
-    properties: {
-      reply: { type: 'string' },
-      edits: {
-        type: 'array',
-        items: {
-          type: 'object',
-          additionalProperties: false,
-          required: ['offerId', 'why', 'changes'],
-          properties: {
-            offerId: { type: 'integer' },
-            why: { type: 'string' },
-            changes: {
-              type: 'object',
-              additionalProperties: false,
-              required: [...TEXT_FIELDS, 'target_purchases', 'expected_asp', 'discount_percent'],
-              properties: {
-                ...Object.fromEntries(TEXT_FIELDS.map(f => [f, { type: ['string', 'null'] }])),
-                target_purchases: { type: ['number', 'null'] },
-                expected_asp: { type: ['number', 'null'] },
-                discount_percent: { type: ['number', 'null'] },
-              },
-            },
-          },
-        },
-      },
-    },
-  };
-  const response = await fetch(`${process.env.AI_PROVIDER_BASE_URL || 'https://api.openai.com/v1'}/responses`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-    body: JSON.stringify({
-      model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
-      input: [
-        {
-          role: 'system',
-          content:
-            'You edit fitness-studio sales offers for Physique 57 India. You receive the offers in scope and a request. ' +
-            'Return only the changes the request asks for; set every untouched field to null. Prices are in rupees. ' +
-            'discount_percent is the cash discount off list, 0–50. Dates are YYYY-MM-DD. Never invent performance data. ' +
-            'If the request is a question or unclear, answer in `reply` and return no edits. Keep `reply` to two sentences.',
-        },
-        ...history.slice(-8).map(h => ({ role: h.role === 'user' ? 'user' : 'assistant', content: h.content })),
-        { role: 'user', content: JSON.stringify({ request: message, context, offers }) },
-      ],
-      text: { format: { type: 'json_schema', name: 'p57_offer_edits', strict: true, schema } },
-    }),
-    signal: AbortSignal.timeout(45000),
+  const { default: Anthropic } = await import('@anthropic-ai/sdk');
+  const { zodOutputFormat } = await import('@anthropic-ai/sdk/helpers/zod');
+  const client = new Anthropic({ timeout: 60_000 });
+
+  // The conversation must open on a user turn and alternate cleanly.
+  const turns = history
+    .slice(-8)
+    .filter(h => h.content)
+    .map(h => ({ role: (h.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant', content: h.content }));
+  while (turns.length && turns[0].role !== 'user') turns.shift();
+
+  const response = await client.messages.parse({
+    model: COPILOT_MODEL,
+    max_tokens: 16000,
+    output_config: { effort: 'medium', format: zodOutputFormat(aiReplySchema) },
+    system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
+    messages: [
+      ...turns,
+      { role: 'user', content: JSON.stringify({ request: message, context, offers }) },
+    ],
   });
-  if (!response.ok) throw Object.assign(new Error(`AI provider returned ${response.status}.`), { status: 502 });
-  const payload = (await response.json()) as any;
-  const text =
-    payload.output_text ||
-    payload.output?.flatMap((o: any) => o.content || []).find((c: any) => c.type === 'output_text')?.text;
-  const parsed = replySchema.parse(JSON.parse(text));
+  if (response.stop_reason === 'refusal') throw new Error('Claude declined this request.');
+  const parsed = response.parsed_output;
+  if (!parsed) throw new Error('Claude returned an answer that did not match the edit format.');
   const raw = parsed.edits.map(e => {
-    const { discount_percent, ...rest } = e.changes as any;
+    const { discount_percent, ...rest } = e.changes;
     const changes: Record<string, any> = { ...rest };
-    if (typeof discount_percent === 'number') changes.pricing = { discount: discount_percent / 100 };
+    if (typeof discount_percent === 'number') {
+      const cap = context.maxDiscountPercent ?? 50;
+      changes.pricing = { discount: Math.min(discount_percent, cap, 50) / 100 };
+    }
     return { offerId: e.offerId, changes, why: e.why };
   });
-  return { reply: parsed.reply, edits: cleanEdits(raw, offers), mode: 'ai' };
+  return { reply: parsed.reply.slice(0, 2000), edits: cleanEdits(raw, offers), mode: 'ai' };
 }

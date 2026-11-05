@@ -2977,6 +2977,9 @@ export default function MonthWorkspace({
                         month={month}
                         year={year}
                         studioName={studio.name}
+                        theme={displayTheme}
+                        objective={String(form.objective || '')}
+                        target={effective}
                         focusId={editChat || null}
                         onClose={() => setEditChat(null)}
                         onApply={(offerId, changes, name) =>

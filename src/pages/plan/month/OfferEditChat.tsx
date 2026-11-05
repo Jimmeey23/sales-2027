@@ -40,6 +40,9 @@ export function OfferEditChat({
   month,
   year,
   studioName,
+  theme,
+  objective,
+  target,
   focusId,
   onApply,
   onClose,
@@ -48,6 +51,9 @@ export function OfferEditChat({
   month: number;
   year: number;
   studioName: string;
+  theme?: string;
+  objective?: string;
+  target?: number;
   focusId?: number | null;
   onApply: (offerId: number, changes: Record<string, any>, name: string) => Promise<boolean>;
   onClose: () => void;
@@ -78,7 +84,7 @@ export function OfferEditChat({
     try {
       const r = await api<{ reply: string; edits: Edit[] }>('/copilot/offer-edit', {
         method: 'POST',
-        body: JSON.stringify({ message, offerIds: targetIds, history, month, year, studio: studioName }),
+        body: JSON.stringify({ message, offerIds: targetIds, history, month, year, studio: studioName, theme, objective, target }),
       });
       setMsgs(m => [...m, { role: 'assistant', content: r.reply, edits: r.edits, applied: [] }]);
     } catch (e: any) {

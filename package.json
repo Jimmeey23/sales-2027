@@ -30,6 +30,7 @@
     "plan:kc:unpack": "tsx scripts/unpack-plan.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.5.0",
     "@vitejs/plugin-react": "^4.7.0",
     "better-sqlite3": "^12.4.1",
     "compression": "^1.8.2",
