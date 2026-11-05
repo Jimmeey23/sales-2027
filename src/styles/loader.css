@@ -403,3 +403,22 @@ html body .app-loading::after {
   content: none;
   display: none;
 }
+
+/* Bigger, more dramatic: wide stage, thicker glowing traces, a chip that breathes. */
+html body .p57-loader { min-height: 60vh; }
+html body .p57-loader-stage { width: min(820px, 94vw); padding: 0; gap: 0; }
+.chip-loader { width: min(820px, 94vw); }
+.chip-loader .trace-bg { stroke: rgba(120, 110, 95, 0.35); stroke-width: 2.4; }
+.chip-loader .trace-flow {
+  stroke-width: 3.2; stroke-linecap: round; stroke-dasharray: 70 380;
+  filter: drop-shadow(0 0 4px currentColor) drop-shadow(0 0 12px currentColor) drop-shadow(0 0 26px currentColor);
+  animation-duration: 2.2s;
+}
+.chip-loader g .trace-flow:nth-of-type(odd) { animation-delay: -0.4s; }
+.chip-loader .chip-body { transform-origin: 400px 240px; transform-box: view-box; animation: chip-breathe 2.2s ease-in-out infinite; }
+@keyframes chip-breathe {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 0 rgba(0, 204, 255, 0)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 22px rgba(0, 204, 255, 0.55)); transform: scale(1.04); }
+}
+.chip-loader circle { fill: #222; stroke: rgba(255, 255, 255, 0.25); stroke-width: 1.5; }
+@media (prefers-reduced-motion: reduce) { .chip-loader .chip-body { animation: none; } }

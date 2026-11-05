@@ -444,9 +444,6 @@ export function ChipLoader({ label = 'Loading' }: { label?: string }) {
         {[322, 470].map(x =>
           CHIP_PINS.map(y => <rect key={`${x}-${y}`} x={x} y={y} width="8" height="10" rx="2" fill={`url(#${pin})`} className="chip-pin" />),
         )}
-        <text x="400" y="240" fontFamily="Arial, sans-serif" fontSize="22" fill={`url(#${text})`} textAnchor="middle" dominantBaseline="middle" className="chip-text">
-          {label}
-        </text>
         {CHIP_ENDS.map(([cx, cy]) => (
           <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="5" fill="black" />
         ))}
@@ -476,17 +473,6 @@ export function Loading({ label = 'Loading intelligence…', screen = false }: {
     >
       <div className="p57-loader-stage">
         <ChipLoader />
-        <p className="p57-loader-copy" aria-hidden="true">
-          <span className="p57-loader-label">{caption}</span>
-          <span className="p57-loader-dots">
-            <i />
-            <i />
-            <i />
-          </span>
-        </p>
-        <span className="p57-loader-rail" aria-hidden="true">
-          <i />
-        </span>
       </div>
     </div>
   );

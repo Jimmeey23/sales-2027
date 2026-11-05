@@ -53,7 +53,6 @@ import OfferLibrary from './OfferLibrary';
 import { selectedForPlan } from './TargetsTab';
 import { coverPhotoFor } from '../../data/pagePhotos';
 import MonthOverview from './MonthOverview';
-import MonthBrief from './MonthBrief';
 import OfferRevenueSummary from './OfferRevenueSummary';
 import StudioAi from '../../components/StudioAi';
 import TargetBreakdown from './TargetBreakdown';
@@ -1527,16 +1526,6 @@ export default function MonthWorkspace({
             )}
 
             {/* The filed launch brief, with the live projection kept distinct from its estimate. */}
-            {/* The filed launch brief is detail, not overview: it sits with the numbers. */}
-            {page === 'targets' && (
-              <MonthBrief
-                content={form.content}
-                offers={selected}
-                revenue={offerRevenue}
-                forecastedCount={forecastedCount}
-                renderText={inline}
-              />
-            )}
 
             {/* ─── Section 1: Important days ─── */}
             {showOnPage('days') &&
