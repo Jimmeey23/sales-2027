@@ -18,6 +18,7 @@ import BrandMark from './BrandMark';
 import LocationSwitcher from './LocationSwitcher';
 import CommandPalette from './CommandPalette';
 import CopilotDrawer from './CopilotDrawer';
+import GlobalCopilot from './GlobalCopilot';
 import { useApp } from '../App';
 import { Modal, Select } from './ui';
 import { ALL_LOCATIONS_COLOR, LOCATION_COLORS, accentFor, planningLocations } from '../data/locations';
@@ -408,6 +409,7 @@ export default function Layout() {
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} onOpenCopilot={() => setCopilotOpen(true)} />
       {keysOpen && <ShortcutsSheet onClose={() => setKeysOpen(false)} />}
       {copilotOpen && <CopilotDrawer onClose={() => setCopilotOpen(false)} />}
+      <GlobalCopilot />
     </div>
   );
 }

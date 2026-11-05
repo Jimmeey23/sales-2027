@@ -7,10 +7,44 @@ import { answerQuestion, engineCapability, warmCopilot } from '../lib/copilot/en
 import { cacheStats, invalidateCopilotCache } from '../lib/copilot/context.js';
 import { asyncRoute, bodyError, id, studioFilter } from '../http.js';
 import { persistOffer } from './offers.js';
+import { runAgent } from '../lib/copilotAgent.js';
 import { aiEdits, claudeConfigured, ruleEdits, type OfferEditInput } from '../lib/offerEditCopilot.js';
 import type { Express } from 'express';
 
 export default function registerCopilotRoutes(app: Express) {
+  // The app-wide copilot. Reads with tools, returns proposed actions; nothing is saved here.
+  app.post(
+    '/api/copilot/agent',
+    asyncRoute(async (req: any, res: any) => {
+      const message = String(req.body.message || '').trim();
+      if (!message || message.length > 4000) throw bodyError('Messages must contain 1–4000 characters.');
+      if (!claudeConfigured())
+        throw bodyError('Copilot needs ANTHROPIC_API_KEY in the server .env to make changes.', 503);
+      const history = (Array.isArray(req.body.history) ? req.body.history : [])
+        .slice(-10)
+        .map((h: any) => ({ role: String(h.role), content: String(h.content || '').slice(0, 4000) }));
+      const s = req.body.scope || {};
+      const scope = {
+        path: s.path ? String(s.path).slice(0, 200) : null,
+        studioId: Number(s.studioId) || null,
+        year: Number(s.year) || null,
+        month: Number(s.month) || null,
+      };
+      try {
+        res.json(await runAgent({ message, history, scope, user: req.user }));
+      } catch (error: any) {
+        // Provider errors must not reach the browser as the app's own 401/403 (that reads as "signed out").
+        const status = Number(error?.status);
+        const why =
+          status === 401 || status === 403
+            ? 'the ANTHROPIC_API_KEY in .env was rejected by Anthropic — check the key'
+            : status === 429
+              ? 'Anthropic rate limit reached — try again in a minute'
+              : error?.message || 'unknown error';
+        throw bodyError(`Copilot could not reach Claude: ${why}.`, 502);
+      }
+    }),
+  );
   // Chat edits to one offer or a whole month's offers. Proposes changes only; nothing is saved here.
   app.post(
     '/api/copilot/offer-edit',
@@ -77,7 +111,8 @@ export default function registerCopilotRoutes(app: Express) {
         res.json(await aiEdits(message, offers, history, context));
       } catch (error: any) {
         const fallback = ruleEdits(message, offers);
-        res.json({ ...fallback, reply: `AI was unavailable (${error.message}). ${fallback.reply}` });
+        const why = [401, 403].includes(Number(error?.status)) ? 'the Anthropic API key was rejected' : error.message;
+        res.json({ ...fallback, reply: `Claude was unavailable (${why}). ${fallback.reply}` });
       }
     }),
   );

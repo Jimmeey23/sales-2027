@@ -55,6 +55,14 @@ export function useLoad<T = any>(loader: () => Promise<T>, dependencies: any[] =
     }
     reload().catch(() => {});
   }, [reload]);
+  // The copilot can change data from anywhere; every loaded view refreshes when it does.
+  useEffect(() => {
+    const onChange = () => {
+      reload().catch(() => {});
+    };
+    window.addEventListener('p57:data-changed', onChange);
+    return () => window.removeEventListener('p57:data-changed', onChange);
+  }, [reload]);
   return { data, setData, loading, error, reload };
 }
 

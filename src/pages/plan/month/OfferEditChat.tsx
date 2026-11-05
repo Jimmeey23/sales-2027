@@ -3,6 +3,7 @@ import { Check, MessageSquare, Send, X } from 'lucide-react';
 import { api } from '../../../api';
 import { Button } from '../../../components/ui';
 import { MONTHS, money } from '../../../types';
+import { announceChange } from '../../../lib/copilotActions';
 
 /* Chat with the copilot to change one offer or every offer in the month. The copilot only
    proposes; each change is shown as before → after and saved through the normal offer update,
@@ -94,13 +95,35 @@ export function OfferEditChat({
     }
   };
 
-  const apply = async (index: number, edit: Edit) => {
-    const offer = byId.get(edit.offerId);
+  // Approved offers ask first; the planner's yes covers every approved offer in the batch.
+  const apply = async (index: number, edits: Edit[]) => {
+    const locked = edits.map(e => byId.get(e.offerId)).filter(o => o?.approval_status === 'approved');
+    if (
+      locked.length &&
+      !window.confirm(
+        `${locked.length === 1 ? `“${locked[0].name}” is` : `${locked.length} offers are`} already approved.\n\nApply the copilot's changes anyway? ${locked.length === 1 ? 'It' : 'They'} will be re-approved with the new terms.`,
+      )
+    )
+      return;
     setBusy(true);
-    const ok = await onApply(edit.offerId, edit.changes, offer?.name || 'Offer');
+    const done: number[] = [];
+    for (const edit of edits) {
+      const offer = byId.get(edit.offerId);
+      const ok = await onApply(edit.offerId, edit.changes, offer?.name || 'Offer');
+      if (ok && offer?.approval_status === 'approved') {
+        try {
+          await api(`/offers/${edit.offerId}/action`, { method: 'POST', body: JSON.stringify({ action: 'approve' }) });
+        } catch {
+          /* stays pending; the card shows it */
+        }
+      }
+      if (ok) done.push(edit.offerId);
+    }
     setBusy(false);
-    if (ok)
-      setMsgs(m => m.map((x, i) => (i === index ? { ...x, applied: [...(x.applied || []), edit.offerId] } : x)));
+    if (done.length) {
+      setMsgs(m => m.map((x, i) => (i === index ? { ...x, applied: [...(x.applied || []), ...done] } : x)));
+      announceChange();
+    }
   };
 
   return (
@@ -148,17 +171,13 @@ export function OfferEditChat({
                     ))}
                   </ul>
                   {edit.why && <em>{edit.why}</em>}
-                  <Button
-                    variant={done ? 'ghost' : 'primary'}
-                    disabled={busy || done || offer?.approval_status === 'approved'}
-                    onClick={() => apply(i, edit)}
-                  >
+                  <Button variant={done ? 'ghost' : 'primary'} disabled={busy || done} onClick={() => apply(i, [edit])}>
                     {done ? (
                       <>
                         <Check size={12} /> Applied
                       </>
                     ) : offer?.approval_status === 'approved' ? (
-                      'Approved — locked'
+                      'Apply (approved — asks first)'
                     ) : (
                       'Apply'
                     )}
@@ -166,6 +185,14 @@ export function OfferEditChat({
                 </div>
               );
             })}
+            {(() => {
+              const left = (m.edits || []).filter(e => !m.applied?.includes(e.offerId));
+              return left.length > 1 ? (
+                <Button variant="dark" disabled={busy} onClick={() => apply(i, left)}>
+                  Apply all {left.length} changes
+                </Button>
+              ) : null;
+            })()}
           </div>
         ))}
         {busy && <div className="oec-msg is-assistant is-typing">Thinking…</div>}

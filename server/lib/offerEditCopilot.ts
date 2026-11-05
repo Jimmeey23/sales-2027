@@ -1,6 +1,7 @@
 // Offer edit copilot: turns a planner's plain-language request into field changes on one offer
 // or on every offer in a month. It only proposes; the planner applies each change through the
 // normal month-offer update route, so policy, pricing and audit rules still run on save.
+import { readFileSync } from 'node:fs';
 import { z } from 'zod';
 
 export interface OfferEditInput {
@@ -159,7 +160,27 @@ export interface OfferEditContext {
 }
 
 export const COPILOT_MODEL = process.env.ANTHROPIC_MODEL || 'claude-haiku-5-5';
-export const claudeConfigured = () => Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
+// The project's .env wins over a stale ANTHROPIC_API_KEY exported in the shell (dotenv never
+// overrides an existing variable, so a leftover shell key would otherwise shadow the real one).
+let fileKey: string | null | undefined;
+function envFileKey() {
+  if (fileKey !== undefined) return fileKey;
+  try {
+    const text = readFileSync(`${process.cwd()}/.env`, 'utf8');
+    const m = text.match(/^ANTHROPIC_API_KEY=(.*)$/m);
+    fileKey = m ? m[1].trim().replace(/^["']|["']$/g, '') || null : null;
+  } catch {
+    fileKey = null;
+  }
+  return fileKey;
+}
+export const anthropicKey = () => envFileKey() || process.env.ANTHROPIC_API_KEY || null;
+export const claudeConfigured = () => Boolean(anthropicKey() || process.env.ANTHROPIC_AUTH_TOKEN);
+export async function anthropicClient(timeout: number) {
+  const { default: Anthropic } = await import('@anthropic-ai/sdk');
+  const key = anthropicKey();
+  return key ? new Anthropic({ apiKey: key, timeout }) : new Anthropic({ timeout });
+}
 
 // Nullable everywhere: the model sets only what the request changes and nulls the rest.
 const aiReplySchema = z.object({
@@ -196,8 +217,9 @@ How to answer:
 - Relative requests ("raise by 10%", "make it shorter", "warmer tone") are applied to each offer's current value.
 - discount_percent is the cash discount off list price, 0–50, and never above the studio's maximum discount. If asked to exceed it, cap it and say so in reply.
 - Dates are YYYY-MM-DD and must sit inside the plan month unless the request says otherwise.
-- Copy is short, concrete and premium; no emojis, no exclamation marks, no invented claims or statistics.
-- Offers whose approval_status is "approved" are locked: return no edit for them and mention it.
+- Copy is short, concrete and premium; no emojis, no exclamation marks, no invented claims or statistics. When asked to be creative, offer a distinct angle tied to the month's theme and the offer's audience, not a reworded version.
+- Think about the commercial effect: buyers × price is the offer's revenue against the month's target. Keep the plan whole unless asked otherwise.
+- Offers whose approval_status is "approved" can still be edited; the manager confirms before saving. Mention it in reply.
 - If the request is a question, unclear, or asks for something outside these fields, answer in reply and return no edits.
 - reply is at most two plain sentences describing what you changed.`;
 
@@ -208,9 +230,8 @@ export async function aiEdits(
   history: { role: string; content: string }[],
   context: OfferEditContext,
 ): Promise<OfferEditReply> {
-  const { default: Anthropic } = await import('@anthropic-ai/sdk');
   const { zodOutputFormat } = await import('@anthropic-ai/sdk/helpers/zod');
-  const client = new Anthropic({ timeout: 60_000 });
+  const client = await anthropicClient(60_000);
 
   // The conversation must open on a user turn and alternate cleanly.
   const turns = history
@@ -222,7 +243,7 @@ export async function aiEdits(
   const response = await client.messages.parse({
     model: COPILOT_MODEL,
     max_tokens: 16000,
-    output_config: { effort: 'medium', format: zodOutputFormat(aiReplySchema) },
+    output_config: { effort: 'high', format: zodOutputFormat(aiReplySchema) },
     system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
     messages: [
       ...turns,

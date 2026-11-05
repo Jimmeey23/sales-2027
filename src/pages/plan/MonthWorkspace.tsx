@@ -95,6 +95,7 @@ import { assignMonthPhotos, pickOfferCardPhoto, OfferCard } from './month/OfferC
 import { OfferEditor } from './month/OfferEditor';
 import { OfferCopilot } from './month/OfferCopilot';
 import { OfferEditChat } from './month/OfferEditChat';
+import { setCopilotScope } from '../../lib/copilotActions';
 import { SectionHead } from './month/SectionHead';
 import { Act } from './month/Act';
 import { VolumesChart } from './month/VolumesChart';
@@ -756,6 +757,13 @@ export default function MonthWorkspace({
   const [regenerating, setRegenerating] = useState<number | null>(null);
   // Chat edits: null = closed; 0 = all of the month's offers; an id = that offer.
   const [editChat, setEditChat] = useState<number | null>(null);
+  // Tell the app-wide copilot which studio and month are on screen.
+  useEffect(() => {
+    setCopilotScope({ studioId: studio?.id ?? null, year, month, label: studio?.name ?? null });
+    return () => {
+      setCopilotScope({});
+    };
+  }, [studio?.id, studio?.name, year, month]);
   // "Generate with AI" on a card: a new, better-optimised offer replaces this one in the same card.
   const regenerateOffer = async (o: any) => {
     if (!aiReady) {
