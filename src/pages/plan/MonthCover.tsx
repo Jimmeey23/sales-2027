@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Sparkles, X } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Play, Sparkles, X } from 'lucide-react';
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
@@ -109,6 +109,8 @@ export default function MonthCover({
   offerNames = [],
   status,
   photo,
+  onPlay,
+  playMinutes,
   onOpen,
   onClose,
   onPrev,
@@ -137,6 +139,10 @@ export default function MonthCover({
   offerNames?: { name: string; slot: string }[];
   status: Status;
   photo: { url: string; pos: string };
+  /** Starts the narrated explainer for this month. */
+  onPlay?: () => void;
+  /** How long the explainer runs, in minutes, so the button can say so. */
+  playMinutes?: number;
   onOpen: () => void;
   onClose: () => void;
   onPrev: () => void;
@@ -252,15 +258,24 @@ export default function MonthCover({
               </p>
             )}
             <div className="mc-titleblock">
-            {theme && (
-              <p className="mc-focus">
-                <span>Focus</span>
-                {theme}
-              </p>
-            )}
-            <h2>{MONTHS[month - 1]}</h2>
-            {description && <p className="mc-desc">{description}</p>}
+              {theme && (
+                <p className="mc-focus">
+                  <span>Focus</span>
+                  {theme}
+                </p>
+              )}
+              <h2>{MONTHS[month - 1]}</h2>
+              {description && <p className="mc-desc">{description}</p>}
             </div>
+            {onPlay && (
+              <button type="button" className="mc-explainer" onClick={onPlay}>
+                <span className="mc-explainer-disc" aria-hidden="true">
+                  <Play size={14} />
+                </span>
+                Play the {MONTHS[month - 1]} explainer
+                <em>{playMinutes || 1} min</em>
+              </button>
+            )}
             <dl className="mc-kpis">
               <div>
                 <dt>Revenue target</dt>
@@ -287,9 +302,7 @@ export default function MonthCover({
                 </dd>
               </div>
             </dl>
-            {brief && (
-              <CoverBrief text={brief} live={{ offers, offerRevenue, target, offerNames }} />
-            )}
+            {brief && <CoverBrief text={brief} live={{ offers, offerRevenue, target, offerNames }} />}
           </div>
 
           {/* The anniversary, drawn rather than staged: a hairline ring struck with nine
@@ -545,7 +558,10 @@ function briefPoints(text: string): Point[] {
     .map(p => p.trim())
     .filter(Boolean)
     .map(p => {
-      const pieces = p.split(/\s+[–—]\s+/).map(x => x.trim()).filter(Boolean);
+      const pieces = p
+        .split(/\s+[–—]\s+/)
+        .map(x => x.trim())
+        .filter(Boolean);
       const head = pieces.shift() || p;
       const m = head.match(/^([^:]{2,48}):\s*(.*)$/);
       return {
@@ -650,7 +666,10 @@ function CoverBrief({ text, live }: { text: string; live: Live }) {
     ? [
         ['Leads', (sizing.body + ' ' + sizing.subs.map(x => x.text).join(' ')).match(/(\d[\d,]*)\s+leads/i)?.[1]],
         ['Trials', (sizing.body + ' ' + sizing.subs.map(x => x.text).join(' ')).match(/(\d[\d,]*)\s+trials/i)?.[1]],
-        ['Expiring', (sizing.body + ' ' + sizing.subs.map(x => x.text).join(' ')).match(/(\d[\d,]*)\s+memberships expiring/i)?.[1]],
+        [
+          'Expiring',
+          (sizing.body + ' ' + sizing.subs.map(x => x.text).join(' ')).match(/(\d[\d,]*)\s+memberships expiring/i)?.[1],
+        ],
       ].filter(([, v]) => v)
     : [];
   const att = attendance?.body || '';
@@ -665,7 +684,10 @@ function CoverBrief({ text, live }: { text: string; live: Live }) {
   const mixCount = mix?.body.match(/^(\d+)\s+offers?/i)?.[1];
   // Unlabelled sub-items are the summary sentence; labelled ones are the offer groups.
   const mixGroups = mix?.subs.filter(g => g.label) || [];
-  const mixSummary = [mix?.body.replace(/^(\d+)\s+offers?\s*[—–-]?\s*/i, '').trim(), ...(mix?.subs.filter(g => !g.label).map(g => g.text) || [])]
+  const mixSummary = [
+    mix?.body.replace(/^(\d+)\s+offers?\s*[—–-]?\s*/i, '').trim(),
+    ...(mix?.subs.filter(g => !g.label).map(g => g.text) || []),
+  ]
     .filter(Boolean)
     .join(' — ');
 

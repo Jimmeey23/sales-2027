@@ -48,6 +48,8 @@ import { locationPlaybook, type ActionItem } from '../../data/planDefaults';
 import { isLegacyTheme, monthChapter, monthStory } from '../../data/monthNarrative';
 import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
+import MonthExplainer from '../../components/MonthExplainer';
+import { buildExplainer, type ExplainerOffer } from '../../lib/explainerScript';
 import PageHero from './PageHero';
 import OfferLibrary from './OfferLibrary';
 import { selectedForPlan } from './TargetsTab';
@@ -104,6 +106,17 @@ import { SectionHead } from './month/SectionHead';
 import { Act } from './month/Act';
 import { VolumesChart } from './month/VolumesChart';
 
+/** What a plan slot is called when the explainer introduces the offer sitting in it. */
+const EXPLAINER_SLOT_LABEL: Record<string, string> = {
+  newcomer: 'New clients',
+  new_client: 'New clients',
+  lapsed: 'Win-backs',
+  reactivation: 'Win-backs',
+  renewal: 'Renewals',
+  retention: 'Renewals',
+  upsell: 'Revenue boost',
+};
+
 // Full-screen month plan: everything for one month in one place, editable per studio, with alternate offers on the side.
 export default function MonthWorkspace({
   data,
@@ -135,6 +148,10 @@ export default function MonthWorkspace({
     [aiGateOpen, setAiGateOpen] = useState(false);
   // The cover is the first page of a month: it mounts with the workspace and re-animates on month changes.
   const [coverOpen, setCoverOpen] = useState(true);
+  const [explainerOpen, setExplainerOpen] = useState(false);
+  // Months that have a recorded narration track. Missing ones fall back to the
+  // browser's own voice, which the player names in its controls.
+  const [narratedMonths, setNarratedMonths] = useState<number[]>([]);
   // Editing is turned on one section at a time, from the pencil in that section's header.
   // Being able to edit never changes how a section is drawn — only what its pencil unlocks.
   const [editSection, setEditSection] = useState<string | null>(null);
@@ -175,6 +192,20 @@ export default function MonthWorkspace({
       .then(setPrices)
       .catch(() => {});
   }, []);
+
+  // Which months have been recorded. A missing or absent manifest is not an error: the
+  // explainer speaks with the browser's voice instead.
+  useEffect(() => {
+    const slug = studio.name
+      .toLowerCase()
+      .replace(/[()]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+    fetch('/explainer/manifest.json', { credentials: 'same-origin' })
+      .then(r => (r.ok ? r.json() : null))
+      .then((data: any) => setNarratedMonths(Array.isArray(data?.studios?.[slug]) ? data.studios[slug] : []))
+      .catch(() => setNarratedMonths([]));
+  }, [studio.name]);
 
   // Offers this studio can pick from (Pop-up includes its venues).
   const ownIds = useMemo(() => locationStudioIds(studio, boot.studios), [studio, boot.studios]);
@@ -335,7 +366,10 @@ export default function MonthWorkspace({
     setForm(f => ({
       ...f,
       target,
-      streams: { ...f.streams, newClient: Math.max(0, amount - held - n(f.streams.renewal) - n(f.streams.reactivation)) },
+      streams: {
+        ...f.streams,
+        newClient: Math.max(0, amount - held - n(f.streams.renewal) - n(f.streams.reactivation)),
+      },
     }));
   };
   const changeStream = (key: string, value: number) => {
@@ -1075,6 +1109,110 @@ export default function MonthWorkspace({
         .filter(Boolean)
         .join(' · ') || chapter.signature
     : chapter.signature;
+  /* The filed focus is written as a description; the objective is a stats list, so it is
+     only a fallback, and then only its first plain sentence. */
+  const coverDescription = (() => {
+    const focus = String(form.content?.focus || form.content?.planImport?.focus || '').trim();
+    if (focus) return focus;
+    const plain = String(form.objective || chapter.objective || '')
+      .replace(/•/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return plain
+      .split(/(?<=[.!?])\s+/)
+      .slice(0, 2)
+      .join(' ');
+  })();
+
+  /* The explainer is built from what the month actually holds — the live offers, the
+     streams as they stand right now, the plan's own words — so pressing play on a month
+     that has just been edited narrates the edited month, not a snapshot of it. */
+  const explainerOffers: ExplainerOffer[] = React.useMemo(
+    () =>
+      selected.map((offer: any) => {
+        const rawSlot = String(offer.plan_slot || slotOf(offer.id) || offer.objective || '').toLowerCase();
+        const metrics = (() => {
+          const raw = offer.success_metrics;
+          if (Array.isArray(raw)) return raw;
+          try {
+            const parsed = JSON.parse(String(raw || '[]'));
+            return Array.isArray(parsed) ? parsed : [];
+          } catch {
+            return [];
+          }
+        })();
+        const start = offer.validity_start ? new Date(`${offer.validity_start}T00:00:00Z`) : null;
+        const end = offer.validity_end ? new Date(`${offer.validity_end}T00:00:00Z`) : null;
+        const day = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+        return {
+          id: offer.id,
+          name: String(offer.name || 'Offer'),
+          slot: rawSlot,
+          slotLabel: EXPLAINER_SLOT_LABEL[rawSlot] || 'Revenue boost',
+          headline: offer.headline || null,
+          // Spoken, the mechanic is the customer-facing line; the internal note is full of
+          // prices, dashes and bracketed asides that flatten a voice.
+          benefit: offer.customer_copy || offer.benefit || offer.internal_description || null,
+          rationale: offer.rationale || null,
+          audience: offer.audience || null,
+          conditions: offer.redemption_conditions || null,
+          kpi: metrics.map(String).filter(Boolean).join(' · ') || null,
+          offerType: offer.offer_type || null,
+          ticket: Number(offer.expected_asp) || 0,
+          buyers: Number(offer.target_purchases) || 0,
+          revenue: forecastRevenue(offer),
+          discount: offer.effective_discount == null ? null : Number(offer.effective_discount),
+          validity: start && end ? `${day(start)} – ${day(end)}` : null,
+        };
+      }),
+    [selected, slots],
+  );
+  /* Memoised: the player keys its scene effect on the script, so a new identity on every
+     keystroke would restart the narration mid-sentence. */
+  const explainerScript = React.useMemo(
+    () =>
+      buildExplainer({
+        studioName: studio.name,
+        month,
+        year,
+        theme: displayTheme,
+        description: coverDescription,
+        target: effective,
+        lastYear: row.lastYear,
+        streams: [...coverStreams, { key: 'other', label: 'Other', value: Math.max(0, held) }],
+        standardTrade: (form.content?.standardTrade as any) || null,
+        leads: row.leads,
+        trials: row.trials,
+        buyers: row.buyers,
+        renewalsDue: econ?.renewal.projectedExpiries || row.renewalsDue || 0,
+        renewalCoverage: coverage,
+        offers: explainerOffers,
+        offerRevenue,
+        plan: coverPlan.map(step => ({ label: step.label, text: step.text })),
+      }),
+    [
+      month,
+      year,
+      studio.name,
+      displayTheme,
+      coverDescription,
+      effective,
+      row.lastYear,
+      row.leads,
+      row.trials,
+      row.buyers,
+      row.renewalsDue,
+      econ,
+      coverage,
+      held,
+      form.streams,
+      form.content,
+      offerRevenue,
+      coverPlan,
+      explainerOffers,
+    ],
+  );
+
   const story = monthStory(month, {
     studio: studio.name,
     target: effective,
@@ -1513,8 +1651,17 @@ export default function MonthWorkspace({
                 theme={
                   // The headline is the month's saved theme; failing that, the live offers lead.
                   importedPlan || !(isLegacyTheme(form.theme, month) || isLegacyTheme(row.theme, month))
-                    ? form.theme || row.theme || selected.map((o: any) => o.name).filter(Boolean).join(' · ') || chapter.theme
-                    : selected.map((o: any) => o.name).filter(Boolean).join(' · ') || chapter.theme
+                    ? form.theme ||
+                      row.theme ||
+                      selected
+                        .map((o: any) => o.name)
+                        .filter(Boolean)
+                        .join(' · ') ||
+                      chapter.theme
+                    : selected
+                        .map((o: any) => o.name)
+                        .filter(Boolean)
+                        .join(' · ') || chapter.theme
                 }
                 studioName={studio.name}
                 roomAngle={locationPlaybook(studio.name).theme}
@@ -3022,7 +3169,10 @@ export default function MonthWorkspace({
                             pricing: { discount: f.discount_percent / 100 },
                           };
                           if (await offerChange({ op: 'create', edit }, `“${f.name}” created`)) {
-                            await offerChange({ op: 'remove', offerId: replacing.id }, `“${f.name}” replaced “${replacing.name}”`);
+                            await offerChange(
+                              { op: 'remove', offerId: replacing.id },
+                              `“${f.name}” replaced “${replacing.name}”`,
+                            );
                             setReplacing(null);
                           }
                         }}
@@ -3196,7 +3346,10 @@ export default function MonthWorkspace({
                                 revenue: group.offers.reduce((sum, offer) => sum + forecastRevenue(offer), 0),
                               }))}
                             />
-                            <div ref={offerListRef} className={`mw-offer-list ${offerColumns === 2 ? 'is-two-up' : 'is-one-up'}`}>
+                            <div
+                              ref={offerListRef}
+                              className={`mw-offer-list ${offerColumns === 2 ? 'is-two-up' : 'is-one-up'}`}
+                            >
                               {activeGroups.flatMap(g => {
                                 const total = g.offers.reduce((sum, o) => sum + forecastRevenue(o), 0);
                                 return [
@@ -3339,7 +3492,9 @@ export default function MonthWorkspace({
                               </span>
                               <span
                                 className={`mw-gp-state ${state}`}
-                                style={{ ['--p' as string]: Math.min(100, Math.round(ratio * 100)) } as React.CSSProperties}
+                                style={
+                                  { ['--p' as string]: Math.min(100, Math.round(ratio * 100)) } as React.CSSProperties
+                                }
                               >
                                 {Math.round(ratio * 100)}%
                                 {state === 'short' ? (
@@ -3699,18 +3854,25 @@ export default function MonthWorkspace({
                                                     </div>
                                                   </>
                                                 ) : (
-                                                  <span className="mp-step-read" onClick={() => canTick && toggleDone(index, !action.done)}>
+                                                  <span
+                                                    className="mp-step-read"
+                                                    onClick={() => canTick && toggleDone(index, !action.done)}
+                                                  >
                                                     {action.text ? inline(action.text) : <em>Untitled step</em>}
                                                   </span>
                                                 )}
                                               </div>
-                                              {!editing && action.owner && <span className="mp-step-owner-pill">{roleLabel(action.owner)}</span>}
+                                              {!editing && action.owner && (
+                                                <span className="mp-step-owner-pill">{roleLabel(action.owner)}</span>
+                                              )}
                                               {editing && (
                                                 <button
                                                   type="button"
                                                   className="mp-step-del"
                                                   aria-label="Remove step"
-                                                  onClick={() => set({ actions: form.actions.filter((_, j) => j !== index) })}
+                                                  onClick={() =>
+                                                    set({ actions: form.actions.filter((_, j) => j !== index) })
+                                                  }
                                                 >
                                                   <Trash2 size={13} />
                                                 </button>
@@ -3725,7 +3887,10 @@ export default function MonthWorkspace({
                                           className="mp-phase-add"
                                           onClick={() =>
                                             set({
-                                              actions: [...form.actions, { text: '', owner: '', week: phase.week, done: false }],
+                                              actions: [
+                                                ...form.actions,
+                                                { text: '', owner: '', week: phase.week, done: false },
+                                              ],
                                             })
                                           }
                                         >
@@ -4149,14 +4314,7 @@ export default function MonthWorkspace({
             studioName={studio.name}
             theme={displayTheme}
             brief={coverBrief}
-            description={(() => {
-              // The filed focus is written as a description; the objective is a stats list, so it
-              // is only a fallback, and then only its first plain sentence.
-              const focus = String(form.content?.focus || form.content?.planImport?.focus || '').trim();
-              if (focus) return focus;
-              const plain = String(form.objective || chapter.objective || '').replace(/•/g, ' ').replace(/\s+/g, ' ').trim();
-              return plain.split(/(?<=[.!?])\s+/).slice(0, 2).join(' ');
-            })()}
+            description={coverDescription}
             risk={coverRisk}
             signature={coverSignature}
             plan={coverPlan}
@@ -4171,9 +4329,14 @@ export default function MonthWorkspace({
             dates={dates}
             offers={selected.length}
             offerRevenue={offerRevenue}
-            offerNames={selected.map((o: any) => ({ name: String(o.name), slot: String(slotOf(o.id) || o.plan_slot || o.objective || '') }))}
+            offerNames={selected.map((o: any) => ({
+              name: String(o.name),
+              slot: String(slotOf(o.id) || o.plan_slot || o.objective || ''),
+            }))}
             status={coverStatus}
             photo={coverPhoto}
+            onPlay={() => setExplainerOpen(true)}
+            playMinutes={Math.max(1, Math.round(explainerScript.duration / 60000))}
             onOpen={() => setCoverOpen(false)}
             onClose={onClose}
             onPrev={() => month > 1 && setMonth(month - 1)}
@@ -4184,6 +4347,26 @@ export default function MonthWorkspace({
 
       {/* Studio intelligence sits over the month, not inside a section, so it can read
           every part of the plan and hand text back to the field it came from. */}
+      {explainerOpen && (
+        <MonthExplainer
+          script={explainerScript}
+          audioUrl={
+            narratedMonths.includes(month)
+              ? `/explainer/${studio.name
+                  .toLowerCase()
+                  .replace(/[()]/g, '')
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/^-|-$/g, '')}-${String(month).padStart(2, '0')}.mp3`
+              : null
+          }
+          onClose={() => setExplainerOpen(false)}
+          onOpenPlan={() => {
+            setExplainerOpen(false);
+            setCoverOpen(false);
+          }}
+        />
+      )}
+
       {studioAiOpen && aiReady && (
         <StudioAi
           studioId={studio.id}
