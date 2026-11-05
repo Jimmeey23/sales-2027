@@ -1,0 +1,305 @@
+{
+  "month": 12,
+  "name": "December",
+  "status": "draft",
+  "theme": "Wrapped",
+  "objective": "Renew on personal usage data, pre-sell January (which now feeds the February challenge), and turn Christmas gifting into new clients.",
+  "strategy": "Wrapped.\n\nCommercial job: Renew on personal usage data, pre-sell January (which now feeds the February challenge), and turn Christmas gifting into new clients.\n\nNewcomer: Kickstart 21: Pre-Order (“Buy in December. Start Mon 3 Jan. Arrive ready for Stronger in 30.”). Moves January demand into December cash and lands graduates in the February challenge.\n\nNewcomer: Gift the Shake (“The Christmas gift that gets them moving.”). Christmas gifting, reusing the Diwali mechanic.\n\nWinback: Your 2027 Wrapped (“You took {n} classes with us. Here's 20% off the sequel.”). Year-in-review pages get shared and remind lapsed clients of their own habit.\n\nRenewal: Wrapped & Renewed (“Your year in numbers, and next year at a better price.”). A usage-based recommendation renews members onto the right product before the February challenge.\n\nRenewal: 12 Days of Shakemas (“Twelve days, twelve published deals. Day 12 is the big one.”). A daily reason to renew in the year's last selling fortnight; the best prices sit on the longest plans.",
+  "notes": "Moment: 'Your 2027 Wrapped' — a personal year-in-review for every client; the published 12 Days of Shakemas calendar (13–24 Dec).\nBuild: new clients 40 buyers × ₹12,000 = ₹4.8L; reactivation 40 × ₹11,468 = ₹4.6L; privates/retail/drop-ins ₹3.5L; renewals ₹25.6L. First visits needed 134 vs 98 last year (1.37×); CRM leads needed 268 vs 72 last year.",
+  "target": 3850000,
+  "priorYear": 3131133,
+  "growthPercent": 23,
+  "streams": {
+    "newClient": 480000,
+    "renewal": 2561280,
+    "reactivation": 458720,
+    "other": 350000
+  },
+  "funnel": {
+    "leads": 268,
+    "trials": 134,
+    "newBuyers": 40,
+    "existingPayingRenewals": 261,
+    "winbacksNeeded": 40,
+    "expiringMemberships": 227,
+    "renewalCoverage": 0.608,
+    "leadToTrial": 0.5,
+    "trialToMember": 0.3,
+    "spendPerVisit": 1727,
+    "firstMonthSpend": 12000,
+    "renewalTicket": 9806,
+    "winbackTicket": 11468
+  },
+  "feasibility": "stretch",
+  "offers": [
+    {
+      "id": 2439,
+      "slot": "newcomer",
+      "name": "Kickstart 21: Pre-Order",
+      "headline": "Buy in December. Start Mon 3 Jan. Arrive ready for Stronger in 30.",
+      "benefit": "Kickstart 21 cohort: ₹8,499 early bird until 15 Dec, then ₹9,999 (Mon 3 Jan – Sun 23 Jan 2028) — 21 days unlimited, a coach and fitness checks; graduates get 1 Month at 20% off and a Rookie entry for Stronger in 30 (Feb 2028)",
+      "customerCopy": "Buy in December. Start Mon 3 Jan. Arrive ready for Stronger in 30.\n• You buy: Kickstart 21 cohort: ₹8,499 early bird until 15 Dec, then ₹9,999 (Mon 3 Jan – Sun 23 Jan 2028)\n• You get: 21 days unlimited, a coach and fitness checks; graduates get 1 Month at 20% off and a Rookie entry for Stronger in 30 (Feb 2028)\n• When: Buy 1–31 Dec\n• Good to know: Cohort fee not credited; max 14 per cohort; Doesn't combine with any other campaign offer.",
+      "internalDescription": "134 in pool × 13.4% plan rate = 18 buyers × ₹9,250 ticket = ₹1.7L (35% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.3L at 15% effective.",
+      "rationale": "Why: Moves January demand into December cash and lands graduates in the February challenge.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "First-time clients.",
+      "excludedAudience": null,
+      "conditions": "Cohort fee not credited; max 14 per cohort; Doesn't combine with any other campaign offer.",
+      "cta": "All December.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 9250,
+      "expectedRevenue": 166500,
+      "buyers": 18,
+      "effectiveDiscountPercent": 15,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-12-01",
+        "end": "2027-12-31"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2519,
+      "slot": "newcomer",
+      "name": "Gift the Shake",
+      "headline": "The Christmas gift that gets them moving.",
+      "benefit": "A Tasting Flight gift card for ₹2,499 (3 classes in 10 days) — the ₹2,499 is credited and the recipient gets 1 Month at 20% off within 72 hours of class 3; the giver gets 1 bonus class when they buy",
+      "customerCopy": "The Christmas gift that gets them moving.\n• You buy: A Tasting Flight gift card for ₹2,499 (3 classes in 10 days)\n• You get: the ₹2,499 is credited and the recipient gets 1 Month at 20% off within 72 hours of class 3; the giver gets 1 bonus class when they buy\n• When: 1–31 Dec\n• Good to know: Recipient must be new; activate by 31 Jan; Doesn't combine with any other campaign offer.",
+      "internalDescription": "134 in pool × 22.4% plan rate = 30 buyers × ₹2,499 ticket = ₹0.7L (16% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.0L at 0% effective.",
+      "rationale": "Why: Christmas gifting, reusing the Diwali mechanic.",
+      "objective": "acquisition",
+      "type": "experience",
+      "audience": "Anyone buying for a friend new to P57.",
+      "excludedAudience": null,
+      "conditions": "Recipient must be new; activate by 31 Jan; Doesn't combine with any other campaign offer.",
+      "cta": "All December.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 2499,
+      "expectedRevenue": 74970,
+      "buyers": 30,
+      "effectiveDiscountPercent": 0,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-12-01",
+        "end": "2027-12-31"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2441,
+      "slot": "lapsed",
+      "name": "Your 2027 Wrapped",
+      "headline": "You took {n} classes with us. Here's 20% off the sequel.",
+      "benefit": "1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off — your personal stats page (classes, favourite trainer, best month) and a comeback class",
+      "customerCopy": "You took {n} classes with us. Here's 20% off the sequel.\n• You buy: 1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off\n• You get: your personal stats page (classes, favourite trainer, best month) and a comeback class\n• When: All December\n• Good to know: Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "internalDescription": "758 in pool × 3.3% plan rate = 25 buyers × ₹16,000 ticket = ₹4.0L (87% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹1.0L at 20% effective.",
+      "rationale": "Why: Year-in-review pages get shared and remind lapsed clients of their own habit.",
+      "objective": "reactivation",
+      "type": "experience",
+      "audience": "Lapsed clients.",
+      "excludedAudience": null,
+      "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
+      "cta": "All December.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 16000,
+      "expectedRevenue": 400000,
+      "buyers": 25,
+      "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-12-01",
+        "end": "2027-12-31"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2443,
+      "slot": "renewal",
+      "name": "Wrapped & Renewed",
+      "headline": "Your year in numbers, and next year at a better price.",
+      "benefit": "The plan your stats recommend: 3 Months at 18% off (₹47,441), 6 Months at 22% off (₹88,698) or Annual at 22% off (₹1,71,171) — Stronger in 30 2028 early entry and a challenge kit. Staying on 1 Month? Renew at list with +3 days",
+      "customerCopy": "Your year in numbers, and next year at a better price.\n• You buy: The plan your stats recommend: 3 Months at 18% off (₹47,441), 6 Months at 22% off (₹88,698) or Annual at 22% off (₹1,71,171)\n• You get: Stronger in 30 2028 early entry and a challenge kit. Staying on 1 Month? Renew at list with +3 days\n• When: All December\n• Good to know: Members expiring December–January; Doesn't combine with any other campaign offer.",
+      "internalDescription": "227 in pool × 12.3% plan rate = 28 buyers × ₹45,000 ticket = ₹12.6L (49% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹3.0L at 19% effective.",
+      "rationale": "Why: A usage-based recommendation renews members onto the right product before the February challenge.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Members expiring December–January.",
+      "excludedAudience": null,
+      "conditions": "Members expiring December–January; Doesn't combine with any other campaign offer.",
+      "cta": "All December.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 45000,
+      "expectedRevenue": 1260000,
+      "buyers": 28,
+      "effectiveDiscountPercent": 19,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-12-01",
+        "end": "2027-12-31"
+      },
+      "mechanics": {}
+    },
+    {
+      "id": 2520,
+      "slot": "renewal",
+      "name": "12 Days of Shakemas",
+      "headline": "Twelve days, twelve published deals. Day 12 is the big one.",
+      "benefit": "That day's deal, published on 1 Dec — e.g. Day 3: 12-class pack at 15% off · Day 6: 6 Months at 25% off · Day 9: 3 Months at 20% off + a private · Day 12: Annual at 25% off — a Shakemas ornament for the studio tree with your name on it",
+      "customerCopy": "Twelve days, twelve published deals. Day 12 is the big one.\n• You buy: That day's deal, published on 1 Dec — e.g. Day 3: 12-class pack at 15% off · Day 6: 6 Months at 25% off · Day 9: 3 Months at 20% off + a private · Day 12: Annual at 25% off\n• You get: a Shakemas ornament for the studio tree with your name on it\n• When: Mon 13 – Fri 24 Dec\n• Good to know: Mon 13 – Fri 24 Dec; one deal per person per day; full calendar published upfront, no hidden prizes; Doesn't combine with any other campaign offer.",
+      "internalDescription": "227 in pool × 11.0% plan rate = 25 buyers × ₹30,000 ticket = ₹7.5L (29% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹1.9L at 20% effective.",
+      "rationale": "Why: A daily reason to renew in the year's last selling fortnight; the best prices sit on the longest plans.",
+      "objective": "retention",
+      "type": "experience",
+      "audience": "Active members.",
+      "excludedAudience": null,
+      "conditions": "Mon 13 – Fri 24 Dec; one deal per person per day; full calendar published upfront, no hidden prizes; Doesn't combine with any other campaign offer.",
+      "cta": "13–24 Dec.",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 30000,
+      "expectedRevenue": 750000,
+      "buyers": 25,
+      "effectiveDiscountPercent": 20,
+      "contributionMargin": 0,
+      "validity": {
+        "start": "2027-12-13",
+        "end": "2027-12-24"
+      },
+      "mechanics": {}
+    }
+  ],
+  "keyDates": [
+    {
+      "day": 13,
+      "end": null,
+      "date": "2027-12-13",
+      "name": "12 Days of Shakemas begins",
+      "kind": "brand",
+      "label": "P57 moment",
+      "approx": false,
+      "note": "Published calendar, 13–24 Dec."
+    },
+    {
+      "day": 25,
+      "end": null,
+      "date": "2027-12-25",
+      "name": "Christmas",
+      "kind": "holiday",
+      "label": "Holiday",
+      "approx": false,
+      "note": "The gifting close."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Week 1",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Kickstart 21: Pre-Order in Momence (All December.): Kickstart 21 cohort: ₹8,499 early bird until 15 Dec, then ₹9,999 (Mon 3 Jan – Sun 23 Jan 2028) — 21 days unlimited, a coach and fitness checks; graduates get 1 Month at 20% off and a Rookie entry for Stronger in 30 (Feb 2028)."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Gift the Shake in Momence (All December.): A Tasting Flight gift card for ₹2,499 (3 classes in 10 days) — the ₹2,499 is credited and the recipient gets 1 Month at 20% off within 72 hours of class 3; the giver gets 1 bonus class when they buy."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Your 2027 Wrapped in Momence (All December.): 1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off — your personal stats page (classes, favourite trainer, best month) and a comeback class."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up Wrapped & Renewed in Momence (All December.): The plan your stats recommend: 3 Months at 18% off (₹47,441), 6 Months at 22% off (₹88,698) or Annual at 22% off (₹1,71,171) — Stronger in 30 2028 early entry and a challenge kit. Staying on 1 Month? Renew at list with +3 days."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up 12 Days of Shakemas in Momence (13–24 Dec.): That day's deal, published on 1 Dec — e.g. Day 3: 12-class pack at 15% off · Day 6: 6 Months at 25% off · Day 9: 3 Months at 20% off + a private · Day 12: Annual at 25% off — a Shakemas ornament for the studio tree with your name on it."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Brief the team on the 5 December offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Kickstart 21: Pre-Order to First-time clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Gift the Shake to Anyone buying for a friend new to P57."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Your 2027 Wrapped to Lapsed clients."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch Wrapped & Renewed to Members expiring December–January."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch 12 Days of Shakemas to Active members."
+        },
+        {
+          "label": "",
+          "value": "Marketing",
+          "detail": "Run paid lead ads for Kickstart 21: Pre-Order: 268 CRM leads needed vs 72 in the same month last year."
+        }
+      ]
+    },
+    {
+      "title": "Week 2",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Run the month's moment: 'Your 2027 Wrapped' — a personal year-in-review for every client; the published 12 Days of Shakemas calendar (13–24 Dec)."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Weekly check: Kickstart 21: Pre-Order: Pre-sales. | Gift the Shake: Gift cards sold. | Your 2027 Wrapped: Wrapped opens; purchases. | Wrapped & Renewed: Renewals of Dec–Jan expiries. | 12 Days of Shakemas: Renewals per Shakemas day."
+        }
+      ]
+    },
+    {
+      "title": "Week 3",
+      "items": [
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Mid-month review against ₹38.5L: by the 15th aim for about half of 261 renewals, 40 reactivations and 40 new buyers (134 first visits). Push the lists, not a deeper discount."
+        }
+      ]
+    },
+    {
+      "title": "Week 4",
+      "items": [
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Close December: tag every redemption by offer, record results, and brief January's offers."
+        }
+      ]
+    }
+  ]
+}

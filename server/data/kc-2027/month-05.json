@@ -2,163 +2,209 @@
   "month": 5,
   "name": "May",
   "status": "draft",
-  "theme": "The Afterparty",
-  "objective": "Keep April's buyers (target ≥55% renewing at next expiry vs 24.5% for 2026 anniversary-code buyers) and use Mother's Day for duo acquisition.",
-  "strategy": "The Afterparty.\n\nCommercial job: Keep April's buyers (target ≥55% renewing at next expiry vs 24.5% for 2026 anniversary-code buyers) and use Mother's Day for duo acquisition.\n\nNewcomer: Mum's the Word (“Bring your mum. You both get 20% off and a trainer to yourselves.”). Duo trials with a booked second class convert best; Mother's Day gives the reason.\n\nNewcomer: The Second Date (Evergreen) (“Your second class is booked before you leave.”). The default journey for every first-timer outside a campaign.\n\nWinback: A Class for Mum (“Come back at 20% off, and bring your mum for free.”). On-theme, and the gift class is a warm new lead.\n\nRenewal: Afterparty Pricing (“Show up in May, and your next renewal costs less.”). April buyers who attend in May are the ones who renew (2026 anniversary-code buyers renewed at only 24.5%). The discount is earned by attendance, not handed out.",
-  "notes": "Moment: The Afterparty: every April buyer gets a 30-day plan — a week-1 call, and 8 classes in May unlocks a hosted Afterparty class and a trainer progress check.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹3.2L; renewals ₹18.1L. First visits needed 140 vs 118 last year (1.19×); CRM leads needed 280 vs 127 last year.",
-  "target": 3050000,
+  "theme": "Home for the Holidays",
+  "focus": "Students home for the holidays + Mother's Day",
+  "objective": "Students home from college fill empty off-peak seats; Mother's Day duos; keep April's buyers attending.",
+  "studioRole": "Retention-led",
+  "strategy": "Home for the Holidays.\n\nCommercial job: Students home from college fill empty off-peak seats; Mother's Day duos; keep April's buyers attending.\n\nNewcomer: Mom Said Get Off the Couch (“Home for the summer and Mom's already said 'do something'?”). Weekday 10–12 and weekend 4–7 pm run 27–41% full; the marginal cost of a seat there is near zero. Students arriving home in May are a predictable, untapped audience.\n\nNewcomer: Group Project (Finally, Everyone Pulls Their Weight) (“Group projects: usually one person does all the work. Not here.”). Bulk purchase is one of the few places 25% is allowed. Groups attend together (higher usage → higher renewal) and bring four new names per sale.\n\nNewcomer: Mom-entum (“She carried you for 9 months. You can carry her to class.”). Duos with a booked second class convert best; Mother's Day gives a reason. The perk is a shared session, not a bigger discount.\n\nRenewal: Don't Ghost Us After the Party (“Great party. Now show up 8 times in May.”). 2026 anniversary-code buyers renewed at only 24.5%. Attendance in the month after purchase is the best predictor of renewal; the reward is earned by it.",
+  "notes": "Build: 62 new buyers × ₹11,150 first-60-day spend = ₹6.9L; 68 renewals × ₹23,384 = ₹15.9L; 30 winbacks = ₹3.5L; privates/retail/drop-ins ₹2.6L. Offers carry ₹13.8L (48% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
+  "target": 2890000,
   "priorYear": 2428386,
-  "growthPercent": 25.6,
+  "growthPercent": 19,
   "streams": {
-    "newClient": 504000,
-    "renewal": 1813152,
-    "reactivation": 412848,
-    "other": 320000
+    "newClient": 693600,
+    "renewal": 1589500,
+    "reactivation": 346800,
+    "other": 260100
   },
   "funnel": {
-    "leads": 280,
-    "trials": 140,
-    "newBuyers": 42,
-    "existingPayingRenewals": 217,
-    "winbacksNeeded": 36,
-    "expiringMemberships": 234,
-    "renewalCoverage": 0.756,
-    "leadToTrial": 0.5,
-    "trialToMember": 0.3,
-    "spendPerVisit": 1727,
-    "firstMonthSpend": 12000,
-    "renewalTicket": 8368,
-    "winbackTicket": 11468
+    "leads": 451,
+    "trials": 230,
+    "newBuyers": 62,
+    "existingPayingRenewals": 68,
+    "winbacksNeeded": 30,
+    "leadToTrial": 0.51,
+    "trialToMember": 0.269,
+    "renewalRate": 0.765,
+    "firstSixtyDaySpend": 11150,
+    "renewalTicket": 23384,
+    "winbackTicket": 11468,
+    "dataQuality": "lead→trial = CRM 'Trial Completed' status (not attendance-verified); trial→member = trailing measured; see dataGaps"
   },
   "feasibility": "balanced",
   "offers": [
     {
-      "id": 2404,
+      "id": "O27-19-KC",
+      "bankId": "O27-19",
       "slot": "newcomer",
-      "name": "Mum's the Word",
-      "headline": "Bring your mum. You both get 20% off and a trainer to yourselves.",
-      "benefit": "A free first Barre class for a mother and a family member who are both new — class 2 free for both within 7 days; if both buy within 72 hours: 1 Month at 20% off each (₹16,191) and one shared 30-min duo private",
-      "customerCopy": "Bring your mum. You both get 20% off and a trainer to yourselves.\n• You buy: A free first Barre class for a mother and a family member who are both new\n• You get: class 2 free for both within 7 days; if both buy within 72 hours: 1 Month at 20% off each (₹16,191) and one shared 30-min duo private\n• When: Trial 1–16 May\n• Good to know: Both must be new and both must buy; trial 1–16 May; Doesn't combine with any other campaign offer.",
-      "internalDescription": "140 in pool × 8.6% plan rate = 12 buyers × ₹16,191 ticket = ₹1.9L (39% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.6L at 24% effective.",
-      "rationale": "Why: Duo trials with a booked second class convert best; Mother's Day gives the reason.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "A mother and a family member, both new.",
+      "name": "Mom Said Get Off the Couch",
+      "headline": "Home for the summer and Mom's already said 'do something'?",
+      "benefit": "Students and under-25s (ID checked): 8-class pack at 20% off — Mumbai ₹10,500, Kenkere ₹6,972, pop-ups ₹5,544 — valid 45 days, Golden Hours only (Mon–Fri 10 am–12 pm, Sat–Sun 4–7 pm). On sale 1 May–30 Jun.",
+      "customerCopy": "Home for the summer and Mom's already said 'do something'? 8 classes at 20% off for students — in the hours when the studio is basically yours.",
+      "description": "Students and under-25s (ID checked): 8-class pack at 20% off — Mumbai ₹10,500, Kenkere ₹6,972, pop-ups ₹5,544 — valid 45 days, Golden Hours only (Mon–Fri 10 am–12 pm, Sat–Sun 4–7 pm). On sale 1 May–30 Jun.",
+      "internalDescription": "Plan: 18 buyers × ₹10,500 = ₹189,000 (Mumbai pricing).",
+      "rationale": "Weekday 10–12 and weekend 4–7 pm run 27–41% full; the marginal cost of a seat there is near zero. Students arriving home in May are a predictable, untapped audience.",
+      "objective": "Fill empty off-peak seats and recruit the next generation of members.",
+      "type": "Student pass (off-peak)",
+      "mechanicTags": [
+        "student / under-25",
+        "off-peak validity",
+        "8-class pack"
+      ],
+      "audience": "First-time clients (phone verified).",
       "excludedAudience": null,
-      "conditions": "Both must be new and both must buy; trial 1–16 May; Doesn't combine with any other campaign offer.",
-      "cta": "1–16 May.",
+      "conditions": "Discount only exists in empty slots; ≤20%. Claim by 2027-06-30.",
+      "cta": "2027-05-01 to 2027-05-31",
       "status": "draft",
       "approval": "pending",
-      "runAds": false,
-      "price": 16191,
-      "expectedRevenue": 194292,
-      "buyers": 12,
-      "effectiveDiscountPercent": 24,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-05-01",
-        "end": "2027-05-16"
-      },
-      "mechanics": {}
-    },
-    {
-      "id": 2511,
-      "slot": "newcomer",
-      "name": "The Second Date (Evergreen)",
-      "headline": "Your second class is booked before you leave.",
-      "benefit": "A free first Barre class — class 2 free within 7 days; buy within 72 hours of class 2 for 20% off 1 Month or a 12-class pack; 10% until day 14",
-      "customerCopy": "Your second class is booked before you leave.\n• You buy: A free first Barre class\n• You get: class 2 free within 7 days; buy within 72 hours of class 2 for 20% off 1 Month or a 12-class pack; 10% until day 14\n• When: All May\n• Good to know: Strength Lab not included; Doesn't combine with any other campaign offer.",
-      "internalDescription": "140 in pool × 8.6% plan rate = 12 buyers × ₹16,000 ticket = ₹1.9L (38% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.5L at 20% effective.",
-      "rationale": "Why: The default journey for every first-timer outside a campaign.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "First-time clients.",
-      "excludedAudience": null,
-      "conditions": "Strength Lab not included; Doesn't combine with any other campaign offer.",
-      "cta": "All May.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 16000,
-      "expectedRevenue": 192000,
-      "buyers": 12,
+      "runAds": true,
+      "price": 10500,
+      "expectedRevenue": 189000,
+      "buyers": 18,
       "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
+      "kpi": "Golden Hours fill (target +15 pts); student repeat purchase.",
       "validity": {
         "start": "2027-05-01",
         "end": "2027-05-31"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 10500
     },
     {
-      "id": 2405,
-      "slot": "lapsed",
-      "name": "A Class for Mum",
-      "headline": "Come back at 20% off, and bring your mum for free.",
-      "benefit": "A 12-class pack at 20% off (₹15,750) — a free class for your mum (or any mum you choose)",
-      "customerCopy": "Come back at 20% off, and bring your mum for free.\n• You buy: A 12-class pack at 20% off (₹15,750)\n• You get: a free class for your mum (or any mum you choose)\n• When: Buy 1–16 May\n• Good to know: Gift class within 30 days; replaces the standing 15% lapsed perk; buy 1–16 May; Doesn't combine with any other campaign offer.",
-      "internalDescription": "644 in pool × 3.4% plan rate = 22 buyers × ₹15,750 ticket = ₹3.5L (84% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 20% effective.",
-      "rationale": "Why: On-theme, and the gift class is a warm new lead.",
-      "objective": "reactivation",
-      "type": "experience",
-      "audience": "Lapsed clients.",
+      "id": "O27-20-KC",
+      "bankId": "O27-20",
+      "slot": "newcomer",
+      "name": "Group Project (Finally, Everyone Pulls Their Weight)",
+      "headline": "Group projects: usually one person does all the work. Not here.",
+      "benefit": "4+ students buy 8-class packs together in one transaction: 25% off each — Mumbai ₹9,844, Kenkere ₹6,536, pop-ups ₹5,198. Golden Hours validity, 45 days.",
+      "customerCopy": "Group projects: usually one person does all the work. Not here. Buy as a squad of 4 and everyone gets 25% off. Free-loaders still have to do the planks.",
+      "description": "4+ students buy 8-class packs together in one transaction: 25% off each — Mumbai ₹9,844, Kenkere ₹6,536, pop-ups ₹5,198. Golden Hours validity, 45 days.",
+      "internalDescription": "Plan: 12 buyers × ₹9,844 = ₹118,128 (Mumbai pricing).",
+      "rationale": "Bulk purchase is one of the few places 25% is allowed. Groups attend together (higher usage → higher renewal) and bring four new names per sale.",
+      "objective": "Acquire students in groups, where they keep each other attending.",
+      "type": "Bulk student purchase",
+      "mechanicTags": [
+        "bulk purchase 25%",
+        "squad of 4",
+        "off-peak"
+      ],
+      "audience": "First-time clients (phone verified).",
       "excludedAudience": null,
-      "conditions": "Gift class within 30 days; replaces the standing 15% lapsed perk; buy 1–16 May; Doesn't combine with any other campaign offer.",
-      "cta": "1–16 May.",
+      "conditions": "Bulk rule: 4+ packs in one transaction. Off-peak only. Claim by 2027-06-30.",
+      "cta": "2027-05-01 to 2027-05-31",
       "status": "draft",
       "approval": "pending",
-      "runAds": false,
-      "price": 15750,
-      "expectedRevenue": 346500,
-      "buyers": 22,
-      "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
+      "runAds": true,
+      "price": 9844,
+      "expectedRevenue": 118128,
+      "buyers": 12,
+      "effectiveDiscountPercent": 25,
+      "kpi": "Squads sold; squad members buying again within 60 days.",
+      "validity": {
+        "start": "2027-05-01",
+        "end": "2027-05-31"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: bulk purchase (≤25%)"
+      },
+      "ticket": 9844
+    },
+    {
+      "id": "O27-21-KC",
+      "bankId": "O27-21",
+      "slot": "newcomer",
+      "name": "Mom-entum",
+      "headline": "She carried you for 9 months. You can carry her to class.",
+      "benefit": "Mother–child pairs (either way round), 1–16 May. If one is new: the newcomer's standard 15% on 1 Month / 12-class, a shared 30-min duo private and a P57 gift for mum (≈₹2,000 retail — confirm). If both are members: renew together at 10% each + the duo private.",
+      "customerCopy": "She carried you for 9 months. You can carry her to class. Mother–child duos get a 30-minute duo private and a gift for mum. New to P57? Your first month is 15% off.",
+      "description": "Mother–child pairs (either way round), 1–16 May. If one is new: the newcomer's standard 15% on 1 Month / 12-class, a shared 30-min duo private and a P57 gift for mum (≈₹2,000 retail — confirm). If both are members: renew together at 10% each + the duo private.",
+      "internalDescription": "Plan: 10 buyers × ₹17,203 = ₹172,030 (Mumbai pricing).",
+      "rationale": "Duos with a booked second class convert best; Mother's Day gives a reason. The perk is a shared session, not a bigger discount.",
+      "objective": "Duo acquisition around Mother's Day.",
+      "type": "Duo (Mother's Day)",
+      "mechanicTags": [
+        "duo",
+        "duo private",
+        "retail gift"
+      ],
+      "audience": "First-time clients (phone verified).",
+      "excludedAudience": null,
+      "conditions": "≈18% effective for a newcomer, ≈16% for a member renewing.",
+      "cta": "2027-05-01 to 2027-05-16",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 17203,
+      "expectedRevenue": 172030,
+      "buyers": 10,
+      "effectiveDiscountPercent": 18,
+      "kpi": "Duos trialled; both-buy rate.",
       "validity": {
         "start": "2027-05-01",
         "end": "2027-05-16"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 17203
     },
     {
-      "id": 2406,
+      "id": "O27-22-KC",
+      "bankId": "O27-22",
       "slot": "renewal",
-      "name": "Afterparty Pricing",
-      "headline": "Show up in May, and your next renewal costs less.",
-      "benefit": "Next renewal: 3 Months at 20% off (₹46,284) or 1 Month at 10% off (₹18,215) — unlocked by booking 8 classes in May, plus a hosted Afterparty class and a trainer progress check",
-      "customerCopy": "Show up in May, and your next renewal costs less.\n• You buy: Next renewal: 3 Months at 20% off (₹46,284) or 1 Month at 10% off (₹18,215)\n• You get: unlocked by booking 8 classes in May, plus a hosted Afterparty class and a trainer progress check\n• When: All May; renewal bonus valid at your next expiry\n• Good to know: April buyers and May renewers; price valid at your next expiry through 30 Jun; Doesn't combine with any other campaign offer.",
-      "internalDescription": "234 in pool × 19.2% plan rate = 45 buyers × ₹28,000 ticket = ₹12.6L (69% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.2L at 15% effective.",
-      "rationale": "Why: April buyers who attend in May are the ones who renew (2026 anniversary-code buyers renewed at only 24.5%). The discount is earned by attendance, not handed out.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "April buyers and May renewers.",
+      "name": "Don't Ghost Us After the Party",
+      "headline": "Great party. Now show up 8 times in May.",
+      "benefit": "Everyone who bought in April and takes 8+ classes in May: next renewal 3 Months at 15% (₹49,177 / ₹35,879) or 1 Month at 10% (₹18,215 / ₹13,136), plus a 30-min private. Pop-ups: 10-class pack at 15% + a bonus class.",
+      "customerCopy": "Great party. Now the real test: show up 8 times in May and your next renewal costs less — plus a 30-minute private on us.",
+      "description": "Everyone who bought in April and takes 8+ classes in May: next renewal 3 Months at 15% (₹49,177 / ₹35,879) or 1 Month at 10% (₹18,215 / ₹13,136), plus a 30-min private. Pop-ups: 10-class pack at 15% + a bonus class.",
+      "internalDescription": "Plan: 30 buyers × ₹30,000 = ₹900,000 (Mumbai pricing).",
+      "rationale": "2026 anniversary-code buyers renewed at only 24.5%. Attendance in the month after purchase is the best predictor of renewal; the reward is earned by it.",
+      "objective": "Keep April's buyers paying after April.",
+      "type": "Post-April retention",
+      "mechanicTags": [
+        "attendance-gated renewal",
+        "30-min private"
+      ],
+      "audience": "≈20% effective on 3M, ≈20% on 1M with the private",
       "excludedAudience": null,
-      "conditions": "April buyers and May renewers; price valid at your next expiry through 30 Jun; Doesn't combine with any other campaign offer.",
-      "cta": "All May.",
+      "conditions": "≈20% effective on 3M, ≈20% on 1M with the private.",
+      "cta": "2027-05-01 to 2027-05-31",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 28000,
-      "expectedRevenue": 1260000,
-      "buyers": 45,
-      "effectiveDiscountPercent": 15,
-      "contributionMargin": 0,
+      "price": 49177,
+      "expectedRevenue": 900000,
+      "buyers": 30,
+      "effectiveDiscountPercent": 19.5,
+      "kpi": "April cohort with 8+ May visits (target 55%); April cohort renewal at next expiry (target 55%).",
       "validity": {
         "start": "2027-05-01",
         "end": "2027-05-31"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 30000
     }
   ],
+  "offersPlannedRevenue": 1379158,
   "keyDates": [
     {
       "day": 9,
-      "end": null,
       "date": "2027-05-09",
       "name": "Mother's Day",
       "kind": "retail",
-      "label": "Retail moment",
-      "approx": false,
-      "note": "Daughters buying for mothers, and mothers for daughters."
+      "approx": false
     }
   ],
   "sections": [
@@ -168,47 +214,47 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Mum's the Word in Momence (1–16 May.): A free first Barre class for a mother and a family member who are both new — class 2 free for both within 7 days; if both buy within 72 hours: 1 Month at 20% off each (₹16,191) and one shared 30-min duo private."
+          "detail": "Set up Mom Said Get Off the Couch in Momence (2027-05-01 to 2027-06-30): Students and under-25s (ID checked): 8-class pack at 20% off — Mumbai ₹10,500, Kenkere ₹6,972, pop-ups ₹5,544 — valid 45 days, Golden Hours only (Mon–Fri 10 am–12 pm, Sat–Sun 4–7 pm). On sale 1 May–30 Jun."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up The Second Date (Evergreen) in Momence (All May.): A free first Barre class — class 2 free within 7 days; buy within 72 hours of class 2 for 20% off 1 Month or a 12-class pack; 10% until day 14."
+          "detail": "Set up Group Project (Finally, Everyone Pulls Their Weight) in Momence (2027-05-01 to 2027-06-30): 4+ students buy 8-class packs together in one transaction: 25% off each — Mumbai ₹9,844, Kenkere ₹6,536, pop-ups ₹5,198. Golden Hours validity, 45 days."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up A Class for Mum in Momence (1–16 May.): A 12-class pack at 20% off (₹15,750) — a free class for your mum (or any mum you choose)."
+          "detail": "Set up Mom-entum in Momence (2027-05-01 to 2027-05-16): Mother–child pairs (either way round), 1–16 May. If one is new: the newcomer's standard 15% on 1 Month / 12-class, a shared 30-min duo private and a P57 gift for mum (≈₹2,000 retail — confirm). If both are members: renew together at 10% each + the duo private."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Afterparty Pricing in Momence (All May.): Next renewal: 3 Months at 20% off (₹46,284) or 1 Month at 10% off (₹18,215) — unlocked by booking 8 classes in May, plus a hosted Afterparty class and a trainer progress check."
+          "detail": "Set up Don't Ghost Us After the Party in Momence (2027-05-01 to 2027-05-31): Everyone who bought in April and takes 8+ classes in May: next renewal 3 Months at 15% (₹49,177 / ₹35,879) or 1 Month at 10% (₹18,215 / ₹13,136), plus a 30-min private. Pop-ups: 10-class pack at 15% + a bonus class."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Brief the team on the 4 May offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+          "detail": "Brief the team on the 4 May offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Mum's the Word to A mother and a family member, both new."
+          "detail": "Launch Mom Said Get Off the Couch: Home for the summer and Mom's already said 'do something'? 8 classes at 20% off for students — in the hours when the studio is basically yours."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch The Second Date (Evergreen) to First-time clients."
+          "detail": "Launch Group Project (Finally, Everyone Pulls Their Weight): Group projects: usually one person does all the work. Not here. Buy as a squad of 4 and everyone gets 25% off. Free-loaders still have to do the planks."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch A Class for Mum to Lapsed clients."
+          "detail": "Launch Mom-entum: She carried you for 9 months. You can carry her to class. Mother–child duos get a 30-minute duo private and a gift for mum. New to P57? Your first month is 15% off."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Afterparty Pricing to April buyers and May renewers."
+          "detail": "Launch Don't Ghost Us After the Party: Great party. Now the real test: show up 8 times in May and your next renewal costs less — plus a 30-minute private on us."
         }
       ]
     },
@@ -217,13 +263,8 @@
       "items": [
         {
           "label": "",
-          "value": "Studio manager",
-          "detail": "Run the month's moment: The Afterparty: every April buyer gets a 30-day plan — a week-1 call, and 8 classes in May unlocks a hosted Afterparty class and a trainer progress check."
-        },
-        {
-          "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Mum's the Word: Duos trialled; both-buy rate. | The Second Date (Evergreen): Second-visit share (target 55%). | A Class for Mum: Gift classes booked; mums converting. | Afterparty Pricing: April cohort attendance in May (target 8+); next-expiry renewal (target 55%)."
+          "detail": "Weekly check: Mom Said Get Off the Couch: Golden Hours fill (target +15 pts); student repeat purchase. | Group Project (Finally, Everyone Pulls Their Weight): Squads sold; squad members buying again within 60 days. | Mom-entum: Duos trialled; both-buy rate. | Don't Ghost Us After the Party: April cohort with 8+ May visits (target 55%); April cohort renewal at next expiry (target 55%)."
         }
       ]
     },
@@ -233,7 +274,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Mid-month review against ₹30.5L: by the 15th aim for about half of 217 renewals, 36 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
+          "detail": "Mid-month review against ₹28.9L: by the 15th aim for ~half of 62 new buyers (230 first visits), 68 renewals and 30 winbacks. Push the lists, not a deeper discount."
         }
       ]
     },
@@ -243,9 +284,93 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Close May: tag every redemption by offer, record results, and brief June's offers."
+          "detail": "Close May: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
         }
       ]
     }
-  ]
+  ],
+  "collateral": {
+    "title": "Home for the Holidays",
+    "pieces": [
+      {
+        "offerId": "O27-19-KC",
+        "headline": "Home for the summer and Mom's already said 'do something'?",
+        "copy": "Home for the summer and Mom's already said 'do something'? 8 classes at 20% off for students — in the hours when the studio is basically yours.",
+        "detail": "Students and under-25s (ID checked): 8-class pack at 20% off — Mumbai ₹10,500, Kenkere ₹6,972, pop-ups ₹5,544 — valid 45 days, Golden Hours only (Mon–Fri 10 am–12 pm, Sat–Sun 4–7 pm). On sale 1 May–30 Jun.",
+        "channels": [
+          "WhatsApp",
+          "Instagram",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-20-KC",
+        "headline": "Group projects: usually one person does all the work. Not here.",
+        "copy": "Group projects: usually one person does all the work. Not here. Buy as a squad of 4 and everyone gets 25% off. Free-loaders still have to do the planks.",
+        "detail": "4+ students buy 8-class packs together in one transaction: 25% off each — Mumbai ₹9,844, Kenkere ₹6,536, pop-ups ₹5,198. Golden Hours validity, 45 days.",
+        "channels": [
+          "WhatsApp",
+          "Instagram",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-21-KC",
+        "headline": "She carried you for 9 months. You can carry her to class.",
+        "copy": "She carried you for 9 months. You can carry her to class. Mother–child duos get a 30-minute duo private and a gift for mum. New to P57? Your first month is 15% off.",
+        "detail": "Mother–child pairs (either way round), 1–16 May. If one is new: the newcomer's standard 15% on 1 Month / 12-class, a shared 30-min duo private and a P57 gift for mum (≈₹2,000 retail — confirm). If both are members: renew together at 10% each + the duo private.",
+        "channels": [
+          "WhatsApp",
+          "Instagram",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-22-KC",
+        "headline": "Great party. Now show up 8 times in May.",
+        "copy": "Great party. Now the real test: show up 8 times in May and your next renewal costs less — plus a 30-minute private on us.",
+        "detail": "Everyone who bought in April and takes 8+ classes in May: next renewal 3 Months at 15% (₹49,177 / ₹35,879) or 1 Month at 10% (₹18,215 / ₹13,136), plus a 30-min private. Pop-ups: 10-class pack at 15% + a bonus class.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      }
+    ]
+  },
+  "crm": {
+    "rule": "One send per offer to its own audience; no member gets more than 2 offer sends a week.",
+    "sends": [
+      {
+        "offerId": "O27-19-KC",
+        "audience": "First-time clients (phone verified).",
+        "message": "Home for the summer and Mom's already said 'do something'? 8 classes at 20% off for students — in the hours when the studio is basically yours."
+      },
+      {
+        "offerId": "O27-20-KC",
+        "audience": "First-time clients (phone verified).",
+        "message": "Group projects: usually one person does all the work. Not here. Buy as a squad of 4 and everyone gets 25% off. Free-loaders still have to do the planks."
+      },
+      {
+        "offerId": "O27-21-KC",
+        "audience": "First-time clients (phone verified).",
+        "message": "She carried you for 9 months. You can carry her to class. Mother–child duos get a 30-minute duo private and a gift for mum. New to P57? Your first month is 15% off."
+      },
+      {
+        "offerId": "O27-22-KC",
+        "audience": "≈20% effective on 3M, ≈20% on 1M with the private",
+        "message": "Great party. Now the real test: show up 8 times in May and your next renewal costs less — plus a 30-minute private on us."
+      }
+    ],
+    "sendsCount": 4
+  },
+  "standardTrade": {
+    "revenue": 1510842,
+    "shareOfMonth": 52.3,
+    "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
+  },
+  "targetBasis": "hand_set"
 }

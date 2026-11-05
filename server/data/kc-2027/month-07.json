@@ -2,163 +2,249 @@
   "month": 7,
   "name": "July",
   "status": "draft",
-  "theme": "Rain Check",
-  "objective": "Protect monsoon attendance and late cancels; get people onto a membership before The Amazing Race 2.0 starts on 1 Aug.",
-  "strategy": "Rain Check.\n\nCommercial job: Protect monsoon attendance and late cancels; get people onto a membership before The Amazing Race 2.0 starts on 1 Aug.\n\nNewcomer: Kickstart 21: Race Ready (“21 days that end on the Amazing Race start line.”). Gives July a goal and a date; graduation lands on race day one.\n\nWinback: Warm-Up Lap (“Get race-fit before the gun goes on 1 August. 20% off.”). An event with a date plus a real discount brings lapsed clients back before the race.\n\nRenewal: Midyear Report Card (“Your half-year in numbers, and a better price to keep going.”). A mid-year 'Wrapped' moves members to the product that fits how they actually train, and longer plans protect the monsoon months.\n\nRenewal: Rain Check Renewal (“Monsoon happens. 10% off, and your late cancels are forgiven.”). Monsoon late cancels are why July renewers feel they 'wasted' a month; this removes the grievance.",
-  "notes": "Moment: Monsoon Streak leaderboard; race registrations open Thu 15 Jul.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹3.0L; renewals ₹19.3L. First visits needed 140 vs 121 last year (1.16×); CRM leads needed 280 vs 155 last year.",
-  "target": 3150000,
+  "theme": "Book the Studio + Rain Check",
+  "focus": "Studio bookouts + monsoon",
+  "objective": "Studio bookouts and corporate bulk as new channels; protect monsoon renewals; bring lapsed clients back before the race.",
+  "studioRole": "Retention-led",
+  "strategy": "Book the Studio + Rain Check.\n\nCommercial job: Studio bookouts and corporate bulk as new channels; protect monsoon renewals; bring lapsed clients back before the race.\n\nBookout: Kitty Party, But Make It Cardio (“Kitty party, but make it cardio.”). Hosted classes are a top lead source (Kwality 394, Bandra 353, Kenkere 281 leads) but convert only 4.6–6.1%. A paid bookout has a host who brings warm friends and pays for the room.\n\nCorporate: Team Building Without the Trust Falls (“Team building without the trust falls.”). Bulk purchase is an allowed 25% case. Corporate buyers bring 10+ new members per sale and fit the monsoon trough.\n\nRenewal: Rain Check (Literally) (“Monsoon happens. Your late-cancel fee doesn't have to.”). Average late cancels per membership: Bandra 1.18, Kenkere 1.36. Late-cancel fees in the monsoon make members feel they 'wasted' a month and lapse.\n\nLapsed: Gone With the Wind, Back With the Rain (“Left us in the summer heat? Come back for the monsoon.”). An event with a start date beats a generic reminder. Freezes answer the monsoon objection at no cash cost.",
+  "notes": "Build: 72 new buyers × ₹11,150 first-60-day spend = ₹8.1L; 79 renewals × ₹23,384 = ₹18.5L; 35 winbacks = ₹4.0L; privates/retail/drop-ins ₹3.0L. Offers carry ₹11.8L (35% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
+  "target": 3360000,
   "priorYear": 2580030,
-  "growthPercent": 22.1,
+  "growthPercent": 30.2,
   "streams": {
-    "newClient": 504000,
-    "renewal": 1933152,
-    "reactivation": 412848,
-    "other": 300000
+    "newClient": 806400,
+    "renewal": 1848000,
+    "reactivation": 403200,
+    "other": 302400
   },
   "funnel": {
-    "leads": 280,
-    "trials": 140,
-    "newBuyers": 42,
-    "existingPayingRenewals": 190,
-    "winbacksNeeded": 36,
-    "expiringMemberships": 263,
-    "renewalCoverage": 0.967,
-    "leadToTrial": 0.5,
-    "trialToMember": 0.3,
-    "spendPerVisit": 1727,
-    "firstMonthSpend": 12000,
-    "renewalTicket": 10155,
-    "winbackTicket": 11468
+    "leads": 525,
+    "trials": 268,
+    "newBuyers": 72,
+    "existingPayingRenewals": 79,
+    "winbacksNeeded": 35,
+    "leadToTrial": 0.51,
+    "trialToMember": 0.269,
+    "renewalRate": 0.765,
+    "firstSixtyDaySpend": 11150,
+    "renewalTicket": 23384,
+    "winbackTicket": 11468,
+    "dataQuality": "lead→trial = CRM 'Trial Completed' status (not attendance-verified); trial→member = trailing measured; see dataGaps"
   },
-  "feasibility": "balanced",
+  "feasibility": "stretch",
   "offers": [
     {
-      "id": 2413,
-      "slot": "newcomer",
-      "name": "Kickstart 21: Race Ready",
-      "headline": "21 days that end on the Amazing Race start line.",
-      "benefit": "Kickstart 21 cohort for ₹9,999 (Mon 12 Jul – Sun 1 Aug): 21 days unlimited, a coach, fitness checks and a WhatsApp group — graduates get 1 Month at 20% off (₹16,191) within 7 days and a Rookie leaderboard entry",
-      "customerCopy": "21 days that end on the Amazing Race start line.\n• You buy: Kickstart 21 cohort for ₹9,999 (Mon 12 Jul – Sun 1 Aug): 21 days unlimited, a coach, fitness checks and a WhatsApp group\n• You get: graduates get 1 Month at 20% off (₹16,191) within 7 days and a Rookie leaderboard entry\n• When: Book by 10 Jul\n• Good to know: Cohort fee not credited; max 14 per cohort; Doesn't combine with any other campaign offer.",
-      "internalDescription": "140 in pool × 11.4% plan rate = 16 buyers × ₹18,000 ticket = ₹2.9L (57% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 20% effective.",
-      "rationale": "Why: Gives July a goal and a date; graduation lands on race day one.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "First-time clients.",
+      "id": "O27-27-KC",
+      "bankId": "O27-27",
+      "slot": "bookout",
+      "name": "Kitty Party, But Make It Cardio",
+      "headline": "Kitty party, but make it cardio.",
+      "benefit": "Book out the studio for a private 50-min class for up to 12 (birthdays, bachelorettes, kitty parties, reunions): Mumbai ₹24,999, Kenkere ₹14,999, pop-ups ₹9,999. Every first-timer gets Third Time's the Charm (3-for-2) and the standard 15% on a first membership within 7 days; the host gets 2 guest passes.",
+      "customerCopy": "Kitty party, but make it cardio. Book out the studio for your crew — up to 12 people, your playlist, our instructor. Everyone new gets 3 classes for the price of 2 afterwards.",
+      "description": "Book out the studio for a private 50-min class for up to 12 (birthdays, bachelorettes, kitty parties, reunions): Mumbai ₹24,999, Kenkere ₹14,999, pop-ups ₹9,999. Every first-timer gets Third Time's the Charm (3-for-2) and the standard 15% on a first membership within 7 days; the host gets 2 guest passes.",
+      "internalDescription": "Plan: 4 buyers × ₹24,999 = ₹99,996 (Mumbai pricing).",
+      "rationale": "Hosted classes are a top lead source (Kwality 394, Bandra 353, Kenkere 281 leads) but convert only 4.6–6.1%. A paid bookout has a host who brings warm friends and pays for the room.",
+      "objective": "Turn hosted events into a paid acquisition channel.",
+      "type": "Studio bookout",
+      "mechanicTags": [
+        "private group class",
+        "guest newcomer offer",
+        "host reward"
+      ],
+      "audience": "Anyone booking the studio for a private group of up to 12.",
       "excludedAudience": null,
-      "conditions": "Cohort fee not credited; max 14 per cohort; Doesn't combine with any other campaign offer.",
-      "cta": "Book by 10 Jul.",
+      "conditions": "Guests: standard newcomer terms only.",
+      "cta": "2027-07-01 to 2027-07-31",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 18000,
-      "expectedRevenue": 288000,
-      "buyers": 16,
-      "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-06-25",
-        "end": "2027-07-10"
-      },
-      "mechanics": {}
-    },
-    {
-      "id": 2415,
-      "slot": "lapsed",
-      "name": "Warm-Up Lap",
-      "headline": "Get race-fit before the gun goes on 1 August. 20% off.",
-      "benefit": "1 Month Unlimited at 20% off (₹16,191), starting 15 Jul–1 Aug — a free race-prep assessment and a full race entry",
-      "customerCopy": "Get race-fit before the gun goes on 1 August. 20% off.\n• You buy: 1 Month Unlimited at 20% off (₹16,191), starting 15 Jul–1 Aug\n• You get: a free race-prep assessment and a full race entry\n• When: Buy 15–31 Jul\n• Good to know: Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "internalDescription": "638 in pool × 3.4% plan rate = 22 buyers × ₹16,191 ticket = ₹3.6L (86% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 20% effective.",
-      "rationale": "Why: An event with a date plus a real discount brings lapsed clients back before the race.",
-      "objective": "reactivation",
-      "type": "experience",
-      "audience": "Lapsed clients.",
-      "excludedAudience": null,
-      "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "cta": "15–31 Jul.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 16191,
-      "expectedRevenue": 356202,
-      "buyers": 22,
-      "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-07-15",
-        "end": "2027-07-31"
-      },
-      "mechanics": {}
-    },
-    {
-      "id": 2416,
-      "slot": "renewal",
-      "name": "Midyear Report Card",
-      "headline": "Your half-year in numbers, and a better price to keep going.",
-      "benefit": "The plan your trainer recommends: 3 Months at 18% off (₹47,441) or 6 Months at 22% off (₹88,698) — a personal half-year stats card and a 10-minute trainer review. Staying on 1 Month? Renew at list with 2 guest passes",
-      "customerCopy": "Your half-year in numbers, and a better price to keep going.\n• You buy: The plan your trainer recommends: 3 Months at 18% off (₹47,441) or 6 Months at 22% off (₹88,698)\n• You get: a personal half-year stats card and a 10-minute trainer review. Staying on 1 Month? Renew at list with 2 guest passes\n• When: All July\n• Good to know: July renewers; Doesn't combine with any other campaign offer.",
-      "internalDescription": "263 in pool × 9.5% plan rate = 25 buyers × ₹35,000 ticket = ₹8.8L (45% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹1.8L at 17% effective.",
-      "rationale": "Why: A mid-year 'Wrapped' moves members to the product that fits how they actually train, and longer plans protect the monsoon months.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "July renewers.",
-      "excludedAudience": null,
-      "conditions": "July renewers; Doesn't combine with any other campaign offer.",
-      "cta": "All July.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 35000,
-      "expectedRevenue": 875000,
-      "buyers": 25,
-      "effectiveDiscountPercent": 17,
-      "contributionMargin": 0,
+      "price": 24999,
+      "expectedRevenue": 99996,
+      "buyers": 4,
+      "effectiveDiscountPercent": 0,
+      "kpi": "Bookouts sold; guest → member (target 15%).",
       "validity": {
         "start": "2027-07-01",
         "end": "2027-07-31"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 24999
     },
     {
-      "id": 2513,
-      "slot": "renewal",
-      "name": "Rain Check Renewal",
-      "headline": "Monsoon happens. 10% off, and your late cancels are forgiven.",
-      "benefit": "1 Month Unlimited at 10% off (₹18,215) — 3 'Rain Check' tokens that waive a late-cancel fee, and automatic credit back for any class on an official red-alert day",
-      "customerCopy": "Monsoon happens. 10% off, and your late cancels are forgiven.\n• You buy: 1 Month Unlimited at 10% off (₹18,215)\n• You get: 3 'Rain Check' tokens that waive a late-cancel fee, and automatic credit back for any class on an official red-alert day\n• When: Renew in July\n• Good to know: 1 Month members renewing in July; tokens valid until 30 Sep; Doesn't combine with any other campaign offer.",
-      "internalDescription": "263 in pool × 11.4% plan rate = 30 buyers × ₹18,215 ticket = ₹5.5L (28% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 12% effective.",
-      "rationale": "Why: Monsoon late cancels are why July renewers feel they 'wasted' a month; this removes the grievance.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "1 Month members renewing in July.",
+      "id": "O27-28-KC",
+      "bankId": "O27-28",
+      "slot": "corporate",
+      "name": "Team Building Without the Trust Falls",
+      "headline": "Team building without the trust falls.",
+      "benefit": "A company buys 10+ memberships or packs on one invoice: 25% off each (1 Month ₹15,179 Mumbai / ₹10,946 Kenkere). Or book a corporate studio bookout and get a 15% employee code for 30 days.",
+      "customerCopy": "Team building without the trust falls. Buy 10 or more memberships for your team and save 25% each. The only thing your colleagues will drop is their excuses.",
+      "description": "A company buys 10+ memberships or packs on one invoice: 25% off each (1 Month ₹15,179 Mumbai / ₹10,946 Kenkere). Or book a corporate studio bookout and get a 15% employee code for 30 days.",
+      "internalDescription": "Plan: 10 buyers × ₹15,179 = ₹151,790 (Mumbai pricing).",
+      "rationale": "Bulk purchase is an allowed 25% case. Corporate buyers bring 10+ new members per sale and fit the monsoon trough.",
+      "objective": "Open a B2B channel with bulk cash in a soft month.",
+      "type": "Corporate bulk",
+      "mechanicTags": [
+        "bulk purchase 25%",
+        "corporate invoice"
+      ],
+      "audience": "Offices, HR and team leads; 10+ units on one invoice.",
       "excludedAudience": null,
-      "conditions": "1 Month members renewing in July; tokens valid until 30 Sep; Doesn't combine with any other campaign offer.",
-      "cta": "All July.",
+      "conditions": "Bulk rule: 10+ units on one invoice.",
+      "cta": "2027-07-01 to 2027-07-31",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 15179,
+      "expectedRevenue": 151790,
+      "buyers": 10,
+      "effectiveDiscountPercent": 25,
+      "kpi": "Corporate deals.",
+      "validity": {
+        "start": "2027-07-01",
+        "end": "2027-07-31"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: bulk purchase (≤25%)"
+      },
+      "ticket": 15179
+    },
+    {
+      "id": "O27-29-KC",
+      "bankId": "O27-29",
+      "slot": "renewal",
+      "name": "Rain Check (Literally)",
+      "headline": "Monsoon happens. Your late-cancel fee doesn't have to.",
+      "benefit": "July 1 Month renewers: 10% off (₹18,215 / ₹13,136) + 3 late-cancel amnesty tokens (valid to 30 Sep) + automatic credit-back on official red-alert days. Take 12+ classes in July: +3 days. Pop-ups: 10-class pack at 10% + 2 tokens.",
+      "customerCopy": "Monsoon happens. Your late-cancel fee doesn't have to. Renew in July: 10% off, 3 'Rain Check' tokens, and classes credited back on red-alert days.",
+      "description": "July 1 Month renewers: 10% off (₹18,215 / ₹13,136) + 3 late-cancel amnesty tokens (valid to 30 Sep) + automatic credit-back on official red-alert days. Take 12+ classes in July: +3 days. Pop-ups: 10-class pack at 10% + 2 tokens.",
+      "internalDescription": "Plan: 30 buyers × ₹18,215 = ₹546,450 (Mumbai pricing).",
+      "rationale": "Average late cancels per membership: Bandra 1.18, Kenkere 1.36. Late-cancel fees in the monsoon make members feel they 'wasted' a month and lapse.",
+      "objective": "Protect July renewals by removing the monsoon grievance.",
+      "type": "Monsoon renewal",
+      "mechanicTags": [
+        "10% renewal",
+        "late-cancel amnesty",
+        "attendance bonus"
+      ],
+      "audience": "≈15% effective",
+      "excludedAudience": null,
+      "conditions": "≈15% effective.",
+      "cta": "2027-07-01 to 2027-07-31",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
       "price": 18215,
       "expectedRevenue": 546450,
       "buyers": 30,
-      "effectiveDiscountPercent": 12,
-      "contributionMargin": 0,
+      "effectiveDiscountPercent": 15,
+      "kpi": "July 1M renewal yield (target 70%); tokens used.",
       "validity": {
         "start": "2027-07-01",
         "end": "2027-07-31"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 18215
+    },
+    {
+      "id": "O27-30-KC",
+      "bankId": "O27-30",
+      "slot": "lapsed",
+      "name": "Gone With the Wind, Back With the Rain",
+      "headline": "Left us in the summer heat? Come back for the monsoon.",
+      "benefit": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min race-prep assessment + entry to The Amazing Race 2.0.",
+      "customerCopy": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0.",
+      "description": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min race-prep assessment + entry to The Amazing Race 2.0.",
+      "internalDescription": "Plan: 22 buyers × ₹17,203 = ₹378,466 (Mumbai pricing).",
+      "rationale": "An event with a start date beats a generic reminder. Freezes answer the monsoon objection at no cash cost.",
+      "objective": "Bring lapsed clients back before the August race.",
+      "type": "Winback (pre-race)",
+      "mechanicTags": [
+        "standard 15% lapsed",
+        "extra freezes",
+        "race entry"
+      ],
+      "audience": "Standard lapsed 15% only",
+      "excludedAudience": null,
+      "conditions": "Standard lapsed 15% only.",
+      "cta": "2027-07-15 to 2027-07-31",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 17203,
+      "expectedRevenue": 378466,
+      "buyers": 22,
+      "effectiveDiscountPercent": 15,
+      "kpi": "Lapsed race entries; reactivations.",
+      "validity": {
+        "start": "2027-07-15",
+        "end": "2027-07-31"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "reactivation",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 17203
+    },
+    {
+      "id": "O27-26-KH-m7",
+      "bankId": "O27-26",
+      "slot": "newcomer",
+      "name": "Shy Girl Starter Pack",
+      "headline": "Not a front-row person yet? Start with a private.",
+      "benefit": "For nervous starters: a 30-min private + one group class within 7 days for ₹1,999 (Kenkere ₹1,499). ₹999 (Kenkere ₹749) is credited against a first 1 Month or 12-class pack bought within 72 hours, with the standard 15% — 1 Month nets ₹16,204 / ₹11,657.",
+      "customerCopy": "Not a front-row person yet? Start with a 30-minute private, then join a class with a trainer who already knows your name. ₹999 of it comes off your first month.",
+      "description": "For nervous starters: a 30-min private + one group class within 7 days for ₹1,999 (Kenkere ₹1,499). ₹999 (Kenkere ₹749) is credited against a first 1 Month or 12-class pack bought within 72 hours, with the standard 15% — 1 Month nets ₹16,204 / ₹11,657.",
+      "internalDescription": "Plan: 5 buyers × ₹16,204 = ₹81,020 (Mumbai pricing).",
+      "rationale": "Half of CRM leads never trial (Bandra 1,114 of 2,317; Kenkere 2,053 of 3,217). A private first visit removes the intimidation barrier. No historical data on private-first conversion — this is a test.",
+      "objective": "Convert hesitant leads who never book a group trial.",
+      "type": "Newcomer experiment (private first)",
+      "mechanicTags": [
+        "private-first intro",
+        "partial credit"
+      ],
+      "audience": "First-time clients (phone verified).",
+      "excludedAudience": null,
+      "conditions": "Effective 20% on conversion. Test at 2 studios before scaling.",
+      "cta": "2027-07-01 to 2027-07-31",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 16204,
+      "expectedRevenue": 145836,
+      "buyers": 9,
+      "effectiveDiscountPercent": 20,
+      "kpi": "Packs sold to 'Not Tried' leads; private-first → member (target 40%).",
+      "validity": {
+        "start": "2027-07-01",
+        "end": "2027-07-31"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 16204
     }
   ],
+  "offersPlannedRevenue": 1322538,
   "keyDates": [
     {
       "day": 15,
-      "end": null,
       "date": "2027-07-15",
-      "name": "Amazing Race registrations open",
+      "name": "Amazing Race 2.0 registrations open",
       "kind": "brand",
-      "label": "P57 moment",
-      "approx": false,
-      "note": "Monsoon Streak leaderboard closes 31 Jul."
+      "approx": false
     }
   ],
   "sections": [
@@ -168,47 +254,47 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Kickstart 21: Race Ready in Momence (Book by 10 Jul.): Kickstart 21 cohort for ₹9,999 (Mon 12 Jul – Sun 1 Aug): 21 days unlimited, a coach, fitness checks and a WhatsApp group — graduates get 1 Month at 20% off (₹16,191) within 7 days and a Rookie leaderboard entry."
+          "detail": "Set up Kitty Party, But Make It Cardio in Momence (2027-07-01 to 2027-07-31): Book out the studio for a private 50-min class for up to 12 (birthdays, bachelorettes, kitty parties, reunions): Mumbai ₹24,999, Kenkere ₹14,999, pop-ups ₹9,999. Every first-timer gets Third Time's the Charm (3-for-2) and the standard 15% on a first membership within 7 days; the host gets 2 guest passes."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Warm-Up Lap in Momence (15–31 Jul.): 1 Month Unlimited at 20% off (₹16,191), starting 15 Jul–1 Aug — a free race-prep assessment and a full race entry."
+          "detail": "Set up Team Building Without the Trust Falls in Momence (2027-07-01 to 2027-07-31): A company buys 10+ memberships or packs on one invoice: 25% off each (1 Month ₹15,179 Mumbai / ₹10,946 Kenkere). Or book a corporate studio bookout and get a 15% employee code for 30 days."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Midyear Report Card in Momence (All July.): The plan your trainer recommends: 3 Months at 18% off (₹47,441) or 6 Months at 22% off (₹88,698) — a personal half-year stats card and a 10-minute trainer review. Staying on 1 Month? Renew at list with 2 guest passes."
+          "detail": "Set up Rain Check (Literally) in Momence (2027-07-01 to 2027-07-31): July 1 Month renewers: 10% off (₹18,215 / ₹13,136) + 3 late-cancel amnesty tokens (valid to 30 Sep) + automatic credit-back on official red-alert days. Take 12+ classes in July: +3 days. Pop-ups: 10-class pack at 10% + 2 tokens."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Rain Check Renewal in Momence (All July.): 1 Month Unlimited at 10% off (₹18,215) — 3 'Rain Check' tokens that waive a late-cancel fee, and automatic credit back for any class on an official red-alert day."
+          "detail": "Set up Gone With the Wind, Back With the Rain in Momence (2027-07-15 to 2027-07-31): Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min race-prep assessment + entry to The Amazing Race 2.0."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Brief the team on the 4 July offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+          "detail": "Brief the team on the 4 July offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Kickstart 21: Race Ready to First-time clients."
+          "detail": "Launch Kitty Party, But Make It Cardio: Kitty party, but make it cardio. Book out the studio for your crew — up to 12 people, your playlist, our instructor. Everyone new gets 3 classes for the price of 2 afterwards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Warm-Up Lap to Lapsed clients."
+          "detail": "Launch Team Building Without the Trust Falls: Team building without the trust falls. Buy 10 or more memberships for your team and save 25% each. The only thing your colleagues will drop is their excuses."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Midyear Report Card to July renewers."
+          "detail": "Launch Rain Check (Literally): Monsoon happens. Your late-cancel fee doesn't have to. Renew in July: 10% off, 3 'Rain Check' tokens, and classes credited back on red-alert days."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Rain Check Renewal to 1 Month members renewing in July."
+          "detail": "Launch Gone With the Wind, Back With the Rain: Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0."
         }
       ]
     },
@@ -217,13 +303,8 @@
       "items": [
         {
           "label": "",
-          "value": "Studio manager",
-          "detail": "Run the month's moment: Monsoon Streak leaderboard; race registrations open Thu 15 Jul."
-        },
-        {
-          "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Kickstart 21: Race Ready: Cohort fill; graduates entering the race. | Warm-Up Lap: Lapsed race entries. | Midyear Report Card: Stats cards sent; upgrades. | Rain Check Renewal: Tokens used; July 1M renewal yield."
+          "detail": "Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest → member (target 15%). | Team Building Without the Trust Falls: Corporate deals. | Rain Check (Literally): July 1M renewal yield (target 70%); tokens used. | Gone With the Wind, Back With the Rain: Lapsed race entries; reactivations."
         }
       ]
     },
@@ -233,7 +314,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Mid-month review against ₹31.5L: by the 15th aim for about half of 190 renewals, 36 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
+          "detail": "Mid-month review against ₹33.6L: by the 15th aim for ~half of 72 new buyers (268 first visits), 79 renewals and 35 winbacks. Push the lists, not a deeper discount."
         }
       ]
     },
@@ -243,9 +324,101 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Close July: tag every redemption by offer, record results, and brief August's offers."
+          "detail": "Close July: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
         }
       ]
     }
-  ]
+  ],
+  "collateral": {
+    "title": "Book the Studio + Rain Check",
+    "pieces": [
+      {
+        "offerId": "O27-27-KC",
+        "headline": "Kitty party, but make it cardio.",
+        "copy": "Kitty party, but make it cardio. Book out the studio for your crew — up to 12 people, your playlist, our instructor. Everyone new gets 3 classes for the price of 2 afterwards.",
+        "detail": "Book out the studio for a private 50-min class for up to 12 (birthdays, bachelorettes, kitty parties, reunions): Mumbai ₹24,999, Kenkere ₹14,999, pop-ups ₹9,999. Every first-timer gets Third Time's the Charm (3-for-2) and the standard 15% on a first membership within 7 days; the host gets 2 guest passes.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-28-KC",
+        "headline": "Team building without the trust falls.",
+        "copy": "Team building without the trust falls. Buy 10 or more memberships for your team and save 25% each. The only thing your colleagues will drop is their excuses.",
+        "detail": "A company buys 10+ memberships or packs on one invoice: 25% off each (1 Month ₹15,179 Mumbai / ₹10,946 Kenkere). Or book a corporate studio bookout and get a 15% employee code for 30 days.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-29-KC",
+        "headline": "Monsoon happens. Your late-cancel fee doesn't have to.",
+        "copy": "Monsoon happens. Your late-cancel fee doesn't have to. Renew in July: 10% off, 3 'Rain Check' tokens, and classes credited back on red-alert days.",
+        "detail": "July 1 Month renewers: 10% off (₹18,215 / ₹13,136) + 3 late-cancel amnesty tokens (valid to 30 Sep) + automatic credit-back on official red-alert days. Take 12+ classes in July: +3 days. Pop-ups: 10-class pack at 10% + 2 tokens.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-30-KC",
+        "headline": "Left us in the summer heat? Come back for the monsoon.",
+        "copy": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0.",
+        "detail": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min race-prep assessment + entry to The Amazing Race 2.0.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-26-KH-m7",
+        "headline": "Not a front-row person yet? Start with a private.",
+        "copy": "Not a front-row person yet? Start with a 30-minute private, then join a class with a trainer who already knows your name. ₹999 of it comes off your first month.",
+        "detail": "For nervous starters: a 30-min private + one group class within 7 days for ₹1,999 (Kenkere ₹1,499). ₹999 (Kenkere ₹749) is credited against a first 1 Month or 12-class pack bought within 72 hours, with the standard 15% — 1 Month nets ₹16,204 / ₹11,657."
+      }
+    ]
+  },
+  "crm": {
+    "rule": "One send per offer to its own audience; no member gets more than 2 offer sends a week.",
+    "sends": [
+      {
+        "offerId": "O27-27-KC",
+        "audience": "Anyone booking the studio for a private group of up to 12.",
+        "message": "Kitty party, but make it cardio. Book out the studio for your crew — up to 12 people, your playlist, our instructor. Everyone new gets 3 classes for the price of 2 afterwards."
+      },
+      {
+        "offerId": "O27-28-KC",
+        "audience": "Offices, HR and team leads; 10+ units on one invoice.",
+        "message": "Team building without the trust falls. Buy 10 or more memberships for your team and save 25% each. The only thing your colleagues will drop is their excuses."
+      },
+      {
+        "offerId": "O27-29-KC",
+        "audience": "≈15% effective",
+        "message": "Monsoon happens. Your late-cancel fee doesn't have to. Renew in July: 10% off, 3 'Rain Check' tokens, and classes credited back on red-alert days."
+      },
+      {
+        "offerId": "O27-30-KC",
+        "audience": "Standard lapsed 15% only",
+        "message": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0."
+      },
+      {
+        "offerId": "O27-26-KH-m7",
+        "audience": "First-time clients (phone verified).",
+        "message": "Not a front-row person yet? Start with a 30-minute private, then join a class with a trainer who already knows your name. ₹999 of it comes off your first month."
+      }
+    ],
+    "sendsCount": 5
+  },
+  "standardTrade": {
+    "revenue": 2037462,
+    "shareOfMonth": 60.6,
+    "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
+  },
+  "targetBasis": "hand_set"
 }

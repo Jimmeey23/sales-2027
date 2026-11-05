@@ -119,6 +119,13 @@ for (const studio of plan.studios) {
     const other = Object.keys(byStream).filter(k => !(k in streamTarget));
     if (other.length) add('medium', 'streams', `${label}: revenue booked to a stream the month does not have`, other.map(k => `${k} ${lakh(byStream[k])}`).join(', ') + '.');
 
+    /* Whatever the offers do not carry has to be named, or it is a silent assumption. */
+    const monthOfferRevenue = month.offers.reduce((s, o) => s + (o.expectedRevenue || 0), 0);
+    if (monthOfferRevenue < month.target && !month.standardTrade)
+      add('high', 'plan', `${label}: ${lakh(month.target - monthOfferRevenue)} of the target has no offer and no stated assumption`, 'The month does not say what carries the rest.');
+    if (month.standardTrade && month.standardTrade.revenue !== month.target - monthOfferRevenue)
+      add('medium', 'plan', `${label}: standardTrade is stale`, `Says ${rupees(month.standardTrade.revenue)}, the balance is ${rupees(month.target - monthOfferRevenue)}.`);
+
     const slots = new Set(month.offers.map(o => o.slot));
     if (!slots.has('newcomer') && month.streams.newClient)
       add('high', 'coverage', `${label}: new-client revenue with no newcomer offer`, `${lakh(month.streams.newClient)} of new-client target, slots: ${[...slots].join(', ') || 'none'}.`);
@@ -132,7 +139,7 @@ for (const studio of plan.studios) {
     const buyers = month.offers.reduce((s, o) => s + (o.buyers || 0), 0);
     const need = (funnel.newBuyers || 0) + (funnel.existingPayingRenewals || 0) + (funnel.winbacksNeeded || 0);
     if (need && buyers < need * 0.6)
-      add('low', 'funnel', `${label}: offers name ${buyers} of the ${need} buyers the funnel needs`, `${Math.round((1 - buyers / need) * 100)}% is left to full-price trade that the plan never describes (new ${funnel.newBuyers}, renewals ${funnel.existingPayingRenewals}, winbacks ${funnel.winbacksNeeded}).`);
+      add('low', 'funnel', `${label}: offers name ${buyers} of the ${need} buyers the funnel needs`, `${Math.round((1 - buyers / need) * 100)}% is expected as full-price trade, declared in the month’s standardTrade (new ${funnel.newBuyers}, renewals ${funnel.existingPayingRenewals}, winbacks ${funnel.winbacksNeeded}).`);
 
     const start = `2027-${String(month.month).padStart(2, '0')}-01`;
     const end = `2027-${String(month.month).padStart(2, '0')}-${MONTH_END[month.month - 1]}`;
@@ -143,14 +150,23 @@ for (const studio of plan.studios) {
       const buyers = offer.buyers ?? 0;
       const revenue = offer.expectedRevenue ?? null;
 
-      if (price === null) add('high', 'pricing', `${who} has no price`, 'The app stores price as expected ASP, so its economics cannot be checked.');
+      const ticket = offer.ticket ?? null;
+      if (price === null) add('medium', 'pricing', `${who} has no shelf price`, 'Nothing tells the desk what the customer is quoted.');
+      if (ticket === null) add('critical', 'pricing', `${who} has no ticket`, 'The app stores the ticket as expected ASP, so without it the offer’s revenue is recomputed from the wrong number.');
       if (!buyers) add('high', 'offers', `${who} plans no buyers`, 'It contributes nothing to the month.');
       if (revenue === null) add('critical', 'pricing', `${who} has no expected revenue`, 'Its contribution to the month is unknown.');
-      if (price !== null && buyers && revenue !== null && price * buyers !== revenue)
-        add('high', 'pricing', `${who}: price × buyers is not its planned revenue`, `${rupees(price)} × ${buyers} = ${rupees(price * buyers)}, planned ${rupees(revenue)} (${rupees(revenue - price * buyers)}). The offer carries one product's price but the revenue is a blended ticket.`);
+      if (ticket !== null && buyers && revenue !== null && ticket * buyers !== revenue)
+        add('critical', 'pricing', `${who}: ticket × buyers is not its planned revenue`, `${rupees(ticket)} × ${buyers} = ${rupees(ticket * buyers)}, planned ${rupees(revenue)} (${rupees(revenue - ticket * buyers)}).`);
       if (offer.effectiveDiscountPercent == null) add('medium', 'pricing', `${who} has no effective discount`, 'The discount cap cannot be checked against it.');
-      else if (offer.effectiveDiscountPercent > 20 && !/spot|annual|bulk|gift|intro|3-for-2|3 for 2|privates/i.test(`${offer.slot} ${offer.type} ${offer.name}`))
-        add('high', 'policy', `${who} is ${offer.effectiveDiscountPercent}% effective`, 'Above the 20% campaign cap and not in an exempt category (spot, annual, bulk, credited intro).');
+      else if (offer.effectiveDiscountPercent > 20) {
+        // The cap is on cash; perks may sit on top. An offer that declares its cash
+        // component and stays inside 20% is compliant whatever its effective figure is.
+        const cash = banks.get(offer.bankId)?.cashDiscountPercent;
+        const context = `${offer.slot} ${offer.type} ${offer.name}`;
+        if (cash != null && cash <= 20) { /* compliant: cash inside the cap, perks on top */ }
+        else if (!/spot|annual|bulk|gift|intro|3-for-2|3 for 2|privates|long.plan|6m/i.test(context))
+          add('high', 'policy', `${who} is ${offer.effectiveDiscountPercent}% effective`, 'Above the 20% campaign cap, in no exempt category, and with no declared cash component to show the cap holds.');
+      }
       /* Whole-plan gaps are counted once at the end rather than once per offer. */
       if (offer.contributionMargin == null) gaps.margin.push(who);
       if (!offer.audience?.trim()) gaps.audience.push(who);
@@ -185,25 +201,30 @@ for (const bank of plan.offerBank) {
   for (const code of used) if (declared.size && !declared.has(code)) add('high', 'bank', `${who} runs at ${code} but was never declared for it`, `Declared: ${[...declared].join(', ')}.`);
   for (const code of declared) if (!used.has(code)) add('high', 'bank', `${who} declares ${code} but is not scheduled there`, 'A location is named in the catalogue and then dropped.');
 
+  const allowed = new Set(bank.months && bank.months.length ? bank.months : [bank.month]);
   const months = new Set(at.map(x => x.month));
-  if (months.size !== 1 || !months.has(bank.month)) add('critical', 'bank', `${who} is filed in the wrong month`, `Bank says ${bank.month}, scheduled in ${[...months].join(', ')}.`);
+  for (const m of months) if (!allowed.has(m)) add('critical', 'bank', `${who} runs in a month it is not filed under`, `Filed under ${[...allowed].join(', ')}, scheduled in ${[...months].join(', ')}.`);
+  if (!months.has(bank.month)) add('high', 'bank', `${who} does not run in its home month`, `Home month ${bank.month}, scheduled in ${[...months].join(', ')}.`);
 
   const planned = bank.plannedRevenue || 0;
-  const fromPlans = Object.values(bank.planByStudio || {}).reduce((s, p) => s + (p.revenue || 0), 0);
+  const byMonth = bank.planByMonth;
+  const plans = byMonth
+    ? Object.entries(byMonth).flatMap(([mo, studios]) => Object.entries(studios).map(([code, entry]) => ({ month: Number(mo), code: BANK_CODE[code] || code, entry })))
+    : Object.entries(bank.planByStudio || {}).map(([bankCode, entry]) => ({ month: bank.month, code: BANK_CODE[bankCode] || bankCode, entry }));
+  const fromPlans = plans.reduce((s, p) => s + (p.entry.revenue || 0), 0);
   const fromMonths = at.reduce((s, x) => s + (x.offer.expectedRevenue || 0), 0);
-  if (planned !== fromPlans) add('critical', 'bank', `${who}: plannedRevenue is not its per-studio plan`, `${rupees(planned)} vs ${rupees(fromPlans)}.`);
+  if (planned !== fromPlans) add('critical', 'bank', `${who}: plannedRevenue is not its per-month plan`, `${rupees(planned)} vs ${rupees(fromPlans)}.`);
   if (planned !== fromMonths) add('critical', 'bank', `${who}: plannedRevenue is not what the months carry`, `${rupees(planned)} vs ${rupees(fromMonths)}.`);
 
-  for (const [bankCode, entry] of Object.entries(bank.planByStudio || {})) {
-    const code = BANK_CODE[bankCode] || bankCode;
-    const hit = at.find(x => x.code === code);
-    if (!hit) { add('high', 'bank', `${who} is planned for ${code} but not scheduled there`, 'Planned money with no offer behind it.'); continue; }
+  for (const { month, code, entry } of plans) {
+    const hit = at.find(x => x.code === code && x.month === month);
+    if (!hit) { add('high', 'bank', `${who} is planned for ${code} in ${MONTHS[month - 1]} but not scheduled there`, 'Planned money with no offer behind it.'); continue; }
     for (const [field, actual] of [['buyers', hit.offer.buyers], ['revenue', hit.offer.expectedRevenue], ['discount', hit.offer.effectiveDiscountPercent]]) {
       if (entry[field] != null && actual != null && entry[field] !== actual)
         add('high', 'bank', `${who} at ${code}: bank ${field} ${entry[field]} ≠ month ${actual}`, 'The catalogue and the month disagree.');
     }
-    if (entry.ticket != null && hit.offer.price != null && entry.ticket !== hit.offer.price)
-      add('high', 'bank', `${who} at ${code}: bank ticket ${rupees(entry.ticket)} ≠ offer price ${rupees(hit.offer.price)}`, 'The month carries one product’s price where the revenue was built from a blended ticket.');
+    if (entry.ticket != null && hit.offer.ticket != null && entry.ticket !== hit.offer.ticket)
+      add('critical', 'bank', `${who} at ${code}: bank ticket ${rupees(entry.ticket)} ≠ offer ticket ${rupees(hit.offer.ticket)}`, 'The catalogue and the month disagree about the money.');
   }
 
   const cities = new Set((bank.planByStudio ? Object.keys(bank.planByStudio) : []).map(c => BANK_CODE[c] || c));
@@ -211,10 +232,14 @@ for (const bank of plan.offerBank) {
 }
 
 /* ------------------------------------- 5. does the offer set earn the year's mix */
+const declared = plan.studios.every(s => s.months.every(m => m.standardTrade));
 for (const key of Object.keys(streamTarget)) {
   const pct = streamTarget[key] ? (streamOffer[key] / streamTarget[key]) * 100 : 0;
-  if (pct < 50) add('critical', 'streams', `Offers cover only ${Math.round(pct)}% of the ${key} target`, `${lakh(streamOffer[key])} of offers against ${lakh(streamTarget[key])} of target.`);
-  else if (pct < 75) add('high', 'streams', `Offers cover ${Math.round(pct)}% of the ${key} target`, `${lakh(streamOffer[key])} of ${lakh(streamTarget[key])}.`);
+  const short = lakh(streamTarget[key] - streamOffer[key]);
+  // Now that every month declares the balance it expects at full price, coverage is a
+  // planning choice to be seen rather than a broken figure to be fixed.
+  if (pct < 50) add('high', 'streams', `Offers carry ${Math.round(pct)}% of the ${key} target`, `${lakh(streamOffer[key])} of offers against ${lakh(streamTarget[key])}. The balance — ${short} — is expected at full price${declared ? ', declared in every month’s standardTrade' : ' and declared nowhere'}.`);
+  else if (pct < 75) add('medium', 'streams', `Offers cover ${Math.round(pct)}% of the ${key} target`, `${lakh(streamOffer[key])} of ${lakh(streamTarget[key])}; ${short} at full price.`);
   else if (pct > 130) add('medium', 'streams', `Offers overshoot the ${key} target by ${Math.round(pct - 100)}%`, `${lakh(streamOffer[key])} against ${lakh(streamTarget[key])}.`);
 }
 const totalTarget = Object.values(streamTarget).reduce((a, b) => a + b, 0);
@@ -222,8 +247,8 @@ const totalOffer = Object.values(streamOffer).reduce((a, b) => a + b, 0);
 console.log(`\nPlanned offer revenue: ${lakh(totalOffer)} of ${lakh(totalTarget)} (${Math.round((totalOffer / totalTarget) * 100)}% of the year).`);
 
 /* --------------------------------------- 5b. whole-plan gaps, reported once each */
-if (gaps.margin.length === offerCount && offerCount)
-  add('medium', 'economics', 'No offer in the plan carries a contribution margin', `All ${offerCount} offers are null; nothing in the plan can be judged on margin, only on revenue.`);
+if (gaps.margin.length && plan.economics?.marginModelled !== false)
+  add('medium', 'economics', 'No offer in the plan carries a contribution margin', `${gaps.margin.length} of ${offerCount} offers are null; nothing in the plan can be judged on margin, only on revenue.`);
 if (gaps.audience.length)
   add('medium', 'offers', `${gaps.audience.length} of ${offerCount} offers name no audience`, `E.g. ${gaps.audience.slice(0, 3).join('; ')}. The CRM cannot segment an offer with no audience.`);
 if (gaps.conditions.length)

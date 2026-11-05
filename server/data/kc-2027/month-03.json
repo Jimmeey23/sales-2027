@@ -2,173 +2,183 @@
   "month": 3,
   "name": "March",
   "status": "draft",
-  "theme": "Main Character Energy",
-  "objective": "Hold conversion in the March trough, widen members' formats (one-format members renew at 58–67% vs 85–87% on 4+), and stop March expiries from waiting for April by giving them a reason to renew now.",
-  "strategy": "Main Character Energy.\n\nCommercial job: Hold conversion in the March trough, widen members' formats (one-format members renew at 58–67% vs 85–87% on 4+), and stop March expiries from waiting for April by giving them a reason to renew now.\n\nNewcomer: The Second Date (“Your second class is booked before you leave. Decide fast, save 20%.”). Buyers by month-one return visits: 0 → 10.8%, 1 → 43.9%, 2 → 73.3%. The booked second class plus a closing window is the lever.\n\nNewcomer: Earn the Lab (“Three classes in 14 days unlock the Strength Lab.”). Kwality's Lab is 83% full and can't be free, which makes it a reward worth earning; clients on 2+ formats stay longer.\n\nWinback: Beat Your Best (“Remember your best month? Beat it, and we'll pay for the effort.”). Personal data beats a generic offer and turns the reward into attendance, which predicts the next renewal.\n\nRenewal: Early Bird, Golden Ticket (“Anniversary prices, one month early. Plus a golden ticket.”). In 2026 Kwality's March expiries waited for April's 25–31% codes. Near-anniversary prices on longer plans now remove the reason to wait and lift the ticket.",
-  "notes": "Moment: International Women's Day (Mon 8 Mar): 'Main Character' class week with a member-nominated 'Main Character of the Month' wall. Anniversary teaser and Golden Envelope Wall reveal from 22 Mar.\nBuild: new clients 36 buyers × ₹12,000 = ₹4.3L; reactivation 32 × ₹11,468 = ₹3.7L; privates/retail/drop-ins ₹3.0L; renewals ₹14.0L. First visits needed 120 vs 95 last year (1.26×); CRM leads needed 240 vs 162 last year.",
-  "target": 2500000,
+  "theme": "Main Character Month",
+  "focus": "Women's Day + Main Character Month (format exploration)",
+  "objective": "Hold the March trough: widen members' formats, use Women's Day for Bandra Lab acquisition, stop March expiries waiting for April, fix Bengaluru's second-visit leak.",
+  "studioRole": "Retention-led",
+  "strategy": "Main Character Month.\n\nCommercial job: Hold the March trough: widen members' formats, use Women's Day for Bandra Lab acquisition, stop March expiries waiting for April, fix Bengaluru's second-visit leak.\n\nRenewal: Monogamy Is Overrated (“Committed to one class? Cute. Members who play the field stay longer.”). One-format members renew 58–67% vs 85–87% for members on 4+ formats. Bonus classes cost little in off-peak slots and target the single biggest renewal predictor after attendance.\n\nRenewal: Bura Na Mano, Renewal Hai (“Bura na mano, renewal hai. 48 hours only.”). In 2026 Kwality did ₹20.2L in March, then ₹50.0L in April at 20.4% discount depth — March renewals waited. A short, fun window with a 3M upgrade pulls them forward at ≤20% effective.",
+  "notes": "Build: 55 new buyers × ₹11,150 first-60-day spend = ₹6.2L; 60 renewals × ₹23,384 = ₹14.1L; 27 winbacks = ₹3.1L; privates/retail/drop-ins ₹2.3L. Offers carry ₹12.8L (50% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
+  "target": 2570000,
   "priorYear": 2018321,
-  "growthPercent": 23.9,
+  "growthPercent": 27.3,
   "streams": {
-    "newClient": 432000,
-    "renewal": 1401024,
-    "reactivation": 366976,
-    "other": 300000
+    "newClient": 616800,
+    "renewal": 1413500,
+    "reactivation": 308400,
+    "other": 231300
   },
   "funnel": {
-    "leads": 240,
-    "trials": 120,
-    "newBuyers": 36,
-    "existingPayingRenewals": 135,
-    "winbacksNeeded": 32,
-    "expiringMemberships": 186,
-    "renewalCoverage": 0.968,
-    "leadToTrial": 0.5,
-    "trialToMember": 0.3,
-    "spendPerVisit": 1727,
-    "firstMonthSpend": 12000,
-    "renewalTicket": 10416,
-    "winbackTicket": 11468
+    "leads": 400,
+    "trials": 204,
+    "newBuyers": 55,
+    "existingPayingRenewals": 60,
+    "winbacksNeeded": 27,
+    "leadToTrial": 0.51,
+    "trialToMember": 0.269,
+    "renewalRate": 0.765,
+    "firstSixtyDaySpend": 11150,
+    "renewalTicket": 23384,
+    "winbackTicket": 11468,
+    "dataQuality": "lead→trial = CRM 'Trial Completed' status (not attendance-verified); trial→member = trailing measured; see dataGaps"
   },
   "feasibility": "balanced",
   "offers": [
     {
-      "id": 2394,
-      "slot": "newcomer",
-      "name": "The Second Date",
-      "headline": "Your second class is booked before you leave. Decide fast, save 20%.",
-      "benefit": "A free first Barre class — class 2 free within 7 days (booked at the desk); buy within 72 hours of class 2 for 20% off 1 Month (₹16,191) or a 12-class pack (₹15,750); 10% until day 14",
-      "customerCopy": "Your second class is booked before you leave. Decide fast, save 20%.\n• You buy: A free first Barre class\n• You get: class 2 free within 7 days (booked at the desk); buy within 72 hours of class 2 for 20% off 1 Month (₹16,191) or a 12-class pack (₹15,750); 10% until day 14\n• When: All March\n• Good to know: Strength Lab not included; the % replaces the standing 15%; Doesn't combine with any other campaign offer.",
-      "internalDescription": "120 in pool × 13.3% plan rate = 16 buyers × ₹16,000 ticket = ₹2.6L (59% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.6L at 20% effective.",
-      "rationale": "Why: Buyers by month-one return visits: 0 → 10.8%, 1 → 43.9%, 2 → 73.3%. The booked second class plus a closing window is the lever.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "First-time clients starting with Barre.",
-      "excludedAudience": null,
-      "conditions": "Strength Lab not included; the % replaces the standing 15%; Doesn't combine with any other campaign offer.",
-      "cta": "All March.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 16000,
-      "expectedRevenue": 256000,
-      "buyers": 16,
-      "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-03-01",
-        "end": "2027-03-31"
-      },
-      "mechanics": {}
-    },
-    {
-      "id": 2506,
-      "slot": "newcomer",
-      "name": "Earn the Lab",
-      "headline": "Three classes in 14 days unlock the Strength Lab.",
-      "benefit": "Your first 1 Month Unlimited or 12-class pack at the standing 15% (₹17,203 / ₹16,734) — take 3 classes in your first 14 days and unlock a 4-person Strength Lab Induction (normally ₹999) plus one Lab class",
-      "customerCopy": "Three classes in 14 days unlock the Strength Lab.\n• You buy: Your first 1 Month Unlimited or 12-class pack at the standing 15% (₹17,203 / ₹16,734)\n• You get: take 3 classes in your first 14 days and unlock a 4-person Strength Lab Induction (normally ₹999) plus one Lab class\n• When: All March\n• Good to know: Lab seats are limited (7 per class); inductions at 6 am and 7 pm; Doesn't combine with any other campaign offer.",
-      "internalDescription": "120 in pool × 5.0% plan rate = 6 buyers × ₹17,203 ticket = ₹1.0L (24% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.3L at 24% effective.",
-      "rationale": "Why: Kwality's Lab is 83% full and can't be free, which makes it a reward worth earning; clients on 2+ formats stay longer.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "New clients in their first 14 days.",
-      "excludedAudience": null,
-      "conditions": "Lab seats are limited (7 per class); inductions at 6 am and 7 pm; Doesn't combine with any other campaign offer.",
-      "cta": "All March.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 17203,
-      "expectedRevenue": 103218,
-      "buyers": 6,
-      "effectiveDiscountPercent": 24,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-03-01",
-        "end": "2027-03-31"
-      },
-      "mechanics": {}
-    },
-    {
-      "id": 2396,
-      "slot": "lapsed",
-      "name": "Beat Your Best",
-      "headline": "Remember your best month? Beat it, and we'll pay for the effort.",
-      "benefit": "1 Month Unlimited at 15% off (₹17,203) or a 12-class pack at 20% off (₹15,750) — match your personal best month's class count and get +5 days",
-      "customerCopy": "Remember your best month? Beat it, and we'll pay for the effort.\n• You buy: 1 Month Unlimited at 15% off (₹17,203) or a 12-class pack at 20% off (₹15,750)\n• You get: match your personal best month's class count and get +5 days\n• When: All March\n• Good to know: Lapsed clients with a recorded best month; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "internalDescription": "561 in pool × 3.2% plan rate = 18 buyers × ₹16,500 ticket = ₹3.0L (81% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.8L at 22% effective.",
-      "rationale": "Why: Personal data beats a generic offer and turns the reward into attendance, which predicts the next renewal.",
-      "objective": "reactivation",
-      "type": "experience",
-      "audience": "Lapsed clients with a recorded best month.",
-      "excludedAudience": null,
-      "conditions": "Lapsed clients with a recorded best month; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "cta": "All March.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 16500,
-      "expectedRevenue": 297000,
-      "buyers": 18,
-      "effectiveDiscountPercent": 22,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-03-01",
-        "end": "2027-03-31"
-      },
-      "mechanics": {}
-    },
-    {
-      "id": 2397,
+      "id": "O27-09-KC",
+      "bankId": "O27-09",
       "slot": "renewal",
-      "name": "Early Bird, Golden Ticket",
-      "headline": "Anniversary prices, one month early. Plus a golden ticket.",
-      "benefit": "3 Months at 18% off (₹47,441) or 6 Months at 20% off (₹90,972), for members expiring in March — a reserved pull from April's Golden Envelope Wall and first booking for the anniversary party classes. Staying on 1 Month? Renew at list with +5 days and the golden ticket",
-      "customerCopy": "Anniversary prices, one month early. Plus a golden ticket.\n• You buy: 3 Months at 18% off (₹47,441) or 6 Months at 20% off (₹90,972), for members expiring in March\n• You get: a reserved pull from April's Golden Envelope Wall and first booking for the anniversary party classes. Staying on 1 Month? Renew at list with +5 days and the golden ticket\n• When: Renew 1–31 Mar\n• Good to know: Members expiring 1–31 Mar only, so April's renewals aren't pulled forward twice; Doesn't combine with any other campaign offer.",
-      "internalDescription": "186 in pool × 20.4% plan rate = 38 buyers × ₹30,000 ticket = ₹11.4L (81% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.3L at 17% effective.",
-      "rationale": "Why: In 2026 Kwality's March expiries waited for April's 25–31% codes. Near-anniversary prices on longer plans now remove the reason to wait and lift the ticket.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "Members expiring 1–31 March.",
+      "name": "Monogamy Is Overrated",
+      "headline": "Committed to one class? Cute. Members who play the field stay longer.",
+      "benefit": "For members who've used one format in the last 60 days. Pack members renew at list and get 2 bonus classes valid only in formats they've never tried (Mumbai: powerCycle / Strength Lab induction / Cardio Barre; Kenkere: Cardio Barre / Mat 57 / Foundations). Unlimited members renew at list and get +5 days if they take 3 different formats in their first 30 days.",
+      "customerCopy": "Committed to one class? Cute. Members who play the field stay longer — so renew this month and we'll pay for your next two flings: 2 bonus classes in formats you've never tried.",
+      "description": "For members who've used one format in the last 60 days. Pack members renew at list and get 2 bonus classes valid only in formats they've never tried (Mumbai: powerCycle / Strength Lab induction / Cardio Barre; Kenkere: Cardio Barre / Mat 57 / Foundations). Unlimited members renew at list and get +5 days if they take 3 different formats in their first 30 days.",
+      "internalDescription": "Plan: 30 buyers × ₹19,688 = ₹590,640 (Mumbai pricing).",
+      "rationale": "One-format members renew 58–67% vs 85–87% for members on 4+ formats. Bonus classes cost little in off-peak slots and target the single biggest renewal predictor after attendance.",
+      "objective": "Lift renewal rates by widening each member's format mix.",
+      "type": "Format-exploration renewal",
+      "mechanicTags": [
+        "renew at list",
+        "bonus classes in new formats",
+        "attendance bonus"
+      ],
+      "audience": "No price discount; ≈17% value on a 12-class pack, ≈16% on 1M if the bonus is earned",
       "excludedAudience": null,
-      "conditions": "Members expiring 1–31 Mar only, so April's renewals aren't pulled forward twice; Doesn't combine with any other campaign offer.",
-      "cta": "All March.",
+      "conditions": "No price discount; ≈17% value on a 12-class pack, ≈16% on 1M if the bonus is earned.",
+      "cta": "2027-03-01 to 2027-03-31",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 30000,
-      "expectedRevenue": 1140000,
-      "buyers": 38,
+      "price": 19688,
+      "expectedRevenue": 590640,
+      "buyers": 30,
       "effectiveDiscountPercent": 17,
-      "contributionMargin": 0,
+      "kpi": "Members trying a new format (target 40% of eligible); 60-day renewal of exposed vs unexposed members.",
       "validity": {
         "start": "2027-03-01",
         "end": "2027-03-31"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 19688
+    },
+    {
+      "id": "O27-11-KC",
+      "bankId": "O27-11",
+      "slot": "renewal",
+      "name": "Bura Na Mano, Renewal Hai",
+      "headline": "Bura na mano, renewal hai. 48 hours only.",
+      "benefit": "Holi, Sun 21–Mon 22 Mar (48 hours): 3 Months at 15% off (₹49,177 / ₹35,879) or a 12-class pack at 10% (₹17,719 / ₹11,813), each with a limited-edition 'Holi Hai' P57 tee (retail ≈₹2,000 — confirm).",
+      "customerCopy": "Bura na mano, renewal hai. 48 hours only: 3 months at 15% off and a limited-edition Holi tee. Colours wash out. Abs don't.",
+      "description": "Holi, Sun 21–Mon 22 Mar (48 hours): 3 Months at 15% off (₹49,177 / ₹35,879) or a 12-class pack at 10% (₹17,719 / ₹11,813), each with a limited-edition 'Holi Hai' P57 tee (retail ≈₹2,000 — confirm).",
+      "internalDescription": "Plan: 14 buyers × ₹49,177 = ₹688,478 (Mumbai pricing).",
+      "rationale": "In 2026 Kwality did ₹20.2L in March, then ₹50.0L in April at 20.4% discount depth — March renewals waited. A short, fun window with a 3M upgrade pulls them forward at ≤20% effective.",
+      "objective": "Stop March expiries waiting for April's anniversary pricing.",
+      "type": "48-hour festival renewal",
+      "mechanicTags": [
+        "48-hour window",
+        "3M upgrade",
+        "limited retail"
+      ],
+      "audience": "Members expiring 1–31 Mar only",
+      "excludedAudience": null,
+      "conditions": "Members expiring 1–31 Mar only. 3M ≈18.5% effective; pack ≈20%.",
+      "cta": "2027-03-21 to 2027-03-22",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 49177,
+      "expectedRevenue": 688478,
+      "buyers": 14,
+      "effectiveDiscountPercent": 18.5,
+      "kpi": "March renewal yield (target 70%); 3M share of March renewals.",
+      "validity": {
+        "start": "2027-03-21",
+        "end": "2027-03-22"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 49177
+    },
+    {
+      "id": "O27-10-KH",
+      "bankId": "O27-10",
+      "slot": "newcomer",
+      "name": "Lift Like a Girl",
+      "headline": "Women's Day isn't about flowers. It's about deadlifts.",
+      "benefit": "Supreme HQ only, Mon 8–Sun 14 Mar: women new to P57 get their first Strength Lab class free (normally needs the 2-for-1), in off-peak Lab slots. Book a second class before leaving and buy 1 Month or a 12-class pack within 72 hours: the standard 15% (₹17,203 / ₹16,735) plus a free Lab induction seat for a friend.",
+      "customerCopy": "Women's Day isn't about flowers. It's about deadlifts. Your first Strength Lab class at Supreme HQ is on us, 8–14 March. Bring the attitude; we've got the weights.",
+      "description": "Supreme HQ only, Mon 8–Sun 14 Mar: women new to P57 get their first Strength Lab class free (normally needs the 2-for-1), in off-peak Lab slots. Book a second class before leaving and buy 1 Month or a 12-class pack within 72 hours: the standard 15% (₹17,203 / ₹16,735) plus a free Lab induction seat for a friend.",
+      "internalDescription": "Plan: 10 buyers × ₹17,203 = ₹172,030 (Mumbai pricing).",
+      "rationale": "Bandra's Lab runs ~48% full vs Kwality's 83%, so Kwality is excluded. Strength/powerCycle-first visits convert 20.4% vs barre 25.6% today — this tests whether a free, coached Lab first visit closes that gap.",
+      "objective": "Use idle Lab capacity at Bandra to acquire new clients and test a strength-first journey.",
+      "type": "Newcomer (free Strength Lab first visit)",
+      "mechanicTags": [
+        "free first Lab class",
+        "booked second class",
+        "friend induction"
+      ],
+      "audience": "First-time clients (phone verified).",
+      "excludedAudience": null,
+      "conditions": "Standard 15% only. Max 6 free Lab seats per class.",
+      "cta": "2027-03-01 to 2027-03-31",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 17203,
+      "expectedRevenue": 292451,
+      "buyers": 17,
+      "effectiveDiscountPercent": 15,
+      "kpi": "Lab first visits; Lab-first → purchase vs barre trial (target ≥25%).",
+      "validity": {
+        "start": "2027-03-01",
+        "end": "2027-03-31"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 17203
     }
   ],
+  "offersPlannedRevenue": 1571569,
   "keyDates": [
     {
       "day": 2,
-      "end": null,
       "date": "2027-03-02",
       "name": "Stronger in 30 finishers' night",
       "kind": "brand",
-      "label": "P57 moment",
-      "approx": false,
-      "note": "Medals and Finish Line renewals."
+      "approx": false
     },
     {
       "day": 8,
-      "end": null,
       "date": "2027-03-08",
-      "name": "International Women's Day",
-      "kind": "global",
-      "label": "Awareness day",
-      "approx": false,
-      "note": "The studio's core audience. Programme the room, not the price."
+      "name": "International Women's Day — Lift Like a Girl week (Bandra)",
+      "kind": "awareness",
+      "approx": false
+    },
+    {
+      "day": 22,
+      "date": "2027-03-22",
+      "name": "Holi (approx.) — 48-hour renewal window 21–22 Mar",
+      "kind": "festival",
+      "approx": true
     }
   ],
   "sections": [
@@ -178,47 +188,27 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up The Second Date in Momence (All March.): A free first Barre class — class 2 free within 7 days (booked at the desk); buy within 72 hours of class 2 for 20% off 1 Month (₹16,191) or a 12-class pack (₹15,750); 10% until day 14."
+          "detail": "Set up Monogamy Is Overrated in Momence (2027-03-01 to 2027-03-31): For members who've used one format in the last 60 days. Pack members renew at list and get 2 bonus classes valid only in formats they've never tried (Mumbai: powerCycle / Strength Lab induction / Cardio Barre; Kenkere: Cardio Barre / Mat 57 / Foundations). Unlimited members renew at list and get +5 days if they take 3 different formats in their first 30 days."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Earn the Lab in Momence (All March.): Your first 1 Month Unlimited or 12-class pack at the standing 15% (₹17,203 / ₹16,734) — take 3 classes in your first 14 days and unlock a 4-person Strength Lab Induction (normally ₹999) plus one Lab class."
-        },
-        {
-          "label": "",
-          "value": "Studio manager",
-          "detail": "Set up Beat Your Best in Momence (All March.): 1 Month Unlimited at 15% off (₹17,203) or a 12-class pack at 20% off (₹15,750) — match your personal best month's class count and get +5 days."
-        },
-        {
-          "label": "",
-          "value": "Studio manager",
-          "detail": "Set up Early Bird, Golden Ticket in Momence (All March.): 3 Months at 18% off (₹47,441) or 6 Months at 20% off (₹90,972), for members expiring in March — a reserved pull from April's Golden Envelope Wall and first booking for the anniversary party classes. Staying on 1 Month? Renew at list with +5 days and the golden ticket."
+          "detail": "Set up Bura Na Mano, Renewal Hai in Momence (2027-03-21 to 2027-03-22): Holi, Sun 21–Mon 22 Mar (48 hours): 3 Months at 15% off (₹49,177 / ₹35,879) or a 12-class pack at 10% (₹17,719 / ₹11,813), each with a limited-edition 'Holi Hai' P57 tee (retail ≈₹2,000 — confirm)."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Brief the team on the 4 March offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+          "detail": "Brief the team on the 2 March offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch The Second Date to First-time clients starting with Barre."
+          "detail": "Launch Monogamy Is Overrated: Committed to one class? Cute. Members who play the field stay longer — so renew this month and we'll pay for your next two flings: 2 bonus classes in formats you've never tried."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Earn the Lab to New clients in their first 14 days."
-        },
-        {
-          "label": "",
-          "value": "Sales lead",
-          "detail": "Launch Beat Your Best to Lapsed clients with a recorded best month."
-        },
-        {
-          "label": "",
-          "value": "Sales lead",
-          "detail": "Launch Early Bird, Golden Ticket to Members expiring 1–31 March."
+          "detail": "Launch Bura Na Mano, Renewal Hai: Bura na mano, renewal hai. 48 hours only: 3 months at 15% off and a limited-edition Holi tee. Colours wash out. Abs don't."
         }
       ]
     },
@@ -227,13 +217,8 @@
       "items": [
         {
           "label": "",
-          "value": "Studio manager",
-          "detail": "Run the month's moment: International Women's Day (Mon 8 Mar): 'Main Character' class week with a member-nominated 'Main Character of the Month' wall. Anniversary teaser and Golden Envelope Wall reveal from 22 Mar."
-        },
-        {
-          "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: The Second Date: Second-visit share (target 55%); purchase within 14 days. | Earn the Lab: Inductions unlocked; Lab bookings in month 2. | Beat Your Best: Best-month messages sent; share matching their best. | Early Bird, Golden Ticket: March renewals vs due; golden tickets issued."
+          "detail": "Weekly check: Monogamy Is Overrated: Members trying a new format (target 40% of eligible); 60-day renewal of exposed vs unexposed members. | Bura Na Mano, Renewal Hai: March renewal yield (target 70%); 3M share of March renewals."
         }
       ]
     },
@@ -243,7 +228,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Mid-month review against ₹25.0L: by the 15th aim for about half of 135 renewals, 32 reactivations and 36 new buyers (120 first visits). Push the lists, not a deeper discount."
+          "detail": "Mid-month review against ₹25.7L: by the 15th aim for ~half of 55 new buyers (204 first visits), 60 renewals and 27 winbacks. Push the lists, not a deeper discount."
         }
       ]
     },
@@ -253,14 +238,69 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Close March: tag every redemption by offer, record results, and brief April's offers."
-        },
-        {
-          "label": "",
-          "value": "Community lead",
-          "detail": "From 22 Mar: reveal the Golden Envelope Wall, fill 900 envelopes to the published odds, print Passports to Nine, build the Club Nine seat counter."
+          "detail": "Close March: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
         }
       ]
     }
-  ]
+  ],
+  "collateral": {
+    "title": "Main Character Month",
+    "pieces": [
+      {
+        "offerId": "O27-09-KC",
+        "headline": "Committed to one class? Cute. Members who play the field stay longer.",
+        "copy": "Committed to one class? Cute. Members who play the field stay longer — so renew this month and we'll pay for your next two flings: 2 bonus classes in formats you've never tried.",
+        "detail": "For members who've used one format in the last 60 days. Pack members renew at list and get 2 bonus classes valid only in formats they've never tried (Mumbai: powerCycle / Strength Lab induction / Cardio Barre; Kenkere: Cardio Barre / Mat 57 / Foundations). Unlimited members renew at list and get +5 days if they take 3 different formats in their first 30 days.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-11-KC",
+        "headline": "Bura na mano, renewal hai. 48 hours only.",
+        "copy": "Bura na mano, renewal hai. 48 hours only: 3 months at 15% off and a limited-edition Holi tee. Colours wash out. Abs don't.",
+        "detail": "Holi, Sun 21–Mon 22 Mar (48 hours): 3 Months at 15% off (₹49,177 / ₹35,879) or a 12-class pack at 10% (₹17,719 / ₹11,813), each with a limited-edition 'Holi Hai' P57 tee (retail ≈₹2,000 — confirm).",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-10-KH",
+        "headline": "Women's Day isn't about flowers. It's about deadlifts.",
+        "copy": "Women's Day isn't about flowers. It's about deadlifts. Your first Strength Lab class at Supreme HQ is on us, 8–14 March. Bring the attitude; we've got the weights.",
+        "detail": "Supreme HQ only, Mon 8–Sun 14 Mar: women new to P57 get their first Strength Lab class free (normally needs the 2-for-1), in off-peak Lab slots. Book a second class before leaving and buy 1 Month or a 12-class pack within 72 hours: the standard 15% (₹17,203 / ₹16,735) plus a free Lab induction seat for a friend."
+      }
+    ]
+  },
+  "crm": {
+    "rule": "One send per offer to its own audience; no member gets more than 2 offer sends a week.",
+    "sends": [
+      {
+        "offerId": "O27-09-KC",
+        "audience": "No price discount; ≈17% value on a 12-class pack, ≈16% on 1M if the bonus is earned",
+        "message": "Committed to one class? Cute. Members who play the field stay longer — so renew this month and we'll pay for your next two flings: 2 bonus classes in formats you've never tried."
+      },
+      {
+        "offerId": "O27-11-KC",
+        "audience": "Members expiring 1–31 Mar only",
+        "message": "Bura na mano, renewal hai. 48 hours only: 3 months at 15% off and a limited-edition Holi tee. Colours wash out. Abs don't."
+      },
+      {
+        "offerId": "O27-10-KH",
+        "audience": "First-time clients (phone verified).",
+        "message": "Women's Day isn't about flowers. It's about deadlifts. Your first Strength Lab class at Supreme HQ is on us, 8–14 March. Bring the attitude; we've got the weights."
+      }
+    ],
+    "sendsCount": 3
+  },
+  "standardTrade": {
+    "revenue": 998431,
+    "shareOfMonth": 38.8,
+    "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
+  },
+  "targetBasis": "hand_set"
 }

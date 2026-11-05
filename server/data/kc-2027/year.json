@@ -1,49 +1,50 @@
 {
   "schema": "p57-sales-plan/1",
-  "generatedAt": "2026-11-01T12:00:00+05:30",
+  "generatedAt": "2026-11-05T07:36:39.994Z",
   "year": 2027,
   "currency": "INR",
-  "units": "rupees",
+  "units": "rupees (incl. 5% GST)",
   "studio": {
     "id": 1,
-    "name": "Kemps Corner",
+    "name": "Kemps Corner (Kwality House)",
     "city": "Mumbai",
-    "code": "KC"
+    "code": "KH"
   },
   "yearBlock": {
     "target": 42000000,
-    "priorYear": 33438469,
-    "growthPercent": 25.6,
+    "priorYear": 32252914,
+    "growthPercent": 30.2,
     "streams": {
-      "newClient": 6192000,
-      "renewal": 26410544,
-      "reactivation": 5287456,
-      "other": 4110000
+      "newClient": 10080000,
+      "renewal": 23100000,
+      "reactivation": 5040000,
+      "other": 3780000
     }
   },
-  "offers": 55,
+  "offers": 50,
   "basis": "observed_history",
   "measuredWindow": {
     "from": "2025-10",
     "to": "2026-09",
-    "trialFrom": "2025-07",
-    "trialTo": "2026-06"
+    "note": "priorYear by month = Jan–Sep 2026 and Oct–Dec 2025 actuals (Sales Raw, succeeded payments, incl. GST)"
   },
   "trailing": {
-    "firstSpend": 10694.114170854271,
-    "trialSpend": 1771.7326007326008,
-    "renewalTicket": 10416.355120718697,
-    "reactivationTicket": 11467.624133333333,
-    "trialToMember": 0.26865671641791045,
-    "leadToTrial": 0.8022922636103151,
-    "avgSpendPerVisit": 1727.1277977414722,
-    "renewalRate": 0.6613442257705161
+    "firstSixtyDaySpend": 11150,
+    "repeatTicket": 23384,
+    "reactivationTicket": 11468,
+    "trialToMember": 0.269,
+    "leadToTrial": 0.51,
+    "renewalRate": 0.765
   },
   "prices": {
-    "oneMonth": 19275,
-    "threeMonth": 55100,
-    "sixMonth": 108300,
-    "annual": 209000,
-    "privates": 50000
+    "single": 1943,
+    "newcomers2for1": 1943,
+    "eightClass": 13125,
+    "twelveClass": 19688,
+    "oneMonth": 20239,
+    "threeMonth": 57855,
+    "sixMonth": 113715,
+    "annual": 219450,
+    "privateSession": 5250
   }
 }

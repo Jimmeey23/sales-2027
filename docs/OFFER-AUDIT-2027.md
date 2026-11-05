@@ -1,5 +1,10 @@
 # 2027 offer plan — audit
 
+> **The findings below have been acted on.** See
+> [OFFER-AUDIT-2027-CLEANUP.md](OFFER-AUDIT-2027-CLEANUP.md) for what changed and why. The audit
+> now reports 51 findings, none of them critical. This document is kept as the record of what was
+> wrong, and of the reasoning behind each fix.
+
 **Scope:** every offer planned for 2027 in the plan of record
 (`server/data/portfolio-2027/v5-portfolio.json` — 4 locations, 172 offer instances from a
 50-offer bank, ₹7,97,11,540 against ₹6,44,59,711), plus the Kemps Corner month files they

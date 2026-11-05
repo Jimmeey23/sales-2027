@@ -2,183 +2,184 @@
   "month": 11,
   "name": "November",
   "status": "draft",
-  "theme": "Black Friday, Strong Monday",
-  "objective": "Long commitments in the softest Mumbai month, without a Black Friday percentage.",
-  "strategy": "Black Friday, Strong Monday.\n\nCommercial job: Long commitments in the softest Mumbai month, without a Black Friday percentage.\n\nNewcomer: Black Friday Week Zero (“Seven days unlimited, fully credited, then 20% off.”). Black Friday urgency on a credited intro, with an upgrade path built in.\n\nWinback: High-Value Homecoming (“A manager call, the year's best long-plan price and a private.”). These clients bought big before; a long plan at a serious price fits them.\n\nRenewal: Commitment Issues? Solved. (“Black Friday to Strong Monday: the year's best prices on long plans.”). November is Kwality's trough (₹18.5L in 2025). Four days of the year's best long-plan prices bring December–March cash forward without discounting 1 Month.\n\nRenewal: 11% on 11.11 (“One day only: 11% off, and one more class on us.”). Singles' Day reads in India as a self-purchase day; a 24-hour window creates urgency.",
-  "notes": "Moment: Club Nine last seats reopen Fri 26 Nov; 'Strong Monday' strength class on Mon 29 Nov; 11.11 'Party of One' self-gift day.\nBuild: new clients 34 buyers × ₹12,000 = ₹4.1L; reactivation 30 × ₹11,468 = ₹3.4L; privates/retail/drop-ins ₹2.8L; renewals ₹16.2L. First visits needed 114 vs 125 last year (0.91×); CRM leads needed 228 vs 125 last year.",
-  "target": 2650000,
-  "priorYear": 2158021,
-  "growthPercent": 22.8,
+  "theme": "Black Friday + Thank U, Next",
+  "focus": "Black Friday + member appreciation",
+  "objective": "Long commitments in the softest month without discounting 1 Month; a no-purchase member appreciation week that generates guest leads.",
+  "studioRole": "Retention-led",
+  "strategy": "Black Friday + Thank U, Next.\n\nCommercial job: Long commitments in the softest month without discounting 1 Month; a no-purchase member appreciation week that generates guest leads.\n\nRenewal: Black Friday, Strong Monday, Sore Tuesday (“Black Friday, Strong Monday, sore Tuesday.”). November is the trough (Kwality ₹18.5L, Bandra ₹13.2L in Nov-25). Long-plan pricing brings cash forward without discounting 1 Month.\n\nGoodwill: Thank U, Next (Year) (“Thank u, next (year).”). Each guest pass is a referral-quality lead (referrals convert 22–76%). Goodwill before December renewals lifts renewal yield.",
+  "notes": "Build: 46 new buyers × ₹11,150 first-60-day spend = ₹5.1L; 50 renewals × ₹23,384 = ₹11.8L; 22 winbacks = ₹2.6L; privates/retail/drop-ins ₹1.9L. Offers carry ₹13.4L (63% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
+  "target": 2140000,
+  "priorYear": 1851052,
+  "growthPercent": 15.6,
   "streams": {
-    "newClient": 408000,
-    "renewal": 1617960,
-    "reactivation": 344040,
-    "other": 280000
+    "newClient": 513600,
+    "renewal": 1177000,
+    "reactivation": 256800,
+    "other": 192600
   },
   "funnel": {
-    "leads": 228,
-    "trials": 114,
-    "newBuyers": 34,
-    "existingPayingRenewals": 158,
-    "winbacksNeeded": 30,
-    "expiringMemberships": 152,
-    "renewalCoverage": 0.675,
-    "leadToTrial": 0.5,
-    "trialToMember": 0.3,
-    "spendPerVisit": 1727,
-    "firstMonthSpend": 12000,
-    "renewalTicket": 10268,
-    "winbackTicket": 11468
+    "leads": 335,
+    "trials": 171,
+    "newBuyers": 46,
+    "existingPayingRenewals": 50,
+    "winbacksNeeded": 22,
+    "leadToTrial": 0.51,
+    "trialToMember": 0.269,
+    "renewalRate": 0.765,
+    "firstSixtyDaySpend": 11150,
+    "renewalTicket": 23384,
+    "winbackTicket": 11468,
+    "dataQuality": "lead→trial = CRM 'Trial Completed' status (not attendance-verified); trial→member = trailing measured; see dataGaps"
   },
   "feasibility": "balanced",
   "offers": [
     {
-      "id": 2434,
-      "slot": "newcomer",
-      "name": "Black Friday Week Zero",
-      "headline": "Seven days unlimited, fully credited, then 20% off.",
-      "benefit": "7-Day Unlimited Intro for ₹1,999 — ₹1,999 credited, 1 Month at 20% off (₹16,191) within 72 hours, and if you upgrade to 3 Months before day 21, that month's price is credited too",
-      "customerCopy": "Seven days unlimited, fully credited, then 20% off.\n• You buy: 7-Day Unlimited Intro for ₹1,999\n• You get: ₹1,999 credited, 1 Month at 20% off (₹16,191) within 72 hours, and if you upgrade to 3 Months before day 21, that month's price is credited too\n• When: Start 20 Nov–5 Dec\n• Good to know: One intro per person; start 20 Nov–5 Dec; Doesn't combine with any other campaign offer.",
-      "internalDescription": "114 in pool × 15.8% plan rate = 18 buyers × ₹16,191 ticket = ₹2.9L (71% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 20% effective.",
-      "rationale": "Why: Black Friday urgency on a credited intro, with an upgrade path built in.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "First-time clients.",
+      "id": "O27-43-KC",
+      "bankId": "O27-43",
+      "slot": "renewal",
+      "name": "Black Friday, Strong Monday, Sore Tuesday",
+      "headline": "Black Friday, Strong Monday, sore Tuesday.",
+      "benefit": "Fri 26–Mon 29 Nov: 6 Months at 20% (₹90,972 / ₹65,772), Annual at 25% (₹1,64,588 / ₹1,17,180, including leftover Club Nine numbered seats), 20- and 30-class packs at 20% (bulk). No discount on 1 Month. Pop-ups: 10-class pack at 15%.",
+      "customerCopy": "Black Friday, Strong Monday, sore Tuesday. Four days of the year's best long-plan prices — and the last Club Nine seats. No one-month discounts; we're not that kind of studio.",
+      "description": "Fri 26–Mon 29 Nov: 6 Months at 20% (₹90,972 / ₹65,772), Annual at 25% (₹1,64,588 / ₹1,17,180, including leftover Club Nine numbered seats), 20- and 30-class packs at 20% (bulk). No discount on 1 Month. Pop-ups: 10-class pack at 15%.",
+      "internalDescription": "Plan: 16 buyers × ₹75,000 = ₹1,200,000 (Mumbai pricing).",
+      "rationale": "November is the trough (Kwality ₹18.5L, Bandra ₹13.2L in Nov-25). Long-plan pricing brings cash forward without discounting 1 Month.",
+      "objective": "Bring December–March cash forward in the softest month.",
+      "type": "4-day long-plan sale",
+      "mechanicTags": [
+        "6M 20%",
+        "annual 25%",
+        "bulk packs",
+        "Club Nine last seats"
+      ],
+      "audience": "Annual 25% and bulk packs (allowed); 6M ≤20%",
       "excludedAudience": null,
-      "conditions": "One intro per person; start 20 Nov–5 Dec; Doesn't combine with any other campaign offer.",
-      "cta": "20 Nov–5 Dec.",
+      "conditions": "Annual 25% and bulk packs (allowed); 6M ≤20%.",
+      "cta": "2027-11-26 to 2027-11-29",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 16191,
-      "expectedRevenue": 291438,
+      "price": 90972,
+      "expectedRevenue": 1200000,
+      "buyers": 16,
+      "effectiveDiscountPercent": 21,
+      "kpi": "Long-plan units; Club Nine seats closed out.",
+      "validity": {
+        "start": "2027-11-26",
+        "end": "2027-11-29"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: annual (≤25%)"
+      },
+      "ticket": 75000
+    },
+    {
+      "id": "O27-44-KC",
+      "bankId": "O27-44",
+      "slot": "goodwill",
+      "name": "Thank U, Next (Year)",
+      "headline": "Thank u, next (year).",
+      "benefit": "15–21 Nov, no purchase needed: every active member gets 1 guest pass and a seat at a hosted Members' Night class; members with 100+ classes in 2027 get a 'Century Club' retail gift and a handwritten trainer note.",
+      "customerCopy": "Thank u, next (year). This week is just for you: a guest pass to share, a members-only night, and a gift if you've hit 100 classes this year. No catch. Just gratitude (and glutes).",
+      "description": "15–21 Nov, no purchase needed: every active member gets 1 guest pass and a seat at a hosted Members' Night class; members with 100+ classes in 2027 get a 'Century Club' retail gift and a handwritten trainer note.",
+      "internalDescription": "Plan: 8 buyers × ₹17,203 = ₹137,624 (Mumbai pricing).",
+      "rationale": "Each guest pass is a referral-quality lead (referrals convert 22–76%). Goodwill before December renewals lifts renewal yield.",
+      "objective": "Reward loyalty and generate warm leads before the year-end renewal push.",
+      "type": "Member appreciation",
+      "mechanicTags": [
+        "guest pass",
+        "hosted members' night",
+        "milestone gift"
+      ],
+      "audience": "Current members; no purchase needed.",
+      "excludedAudience": null,
+      "conditions": "No discount. Guest pass for someone new.",
+      "cta": "2027-11-15 to 2027-11-21",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 17203,
+      "expectedRevenue": 137624,
+      "buyers": 8,
+      "effectiveDiscountPercent": 0,
+      "kpi": "Guest passes used; guest → member (target 20%); December renewal yield.",
+      "validity": {
+        "start": "2027-11-15",
+        "end": "2027-11-21"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "No price discount"
+      },
+      "ticket": 17203
+    },
+    {
+      "id": "O27-49-KH-m11",
+      "bankId": "O27-49",
+      "slot": "newcomer",
+      "name": "Secret Santa Squats",
+      "headline": "Secret Santa budget ₹2,000? Gift squats.",
+      "benefit": "Office Secret Santa voucher: Mumbai ₹1,999 (2 classes + grip socks), Kenkere ₹1,499, pop-ups ₹999. The recipient gets ₹999 / ₹749 / ₹499 credited against a first membership within 72 hours of class 2, with the standard 15%.",
+      "customerCopy": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
+      "description": "Office Secret Santa voucher: Mumbai ₹1,999 (2 classes + grip socks), Kenkere ₹1,499, pop-ups ₹999. The recipient gets ₹999 / ₹749 / ₹499 credited against a first membership within 72 hours of class 2, with the standard 15%.",
+      "internalDescription": "Plan: 16 buyers × ₹1,999 = ₹31,984 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
+      "rationale": "Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.",
+      "objective": "Christmas-gifting acquisition at office price points.",
+      "type": "Gift voucher",
+      "mechanicTags": [
+        "gift voucher",
+        "retail",
+        "partial credit"
+      ],
+      "audience": "First-time clients (phone verified).",
+      "excludedAudience": null,
+      "conditions": "Recipient must be new.",
+      "cta": "2027-11-01 to 2027-11-30",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 1999,
+      "expectedRevenue": 35982,
       "buyers": 18,
       "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-11-20",
-        "end": "2027-12-05"
-      },
-      "mechanics": {}
-    },
-    {
-      "id": 2435,
-      "slot": "lapsed",
-      "name": "High-Value Homecoming",
-      "headline": "A manager call, the year's best long-plan price and a private.",
-      "benefit": "3 Months at 22% off (₹45,127) or 6 Months at 25% off (₹85,286) — unlimited freezes and one 30-min private",
-      "customerCopy": "A manager call, the year's best long-plan price and a private.\n• You buy: 3 Months at 22% off (₹45,127) or 6 Months at 25% off (₹85,286)\n• You get: unlimited freezes and one 30-min private\n• When: All November\n• Good to know: Named list: lapsed clients with ≥₹50k lifetime spend; Doesn't combine with any other campaign offer.",
-      "internalDescription": "400 in pool × 1.2% plan rate = 5 buyers × ₹55,000 ticket = ₹2.8L (80% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 24% effective.",
-      "rationale": "Why: These clients bought big before; a long plan at a serious price fits them.",
-      "objective": "reactivation",
-      "type": "experience",
-      "audience": "Lapsed clients with ≥₹50k lifetime spend.",
-      "excludedAudience": null,
-      "conditions": "Named list: lapsed clients with ≥₹50k lifetime spend; Doesn't combine with any other campaign offer.",
-      "cta": "All November.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 55000,
-      "expectedRevenue": 275000,
-      "buyers": 5,
-      "effectiveDiscountPercent": 24,
-      "contributionMargin": 0,
+      "kpi": "Vouchers sold; redemption; voucher → member.",
       "validity": {
         "start": "2027-11-01",
         "end": "2027-11-30"
       },
-      "mechanics": {}
-    },
-    {
-      "id": 2437,
-      "slot": "renewal",
-      "name": "Commitment Issues? Solved.",
-      "headline": "Black Friday to Strong Monday: the year's best prices on long plans.",
-      "benefit": "3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588) — a Strong Monday class (29 Nov) and a year-end box",
-      "customerCopy": "Black Friday to Strong Monday: the year's best prices on long plans.\n• You buy: 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588)\n• You get: a Strong Monday class (29 Nov) and a year-end box\n• When: All November\n• Good to know: Fri 26 – Mon 29 Nov only; active and recently expired members; Doesn't combine with any other campaign offer.",
-      "internalDescription": "152 in pool × 9.2% plan rate = 14 buyers × ₹60,000 ticket = ₹8.4L (52% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.4L at 22% effective.",
-      "rationale": "Why: November is Kwality's trough (₹18.5L in 2025). Four days of the year's best long-plan prices bring December–March cash forward without discounting 1 Month.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "Members expiring November–December.",
-      "excludedAudience": null,
-      "conditions": "Fri 26 – Mon 29 Nov only; active and recently expired members; Doesn't combine with any other campaign offer.",
-      "cta": "All November.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 60000,
-      "expectedRevenue": 840000,
-      "buyers": 14,
-      "effectiveDiscountPercent": 22,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-11-01",
-        "end": "2027-11-30"
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: ≤20% effective"
       },
-      "mechanics": {}
-    },
-    {
-      "id": 2517,
-      "slot": "renewal",
-      "name": "11% on 11.11",
-      "headline": "One day only: 11% off, and one more class on us.",
-      "benefit": "A 12-class pack at 11% off (₹17,522), Thu 11 Nov only — 1 bonus class and a post-class smoothie",
-      "customerCopy": "One day only: 11% off, and one more class on us.\n• You buy: A 12-class pack at 11% off (₹17,522), Thu 11 Nov only\n• You get: 1 bonus class and a post-class smoothie\n• When: 11 Nov, 00:00–23:59\n• Good to know: Active members; max 1 per person; 00:00–23:59; Doesn't combine with any other campaign offer.",
-      "internalDescription": "300 in pool × 6.0% plan rate = 18 buyers × ₹17,522 ticket = ₹3.2L (19% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 18% effective.",
-      "rationale": "Why: Singles' Day reads in India as a self-purchase day; a 24-hour window creates urgency.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "Active members.",
-      "excludedAudience": null,
-      "conditions": "Active members; max 1 per person; 00:00–23:59; Doesn't combine with any other campaign offer.",
-      "cta": "11 Nov.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 17522,
-      "expectedRevenue": 315396,
-      "buyers": 18,
-      "effectiveDiscountPercent": 18,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-11-11",
-        "end": "2027-11-11"
-      },
-      "mechanics": {}
+      "ticket": 1999
     }
   ],
+  "offersPlannedRevenue": 1373606,
   "keyDates": [
     {
       "day": 11,
-      "end": null,
       "date": "2027-11-11",
-      "name": "Singles' Day (11.11)",
+      "name": "Singles' Day",
       "kind": "retail",
-      "label": "Retail moment",
-      "approx": false,
-      "note": "Party of One, 24 hours only."
+      "approx": false
+    },
+    {
+      "day": 15,
+      "date": "2027-11-15",
+      "name": "Member appreciation week (15–21 Nov)",
+      "kind": "brand",
+      "approx": false
     },
     {
       "day": 26,
-      "end": null,
       "date": "2027-11-26",
-      "name": "Black Friday",
+      "name": "Black Friday (to Strong Monday 29 Nov)",
       "kind": "retail",
-      "label": "Retail moment",
-      "approx": false,
-      "note": "Club Nine last seats; no open discount."
-    },
-    {
-      "day": 29,
-      "end": null,
-      "date": "2027-11-29",
-      "name": "Strong Monday",
-      "kind": "brand",
-      "label": "P57 moment",
-      "approx": false,
-      "note": "Strength class; bonus days applied."
+      "approx": false
     }
   ],
   "sections": [
@@ -188,47 +189,27 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Black Friday Week Zero in Momence (20 Nov–5 Dec.): 7-Day Unlimited Intro for ₹1,999 — ₹1,999 credited, 1 Month at 20% off (₹16,191) within 72 hours, and if you upgrade to 3 Months before day 21, that month's price is credited too."
+          "detail": "Set up Black Friday, Strong Monday, Sore Tuesday in Momence (2027-11-26 to 2027-11-29): Fri 26–Mon 29 Nov: 6 Months at 20% (₹90,972 / ₹65,772), Annual at 25% (₹1,64,588 / ₹1,17,180, including leftover Club Nine numbered seats), 20- and 30-class packs at 20% (bulk). No discount on 1 Month. Pop-ups: 10-class pack at 15%."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up High-Value Homecoming in Momence (All November.): 3 Months at 22% off (₹45,127) or 6 Months at 25% off (₹85,286) — unlimited freezes and one 30-min private."
-        },
-        {
-          "label": "",
-          "value": "Studio manager",
-          "detail": "Set up Commitment Issues? Solved. in Momence (All November.): 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698), or Annual at 25% off (₹1,64,588) — a Strong Monday class (29 Nov) and a year-end box."
-        },
-        {
-          "label": "",
-          "value": "Studio manager",
-          "detail": "Set up 11% on 11.11 in Momence (11 Nov.): A 12-class pack at 11% off (₹17,522), Thu 11 Nov only — 1 bonus class and a post-class smoothie."
+          "detail": "Set up Thank U, Next (Year) in Momence (2027-11-15 to 2027-11-21): 15–21 Nov, no purchase needed: every active member gets 1 guest pass and a seat at a hosted Members' Night class; members with 100+ classes in 2027 get a 'Century Club' retail gift and a handwritten trainer note."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Brief the team on the 4 November offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+          "detail": "Brief the team on the 2 November offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Black Friday Week Zero to First-time clients."
+          "detail": "Launch Black Friday, Strong Monday, Sore Tuesday: Black Friday, Strong Monday, sore Tuesday. Four days of the year's best long-plan prices — and the last Club Nine seats. No one-month discounts; we're not that kind of studio."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch High-Value Homecoming to Lapsed clients with ≥₹50k lifetime spend."
-        },
-        {
-          "label": "",
-          "value": "Sales lead",
-          "detail": "Launch Commitment Issues? Solved. to Members expiring November–December."
-        },
-        {
-          "label": "",
-          "value": "Sales lead",
-          "detail": "Launch 11% on 11.11 to Active members."
+          "detail": "Launch Thank U, Next (Year): Thank u, next (year). This week is just for you: a guest pass to share, a members-only night, and a gift if you've hit 100 classes this year. No catch. Just gratitude (and glutes)."
         }
       ]
     },
@@ -237,13 +218,8 @@
       "items": [
         {
           "label": "",
-          "value": "Studio manager",
-          "detail": "Run the month's moment: Club Nine last seats reopen Fri 26 Nov; 'Strong Monday' strength class on Mon 29 Nov; 11.11 'Party of One' self-gift day."
-        },
-        {
-          "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Black Friday Week Zero: Intro conversion; day-21 upgrades. | High-Value Homecoming: Manager calls; 3M restarts. | Commitment Issues? Solved.: Renewal yield on Nov expiries. | 11% on 11.11: 11.11 packs sold."
+          "detail": "Weekly check: Black Friday, Strong Monday, Sore Tuesday: Long-plan units; Club Nine seats closed out. | Thank U, Next (Year): Guest passes used; guest → member (target 20%); December renewal yield."
         }
       ]
     },
@@ -253,7 +229,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Mid-month review against ₹26.5L: by the 15th aim for about half of 158 renewals, 30 reactivations and 34 new buyers (114 first visits). Push the lists, not a deeper discount."
+          "detail": "Mid-month review against ₹21.4L: by the 15th aim for ~half of 46 new buyers (171 first visits), 50 renewals and 22 winbacks. Push the lists, not a deeper discount."
         }
       ]
     },
@@ -263,9 +239,69 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Close November: tag every redemption by offer, record results, and brief December's offers."
+          "detail": "Close November: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
         }
       ]
     }
-  ]
+  ],
+  "collateral": {
+    "title": "Black Friday + Thank U, Next",
+    "pieces": [
+      {
+        "offerId": "O27-43-KC",
+        "headline": "Black Friday, Strong Monday, sore Tuesday.",
+        "copy": "Black Friday, Strong Monday, sore Tuesday. Four days of the year's best long-plan prices — and the last Club Nine seats. No one-month discounts; we're not that kind of studio.",
+        "detail": "Fri 26–Mon 29 Nov: 6 Months at 20% (₹90,972 / ₹65,772), Annual at 25% (₹1,64,588 / ₹1,17,180, including leftover Club Nine numbered seats), 20- and 30-class packs at 20% (bulk). No discount on 1 Month. Pop-ups: 10-class pack at 15%.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-44-KC",
+        "headline": "Thank u, next (year).",
+        "copy": "Thank u, next (year). This week is just for you: a guest pass to share, a members-only night, and a gift if you've hit 100 classes this year. No catch. Just gratitude (and glutes).",
+        "detail": "15–21 Nov, no purchase needed: every active member gets 1 guest pass and a seat at a hosted Members' Night class; members with 100+ classes in 2027 get a 'Century Club' retail gift and a handwritten trainer note.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-49-KH-m11",
+        "headline": "Secret Santa budget ₹2,000? Gift squats.",
+        "copy": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
+        "detail": "Office Secret Santa voucher: Mumbai ₹1,999 (2 classes + grip socks), Kenkere ₹1,499, pop-ups ₹999. The recipient gets ₹999 / ₹749 / ₹499 credited against a first membership within 72 hours of class 2, with the standard 15%."
+      }
+    ]
+  },
+  "crm": {
+    "rule": "One send per offer to its own audience; no member gets more than 2 offer sends a week.",
+    "sends": [
+      {
+        "offerId": "O27-43-KC",
+        "audience": "Annual 25% and bulk packs (allowed); 6M ≤20%",
+        "message": "Black Friday, Strong Monday, sore Tuesday. Four days of the year's best long-plan prices — and the last Club Nine seats. No one-month discounts; we're not that kind of studio."
+      },
+      {
+        "offerId": "O27-44-KC",
+        "audience": "Current members; no purchase needed.",
+        "message": "Thank u, next (year). This week is just for you: a guest pass to share, a members-only night, and a gift if you've hit 100 classes this year. No catch. Just gratitude (and glutes)."
+      },
+      {
+        "offerId": "O27-49-KH-m11",
+        "audience": "First-time clients (phone verified).",
+        "message": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month."
+      }
+    ],
+    "sendsCount": 3
+  },
+  "standardTrade": {
+    "revenue": 766394,
+    "shareOfMonth": 35.8,
+    "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
+  },
+  "targetBasis": "hand_set"
 }
