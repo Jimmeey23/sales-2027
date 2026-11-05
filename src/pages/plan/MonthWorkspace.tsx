@@ -16,6 +16,7 @@ import {
   Handshake,
   HeartHandshake,
   LayoutGrid,
+  MessageSquare,
   Lightbulb,
   Link2,
   LockKeyhole,
@@ -93,6 +94,7 @@ import { MathsPanel } from './month/MathsPanel';
 import { assignMonthPhotos, pickOfferCardPhoto, OfferCard } from './month/OfferCard';
 import { OfferEditor } from './month/OfferEditor';
 import { OfferCopilot } from './month/OfferCopilot';
+import { OfferEditChat } from './month/OfferEditChat';
 import { SectionHead } from './month/SectionHead';
 import { Act } from './month/Act';
 import { VolumesChart } from './month/VolumesChart';
@@ -752,6 +754,8 @@ export default function MonthWorkspace({
     })),
   });
   const [regenerating, setRegenerating] = useState<number | null>(null);
+  // Chat edits: null = closed; 0 = all of the month's offers; an id = that offer.
+  const [editChat, setEditChat] = useState<number | null>(null);
   // "Generate with AI" on a card: a new, better-optimised offer replaces this one in the same card.
   const regenerateOffer = async (o: any) => {
     if (!aiReady) {
@@ -2948,6 +2952,16 @@ export default function MonthWorkspace({
                             <LayoutGrid size={12} /> Offer library
                             <em>{alternates.length}</em>
                           </button>
+                          {(sectionEditable('offers') || offersEditable) && selected.length > 0 && (
+                            <button
+                              type="button"
+                              className="mw-mini-btn"
+                              onClick={() => setEditChat(c => (c === null ? 0 : null))}
+                              title="Chat with the copilot to change this month's offers"
+                            >
+                              <MessageSquare size={12} /> Edit with copilot
+                            </button>
+                          )}
                           {(sectionEditable('offers') || offersEditable) && (
                             <button type="button" className="mw-mini-btn is-primary" onClick={() => openNewOffer()}>
                               <Plus size={12} /> New offer
@@ -2956,6 +2970,20 @@ export default function MonthWorkspace({
                         </>
                       }
                     />
+
+                    {editChat !== null && selected.length > 0 && (
+                      <OfferEditChat
+                        offers={selected}
+                        month={month}
+                        year={year}
+                        studioName={studio.name}
+                        focusId={editChat || null}
+                        onClose={() => setEditChat(null)}
+                        onApply={(offerId, changes, name) =>
+                          offerChange({ op: 'update', offerId, edit: changes }, `“${name}” updated by copilot`)
+                        }
+                      />
+                    )}
 
                     {creatingOffer && (
                       <OfferEditor
@@ -3067,6 +3095,7 @@ export default function MonthWorkspace({
                                 setCreatingOffer(null);
                                 setEditing(o.id);
                               }}
+                              onChat={() => setEditChat(o.id)}
                               onDuplicate={() =>
                                 openNewOffer({
                                   ...o,

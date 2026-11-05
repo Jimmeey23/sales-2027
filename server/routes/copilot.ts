@@ -7,9 +7,69 @@ import { answerQuestion, engineCapability, warmCopilot } from '../lib/copilot/en
 import { cacheStats, invalidateCopilotCache } from '../lib/copilot/context.js';
 import { asyncRoute, bodyError, id, studioFilter } from '../http.js';
 import { persistOffer } from './offers.js';
+import { aiEdits, ruleEdits, type OfferEditInput } from '../lib/offerEditCopilot.js';
 import type { Express } from 'express';
 
 export default function registerCopilotRoutes(app: Express) {
+  // Chat edits to one offer or a whole month's offers. Proposes changes only; nothing is saved here.
+  app.post(
+    '/api/copilot/offer-edit',
+    permission('offer_edit'),
+    asyncRoute(async (req: any, res: any) => {
+      const message = String(req.body.message || '').trim();
+      if (!message || message.length > 2000) throw bodyError('Messages must contain 1–2000 characters.');
+      const ids: number[] = (Array.isArray(req.body.offerIds) ? req.body.offerIds : [])
+        .map((v: any) => Number(v))
+        .filter((v: number) => Number.isInteger(v) && v > 0)
+        .slice(0, 30);
+      if (!ids.length) throw bodyError('Choose at least one offer to edit.');
+      const rows = db
+        .prepare(`SELECT * FROM offers WHERE id IN (${ids.map(() => '?').join(',')})`)
+        .all(...ids) as any[];
+      const offers: OfferEditInput[] = rows
+        .filter(r => !r.studio_id || canAccessStudio(req.user, r.studio_id))
+        .map(r => {
+          let pricing: any = {};
+          try {
+            pricing = JSON.parse(r.provenance || '{}').pricing || {};
+          } catch {}
+          return {
+            id: r.id,
+            name: r.name,
+            headline: r.headline,
+            benefit: r.benefit,
+            customer_copy: r.customer_copy,
+            audience: r.audience,
+            cta: r.cta,
+            redemption_conditions: r.redemption_conditions,
+            validity_start: r.validity_start,
+            validity_end: r.validity_end,
+            target_purchases: r.target_purchases,
+            expected_asp: r.expected_asp,
+            effective_discount: r.effective_discount,
+            product: pricing.product ?? null,
+            discount: typeof pricing.discount === 'number' ? pricing.discount : null,
+            approval_status: r.approval_status,
+          };
+        });
+      if (!offers.length) throw bodyError('Offer not found.', 404);
+      const history = (Array.isArray(req.body.history) ? req.body.history : [])
+        .slice(-8)
+        .map((h: any) => ({ role: String(h.role), content: String(h.content || '').slice(0, 2000) }));
+      const context = {
+        month: Number(req.body.month) || null,
+        year: Number(req.body.year) || null,
+        studio: req.body.studio ? String(req.body.studio).slice(0, 80) : null,
+      };
+      if (!process.env.OPENAI_API_KEY) return res.json(ruleEdits(message, offers));
+      try {
+        res.json(await aiEdits(message, offers, history, context));
+      } catch (error: any) {
+        const fallback = ruleEdits(message, offers);
+        res.json({ ...fallback, reply: `AI was unavailable (${error.message}). ${fallback.reply}` });
+      }
+    }),
+  );
   app.get('/api/renewals/report', (req, res) => {
     const studioId = studioFilter(req, req.query.studio ? id(req.query.studio) : undefined);
     const now = new Date(),

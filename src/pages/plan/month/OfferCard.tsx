@@ -5,6 +5,7 @@ import {
   Check,
   ChevronDown,
   Copy,
+  MessageSquare,
   FileText,
   Gift,
   Link2,
@@ -182,6 +183,7 @@ export function OfferCard({
   onPlanning,
   onEdit,
   onDuplicate,
+  onChat,
   onRemove,
   onDelete,
   onSwap,
@@ -607,6 +609,41 @@ export function OfferCard({
         </div>
 
         <div className="ocv-body">
+          {/* The five things a manager needs before anything else, in one place. */}
+          <dl className="ocv-keyterms" aria-label="Offer at a glance">
+            <div>
+              <dt>Membership / package</dt>
+              <dd>{membership || plan.label || '—'}</dd>
+            </div>
+            <div>
+              <dt>Original price</dt>
+              <dd>{strikePrice ? money(strikePrice) : list ? money(list) : '—'}</dd>
+            </div>
+            <div>
+              <dt>Effective price</dt>
+              <dd>{offerPrice > 0 ? money(offerPrice) : '—'}{isAverageTicket && offerPrice > 0 ? ' avg' : ''}</dd>
+            </div>
+            <div>
+              <dt>Effective discount</dt>
+              <dd>
+                {(() => {
+                  const base = strikePrice || list || 0;
+                  const pct = effPct > 0 ? effPct : directPct > 0 ? directPct * 100 : hasCashCut ? cashCutPct : 0;
+                  const value = directSaving > 0 ? directSaving : base && pct ? Math.round((base * pct) / 100) : 0;
+                  if (!pct && !value) return 'No discount';
+                  return [value ? money(value) : null, pct ? fmtPct(pct) : null].filter(Boolean).join(' · ');
+                })()}
+              </dd>
+            </div>
+            <div className="is-wide">
+              <dt>Conditions</dt>
+              <dd>{String(o.redemption_conditions ?? '').replace(/\s+/g, ' ').trim() || 'One per client; no cash discount beyond the campaign rate.'}</dd>
+            </div>
+            <div className="is-wide">
+              <dt>Brief</dt>
+              <dd>{offerDescription}</dd>
+            </div>
+          </dl>
           <header className="ocv-head">
             <div className="ocv-head-top">
               <span className={`ocv-state${shown ? ' is-approved' : ''}`}>
@@ -627,6 +664,18 @@ export function OfferCard({
                         aria-busy={regenerating}
                       >
                         {regenerating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
+                      </button>
+                    )}
+                    {editable && onChat && (
+                      <button
+                        type="button"
+                        aria-label={`Edit ${o.name} with copilot`}
+                        title="Edit with copilot"
+                        className="ocv-tool"
+                        onClick={onChat}
+                        disabled={busy}
+                      >
+                        <MessageSquare size={14} />
                       </button>
                     )}
                     {editable && onDuplicate && (

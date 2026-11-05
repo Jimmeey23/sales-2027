@@ -382,3 +382,24 @@
 .chip-loader .chip-pin { stroke: #444; stroke-width: 0.5; filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.6)); }
 @keyframes chip-flow { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .chip-loader .trace-flow { animation: none; stroke-dasharray: none; } }
+
+/* The chip loader sits straight on the page: no panel, card, gradient or backdrop behind it. */
+html body .p57-loader,
+html body .p57-loader.is-screen,
+html body .app-loading,
+html body .app-loading .p57-loader,
+html body .p57-loader-stage,
+html body .app-loading .p57-loader-stage {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+html body .p57-loader-stage::before,
+html body .p57-loader-stage::after,
+html body .app-loading::before,
+html body .app-loading::after {
+  content: none;
+  display: none;
+}

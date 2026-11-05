@@ -1369,3 +1369,25 @@
   inset: 0;
   overflow: hidden;
 }
+
+/* Offer at a glance: membership, prices, discount, conditions and brief. */
+.ocv-keyterms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px 16px;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  border-radius: 10px;
+}
+.ocv-keyterms > div { min-width: 0; }
+.ocv-keyterms .is-wide { grid-column: 1 / -1; }
+.ocv-keyterms dt {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin: 0 0 2px;
+}
+.ocv-keyterms dd { margin: 0; font-weight: 600; font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
+.ocv-keyterms .is-wide dd { font-weight: 400; font-size: 13px; }
