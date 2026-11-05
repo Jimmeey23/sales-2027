@@ -800,12 +800,7 @@ export default function MonthWorkspace({
   const offerListRef = useRef<HTMLDivElement | null>(null);
   // Only sections that still exist: the key-terms strip and the facts rail were removed
   // from the card, and the record folds shut, so it is always its own collapsed height.
-  useRowAlign(offerListRef, 'article.oc', [
-    '.ocv-plate',
-    '.ocv-head',
-    '.ocv-offer-highlight.is-front',
-    '.ocv-figures',
-  ]);
+  useRowAlign(offerListRef, 'article.oc', ['.ocv-plate', '.ocv-head', '.ocv-offer-highlight.is-front', '.ocv-figures']);
   // Tell the app-wide copilot which studio and month are on screen.
   useEffect(() => {
     setCopilotScope({ studioId: studio?.id ?? null, year, month, label: studio?.name ?? null });
