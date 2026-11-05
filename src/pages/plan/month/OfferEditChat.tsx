@@ -60,7 +60,10 @@ export function OfferEditChat({
   useEffect(() => {
     if (focusId) setScope(String(focusId));
   }, [focusId]);
-  useEffect(() => end.current?.scrollIntoView({ block: 'end' }), [msgs]);
+  useEffect(() => {
+    const node = end.current;
+    if (node && typeof node.scrollIntoView === 'function') node.scrollIntoView({ block: 'end' });
+  }, [msgs]);
 
   const byId = new Map(offers.map(o => [o.id, o]));
   const targetIds = scope === 'all' ? offers.map(o => o.id) : [Number(scope)];
