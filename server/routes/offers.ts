@@ -149,7 +149,18 @@ export function validateOfferForSave(
   if (row.validity_start && row.validity_end && row.validity_end < row.validity_start)
     throw bodyError('Offer validity end must be on or after its start.');
   let modelRan = false;
-  if (row.studio_id && row.mechanics !== '{}') {
+  // Only the mechanics engine's own input (a listed price to discount from) is priced by it.
+  // Plan-pack offers keep descriptive mechanics (list price text, window), and running the
+  // engine on those zeroed the units and revenue on every edit.
+  const engineInput = (() => {
+    try {
+      const m = JSON.parse(row.mechanics || '{}');
+      return m && typeof m === 'object' && m.listedPrice !== undefined && m.listedPrice !== null;
+    } catch {
+      return false;
+    }
+  })();
+  if (row.studio_id && engineInput) {
     modelRan = true;
     const studio = db.prepare('SELECT max_discount_percent FROM studios WHERE id=?').get(row.studio_id) as any;
     const mechanics = JSON.parse(row.mechanics);

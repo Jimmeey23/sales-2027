@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 
      2  Valentine's   hearts rising like bokeh, drifting petals, a warm rose glow
      4  Anniversary   Cloud Nine: gold confetti, floating balloons, a glowing 9 and sparkles
+     6  Pride         a waving rainbow ribbon, a sweeping prism of light, rainbow hearts and confetti
      5  Hot and dry   a blazing sun with turning rays, heat haze, dust on a dry wind
      8  Amazing Race  speed lines, a route drawn across the map with racers, a checkered flag
     11  Diwali        a row of diyas with living flames, and fireworks over them
@@ -498,10 +499,174 @@ const christmas: Scene = {
   },
 };
 
+
+/* ── June: Pride ──────────────────────────────────────────────────────── */
+const RAINBOW = ['228, 3, 3', '255, 140, 0', '255, 237, 0', '0, 128, 38', '0, 77, 255', '117, 7, 135'];
+const pride: Scene = {
+  init: (w, h) => ({
+    confetti: Array.from({ length: 120 }, (_, i) => ({
+      x: rand(0, w),
+      y: rand(-h, h),
+      vy: rand(40, 100),
+      r: rand(0, TAU),
+      vr: rand(-4, 4),
+      s: rand(4, 8),
+      c: RAINBOW[i % RAINBOW.length],
+      sway: rand(0, TAU),
+    })),
+    hearts: Array.from({ length: 18 }, (_, i) => ({
+      x: rand(0, w),
+      y: rand(0, h),
+      s: rand(10, 26),
+      v: rand(14, 34),
+      c: RAINBOW[i % RAINBOW.length],
+      sway: rand(0, TAU),
+    })),
+  }),
+  draw(ctx, w, h, t, dt, s) {
+    // Warm sunset light, like the beach in the photograph.
+    glow(ctx, w * 0.85, h * 0.05, Math.max(w, h) * 0.6, 'rgba(255, 196, 120, A)', 0.22);
+    // A rainbow ribbon waving across the top: six bands, one flag.
+    // Slim, along the very top edge, so it never sits over the header text.
+    const band = Math.max(2, h * 0.0035);
+    const top = 2;
+    ctx.save();
+    ctx.globalAlpha = 0.8;
+    RAINBOW.forEach((c, i) => {
+      ctx.fillStyle = `rgb(${c})`;
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 10) {
+        const y = top + i * band + Math.sin(x * 0.008 - t * 1.6) * 2 + Math.sin(x * 0.02 - t * 2.3) * 0.8;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      for (let x = w; x >= 0; x -= 10) {
+        const y = top + (i + 1) * band + Math.sin(x * 0.008 - t * 1.6) * 2 + Math.sin(x * 0.02 - t * 2.3) * 0.8;
+        ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fill();
+    });
+    ctx.restore();
+    // A soft prism of light that sweeps slowly across the cover.
+    const sweep = ((t * 0.06) % 1.6) - 0.3;
+    const sx = sweep * w;
+    const prism = ctx.createLinearGradient(sx - w * 0.25, 0, sx + w * 0.25, h);
+    RAINBOW.forEach((c, i) => prism.addColorStop(i / (RAINBOW.length - 1), `rgba(${c}, 0.07)`));
+    ctx.fillStyle = prism;
+    ctx.beginPath();
+    ctx.moveTo(sx - w * 0.12, 0);
+    ctx.lineTo(sx + w * 0.02, 0);
+    ctx.lineTo(sx + w * 0.3, h);
+    ctx.lineTo(sx + w * 0.12, h);
+    ctx.closePath();
+    ctx.fill();
+    // Props: the rainbow flag and the Progress Pride flag on poles, waving.
+    const flag = (px: number, py: number, fw: number, fh: number, stripes: string[], chevron: boolean) => {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(235, 225, 205, 0.9)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      ctx.lineTo(px, py + fh * 2.4);
+      ctx.stroke();
+      const cols = 24;
+      const bh = fh / stripes.length;
+      for (let c = 0; c < cols; c++) {
+        const u = c / cols;
+        const x = px + u * fw;
+        const wave = Math.sin(u * 5 - t * 4) * 6 * u;
+        const wave2 = Math.sin((u + 1 / cols) * 5 - t * 4) * 6 * (u + 1 / cols);
+        const shade = 0.82 + 0.18 * Math.cos(u * 5 - t * 4);
+        stripes.forEach((col, r) => {
+          ctx.fillStyle = `rgba(${col}, ${shade})`;
+          ctx.beginPath();
+          ctx.moveTo(x, py + r * bh + wave);
+          ctx.lineTo(x + fw / cols + 0.5, py + r * bh + wave2);
+          ctx.lineTo(x + fw / cols + 0.5, py + (r + 1) * bh + wave2);
+          ctx.lineTo(x, py + (r + 1) * bh + wave);
+          ctx.fill();
+        });
+      }
+      if (chevron) {
+        // Progress Pride: white, pink, blue, brown and black chevrons at the hoist.
+        ['20, 20, 20', '120, 80, 40', '91, 206, 250', '245, 169, 184', '255, 255, 255'].forEach((col, k) => {
+          const depth = fw * (0.36 - k * 0.06);
+          ctx.fillStyle = `rgb(${col})`;
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(px + depth, py + fh / 2 + Math.sin(-t * 4) * 2);
+          ctx.lineTo(px, py + fh);
+          ctx.fill();
+        });
+      }
+      ctx.restore();
+    };
+    const fx = w * 0.06;
+    const fy = h * 0.31;
+    flag(fx, fy, Math.min(120, w * 0.09), Math.min(78, h * 0.085), RAINBOW, false);
+    flag(fx + Math.min(150, w * 0.11), fy + 22, Math.min(110, w * 0.08), Math.min(70, h * 0.077), RAINBOW, true);
+
+    // Floating badges.
+    const words = ['Love is love', 'Pride', 'Be you', 'Proud & loud', '#Pride2027'];
+    ctx.save();
+    ctx.font = '600 13px Instrument Sans, sans-serif';
+    ctx.textBaseline = 'middle';
+    words.forEach((word, i) => {
+      const cycle = (t * 0.05 + i / words.length) % 1;
+      const x = w * (0.04 + ((i * 0.13) % 0.4));
+      const y = h * (0.92 - cycle * 0.8);
+      const a = Math.sin(cycle * Math.PI) * 0.9;
+      const tw = ctx.measureText(word).width + 22;
+      const g = ctx.createLinearGradient(x, 0, x + tw, 0);
+      RAINBOW.forEach((c, k) => g.addColorStop(k / (RAINBOW.length - 1), `rgba(${c}, ${a})`));
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = `rgba(20, 16, 14, ${a * 0.55})`;
+      ctx.beginPath();
+      ctx.roundRect(x, y - 13, tw, 26, 13);
+      ctx.fill();
+      ctx.strokeStyle = g;
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+      ctx.fillStyle = `rgba(255, 255, 255, ${a})`;
+      ctx.fillText(word, x + 11, y + 0.5);
+    });
+    ctx.restore();
+
+    // Rainbow hearts rising.
+    for (const p of s.hearts) {
+      p.y -= p.v * dt;
+      p.x += Math.sin(t * 0.8 + p.sway) * 10 * dt;
+      if (p.y < -p.s * 2) Object.assign(p, { y: h + p.s, x: rand(0, w) });
+      ctx.save();
+      ctx.shadowColor = `rgba(${p.c}, 0.8)`;
+      ctx.shadowBlur = p.s * 0.7;
+      ctx.fillStyle = `rgba(${p.c}, 0.42)`;
+      heart(ctx, p.x, p.y, p.s);
+      ctx.restore();
+    }
+    // Rainbow confetti, flipping as it falls.
+    for (const c of s.confetti) {
+      c.y += c.vy * dt;
+      c.x += Math.sin(t * 1.2 + c.sway) * 20 * dt;
+      c.r += c.vr * dt;
+      if (c.y > h + 10) Object.assign(c, { y: -10, x: rand(0, w) });
+      ctx.save();
+      ctx.translate(c.x, c.y);
+      ctx.rotate(c.r);
+      ctx.scale(1, Math.cos(c.r * 2));
+      ctx.fillStyle = `rgba(${c.c}, 0.85)`;
+      ctx.fillRect(-c.s / 2, -c.s / 4, c.s, c.s / 2);
+      ctx.restore();
+    }
+  },
+};
+
 export const SEASON_SCENES: Record<number, Scene> = {
   2: valentine,
   4: anniversary,
   5: heat,
+  6: pride,
   8: race,
   11: diwali,
   12: christmas,

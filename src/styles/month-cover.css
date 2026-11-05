@@ -2682,3 +2682,30 @@
   height: 100%;
   pointer-events: none;
 }
+
+/* June · Pride: the month name in rainbow, the focus line in sunset gold. */
+.mw-monthcover.is-pride .mc-hero h2 {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  background: linear-gradient(90deg, #ff6b6b, #ffb347, #ffe66d, #5fd38d, #5b8cff, #b06bff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.45));
+}
+.mw-monthcover.is-pride .mc-focus { color: #ffd59a; }
+.mw-monthcover .mc-photo.mc-photo-fill {
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) saturate(1.25) brightness(0.75);
+  transform: scale(1.12);
+}
+.mw-monthcover .mc-photo.is-fit {
+  /* Zoomed out: the full height of the portrait, anchored right, fading into the fill. */
+  background-size: auto 112%;
+  background-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent 12%, rgba(0,0,0,0.55) 24%, #000 40%);
+  mask-image: linear-gradient(90deg, transparent 12%, rgba(0,0,0,0.55) 24%, #000 40%);
+  left: 30%;
+}

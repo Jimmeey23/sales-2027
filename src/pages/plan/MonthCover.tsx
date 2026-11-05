@@ -192,11 +192,20 @@ export default function MonthCover({
   });
   const lead = streams.reduce((a, b) => (b.value > a.value ? b : a), streams[0]);
 
+  // Months with their own photograph. Portraits (Feb, Jun) are shown whole over a blurred copy.
+  const OWN: Record<number, { url: string; pos: string }> = {
+    2: { url: '/p57/feb-2027.jpg', pos: '100% 35%' },
+    3: { url: '/p57/march-2027.jpg', pos: '100% 30%' },
+    5: { url: '/p57/may-2027.jpg', pos: '100% 25%' },
+    6: { url: '/p57/june-pride-2027.jpg', pos: '100% 30%' },
+  };
+  const coverPhoto = OWN[month] ?? photo;
+  const fit = month === 2 || month === 6;
   return (
     <div
       ref={root}
       tabIndex={-1}
-      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}${birthday ? ' is-birthday' : ''}`}
+      className={`mw-monthcover is-${status}${leaving ? ' is-leaving' : ''}${birthday ? ' is-birthday' : ''}${month === 6 ? ' is-pride' : ''}`}
       data-month={month}
       role="dialog"
       aria-modal="true"
@@ -204,15 +213,20 @@ export default function MonthCover({
     >
       {/* The room itself: the cover is the photograph, cropped to the sheet, with the
           type set into a scrim over its left edge. */}
+      {/* June's photograph is a portrait: shown whole on the right, over a blurred copy of
+          itself, instead of cropped to the landscape sheet. */}
+      {fit && (
+        <div className="mc-photo mc-photo-fill" style={{ backgroundImage: `url(${coverPhoto.url})` }} aria-hidden="true" />
+      )}
       <div
-        className="mc-photo"
-        style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
+        className={`mc-photo${fit ? ' is-fit' : ''}`}
+        style={{ backgroundImage: `url(${coverPhoto.url})`, backgroundPosition: coverPhoto.pos }}
         aria-hidden="true"
       />
       <div className="mc-scrim" aria-hidden="true" />
       {/* July is monsoon month: rain and rising floodwater behind the cover. */}
       {month === 7 && <MonsoonScene />}
-      {/* Feb, Apr, May, Aug, Nov, Dec: seasonal scenes (Valentine's, anniversary, heat, Amazing Race, Diwali, Christmas). */}
+      {/* Feb, Apr, May, Jun, Aug, Nov, Dec: seasonal scenes (Valentine's, Pride, anniversary, heat, Amazing Race, Diwali, Christmas). */}
       <SeasonScene month={month} />
 
       <div className="mc-scroll">
