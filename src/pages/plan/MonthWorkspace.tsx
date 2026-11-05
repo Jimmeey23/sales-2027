@@ -798,13 +798,13 @@ export default function MonthWorkspace({
   const [replacing, setReplacing] = useState<any | null>(null);
   // Two-up offer cards line up section by section.
   const offerListRef = useRef<HTMLDivElement | null>(null);
+  // Only sections that still exist: the key-terms strip and the facts rail were removed
+  // from the card, and the record folds shut, so it is always its own collapsed height.
   useRowAlign(offerListRef, 'article.oc', [
     '.ocv-plate',
-    '.ocv-keyterms',
     '.ocv-head',
     '.ocv-offer-highlight.is-front',
     '.ocv-figures',
-    '.ocv-facts',
   ]);
   // Tell the app-wide copilot which studio and month are on screen.
   useEffect(() => {
