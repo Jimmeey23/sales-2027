@@ -264,7 +264,7 @@ function offerFrom(raw: any, index: number): ImportedOffer | null {
     bankId: textOf(first(source, ['bankId', 'bank_id', 'bank', 'offerBankId'])) || null,
     headline: textOf(first(source, ['headline', 'tagline', 'strapline'])),
     benefit: textOf(first(source, ['benefit', 'whatYouGet', 'value'])),
-    customerCopy: textOf(first(source, ['customerCopy', 'customer_copy', 'clientCopy', 'copy'])),
+    customerCopy: textOf(first(source, ['customerCopy', 'customerCopyText', 'customerMessage', 'customer_copy', 'clientCopy', 'copy'])),
     internalDescription: textOf(first(source, ['internalDescription', 'internal_description', 'internal'])),
     description: textOf(first(source, ['description', 'longDescription', 'detail'])),
     rationale: textOf(first(source, ['rationale', 'why', 'whyItWorks', 'reasoning'])),
@@ -1160,6 +1160,11 @@ function contentFor(month: ImportedMonth, plan: SalesPlanDocument, context: Impo
     ...(month.focus ? { focus: month.focus } : {}),
     ...(month.studioRole ? { studioRole: month.studioRole } : {}),
     ...(month.offersPlannedRevenue ? { offersPlannedRevenue: month.offersPlannedRevenue } : {}),
+    // How much of the month is expected at full price, by stream, and how its target was
+    // set. Both are the plan's own statements about itself, and both are read back by the
+    // audit and the explainer, so they have to survive the import.
+    ...(month.standardTrade ? { standardTrade: month.standardTrade } : {}),
+    ...(month.targetBasis ? { targetBasis: month.targetBasis } : {}),
     ...(month.collateral ? { collateral: month.collateral } : {}),
     ...(month.crm ? { crm: month.crm } : {}),
     focusPoints,

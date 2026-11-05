@@ -9,7 +9,7 @@
   --oc-muted: var(--muted);
   --oc-line: color-mix(in srgb, var(--line) 72%, var(--paper));
   --oc-surface: color-mix(in srgb, var(--canvas) 58%, var(--paper));
-  --oc-pad: 22px;
+  --oc-pad: 30px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -19,13 +19,17 @@
   padding: 0;
   overflow: hidden;
   container: offer-card / inline-size;
-  border: 1px solid var(--oc-line);
-  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--line) 48%, transparent);
+  border-radius: 26px;
   background: var(--paper);
   color: var(--oc-ink);
+  /* Contact, mid and ambient layers, so the card sits on the page rather than
+     floating over it. The inset hairline keeps the top edge catching the light. */
   box-shadow:
-    0 2px 4px -2px rgb(32 27 18 / 5%),
-    0 12px 30px -22px rgb(32 27 18 / 18%);
+    inset 0 1px 0 rgb(255 255 255 / 70%),
+    0 1px 2px -1px rgb(32 27 18 / 5%),
+    0 6px 16px -10px rgb(32 27 18 / 9%),
+    0 28px 56px -36px rgb(32 27 18 / 24%);
   cursor: default;
   transform: none;
   filter: none;
@@ -101,10 +105,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 36px;
-  min-height: 280px;
+  gap: 44px;
+  min-height: 380px;
   min-width: 0;
-  padding: 20px var(--oc-pad) 24px;
+  padding: 24px var(--oc-pad) 30px;
   overflow: hidden;
   background: var(--ink-800);
   color: var(--paper);
@@ -123,8 +127,14 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgb(12 16 18 / 36%), rgb(12 16 18 / 6%) 30%, rgb(12 16 18 / 88%) 100%),
-    linear-gradient(105deg, rgb(12 16 18 / 52%), rgb(12 16 18 / 8%) 85%);
+  background: linear-gradient(
+      180deg,
+      rgb(12 16 18 / 34%) 0%,
+      rgb(12 16 18 / 3%) 24%,
+      rgb(12 16 18 / 58%) 68%,
+      rgb(12 16 18 / 93%) 100%
+    ),
+    linear-gradient(105deg, rgb(12 16 18 / 46%), rgb(12 16 18 / 5%) 88%);
 }
 .mw .oc.is-v3 .ocv-plate-top {
   display: flex;
@@ -182,10 +192,10 @@
   min-width: 0;
 }
 .mw .oc.is-v3 .ocv-eyebrow {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
   line-height: 1.5;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--champagne-soft);
 }
@@ -193,9 +203,9 @@
   max-width: 27ch;
   margin: 0;
   font-family: var(--font-sans);
-  font-size: clamp(28px, 4.5cqi, 44px);
+  font-size: clamp(32px, 5.6cqi, 58px);
   font-weight: 600;
-  line-height: 1.12;
+  line-height: 1.06;
   letter-spacing: -0.045em;
   text-wrap: balance;
   overflow-wrap: anywhere;
@@ -209,11 +219,11 @@
   color: var(--champagne-soft);
 }
 .mw .oc.is-v3 .ocv-lede {
-  max-width: 60ch;
+  max-width: 54ch;
   margin: 0;
-  font-size: 12px;
-  line-height: 1.5;
-  color: rgb(255 255 255 / 86%);
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 88%);
 }
 .mw .oc.is-v3 .ocv-chips {
   display: flex;
@@ -227,16 +237,18 @@
   align-items: center;
   gap: 5px;
   max-width: 100%;
-  padding: 5px 9px;
-  border: 1px solid rgb(255 255 255 / 24%);
-  border-radius: 6px;
-  background: rgb(255 255 255 / 10%);
+  padding: 5px 11px;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 12%);
   font-size: 10px;
-  font-weight: 450;
+  font-weight: 500;
   line-height: 1.4;
+  letter-spacing: 0.01em;
   color: var(--paper);
   overflow-wrap: anywhere;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px) saturate(130%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%);
 }
 .mw .oc.is-v3 .ocv-chip svg {
   flex: none;
@@ -273,13 +285,14 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 8px;
-  border: 1px solid var(--oc-line);
-  border-radius: 6px;
+  padding: 5px 11px 5px 9px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border-radius: 999px;
   background: var(--oc-surface);
   font-size: 10px;
   font-weight: 500;
   line-height: 1.3;
+  letter-spacing: 0.015em;
   color: var(--oc-muted);
 }
 .mw .oc.is-v3 .ocv-state i {
@@ -344,19 +357,26 @@
   gap: 10px;
   min-width: 0;
   padding: 17px 18px;
-  border: 1px solid color-mix(in srgb, var(--oc-accent) 22%, var(--oc-line));
+  border: 1px solid color-mix(in srgb, var(--oc-accent) 20%, var(--oc-line));
   border-left: 3px solid var(--oc-accent);
-  border-radius: 4px 12px 12px 4px;
-  background: color-mix(in srgb, var(--oc-accent) 5%, var(--paper));
+  border-radius: 6px 16px 16px 6px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--oc-accent) 8%, var(--paper)),
+    color-mix(in srgb, var(--oc-accent) 3%, var(--paper))
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 60%),
+    0 1px 2px -1px color-mix(in srgb, var(--oc-accent) 12%, transparent);
 }
 .mw .oc.is-v3 .ocv-offer-kicker {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   color: var(--oc-accent);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .mw .oc.is-v3 .ocv-brief {
@@ -411,21 +431,25 @@
   display: grid;
   grid-template-columns: 1.15fr 1fr 1fr;
   align-items: stretch;
-  gap: 8px;
+  gap: 16px;
 }
 .mw .oc.is-v3 .ocv-fig {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 9px;
   min-width: 0;
-  padding: 15px 13px 13px;
-  border: 1px solid var(--oc-line);
-  border-radius: 12px;
-  background: var(--oc-surface);
+  padding: 2px 0;
+}
+/* The hero carries the emphasis; its neighbours are plain columns, so the row
+   reads as one strip of figures rather than three boxes competing for attention. */
+.mw .oc.is-v3 .ocv-fig + .ocv-fig {
+  padding-left: 18px;
+  border-left: 1px solid var(--oc-line);
 }
 .mw .oc.is-v3 .ocv-fig.is-hero {
-  border-color: transparent;
+  padding: 20px;
+  border-radius: 18px;
   background: radial-gradient(
       ellipse at 100% 0%,
       color-mix(in srgb, var(--oc-accent) 24%, transparent),
@@ -437,8 +461,8 @@
 .mw .oc.is-v3 .ocv-fig-label {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 9px;
+  gap: 6px;
+  font-size: 10px;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.065em;
@@ -459,9 +483,9 @@
   gap: 3px 6px;
   min-width: 0;
   font-family: var(--font-sans);
-  font-size: clamp(24px, 3.7cqi, 32px);
+  font-size: clamp(28px, 4.6cqi, 42px);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.1;
   letter-spacing: -0.045em;
   font-variant-numeric: tabular-nums;
   color: var(--oc-ink);
@@ -481,8 +505,8 @@
   color: var(--subtle);
 }
 .mw .oc.is-v3 .ocv-fig-note {
-  font-size: 10px;
-  line-height: 1.55;
+  font-size: 11.5px;
+  line-height: 1.6;
   color: var(--oc-muted);
   overflow-wrap: anywhere;
 }
@@ -511,75 +535,12 @@
   background: var(--champagne);
 }
 
-/* Pricing is a single calm rail, not three competing miniature charts. */
-.mw .oc.is-v3 .ocv-facts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding: 15px 0;
-  border-top: 1px solid var(--oc-line);
-  border-bottom: 1px solid var(--oc-line);
-}
-.mw .oc.is-v3 .ocv-fact {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 0;
-  padding: 0 13px;
-  border-left: 1px solid var(--oc-line);
-}
-.mw .oc.is-v3 .ocv-fact:first-child {
-  padding-left: 0;
-  border-left: 0;
-}
-.mw .oc.is-v3 .ocv-fact:last-child {
-  padding-right: 0;
-}
-.mw .oc.is-v3 .ocv-fact-label {
-  font-size: 9px;
-  font-weight: 550;
-  line-height: 1.5;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--oc-muted);
-}
-.mw .oc.is-v3 .ocv-fact b {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 3px 6px;
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.025em;
-  font-variant-numeric: tabular-nums;
-  color: var(--oc-ink);
-  overflow-wrap: anywhere;
-}
-.mw .oc.is-v3 .ocv-fact b.is-muted {
-  color: var(--subtle);
-}
-.mw .oc.is-v3 .ocv-fact b s {
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--subtle);
-}
-.mw .oc.is-v3 .ocv-fact em {
-  font-size: 10px;
-  font-style: normal;
-  line-height: 1.55;
-  color: var(--oc-muted);
-  overflow-wrap: anywhere;
-}
-.mw .oc.is-v3 .ocv-fact-bar {
-  display: none;
-}
-
 /* ── Commercial record: always readable, never hidden behind a hover ────── */
 .mw .oc.is-v3 .ocv-record {
-  border: 1px solid var(--oc-line);
-  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 52%, transparent);
+  border-radius: 16px;
   overflow: hidden;
-  background: var(--paper);
+  background: color-mix(in srgb, var(--oc-surface) 42%, transparent);
 }
 .mw .oc.is-v3 .ocv-record-head {
   display: flex;
@@ -587,9 +548,30 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 12px 15px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
   border-bottom: 1px solid var(--oc-line);
   background: var(--oc-surface);
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background 180ms ease;
+}
+/* Shut, the record is a single quiet rule — not a divider with nothing under it. */
+.mw .oc.is-v3 .ocv-record:not(.is-open) .ocv-record-head {
+  border-bottom: 0;
+}
+.mw .oc.is-v3 .ocv-record:not(.is-open) .ocv-spec {
+  display: none;
+}
+.mw .oc.is-v3 .ocv-record.is-open .ocv-spec {
+  padding: 2px 15px 0;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .mw .oc.is-v3 .ocv-record-head:hover {
+    background: color-mix(in srgb, var(--oc-accent) 8%, var(--oc-surface));
+  }
 }
 .mw .oc.is-v3 .ocv-record-title {
   display: inline-flex;
@@ -604,9 +586,19 @@
   color: var(--subtle);
 }
 .mw .oc.is-v3 .ocv-record-meta {
-  font-size: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
   line-height: 1.4;
   color: var(--oc-muted);
+}
+.mw .oc.is-v3 .ocv-record-meta svg {
+  flex: none;
+  transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.mw .oc.is-v3 .ocv-record.is-open .ocv-record-meta svg {
+  transform: rotate(180deg);
 }
 .mw .oc.is-v3 .ocv-spec {
   display: grid;
@@ -838,9 +830,9 @@
   align-items: stretch;
   gap: 12px;
   margin: auto calc(-1 * var(--oc-pad)) 0;
-  padding: 15px var(--oc-pad);
-  border-top: 1px solid var(--oc-line);
-  background: var(--oc-surface);
+  padding: 16px var(--oc-pad);
+  border-top: 1px solid color-mix(in srgb, var(--line) 52%, transparent);
+  background: color-mix(in srgb, var(--oc-surface) 55%, transparent);
 }
 .mw .oc.is-v3 .ocv-sign {
   display: inline-flex;
@@ -861,16 +853,25 @@
   gap: 9px;
   min-width: 0;
   min-height: 48px;
-  padding: 9px 11px;
-  border: 1px solid var(--line-strong);
-  border-radius: 9px;
+  padding: 10px 13px;
+  border: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
+  border-radius: 12px;
   background: var(--paper);
   text-align: left;
   cursor: pointer;
   transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    box-shadow 160ms ease;
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .mw .oc.is-v3 .ocv-check:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+  .mw .oc.is-v3 .ocv-check:active:not(:disabled) {
+    transform: translateY(0);
+  }
 }
 .mw .oc.is-v3 .ocv-check:hover:not(:disabled) {
   border-color: color-mix(in srgb, var(--oc-accent) 40%, var(--line-strong));
@@ -885,8 +886,8 @@
   flex: none;
   width: 18px;
   height: 18px;
-  border: 1px solid var(--line-strong);
-  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  border-radius: 6px;
   background: var(--paper);
   color: transparent;
   transition:
@@ -938,9 +939,10 @@
 
 /* ── Card-width responsiveness, independent of the open library rail ────── */
 @container offer-card (min-width: 720px) {
+  /* A wide card earns a taller masthead — the photograph is the identity. */
   .mw .oc.is-v3 .ocv-plate {
-    min-height: 300px;
-    padding: 24px 30px 28px;
+    min-height: 420px;
+    padding: 26px 30px 32px;
   }
   .mw .oc.is-v3 .ocv-body {
     padding: 24px 30px 0;
@@ -953,8 +955,13 @@
     gap: 12px;
   }
   .mw .oc.is-v3 .ocv-fig {
-    gap: 8px;
-    padding: 18px;
+    gap: 11px;
+  }
+  .mw .oc.is-v3 .ocv-fig.is-hero {
+    padding: 22px;
+  }
+  .mw .oc.is-v3 .ocv-fig + .ocv-fig {
+    padding-left: 22px;
   }
   .mw .oc.is-v3 .ocv-fig-label {
     font-size: 10px;
@@ -964,19 +971,6 @@
   }
   .mw .oc.is-v3 .ocv-fig-note {
     font-size: 11px;
-  }
-  .mw .oc.is-v3 .ocv-fact {
-    padding-left: 22px;
-    padding-right: 22px;
-  }
-  .mw .oc.is-v3 .ocv-fact:first-child {
-    padding-left: 0;
-  }
-  .mw .oc.is-v3 .ocv-fact:last-child {
-    padding-right: 0;
-  }
-  .mw .oc.is-v3 .ocv-fact b {
-    font-size: 20px;
   }
   .mw .oc.is-v3 .ocv-spec {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1043,18 +1037,6 @@
   .mw .oc.is-v3 .ocv-fig.is-hero .ocv-meter {
     grid-column: 1 / -1;
   }
-  .mw .oc.is-v3 .ocv-fact {
-    padding-left: 9px;
-    padding-right: 9px;
-  }
-  .mw .oc.is-v3 .ocv-fact-label {
-    min-height: 26px;
-    font-size: 8.5px;
-    letter-spacing: 0.035em;
-  }
-  .mw .oc.is-v3 .ocv-fact b {
-    font-size: 15px;
-  }
   .mw .oc.is-v3 .ocv-spec-row {
     grid-template-columns: minmax(0, 1fr);
     gap: 5px;
@@ -1081,14 +1063,16 @@
 /* Touch, motion and print are first-class states, not hover fallbacks. */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .mw .oc.is-v3:hover {
-    border-color: color-mix(in srgb, var(--gold) 32%, var(--oc-line));
+    border-color: color-mix(in srgb, var(--gold) 30%, var(--oc-line));
     box-shadow:
-      0 3px 6px -3px rgb(32 27 18 / 8%),
-      0 20px 42px -24px rgb(32 27 18 / 23%);
-    transform: translateY(-2px);
+      inset 0 1px 0 rgb(255 255 255 / 70%),
+      0 2px 4px -2px rgb(32 27 18 / 6%),
+      0 12px 26px -14px rgb(32 27 18 / 12%),
+      0 36px 64px -36px rgb(32 27 18 / 30%);
+    transform: translateY(-3px);
   }
   .mw .oc.is-v3:hover .ocv-photo {
-    transform: scale(1.045);
+    transform: scale(1.06);
   }
 }
 @media (pointer: coarse) {
@@ -1243,7 +1227,7 @@
   display: grid;
   perspective: 1400px;
   cursor: pointer;
-  border-radius: 4px 12px 12px 4px;
+  border-radius: 6px 16px 16px 6px;
   outline: none;
 }
 .mw .oc.is-v3 .ocv-flip:focus-visible {
@@ -1253,7 +1237,9 @@
   grid-area: 1 / 1;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s;
+  transition:
+    transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1),
+    opacity 0.3s;
   transform-style: preserve-3d;
 }
 .mw .oc.is-v3 .ocv-face.is-back {
@@ -1370,174 +1356,702 @@
   overflow: hidden;
 }
 
-/* Offer at a glance: membership, prices, discount, conditions and brief. */
-.ocv-keyterms {
+/* Replace-offer modal. */
+.rom-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 10px 16px;
-  margin: 0 0 16px;
-  padding: 12px 14px;
-  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
-  border-radius: 10px;
+  place-items: center;
+  padding: 16px;
+  background: rgba(15, 12, 8, 0.55);
+  backdrop-filter: blur(3px);
 }
-.ocv-keyterms > div { min-width: 0; }
-.ocv-keyterms .is-wide { grid-column: 1 / -1; }
-.ocv-keyterms dt {
+.rom {
+  width: min(880px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  background: #fcfaf6;
+  color: #17130d;
+  border-radius: 18px;
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.6);
+  animation: gcp-in 0.2s ease both;
+}
+.rom-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid rgba(23, 19, 13, 0.08);
+}
+.rom-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(23, 19, 13, 0.55);
+}
+.rom-head h3 {
+  margin: 4px 0 2px;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 24px;
+  font-weight: 500;
+}
+.rom-head p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(23, 19, 13, 0.6);
+}
+.rom-x {
+  border: 0;
+  background: rgba(23, 19, 13, 0.06);
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: inherit;
+  flex: none;
+}
+.rom section {
+  padding: 18px 22px;
+}
+.rom h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.rom-ai h4 svg {
+  color: #c9a24a;
+}
+.rom-muted {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  color: rgba(23, 19, 13, 0.55);
+}
+.rom-summary {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(201, 162, 74, 0.12);
+}
+.rom-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.rom-card {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: 14px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(23, 19, 13, 0.1);
+  position: relative;
+}
+.rom-card.is-ai {
+  border-color: rgba(201, 162, 74, 0.55);
+  box-shadow: 0 0 0 3px rgba(201, 162, 74, 0.1);
+}
+.rom-card.is-fresh {
+  border-style: dashed;
+}
+.rom-tag {
+  justify-self: start;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(23, 19, 13, 0.06);
+}
+.rom-card.is-ai .rom-tag {
+  background: rgba(201, 162, 74, 0.2);
+}
+.rom-card strong {
+  font-size: 14px;
+}
+.rom-line {
+  font-size: 12.5px;
+  color: rgba(23, 19, 13, 0.7);
+}
+.rom-figs {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rom-figs em {
+  font-style: normal;
+  font-weight: 600;
+  margin-left: 4px;
+}
+.rom-figs em.is-up {
+  color: #2f7d4f;
+}
+.rom-figs em.is-down {
+  color: #c2410c;
+}
+.rom-card p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(23, 19, 13, 0.65);
+}
+.rom-card button,
+.rom-bank li button {
+  justify-self: start;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 0;
+  background: #17130d;
+  color: #f7f1e6;
+}
+.rom-card button:disabled,
+.rom-bank li button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.rom-bank {
+  border-top: 1px solid rgba(23, 19, 13, 0.08);
+}
+.rom-bank-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.rom-bank-head h4 {
+  margin: 0;
+}
+.rom-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(23, 19, 13, 0.14);
+  background: #fff;
+  min-width: 220px;
+}
+.rom-search input {
+  border: 0;
+  outline: none;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  flex: 1;
+  color: inherit;
+}
+.rom-bank ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.rom-bank li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid rgba(23, 19, 13, 0.07);
+}
+.rom-bank li > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.rom-bank li strong {
+  font-size: 13px;
+}
+.rom-bank li > div span {
+  font-size: 11.5px;
+  color: rgba(23, 19, 13, 0.55);
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rom-bank li button {
+  background: none;
+  color: inherit;
+  border: 1px solid rgba(23, 19, 13, 0.18);
+}
+@media (max-width: 600px) {
+  .rom-bank li {
+    grid-template-columns: 1fr auto;
+  }
+  .rom-bank li .rom-figs {
+    display: none;
+  }
+}
+
+/* Conditions: collapsed by default, terms as bullets when open. */
+.ocv-terms {
+  margin: 0;
+}
+.ocv-terms > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.ocv-terms > summary::-webkit-details-marker {
+  display: none;
+}
+.ocv-terms > summary::after {
+  content: '▸';
+  font-size: 10px;
+  opacity: 0.55;
+  transition: transform 0.15s;
+  margin-left: auto;
+}
+.ocv-terms[open] > summary::after {
+  transform: rotate(90deg);
+}
+.ocv-terms > summary dt {
+  margin: 0;
+}
+.ocv-terms-count {
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  opacity: 0.8;
+}
+.ocv-terms dd {
+  margin: 6px 0 0;
+}
+.ocv-terms ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+.ocv-terms li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+.ocv-terms li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.45;
+}
+.ocv-terms-label {
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.6;
-  margin: 0 0 2px;
 }
-.ocv-keyterms dd { margin: 0; font-weight: 600; font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
-.ocv-keyterms .is-wide dd { font-weight: 400; font-size: 13px; }
-
-/* Replace-offer modal. */
-.rom-scrim { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(15, 12, 8, 0.55); backdrop-filter: blur(3px); }
-.rom {
-  width: min(880px, 100%); max-height: calc(100vh - 32px); overflow-y: auto;
-  background: #fcfaf6; color: #17130d; border-radius: 18px; box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.6);
-  animation: gcp-in 0.2s ease both;
+.ocv-terms li ul {
+  margin-top: 4px;
+  gap: 3px;
 }
-.rom-head { display: flex; justify-content: space-between; gap: 16px; padding: 20px 22px 16px; border-bottom: 1px solid rgba(23, 19, 13, 0.08); }
-.rom-eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(23, 19, 13, 0.55); }
-.rom-head h3 { margin: 4px 0 2px; font-family: var(--font-display, Georgia, serif); font-size: 24px; font-weight: 500; }
-.rom-head p { margin: 0; font-size: 13px; color: rgba(23, 19, 13, 0.6); }
-.rom-x { border: 0; background: rgba(23, 19, 13, 0.06); width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display: grid; place-items: center; color: inherit; flex: none; }
-.rom section { padding: 18px 22px; }
-.rom h4 { display: flex; align-items: center; gap: 6px; margin: 0 0 10px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
-.rom-ai h4 svg { color: #c9a24a; }
-.rom-muted { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 13px; color: rgba(23, 19, 13, 0.55); }
-.rom-summary { margin: 0 0 12px; font-size: 13px; line-height: 1.5; padding: 10px 12px; border-radius: 10px; background: rgba(201, 162, 74, 0.12); }
-.rom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-.rom-card { display: grid; gap: 6px; align-content: start; padding: 14px; border-radius: 14px; background: #fff; border: 1px solid rgba(23, 19, 13, 0.1); position: relative; }
-.rom-card.is-ai { border-color: rgba(201, 162, 74, 0.55); box-shadow: 0 0 0 3px rgba(201, 162, 74, 0.1); }
-.rom-card.is-fresh { border-style: dashed; }
-.rom-tag { justify-self: start; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: rgba(23, 19, 13, 0.06); }
-.rom-card.is-ai .rom-tag { background: rgba(201, 162, 74, 0.2); }
-.rom-card strong { font-size: 14px; }
-.rom-line { font-size: 12.5px; color: rgba(23, 19, 13, 0.7); }
-.rom-figs { font-size: 12px; font-weight: 600; white-space: nowrap; }
-.rom-figs em { font-style: normal; font-weight: 600; margin-left: 4px; }
-.rom-figs em.is-up { color: #2f7d4f; }
-.rom-figs em.is-down { color: #c2410c; }
-.rom-card p { margin: 0; font-size: 12px; line-height: 1.5; color: rgba(23, 19, 13, 0.65); }
-.rom-card button, .rom-bank li button {
-  justify-self: start; font: inherit; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 999px; cursor: pointer;
-  border: 0; background: #17130d; color: #f7f1e6;
+.ocv-terms li li {
+  font-size: 12.5px;
+  opacity: 0.9;
 }
-.rom-card button:disabled, .rom-bank li button:disabled { opacity: 0.45; cursor: default; }
-.rom-bank { border-top: 1px solid rgba(23, 19, 13, 0.08); }
-.rom-bank-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
-.rom-bank-head h4 { margin: 0; }
-.rom-search { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 10px; border: 1px solid rgba(23, 19, 13, 0.14); background: #fff; min-width: 220px; }
-.rom-search input { border: 0; outline: none; background: none; font: inherit; font-size: 12.5px; flex: 1; color: inherit; }
-.rom-bank ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.rom-bank li { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; background: #fff; border: 1px solid rgba(23, 19, 13, 0.07); }
-.rom-bank li > div { display: grid; gap: 2px; min-width: 0; }
-.rom-bank li strong { font-size: 13px; }
-.rom-bank li > div span { font-size: 11.5px; color: rgba(23, 19, 13, 0.55); text-transform: capitalize; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rom-bank li button { background: none; color: inherit; border: 1px solid rgba(23, 19, 13, 0.18); }
-@media (max-width: 600px) { .rom-bank li { grid-template-columns: 1fr auto; } .rom-bank li .rom-figs { display: none; } }
-
-/* Conditions: collapsed by default, terms as bullets when open. */
-.ocv-terms { margin: 0; }
-.ocv-terms > summary { display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; user-select: none; }
-.ocv-terms > summary::-webkit-details-marker { display: none; }
-.ocv-terms > summary::after { content: '▸'; font-size: 10px; opacity: 0.55; transition: transform 0.15s; margin-left: auto; }
-.ocv-terms[open] > summary::after { transform: rotate(90deg); }
-.ocv-terms > summary dt { margin: 0; }
-.ocv-terms-count { font-size: 11px; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, currentColor 8%, transparent); opacity: 0.8; }
-.ocv-terms dd { margin: 6px 0 0; }
-.ocv-terms ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
-.ocv-terms li { position: relative; padding-left: 14px; font-size: 13px; font-weight: 400; line-height: 1.45; }
-.ocv-terms li::before { content: ''; position: absolute; left: 2px; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.45; }
-.ocv-terms-label { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
-.ocv-terms li ul { margin-top: 4px; gap: 3px; }
-.ocv-terms li li { font-size: 12.5px; opacity: 0.9; }
-.ocv-terms li li::before { width: 4px; height: 4px; border-radius: 1px; }
+.ocv-terms li li::before {
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+}
 
 /* Offer banner: one compact list, one type size. Labels in a fixed column, values beside. */
-.oc .ocv-offer-highlight { padding: 14px 16px !important; }
-.oc .ocv-offer-kicker { margin-bottom: 10px !important; font-size: 11px !important; letter-spacing: 0.12em; }
-.oc .ocv-points { margin: 0; display: grid; gap: 0; }
+.oc .ocv-offer-highlight {
+  padding: 14px 16px !important;
+}
+.oc .ocv-offer-kicker {
+  margin-bottom: 10px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em;
+}
+.oc .ocv-points {
+  margin: 0;
+  display: grid;
+  gap: 0;
+}
 .oc .ocv-points > div {
-  display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; align-items: baseline;
-  padding: 7px 0; border-top: 1px solid color-mix(in srgb, currentColor 9%, transparent);
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  padding: 7px 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 9%, transparent);
 }
-.oc .ocv-points > div:first-child { border-top: 0; padding-top: 0; }
+.oc .ocv-points > div:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
 .oc .ocv-points dt {
-  margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-  line-height: 1.5; opacity: 0.62; display: flex; align-items: center; overflow-wrap: anywhere;
+  margin: 0;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  opacity: 0.62;
+  display: flex;
+  align-items: center;
+  overflow-wrap: anywhere;
 }
-.oc .ocv-points dt svg { opacity: 0.9; }
-.oc .ocv-points dd { margin: 0; font-size: 13.5px; font-weight: 400; line-height: 1.5; letter-spacing: 0; }
-.oc .ocv-points > div.is-lead dd { font-weight: 600; }
-.oc .ocv-points dd ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 3px; }
-.oc .ocv-points dd li { position: relative; padding-left: 12px; font-size: 13px; }
-.oc .ocv-points dd li::before { content: ''; position: absolute; left: 1px; top: 0.62em; width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.45; }
+.oc .ocv-points dt svg {
+  opacity: 0.9;
+}
+.oc .ocv-points dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.oc .ocv-points > div.is-lead dd {
+  font-weight: 600;
+}
+.oc .ocv-points dd ul {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+}
+.oc .ocv-points dd li {
+  position: relative;
+  padding-left: 12px;
+  font-size: 13px;
+}
+.oc .ocv-points dd li::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 0.62em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.45;
+}
 /* Inline price/percent pills stay the same size as the text around them. */
-.oc .ocv-points dd mark, .oc .ocv-points dd .ocv-num, .oc .ocv-points dd b, .oc .ocv-points dd strong {
-  font-size: inherit !important; line-height: inherit !important; padding: 0 3px !important;
+.oc .ocv-points dd mark,
+.oc .ocv-points dd .ocv-num,
+.oc .ocv-points dd b,
+.oc .ocv-points dd strong {
+  font-size: inherit !important;
+  line-height: inherit !important;
+  padding: 0 3px !important;
 }
 .oc .ocv-points .mw-inline-num {
-  font-size: inherit !important; line-height: inherit !important; padding: 0 4px !important; margin: 0 1px !important;
-  border-radius: 4px !important; font-weight: 600; box-shadow: none !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  padding: 0 4px !important;
+  margin: 0 1px !important;
+  border-radius: 4px !important;
+  font-weight: 600;
+  box-shadow: none !important;
 }
 /* Lean banner: three short rows, two lines each at most. */
-.oc .ocv-offer-highlight { padding: 12px 14px !important; }
-.oc .ocv-offer-kicker { margin-bottom: 6px !important; }
-.oc .ocv-points > div { padding: 5px 0; grid-template-columns: 84px minmax(0, 1fr); }
-.oc .ocv-points dd { font-size: 13px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-.oc .ocv-flip { min-height: 0 !important; }
+.oc .ocv-offer-highlight {
+  padding: 12px 14px !important;
+}
+.oc .ocv-offer-kicker {
+  margin-bottom: 6px !important;
+}
+.oc .ocv-points > div {
+  padding: 5px 0;
+  grid-template-columns: 84px minmax(0, 1fr);
+}
+.oc .ocv-points dd {
+  font-size: 13px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.oc .ocv-flip {
+  min-height: 0 !important;
+}
 
 /* Deal banner: the offer in one line, its one distinctive term, and the money. */
-.oc .ocv-deal { display: grid; gap: 10px; }
-.oc .ocv-deal-line { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; letter-spacing: -0.005em; }
-.oc .ocv-deal-term {
-  margin: 0; display: grid; gap: 2px; font-size: 12.5px; line-height: 1.45;
-  padding: 7px 10px; border-radius: 8px; background: color-mix(in srgb, currentColor 5%, transparent);
+.oc .ocv-deal {
+  display: grid;
+  gap: 10px;
 }
-.oc .ocv-deal-term span { font-size: 9.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
-.oc .ocv-deal-money { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent); }
-.oc .ocv-deal-money > div { padding: 8px 0 0; min-width: 0; }
-.oc .ocv-deal-money > div + div { padding-left: 12px; border-left: 1px solid color-mix(in srgb, currentColor 10%, transparent); margin-left: 12px; }
-.oc .ocv-deal-money dt { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; }
-.oc .ocv-deal-money dd { margin: 2px 0 0; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
-.oc .ocv-deal-money dd s { opacity: 0.55; font-weight: 500; }
-.oc .ocv-deal-money .is-save dd { color: #b42318; }
-.oc .ocv-deal-money .is-save em { font-style: normal; font-size: 11.5px; padding: 1px 6px; border-radius: 999px; background: rgba(180, 35, 24, 0.1); }
-.oc .ocv-deal .mw-inline-num { font-size: inherit !important; padding: 0 3px !important; }
+.oc .ocv-deal-line {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+.oc .ocv-deal-term {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+.oc .ocv-deal-term span {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.oc .ocv-deal-money {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+}
+.oc .ocv-deal-money > div {
+  padding: 8px 0 0;
+  min-width: 0;
+}
+.oc .ocv-deal-money > div + div {
+  padding-left: 12px;
+  border-left: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+  margin-left: 12px;
+}
+.oc .ocv-deal-money dt {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.oc .ocv-deal-money dd {
+  margin: 2px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.oc .ocv-deal-money dd s {
+  opacity: 0.55;
+  font-weight: 500;
+}
+.oc .ocv-deal-money .is-save dd {
+  color: #b42318;
+}
+.oc .ocv-deal-money .is-save em {
+  font-style: normal;
+  font-size: 11.5px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(180, 35, 24, 0.1);
+}
+.oc .ocv-deal .mw-inline-num {
+  font-size: inherit !important;
+  padding: 0 3px !important;
+}
 
 /* Offer spec: the offer's own terms, one labelled row each. */
-.oc .ocv-spec { display: grid; }
-.oc .ocv-spec-row {
-  display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: baseline;
-  padding: 9px 0; border-top: 1px solid color-mix(in srgb, currentColor 9%, transparent);
+.oc .ocv-spec {
+  display: grid;
 }
-.oc .ocv-spec-row:first-child { border-top: 0; padding-top: 2px; }
-.oc .ocv-spec-row > span { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; line-height: 1.6; }
-.oc .ocv-spec-row p { margin: 0; font-size: 13.5px; line-height: 1.5; }
-.oc .ocv-spec-row.is-get p { font-size: 14.5px; font-weight: 600; }
-.oc .ocv-spec-row.is-price p { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
-.oc .ocv-spec-row.is-price strong { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.oc .ocv-spec-row.is-price s { font-size: 13px; opacity: 0.5; font-variant-numeric: tabular-nums; }
-.oc .ocv-spec-row.is-price em { font-style: normal; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
-.oc .ocv-spec-row.is-price em.is-save { color: #b42318; background: rgba(180, 35, 24, 0.09); }
-.oc .ocv-spec-row.is-price em.is-list { background: color-mix(in srgb, currentColor 7%, transparent); }
-.oc .ocv-spec-row ol { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: 4px; }
-.oc .ocv-spec-row ol li { counter-increment: step; position: relative; padding-left: 22px; font-size: 13px; line-height: 1.45; }
+.oc .ocv-spec-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  padding: 9px 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 9%, transparent);
+}
+.oc .ocv-spec-row:first-child {
+  border-top: 0;
+  padding-top: 2px;
+}
+.oc .ocv-spec-row > span {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  line-height: 1.6;
+}
+.oc .ocv-spec-row p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.oc .ocv-spec-row.is-get p {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.oc .ocv-spec-row.is-price p {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+.oc .ocv-spec-row.is-price strong {
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.oc .ocv-spec-row.is-price s {
+  font-size: 13px;
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+}
+.oc .ocv-spec-row.is-price em {
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.oc .ocv-spec-row.is-price em.is-save {
+  color: #b42318;
+  background: rgba(180, 35, 24, 0.09);
+}
+.oc .ocv-spec-row.is-price em.is-list {
+  background: color-mix(in srgb, currentColor 7%, transparent);
+}
+.oc .ocv-spec-row ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 4px;
+}
+.oc .ocv-spec-row ol li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 22px;
+  font-size: 13px;
+  line-height: 1.45;
+}
 .oc .ocv-spec-row ol li::before {
-  content: counter(step); position: absolute; left: 0; top: 1px; width: 15px; height: 15px; border-radius: 50%;
-  display: grid; place-items: center; font-size: 9.5px; font-weight: 700;
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 9.5px;
+  font-weight: 700;
   background: color-mix(in srgb, currentColor 10%, transparent);
 }
-.oc .ocv-spec .mw-inline-num { font-size: inherit !important; padding: 0 3px !important; }
-.oc .ocv-offer-highlight .ocv-spec-row { padding: 7px 0 !important; margin: 0 !important; }
-.oc .ocv-offer-highlight .ocv-spec-row:first-child { padding-top: 0 !important; }
-.oc .ocv-offer-highlight .ocv-spec-row p, .oc .ocv-offer-highlight .ocv-spec-row ol { margin: 0 !important; }
-.oc .ocv-offer-highlight .ocv-spec-row > span { margin: 0 !important; padding: 0 !important; }
-.oc .ocv-offer-highlight .ocv-spec { gap: 0 !important; margin: 0 !important; }
+.oc .ocv-spec .mw-inline-num {
+  font-size: inherit !important;
+  padding: 0 3px !important;
+}
+.oc .ocv-offer-highlight .ocv-spec-row {
+  padding: 7px 0 !important;
+  margin: 0 !important;
+}
+.oc .ocv-offer-highlight .ocv-spec-row:first-child {
+  padding-top: 0 !important;
+}
+.oc .ocv-offer-highlight .ocv-spec-row p,
+.oc .ocv-offer-highlight .ocv-spec-row ol {
+  margin: 0 !important;
+}
+.oc .ocv-offer-highlight .ocv-spec-row > span {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.oc .ocv-offer-highlight .ocv-spec {
+  gap: 0 !important;
+  margin: 0 !important;
+}
+
+/* ── Client value: the one line the old facts strip repeated three times ──── */
+.mw .oc.is-v3 .ocv-deal-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.mw .oc.is-v3 .ocv-deal-value span {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.mw .oc.is-v3 .ocv-deal-value b {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.mw .oc.is-v3 .ocv-deal-value em {
+  font-style: normal;
+  font-size: 12px;
+  opacity: 0.72;
+}
+.oc .ocv-spec-row.is-value p {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+.oc .ocv-spec-row.is-value strong {
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.oc .ocv-spec-row.is-value em {
+  font-style: normal;
+  font-size: 11.5px;
+  opacity: 0.7;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mw .oc.is-v3 .ocv-record-meta svg {
+    transition: none;
+  }
+}
 
 /* A card alone on its row: span the row, cap at 80% and centre it. */
 .mw .mw-offer-list.is-two-up > .mw-offer-item.is-solo {

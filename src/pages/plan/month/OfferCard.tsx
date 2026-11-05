@@ -212,6 +212,8 @@ export function OfferCard({
   // The commercial record stays visible. Audience, timing and the team's notes are
   // secondary fields, opened explicitly without turning the whole card into a click target.
   const [expanded, setExpanded] = useState(false);
+  // The commercial record is reference material — open it, do not scroll past it.
+  const [recordOpen, setRecordOpen] = useState(false);
   useEffect(() => {
     const next = String(o.performance_notes || '');
     if (next === savedNote.current) return;
@@ -290,12 +292,7 @@ export function OfferCard({
 
   const fmtPct = (v: number) => `${Number(v.toFixed(1))}%`;
 
-  // Column 1: List price / Featured MRP (only crossed out when there is a real direct price cut)
-  const listColLabel = isBlendedTicket ? 'Featured MRP' : 'List price';
-  const listColSub = isBlendedTicket && productLabel ? productLabel : !list && !strikePrice ? 'Standard tariff' : null;
-
-  // Column 2: Offer price when the plan states one; otherwise the average ticket, said plainly.
-  const offerColLabel = isAverageTicket ? 'Average ticket' : isBlendedTicket ? 'Avg ticket' : 'Offer price';
+  // How the ticket is described when the plan does not state a price outright.
   const offerColSub = isAverageTicket
     ? plan.atList
       ? 'renews at list price'
@@ -336,17 +333,6 @@ export function OfferCard({
         : perkValuePct > 0 || effPct > 0
           ? 'Perk value only'
           : 'No discount';
-  const savesPillText =
-    directSaving > 0
-      ? `${fmtPct(directPct * 100)} off list`
-      : hasCashCut
-        ? effPct > cashCutPct + 0.2
-          ? `${fmtPct(effPct)} total value`
-          : 'Campaign rate'
-        : effPct > 0
-          ? `+${fmtPct(effPct)} perk value`
-          : 'Value-add, no price cut';
-
   const category = offerCategory(o, slot);
   const slotLabel = OFFER_CATEGORY_LABELS[category];
   const membership = productLabel || o.provenance?.pricing?.product || (o.offer_type ? titleCase(o.offer_type) : '');
@@ -438,9 +424,6 @@ export function OfferCard({
   const clampPct = (value: number) =>
     Number.isFinite(value) ? Math.round(Math.max(0, Math.min(100, value)) * 10) / 10 : 0;
   const valueBar = clampPct(effPct);
-  const cashBar = clampPct(hasCashCut ? Math.min(cashCutPct, effPct) : 0);
-  const ticketBase = strikePrice || (isBlendedTicket ? featuredSell : list);
-  const ticketBar = ticketBase && offerPrice ? clampPct((offerPrice / ticketBase) * 100) : 0;
   const unitsBar = monthUnits > 0 && units ? clampPct((units / monthUnits) * 100) : 0;
   const revenueBar = sharePct !== null ? Math.max(2, clampPct(sharePct)) : 0;
   const marginPct = contribution !== null && revenue ? (contribution / revenue) * 100 : null;
@@ -469,6 +452,9 @@ export function OfferCard({
     // conditions even when they start with the same words.
     const fresh = (value: string) =>
       value && ![offerDescription, highlights.terms, ...highlights.inclusions].some(text => text === value);
+
+    // The one-line brief leads the record now that the key-terms strip is gone.
+    if (tidy(offerDescription)) rows.push({ label: 'The brief', value: cut(tidy(offerDescription), 320) });
 
     // Who is eligible is already the "Who" column above; only the exclusion needs saying.
     const excluded = tidy(o.excluded_audience);
@@ -612,85 +598,6 @@ export function OfferCard({
         </div>
 
         <div className="ocv-body">
-          {/* The five things a manager needs before anything else, in one place. */}
-          <dl className="ocv-keyterms" aria-label="Offer at a glance">
-            <div>
-              <dt>Membership / package</dt>
-              <dd>{membership || plan.label || '—'}</dd>
-            </div>
-            <div>
-              <dt>Original price</dt>
-              <dd>{strikePrice ? money(strikePrice) : list ? money(list) : '—'}</dd>
-            </div>
-            <div>
-              <dt>Effective price</dt>
-              <dd>{offerPrice > 0 ? money(offerPrice) : '—'}{isAverageTicket && offerPrice > 0 ? ' avg' : ''}</dd>
-            </div>
-            <div>
-              <dt>Effective discount</dt>
-              <dd>
-                {(() => {
-                  const base = strikePrice || list || 0;
-                  const pct = effPct > 0 ? effPct : directPct > 0 ? directPct * 100 : hasCashCut ? cashCutPct : 0;
-                  const value = directSaving > 0 ? directSaving : base && pct ? Math.round((base * pct) / 100) : 0;
-                  if (!pct && !value) return 'No discount';
-                  return [value ? money(value) : null, pct ? fmtPct(pct) : null].filter(Boolean).join(' · ');
-                })()}
-              </dd>
-            </div>
-            <div className="is-wide">
-              {/* Terms fold away by default and open as bullets: one term per line. */}
-              {(() => {
-                const raw =
-                  String(o.redemption_conditions ?? '').replace(/\s+/g, ' ').trim() ||
-                  'One per client; no cash discount beyond the campaign rate.';
-                // Split on bullets, new lines, sentence ends, and semicolons that start a new term
-                // (capitalised); dash-separated items inside a term become sub-bullets.
-                const terms = raw
-                  .split(/\s*(?:•|\n|;\s*(?=[A-Z₹0-9])|(?<=[.!?])\s+(?=[A-Z₹0-9]))\s*/)
-                  .map(t => t.replace(/[.;]\s*$/, '').trim())
-                  .filter(Boolean)
-                  .map(t => {
-                    // Only a list intro ("Rules: – a – b") splits; ranges like "1 Jan – 31 Jan" stay whole.
-                    const isList = /:\s*[–—]\s/.test(t);
-                    const parts = isList ? t.split(/\s+[–—]\s+/).map(x => x.trim()).filter(Boolean) : [t];
-                    return parts.length > 1
-                      ? { head: parts[0].replace(/:\s*$/, ':'), subs: parts.slice(1).map(x => x.replace(/[.;]\s*$/, '')) }
-                      : { head: t, subs: [] as string[] };
-                  });
-                return (
-                  <details className="ocv-terms">
-                    <summary>
-                      <span className="ocv-terms-label">Conditions</span>
-                      <span className="ocv-terms-count">
-                        {terms.length} term{terms.length === 1 ? '' : 's'}
-                      </span>
-                    </summary>
-                    <dd>
-                      <ul>
-                        {terms.map((t, i) => (
-                          <li key={i}>
-                            {t.head.replace(/\s*[–—]\s*$/, '')}
-                            {t.subs.length > 0 && (
-                              <ul>
-                                {t.subs.map((sub, j) => (
-                                  <li key={j}>{sub}</li>
-                                ))}
-                              </ul>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </dd>
-                  </details>
-                );
-              })()}
-            </div>
-            <div className="is-wide">
-              <dt>Brief</dt>
-              <dd>{offerDescription}</dd>
-            </div>
-          </dl>
           <header className="ocv-head">
             <div className="ocv-head-top">
               <span className={`ocv-state${shown ? ' is-approved' : ''}`}>
@@ -804,221 +711,283 @@ export function OfferCard({
                 }
               }}
             >
-            <section className="ocv-offer-highlight ocv-face is-front" aria-hidden={flipped} aria-label={`${o.name} — offer details`}>
-              <span className="ocv-offer-kicker">
-                <Gift size={13} /> The offer
-                <em className="ocv-flip-hint">Why this offer? ↻</em>
-              </span>
-              {(() => {
-                const deal = details.deal.length ? details.deal : [highlights.terms];
-                const seen = new Set(deal.map(d => d.toLowerCase()));
-                const extras = highlights.inclusions
-                  .flatMap(inclusion => splitPoints(inclusion))
-                  .filter(p => !seen.has(p.toLowerCase()));
-                const [lead, ...rest] = deal;
-                // Three or four bullets at most: the deal first, then the validity window.
-                const bullets = [...rest, ...extras];
-                // Short offers borrow from who it is for and the house rules, so every banner reads 3–4 points.
-                const fill = [
-                  (() => {
-                    const who = details.who
-                      .replace(/\s*\([^)]*\)/g, '')
-                      .replace(/\.\s*Band:.*$/i, '')
-                      .replace(/\.$/, '')
-                      .trim();
-                    return who && `For ${who.charAt(0).toLowerCase()}${who.slice(1)}`;
-                  })(),
-                  ...details.fine,
-                ].filter(Boolean) as string[];
-                while (bullets.length < 2 && fill.length) bullets.push(fill.shift()!);
-                if (details.validity) bullets.push(`Valid ${details.validity}`);
-                while (bullets.length < 3 && fill.length) bullets.splice(bullets.length - 1, 0, fill.shift()!);
-                const shown = bullets.length > 4 ? [...bullets.slice(0, 3), bullets[bullets.length - 1]] : bullets;
-                // Imported terms arrive as one run-on string ("▪ What you get: – … ▪ Price: …").
-                // Flatten everything into one list of label/value rows, deduped, so every banner
-                // reads the same way in the same type size.
-                const rows: { label: string | null; text: string; subs: string[] }[] = [];
-                const seenRow = new Set<string>();
-                for (const chunk of [lead, ...shown]) {
-                  for (const piece of String(chunk || '').split(/\s*[▪•]\s*|\s+·\s+(?=[A-Z][a-z]+(?:\s[a-z]+)*:)/)) {
-                    const seg = piece.trim().replace(/^[–—-]\s*/, '');
-                    if (!seg) continue;
-                    const m = seg.match(/^([A-Z][^:]{1,30}):\s*(.*)$/);
-                    const label = m ? m[1].trim() : null;
-                    let body = (m ? m[2] : seg).trim();
-                    let subs: string[] = [];
-                    if (/^[–—]\s/.test(body) || /\s[–—]\s/.test(body)) {
-                      const parts = body.split(/\s*[–—]\s+/).map(x => x.trim()).filter(Boolean);
-                      if (/^[–—]/.test((m ? m[2] : seg).trim()) && parts.length > 1) {
-                        body = parts[0];
-                        subs = parts.slice(1);
-                      } else if (parts.length > 2 && !/\d\s*[A-Z][a-z]{2}\s*$/.test(parts[0])) {
-                        body = parts[0];
-                        subs = parts.slice(1);
+              <section
+                className="ocv-offer-highlight ocv-face is-front"
+                aria-hidden={flipped}
+                aria-label={`${o.name} — offer details`}
+              >
+                <span className="ocv-offer-kicker">
+                  <Gift size={13} /> The offer
+                  <em className="ocv-flip-hint">Why this offer? ↻</em>
+                </span>
+                {(() => {
+                  const deal = details.deal.length ? details.deal : [highlights.terms];
+                  const seen = new Set(deal.map(d => d.toLowerCase()));
+                  const extras = highlights.inclusions
+                    .flatMap(inclusion => splitPoints(inclusion))
+                    .filter(p => !seen.has(p.toLowerCase()));
+                  const [lead, ...rest] = deal;
+                  // Three or four bullets at most: the deal first, then the validity window.
+                  const bullets = [...rest, ...extras];
+                  // Short offers borrow from who it is for and the house rules, so every banner reads 3–4 points.
+                  const fill = [
+                    (() => {
+                      const who = details.who
+                        .replace(/\s*\([^)]*\)/g, '')
+                        .replace(/\.\s*Band:.*$/i, '')
+                        .replace(/\.$/, '')
+                        .trim();
+                      return who && `For ${who.charAt(0).toLowerCase()}${who.slice(1)}`;
+                    })(),
+                    ...details.fine,
+                  ].filter(Boolean) as string[];
+                  while (bullets.length < 2 && fill.length) bullets.push(fill.shift()!);
+                  if (details.validity) bullets.push(`Valid ${details.validity}`);
+                  while (bullets.length < 3 && fill.length) bullets.splice(bullets.length - 1, 0, fill.shift()!);
+                  const shown = bullets.length > 4 ? [...bullets.slice(0, 3), bullets[bullets.length - 1]] : bullets;
+                  // Imported terms arrive as one run-on string ("▪ What you get: – … ▪ Price: …").
+                  // Flatten everything into one list of label/value rows, deduped, so every banner
+                  // reads the same way in the same type size.
+                  const rows: { label: string | null; text: string; subs: string[] }[] = [];
+                  const seenRow = new Set<string>();
+                  for (const chunk of [lead, ...shown]) {
+                    for (const piece of String(chunk || '').split(/\s*[▪•]\s*|\s+·\s+(?=[A-Z][a-z]+(?:\s[a-z]+)*:)/)) {
+                      const seg = piece.trim().replace(/^[–—-]\s*/, '');
+                      if (!seg) continue;
+                      const m = seg.match(/^([A-Z][^:]{1,30}):\s*(.*)$/);
+                      const label = m ? m[1].trim() : null;
+                      let body = (m ? m[2] : seg).trim();
+                      let subs: string[] = [];
+                      if (/^[–—]\s/.test(body) || /\s[–—]\s/.test(body)) {
+                        const parts = body
+                          .split(/\s*[–—]\s+/)
+                          .map(x => x.trim())
+                          .filter(Boolean);
+                        if (/^[–—]/.test((m ? m[2] : seg).trim()) && parts.length > 1) {
+                          body = parts[0];
+                          subs = parts.slice(1);
+                        } else if (parts.length > 2 && !/\d\s*[A-Z][a-z]{2}\s*$/.test(parts[0])) {
+                          body = parts[0];
+                          subs = parts.slice(1);
+                        }
                       }
+                      body = body.replace(/^[–—-]\s*/, '').trim();
+                      const key = `${label || ''}|${body}`.toLowerCase().replace(/[^a-z0-9]/g, '');
+                      if (!body || seenRow.has(key)) continue;
+                      seenRow.add(key);
+                      rows.push({
+                        label,
+                        text: body.replace(/[.;]\s*$/, ''),
+                        subs: subs.map(x => x.replace(/[.;]\s*$/, '')),
+                      });
                     }
-                    body = body.replace(/^[–—-]\s*/, '').trim();
-                    const key = `${label || ''}|${body}`.toLowerCase().replace(/[^a-z0-9]/g, '');
-                    if (!body || seenRow.has(key)) continue;
-                    seenRow.add(key);
-                    rows.push({ label, text: body.replace(/[.;]\s*$/, ''), subs: subs.map(x => x.replace(/[.;]\s*$/, '')) });
                   }
-                }
-                // The banner says three things: the deal in one sentence, the one term that makes
-                // this offer different (not the house rules), and the money — list, offer, saving.
-                const firstSentence = (t: string) =>
-                  String(t || '')
+                  // The banner says three things: the deal in one sentence, the one term that makes
+                  // this offer different (not the house rules), and the money — list, offer, saving.
+                  const firstSentence = (t: string) =>
+                    String(t || '')
+                      .replace(/\s+/g, ' ')
+                      .split(/(?<=[.!?])\s+(?=[A-Z₹])/)[0]
+                      .replace(/[.;]\s*$/, '')
+                      .trim();
+                  const pick = (re: RegExp) => rows.find(r => r.label && re.test(r.label));
+                  const dealRow = pick(/what you get|you get|the offer|offer|includes?/i) || rows[0];
+                  const dealText =
+                    firstSentence(
+                      String(o.headline || '').length > 12 && String(o.headline).length < 140 ? o.headline : '',
+                    ) ||
+                    firstSentence(dealRow?.text || '') ||
+                    firstSentence(o.benefit || '');
+                  // House rules every offer carries; the unique term is whatever is left.
+                  const GENERIC =
+                    /one per client|cannot be combined|not be combined|prices? exclude|gst|logged against|momence|who can buy|eligib|purchase window|offer window|valid \d|staff and family|^valid|anyone new to/i;
+                  const conditionTerms = String(o.redemption_conditions || '')
                     .replace(/\s+/g, ' ')
-                    .split(/(?<=[.!?])\s+(?=[A-Z₹])/)[0]
-                    .replace(/[.;]\s*$/, '')
-                    .trim();
-                const pick = (re: RegExp) => rows.find(r => r.label && re.test(r.label));
-                const dealRow = pick(/what you get|you get|the offer|offer|includes?/i) || rows[0];
-                const dealText =
-                  firstSentence(String(o.headline || '').length > 12 && String(o.headline).length < 140 ? o.headline : '') ||
-                  firstSentence(dealRow?.text || '') ||
-                  firstSentence(o.benefit || '');
-                // House rules every offer carries; the unique term is whatever is left.
-                const GENERIC =
-                  /one per client|cannot be combined|not be combined|prices? exclude|gst|logged against|momence|who can buy|eligib|purchase window|offer window|valid \d|staff and family|^valid|anyone new to/i;
-                const conditionTerms = String(o.redemption_conditions || '')
-                  .replace(/\s+/g, ' ')
-                  .split(/\s*(?:[▪•]|;\s*(?=[A-Z])|(?<=[.!?])\s+(?=[A-Z₹0-9])|\s[–—]\s)\s*/)
-                  .map(t => t.replace(/^[A-Z][^:]{1,24}:\s*/, '').replace(/[.;]\s*$/, '').trim())
-                  .filter(t => t.length > 8 && !GENERIC.test(t));
-                const howRow = pick(/how it works|rules?|mechanic|the catch|condition/i);
-                const uniqueTerm =
-                  [...(howRow ? [howRow.text, ...howRow.subs] : []), ...conditionTerms]
-                    .map(t => firstSentence(t))
-                    .find(t => t && t.length > 8 && !GENERIC.test(t) && t.toLowerCase() !== dealText.toLowerCase()) || '';
-                // Prices: the record first, then what the offer's own words state ("for ₹46,850 (usual
-                // price ₹55,100)", "₹19,275 (list price)").
-                const words = [dealText, ...rows.filter(r => r.label && /price|cost/i.test(r.label)).map(r => r.text)].join(' ');
-                const rs = (v?: string) => (v ? Number(v.replace(/,/g, '')) : null);
-                const textSale = rs(words.match(/(?:for|at|pay|price:?)\s*₹\s*([\d,]{3,})/i)?.[1]) || rs(words.match(/₹\s*([\d,]{3,})/)?.[1]);
-                const textUsual = rs(words.match(/(?:usual|list|normal|regular|standard)\s+price\s*(?:of\s*)?₹\s*([\d,]{3,})/i)?.[1]);
-                const atList = /\(\s*(?:at\s+)?list price\s*\)|at list price|renew at list/i.test(words);
-                const salePrice = quotedPrice ?? textSale ?? (offerPrice > 0 ? offerPrice : null);
-                const listPrice = strikePrice || list || textUsual || (atList ? salePrice : null);
-                const cashSave = listPrice && salePrice && listPrice > salePrice ? listPrice - salePrice : 0;
-                const savePct = cashSave && listPrice ? (cashSave / listPrice) * 100 : directPct > 0 ? directPct * 100 : hasCashCut ? cashCutPct : 0;
-                const saveValue = cashSave || directSaving || (listPrice && savePct ? Math.round((listPrice * savePct) / 100) : 0);
-                const perkOnly = !saveValue && !savePct && effPct > 0;
-                // Offers that write out their own terms are shown section by section, in their words.
-                const sec = offerSections(o);
-                if (sec.found) {
-                  const usual = sec.usual ?? listPrice;
-                  const price = sec.price ?? salePrice;
-                  const save = sec.save ?? (usual && price && usual > price ? usual - price : 0);
-                  const pct = save && usual ? (save / usual) * 100 : 0;
-                  return (
-                    <div className="ocv-spec">
-                      {sec.getText && (
-                        <div className="ocv-spec-row is-get">
-                          <span>What you get</span>
-                          <p>{inline(sec.getText)}</p>
-                        </div>
-                      )}
-                      {price ? (
-                        <div className="ocv-spec-row is-price">
-                          <span>Price</span>
+                    .split(/\s*(?:[▪•]|;\s*(?=[A-Z])|(?<=[.!?])\s+(?=[A-Z₹0-9])|\s[–—]\s)\s*/)
+                    .map(t =>
+                      t
+                        .replace(/^[A-Z][^:]{1,24}:\s*/, '')
+                        .replace(/[.;]\s*$/, '')
+                        .trim(),
+                    )
+                    .filter(t => t.length > 8 && !GENERIC.test(t));
+                  const howRow = pick(/how it works|rules?|mechanic|the catch|condition/i);
+                  const uniqueTerm =
+                    [...(howRow ? [howRow.text, ...howRow.subs] : []), ...conditionTerms]
+                      .map(t => firstSentence(t))
+                      .find(t => t && t.length > 8 && !GENERIC.test(t) && t.toLowerCase() !== dealText.toLowerCase()) ||
+                    '';
+                  // Prices: the record first, then what the offer's own words state ("for ₹46,850 (usual
+                  // price ₹55,100)", "₹19,275 (list price)").
+                  const words = [
+                    dealText,
+                    ...rows.filter(r => r.label && /price|cost/i.test(r.label)).map(r => r.text),
+                  ].join(' ');
+                  const rs = (v?: string) => (v ? Number(v.replace(/,/g, '')) : null);
+                  const textSale =
+                    rs(words.match(/(?:for|at|pay|price:?)\s*₹\s*([\d,]{3,})/i)?.[1]) ||
+                    rs(words.match(/₹\s*([\d,]{3,})/)?.[1]);
+                  const textUsual = rs(
+                    words.match(/(?:usual|list|normal|regular|standard)\s+price\s*(?:of\s*)?₹\s*([\d,]{3,})/i)?.[1],
+                  );
+                  const atList = /\(\s*(?:at\s+)?list price\s*\)|at list price|renew at list/i.test(words);
+                  const salePrice = quotedPrice ?? textSale ?? (offerPrice > 0 ? offerPrice : null);
+                  const listPrice = strikePrice || list || textUsual || (atList ? salePrice : null);
+                  const cashSave = listPrice && salePrice && listPrice > salePrice ? listPrice - salePrice : 0;
+                  const savePct =
+                    cashSave && listPrice
+                      ? (cashSave / listPrice) * 100
+                      : directPct > 0
+                        ? directPct * 100
+                        : hasCashCut
+                          ? cashCutPct
+                          : 0;
+                  const saveValue =
+                    cashSave || directSaving || (listPrice && savePct ? Math.round((listPrice * savePct) / 100) : 0);
+                  const perkOnly = !saveValue && !savePct && effPct > 0;
+                  // Offers that write out their own terms are shown section by section, in their words.
+                  const sec = offerSections(o);
+                  if (sec.found) {
+                    const usual = sec.usual ?? listPrice;
+                    const price = sec.price ?? salePrice;
+                    const save = sec.save ?? (usual && price && usual > price ? usual - price : 0);
+                    const pct = save && usual ? (save / usual) * 100 : 0;
+                    return (
+                      <div className="ocv-spec">
+                        {sec.getText && (
+                          <div className="ocv-spec-row is-get">
+                            <span>What you get</span>
+                            <p>{inline(sec.getText)}</p>
+                          </div>
+                        )}
+                        {price ? (
+                          <div className="ocv-spec-row is-price">
+                            <span>Price</span>
+                            <p>
+                              <strong>{money(price)}</strong>
+                              {usual && usual !== price ? (
+                                <s>{money(usual)}</s>
+                              ) : sec.priceNote ? (
+                                <em className="is-list">at list price</em>
+                              ) : null}
+                              {save ? (
+                                <em className="is-save">
+                                  Save {money(save)}
+                                  {pct ? ` · ${fmtPct(pct)}` : ''}
+                                </em>
+                              ) : null}
+                            </p>
+                          </div>
+                        ) : null}
+                        {sec.how.length > 0 && (
+                          <div className="ocv-spec-row is-how">
+                            <span>How it works</span>
+                            <ol>
+                              {sec.how.slice(0, 4).map((step, i) => (
+                                <li key={i}>{inline(step)}</li>
+                              ))}
+                            </ol>
+                          </div>
+                        )}
+                        {sec.window && (
+                          <div className="ocv-spec-row is-window">
+                            <span>Offer window</span>
+                            <p>{inline(sec.window)}</p>
+                          </div>
+                        )}
+                        <div className="ocv-spec-row is-value">
+                          <span>Client gets</span>
                           <p>
-                            <strong>{money(price)}</strong>
-                            {usual && usual !== price ? <s>{money(usual)}</s> : sec.priceNote ? <em className="is-list">at list price</em> : null}
-                            {save ? (
-                              <em className="is-save">
-                                Save {money(save)}
-                                {pct ? ` · ${fmtPct(pct)}` : ''}
-                              </em>
-                            ) : null}
+                            <strong>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</strong>
+                            <em>{savesNote}</em>
                           </p>
                         </div>
-                      ) : null}
-                      {sec.how.length > 0 && (
-                        <div className="ocv-spec-row is-how">
-                          <span>How it works</span>
-                          <ol>
-                            {sec.how.slice(0, 4).map((step, i) => (
-                              <li key={i}>{inline(step)}</li>
-                            ))}
-                          </ol>
-                        </div>
+                      </div>
+                    );
+                  }
+                  return (
+                    <div className="ocv-deal">
+                      <p className="ocv-deal-line">{inline(dealText || o.name)}</p>
+                      {uniqueTerm && (
+                        <p className="ocv-deal-term">
+                          <span>Key term</span>
+                          {inline(uniqueTerm)}
+                        </p>
                       )}
-                      {sec.window && (
-                        <div className="ocv-spec-row is-window">
-                          <span>Offer window</span>
-                          <p>{inline(sec.window)}</p>
+                      <dl className="ocv-deal-money">
+                        <div>
+                          <dt>Original</dt>
+                          <dd>{listPrice ? saveValue ? <s>{money(listPrice)}</s> : money(listPrice) : '—'}</dd>
                         </div>
-                      )}
+                        <div>
+                          <dt>Offer price</dt>
+                          <dd>{salePrice ? money(salePrice) : '—'}</dd>
+                        </div>
+                        <div className="is-save">
+                          <dt>Client saves</dt>
+                          <dd>
+                            {saveValue
+                              ? money(saveValue)
+                              : perkOnly
+                                ? 'Perks'
+                                : savePct
+                                  ? ''
+                                  : atList
+                                    ? 'List price'
+                                    : '—'}
+                            {savePct ? <em>{fmtPct(savePct)}</em> : perkOnly ? <em>{fmtPct(effPct)} value</em> : null}
+                          </dd>
+                        </div>
+                      </dl>
+                      {/* The whole client-facing value in one line: what they get, and on what
+                        terms. This is the figure the old facts strip repeated a third time. */}
+                      <p className="ocv-deal-value">
+                        <span>Client gets</span>
+                        <b>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</b>
+                        <em>
+                          {savesNote} · {discountNote}
+                        </em>
+                      </p>
                     </div>
                   );
-                }
+                })()}
+              </section>
+              {(() => {
+                const r = offerReasoning(o, {
+                  studio: studioName,
+                  month: monthName,
+                  theme: monthTheme,
+                  job: monthJob,
+                  monthTarget,
+                  stream: streamLabel,
+                });
+                const block = (title: string, items: string[]) =>
+                  items.length > 0 && (
+                    <div className="ocv-why-block">
+                      <span>{title}</span>
+                      <ul>
+                        {items.map((item, index) => (
+                          <li key={index}>{inline(item)}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
                 return (
-                  <div className="ocv-deal">
-                    <p className="ocv-deal-line">{inline(dealText || o.name)}</p>
-                    {uniqueTerm && (
-                      <p className="ocv-deal-term">
-                        <span>Key term</span>
-                        {inline(uniqueTerm)}
-                      </p>
-                    )}
-                    <dl className="ocv-deal-money">
-                      <div>
-                        <dt>Original</dt>
-                        <dd>{listPrice ? saveValue ? <s>{money(listPrice)}</s> : money(listPrice) : '—'}</dd>
-                      </div>
-                      <div>
-                        <dt>Offer price</dt>
-                        <dd>{salePrice ? money(salePrice) : '—'}</dd>
-                      </div>
-                      <div className="is-save">
-                        <dt>Client saves</dt>
-                        <dd>
-                          {saveValue ? money(saveValue) : perkOnly ? 'Perks' : savePct ? '' : atList ? 'List price' : '—'}
-                          {savePct ? <em>{fmtPct(savePct)}</em> : perkOnly ? <em>{fmtPct(effPct)} value</em> : null}
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
+                  <section className="ocv-offer-highlight ocv-face is-back" aria-hidden={!flipped}>
+                    <span className="ocv-offer-kicker">
+                      <Sparkles size={13} /> Why this offer
+                      <em className="ocv-flip-hint">Back to the offer ↻</em>
+                    </span>
+                    {r.goal && <p className="ocv-why-goal">{inline(r.goal)}</p>}
+                    <div className="ocv-why-grid">
+                      {block('The reasoning', r.why)}
+                      {block('Why here, why now', r.fit)}
+                      {block('The logic', r.logic)}
+                      {block('What to watch', r.watch)}
+                    </div>
+                  </section>
                 );
               })()}
-            </section>
-            {(() => {
-              const r = offerReasoning(o, {
-                studio: studioName,
-                month: monthName,
-                theme: monthTheme,
-                job: monthJob,
-                monthTarget,
-                stream: streamLabel,
-              });
-              const block = (title: string, items: string[]) =>
-                items.length > 0 && (
-                  <div className="ocv-why-block">
-                    <span>{title}</span>
-                    <ul>
-                      {items.map((item, index) => (
-                        <li key={index}>{inline(item)}</li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              return (
-                <section className="ocv-offer-highlight ocv-face is-back" aria-hidden={!flipped}>
-                  <span className="ocv-offer-kicker">
-                    <Sparkles size={13} /> Why this offer
-                    <em className="ocv-flip-hint">Back to the offer ↻</em>
-                  </span>
-                  {r.goal && <p className="ocv-why-goal">{inline(r.goal)}</p>}
-                  <div className="ocv-why-grid">
-                    {block('The reasoning', r.why)}
-                    {block('Why here, why now', r.fit)}
-                    {block('The logic', r.logic)}
-                    {block('What to watch', r.watch)}
-                  </div>
-                </section>
-              );
-            })()}
             </div>
           </header>
 
@@ -1109,65 +1078,25 @@ export function OfferCard({
             </div>
           </div>
 
-          {/* The mechanics, read as three facts on one rule rather than three more cards. */}
-          <div className="ocv-facts">
-            <div className="ocv-fact">
-              <span className="ocv-fact-label">{offerColLabel}</span>
-              <b>
-                {offerPrice ? money(offerPrice) : '—'}
-                {strikePrice && <s>{money(strikePrice)}</s>}
-              </b>
-              <em>
-                {strikePrice
-                  ? `of ${money(strikePrice)} list`
-                  : isBlendedTicket && featuredSell
-                    ? `vs ${money(featuredSell)} featured`
-                    : list
-                      ? `of ${money(list)} list`
-                      : isAverageTicket
-                        ? offerColSub
-                        : plan.credited
-                          ? 'credited at purchase'
-                          : 'set by the plan'}
-              </em>
-              <span
-                className="ocv-fact-bar"
-                aria-hidden="true"
-                style={{ ['--fill' as string]: `${Math.round(ticketBar)}%` } as React.CSSProperties}
-              />
-            </div>
-            <div className="ocv-fact">
-              <span className="ocv-fact-label">Client gets</span>
-              <b>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</b>
-              <em>{savesNote}</em>
-              <span
-                className="ocv-fact-bar"
-                aria-hidden="true"
-                style={{ ['--fill' as string]: `${Math.round(valueBar)}%` } as React.CSSProperties}
-              />
-            </div>
-            <div className="ocv-fact">
-              <span className="ocv-fact-label">Effective discount</span>
-              <b className={effPct > 0 ? '' : 'is-muted'}>{effPct > 0 ? fmtPct(effPct) : 'None'}</b>
-              <em>{discountNote}</em>
-              <span
-                className="ocv-fact-bar"
-                aria-hidden="true"
-                style={{ ['--fill' as string]: `${Math.round(Math.max(cashBar, valueBar))}%` } as React.CSSProperties}
-              />
-            </div>
-          </div>
-
           {/* The record: the whole commercial case, in print, always open. */}
-          <section className="ocv-record" aria-label={`${o.name} — the offer record`}>
-            <div className="ocv-record-head">
+          <section className={`ocv-record${recordOpen ? ' is-open' : ''}`} aria-label={`${o.name} — the offer record`}>
+            <button
+              type="button"
+              className="ocv-record-head"
+              aria-expanded={recordOpen}
+              aria-controls={`ocv-record-body-${o.id}`}
+              onClick={() => setRecordOpen(value => !value)}
+            >
               <span className="ocv-record-title">
                 <FileText size={13} />
                 Commercial details
               </span>
-              <span className="ocv-record-meta">{specRows.length} details</span>
-            </div>
-            <dl className="ocv-spec">
+              <span className="ocv-record-meta">
+                {specRows.length} details
+                <ChevronDown size={14} />
+              </span>
+            </button>
+            <dl className="ocv-spec" id={`ocv-record-body-${o.id}`} inert={!recordOpen}>
               {specRows.map(row => (
                 <div key={row.label} className="ocv-spec-row">
                   <dt>{row.label}</dt>
