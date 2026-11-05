@@ -581,3 +581,42 @@
 .gcp-input button { border: 0; border-radius: 9px; padding: 0 14px; cursor: pointer; background: #17130d; color: #f6efe2; }
 .gcp-input button:disabled { opacity: 0.4; }
 @media (max-width: 560px) { .gcp { left: 8px; right: 8px; top: 8px; bottom: 8px; width: auto; } }
+
+/* Plan audit. */
+.gcp-head { gap: 8px; }
+.gcp-audit-btn { margin-left: auto; display: inline-flex !important; align-items: center; gap: 5px; font: inherit; font-size: 12px !important; font-weight: 600; padding: 5px 10px !important; border-radius: 999px; border: 1px solid color-mix(in srgb, currentColor 18%, transparent) !important; }
+.gcp-audit-cta { display: inline-flex; align-items: center; gap: 6px; font-weight: 600 !important; background: #17130d !important; color: #f6efe2 !important; border-color: transparent !important; }
+.gcp-findings { margin-bottom: 10px; border: 1px solid color-mix(in srgb, currentColor 13%, transparent); border-radius: 9px; padding: 8px 10px; }
+.gcp-findings summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; font-size: 12px; }
+.gcp-findings summary span { opacity: 0.8; }
+.gcp-findings .is-critical { color: #b42318; }
+.gcp-findings .is-warn { color: #a15c07; }
+.gcp-findings ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; max-height: 280px; overflow-y: auto; }
+.gcp-findings li { display: grid; gap: 1px; font-size: 12px; padding-left: 9px; border-left: 3px solid color-mix(in srgb, currentColor 20%, transparent); }
+.gcp-findings li.is-critical { border-left-color: #d92d20; }
+.gcp-findings li.is-warn { border-left-color: #dc8a0e; }
+.gcp-findings li span { opacity: 0.7; }
+
+/* Copilot chat controls, steps and clarifying questions. */
+.gcp.is-min { top: auto; height: auto; }
+.gcp.is-min .gcp-head { border-bottom: 0; }
+.gcp-tools { display: inline-flex; gap: 2px; margin-left: 4px; }
+.gcp-tools button:disabled { opacity: 0.35; cursor: default; }
+.gcp-head .gcp-audit-btn { margin-left: auto; }
+.gcp-steps { margin-bottom: 8px; font-size: 12px; }
+.gcp-steps summary { cursor: pointer; opacity: 0.65; }
+.gcp-steps ol { margin: 6px 0 0; padding: 0 0 0 4px; list-style: none; display: grid; gap: 5px; border-left: 2px solid color-mix(in srgb, currentColor 12%, transparent); }
+.gcp-steps li { padding-left: 9px; display: grid; gap: 2px; }
+.gcp-steps li span { font-weight: 600; }
+.gcp-steps li b { font-weight: 400; opacity: 0.75; }
+.gcp-steps li code { font-size: 11px; opacity: 0.55; overflow-wrap: anywhere; white-space: pre-wrap; }
+.gcp-steps li.is-thinking p { margin: 0; opacity: 0.7; font-style: italic; white-space: pre-wrap; }
+.gcp-steps li.is-error span { color: #b42318; }
+.gcp-questions { display: grid; gap: 10px; margin-top: 10px; }
+.gcp-q { display: grid; gap: 6px; }
+.gcp-q strong { font-size: 12.5px; }
+.gcp-q > div { display: flex; flex-wrap: wrap; gap: 6px; }
+.gcp-q button { font: inherit; font-size: 12px; padding: 5px 10px; border-radius: 999px; cursor: pointer; background: none; color: inherit; border: 1px solid color-mix(in srgb, currentColor 20%, transparent); }
+.gcp-q button.is-on { background: #17130d; color: #f6efe2; border-color: transparent; }
+.gcp-q button:disabled { opacity: 0.5; cursor: default; }
+.gcp-q-other { font: inherit; font-size: 12.5px; padding: 6px 10px; border-radius: 8px; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); background: none; color: inherit; }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Check, Send, Sparkles, X } from 'lucide-react';
+import { Check, ChevronDown, Download, Minus, RotateCcw, ShieldCheck, Send, Sparkles, Trash2, X } from 'lucide-react';
 import { api } from '../api';
 import { useApp } from '../App';
 import {
@@ -17,7 +17,43 @@ import {
    edit, add, remove or create offers, rewrite month plans. It proposes; you apply one change
    or all of them. Approved offers are changed only after you agree. */
 
-type Msg = { role: 'user' | 'assistant'; content: string; actions?: CopilotAction[]; done?: number[] };
+type Finding = { severity: 'critical' | 'warn' | 'info'; month: number | null; title: string; detail: string };
+type Audit = { studio: string; findings: Finding[]; summary: { critical: number; warn: number; info: number; coverage: number | null; yearTarget: number; yearOfferRevenue: number } };
+type Step = { type: 'thinking' | 'tool'; text?: string; tool?: string; input?: string; result?: string; error?: boolean };
+type Question = { question: string; options: string[] };
+type Msg = {
+  role: 'user' | 'assistant';
+  content: string;
+  actions?: CopilotAction[];
+  done?: number[];
+  audit?: Audit | null;
+  steps?: Step[];
+  questions?: Question[] | null;
+  ms?: number;
+};
+
+const TOOL_LABEL: Record<string, string> = {
+  list_studios: 'Listed studios',
+  get_year_overview: 'Read year overview',
+  get_month_plan: 'Read month plan',
+  search_offers: 'Searched offer bank',
+  run_plan_audit: 'Ran plan audit',
+  propose_offer_update: 'Proposed offer edit',
+  propose_add_offer: 'Proposed adding offer',
+  propose_remove_offer: 'Proposed removing offer',
+  propose_delete_offer: 'Proposed deleting offer',
+  propose_create_offer: 'Proposed new offer',
+  propose_plan_update: 'Proposed plan rewrite',
+  ask_clarifying_questions: 'Asked clarifying questions',
+};
+const STORE = 'p57-copilot-chat';
+const load = (): Msg[] => {
+  try {
+    return JSON.parse(localStorage.getItem(STORE) || '[]');
+  } catch {
+    return [];
+  }
+};
 
 const LABEL: Record<string, string> = {
   pricing: 'Discount',
@@ -39,7 +75,10 @@ const show = (k: string, v: any) =>
 
 export default function GlobalCopilot() {
   const [open, setOpen] = useState(false);
-  const [msgs, setMsgs] = useState<Msg[]>([]);
+  const [min, setMin] = useState(false);
+  const [msgs, setMsgs] = useState<Msg[]>(load);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [custom, setCustom] = useState<Record<string, string>>({});
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<string | null>(null);
@@ -52,6 +91,13 @@ export default function GlobalCopilot() {
     const node = end.current;
     if (node && typeof node.scrollIntoView === 'function') node.scrollIntoView({ block: 'end' });
   }, [msgs, busy]);
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORE, JSON.stringify(msgs.slice(-60)));
+    } catch {
+      /* storage unavailable */
+    }
+  }, [msgs]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'j') {
@@ -70,19 +116,23 @@ export default function GlobalCopilot() {
     month: pageScope.month ?? null,
   };
 
-  const send = async (text?: string) => {
+  const send = async (text?: string, mode?: 'audit') => {
     const message = (text ?? input).trim();
     if (!message || busy) return;
     const history = msgs.map(m => ({ role: m.role, content: m.content }));
     setMsgs(m => [...m, { role: 'user', content: message }]);
     setInput('');
     setBusy(true);
+    const t0 = Date.now();
     try {
-      const r = await api<{ reply: string; actions: CopilotAction[] }>('/copilot/agent', {
+      const r = await api<{ reply: string; actions: CopilotAction[]; audit?: Audit | null; steps?: Step[]; questions?: Question[] | null }>('/copilot/agent', {
         method: 'POST',
-        body: JSON.stringify({ message, history, scope }),
+        body: JSON.stringify({ message, history, scope, mode }),
       });
-      setMsgs(m => [...m, { role: 'assistant', content: r.reply, actions: r.actions, done: [] }]);
+      setMsgs(m => [
+        ...m,
+        { role: 'assistant', content: r.reply, actions: r.actions, done: [], audit: r.audit, steps: r.steps, questions: r.questions, ms: Date.now() - t0 },
+      ]);
     } catch (e: any) {
       setMsgs(m => [...m, { role: 'assistant', content: e.message || 'Copilot could not answer.' }]);
     } finally {
@@ -115,6 +165,72 @@ export default function GlobalCopilot() {
     setBusy(false);
   };
 
+  const clear = () => {
+    if (busy || !msgs.length || !window.confirm('Clear this conversation?')) return;
+    setMsgs([]);
+    setNote(null);
+    setAnswers({});
+    setCustom({});
+  };
+  const restart = () => {
+    if (busy) return;
+    const lastUser = [...msgs].reverse().find(m => m.role === 'user');
+    setMsgs([]);
+    setNote(null);
+    setAnswers({});
+    if (lastUser) setTimeout(() => send(lastUser.content), 0);
+  };
+  const exportChat = () => {
+    const lines = [`# P57 Copilot conversation`, `Exported ${new Date().toLocaleString('en-IN')}`, ''];
+    for (const m of msgs) {
+      lines.push(`## ${m.role === 'user' ? 'You' : 'Copilot'}`, '', m.content, '');
+      if (m.steps?.length) {
+        lines.push('**Steps**');
+        for (const st of m.steps)
+          lines.push(st.type === 'tool' ? `- ${TOOL_LABEL[st.tool || ''] || st.tool}: ${st.result || st.input || ''}` : `- Thinking: ${st.text}`);
+        lines.push('');
+      }
+      if (m.audit) {
+        lines.push(`**Audit — ${m.audit.studio}**`);
+        for (const f of m.audit.findings) lines.push(`- [${f.severity}] ${f.title} — ${f.detail}`);
+        lines.push('');
+      }
+      if (m.actions?.length) {
+        lines.push('**Proposed changes**');
+        m.actions.forEach((a, i) =>
+          lines.push(`- ${describeAction(a)}${m.done?.includes(i) ? ' (applied)' : ''}${a.why ? ` — ${a.why}` : ''}`),
+        );
+        lines.push('');
+      }
+      if (m.questions?.length) {
+        lines.push('**Questions**');
+        m.questions.forEach(q => lines.push(`- ${q.question} (${[...q.options, 'Other'].join(' / ')})`));
+        lines.push('');
+      }
+    }
+    const blob = new Blob([lines.join('\n')], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `copilot-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}.md`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const answer = (mi: number) => {
+    const qs = msgs[mi].questions || [];
+    const pick = (k: string) => (answers[k] === '__other' ? custom[k]?.trim() || 'your call' : answers[k] || 'your call');
+    const text = qs.map((q, qi) => `${q.question} → ${pick(`${mi}-${qi}`)}`).join('\n');
+    send(text);
+  };
+
+  const audit = () =>
+    send(
+      `Audit the ${scope.year || ''} sales plan${pageScope.label ? ` for ${pageScope.label}` : scope.studioId ? '' : ' for every studio'}${
+        scope.month ? `, starting with ${new Date(2000, scope.month - 1, 1).toLocaleString('en', { month: 'long' })}` : ''
+      }. Find loopholes, discrepancies and weak spots, and propose changes that make it stronger and more creative.`,
+      'audit',
+    );
+
   const where = [
     pageScope.label,
     scope.month ? new Date(2000, scope.month - 1, 1).toLocaleString('en', { month: 'long' }) : null,
@@ -131,21 +247,43 @@ export default function GlobalCopilot() {
         </button>
       )}
       {open && (
-        <aside className="gcp" aria-label="Copilot">
+        <aside className={`gcp${min ? ' is-min' : ''}`} aria-label="Copilot">
           <header className="gcp-head">
             <span className="gcp-title">
               <Sparkles size={14} /> Copilot
               {where && <em>{where}</em>}
             </span>
-            <button type="button" onClick={() => setOpen(false)} aria-label="Close copilot">
-              <X size={15} />
+            <button type="button" className="gcp-audit-btn" onClick={audit} disabled={busy} title="Independently audit the sales plan">
+              <ShieldCheck size={13} /> Audit plan
             </button>
+            <div className="gcp-tools">
+              <button type="button" onClick={exportChat} disabled={!msgs.length} title="Export chat (.md)" aria-label="Export chat">
+                <Download size={14} />
+              </button>
+              <button type="button" onClick={restart} disabled={busy || !msgs.length} title="Restart: clear and re-ask the last question" aria-label="Restart chat">
+                <RotateCcw size={14} />
+              </button>
+              <button type="button" onClick={clear} disabled={busy || !msgs.length} title="Clear chat" aria-label="Clear chat">
+                <Trash2 size={14} />
+              </button>
+              <button type="button" onClick={() => setMin(v => !v)} title={min ? 'Expand' : 'Minimise'} aria-label={min ? 'Expand copilot' : 'Minimise copilot'}>
+                {min ? <ChevronDown size={14} style={{ transform: 'rotate(180deg)' }} /> : <Minus size={14} />}
+              </button>
+              <button type="button" onClick={() => setOpen(false)} aria-label="Close copilot">
+                <X size={15} />
+              </button>
+            </div>
           </header>
+          {min ? null : (
+          <>
 
           <div className="gcp-log">
             {!msgs.length && (
               <div className="gcp-empty">
                 <p>Ask about the plan, or tell me what to change. I propose; you apply.</p>
+                <button type="button" className="gcp-audit-cta" onClick={audit}>
+                  <ShieldCheck size={14} /> Audit the whole plan — loopholes, discrepancies, ideas
+                </button>
                 {[
                   'Sharpen every offer this month for a higher conversion rate',
                   'Create a renewal offer for members expiring this month',
@@ -162,7 +300,99 @@ export default function GlobalCopilot() {
               const pending = (m.actions || []).map((_, i) => i).filter(i => !m.done?.includes(i));
               return (
                 <div key={mi} className={`gcp-msg is-${m.role}`}>
+                  {m.audit && (
+                    <details className="gcp-findings" open={m.audit.summary.critical > 0}>
+                      <summary>
+                        <b>{m.audit.studio} audit</b>
+                        <span className="is-critical">{m.audit.summary.critical} critical</span>
+                        <span className="is-warn">{m.audit.summary.warn} warnings</span>
+                        <span className="is-info">{m.audit.summary.info} notes</span>
+                        {m.audit.summary.coverage != null && (
+                          <span>{Math.round(m.audit.summary.coverage * 100)}% of target covered by offers</span>
+                        )}
+                      </summary>
+                      <ul>
+                        {m.audit.findings.slice(0, 40).map((f, i) => (
+                          <li key={i} className={`is-${f.severity}`}>
+                            <b>{f.title}</b>
+                            <span>{f.detail}</span>
+                          </li>
+                        ))}
+                        {m.audit.findings.length > 40 && <li className="is-info">…and {m.audit.findings.length - 40} more</li>}
+                      </ul>
+                    </details>
+                  )}
+                  {!!m.steps?.length && (
+                    <details className="gcp-steps">
+                      <summary>
+                        {m.steps.filter(x => x.type === 'tool').length} tool call
+                        {m.steps.filter(x => x.type === 'tool').length === 1 ? '' : 's'}
+                        {m.steps.some(x => x.type === 'thinking') ? ' · reasoning' : ''}
+                        {m.ms ? ` · ${Math.round(m.ms / 1000)}s` : ''}
+                      </summary>
+                      <ol>
+                        {m.steps.map((st, si) =>
+                          st.type === 'thinking' ? (
+                            <li key={si} className="is-thinking">
+                              <span>Thinking</span>
+                              <p>{st.text}</p>
+                            </li>
+                          ) : (
+                            <li key={si} className={st.error ? 'is-error' : ''}>
+                              <span>{TOOL_LABEL[st.tool || ''] || st.tool}</span>
+                              {st.result && <b>{st.result}</b>}
+                              {st.input && st.input !== '{}' && <code>{st.input}</code>}
+                            </li>
+                          ),
+                        )}
+                      </ol>
+                    </details>
+                  )}
                   <p>{m.content}</p>
+                  {!!m.questions?.length && (
+                    <div className="gcp-questions">
+                      {m.questions.map((q, qi) => (
+                        <div key={qi} className="gcp-q">
+                          <strong>{q.question}</strong>
+                          <div>
+                            {[...q.options, '__other'].map(o => (
+                              <button
+                                key={o}
+                                type="button"
+                                className={answers[`${mi}-${qi}`] === o ? 'is-on' : ''}
+                                disabled={busy || mi !== msgs.length - 1}
+                                onClick={() => setAnswers(a => ({ ...a, [`${mi}-${qi}`]: o }))}
+                              >
+                                {o === '__other' ? 'Other…' : o}
+                              </button>
+                            ))}
+                          </div>
+                          {answers[`${mi}-${qi}`] === '__other' && (
+                            <input
+                              className="gcp-q-other"
+                              autoFocus
+                              maxLength={300}
+                              placeholder="Type your own answer"
+                              value={custom[`${mi}-${qi}`] || ''}
+                              disabled={busy || mi !== msgs.length - 1}
+                              onChange={e => setCustom(c => ({ ...c, [`${mi}-${qi}`]: e.target.value }))}
+                              onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault();
+                                  answer(mi);
+                                }
+                              }}
+                            />
+                          )}
+                        </div>
+                      ))}
+                      {mi === msgs.length - 1 && (
+                        <button type="button" className="gcp-all" disabled={busy} onClick={() => answer(mi)}>
+                          Continue with these answers
+                        </button>
+                      )}
+                    </div>
+                  )}
                   {!!m.actions?.length && (
                     <div className="gcp-actions">
                       {m.actions.map((a, i) => {
@@ -218,7 +448,7 @@ export default function GlobalCopilot() {
                 </div>
               );
             })}
-            {busy && <div className="gcp-msg is-assistant is-typing">Working…</div>}
+            {busy && <div className="gcp-msg is-assistant is-typing">Thinking and reading the plan…</div>}
             <div ref={end} />
           </div>
 
@@ -255,6 +485,8 @@ export default function GlobalCopilot() {
               <Send size={14} />
             </button>
           </form>
+          </>
+          )}
         </aside>
       )}
     </>

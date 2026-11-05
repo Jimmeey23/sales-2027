@@ -7,7 +7,8 @@ import { answerQuestion, engineCapability, warmCopilot } from '../lib/copilot/en
 import { cacheStats, invalidateCopilotCache } from '../lib/copilot/context.js';
 import { asyncRoute, bodyError, id, studioFilter } from '../http.js';
 import { persistOffer } from './offers.js';
-import { runAgent } from '../lib/copilotAgent.js';
+import { AUDIT_BRIEF, runAgent } from '../lib/copilotAgent.js';
+import { auditYear } from '../lib/planAudit.js';
 import { aiEdits, claudeConfigured, ruleEdits, type OfferEditInput } from '../lib/offerEditCopilot.js';
 import type { Express } from 'express';
 
@@ -31,7 +32,20 @@ export default function registerCopilotRoutes(app: Express) {
         month: Number(s.month) || null,
       };
       try {
-        res.json(await runAgent({ message, history, scope, user: req.user }));
+        const audit = req.body.mode === 'audit';
+      const findings =
+        audit && scope.studioId && canAccessStudio(req.user, scope.studioId)
+          ? auditYear(scope.studioId, scope.year || new Date().getFullYear())
+          : null;
+      const result = await runAgent({
+        message,
+        history,
+        scope,
+        user: req.user,
+        system: audit ? AUDIT_BRIEF : undefined,
+        maxSteps: audit ? 20 : 12,
+      });
+      res.json({ ...result, audit: findings });
       } catch (error: any) {
         // Provider errors must not reach the browser as the app's own 401/403 (that reads as "signed out").
         const status = Number(error?.status);
