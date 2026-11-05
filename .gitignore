@@ -19,8 +19,3 @@ artifacts/
 
 # Build output (node-gyp, tsc, bundlers)
 build/
-
-# Recorded narration for the month explainer — generated, regenerate with
-# `npm run explainer:narrate -- --list` and `--manifest`; too large to keep in git.
-public/explainer/*.mp3
-public/explainer/manifest.json
