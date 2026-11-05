@@ -2052,3 +2052,17 @@
     transition: none;
   }
 }
+
+/* A card alone on its row: span the row, cap at 80% and centre it. */
+.mw .mw-offer-list.is-two-up > .mw-offer-item.is-solo {
+  grid-column: 1 / -1;
+}
+.mw .mw-offer-list > .mw-offer-item.is-solo {
+  width: 100%;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 720px) {
+  .mw .mw-offer-list > .mw-offer-item.is-solo { max-width: 100%; }
+}
