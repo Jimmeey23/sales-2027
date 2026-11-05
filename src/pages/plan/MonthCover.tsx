@@ -192,15 +192,15 @@ export default function MonthCover({
   });
   const lead = streams.reduce((a, b) => (b.value > a.value ? b : a), streams[0]);
 
-  // Months with their own photograph. Portraits (Feb, Jun) are shown whole over a blurred copy.
+  // Months with their own photograph. Portrait (Jun) are shown whole over a blurred copy.
   const OWN: Record<number, { url: string; pos: string }> = {
-    2: { url: '/p57/feb-2027.jpg', pos: '100% 35%' },
+    2: { url: '/p57/feb-2027.jpg', pos: '50% 30%' },
     3: { url: '/p57/march-2027.jpg', pos: '100% 30%' },
     5: { url: '/p57/may-2027.jpg', pos: '100% 25%' },
-    6: { url: '/p57/june-pride-2027.jpg', pos: '100% 30%' },
+    6: { url: '/p57/june-pride-2027.jpg', pos: '50% 0%' },
   };
   const coverPhoto = OWN[month] ?? photo;
-  const fit = month === 2 || month === 6;
+  const fit = month === 2 || month === 6; // zoomed out 10%, blurred copy fills the edges
   return (
     <div
       ref={root}
@@ -219,14 +219,14 @@ export default function MonthCover({
         <div className="mc-photo mc-photo-fill" style={{ backgroundImage: `url(${coverPhoto.url})` }} aria-hidden="true" />
       )}
       <div
-        className={`mc-photo${fit ? ' is-fit' : ''}`}
+        className={`mc-photo${fit ? ' is-zoom' : ''}`}
         style={{ backgroundImage: `url(${coverPhoto.url})`, backgroundPosition: coverPhoto.pos }}
         aria-hidden="true"
       />
       <div className="mc-scrim" aria-hidden="true" />
       {/* July is monsoon month: rain and rising floodwater behind the cover. */}
       {month === 7 && <MonsoonScene />}
-      {/* Feb, Apr, May, Jun, Aug, Nov, Dec: seasonal scenes (Valentine's, Pride, anniversary, heat, Amazing Race, Diwali, Christmas). */}
+      {/* Feb, Mar, Apr, May, Jun, Aug, Oct, Nov, Dec: seasonal scenes (Valentine's, Women's Day, Pride, anniversary, heat, Amazing Race, Diwali, Christmas). */}
       <SeasonScene month={month} />
 
       <div className="mc-scroll">

@@ -2709,3 +2709,15 @@
   mask-image: linear-gradient(90deg, transparent 12%, rgba(0,0,0,0.55) 24%, #000 40%);
   left: 30%;
 }
+
+/* Feb, Jun: the photo fills the sheet, zoomed out 10% from a full cover; the blurred
+   copy behind fills whatever edge that reveals. */
+.mw-monthcover .mc-photo.is-zoom {
+  background-size: 90% auto;
+  background-repeat: no-repeat;
+}
+
+/* April: a darker room, so the photograph reads and the gold spotlights carry the light. */
+.mw-monthcover.is-birthday .mc-photo {
+  filter: brightness(0.78) saturate(1.08) contrast(1.06);
+}

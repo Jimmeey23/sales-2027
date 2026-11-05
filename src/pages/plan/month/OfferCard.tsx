@@ -649,6 +649,7 @@ export function OfferCard({
               <Tag size={10} /> {membership}
             </span>
           )}
+          {compact && <div className="ocx-art" style={{ backgroundImage: `url(${heroPhoto.url})`, backgroundPosition: heroPhoto.pos }} aria-hidden="true" />}
         </div>
 
         {/* Right: the numbers. */}

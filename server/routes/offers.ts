@@ -642,8 +642,8 @@ export default function registerOffersRoutes(app: Express) {
       clauses.push('o.year=?');
       params.push(Number(req.query.year));
     }
-    // The offer bank: a year's offers not tied to a month (month copies live on the month plans).
-    if (req.query.bank) clauses.push('o.month IS NULL');
+    // The offer bank: every live offer of the year, whether or not a month plan has picked it.
+    // (The pack import ties each offer to its month, so a month-less filter left the bank empty.)
     if (req.query.month) {
       clauses.push('o.month=?');
       params.push(Number(req.query.month));

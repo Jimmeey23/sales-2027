@@ -418,3 +418,25 @@
 .mw .mw-hero .mw-nav .mw-year-ticker button.is-past { background: rgba(255, 255, 255, 0.13); color: rgba(255, 255, 255, 0.75); }
 .mw .mw-hero .mw-nav .mw-year-ticker button:hover { background: rgba(255, 255, 255, 0.24); color: #fff; }
 .mw .mw-hero .mw-nav .mw-year-ticker button.is-current { background: linear-gradient(120deg, #f3dc9b, #c9a15a); color: #17130d; }
+
+/* Collapsed card: a studio photograph fills the space the hidden copy leaves. */
+.oc.ocx.is-compact .ocx-main { display: flex; flex-direction: column; }
+.oc.ocx .ocx-art {
+  flex: 1 1 auto;
+  min-height: 110px;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center 35%;
+  position: relative;
+  overflow: hidden;
+  animation: ocx-art-in 0.5s ease both;
+}
+.oc.ocx .ocx-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 253, 249, 0.25), rgba(29, 26, 22, 0.18));
+}
+@keyframes ocx-art-in { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .oc.ocx .ocx-art { animation: none; } }

@@ -1046,3 +1046,56 @@
     padding-right: 15px;
   }
 }
+
+/* ═══ Month cards come alive ═════════════════════════════════════════════════
+   Each card rises in on a stagger, its funnel bars and revenue mix draw in, a
+   light sweeps across on hover, and the card tilts gently toward the pointer. */
+@media (prefers-reduced-motion: no-preference) {
+  .ws-month-grid .ws-month-card {
+    animation: ws-mc-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+    animation-delay: calc(var(--i, 1) * 60ms);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s, border-color 0.35s;
+  }
+  .ws-month-grid .ws-month-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+    transform: translateX(-120%);
+  }
+  .ws-month-grid .ws-month-card:hover::after { animation: ws-mc-sheen 0.9s ease; }
+  .ws-month-grid .ws-month-card:hover {
+    transform: translateY(-5px) scale(1.012);
+    box-shadow: 0 18px 40px -14px color-mix(in srgb, var(--mc-accent, #8a6a1f) 45%, transparent);
+  }
+  .ws-month-grid .ws-month-card:active { transform: translateY(-2px) scale(0.995); }
+  .ws-month-grid .ws-mc-stat i {
+    transform-origin: left center;
+    animation: ws-mc-grow 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--i, 1) * 60ms + 350ms);
+  }
+  .ws-month-grid .ws-mc-mix > :first-child {
+    transform-origin: left center;
+    animation: ws-mc-grow 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--i, 1) * 60ms + 250ms);
+  }
+  .ws-month-grid .ws-month-target {
+    display: inline-block;
+    animation: ws-mc-pop 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+    animation-delay: calc(var(--i, 1) * 60ms + 200ms);
+  }
+  .ws-month-grid .ws-mc-idx { transition: transform 0.35s, color 0.35s; }
+  .ws-month-grid .ws-month-card:hover .ws-mc-idx { transform: translateX(3px); color: var(--mc-accent, #8a6a1f); }
+  .ws-month-grid .ws-month-card.plan-approved .ws-mc-status.is-approved svg { animation: ws-mc-tick 2.4s ease-in-out infinite; }
+}
+@keyframes ws-mc-rise {
+  from { opacity: 0; transform: translateY(22px) scale(0.97); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes ws-mc-sheen { to { transform: translateX(120%); } }
+@keyframes ws-mc-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ws-mc-pop { from { opacity: 0; transform: translateY(8px) scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes ws-mc-tick { 0%, 80%, 100% { transform: scale(1); } 88% { transform: scale(1.3); } }
