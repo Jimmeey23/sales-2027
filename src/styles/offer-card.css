@@ -1439,3 +1439,102 @@
 .rom-bank li > div span { font-size: 11.5px; color: rgba(23, 19, 13, 0.55); text-transform: capitalize; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rom-bank li button { background: none; color: inherit; border: 1px solid rgba(23, 19, 13, 0.18); }
 @media (max-width: 600px) { .rom-bank li { grid-template-columns: 1fr auto; } .rom-bank li .rom-figs { display: none; } }
+
+/* Conditions: collapsed by default, terms as bullets when open. */
+.ocv-terms { margin: 0; }
+.ocv-terms > summary { display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; user-select: none; }
+.ocv-terms > summary::-webkit-details-marker { display: none; }
+.ocv-terms > summary::after { content: '▸'; font-size: 10px; opacity: 0.55; transition: transform 0.15s; margin-left: auto; }
+.ocv-terms[open] > summary::after { transform: rotate(90deg); }
+.ocv-terms > summary dt { margin: 0; }
+.ocv-terms-count { font-size: 11px; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, currentColor 8%, transparent); opacity: 0.8; }
+.ocv-terms dd { margin: 6px 0 0; }
+.ocv-terms ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.ocv-terms li { position: relative; padding-left: 14px; font-size: 13px; font-weight: 400; line-height: 1.45; }
+.ocv-terms li::before { content: ''; position: absolute; left: 2px; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.45; }
+.ocv-terms-label { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+.ocv-terms li ul { margin-top: 4px; gap: 3px; }
+.ocv-terms li li { font-size: 12.5px; opacity: 0.9; }
+.ocv-terms li li::before { width: 4px; height: 4px; border-radius: 1px; }
+
+/* Offer banner: one compact list, one type size. Labels in a fixed column, values beside. */
+.oc .ocv-offer-highlight { padding: 14px 16px !important; }
+.oc .ocv-offer-kicker { margin-bottom: 10px !important; font-size: 11px !important; letter-spacing: 0.12em; }
+.oc .ocv-points { margin: 0; display: grid; gap: 0; }
+.oc .ocv-points > div {
+  display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; align-items: baseline;
+  padding: 7px 0; border-top: 1px solid color-mix(in srgb, currentColor 9%, transparent);
+}
+.oc .ocv-points > div:first-child { border-top: 0; padding-top: 0; }
+.oc .ocv-points dt {
+  margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  line-height: 1.5; opacity: 0.62; display: flex; align-items: center; overflow-wrap: anywhere;
+}
+.oc .ocv-points dt svg { opacity: 0.9; }
+.oc .ocv-points dd { margin: 0; font-size: 13.5px; font-weight: 400; line-height: 1.5; letter-spacing: 0; }
+.oc .ocv-points > div.is-lead dd { font-weight: 600; }
+.oc .ocv-points dd ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 3px; }
+.oc .ocv-points dd li { position: relative; padding-left: 12px; font-size: 13px; }
+.oc .ocv-points dd li::before { content: ''; position: absolute; left: 1px; top: 0.62em; width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.45; }
+/* Inline price/percent pills stay the same size as the text around them. */
+.oc .ocv-points dd mark, .oc .ocv-points dd .ocv-num, .oc .ocv-points dd b, .oc .ocv-points dd strong {
+  font-size: inherit !important; line-height: inherit !important; padding: 0 3px !important;
+}
+.oc .ocv-points .mw-inline-num {
+  font-size: inherit !important; line-height: inherit !important; padding: 0 4px !important; margin: 0 1px !important;
+  border-radius: 4px !important; font-weight: 600; box-shadow: none !important;
+}
+/* Lean banner: three short rows, two lines each at most. */
+.oc .ocv-offer-highlight { padding: 12px 14px !important; }
+.oc .ocv-offer-kicker { margin-bottom: 6px !important; }
+.oc .ocv-points > div { padding: 5px 0; grid-template-columns: 84px minmax(0, 1fr); }
+.oc .ocv-points dd { font-size: 13px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.oc .ocv-flip { min-height: 0 !important; }
+
+/* Deal banner: the offer in one line, its one distinctive term, and the money. */
+.oc .ocv-deal { display: grid; gap: 10px; }
+.oc .ocv-deal-line { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; letter-spacing: -0.005em; }
+.oc .ocv-deal-term {
+  margin: 0; display: grid; gap: 2px; font-size: 12.5px; line-height: 1.45;
+  padding: 7px 10px; border-radius: 8px; background: color-mix(in srgb, currentColor 5%, transparent);
+}
+.oc .ocv-deal-term span { font-size: 9.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+.oc .ocv-deal-money { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent); }
+.oc .ocv-deal-money > div { padding: 8px 0 0; min-width: 0; }
+.oc .ocv-deal-money > div + div { padding-left: 12px; border-left: 1px solid color-mix(in srgb, currentColor 10%, transparent); margin-left: 12px; }
+.oc .ocv-deal-money dt { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; }
+.oc .ocv-deal-money dd { margin: 2px 0 0; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.oc .ocv-deal-money dd s { opacity: 0.55; font-weight: 500; }
+.oc .ocv-deal-money .is-save dd { color: #b42318; }
+.oc .ocv-deal-money .is-save em { font-style: normal; font-size: 11.5px; padding: 1px 6px; border-radius: 999px; background: rgba(180, 35, 24, 0.1); }
+.oc .ocv-deal .mw-inline-num { font-size: inherit !important; padding: 0 3px !important; }
+
+/* Offer spec: the offer's own terms, one labelled row each. */
+.oc .ocv-spec { display: grid; }
+.oc .ocv-spec-row {
+  display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: baseline;
+  padding: 9px 0; border-top: 1px solid color-mix(in srgb, currentColor 9%, transparent);
+}
+.oc .ocv-spec-row:first-child { border-top: 0; padding-top: 2px; }
+.oc .ocv-spec-row > span { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; line-height: 1.6; }
+.oc .ocv-spec-row p { margin: 0; font-size: 13.5px; line-height: 1.5; }
+.oc .ocv-spec-row.is-get p { font-size: 14.5px; font-weight: 600; }
+.oc .ocv-spec-row.is-price p { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
+.oc .ocv-spec-row.is-price strong { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.oc .ocv-spec-row.is-price s { font-size: 13px; opacity: 0.5; font-variant-numeric: tabular-nums; }
+.oc .ocv-spec-row.is-price em { font-style: normal; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+.oc .ocv-spec-row.is-price em.is-save { color: #b42318; background: rgba(180, 35, 24, 0.09); }
+.oc .ocv-spec-row.is-price em.is-list { background: color-mix(in srgb, currentColor 7%, transparent); }
+.oc .ocv-spec-row ol { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: 4px; }
+.oc .ocv-spec-row ol li { counter-increment: step; position: relative; padding-left: 22px; font-size: 13px; line-height: 1.45; }
+.oc .ocv-spec-row ol li::before {
+  content: counter(step); position: absolute; left: 0; top: 1px; width: 15px; height: 15px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 9.5px; font-weight: 700;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.oc .ocv-spec .mw-inline-num { font-size: inherit !important; padding: 0 3px !important; }
+.oc .ocv-offer-highlight .ocv-spec-row { padding: 7px 0 !important; margin: 0 !important; }
+.oc .ocv-offer-highlight .ocv-spec-row:first-child { padding-top: 0 !important; }
+.oc .ocv-offer-highlight .ocv-spec-row p, .oc .ocv-offer-highlight .ocv-spec-row ol { margin: 0 !important; }
+.oc .ocv-offer-highlight .ocv-spec-row > span { margin: 0 !important; padding: 0 !important; }
+.oc .ocv-offer-highlight .ocv-spec { gap: 0 !important; margin: 0 !important; }

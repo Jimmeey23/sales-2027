@@ -91,6 +91,7 @@ export default function MonthCover({
   studioName,
   theme,
   brief,
+  description = '',
   risk,
   signature,
   plan,
@@ -104,6 +105,8 @@ export default function MonthCover({
   renewalCoverage,
   dates,
   offers,
+  offerRevenue = 0,
+  offerNames = [],
   status,
   photo,
   onOpen,
@@ -116,6 +119,7 @@ export default function MonthCover({
   studioName: string;
   theme: string;
   brief: string;
+  description?: string;
   risk?: string;
   signature?: string;
   plan?: CoverPlanWeek[];
@@ -129,6 +133,8 @@ export default function MonthCover({
   renewalCoverage: number | null;
   dates: KeyDate[];
   offers: number;
+  offerRevenue?: number;
+  offerNames?: { name: string; slot: string }[];
   status: Status;
   photo: { url: string; pos: string };
   onOpen: () => void;
@@ -245,6 +251,7 @@ export default function MonthCover({
                 </span>
               </p>
             )}
+            <div className="mc-titleblock">
             {theme && (
               <p className="mc-focus">
                 <span>Focus</span>
@@ -252,7 +259,37 @@ export default function MonthCover({
               </p>
             )}
             <h2>{MONTHS[month - 1]}</h2>
-            {brief && <p className="mc-brief">{brief}</p>}
+            {description && <p className="mc-desc">{description}</p>}
+            </div>
+            <dl className="mc-kpis">
+              <div>
+                <dt>Revenue target</dt>
+                <dd>{lakh(target)}</dd>
+              </div>
+              <div>
+                <dt>vs last year</dt>
+                <dd className={yoy !== null && yoy < 0 ? 'neg' : 'pos'}>
+                  {yoy === null ? '—' : `${yoy >= 0 ? '+' : ''}${Math.round(yoy * 100)}%`}
+                </dd>
+              </div>
+              <div>
+                <dt>Offers carry</dt>
+                <dd>
+                  {target > 0 ? `${Math.round((offerRevenue / target) * 100)}%` : '—'}
+                  <em>{lakh(offerRevenue)}</em>
+                </dd>
+              </div>
+              <div>
+                <dt>Buyers needed</dt>
+                <dd>
+                  {int(buyers)}
+                  <em>from {int(leads)} leads</em>
+                </dd>
+              </div>
+            </dl>
+            {brief && (
+              <CoverBrief text={brief} live={{ offers, offerRevenue, target, offerNames }} />
+            )}
           </div>
 
           {/* The anniversary, drawn rather than staged: a hairline ring struck with nine
@@ -491,6 +528,251 @@ export default function MonthCover({
             </button>
           </div>
         </footer>
+      </div>
+    </div>
+  );
+}
+
+/* The month's summary, organised. Imported briefs arrive as one paragraph of "•" points with
+   "–" sub-items. Known points (offer mix, planned revenue, sizing, attendance, past actuals,
+   source) are drawn as figures; anything else falls back to a tidy labelled row. */
+type Point = { label: string; body: string; subs: { label: string | null; text: string }[] };
+
+function briefPoints(text: string): Point[] {
+  const raw = String(text).trim();
+  const parts = raw.includes('•') ? raw.split(/\s*•\s*/) : raw.split(/(?<=[.!?])\s+(?=[A-Z₹0-9])/);
+  return parts
+    .map(p => p.trim())
+    .filter(Boolean)
+    .map(p => {
+      const pieces = p.split(/\s+[–—]\s+/).map(x => x.trim()).filter(Boolean);
+      const head = pieces.shift() || p;
+      const m = head.match(/^([^:]{2,48}):\s*(.*)$/);
+      return {
+        label: m ? m[1].trim() : '',
+        body: m ? m[2].trim() : head,
+        subs: pieces.map(x => {
+          const sm = x.match(/^([^:]{2,40}):\s*(.*)$/);
+          return { label: sm ? sm[1].trim() : null, text: sm ? sm[2].trim() : x };
+        }),
+      };
+    });
+}
+
+const L = (v: number) => `₹${(v / 100000).toLocaleString('en-IN', { maximumFractionDigits: 1 })}L`;
+const rupees = (s: string) => {
+  const m = s.match(/₹\s*([\d,]+(?:\.\d+)?)\s*(L|lakh|Cr)?/i);
+  if (!m) return null;
+  const n = Number(m[1].replace(/,/g, ''));
+  return /cr/i.test(m[2] || '') ? n * 1e7 : /l/i.test(m[2] || '') ? n * 1e5 : n;
+};
+const is = (p: Point, re: RegExp) => re.test(p.label);
+
+function Actuals({ rows }: { rows: { year: string; text: string }[] }) {
+  const parse = (t: string) => ({
+    revenue: t.match(/^(₹[\d.,]+L)/)?.[1] || '—',
+    clients: t.match(/from\s+(\d[\d,]*)\s+paying/i)?.[1] || '—',
+    first: t.match(/\((\d[\d,]*)\s+first-time/i)?.[1] || '—',
+    memberships: t.match(/Memberships\s+(₹[\d.,]+L)/i)?.[1] || '—',
+    packs: t.match(/class packs\s+(₹[\d.,]+L)/i)?.[1] || '—',
+    privates: t.match(/privates\s+(₹[\d.,]+L)/i)?.[1] || '—',
+    discounts: t.match(/discounts given\s+(₹[\d.,]+L)/i)?.[1] || '—',
+  });
+  const data = rows.map(r => ({ year: r.year, ...parse(r.text) }));
+  const cols: [keyof (typeof data)[number], string][] = [
+    ['revenue', 'Revenue'],
+    ['clients', 'Clients'],
+    ['first', 'New'],
+    ['memberships', 'Memb.'],
+    ['packs', 'Packs'],
+    ['privates', 'Privates'],
+    ['discounts', 'Disc.'],
+  ];
+  return (
+    <table className="mcb-table">
+      <thead>
+        <tr>
+          <th />
+          {cols.map(([, h]) => (
+            <th key={h}>{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(r => (
+          <tr key={r.year}>
+            <th>{r.year}</th>
+            {cols.map(([k]) => (
+              <td key={k}>{r[k]}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+type Live = { offers: number; offerRevenue: number; target: number; offerNames: { name: string; slot: string }[] };
+const SLOT_LABEL: Record<string, string> = {
+  newcomer: 'New clients',
+  new_client: 'New clients',
+  lapsed: 'Win-backs',
+  reactivation: 'Win-backs',
+  renewal: 'Renewals',
+  retention: 'Renewals',
+  upsell: 'Revenue boost',
+};
+
+function CoverBrief({ text, live }: { text: string; live: Live }) {
+  const points = briefPoints(text);
+  if (points.length < 2) return <p className="mc-brief">{text}</p>;
+
+  const used = new Set<Point>();
+  const take = (re: RegExp) => {
+    const p = points.find(x => !used.has(x) && is(x, re));
+    if (p) used.add(p);
+    return p;
+  };
+  const mix = take(/offer mix/i);
+  const revenue = take(/planned (offer )?revenue/i);
+  const sizing = take(/units were sized|sizing/i);
+  const attendance = take(/attendance/i);
+  const actuals = points.filter(x => /actuals$/i.test(x.label) && !/source/i.test(x.label));
+  actuals.forEach(a => used.add(a));
+  const source = take(/source/i);
+  const rest = points.filter(x => !used.has(x));
+
+  // Figures pulled from the prose; each block falls back to its text when parsing finds nothing.
+  const planned = revenue ? rupees(revenue.body) : null;
+  const target = revenue ? rupees(revenue.body.replace(/^[^₹]*₹[\d,.]+/, '')) : null;
+  const share = revenue?.body.match(/(\d+(?:\.\d+)?)%/)?.[1];
+  const funnel = sizing
+    ? [
+        ['Leads', (sizing.body + ' ' + sizing.subs.map(x => x.text).join(' ')).match(/(\d[\d,]*)\s+leads/i)?.[1]],
+        ['Trials', (sizing.body + ' ' + sizing.subs.map(x => x.text).join(' ')).match(/(\d[\d,]*)\s+trials/i)?.[1]],
+        ['Expiring', (sizing.body + ' ' + sizing.subs.map(x => x.text).join(' ')).match(/(\d[\d,]*)\s+memberships expiring/i)?.[1]],
+      ].filter(([, v]) => v)
+    : [];
+  const att = attendance?.body || '';
+  const bars = [
+    ['8+ visits', att.match(/8\+[^.]*?(\d{2})(?:[–-](\d{2}))?%/)],
+    ['4–7', att.match(/(\d{2})%\s+at\s+4[–-]7/)],
+    ['2–3', att.match(/(\d{2})%\s+at\s+2[–-]3/)],
+    ['1 visit', att.match(/(\d{2})%\s+at\s+one/)],
+  ]
+    .filter(([, m]) => m)
+    .map(([k, m]: any) => ({ k, v: Number(m[2] || m[1]), label: m[2] ? `${m[1]}–${m[2]}%` : `${m[1]}%` }));
+  const mixCount = mix?.body.match(/^(\d+)\s+offers?/i)?.[1];
+  // Unlabelled sub-items are the summary sentence; labelled ones are the offer groups.
+  const mixGroups = mix?.subs.filter(g => g.label) || [];
+  const mixSummary = [mix?.body.replace(/^(\d+)\s+offers?\s*[—–-]?\s*/i, '').trim(), ...(mix?.subs.filter(g => !g.label).map(g => g.text) || [])]
+    .filter(Boolean)
+    .join(' — ');
+
+  return (
+    <div className="mcb">
+      <div className="mcb-col">
+        {/* The month's live offers, grouped by the stream they serve — the plan text can lag
+            behind swaps, so names and counts come from what is actually picked. */}
+        <section className="mcb-block is-offers">
+          <header>
+            <span>This month’s offers</span>
+            <b>
+              {live.offers} offer{live.offers === 1 ? '' : 's'} · {L(live.offerRevenue)}
+              {live.target > 0 ? ` · ${Math.round((live.offerRevenue / live.target) * 100)}% of target` : ''}
+            </b>
+          </header>
+          {live.target > 0 && (
+            <span className="mcb-meter" aria-hidden="true">
+              <i style={{ width: `${Math.min(100, (live.offerRevenue / live.target) * 100)}%` }} />
+            </span>
+          )}
+          {live.offerNames.length ? (
+            <dl className="mcb-groups">
+              {Object.entries(
+                live.offerNames.reduce<Record<string, string[]>>((acc, o) => {
+                  const k = SLOT_LABEL[o.slot] || 'Revenue boost';
+                  (acc[k] = acc[k] || []).push(o.name);
+                  return acc;
+                }, {}),
+              ).map(([group, names]) => (
+                <div key={group}>
+                  <dt>{group}</dt>
+                  <dd>
+                    {names.map(name => (
+                      <span key={name} className="mcb-chip">
+                        {name}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : (
+            <p className="mcb-note">{mixSummary || 'No offers picked yet.'}</p>
+          )}
+        </section>
+      </div>
+
+      <div className="mcb-col">
+        {attendance && (
+          <section className="mcb-block is-attendance">
+            <header>
+              <span>Why attendance matters</span>
+              <b>Active 3 months later</b>
+            </header>
+            {bars.length >= 2 ? (
+              <>
+                <div className="mcb-bars">
+                  {bars.map(b => (
+                    <div key={b.k}>
+                      <span>{b.k}</span>
+                      <i>
+                        <s style={{ width: `${b.v}%` }} />
+                      </i>
+                      <b>{b.label}</b>
+                    </div>
+                  ))}
+                </div>
+                <p className="mcb-note">{att.match(/Every[^.]*\./)?.[0] || ''}</p>
+              </>
+            ) : (
+              <p className="mcb-note">{att}</p>
+            )}
+          </section>
+        )}
+
+        {actuals.length > 0 && (
+          <section className="mcb-block is-years">
+            <header>
+              <span>Same month, past years</span>
+            </header>
+            <Actuals rows={actuals.map(a => ({ year: a.label.replace(/\s*actuals$/i, ''), text: a.body }))} />
+          </section>
+        )}
+
+        {rest.length > 0 && (
+          <section className="mcb-block is-rest">
+            <dl className="mcb-rows">
+              {rest.map((r, i) => (
+                <div key={i}>
+                  <dt>{r.label || 'Note'}</dt>
+                  <dd>
+                    {r.body}
+                    {r.subs.map((x, j) => (
+                      <span key={j}>
+                        {' · '}
+                        {x.label ? <b>{x.label}: </b> : null}
+                        {x.text}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+        {source && <p className="mcb-source">Source: {source.body}</p>}
       </div>
     </div>
   );

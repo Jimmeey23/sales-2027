@@ -2382,3 +2382,293 @@
 .mc-nine-core b {
   font-size: clamp(34px, 3.9vw, 55px);
 }
+
+/* The month's summary, organised: plan on the left, evidence on the right. */
+.mw-monthcover .mc-hero:has(.mcb), .mc-hero:has(.mcb) { grid-template-columns: minmax(0, 1fr); max-width: none; width: 100%; }
+.mc-hero:has(.mcb) .mc-hero-copy { grid-column: 1 / -1; width: 100%; max-width: none; }
+.mcb {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 14px; margin-top: 8px; width: 100%;
+  color: rgba(255, 255, 255, 0.9); font-size: 13px; line-height: 1.45;
+  animation: mc-rise 0.8s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mcb-col { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.mcb-block {
+  padding: 14px 16px; border-radius: 14px; min-width: 0;
+  background: rgba(12, 10, 8, 0.55); border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.mcb-block > header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.mcb-block > header span { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.mcb-block > header b { font-size: 11px; font-weight: 600; color: color-mix(in srgb, var(--a1, #3892b2) 45%, #ffffff); }
+.mcb-note { margin: 8px 0 0; font-size: 12px; color: rgba(255, 255, 255, 0.62); }
+.mcb-block > .mcb-note:first-of-type { margin-top: 0; }
+.mcb-groups { margin: 10px 0 0; display: grid; gap: 8px; }
+.mcb-groups > div { display: grid; grid-template-columns: 130px 1fr; gap: 10px; align-items: start; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.07); }
+.mcb-groups dt { font-size: 11.5px; font-weight: 600; color: rgba(255, 255, 255, 0.7); padding-top: 3px; }
+.mcb-groups dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.mcb-chip { padding: 3px 10px; border-radius: 999px; font-size: 12px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; }
+.mcb-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.mcb-stat strong { display: block; font-family: var(--display, Georgia, serif); font-size: 28px; font-weight: 500; line-height: 1.1; color: #fff; }
+.mcb-stat strong em { font-family: var(--font-sans, inherit); font-style: normal; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.mcb-meter { display: block; height: 5px; margin-top: 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.mcb-meter i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, color-mix(in srgb, var(--a1, #3892b2) 70%, #fff), #fff); }
+.mcb-funnel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.mcb-funnel strong { font-size: 24px; }
+.mcb-funnel span { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.mcb-bars { display: grid; gap: 7px; }
+.mcb-bars > div { display: grid; grid-template-columns: 70px 1fr 64px; gap: 10px; align-items: center; font-size: 12px; }
+.mcb-bars span { color: rgba(255, 255, 255, 0.65); }
+.mcb-bars i { height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.mcb-bars s { display: block; height: 100%; border-radius: inherit; background: color-mix(in srgb, var(--a1, #3892b2) 65%, #ffffff); text-decoration: none; }
+.mcb-bars > div:first-child s { background: #fff; }
+.mcb-bars b { text-align: right; font-weight: 600; }
+.mcb-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.mcb-table th, .mcb-table td { padding: 6px 6px; text-align: right; white-space: nowrap; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+.mcb-table thead th { font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); }
+.mcb-table tbody th { text-align: left; font-weight: 600; color: #fff; }
+.mcb-table tbody tr:last-child th, .mcb-table tbody tr:last-child td { border-bottom: 0; }
+.mcb-block:has(.mcb-table) { overflow-x: auto; }
+.mcb-rows { margin: 0; display: grid; gap: 8px; }
+.mcb-rows > div { display: grid; grid-template-columns: 130px 1fr; gap: 10px; }
+.mcb-rows dt { font-size: 11px; font-weight: 600; color: rgba(255, 255, 255, 0.6); }
+.mcb-rows dd { margin: 0; }
+.mcb-source { margin: -4px 2px 0; font-size: 11px; color: rgba(255, 255, 255, 0.45); }
+@media (max-width: 900px) {
+  .mcb { grid-template-columns: 1fr; }
+  .mcb-stats { grid-template-columns: 1fr; }
+  .mcb-groups > div, .mcb-rows > div { grid-template-columns: 1fr; gap: 4px; }
+}
+.mcb-table th, .mcb-table td { background: transparent !important; }
+.mcb-table thead th { color: rgba(255, 255, 255, 0.5) !important; }
+.mcb-table tbody th { color: #fff !important; }
+.mcb-bars + .mcb-note { margin-top: 12px; }
+.mcb-block > .mcb-note:first-of-type:not(:only-child) { margin-bottom: 2px; }
+
+/* ── Refined cover system ─────────────────────────────────────────────────────
+   One type scale, one label style, hairline structure and quieter glass, so the
+   cover reads like a printed annual report rather than a stack of widgets. */
+.mw-monthcover {
+  --mc-hair: rgba(255, 255, 255, 0.10);
+  --mc-hair-2: rgba(255, 255, 255, 0.16);
+  --mc-glass: rgba(10, 9, 7, 0.46);
+  --mc-dim: rgba(255, 255, 255, 0.56);
+  --mc-text: rgba(255, 255, 255, 0.92);
+}
+.mw-monthcover .mc-hero h2 { letter-spacing: -0.02em; margin-bottom: 4px; }
+
+/* KPI strip: four figures on hairlines directly under the month name. */
+.mc-kpis {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 6px 0 18px; width: 100%;
+  border-top: 1px solid var(--mc-hair-2); border-bottom: 1px solid var(--mc-hair);
+  animation: mc-rise 0.8s 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mc-kpis > div { padding: 14px 18px 14px 0; min-width: 0; }
+.mc-kpis > div + div { padding-left: 18px; border-left: 1px solid var(--mc-hair); }
+.mc-kpis dt { font-size: 9.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mc-dim); }
+.mc-kpis dd {
+  margin: 6px 0 0; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  font-family: var(--display, Georgia, serif); font-size: clamp(24px, 2.4vw, 34px); line-height: 1; color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.mc-kpis dd.pos { color: #9fe0b5; }
+.mc-kpis dd.neg { color: #f2a48f; }
+.mc-kpis dd em { font-family: var(--font-sans, inherit); font-style: normal; font-size: 11.5px; color: var(--mc-dim); }
+
+/* Brief: two columns under one hairline, blocks as quiet glass. */
+.mcb { gap: 16px; margin-top: 0; }
+.mcb-col { gap: 16px; }
+.mcb-block {
+  padding: 16px 18px; border-radius: 10px; background: var(--mc-glass);
+  border: 1px solid var(--mc-hair); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.mcb-block > header { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--mc-hair); }
+.mcb-block > header span { font-size: 9.5px; letter-spacing: 0.18em; color: var(--mc-dim); }
+.mcb-block > header b { font-size: 11.5px; font-weight: 500; color: var(--mc-text); font-variant-numeric: tabular-nums; }
+.mcb-meter { margin: 0 0 12px; height: 3px; }
+.mcb-groups { margin: 0; gap: 0; }
+.mcb-groups > div { grid-template-columns: 120px 1fr; padding: 9px 0; border-top: 1px solid var(--mc-hair); }
+.mcb-groups > div:first-child { border-top: 0; padding-top: 2px; }
+.mcb-groups dt { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mc-dim); padding-top: 5px; }
+.mcb-chip { border-radius: 6px; padding: 4px 10px; font-size: 12px; background: rgba(255, 255, 255, 0.06); border-color: var(--mc-hair-2); }
+.mcb-bars > div { grid-template-columns: 64px 1fr 58px; }
+.mcb-bars i { height: 4px; }
+.mcb-bars s { background: rgba(255, 255, 255, 0.45); }
+.mcb-bars > div:first-child s { background: #fff; }
+.mcb-bars > div:first-child span, .mcb-bars > div:first-child b { color: #fff; }
+.mcb-table th, .mcb-table td { padding: 7px 8px; border-bottom-color: var(--mc-hair); }
+.mcb-table thead th { font-size: 9px; letter-spacing: 0.12em; }
+.mcb-table tbody th { font-size: 11px; letter-spacing: 0.08em; }
+.mcb-source { font-size: 10.5px; letter-spacing: 0.02em; }
+
+/* The lower panel and story pick up the same hairline and label system. */
+.mw-monthcover .mc-panel, .mw-monthcover .mc-story {
+  border-radius: 10px; background: var(--mc-glass); border-color: var(--mc-hair);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.mw-monthcover .mc-label { font-size: 9.5px; letter-spacing: 0.18em; color: var(--mc-dim); }
+
+@media (max-width: 900px) {
+  .mc-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mc-kpis > div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .mc-kpis > div:nth-child(n + 3) { border-top: 1px solid var(--mc-hair); }
+}
+.mc-kpis { background: var(--mc-glass); border: 1px solid var(--mc-hair); border-radius: 10px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.mc-kpis > div { padding: 14px 20px; }
+.mc-kpis > div + div { padding-left: 20px; }
+.mcb-bars { margin-bottom: 4px; }
+.mcb-bars + .mcb-note { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--mc-hair); }
+.mcb-table { table-layout: fixed; }
+.mcb-table th, .mcb-table td { padding: 7px 4px; white-space: normal; overflow-wrap: anywhere; }
+.mcb-table thead th { line-height: 1.3; vertical-align: bottom; }
+.mcb-table thead th:first-child, .mcb-table tbody th { width: 74px; }
+.mcb-block:has(.mcb-table) { overflow: visible; }
+/* Target and growth already lead the cover; the panel keeps only the split. */
+.mw-monthcover .mc-panel .mc-amount { display: none; }
+
+/* ── Cover grid ────────────────────────────────────────────────────────────────
+   Every card sits on one 12-column grid; the wrappers dissolve so cards align
+   edge to edge and rows share a height.
+   Title | figures · offers | requirement · split | past years · attendance | plan. */
+.mw-monthcover .mc-scroll {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-flow: row dense; gap: 14px; align-content: start;
+}
+.mw-monthcover .mc-hero,
+.mw-monthcover .mc-hero-copy,
+.mw-monthcover .mcb,
+.mw-monthcover .mcb-col,
+.mw-monthcover .mc-panel { display: contents; }
+
+.mw-monthcover .mc-top { grid-column: 1 / -1; margin-bottom: 4px; }
+.mw-monthcover .mc-anniv { grid-column: 1 / -1; margin: 0; }
+.mw-monthcover .mc-titleblock { grid-column: 1 / span 5; align-self: end; display: grid; gap: 4px; }
+.mw-monthcover .mc-titleblock h2 { margin: 0; }
+.mw-monthcover .mc-kpis {
+  grid-column: 6 / -1; margin: 0; align-self: stretch;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mw-monthcover .mc-kpis > div { padding: 14px 20px; border-left: 0; }
+.mw-monthcover .mc-kpis > div:nth-child(even) { border-left: 1px solid var(--mc-hair); }
+.mw-monthcover .mc-kpis > div:nth-child(n + 3) { border-top: 1px solid var(--mc-hair); }
+
+.mw-monthcover .mcb-block.is-offers { grid-column: 1 / span 7; }
+.mw-monthcover .mc-need { grid-column: 8 / -1; }
+.mw-monthcover .mc-split { grid-column: 1 / span 5; }
+.mw-monthcover .mcb-block.is-years { grid-column: 6 / -1; }
+.mw-monthcover .mcb-block.is-attendance { grid-column: 1 / span 5; }
+.mw-monthcover .mc-story { grid-column: 6 / -1; margin: 0; }
+.mw-monthcover .mcb-block.is-rest,
+.mw-monthcover .mcb-source,
+.mw-monthcover .mc-play,
+.mw-monthcover .mc-foot { grid-column: 1 / -1; }
+.mw-monthcover .mcb-source { margin: -6px 2px 0; }
+.mw-monthcover .mc-nine { position: absolute; top: 72px; right: 40px; width: 110px; opacity: 0.8; pointer-events: none; }
+
+/* Cards freed from the old panel carry the shared glass. */
+.mw-monthcover .mc-split,
+.mw-monthcover .mc-need,
+.mw-monthcover .mc-play {
+  margin: 0; padding: 16px 18px; border-radius: 10px; background: var(--mc-glass);
+  border: 1px solid var(--mc-hair); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.mw-monthcover .mcb-block { margin: 0; }
+
+/* The plan card: the move on top, the weeks as a 2 × 2 grid beneath. */
+.mw-monthcover .mc-story { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 16px 18px; }
+.mw-monthcover .mc-story-col { padding: 0; border: 0; }
+.mw-monthcover .mc-story-col + .mc-story-col { padding-top: 12px; border-top: 1px solid var(--mc-hair); }
+.mw-monthcover .mc-story-col p { margin: 6px 0 0; font-size: 12.5px; line-height: 1.5; }
+.mw-monthcover .mc-weeks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; margin-top: 8px; }
+.mw-monthcover .mc-week { font-size: 12px; line-height: 1.45; }
+.mw-monthcover .mc-week span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+
+.mw-monthcover .mc-foot { margin-top: 4px; padding-top: 14px; border-top: 1px solid var(--mc-hair); }
+
+@media (max-width: 1100px) {
+  .mw-monthcover .mc-titleblock, .mw-monthcover .mc-kpis,
+  .mw-monthcover .mcb-block.is-offers, .mw-monthcover .mc-need,
+  .mw-monthcover .mc-split, .mw-monthcover .mcb-block.is-years,
+  .mw-monthcover .mcb-block.is-attendance, .mw-monthcover .mc-story { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .mw-monthcover .mc-kpis { grid-template-columns: 1fr 1fr; }
+  .mw-monthcover .mc-weeks { grid-template-columns: 1fr; }
+  .mw-monthcover .mc-nine { display: none; }
+}
+
+/* ── Cover grid v2: an open top, a tight grid from the middle down ─────────────── */
+.mw-monthcover .mc-scroll { gap: 10px; }
+/* The title sits at the bottom of an empty band, so the photograph owns the top half. */
+.mw-monthcover .mc-titleblock {
+  grid-column: 1 / -1; min-height: clamp(220px, 42vh, 460px);
+  display: flex; flex-direction: column; justify-content: flex-end; align-self: stretch; padding-bottom: 8px;
+}
+.mw-monthcover .mc-kpis {
+  grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.mw-monthcover .mc-kpis > div { padding: 12px 18px; border-top: 0 !important; }
+.mw-monthcover .mc-kpis > div + div { border-left: 1px solid var(--mc-hair) !important; }
+.mw-monthcover .mc-kpis dd { font-size: clamp(22px, 2vw, 30px); }
+
+.mw-monthcover .mcb-block.is-offers { grid-column: 1 / span 6; }
+.mw-monthcover .mc-need { grid-column: 7 / span 3; }
+.mw-monthcover .mc-split { grid-column: 10 / span 3; }
+.mw-monthcover .mcb-block.is-attendance { grid-column: 1 / span 5; }
+.mw-monthcover .mcb-block.is-years { grid-column: 6 / -1; }
+.mw-monthcover .mc-story { grid-column: 1 / -1; }
+.mw-monthcover .mcb-source { grid-column: 1 / -1; margin: -4px 2px 2px; text-align: right; }
+
+/* Tighter cards. */
+.mw-monthcover .mcb-block, .mw-monthcover .mc-split, .mw-monthcover .mc-need, .mw-monthcover .mc-story { padding: 14px 16px; }
+.mw-monthcover .mcb-block > header { margin-bottom: 10px; padding-bottom: 8px; }
+
+/* Lead requirement, narrow: counters stay three across, conversion chips wrap. */
+.mw-monthcover .mc-need .mc-counters { gap: 10px; }
+.mw-monthcover .mc-need .mc-count b { font-size: 22px; }
+.mw-monthcover .mc-need .mc-conv { flex-wrap: wrap; gap: 6px; }
+.mw-monthcover .mc-need .mc-renew { flex-wrap: wrap; row-gap: 6px; }
+
+/* Revenue split, narrow: ring above the legend. */
+.mw-monthcover .mc-split .mc-split-figure { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
+.mw-monthcover .mc-split .mc-donut { width: 84px; height: 84px; }
+.mw-monthcover .mc-split .mc-legend li { grid-template-columns: 8px 1fr auto; }
+.mw-monthcover .mc-split .mc-legend em { display: none; }
+
+/* Plan across the full width: the move left, four weeks right. */
+.mw-monthcover .mc-story { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); gap: 0 24px; }
+.mw-monthcover .mc-story-col + .mc-story-col { padding-top: 0; border-top: 0; padding-left: 24px; border-left: 1px solid var(--mc-hair); }
+.mw-monthcover .mc-story-col.is-risk { display: none; }
+.mw-monthcover .mc-weeks { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+
+@media (max-width: 1200px) {
+  .mw-monthcover .mcb-block.is-offers { grid-column: 1 / -1; }
+  .mw-monthcover .mc-need { grid-column: 1 / span 6; }
+  .mw-monthcover .mc-split { grid-column: 7 / -1; }
+}
+@media (max-width: 900px) {
+  .mw-monthcover .mc-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mw-monthcover .mc-kpis > div:nth-child(3) { border-left: 0 !important; }
+  .mw-monthcover .mc-kpis > div:nth-child(n + 3) { border-top: 1px solid var(--mc-hair) !important; }
+  .mw-monthcover .mc-need, .mw-monthcover .mc-split,
+  .mw-monthcover .mcb-block.is-attendance, .mw-monthcover .mcb-block.is-years { grid-column: 1 / -1; }
+  .mw-monthcover .mc-story { grid-template-columns: 1fr; }
+  .mw-monthcover .mc-story-col + .mc-story-col { padding: 12px 0 0; border-left: 0; border-top: 1px solid var(--mc-hair); }
+  .mw-monthcover .mc-weeks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mw-monthcover .mc-titleblock { min-height: 30vh; }
+}
+@media (min-width: 901px) {
+  .mw-monthcover .mc-story { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) !important; align-items: start; }
+  .mw-monthcover .mc-story > .mc-story-col.is-move { grid-column: 1 !important; grid-row: 1 !important; }
+  .mw-monthcover .mc-story > .mc-story-col.is-plan { grid-column: 2 !important; grid-row: 1 !important; margin: 0 !important; }
+}
+/* Title stays at the top; the open band sits beneath it, and the grid starts mid-page. */
+.mw-monthcover .mc-titleblock { justify-content: flex-start !important; padding-bottom: 0; }
+/* Two lines under the month name: what the month is for. */
+.mw-monthcover .mc-desc {
+  margin: 6px 0 0; max-width: 62ch;
+  font-size: clamp(13.5px, 1.2vw, 16px); line-height: 1.5; color: rgba(255, 255, 255, 0.84);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+  animation: mc-rise 0.8s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}

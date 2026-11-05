@@ -99,6 +99,7 @@ import { OfferCopilot } from './month/OfferCopilot';
 import { OfferEditChat } from './month/OfferEditChat';
 import { ReplaceOfferModal } from './month/ReplaceOfferModal';
 import { setCopilotScope } from '../../lib/copilotActions';
+import { useRowAlign } from '../../lib/useRowAlign';
 import { SectionHead } from './month/SectionHead';
 import { Act } from './month/Act';
 import { VolumesChart } from './month/VolumesChart';
@@ -761,6 +762,16 @@ export default function MonthWorkspace({
   // Chat edits: null = closed; 0 = all of the month's offers; an id = that offer.
   const [editChat, setEditChat] = useState<number | null>(null);
   const [replacing, setReplacing] = useState<any | null>(null);
+  // Two-up offer cards line up section by section.
+  const offerListRef = useRef<HTMLDivElement | null>(null);
+  useRowAlign(offerListRef, 'article.oc', [
+    '.ocv-plate',
+    '.ocv-keyterms',
+    '.ocv-head',
+    '.ocv-offer-highlight.is-front',
+    '.ocv-figures',
+    '.ocv-facts',
+  ]);
   // Tell the app-wide copilot which studio and month are on screen.
   useEffect(() => {
     setCopilotScope({ studioId: studio?.id ?? null, year, month, label: studio?.name ?? null });
@@ -3185,7 +3196,7 @@ export default function MonthWorkspace({
                                 revenue: group.offers.reduce((sum, offer) => sum + forecastRevenue(offer), 0),
                               }))}
                             />
-                            <div className={`mw-offer-list ${offerColumns === 2 ? 'is-two-up' : 'is-one-up'}`}>
+                            <div ref={offerListRef} className={`mw-offer-list ${offerColumns === 2 ? 'is-two-up' : 'is-one-up'}`}>
                               {activeGroups.flatMap(g => {
                                 const total = g.offers.reduce((sum, o) => sum + forecastRevenue(o), 0);
                                 return [
@@ -4138,6 +4149,14 @@ export default function MonthWorkspace({
             studioName={studio.name}
             theme={displayTheme}
             brief={coverBrief}
+            description={(() => {
+              // The filed focus is written as a description; the objective is a stats list, so it
+              // is only a fallback, and then only its first plain sentence.
+              const focus = String(form.content?.focus || form.content?.planImport?.focus || '').trim();
+              if (focus) return focus;
+              const plain = String(form.objective || chapter.objective || '').replace(/•/g, ' ').replace(/\s+/g, ' ').trim();
+              return plain.split(/(?<=[.!?])\s+/).slice(0, 2).join(' ');
+            })()}
             risk={coverRisk}
             signature={coverSignature}
             plan={coverPlan}
@@ -4151,6 +4170,8 @@ export default function MonthWorkspace({
             renewalCoverage={coverage}
             dates={dates}
             offers={selected.length}
+            offerRevenue={offerRevenue}
+            offerNames={selected.map((o: any) => ({ name: String(o.name), slot: String(slotOf(o.id) || o.plan_slot || o.objective || '') }))}
             status={coverStatus}
             photo={coverPhoto}
             onOpen={() => setCoverOpen(false)}

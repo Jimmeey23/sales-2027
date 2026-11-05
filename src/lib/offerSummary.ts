@@ -16,6 +16,7 @@
 // browser (the plan export describes every offer), and the serverless runtime runs Node's
 // ESM loader over compiled .js files, where an extensionless specifier does not resolve.
 import { planPricing, type PlanPricing } from './offerPricing.js';
+import { offerSections } from './offerSections.js';
 
 export interface OfferSummary {
   /** What is being sold: "3-month unlimited", "12-class pack", "7-day unlimited intro". */
@@ -245,6 +246,18 @@ export function offerSummary(offer: any): OfferSummary {
   const purpose = purposeOf(offer);
   const audience = audienceOf(offer);
 
+  // When the offer states its own terms, describe it in those words; the derived
+  // membership/benefit guess is only for offers that say nothing.
+  const sec = offerSections(offer);
+  const inr = (v: number) => `₹${Math.round(v).toLocaleString('en-IN')}`;
+  if (sec.getText && sec.price) {
+    const money = sec.save && sec.usual ? ` for ${inr(sec.price)} (usual ${inr(sec.usual)}, save ${inr(sec.save)})` : ` for ${inr(sec.price)}`;
+    // The description is one line: the first two things the client gets, then the money.
+    const items = sec.getText.split(/,\s*/);
+    const getShort = items.length > 2 ? `${items.slice(0, 2).join(', ')} + more` : sec.getText;
+    const text = `${getShort}${money}`;
+    return { membership, benefit, audience, purpose, sentence: `${text.charAt(0).toUpperCase()}${text.slice(1)} — aimed at ${purpose}.` };
+  }
   const lead = `${membership} ${benefit}`.replace(/\s+/g, ' ').trim();
   const sentence = `${lead.charAt(0).toUpperCase()}${lead.slice(1)} — aimed at ${purpose}.`;
   return { membership, benefit, audience, purpose, sentence };

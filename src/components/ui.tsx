@@ -1,4 +1,5 @@
 import React, { useEffect, useId } from 'react';
+import { createPortal } from 'react-dom';
 import { AlertCircle, Check, ChevronDown, Info, X } from 'lucide-react';
 import { titleCase } from '../types';
 
@@ -416,7 +417,7 @@ export function ChipLoader({ label = 'Loading' }: { label?: string }) {
   const chip = `chip-${uid}`, text = `text-${uid}`, pin = `pin-${uid}`;
   return (
     <div className="chip-loader" aria-hidden="true">
-      <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 -10 800 500" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id={chip} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#2d2d2d" />
@@ -444,6 +445,20 @@ export function ChipLoader({ label = 'Loading' }: { label?: string }) {
         {[322, 470].map(x =>
           CHIP_PINS.map(y => <rect key={`${x}-${y}`} x={x} y={y} width="8" height="10" rx="2" fill={`url(#${pin})`} className="chip-pin" />),
         )}
+        <text
+          x="400"
+          y="241"
+          fontFamily="var(--font-sans, Arial, sans-serif)"
+          fontSize="20"
+          fontWeight="700"
+          letterSpacing="2"
+          fill="#f5f1e8"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          className="chip-text"
+        >
+          {label.toUpperCase()}
+        </text>
         {CHIP_ENDS.map(([cx, cy]) => (
           <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="5" fill="black" />
         ))}
@@ -464,7 +479,7 @@ export function Loading({ label = 'Loading intelligence…', screen = false }: {
   // The label already ends in an ellipsis in most call sites; the dots below say that the
   // sentence is continuing, so saying it twice would only stutter.
   const caption = String(label).replace(/[\u2026.]+\s*$/, '');
-  return (
+  const overlay = (
     <div
       className={`loading p57-loader${screen ? ' is-screen' : ''}`}
       role="status"
@@ -472,10 +487,13 @@ export function Loading({ label = 'Loading intelligence…', screen = false }: {
       aria-label={label}
     >
       <div className="p57-loader-stage">
-        <ChipLoader />
+        <span className="p57-pulse" aria-hidden="true" />
       </div>
     </div>
   );
+  // Rendered at the page root: inside a transformed container (the month window) a fixed
+  // overlay would be positioned against that container, not the screen.
+  return typeof document !== 'undefined' ? createPortal(overlay, document.body) : overlay;
 }
 
 /* A skeleton row used where a list is about to arrive, so a slow fetch reads as
