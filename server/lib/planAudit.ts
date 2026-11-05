@@ -107,7 +107,9 @@ export function auditYear(studioId: number, year: number): { studio: string; fin
       if (!goal || goal <= 0) continue;
       const covered = byStream[key] ?? 0;
       if (covered / goal >= 0.5) continue;
-      const declared = standardTrade ? num(standardTrade[key]) : null;
+      // The plan declares its full-price expectation for the month as a whole; it does not
+      // split it by stream, so the finding quotes the month's figure rather than inventing one.
+      const declared = standardTrade ? num(standardTrade.revenue) : null;
       findings.push({
         severity: 'warn',
         month: m,
