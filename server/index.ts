@@ -1,3 +1,4 @@
+import { planSeedEnabled } from './lib/seedPolicy';
 import express from 'express';
 import compression from 'compression';
 import { jsonRequestBody } from './lib/requestBody.js';
@@ -42,9 +43,9 @@ if (process.env.NODE_ENV === 'production') {
   enforceSharedCredentialPolicy();
 }
 ensureBaselineData();
-ensureCommercialSeed();
+if (planSeedEnabled()) ensureCommercialSeed();
 // Keep stored funnel volumes in step with the one target per location (see lib/targetBreakdown).
-syncBreakdownFunnels(2027);
+if (planSeedEnabled()) syncBreakdownFunnels(2027);
 // Load planning data from Supabase (or migrate it there on first run) before serving requests.
 // Called once per process: by server/main.ts locally and by api/index.ts on Vercel.
 let initialising: Promise<void> | null = null;
@@ -63,8 +64,8 @@ export function initApp() {
           (db.prepare("SELECT id FROM users WHERE role='administrator' AND active=1 ORDER BY id LIMIT 1").get() as any)
             ?.id || 0,
         ) || null;
-      ensureHistoricalCohorts(adminId);
-      syncBreakdownFunnels(2027);
+      if (planSeedEnabled()) ensureHistoricalCohorts(adminId);
+      if (planSeedEnabled()) syncBreakdownFunnels(2027);
       if (Number((db.prepare('SELECT COUNT(*) n FROM segment_snapshots').get() as any)?.n || 0) === 0) {
         recalculateSegments();
       }

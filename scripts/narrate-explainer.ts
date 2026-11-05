@@ -20,7 +20,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { buildExplainer, type ExplainerOffer } from '../src/lib/explainerScript';
+import { buildExplainer, narrationHash, type ExplainerOffer } from '../src/lib/explainerScript';
 
 const PLAN = 'server/data/portfolio-2027/v5-portfolio.json';
 const OUT_DIR = 'public/explainer';
@@ -157,18 +157,26 @@ if (has('list')) {
 } else if (has('manifest')) {
   fs.mkdirSync(path.resolve(OUT_DIR), { recursive: true });
   const available: Record<string, number[]> = {};
+  const hashes: Record<string, Record<string, string>> = {};
   for (const block of studios) {
-    const key = slug(APP_NAME[block.studio.code] || block.studio.name);
+    const name = APP_NAME[block.studio.code] || block.studio.name;
+    const key = slug(name);
     const months: number[] = [];
+    hashes[key] = {};
     for (const month of block.months) {
       const file = path.resolve(OUT_DIR, `${key}-${String(month.month).padStart(2, '0')}.mp3`);
-      if (fs.existsSync(file) && fs.statSync(file).size > 1024) months.push(month.month);
+      if (fs.existsSync(file) && fs.statSync(file).size > 1024) {
+        months.push(month.month);
+        // The words this track speaks. The player only uses the track while the live
+        // month still produces exactly these words.
+        hashes[key][month.month] = narrationHash(scriptFor(name, block, month, plan.year));
+      }
     }
     available[key] = months;
   }
   fs.writeFileSync(
     path.resolve(OUT_DIR, 'manifest.json'),
-    `${JSON.stringify({ generatedAt: new Date().toISOString(), studios: available }, null, 2)}\n`,
+    `${JSON.stringify({ generatedAt: new Date().toISOString(), studios: available, hashes }, null, 2)}\n`,
   );
   const total = Object.values(available).reduce((s, m) => s + m.length, 0);
   console.log(`Recorded narration: ${total} of 48 months.`);

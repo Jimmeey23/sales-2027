@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import MonsoonScene from '../../components/MonsoonScene';
+import SeasonScene from '../../components/SeasonScene';
 import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Play, Sparkles, X } from 'lucide-react';
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
@@ -208,6 +210,10 @@ export default function MonthCover({
         aria-hidden="true"
       />
       <div className="mc-scrim" aria-hidden="true" />
+      {/* July is monsoon month: rain and rising floodwater behind the cover. */}
+      {month === 7 && <MonsoonScene />}
+      {/* Feb, Apr, May, Aug, Nov, Dec: seasonal scenes (Valentine's, anniversary, heat, Amazing Race, Diwali, Christmas). */}
+      <SeasonScene month={month} />
 
       <div className="mc-scroll">
         <header className="mc-top">

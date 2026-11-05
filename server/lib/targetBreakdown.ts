@@ -1,3 +1,4 @@
+import { planSeedEnabled } from './seedPolicy';
 import { db } from '../db.js';
 import { POPUP_CHILDREN, POPUP_PARENT } from './plan2027.js';
 
@@ -514,6 +515,8 @@ export function targetBreakdown(studioId: number, year: number) {
 // overview, intelligence) reads the same leads / first visits / new paying clients. Idempotent and
 // does not create target versions: the target itself is unchanged.
 export function syncBreakdownFunnels(year: number) {
+  // Funnels come from the imported plan pack; never overwrite them from coded assumptions.
+  if (!planSeedEnabled()) return;
   const update = db.prepare(
     'UPDATE monthly_targets SET funnel=?, historical_revenue=?, target_growth=? WHERE studio_id=? AND year=? AND month=?',
   );

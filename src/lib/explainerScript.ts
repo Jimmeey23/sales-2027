@@ -435,3 +435,21 @@ export function sceneOffsets(script: ExplainerScript): number[] {
     return start;
   });
 }
+
+/** Fingerprint of the words a script speaks. A recorded track carries the fingerprint of
+    the script it was recorded from, so the player can tell when the plan has moved on and
+    the recording would read out stale numbers. FNV-1a: tiny, deterministic, same in node
+    and the browser. */
+export function narrationHash(script: ExplainerScript): string {
+  const text = script.scenes
+    .map(s => s.narration)
+    .join(' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h.toString(16).padStart(8, '0');
+}

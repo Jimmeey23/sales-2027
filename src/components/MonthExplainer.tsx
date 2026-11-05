@@ -92,7 +92,8 @@ export default function MonthExplainer({
   const trackTimeFor = useCallback(
     (at: number) => {
       const total = audioDuration.current || scriptDuration;
-      return (offsets[clamp(at, 0, offsets.length - 1)] / scriptDuration) * total;
+      // ms -> seconds for HTMLMediaElement.currentTime.
+      return ((offsets[clamp(at, 0, offsets.length - 1)] / scriptDuration) * total) / 1000;
     },
     [offsets, scriptDuration],
   );
@@ -304,7 +305,8 @@ export default function MonthExplainer({
           src={audioUrl}
           preload="auto"
           onLoadedMetadata={event => {
-            audioDuration.current = event.currentTarget.duration || 0;
+            // Stored in ms to match the script; the element reports seconds.
+            audioDuration.current = (event.currentTarget.duration || 0) * 1000;
           }}
           onEnded={() => {
             if (index >= scenes.length - 1) {

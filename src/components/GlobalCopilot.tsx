@@ -99,12 +99,18 @@ export default function GlobalCopilot() {
     drag.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, moved: false };
     const move = (ev: PointerEvent) => {
       if (!drag.current) return;
+      // A click with a slight wobble is still a click, not a move.
+      if (!drag.current.moved && Math.hypot(ev.clientX - e.clientX, ev.clientY - e.clientY) < 5) return;
       drag.current.moved = true;
       setPos(clampPos(ev.clientX - drag.current.dx, ev.clientY - drag.current.dy, r.width, r.height));
     };
     const up = () => {
       window.removeEventListener('pointermove', move);
       window.removeEventListener('pointerup', up);
+      if (!drag.current?.moved) {
+        drag.current = null;
+        return;
+      }
       setPos(p => {
         try {
           localStorage.setItem('p57-copilot-pos', JSON.stringify(p));
@@ -323,12 +329,10 @@ export default function GlobalCopilot() {
           type="button"
           ref={fabRef}
           className="gcp-fab"
-          style={pos ? { left: pos.x, top: pos.y, right: 'auto', bottom: 'auto' } : undefined}
-          onPointerDown={e => startDrag(e, fabRef.current)}
-          onClick={() => {
-            if (!drag.current?.moved) setOpen(true);
-          }}
-          title="Copilot (⌘J) — drag to move"
+          // Always docked bottom-right: a remembered pixel position drifted mid-screen on
+          // other window sizes. The open panel can still be dragged.
+          onClick={() => setOpen(true)}
+          title="Copilot (⌘J)"
         >
           <Sparkles size={16} /> Copilot
         </button>

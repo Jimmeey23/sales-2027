@@ -49,7 +49,7 @@ import { isLegacyTheme, monthChapter, monthStory } from '../../data/monthNarrati
 import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
 import MonthExplainer from '../../components/MonthExplainer';
-import { buildExplainer, type ExplainerOffer } from '../../lib/explainerScript';
+import { buildExplainer, narrationHash, type ExplainerOffer } from '../../lib/explainerScript';
 import PageHero from './PageHero';
 import OfferLibrary from './OfferLibrary';
 import { selectedForPlan } from './TargetsTab';
@@ -152,6 +152,8 @@ export default function MonthWorkspace({
   // Months that have a recorded narration track. Missing ones fall back to the
   // browser's own voice, which the player names in its controls.
   const [narratedMonths, setNarratedMonths] = useState<number[]>([]);
+  // Fingerprint of the words each recorded track speaks, by month.
+  const [narratedHashes, setNarratedHashes] = useState<Record<string, string>>({});
   // Editing is turned on one section at a time, from the pencil in that section's header.
   // Being able to edit never changes how a section is drawn — only what its pencil unlocks.
   const [editSection, setEditSection] = useState<string | null>(null);
@@ -203,8 +205,14 @@ export default function MonthWorkspace({
       .replace(/^-|-$/g, '');
     fetch('/explainer/manifest.json', { credentials: 'same-origin' })
       .then(r => (r.ok ? r.json() : null))
-      .then((data: any) => setNarratedMonths(Array.isArray(data?.studios?.[slug]) ? data.studios[slug] : []))
-      .catch(() => setNarratedMonths([]));
+      .then((data: any) => {
+        setNarratedMonths(Array.isArray(data?.studios?.[slug]) ? data.studios[slug] : []);
+        setNarratedHashes(data?.hashes?.[slug] && typeof data.hashes[slug] === 'object' ? data.hashes[slug] : {});
+      })
+      .catch(() => {
+        setNarratedMonths([]);
+        setNarratedHashes({});
+      });
   }, [studio.name]);
 
   // Offers this studio can pick from (Pop-up includes its venues).
@@ -488,9 +496,10 @@ export default function MonthWorkspace({
 
   const planBody = (over: Record<string, unknown> = {}) => planBodyOf(form, over);
 
-  // Autosave: plan text, focus points, activations, actions and AI output persist ~1s after the last edit.
+  // Autosave: plan text, focus points, activations, actions, AI output and the stream split
+  // persist ~1s after the last edit, so the database never lags what the screen shows.
   const [autoState, setAutoState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
-  const pendingSave = useRef<{ url: string; body: string } | null>(null),
+  const pendingSave = useRef<{ url: string; method: 'PUT' | 'PATCH'; body: string; plan: string } | null>(null),
     saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const flushSave = async () => {
     clearTimeout(saveTimer.current);
@@ -501,8 +510,8 @@ export default function MonthWorkspace({
     const key = resetKey.current;
     saving.current += 1;
     try {
-      await api(p.url, { method: 'PUT', body: p.body });
-      lastSaved.current = p.body;
+      await api(p.url, { method: p.method, body: p.body });
+      lastSaved.current = p.plan;
       setAutoState('saved');
       skipReset.current = key;
       await onSaved();
@@ -515,9 +524,27 @@ export default function MonthWorkspace({
   };
   useEffect(() => {
     if (!editable) return;
-    const body = JSON.stringify(planBody());
-    if (body === lastSaved.current) return;
-    pendingSave.current = { url: `/studio-plans/${studio.id}/${year}/${month}`, body };
+    const plan = JSON.stringify(planBody());
+    const streamsChanged =
+      !!targetRow &&
+      STREAMS.some(s => n(form.streams[s.key]) !== Math.round(n(approved ? initialStreams[s.key] : targetRow[s.field])));
+    if (plan === lastSaved.current && !streamsChanged) return;
+    pendingSave.current = streamsChanged
+      ? {
+          url: `/targets/${targetRow.id}`,
+          method: 'PATCH',
+          plan,
+          // Saved as typed; the full-coverage check is left to explicit approval so a
+          // half-entered split still persists.
+          body: JSON.stringify({
+            proposedTarget: form.target,
+            ...Object.fromEntries(STREAMS.map(s => [s.body, n(form.streams[s.key])])),
+            repeatTarget: heldRepeat,
+            otherTarget: heldOther,
+            monthlyPlan: planBody(),
+          }),
+        }
+      : { url: `/studio-plans/${studio.id}/${year}/${month}`, method: 'PUT', plan, body: plan };
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(flushSave, 1000);
   }, [form, editable]);
@@ -4351,7 +4378,9 @@ export default function MonthWorkspace({
         <MonthExplainer
           script={explainerScript}
           audioUrl={
-            narratedMonths.includes(month)
+            // A recording is only used while it still says what the slides show. Once the
+            // month is edited, the browser voice reads the live numbers instead.
+            narratedMonths.includes(month) && narratedHashes[String(month)] === narrationHash(explainerScript)
               ? `/explainer/${studio.name
                   .toLowerCase()
                   .replace(/[()]/g, '')

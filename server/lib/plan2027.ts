@@ -1,3 +1,4 @@
+import { planSeedEnabled } from './seedPolicy';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -940,6 +941,7 @@ export const PLAYBOOK_SECTIONS = ['studio_actions', 'always_on', 'recovery'] as 
 
 // Seeds a studio's editable playbook items the first time they are requested.
 export function ensurePlaybookItems(studioId: number, year: number, userId: number | null) {
+  if (!planSeedEnabled()) return;
   const count = (
     db.prepare('SELECT COUNT(*) n FROM studio_playbook_items WHERE studio_id=? AND year=?').get(studioId, year) as any
   ).n;

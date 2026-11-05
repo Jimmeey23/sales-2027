@@ -1,3 +1,4 @@
+import { planSeedEnabled } from './seedPolicy';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -1384,6 +1385,8 @@ export function ensureHistoricalCohorts(adminId: number | null) {
 
 export function ensureBaselineData() {
   ensureStudiosAndUsers();
+  // Products, history and plans all come from the database only (see lib/seedPolicy).
+  if (!planSeedEnabled()) return { seeded: false } as any;
   ensureProductCatalogue();
 
   const adminId =

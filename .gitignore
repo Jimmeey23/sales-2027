@@ -19,3 +19,4 @@ artifacts/
 
 # Build output (node-gyp, tsc, bundlers)
 build/
+backups/

@@ -846,37 +846,69 @@
 /* ------------------------------------------------------------ the play button */
 
 .mc-explainer {
+  /* Its own row in the cover grid, sized to its content: in a narrow grid cell it was
+     squeezed to 100px and its label wrapped over three lines. */
+  grid-column: 1 / -1;
+  justify-self: start;
+  align-self: end;
+  width: max-content;
+  max-width: 100%;
+  height: auto;
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
-  gap: 11px;
-  padding: 9px 20px 9px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  gap: 12px;
+  padding: 6px 8px 6px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 99px;
-  background: rgba(12, 11, 9, 0.34);
-  backdrop-filter: blur(14px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(16px) saturate(140%);
+  box-shadow:
+    0 10px 30px -12px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
   color: #fff;
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   cursor: pointer;
   transition:
     background 220ms ease,
     border-color 220ms ease,
-    transform 220ms ease;
+    transform 220ms ease,
+    box-shadow 220ms ease;
 }
 .mc-explainer:hover {
-  background: rgba(12, 11, 9, 0.6);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+  border-color: rgba(230, 213, 174, 0.6);
   transform: translateY(-1px);
+  box-shadow:
+    0 14px 34px -12px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+.mc-explainer:focus-visible {
+  outline: 2px solid var(--champagne, #e6d5ae);
+  outline-offset: 3px;
+}
+.mc-explainer em {
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 5px 10px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.28);
+  margin-left: 4px;
 }
 .mc-explainer-disc {
   position: relative;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 99px;
+  box-shadow: 0 4px 14px -4px rgba(201, 161, 90, 0.7);
   background: linear-gradient(120deg, var(--champagne, #e6d5ae), var(--gold, #c9a15a));
   color: #17160f;
   flex: none;
