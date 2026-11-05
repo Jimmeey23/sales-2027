@@ -1538,3 +1538,17 @@
 .oc .ocv-offer-highlight .ocv-spec-row p, .oc .ocv-offer-highlight .ocv-spec-row ol { margin: 0 !important; }
 .oc .ocv-offer-highlight .ocv-spec-row > span { margin: 0 !important; padding: 0 !important; }
 .oc .ocv-offer-highlight .ocv-spec { gap: 0 !important; margin: 0 !important; }
+
+/* A card alone on its row: span the row, cap at 80% and centre it. */
+.mw .mw-offer-list.is-two-up > .mw-offer-item.is-solo {
+  grid-column: 1 / -1;
+}
+.mw .mw-offer-list > .mw-offer-item.is-solo {
+  width: 100%;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 720px) {
+  .mw .mw-offer-list > .mw-offer-item.is-solo { max-width: 100%; }
+}

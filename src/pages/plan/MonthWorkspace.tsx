@@ -3214,7 +3214,7 @@ export default function MonthWorkspace({
                                     <i aria-hidden="true" />
                                     <b>{g.offers.some(hasValidForecast) ? lakh(total) : '—'}</b>
                                   </div>,
-                                  ...g.offers.map(o => {
+                                  ...g.offers.map((o, oi) => {
                                     // Keep alternatives with their own card, so a full-width alternate
                                     // row cannot push the next offer out of a two-column layout.
                                     const alts = alternates.filter(a => alternateFor(a, month)?.for === o.name);
@@ -3222,7 +3222,12 @@ export default function MonthWorkspace({
                                       <div
                                         key={o.id}
                                         data-offer-category={g.key}
-                                        className={`mw-offer-item${g.offers.length === 1 || editing === o.id ? ' is-wide' : ''}`}
+                                        className={`mw-offer-item${g.offers.length === 1 || editing === o.id ? ' is-wide' : ''}${
+                                          editing !== o.id &&
+                                          (offerColumns !== 2 || g.offers.length === 1 || (g.offers.length % 2 === 1 && oi === g.offers.length - 1))
+                                            ? ' is-solo'
+                                            : ''
+                                        }`}
                                       >
                                         {renderItem(o, orderedOffers.findIndex(x => x.offer.id === o.id) + 1, g.label)}
                                         {alts.length > 0 && (
