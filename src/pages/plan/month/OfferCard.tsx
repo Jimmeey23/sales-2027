@@ -528,739 +528,342 @@ export function OfferCard({
     return rows;
   })();
 
+  // Who / when / why: the three lines a front desk needs, always visible.
+  const whyLine = (() => {
+    const hit = reasons.find(r => /why/i.test(r[1]));
+    const text = String(hit?.[2] || o.rationale || '')
+      .replace(/^(Why|Watch|Model|Logic|KPI):\s*/gim, '')
+      .split('\n')[0]
+      .trim();
+    return text;
+  })();
+  const gets = String(o.benefit || mechanicsText || offerDescription || '').trim();
+  // The plan pack states each offer's list price in its mechanics; show it struck through.
+  let packListStated = false;
+  const packList = (() => {
+    try {
+      const m = typeof o.mechanics === 'string' ? JSON.parse(o.mechanics || '{}') : o.mechanics || {};
+      const v = Number(m.listPrice);
+      packListStated = Number.isFinite(v) && v > 0;
+      return Number.isFinite(v) && v > offerPrice + 1 ? v : null;
+    } catch {
+      return null;
+    }
+  })();
+  const shownStrike = strikePrice || packList;
+  const shownSub = packList ? null : packListStated ? 'at list price' : offerColSub;
+  const listCut = packList && offerPrice > 0 ? ((packList - offerPrice) / packList) * 100 : null;
+  // Compact: name and numbers only.
+  const [compact, setCompact] = useState(false);
+  // What-if: try a different unit count. A scenario on screen only — never saved.
+  const [whatIf, setWhatIf] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
+  const perUnit = units > 0 && revenue !== null ? revenue / units : asp || offerPrice;
+  const liveUnits = whatIf ?? units;
+  const liveRevenue = whatIf !== null ? whatIf * perUnit : revenue;
+  const liveShare = monthTarget > 0 && liveRevenue !== null ? (liveRevenue / monthTarget) * 100 : sharePct;
+  const livePerWeek = liveUnits ? Math.max(1, Math.round((liveUnits / days) * 7)) : 0;
+  const stepUnits = (d: number) => setWhatIf(Math.max(0, (whatIf ?? units) + d));
+  // Where the offer stands today.
+  const status = (() => {
+    if (!o.validity_start) return null;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const start = new Date(`${o.validity_start}T00:00:00`);
+    const end = o.validity_end ? new Date(`${o.validity_end}T00:00:00`) : null;
+    const dayMs = 86400000;
+    if (today < start) {
+      const d = Math.round((+start - +today) / dayMs);
+      return { tone: 'soon', text: d > 60 ? `Starts ${start.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}` : `Starts in ${d}d` };
+    }
+    if (end && today > end) return { tone: 'ended', text: 'Ended' };
+    const left = end ? Math.round((+end - +today) / dayMs) + 1 : null;
+    return { tone: 'live', text: left !== null ? `Live · ${left}d left` : 'Live' };
+  })();
+  // The house rule: no offer gives more than 25% effective discount, extras included.
+  const overCap = effPct > 25;
+  const copyOffer = async () => {
+    const text = [o.name, o.headline, gets, o.audience && `Who: ${o.audience}`, `When: ${windowText}`, offerPrice > 0 && `Price: ${money(offerPrice)}${shownStrike ? ` (list ${money(shownStrike)})` : ''}`, o.redemption_conditions && `Terms: ${o.redemption_conditions}`]
+      .filter(Boolean)
+      .join('\n');
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      /* clipboard blocked */
+    }
+  };
+  const [briefOpen, setBriefOpen] = useState(false);
+
   return (
     <article
-      className={`oc is-v3${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}
-      aria-labelledby={`ocv-title-${o.id}`}
+      className={`oc ocx cat-${category}${compact ? ' is-compact' : ''}${shown ? ' is-approved' : ''}${slot ? ` slot-${slot}` : ''}`}
+      aria-labelledby={`ocx-title-${o.id}`}
       data-offer-category={category}
     >
-      {/* A photo-led masthead and a clean commercial sheet share the same hierarchy in
-          one- and two-column views. The card itself is the named container-query target. */}
-      <div className="ocv-shell">
-        {/* The image carries the identity; the white sheet carries the evidence. */}
-        <div className="ocv-plate">
-          <div
-            className="ocv-photo"
-            aria-hidden="true"
-            style={
-              {
-                backgroundImage: `url(${heroPhoto.url})`,
-                // Keep each photograph's focal point as the masthead changes width.
-                '--photo-focus': heroPhoto.pos,
-              } as React.CSSProperties
-            }
-          />
-          <span className="ocv-wash" aria-hidden="true" />
-
-          <div className="ocv-plate-top">
-            <span className="ocv-index">
-              <em>Offer</em>
-              <b>{offerNum}</b>
-            </span>
-            <span
-              className={`ocv-link ${linked ? 'is-linked' : 'is-solo'}`}
-              title={linked ? 'Runs at all locations' : 'This location only'}
-              aria-label={linked ? 'Runs at all locations' : 'This location only'}
-            >
-              {linked ? <Link2 size={11} /> : <Unlink size={11} />}
-              {linked ? 'All rooms' : 'Solo'}
-            </span>
-          </div>
-
-          <div className="ocv-plate-foot">
-            <span className="ocv-eyebrow">
-              {[slotLabel || streamLabel, objectiveLabel && showObjective ? objectiveLabel : null]
-                .filter(Boolean)
-                .join(' · ') || 'Offer plan'}
-            </span>
-            <h3 className="ocv-title" id={`ocv-title-${o.id}`}>
-              {titleLead && <>{titleLead} </>}
-              <span className="ocv-title-accent">{titleAccent}</span>
-            </h3>
-            {o.headline && o.headline !== o.customer_copy && !offerDescription.startsWith(o.headline) && (
-              <p className="ocv-lede">{o.headline}</p>
+      <div className="ocx-split">
+        {/* Left: what the offer is. */}
+        <div className="ocx-main">
+          <div className="ocx-kicker">
+            <span className="ocx-slot">{slotLabel || streamLabel || 'Offer'}</span>
+            <span className="ocx-no">#{offerNum}</span>
+            {linked ? (
+              <span className="ocx-link" title="Runs at all locations">
+                <Link2 size={11} /> All rooms
+              </span>
+            ) : null}
+            {status && <span className={`ocx-live is-${status.tone}`}>{status.text}</span>}
+            {overCap && (
+              <span className="ocx-cap" title="Above the 25% effective-discount cap">
+                Over 25% cap
+              </span>
             )}
-            <div className="ocv-chips">
-              {membership && (
-                <span className="ocv-chip">
-                  <Tag size={10} />
-                  {membership}
-                </span>
-              )}
-              {o.provenance?.moment && (
-                <span className="ocv-chip is-moment" title={`Built around ${o.provenance.moment} this month`}>
-                  <CalendarHeart size={10} />
-                  {o.provenance.moment}
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="ocv-body">
-          <header className="ocv-head">
-            <div className="ocv-head-top">
-              <span className={`ocv-state${shown ? ' is-approved' : ''}`}>
-                {shown ? <Check size={12} strokeWidth={2.5} /> : <i aria-hidden="true" />}
-                {shown ? 'Approved' : 'Awaiting sign-off'}
-              </span>
-              <div className="ocv-head-actions">
-                {(editable || (canSwap && !shown)) && (
-                  <div className="ocv-tools">
-                    {canSwap && !shown && (
-                      <button
-                        type="button"
-                        aria-label={`Generate a new offer with AI in place of ${o.name}`}
-                        title="Generate with AI — a new, better-optimised offer replaces this one"
-                        className={`ocv-tool is-ai${regenerating ? ' is-loading' : ''}`}
-                        onClick={onSwap}
-                        disabled={busy || regenerating}
-                        aria-busy={regenerating}
-                      >
-                        {regenerating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
-                      </button>
-                    )}
-                    {editable && onReplace && (
-                      <button
-                        type="button"
-                        aria-label={`Replace ${o.name} with another offer`}
-                        title="Replace — pick from the bank or an AI recommendation"
-                        className="ocv-tool"
-                        onClick={onReplace}
-                        disabled={busy}
-                      >
-                        <ArrowLeftRight size={14} />
-                      </button>
-                    )}
-                    {editable && onChat && (
-                      <button
-                        type="button"
-                        aria-label={`Edit ${o.name} with copilot`}
-                        title="Edit with copilot"
-                        className="ocv-tool"
-                        onClick={onChat}
-                        disabled={busy}
-                      >
-                        <MessageSquare size={14} />
-                      </button>
-                    )}
-                    {editable && onDuplicate && (
-                      <button
-                        type="button"
-                        aria-label={`Duplicate ${o.name}`}
-                        title="Duplicate as new offer"
-                        className="ocv-tool"
-                        onClick={onDuplicate}
-                        disabled={busy}
-                      >
-                        <Copy size={14} />
-                      </button>
-                    )}
-                    {editable && (
-                      <button
-                        type="button"
-                        aria-label={`Edit ${o.name}`}
-                        title="Edit all offer details"
-                        className="ocv-tool"
-                        onClick={onEdit}
-                        disabled={busy}
-                      >
-                        <Pencil size={14} />
-                      </button>
-                    )}
-                    {(editable || !shown) && (
-                      <button
-                        type="button"
-                        aria-label={`Remove ${o.name} from month`}
-                        title="Remove from month plan"
-                        className="ocv-tool is-danger"
-                        onClick={onRemove}
-                        disabled={busy}
-                      >
-                        <Minus size={15} />
-                      </button>
-                    )}
-                    {editable && onDelete && (
-                      <button
-                        type="button"
-                        aria-label={`Delete ${o.name}`}
-                        title="Delete offer permanently"
-                        className="ocv-tool is-danger"
-                        onClick={onDelete}
-                        disabled={busy}
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div
-              className={`ocv-flip${flipped ? ' is-flipped' : ''}`}
-              role="button"
-              tabIndex={0}
-              aria-pressed={flipped}
-              aria-label={flipped ? `${o.name}: show the offer` : `${o.name}: show why this offer was planned`}
-              onClick={() => setFlipped(v => !v)}
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setFlipped(v => !v);
-                }
-              }}
-            >
-              <section
-                className="ocv-offer-highlight ocv-face is-front"
-                aria-hidden={flipped}
-                aria-label={`${o.name} — offer details`}
-              >
-                <span className="ocv-offer-kicker">
-                  <Gift size={13} /> The offer
-                  <em className="ocv-flip-hint">Why this offer? ↻</em>
-                </span>
-                {(() => {
-                  const deal = details.deal.length ? details.deal : [highlights.terms];
-                  const seen = new Set(deal.map(d => d.toLowerCase()));
-                  const extras = highlights.inclusions
-                    .flatMap(inclusion => splitPoints(inclusion))
-                    .filter(p => !seen.has(p.toLowerCase()));
-                  const [lead, ...rest] = deal;
-                  // Three or four bullets at most: the deal first, then the validity window.
-                  const bullets = [...rest, ...extras];
-                  // Short offers borrow from who it is for and the house rules, so every banner reads 3–4 points.
-                  const fill = [
-                    (() => {
-                      const who = details.who
-                        .replace(/\s*\([^)]*\)/g, '')
-                        .replace(/\.\s*Band:.*$/i, '')
-                        .replace(/\.$/, '')
-                        .trim();
-                      return who && `For ${who.charAt(0).toLowerCase()}${who.slice(1)}`;
-                    })(),
-                    ...details.fine,
-                  ].filter(Boolean) as string[];
-                  while (bullets.length < 2 && fill.length) bullets.push(fill.shift()!);
-                  if (details.validity) bullets.push(`Valid ${details.validity}`);
-                  while (bullets.length < 3 && fill.length) bullets.splice(bullets.length - 1, 0, fill.shift()!);
-                  const shown = bullets.length > 4 ? [...bullets.slice(0, 3), bullets[bullets.length - 1]] : bullets;
-                  // Imported terms arrive as one run-on string ("▪ What you get: – … ▪ Price: …").
-                  // Flatten everything into one list of label/value rows, deduped, so every banner
-                  // reads the same way in the same type size.
-                  const rows: { label: string | null; text: string; subs: string[] }[] = [];
-                  const seenRow = new Set<string>();
-                  for (const chunk of [lead, ...shown]) {
-                    for (const piece of String(chunk || '').split(/\s*[▪•]\s*|\s+·\s+(?=[A-Z][a-z]+(?:\s[a-z]+)*:)/)) {
-                      const seg = piece.trim().replace(/^[–—-]\s*/, '');
-                      if (!seg) continue;
-                      const m = seg.match(/^([A-Z][^:]{1,30}):\s*(.*)$/);
-                      const label = m ? m[1].trim() : null;
-                      let body = (m ? m[2] : seg).trim();
-                      let subs: string[] = [];
-                      if (/^[–—]\s/.test(body) || /\s[–—]\s/.test(body)) {
-                        const parts = body
-                          .split(/\s*[–—]\s+/)
-                          .map(x => x.trim())
-                          .filter(Boolean);
-                        if (/^[–—]/.test((m ? m[2] : seg).trim()) && parts.length > 1) {
-                          body = parts[0];
-                          subs = parts.slice(1);
-                        } else if (parts.length > 2 && !/\d\s*[A-Z][a-z]{2}\s*$/.test(parts[0])) {
-                          body = parts[0];
-                          subs = parts.slice(1);
-                        }
-                      }
-                      body = body.replace(/^[–—-]\s*/, '').trim();
-                      const key = `${label || ''}|${body}`.toLowerCase().replace(/[^a-z0-9]/g, '');
-                      if (!body || seenRow.has(key)) continue;
-                      seenRow.add(key);
-                      rows.push({
-                        label,
-                        text: body.replace(/[.;]\s*$/, ''),
-                        subs: subs.map(x => x.replace(/[.;]\s*$/, '')),
-                      });
-                    }
-                  }
-                  // The banner says three things: the deal in one sentence, the one term that makes
-                  // this offer different (not the house rules), and the money — list, offer, saving.
-                  const firstSentence = (t: string) =>
-                    String(t || '')
-                      .replace(/\s+/g, ' ')
-                      .split(/(?<=[.!?])\s+(?=[A-Z₹])/)[0]
-                      .replace(/[.;]\s*$/, '')
-                      .trim();
-                  const pick = (re: RegExp) => rows.find(r => r.label && re.test(r.label));
-                  const dealRow = pick(/what you get|you get|the offer|offer|includes?/i) || rows[0];
-                  const dealText =
-                    firstSentence(
-                      String(o.headline || '').length > 12 && String(o.headline).length < 140 ? o.headline : '',
-                    ) ||
-                    firstSentence(dealRow?.text || '') ||
-                    firstSentence(o.benefit || '');
-                  // House rules every offer carries; the unique term is whatever is left.
-                  const GENERIC =
-                    /one per client|cannot be combined|not be combined|prices? exclude|gst|logged against|momence|who can buy|eligib|purchase window|offer window|valid \d|staff and family|^valid|anyone new to/i;
-                  const conditionTerms = String(o.redemption_conditions || '')
-                    .replace(/\s+/g, ' ')
-                    .split(/\s*(?:[▪•]|;\s*(?=[A-Z])|(?<=[.!?])\s+(?=[A-Z₹0-9])|\s[–—]\s)\s*/)
-                    .map(t =>
-                      t
-                        .replace(/^[A-Z][^:]{1,24}:\s*/, '')
-                        .replace(/[.;]\s*$/, '')
-                        .trim(),
-                    )
-                    .filter(t => t.length > 8 && !GENERIC.test(t));
-                  const howRow = pick(/how it works|rules?|mechanic|the catch|condition/i);
-                  const uniqueTerm =
-                    [...(howRow ? [howRow.text, ...howRow.subs] : []), ...conditionTerms]
-                      .map(t => firstSentence(t))
-                      .find(t => t && t.length > 8 && !GENERIC.test(t) && t.toLowerCase() !== dealText.toLowerCase()) ||
-                    '';
-                  // Prices: the record first, then what the offer's own words state ("for ₹46,850 (usual
-                  // price ₹55,100)", "₹19,275 (list price)").
-                  const words = [
-                    dealText,
-                    ...rows.filter(r => r.label && /price|cost/i.test(r.label)).map(r => r.text),
-                  ].join(' ');
-                  const rs = (v?: string) => (v ? Number(v.replace(/,/g, '')) : null);
-                  const textSale =
-                    rs(words.match(/(?:for|at|pay|price:?)\s*₹\s*([\d,]{3,})/i)?.[1]) ||
-                    rs(words.match(/₹\s*([\d,]{3,})/)?.[1]);
-                  const textUsual = rs(
-                    words.match(/(?:usual|list|normal|regular|standard)\s+price\s*(?:of\s*)?₹\s*([\d,]{3,})/i)?.[1],
-                  );
-                  const atList = /\(\s*(?:at\s+)?list price\s*\)|at list price|renew at list/i.test(words);
-                  const salePrice = quotedPrice ?? textSale ?? (offerPrice > 0 ? offerPrice : null);
-                  const listPrice = strikePrice || list || textUsual || (atList ? salePrice : null);
-                  const cashSave = listPrice && salePrice && listPrice > salePrice ? listPrice - salePrice : 0;
-                  const savePct =
-                    cashSave && listPrice
-                      ? (cashSave / listPrice) * 100
-                      : directPct > 0
-                        ? directPct * 100
-                        : hasCashCut
-                          ? cashCutPct
-                          : 0;
-                  const saveValue =
-                    cashSave || directSaving || (listPrice && savePct ? Math.round((listPrice * savePct) / 100) : 0);
-                  const perkOnly = !saveValue && !savePct && effPct > 0;
-                  // Offers that write out their own terms are shown section by section, in their words.
-                  const sec = offerSections(o);
-                  if (sec.found) {
-                    const usual = sec.usual ?? listPrice;
-                    const price = sec.price ?? salePrice;
-                    const save = sec.save ?? (usual && price && usual > price ? usual - price : 0);
-                    const pct = save && usual ? (save / usual) * 100 : 0;
-                    return (
-                      <div className="ocv-spec">
-                        {sec.getText && (
-                          <div className="ocv-spec-row is-get">
-                            <span>What you get</span>
-                            <p>{inline(sec.getText)}</p>
-                          </div>
-                        )}
-                        {price ? (
-                          <div className="ocv-spec-row is-price">
-                            <span>Price</span>
-                            <p>
-                              <strong>{money(price)}</strong>
-                              {usual && usual !== price ? (
-                                <s>{money(usual)}</s>
-                              ) : sec.priceNote ? (
-                                <em className="is-list">at list price</em>
-                              ) : null}
-                              {save ? (
-                                <em className="is-save">
-                                  Save {money(save)}
-                                  {pct ? ` · ${fmtPct(pct)}` : ''}
-                                </em>
-                              ) : null}
-                            </p>
-                          </div>
-                        ) : null}
-                        {sec.how.length > 0 && (
-                          <div className="ocv-spec-row is-how">
-                            <span>How it works</span>
-                            <ol>
-                              {sec.how.slice(0, 4).map((step, i) => (
-                                <li key={i}>{inline(step)}</li>
-                              ))}
-                            </ol>
-                          </div>
-                        )}
-                        {sec.window && (
-                          <div className="ocv-spec-row is-window">
-                            <span>Offer window</span>
-                            <p>{inline(sec.window)}</p>
-                          </div>
-                        )}
-                        <div className="ocv-spec-row is-value">
-                          <span>Client gets</span>
-                          <p>
-                            <strong>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</strong>
-                            <em>{savesNote}</em>
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  }
-                  return (
-                    <div className="ocv-deal">
-                      <p className="ocv-deal-line">{inline(dealText || o.name)}</p>
-                      {uniqueTerm && (
-                        <p className="ocv-deal-term">
-                          <span>Key term</span>
-                          {inline(uniqueTerm)}
-                        </p>
-                      )}
-                      <dl className="ocv-deal-money">
-                        <div>
-                          <dt>Original</dt>
-                          <dd>{listPrice ? saveValue ? <s>{money(listPrice)}</s> : money(listPrice) : '—'}</dd>
-                        </div>
-                        <div>
-                          <dt>Offer price</dt>
-                          <dd>{salePrice ? money(salePrice) : '—'}</dd>
-                        </div>
-                        <div className="is-save">
-                          <dt>Client saves</dt>
-                          <dd>
-                            {saveValue
-                              ? money(saveValue)
-                              : perkOnly
-                                ? 'Perks'
-                                : savePct
-                                  ? ''
-                                  : atList
-                                    ? 'List price'
-                                    : '—'}
-                            {savePct ? <em>{fmtPct(savePct)}</em> : perkOnly ? <em>{fmtPct(effPct)} value</em> : null}
-                          </dd>
-                        </div>
-                      </dl>
-                      {/* The whole client-facing value in one line: what they get, and on what
-                        terms. This is the figure the old facts strip repeated a third time. */}
-                      <p className="ocv-deal-value">
-                        <span>Client gets</span>
-                        <b>{savesPrimary || (effPct > 0 ? `+${fmtPct(effPct)}` : 'Value-add')}</b>
-                        <em>
-                          {savesNote} · {discountNote}
-                        </em>
-                      </p>
-                    </div>
-                  );
-                })()}
-              </section>
-              {(() => {
-                const r = offerReasoning(o, {
-                  studio: studioName,
-                  month: monthName,
-                  theme: monthTheme,
-                  job: monthJob,
-                  monthTarget,
-                  stream: streamLabel,
-                });
-                const block = (title: string, items: string[]) =>
-                  items.length > 0 && (
-                    <div className="ocv-why-block">
-                      <span>{title}</span>
-                      <ul>
-                        {items.map((item, index) => (
-                          <li key={index}>{inline(item)}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  );
-                return (
-                  <section className="ocv-offer-highlight ocv-face is-back" aria-hidden={!flipped}>
-                    <span className="ocv-offer-kicker">
-                      <Sparkles size={13} /> Why this offer
-                      <em className="ocv-flip-hint">Back to the offer ↻</em>
-                    </span>
-                    {r.goal && <p className="ocv-why-goal">{inline(r.goal)}</p>}
-                    <div className="ocv-why-grid">
-                      {block('The reasoning', r.why)}
-                      {block('Why here, why now', r.fit)}
-                      {block('The logic', r.logic)}
-                      {block('What to watch', r.watch)}
-                    </div>
-                  </section>
-                );
-              })()}
-            </div>
-          </header>
-
-          {/* Anniversary offers are played, not just read: the wheel, the ticket and the nine
-              gifts each carry their own stage here, between the copy and the figures. */}
-          <MechanicStage offer={o} />
-
-          {/* The figures that carry the month: revenue first and largest, then the units it
-            needs and what it leaves behind. */}
-          <div className="ocv-figures">
-            <div
-              className="ocv-fig is-hero"
-              style={{ ['--fill' as string]: `${Math.round(revenueBar)}%` } as React.CSSProperties}
-            >
-              <span className="ocv-fig-label">
-                <TrendingUp size={12} />
-                Forecast revenue
-              </span>
-              <strong className="ocv-fig-value">{revenue !== null ? lakh(revenue) : '—'}</strong>
-              <span className="ocv-fig-note">
-                {sharePct !== null
-                  ? `${fmtPct(sharePct)} of ${monthTarget ? lakh(monthTarget) : 'the'} target`
-                  : 'No forecast yet'}
-              </span>
-              <span className="ocv-meter" aria-hidden="true">
-                <i />
-              </span>
-            </div>
-
-            <div
-              className="ocv-fig"
-              style={{ ['--fill' as string]: `${Math.round(unitsBar)}%` } as React.CSSProperties}
-            >
-              <span className="ocv-fig-label">
-                <Package size={12} />
-                Buyers needed
-              </span>
-              <strong className="ocv-fig-value">
-                {number(units)}
-                {perWeek > 0 && <em>~{perWeek}/wk</em>}
-              </strong>
-              <span className="ocv-fig-note">
-                {monthUnits > 0
-                  ? units > monthUnits
-                    ? `${fmtPct((units / monthUnits) * 100)} of the ${number(monthUnits)}${monthUnitsLabel ? ` ${monthUnitsLabel}` : ''} planned`
-                    : `of ${number(monthUnits)}${monthUnitsLabel ? ` ${monthUnitsLabel}` : ''} this month`
-                  : `over ${days} days`}
-              </span>
-              <span className="ocv-meter" aria-hidden="true">
-                <i />
-              </span>
-            </div>
-
-            <div
-              className="ocv-fig"
-              style={
-                {
-                  ['--fill' as string]: `${Math.round(contribution !== null ? marginBar : valueBar)}%`,
-                } as React.CSSProperties
-              }
-              title={
-                contribution !== null
-                  ? 'Contribution after delivery cost and campaign budget'
-                  : discountCost !== null
-                    ? 'What the offer gives back: its forecast revenue at the effective discount'
-                    : 'No forecast to price the discount against yet'
-              }
-            >
-              <span className="ocv-fig-label">
-                <Wallet size={12} />
-                {contribution !== null ? 'Contribution' : 'Given back'}
-              </span>
-              <strong className={`ocv-fig-value${contribution === null && discountCost === null ? ' is-muted' : ''}`}>
-                {contribution !== null ? lakh(contribution) : discountCost !== null ? lakh(discountCost) : '—'}
-              </strong>
-              <span className="ocv-fig-note">
-                {contribution !== null
-                  ? `${marginPct === null ? '' : `${marginPct.toFixed(0)}% margin`}`
-                  : discountCost !== null
-                    ? `${fmtPct(effPct)} of revenue${
-                        cashCost !== null && perkValuePct > 0 ? ` · ${lakh(cashCost)} in cash` : ''
-                      }`
-                    : 'No forecast yet'}
-              </span>
-              <span className="ocv-meter" aria-hidden="true">
-                <i />
-              </span>
-            </div>
-          </div>
-
-          {/* The record: the whole commercial case, in print, always open. */}
-          <section className={`ocv-record${recordOpen ? ' is-open' : ''}`} aria-label={`${o.name} — the offer record`}>
+            <span className={`ocx-state${shown ? ' is-approved' : ''}`}>
+              {shown ? <Check size={11} strokeWidth={3} /> : <i aria-hidden="true" />}
+              {shown ? 'Approved' : 'Draft'}
+            </span>
             <button
               type="button"
-              className="ocv-record-head"
-              aria-expanded={recordOpen}
-              aria-controls={`ocv-record-body-${o.id}`}
-              onClick={() => setRecordOpen(value => !value)}
+              className="ocx-collapse"
+              aria-label={compact ? `Expand ${o.name}` : `Collapse ${o.name}`}
+              aria-expanded={!compact}
+              title={compact ? 'Expand card' : 'Collapse card'}
+              onClick={() => setCompact(v => !v)}
             >
-              <span className="ocv-record-title">
-                <FileText size={13} />
-                Commercial details
-              </span>
-              <span className="ocv-record-meta">
-                {specRows.length} details
-                <ChevronDown size={14} />
-              </span>
-            </button>
-            <dl className="ocv-spec" id={`ocv-record-body-${o.id}`} inert={!recordOpen}>
-              {specRows.map(row => (
-                <div key={row.label} className="ocv-spec-row">
-                  <dt>{row.label}</dt>
-                  <dd>{row.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-
-          <button
-            type="button"
-            className={`ocv-more${expanded ? ' is-open' : ''}`}
-            aria-expanded={expanded}
-            aria-controls={`ocv-extra-${o.id}`}
-            onClick={() => setExpanded(value => !value)}
-          >
-            <span className="ocv-more-label">
-              <StickyNote size={14} />
-              Audience, timing &amp; notes
-            </span>
-            <span className="ocv-more-action">
-              {expanded ? 'Hide' : 'View'}
               <ChevronDown size={14} />
-            </span>
-          </button>
-
-          {/* Secondary fields: folded on arrival, kept mounted so a half-written note survives. */}
-          <div className={`ocv-extra${expanded ? ' is-open' : ''}`} id={`ocv-extra-${o.id}`} inert={!expanded}>
-            <div className="ocv-extra-in">
-              <div className="ocv-who">
-                <div className="ocv-who-cell">
-                  <span className="ocv-who-label">
-                    <Users size={12} /> Who
-                  </span>
-                  <b>{o.audience || 'All clients'}</b>
-                </div>
-                <div className="ocv-who-cell">
-                  <span className="ocv-who-label">
-                    <Calendar size={12} /> When
-                  </span>
-                  <b>
-                    {windowText} · {days} days
-                  </b>
-                </div>
-                <div className="ocv-who-cell">
-                  <span className="ocv-who-label">
-                    <Tag size={12} /> How
-                  </span>
-                  <b>{[mechanic, offerColSub].filter(Boolean).join(' · ') || titleCase(o.offer_type) || 'Value-add'}</b>
-                </div>
-              </div>
-
-              {/* The log: the two decisions taken around an offer, and the line that explains
-              them. Both marks save straight to the offer, so the plan remembers them. */}
-              <section className="ocv-log" aria-label={`${o.name} — notes and marks`}>
-                <div className="ocv-log-head">
-                  <span className="ocv-log-label">
-                    <StickyNote size={12} />
-                    Notes &amp; comments
-                  </span>
-                  <span
-                    className={`ocv-log-state is-${noteState}${noteDirty && noteState !== 'saving' ? ' is-dirty' : ''}`}
-                    aria-live="polite"
-                  >
-                    {noteState === 'saving'
-                      ? 'Saving…'
-                      : noteState === 'error'
-                        ? 'Not saved'
-                        : noteDirty
-                          ? 'Unsaved'
-                          : noteState === 'saved'
-                            ? 'Saved'
-                            : savedNote.current
-                              ? 'Saved note'
-                              : 'No note yet'}
-                  </span>
-                </div>
-                <textarea
-                  className="ocv-note"
-                  rows={2}
-                  value={noteDraft}
-                  onChange={event => {
-                    setNoteDraft(event.target.value);
-                    setNoteState('idle');
-                  }}
-                  onKeyDown={event => {
-                    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
-                      event.preventDefault();
-                      saveNote();
-                    }
-                  }}
-                  placeholder="A caveat, a staffing note, a follow-up…"
-                  aria-label={`Note for ${o.name}`}
-                />
-                <div className="ocv-log-foot">
-                  <span className="ocv-log-hint">{onPlanning ? 'Saves on the offer' : 'Read-only for your role'}</span>
-                  <button
-                    type="button"
-                    className="ocv-save"
-                    title="Save note (⌘↵)"
-                    disabled={!noteDirty || noteState === 'saving' || !onPlanning}
-                    onClick={saveNote}
-                  >
-                    <Save size={12} />
-                    {noteState === 'saving' ? 'Saving…' : 'Save note'}
-                  </button>
-                </div>
-              </section>
-            </div>
+            </button>
           </div>
-
-          <footer className="ocv-foot">
-            <span className="ocv-sign" title="Offer validity">
-              <Calendar size={12} />
-              {windowText}
+          <h3 className="ocx-title" id={`ocx-title-${o.id}`}>
+            {o.name}
+          </h3>
+          {o.headline && <p className="ocx-hook">{o.headline}</p>}
+          {gets && (
+            <p className="ocx-gets">
+              <Gift size={13} aria-hidden="true" />
+              <span>{gets}</span>
+            </p>
+          )}
+          {membership && (
+            <span className="ocx-chip">
+              <Tag size={10} /> {membership}
             </span>
-            <div className="ocv-marks">
-              <button
-                type="button"
-                role="checkbox"
-                aria-checked={shown}
-                aria-label={`Approve ${o.name}`}
-                aria-busy={pending !== null}
-                className={`ocv-check is-approve${shown ? ' is-on' : ''}`}
-                title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
-                disabled={!canApprove || pending !== null}
-                onClick={() => {
-                  if (!canApprove) return;
-                  setPending(!shown);
-                  Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
-                }}
-              >
-                <span className="ocv-check-box" aria-hidden="true">
-                  <Check size={11} strokeWidth={3} />
-                </span>
-                <span className="ocv-check-copy">
-                  <b>{pending !== null ? 'Saving…' : shown ? 'Approved' : 'Approve offer'}</b>
-                  <em>{shown ? 'Signed off' : 'Awaiting sign-off'}</em>
-                </span>
-              </button>
+          )}
+        </div>
 
-              <button
-                type="button"
-                role="checkbox"
-                aria-checked={runAds}
-                aria-label={`Run ads for ${o.name}`}
-                aria-busy={adsPending}
-                className={`ocv-check is-ads${runAds ? ' is-on' : ''}`}
-                title={runAds ? 'Paid media planned · click to remove' : 'Plan paid media behind this offer'}
-                disabled={!onPlanning || adsPending}
-                onClick={toggleAds}
-              >
-                <span className="ocv-check-box" aria-hidden="true">
-                  <Check size={11} strokeWidth={3} />
-                </span>
-                <span className="ocv-check-copy">
-                  <b>{adsPending ? 'Saving…' : 'Run ads'}</b>
-                  <em>{runAds ? 'Media planned' : 'Organic only'}</em>
-                </span>
-              </button>
+        {/* Right: the numbers. */}
+        <aside className="ocx-price" aria-label={`${o.name} — price and forecast`}>
+          <div className="ocx-ticket">
+            <b>{offerPrice > 0 ? money(offerPrice) : '—'}</b>
+            {shownStrike ? <s>{money(shownStrike)}</s> : null}
+            {shownSub ? <em>{shownSub}</em> : null}
+          </div>
+          <div className="ocx-disc">
+            {listCut ? (
+              <span className="ocx-pill">{fmtPct(listCut)} off list</span>
+            ) : savesPrimary ? (
+              <span className="ocx-pill">{hasCashCut && directPct > 0 ? `${fmtPct(directPct * 100)} off` : savesPrimary}</span>
+            ) : null}
+            <small>{effPct > 0 ? `${fmtPct(effPct)} effective incl. extras` : discountNote}</small>
+          </div>
+          <dl className="ocx-stats">
+            <div>
+              <dt>Units</dt>
+              <dd className="ocx-units">
+                <button type="button" className="ocx-step" aria-label="One fewer unit (what-if)" onClick={() => stepUnits(-1)} disabled={!liveUnits}>
+                  −
+                </button>
+                <span className={whatIf !== null ? 'is-whatif' : ''}>{liveUnits ? number(liveUnits) : '0'}</span>
+                <button type="button" className="ocx-step" aria-label="One more unit (what-if)" onClick={() => stepUnits(1)}>
+                  +
+                </button>
+                {livePerWeek ? <small> ~{livePerWeek}/wk</small> : null}
+              </dd>
             </div>
-          </footer>
+            <div>
+              <dt>Revenue</dt>
+              <dd className={whatIf !== null ? 'is-whatif' : ''}>{liveRevenue !== null ? lakh(liveRevenue) : '—'}</dd>
+            </div>
+            <div>
+              <dt>Of month</dt>
+              <dd className={whatIf !== null ? 'is-whatif' : ''}>{liveShare !== null ? fmtPct(liveShare) : '—'}</dd>
+            </div>
+          </dl>
+          {liveShare !== null && (
+            <span className="ocx-meter" aria-hidden="true">
+              <i style={{ width: `${Math.max(2, Math.min(100, liveShare))}%` }} />
+            </span>
+          )}
+          {whatIf !== null && (
+            <button type="button" className="ocx-whatif-reset" onClick={() => setWhatIf(null)} title="What-if only — not saved">
+              What-if · reset to {number(units)}
+            </button>
+          )}
+        </aside>
+      </div>
+
+      {/* Who · when · why. */}
+      <div className="ocx-meta">
+        <div>
+          <span>
+            <Users size={11} /> Who
+          </span>
+          <p>{o.audience || 'All clients'}</p>
+        </div>
+        <div>
+          <span>
+            <Calendar size={11} /> When
+          </span>
+          <p>
+            {windowText} · {days} days
+          </p>
+        </div>
+        <div className="is-why">
+          <span>
+            <Sparkles size={11} /> Why
+          </span>
+          <p>{whyLine || o.objective || '—'}</p>
         </div>
       </div>
+
+      {/* The full record, on demand. */}
+      <button
+        type="button"
+        className={`ocx-brief-toggle${briefOpen ? ' is-open' : ''}`}
+        aria-expanded={briefOpen}
+        onClick={() => setBriefOpen(v => !v)}
+      >
+        <FileText size={12} /> Full brief &amp; terms <ChevronDown size={13} />
+      </button>
+      {briefOpen && (
+        <dl className="ocx-brief">
+          {specRows.map((row, i) => (
+            <div key={i}>
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+
+      {/* Note: one line, saves on ⌘↵ or the button. */}
+      <div className="ocx-note">
+        <StickyNote size={12} aria-hidden="true" />
+        <textarea
+          rows={1}
+          value={noteDraft}
+          onChange={event => {
+            setNoteDraft(event.target.value);
+            setNoteState('idle');
+          }}
+          onKeyDown={event => {
+            if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+              event.preventDefault();
+              saveNote();
+            }
+          }}
+          placeholder={onPlanning ? 'Add a note…' : 'Read-only for your role'}
+          aria-label={`Note for ${o.name}`}
+          disabled={!onPlanning}
+        />
+        {noteDirty || noteState === 'saving' ? (
+          <button type="button" className="ocx-save" onClick={saveNote} disabled={noteState === 'saving'} title="Save note (⌘↵)">
+            <Save size={11} /> {noteState === 'saving' ? 'Saving…' : 'Save'}
+          </button>
+        ) : noteState === 'saved' ? (
+          <em className="ocx-saved">Saved</em>
+        ) : noteState === 'error' ? (
+          <em className="ocx-saved is-error">Not saved</em>
+        ) : null}
+      </div>
+
+      {/* Actions. */}
+      <footer className="ocx-foot">
+        <div className="ocx-marks">
+          <button
+            type="button"
+            role="checkbox"
+            aria-checked={shown}
+            aria-label={`Approve ${o.name}`}
+            aria-busy={pending !== null}
+            className={`ocx-toggle is-approve${shown ? ' is-on' : ''}`}
+            title={shown ? 'Approved · click to reopen' : 'Approve this offer'}
+            disabled={!canApprove || pending !== null}
+            onClick={() => {
+              if (!canApprove) return;
+              setPending(!shown);
+              Promise.resolve(onApprove(!shown)).then(ok => ok === false && setPending(null));
+            }}
+          >
+            <Check size={12} strokeWidth={3} />
+            {pending !== null ? 'Saving…' : shown ? 'Approved' : 'Approve'}
+          </button>
+          <button
+            type="button"
+            role="checkbox"
+            aria-checked={runAds}
+            aria-label={`Run ads for ${o.name}`}
+            aria-busy={adsPending}
+            className={`ocx-toggle is-ads${runAds ? ' is-on' : ''}`}
+            title={runAds ? 'Paid media planned · click to remove' : 'Plan paid media behind this offer'}
+            disabled={!onPlanning || adsPending}
+            onClick={toggleAds}
+          >
+            <TrendingUp size={12} />
+            {adsPending ? 'Saving…' : runAds ? 'Ads on' : 'Organic'}
+          </button>
+        </div>
+        {(
+          <div className="ocx-tools">
+            <button type="button" aria-label={`Copy ${o.name} offer text`} title={copied ? 'Copied' : 'Copy offer text'} className={`ocx-tool${copied ? ' is-done' : ''}`} onClick={copyOffer}>
+              {copied ? <Check size={13} /> : <FileText size={13} />}
+            </button>
+            {canSwap && !shown && (
+              <button
+                type="button"
+                aria-label={`Generate a new offer with AI in place of ${o.name}`}
+                title="Generate with AI — a new, better-optimised offer replaces this one"
+                className={`ocx-tool is-ai${regenerating ? ' is-loading' : ''}`}
+                onClick={onSwap}
+                disabled={busy || regenerating}
+                aria-busy={regenerating}
+              >
+                {regenerating ? <Loader2 size={13} className="spin" /> : <Sparkles size={13} />}
+              </button>
+            )}
+            {editable && onReplace && (
+              <button type="button" aria-label={`Replace ${o.name} with another offer`} title="Replace" className="ocx-tool" onClick={onReplace} disabled={busy}>
+                <ArrowLeftRight size={13} />
+              </button>
+            )}
+            {editable && onChat && (
+              <button type="button" aria-label={`Edit ${o.name} with copilot`} title="Edit with copilot" className="ocx-tool" onClick={onChat} disabled={busy}>
+                <MessageSquare size={13} />
+              </button>
+            )}
+            {editable && onDuplicate && (
+              <button type="button" aria-label={`Duplicate ${o.name}`} title="Duplicate as new offer" className="ocx-tool" onClick={onDuplicate} disabled={busy}>
+                <Copy size={13} />
+              </button>
+            )}
+            {editable && (
+              <button type="button" aria-label={`Edit ${o.name}`} title="Edit all offer details" className="ocx-tool" onClick={onEdit} disabled={busy}>
+                <Pencil size={13} />
+              </button>
+            )}
+            {(editable || !shown) && (
+              <button type="button" aria-label={`Remove ${o.name} from month`} title="Remove from month plan" className="ocx-tool is-danger" onClick={onRemove} disabled={busy}>
+                <Minus size={14} />
+              </button>
+            )}
+            {editable && onDelete && (
+              <button type="button" aria-label={`Delete ${o.name}`} title="Delete offer permanently" className="ocx-tool is-danger" onClick={onDelete} disabled={busy}>
+                <Trash2 size={13} />
+              </button>
+            )}
+          </div>
+        )}
+      </footer>
     </article>
   );
 }

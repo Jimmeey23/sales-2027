@@ -827,7 +827,7 @@ export default function MonthWorkspace({
   const offerListRef = useRef<HTMLDivElement | null>(null);
   // Only sections that still exist: the key-terms strip and the facts rail were removed
   // from the card, and the record folds shut, so it is always its own collapsed height.
-  useRowAlign(offerListRef, 'article.oc', ['.ocv-plate', '.ocv-head', '.ocv-offer-highlight.is-front', '.ocv-figures']);
+  useRowAlign(offerListRef, 'article.oc', ['.ocx-split', '.ocx-meta']);
   // Tell the app-wide copilot which studio and month are on screen.
   useEffect(() => {
     setCopilotScope({ studioId: studio?.id ?? null, year, month, label: studio?.name ?? null });
@@ -1328,6 +1328,22 @@ export default function MonthWorkspace({
                     </>
                   )}
                 </div>
+                {/* The year at a glance: jump to any month. */}
+                <nav className="mw-year-ticker" aria-label="Months">
+                  {MONTHS.map((name, i) => (
+                    <button
+                      key={name}
+                      type="button"
+                      className={`${i + 1 === month ? 'is-current' : ''}${i + 1 < month ? ' is-past' : ''}`}
+                      aria-label={name}
+                      aria-current={i + 1 === month ? 'true' : undefined}
+                      title={name}
+                      onClick={() => setMonth(i + 1)}
+                    >
+                      <span>{name.slice(0, 1)}</span>
+                    </button>
+                  ))}
+                </nav>
               </div>
               <button aria-label="Next month" disabled={month === 12} onClick={() => setMonth(month + 1)}>
                 <ChevronRight size={16} />

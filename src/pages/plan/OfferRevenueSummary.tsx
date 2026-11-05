@@ -32,84 +32,84 @@ export default function OfferRevenueSummary({
           ? `${lakh(revenue - target)} above target`
           : 'Target fully covered'
       : null;
+  // One bar measured against the month target: each journey's share, then what is still open.
+  const scale = Math.max(target, sum, 1);
   return (
     <section
-      className={`mw-offer-total is-${tone}`}
+      className={`mw-offer-total ors is-${tone}`}
       aria-label="Combined projected offer revenue"
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="mw-offer-total-head">
-        <div className="mw-offer-total-main">
-          <span className="mw-offer-total-label">
-            <TrendingUp size={14} /> Combined projected revenue
+      <div className="ors-top">
+        <div className="ors-main">
+          <span className="ors-label">
+            <TrendingUp size={13} /> Combined projected revenue
           </span>
-          <strong
-            className="mw-offer-total-value"
-            data-revenue={revenue}
-            title={forecastedCount ? money(revenue) : undefined}
-          >
+          <strong className="mw-offer-total-value ors-value" data-revenue={revenue} title={forecastedCount ? money(revenue) : undefined}>
             {forecastedCount ? lakh(revenue) : '—'}
           </strong>
-          <div className="mw-offer-total-chips">
+          <div className="ors-chips">
             <span>
-              {count} selected {count === 1 ? 'offer' : 'offers'}
+              {count} {count === 1 ? 'offer' : 'offers'}
             </span>
             <span className="is-muted">Projected, not actual</span>
             {missing > 0 && <span className="is-warn">{missing} awaiting forecast</span>}
           </div>
         </div>
         {target > 0 && (
-          <div className="mw-offer-total-target">
-            <svg viewBox="0 0 80 80" className="mw-offer-total-ring" aria-hidden="true">
+          <div className="ors-target">
+            <svg viewBox="0 0 80 80" className="ors-ring" aria-hidden="true">
               <circle cx="40" cy="40" r={R} className="track" />
-              <circle
-                cx="40"
-                cy="40"
-                r={R}
-                className="fill"
-                strokeDasharray={C}
-                strokeDashoffset={C * (1 - ring / 100)}
-              />
-              <text x="40" y="44" textAnchor="middle">
-                {coverage !== null && forecastedCount ? `${coverage}%` : '—'}
-              </text>
+              <circle cx="40" cy="40" r={R} className="fill" strokeDasharray={C} strokeDashoffset={C * (1 - ring / 100)} />
             </svg>
-            <div className="mw-offer-total-target-copy">
-              <span>Month target</span>
-              <strong>{lakh(target)}</strong>
-              {gap && <b>{gap}</b>}
+            <div className="ors-ring-copy">
+              <b>{coverage !== null && forecastedCount ? `${coverage}%` : '—'}</b>
+              <span>of {lakh(target)}</span>
             </div>
+            {gap && <em className={`ors-gap is-${tone}`}>{gap}</em>}
           </div>
         )}
       </div>
-      <dl className="mw-offer-total-breakdown">
+
+      <div className="ors-bar" role="img" aria-label="Offer revenue by journey against the month target">
+        {categories.map(category => {
+          const value = category.forecastedCount ? Math.max(0, category.revenue) : 0;
+          return value > 0 ? (
+            <i
+              key={category.key}
+              data-offer-category={category.key}
+              style={{ width: `${(value / scale) * 100}%` } as CSSProperties}
+              title={`${category.label}: ${lakh(value)}`}
+            />
+          ) : null;
+        })}
+        {target > sum && <i className="is-open" style={{ width: `${((target - sum) / scale) * 100}%` }} title="Still to find" />}
+      </div>
+
+      <dl className="ors-legend">
         {categories.map(category => {
           const value = category.forecastedCount ? Math.max(0, category.revenue) : 0;
           const part = sum > 0 ? Math.round((value / sum) * 100) : 0;
           return (
-            <div
-              key={category.key}
-              data-offer-category={category.key}
-              style={{ ['--w' as string]: `${part}%` } as CSSProperties}
-            >
+            <div key={category.key} data-offer-category={category.key}>
               <dt>
+                <i aria-hidden="true" />
                 {category.label}
-                <span>
+                <small>
                   {category.count} {category.count === 1 ? 'offer' : 'offers'}
-                </span>
+                </small>
               </dt>
               <dd title={category.forecastedCount ? money(category.revenue) : undefined}>
                 {category.forecastedCount ? lakh(category.revenue) : '—'}
                 {category.forecastedCount > 0 && sum > 0 && <em>{part}%</em>}
               </dd>
-              <i aria-hidden="true" />
             </div>
           );
         })}
       </dl>
       {missing > 0 && (
-        <p className="mw-offer-total-warning">
+        <p className="ors-warning">
           {missing} selected {missing === 1 ? 'offer is' : 'offers are'} awaiting a valid forecast and{' '}
           {missing === 1 ? 'is' : 'are'} not included in this total.
         </p>
