@@ -281,60 +281,6 @@ export default function MonthOverview({
           </article>
         </div>
 
-        <div className="mo2-notes">
-          <article>
-            <span className="mo2-note-head">
-              <i>01</i> Where the money comes from
-            </span>
-            <ul className="mo2-points">
-              {story.points.split.map((point, i) => (
-                <li key={i}>{point}</li>
-              ))}
-            </ul>
-          </article>
-          <article>
-            <span className="mo2-note-head">
-              <i>02</i> Who has to walk in
-            </span>
-            <ul className="mo2-points">
-              {story.points.leads.map((point, i) => (
-                <li key={i}>{point}</li>
-              ))}
-            </ul>
-          </article>
-          <article>
-            <span className="mo2-note-head">
-              <i>03</i> Who has to stay
-            </span>
-            <ul className="mo2-points">
-              {story.points.renewals.map((point, i) => (
-                <li key={i}>{point}</li>
-              ))}
-            </ul>
-          </article>
-        </div>
-
-        <div className="mo2-chapter">
-          <article>
-            <span className="mo2-label">
-              <ShieldCheck size={12} /> What goes wrong
-            </span>
-            <p>{chapter.risk}</p>
-          </article>
-          <article>
-            <span className="mo2-label">
-              <Sparkles size={12} /> The move
-            </span>
-            <p>{chapter.signature}</p>
-          </article>
-          <article className="is-room">
-            <span className="mo2-label">
-              <Quote size={12} /> This room’s angle
-            </span>
-            <p>{roomAngle}</p>
-            <em>{studioName}</em>
-          </article>
-        </div>
       </div>
     </section>
   );

@@ -1,12 +1,24 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "regions": ["syd1"],
+  "regions": [
+    "syd1"
+  ],
   "functions": {
-    "api/index.ts": { "maxDuration": 60, "memory": 1769, "includeFiles": "server/data/**" }
+    "api/index.ts": {
+      "maxDuration": 300,
+      "memory": 1769,
+      "includeFiles": "server/data/**"
+    }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" },
-    { "source": "/((?!api/|assets/).*)", "destination": "/index.html" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    },
+    {
+      "source": "/((?!api/|assets/).*)",
+      "destination": "/index.html"
+    }
   ]
 }

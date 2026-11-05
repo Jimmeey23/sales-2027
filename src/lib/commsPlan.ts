@@ -222,10 +222,23 @@ function groupByDay(sends: CommsSend[]) {
   return groups;
 }
 
-/** The month as the team actually runs it: one send per audience per channel. */
+/* The cadence rules. A client hears from the studio at most four times a month, never twice
+   inside five days, and every send carries every offer written for them — so six offers is
+   still four messages, not twenty-four. */
+export const CRM_MAX_TOUCHES = 4;
+export const CRM_MIN_GAP_DAYS = 5;
+export const CADENCE_RULES = [
+  `At most ${CRM_MAX_TOUCHES} messages per client per month, per audience`,
+  `Never two messages to the same audience within ${CRM_MIN_GAP_DAYS} days`,
+  'One send per audience carries all of their offers — no per-offer blasts',
+  'Reminders go only to people who have not bought yet',
+  'Each touch has one job: preview, launch, reminder, last call',
+];
+
+/** The month as the team actually runs it: four touches per audience, offers combined. */
 export function buildCommsSends(
   offers: any[],
-  { year, month, hidden, custom, leads, reminder, slots }: CommsContext,
+  { year, month, hidden, custom, leads, slots }: CommsContext,
 ): { sends: CommsSend[]; groups: { key: string; date: Date; sends: CommsSend[] }[]; naive: number } {
   const sends: CommsSend[] = [];
   const bySlot = new Map<string, any[]>();
@@ -235,13 +248,14 @@ export function buildCommsSends(
   }
   const due = (lead: number) => leadDate(year, month, lead);
   const audience = (slot: string) => AUDIENCE[slot] || slot;
+  const wa = !hidden.includes('whatsapp');
+  const em = !hidden.includes('email');
 
   for (const [slot, group] of bySlot) {
     const names = group.map(o => o.name).filter(Boolean);
     const ids = group.map(o => Number(o.id));
     const win = offerWindow(group, year, month);
     const dates = sendDates(win, year, month);
-    // A send only carries the offers that are actually live on its day.
     const liveOn = (d: Date) =>
       group.filter(o => {
         const own = offerWindow([o], year, month);
@@ -251,94 +265,100 @@ export function buildCommsSends(
       const live = liveOn(d);
       return { names: live.map(o => o.name).filter(Boolean), ids: live.map(o => Number(o.id)) };
     };
-    const late = group.filter(o => offerWindow([o], year, month).start > dates.launch);
-    // The earliest lead in the group wins: the send goes out when the first of these
-    // offers needs it, and the copy carries the rest.
-    if (!hidden.includes('whatsapp')) {
-      sends.push({
-        key: `wa-${slot}`,
-        channel: 'whatsapp',
-        label: 'Early-access teaser',
-        date: due(Math.min(...group.map(o => leads.whatsapp))),
+    // Offers that open after launch ride on the reminder: it moves to the latest such opening
+    // (if that still leaves room before the last call), so there is no separate go-live blast.
+    const lateStarts = group
+      .map(o => offerWindow([o], year, month).start)
+      .filter(d => d > dates.launch)
+      .sort((a, b) => a.getTime() - b.getTime());
+    let reminder = dates.nudge;
+    const latest = lateStarts[lateStarts.length - 1];
+    if (latest && latest > reminder && latest.getTime() <= dates.lastCall.getTime() - CRM_MIN_GAP_DAYS * 86400000) reminder = latest;
+
+    const touches: CommsSend[] = [];
+    // 1 · Preview, before the month: the one long-form message, by email (WhatsApp if email is off).
+    if (em || wa)
+      touches.push({
+        key: `preview-${slot}`,
+        channel: em ? 'email' : 'whatsapp',
+        label: 'Preview',
+        date: due(em ? leads.email : leads.whatsapp),
         audience: audience(slot),
         names,
         ids,
-        note: 'first look before the month opens',
-        ...draft('wa-tease', slot, names, month),
+        note: names.length > 1 ? `one message · ${names.length} offers` : 'one message',
+        ...draft(em ? 'em-launch' : 'wa-tease', slot, names, month),
+        goal: 'Introduce every offer for this audience in one message, with dates and the booking link.',
       });
-      sends.push({
-        key: `wa-launch-${slot}`,
-        channel: 'whatsapp',
-        label: 'Launch broadcast',
+    // 2 · Launch: the day offers go live.
+    if (wa || em)
+      touches.push({
+        key: `launch-${slot}`,
+        channel: wa ? 'whatsapp' : 'email',
+        label: 'Launch',
         date: dates.launch,
         audience: audience(slot),
         ...pick(dates.launch),
-        note: names.length > 1 ? `one broadcast · ${pick(dates.launch).names.length} offers` : 'one broadcast',
-        ...draft('wa-launch', slot, pick(dates.launch).names, month),
+        note: 'one broadcast',
+        ...draft(wa ? 'wa-launch' : 'em-launch', slot, pick(dates.launch).names, month),
+        goal: 'Offers are live today: one clear ask, one link.',
       });
-      // Offers that open later in the month get their own go-live message on their first day.
-      for (const offer of late) {
-        const start = offerWindow([offer], year, month).start;
-        sends.push({
-          key: `wa-live-${slot}-${offer.id}`,
-          channel: 'whatsapp',
-          label: 'Goes live',
-          date: start,
-          audience: audience(slot),
-          names: [offer.name].filter(Boolean),
-          ids: [Number(offer.id)],
-          note: 'opens mid-month',
-          ...draft('wa-launch', slot, [offer.name].filter(Boolean), month),
-        });
-      }
-      sends.push({
-        key: `wa-nudge-${slot}`,
-        channel: 'whatsapp',
-        label: 'Mid-month nudge',
-        date: dates.nudge,
+    // 3 · Reminder, mid-month, only to people who opened or enquired and have not bought.
+    if (wa || em) {
+      const live = pick(reminder);
+      const opening = group.filter(o => offerWindow([o], year, month).start > dates.launch).map(o => o.name);
+      touches.push({
+        key: `reminder-${slot}`,
+        channel: em && !wa ? 'email' : wa ? 'whatsapp' : 'email',
+        label: 'Reminder',
+        date: reminder,
         audience: audience(slot),
-        ...pick(dates.nudge),
-        note: 'to everyone who opened but has not bought',
-        ...draft('wa-nudge', slot, pick(dates.nudge).names, month),
+        ...live,
+        note: 'non-buyers only',
+        ...draft('wa-nudge', slot, live.names, month),
+        goal: opening.length
+          ? `Nudge non-buyers and announce what opens now: ${opening.join(', ')}.`
+          : 'Nudge people who showed interest but have not bought. Skip buyers.',
       });
-      sends.push({
-        key: `wa-rem-${slot}`,
-        channel: 'whatsapp',
+    }
+    // 4 · Last call, two days before close, non-buyers only.
+    if (wa || em) {
+      const live = pick(dates.lastCall);
+      touches.push({
+        key: `last-${slot}`,
+        channel: wa ? 'whatsapp' : 'email',
         label: 'Last call',
         date: dates.lastCall,
         audience: audience(slot),
-        ...pick(dates.lastCall),
-        note: names.length > 1 ? `one reminder · ${names.length} offers` : 'one reminder',
-        ...draft('wa-last', slot, pick(dates.lastCall).names, month, win.end),
+        ...live,
+        note: 'non-buyers only',
+        ...draft('wa-last', slot, live.names, month, win.end),
+        goal: 'Deadline: the offers close in 48 hours.',
       });
     }
-    if (!hidden.includes('email')) {
-      sends.push({
-        key: `em-${slot}`,
-        channel: 'email',
-        label: 'Email campaign',
-        date: due(Math.min(...group.map(o => leads.email))),
-        audience: audience(slot),
-        names,
-        ids,
-        note: names.length > 1 ? `one email · ${names.length} offers` : 'one email',
-        ...draft('em-launch', slot, names, month),
-      });
-      sends.push({
-        key: `em-follow-${slot}`,
-        channel: 'email',
-        label: 'Follow-up email',
-        date: dates.follow,
-        audience: audience(slot),
-        ...pick(dates.follow),
-        note: 'skips anyone who already bought',
-        ...draft('em-follow', slot, pick(dates.follow).names, month),
-      });
+
+    // Frequency cap: merge any touch that lands inside the minimum gap into the one before it.
+    touches.sort((a, b) => a.date.getTime() - b.date.getTime());
+    const kept: CommsSend[] = [];
+    for (const t of touches) {
+      if (!t.names.length) continue;
+      const prev = kept[kept.length - 1];
+      if (prev && (t.date.getTime() - prev.date.getTime()) / 86400000 < CRM_MIN_GAP_DAYS && t.label !== 'Last call') {
+        prev.names = [...new Set([...prev.names, ...t.names])];
+        prev.ids = [...new Set([...prev.ids, ...t.ids])];
+        continue;
+      }
+      if (prev && (t.date.getTime() - prev.date.getTime()) / 86400000 < CRM_MIN_GAP_DAYS && t.label === 'Last call') {
+        // The deadline matters more than the reminder: replace it.
+        kept[kept.length - 1] = { ...t, names: [...new Set([...prev.names, ...t.names])], ids: [...new Set([...prev.ids, ...t.ids])] };
+        continue;
+      }
+      kept.push(t);
     }
+    sends.push(...kept.slice(0, CRM_MAX_TOUCHES));
   }
 
-  // The print shop is one order, whatever the audience: every card in the month goes to
-  // the desk together, so the calendar shows a single print run rather than three.
+  // The print shop is one order, whatever the audience — staff work, not a client message.
   if (!hidden.includes('tent') && offers.length) {
     sends.push({
       key: 'te-print',
@@ -350,10 +370,10 @@ export function buildCommsSends(
       ids: offers.map(o => Number(o.id)),
       note: `one print order · ${offers.length} card${offers.length === 1 ? '' : 's'}`,
       ...draft('tent', null, offers.map(o => o.name).filter(Boolean), month),
+      goal: 'Every tent card for the month, in one print order. In studio by the 1st.',
     });
   }
 
-  // A team-added channel has no audience split, so it carries the month in one go.
   for (const channel of custom) {
     if (hidden.includes(channel.id)) continue;
     sends.push({
@@ -368,16 +388,11 @@ export function buildCommsSends(
     });
   }
 
-  // A send with nothing live on its day is dropped rather than sent empty.
-  for (let i = sends.length - 1; i >= 0; i--) if (!sends[i].names.length && sends[i].channel !== 'custom') sends.splice(i, 1);
   sends.sort((a, b) => a.date.getTime() - b.date.getTime() || a.label.localeCompare(b.label));
   for (const send of sends) send.phase = phaseOf(send.date, year, month);
 
-  // What the month would cost without the rule: every offer its own broadcast, its own
-  // email, its own card and its own reminder.
-  const wa = hidden.includes('whatsapp') ? 0 : 1;
-  const channels = wa + (hidden.includes('email') ? 0 : 1) + (hidden.includes('tent') ? 0 : 1);
-  const naive = offers.length * (channels + wa * 3 + (hidden.includes('email') ? 0 : 1)) + custom.filter(c => !hidden.includes(c.id)).length;
+  const channels = (wa ? 1 : 0) + (em ? 1 : 0) + (hidden.includes('tent') ? 0 : 1);
+  const naive = offers.length * (channels + (wa ? 3 : 0) + (em ? 1 : 0)) + custom.filter(c => !hidden.includes(c.id)).length;
   return { sends, groups: groupByDay(sends), naive: Math.max(naive, sends.length) };
 }
 

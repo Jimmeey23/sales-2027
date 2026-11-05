@@ -258,3 +258,81 @@
 .mw .col-section .crm-cal {
   top: 64px;
 }
+
+/* ── Cadence rules, view toggle and the CRM year calendar ───────────────────── */
+.crm-rules { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.crm-rules li { font-size: 11px; padding: 3px 9px; border-radius: 999px; background: rgba(201, 162, 74, 0.14); color: #5b4512; }
+.crm-view { display: inline-flex; gap: 2px; margin: 18px 0 10px; padding: 3px; border-radius: 999px; background: rgba(23, 19, 13, 0.06); }
+.crm-view button { font: inherit; font-size: 12px; font-weight: 600; padding: 6px 14px; border: 0; border-radius: 999px; background: none; color: rgba(23, 19, 13, 0.65); cursor: pointer; }
+.crm-view button.is-on { background: #17130d; color: #f7f1e6; }
+
+.crmy { --ink: #17130d; --cream: #f7f1e6; --line: rgba(23, 19, 13, 0.1); --muted: rgba(23, 19, 13, 0.58); --gold: #c9a24a;
+  --wa: #25a35a; --em: #3b6fd8; --tent: #b7791f; --custom: #8a4fbf;
+  border: 1px solid var(--line); border-radius: 16px; background: #fcfaf6; padding: 18px; color: var(--ink); }
+.crmy-empty { font-size: 13px; color: rgba(23, 19, 13, 0.6); padding: 18px 0; }
+.crmy-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: flex-end; }
+.crmy-head small { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 650; }
+.crmy-head h5 { margin: 4px 0; font-family: var(--font-display, Georgia, serif); font-size: 22px; font-weight: 500; }
+.crmy-head p { margin: 0; font-size: 13px; color: var(--muted); max-width: 520px; }
+.crmy-export { display: flex; flex-wrap: wrap; gap: 6px; }
+.crmy-btn { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 12px; font-weight: 600; padding: 7px 12px; border-radius: 999px;
+  border: 1px solid rgba(23, 19, 13, 0.16); background: #fff; color: var(--ink); text-decoration: none; cursor: pointer; }
+.crmy-btn.is-dark { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.crmy-share { display: flex; gap: 16px; align-items: flex-start; margin-top: 14px; padding: 14px; border-radius: 12px; background: #fff; border: 1px solid var(--line); }
+.crmy-share img { flex: none; border-radius: 8px; border: 1px solid var(--line); }
+.crmy-share strong { font-size: 13px; }
+.crmy-share p { font-size: 12px; line-height: 1.55; color: var(--muted); margin: 4px 0 8px; }
+.crmy-share small { font-size: 11px; color: var(--muted); }
+.crmy-link { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 6px; }
+.crmy-link code { flex: 1 1 220px; min-width: 0; font-size: 11px; padding: 6px 8px; border-radius: 6px; background: rgba(23, 19, 13, 0.05); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crmy-link button, .crmy-link a { font: inherit; font-size: 11.5px; font-weight: 600; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(23, 19, 13, 0.16); background: none; color: var(--ink); text-decoration: none; cursor: pointer; }
+.crmy-filters { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 14px 0 6px; }
+.crmy-filters > div { display: flex; flex-wrap: wrap; gap: 5px; }
+.crmy-filters button { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 11.5px; padding: 4px 10px; border-radius: 999px;
+  border: 1px solid rgba(23, 19, 13, 0.14); background: none; color: var(--muted); cursor: pointer; }
+.crmy-filters button.is-on { background: #fff; color: var(--ink); border-color: rgba(23, 19, 13, 0.3); font-weight: 600; }
+.crmy-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.crmy-dot.is-whatsapp { background: var(--wa); }
+.crmy-dot.is-email { background: var(--em); }
+.crmy-dot.is-tent { background: var(--tent); }
+.crmy-dot.is-custom { background: var(--custom); }
+.crmy-rules { margin: 6px 0 12px; font-size: 12px; }
+.crmy-rules summary { cursor: pointer; color: var(--muted); }
+.crmy-rules ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 3px; }
+.crmy-body { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 14px; align-items: start; }
+.crmy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.crmy-month { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
+.crmy-month.is-focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201, 162, 74, 0.18); }
+.crmy-month-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.crmy-month-head b { font-family: var(--font-display, Georgia, serif); font-weight: 500; font-size: 14px; }
+.crmy-month-head em { font-style: normal; font-size: 10.5px; color: var(--muted); }
+.crmy-dow, .crmy-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.crmy-dow span { font-size: 9px; text-align: center; color: var(--muted); }
+.crmy-day { position: relative; aspect-ratio: 1; display: grid; place-items: center; font: inherit; font-size: 10.5px; border: 0; border-radius: 6px; background: none; color: rgba(23, 19, 13, 0.4); padding: 0; }
+.crmy-day.has { color: var(--ink); font-weight: 600; background: rgba(201, 162, 74, 0.12); cursor: pointer; }
+.crmy-day.has:hover { background: rgba(201, 162, 74, 0.24); }
+.crmy-day.is-picked { background: var(--ink); color: var(--cream); }
+.crmy-day i { position: absolute; bottom: 2px; left: 0; right: 0; display: flex; justify-content: center; gap: 1px; }
+.crmy-day i .crmy-dot { width: 4px; height: 4px; }
+.crmy-detail { position: sticky; top: 12px; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 10px; max-height: 70vh; overflow-y: auto; }
+.crmy-hint { margin: 0; font-size: 12px; color: var(--muted); }
+.crmy-detail-head { display: flex; justify-content: space-between; align-items: center; }
+.crmy-detail-head b { font-size: 13px; }
+.crmy-detail-head button { border: 0; background: none; cursor: pointer; color: var(--muted); }
+.crmy-send { display: grid; gap: 4px; padding: 10px 10px 10px 12px; border-radius: 10px; background: #fcfaf6; border-left: 3px solid var(--gold); }
+.crmy-send.is-whatsapp { border-left-color: var(--wa); }
+.crmy-send.is-email { border-left-color: var(--em); }
+.crmy-send.is-tent { border-left-color: var(--tent); }
+.crmy-send.is-custom { border-left-color: var(--custom); }
+.crmy-send-top { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; }
+.crmy-send-top em { margin-left: auto; font-style: normal; font-weight: 400; font-size: 11px; color: var(--muted); }
+.crmy-aud { font-size: 11px; color: var(--muted); }
+.crmy-send p { margin: 0; font-size: 12px; line-height: 1.45; }
+.crmy-send ul { margin: 0; padding-left: 16px; font-size: 11.5px; display: grid; gap: 1px; }
+.crmy-send details summary { cursor: pointer; font-size: 11px; color: var(--muted); }
+.crmy-msg { white-space: pre-wrap; font-size: 11.5px !important; color: var(--muted); margin-top: 4px !important; }
+@media (max-width: 860px) {
+  .crmy-body { grid-template-columns: 1fr; }
+  .crmy-detail { position: static; max-height: none; }
+  .crmy-share { flex-direction: column; }
+}

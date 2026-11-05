@@ -1391,3 +1391,51 @@
 }
 .ocv-keyterms dd { margin: 0; font-weight: 600; font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
 .ocv-keyterms .is-wide dd { font-weight: 400; font-size: 13px; }
+
+/* Replace-offer modal. */
+.rom-scrim { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(15, 12, 8, 0.55); backdrop-filter: blur(3px); }
+.rom {
+  width: min(880px, 100%); max-height: calc(100vh - 32px); overflow-y: auto;
+  background: #fcfaf6; color: #17130d; border-radius: 18px; box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.6);
+  animation: gcp-in 0.2s ease both;
+}
+.rom-head { display: flex; justify-content: space-between; gap: 16px; padding: 20px 22px 16px; border-bottom: 1px solid rgba(23, 19, 13, 0.08); }
+.rom-eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(23, 19, 13, 0.55); }
+.rom-head h3 { margin: 4px 0 2px; font-family: var(--font-display, Georgia, serif); font-size: 24px; font-weight: 500; }
+.rom-head p { margin: 0; font-size: 13px; color: rgba(23, 19, 13, 0.6); }
+.rom-x { border: 0; background: rgba(23, 19, 13, 0.06); width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display: grid; place-items: center; color: inherit; flex: none; }
+.rom section { padding: 18px 22px; }
+.rom h4 { display: flex; align-items: center; gap: 6px; margin: 0 0 10px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.rom-ai h4 svg { color: #c9a24a; }
+.rom-muted { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 13px; color: rgba(23, 19, 13, 0.55); }
+.rom-summary { margin: 0 0 12px; font-size: 13px; line-height: 1.5; padding: 10px 12px; border-radius: 10px; background: rgba(201, 162, 74, 0.12); }
+.rom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.rom-card { display: grid; gap: 6px; align-content: start; padding: 14px; border-radius: 14px; background: #fff; border: 1px solid rgba(23, 19, 13, 0.1); position: relative; }
+.rom-card.is-ai { border-color: rgba(201, 162, 74, 0.55); box-shadow: 0 0 0 3px rgba(201, 162, 74, 0.1); }
+.rom-card.is-fresh { border-style: dashed; }
+.rom-tag { justify-self: start; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: rgba(23, 19, 13, 0.06); }
+.rom-card.is-ai .rom-tag { background: rgba(201, 162, 74, 0.2); }
+.rom-card strong { font-size: 14px; }
+.rom-line { font-size: 12.5px; color: rgba(23, 19, 13, 0.7); }
+.rom-figs { font-size: 12px; font-weight: 600; white-space: nowrap; }
+.rom-figs em { font-style: normal; font-weight: 600; margin-left: 4px; }
+.rom-figs em.is-up { color: #2f7d4f; }
+.rom-figs em.is-down { color: #c2410c; }
+.rom-card p { margin: 0; font-size: 12px; line-height: 1.5; color: rgba(23, 19, 13, 0.65); }
+.rom-card button, .rom-bank li button {
+  justify-self: start; font: inherit; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 999px; cursor: pointer;
+  border: 0; background: #17130d; color: #f7f1e6;
+}
+.rom-card button:disabled, .rom-bank li button:disabled { opacity: 0.45; cursor: default; }
+.rom-bank { border-top: 1px solid rgba(23, 19, 13, 0.08); }
+.rom-bank-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.rom-bank-head h4 { margin: 0; }
+.rom-search { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 10px; border: 1px solid rgba(23, 19, 13, 0.14); background: #fff; min-width: 220px; }
+.rom-search input { border: 0; outline: none; background: none; font: inherit; font-size: 12.5px; flex: 1; color: inherit; }
+.rom-bank ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rom-bank li { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; background: #fff; border: 1px solid rgba(23, 19, 13, 0.07); }
+.rom-bank li > div { display: grid; gap: 2px; min-width: 0; }
+.rom-bank li strong { font-size: 13px; }
+.rom-bank li > div span { font-size: 11.5px; color: rgba(23, 19, 13, 0.55); text-transform: capitalize; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rom-bank li button { background: none; color: inherit; border: 1px solid rgba(23, 19, 13, 0.18); }
+@media (max-width: 600px) { .rom-bank li { grid-template-columns: 1fr auto; } .rom-bank li .rom-figs { display: none; } }

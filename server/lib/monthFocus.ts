@@ -267,13 +267,13 @@ function synthesizeStructuredFocus(raw: FocusRequest): MonthFocus {
   ].join('\n');
 
   const actionPlan = [
-    { week: 1, owner: 'Studio manager', text: `Brief desk & trainers on ${raw.monthName} ${fmtLakh(target)} target, stream quotas, and ${newOffer} positioning.` },
-    { week: 1, owner: 'Front desk', text: `Launch T-14 renewal calls across ${expiriesDue > 0 ? `${expiriesDue} expiring packages` : 'upcoming expiries'} pitching ${renOffer}.` },
+    { week: 1, owner: 'Team Leader', text: `Brief desk & trainers on ${raw.monthName} ${fmtLakh(target)} target, stream quotas, and ${newOffer} positioning.` },
+    { week: 1, owner: 'CST', text: `Launch T-14 renewal calls across ${expiriesDue > 0 ? `${expiriesDue} expiring packages` : 'upcoming expiries'} pitching ${renOffer}.` },
     { week: 2, owner: 'Marketing', text: `Activate ${keyDateLabel} campaign creative and WhatsApp broadcast to drive ${leads > 0 ? `${Math.ceil(leads * 0.4)} top-of-funnel leads` : 'trial bookings'}.` },
-    { week: 2, owner: 'Sales associate', text: `Work high-LTV lapsed segment with ${reactOffer} to lock the first half of ${reactivationsNeeded || 'monthly'} comeback sales.` },
+    { week: 2, owner: 'CST', text: `Work high-LTV lapsed segment with ${reactOffer} to lock the first half of ${reactivationsNeeded || 'monthly'} comeback sales.` },
     { week: 3, owner: 'Trainer lead', text: `Host themed studio classes and hand off every trial attendee to the desk within 15 minutes of class finish.` },
-    { week: 3, owner: 'Studio manager', text: `Audit mid-month pacing against ${fmtLakh(Math.round(target * 0.55))} checkpoint and escalate 1M→3M upgrade scripts.` },
-    { week: 4, owner: 'Sales associate', text: `Close pending ${newOffer} trial cohorts and unrenewed ${raw.monthName} expiries before hard month-end cutoff.` },
+    { week: 3, owner: 'Team Leader', text: `Audit mid-month pacing against ${fmtLakh(Math.round(target * 0.55))} checkpoint and escalate 1M→3M upgrade scripts.` },
+    { week: 4, owner: 'CST', text: `Close pending ${newOffer} trial cohorts and unrenewed ${raw.monthName} expiries before hard month-end cutoff.` },
     { week: 4, owner: 'Ops', text: `Reconcile promo redemptions, discount ceiling compliance, and pre-book next month's Week-1 trial roster.` },
   ];
 

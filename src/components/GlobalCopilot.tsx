@@ -79,6 +79,53 @@ export default function GlobalCopilot() {
   const [msgs, setMsgs] = useState<Msg[]>(load);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [custom, setCustom] = useState<Record<string, string>>({});
+  const [live, setLive] = useState<Step[]>([]);
+  // Where the panel or button sits; null = default corner. Remembered per browser.
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('p57-copilot-pos') || 'null');
+    } catch {
+      return null;
+    }
+  });
+  const drag = useRef<{ dx: number; dy: number; moved: boolean } | null>(null);
+  const clampPos = (x: number, y: number, w: number, h: number) => ({
+    x: Math.max(8, Math.min(window.innerWidth - w - 8, x)),
+    y: Math.max(8, Math.min(window.innerHeight - h - 8, y)),
+  });
+  const startDrag = (e: React.PointerEvent<HTMLElement>, el: HTMLElement | null) => {
+    if (!el || (e.target as HTMLElement).closest('button:not(.gcp-fab), input, textarea, select')) return;
+    const r = el.getBoundingClientRect();
+    drag.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, moved: false };
+    const move = (ev: PointerEvent) => {
+      if (!drag.current) return;
+      drag.current.moved = true;
+      setPos(clampPos(ev.clientX - drag.current.dx, ev.clientY - drag.current.dy, r.width, r.height));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      setPos(p => {
+        try {
+          localStorage.setItem('p57-copilot-pos', JSON.stringify(p));
+        } catch {
+          /* storage unavailable */
+        }
+        return p;
+      });
+      setTimeout(() => (drag.current = null), 0);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  const panelRef = useRef<HTMLElement>(null);
+  const fabRef = useRef<HTMLButtonElement>(null);
+  // Keep the panel on screen when the window shrinks.
+  useEffect(() => {
+    const onResize = () => setPos(p => (p ? clampPos(p.x, p.y, 120, 60) : p));
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<string | null>(null);
@@ -124,19 +171,49 @@ export default function GlobalCopilot() {
     setInput('');
     setBusy(true);
     const t0 = Date.now();
+    type Round = {
+      reply: string;
+      actions: CopilotAction[];
+      audit?: Audit | null;
+      steps?: Step[];
+      questions?: Question[] | null;
+      done?: boolean;
+      state?: unknown;
+    };
     try {
-      const r = await api<{ reply: string; actions: CopilotAction[]; audit?: Audit | null; steps?: Step[]; questions?: Question[] | null }>('/copilot/agent', {
-        method: 'POST',
-        body: JSON.stringify({ message, history, scope, mode }),
-      });
+      // The copilot works in short rounds (hosting kills long requests); keep calling until it is done,
+      // showing the steps so far while it works.
+      let state: unknown = null;
+      let audit: Audit | null = null;
+      let r: Round;
+      for (let round = 0; ; round++) {
+        r = await api<Round>('/copilot/agent', {
+          method: 'POST',
+          body: JSON.stringify({ message, history, scope, mode, state }),
+        });
+        if (r.audit) audit = r.audit;
+        if (r.done !== false || !r.state || round >= 14) break;
+        state = r.state;
+        setLive(r.steps || []);
+      }
       setMsgs(m => [
         ...m,
-        { role: 'assistant', content: r.reply, actions: r.actions, done: [], audit: r.audit, steps: r.steps, questions: r.questions, ms: Date.now() - t0 },
+        {
+          role: 'assistant',
+          content: r.reply || 'The copilot ran out of time. Try a narrower request.',
+          actions: r.actions,
+          done: [],
+          audit,
+          steps: r.steps,
+          questions: r.questions,
+          ms: Date.now() - t0,
+        },
       ]);
     } catch (e: any) {
       setMsgs(m => [...m, { role: 'assistant', content: e.message || 'Copilot could not answer.' }]);
     } finally {
       setBusy(false);
+      setLive([]);
     }
   };
 
@@ -242,13 +319,37 @@ export default function GlobalCopilot() {
   return (
     <>
       {!open && (
-        <button type="button" className="gcp-fab" onClick={() => setOpen(true)} title="Copilot (⌘J)">
+        <button
+          type="button"
+          ref={fabRef}
+          className="gcp-fab"
+          style={pos ? { left: pos.x, top: pos.y, right: 'auto', bottom: 'auto' } : undefined}
+          onPointerDown={e => startDrag(e, fabRef.current)}
+          onClick={() => {
+            if (!drag.current?.moved) setOpen(true);
+          }}
+          title="Copilot (⌘J) — drag to move"
+        >
           <Sparkles size={16} /> Copilot
         </button>
       )}
       {open && (
-        <aside className={`gcp${min ? ' is-min' : ''}`} aria-label="Copilot">
-          <header className="gcp-head">
+        <aside
+          ref={panelRef}
+          className={`gcp${min ? ' is-min' : ''}${pos ? ' is-placed' : ''}`}
+          aria-label="Copilot"
+          style={
+            pos
+              ? {
+                  left: Math.min(pos.x, Math.max(8, window.innerWidth - Math.min(460, window.innerWidth - 32) - 8)),
+                  top: Math.min(pos.y, Math.max(8, window.innerHeight - (min ? 70 : 520))),
+                  right: 'auto',
+                  bottom: min ? 'auto' : 16,
+                }
+              : undefined
+          }
+        >
+          <header className="gcp-head" onPointerDown={e => startDrag(e, panelRef.current)} onDoubleClick={() => setPos(null)} title="Drag to move · double-click to reset">
             <span className="gcp-title">
               <Sparkles size={14} /> Copilot
               {where && <em>{where}</em>}
@@ -398,7 +499,7 @@ export default function GlobalCopilot() {
                       {m.actions.map((a, i) => {
                         const done = m.done?.includes(i);
                         return (
-                          <div key={i} className={`gcp-action${done ? ' is-done' : ''}`}>
+                          <div key={i} className={`gcp-action is-${a.kind}${done ? ' is-done' : ''}`}>
                             <div className="gcp-action-head">
                               <strong>{describeAction(a)}</strong>
                               {'approved' in a && a.approved && <span className="gcp-lock">Approved · asks first</span>}
@@ -448,7 +549,24 @@ export default function GlobalCopilot() {
                 </div>
               );
             })}
-            {busy && <div className="gcp-msg is-assistant is-typing">Thinking and reading the plan…</div>}
+            {busy && (
+              <div className="gcp-working" role="status">
+                <span className="gcp-dots" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span>
+                  {live.length
+                    ? (() => {
+                        const lastTool = [...live].reverse().find(x => x.type === 'tool');
+                        return lastTool ? `${TOOL_LABEL[lastTool.tool || ''] || lastTool.tool}…` : 'Reasoning…';
+                      })()
+                    : 'Thinking and reading the plan…'}
+                </span>
+                {live.length > 0 && <em>{live.filter(x => x.type === 'tool').length} steps</em>}
+              </div>
+            )}
             <div ref={end} />
           </div>
 

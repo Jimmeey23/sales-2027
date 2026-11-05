@@ -15,6 +15,8 @@ import {
   Trash2,
 } from 'lucide-react';
 import { MONTHS } from '../types';
+import { useApp } from '../App';
+import CrmYearCalendar from './CrmYearCalendar';
 import { keyDatesFor } from '../data/keyDates';
 import { SLOT_LABEL, VOICE, collateralCopy, clip, hash, noPrice } from '../lib/collateralPlan';
 import {
@@ -22,6 +24,7 @@ import {
   CHANNEL_NAME,
   buildCommsSends,
   buildSingleSends,
+  CADENCE_RULES,
   dayKey,
   fmtDay,
   PHASE_LABEL,
@@ -220,9 +223,14 @@ function CommsCalendar({
           <small>CRM calendar · {monthName}</small>
           <h5>What goes out, and when</h5>
           <p>
-            One audience, one send. Offers written for the same people leave in the same broadcast, email and print
-            order — {offers.length} offers, {clubbed.sends.length} outreaches instead of {perOffer.sends.length}.
+            Four touches per audience — preview, launch, reminder, last call — each carrying every offer written for
+            those clients. {offers.length} offers, {clubbed.sends.length} outreaches instead of {perOffer.sends.length}.
           </p>
+          <ul className="crm-rules">
+            {CADENCE_RULES.slice(0, 4).map(rule => (
+              <li key={rule}>{rule}</li>
+            ))}
+          </ul>
         </div>
         <div className="col-crm-aside">
           <div className="crm-mode" role="group" aria-label="How the month is sent">
@@ -396,11 +404,12 @@ function CommsCalendar({
 
       <footer className="col-crm-foot">
         <span>
-          {clubbed.sends.filter(s => s.names.length > 1).length} shared sends · nothing goes out twice in a day to the
-          same audience
+          {clubbed.sends.filter(s => s.names.length > 1).length} combined sends · at most 4 per audience · never two
+          within 5 days
         </span>
         <span>
-          Leads: WhatsApp −{leads.whatsapp}d · email −{leads.email}d · print −{leads.tent}d · nudge day 12 · follow-up day 16 · last call 48h before close
+          Preview by email −{leads.email}d · print −{leads.tent}d · launch day 1 · reminder ~day 12 (non-buyers) · last call
+          48h before close (non-buyers)
         </span>
       </footer>
     </section>
@@ -550,6 +559,10 @@ export default function MarketingCollaterals({
   onDeleteSection?: () => void;
 }) {
   const [pickId, setPickId] = useState<number | null>(null);
+  const [crmView, setCrmView] = useState<'month' | 'year'>('month');
+  const { boot } = useApp();
+  const crmStudioId =
+    boot?.studios?.find((st: any) => String(st.name).toLowerCase() === String(studioName).toLowerCase())?.id ?? null;
   const [layoutPick, setLayoutPick] = useState<Record<string, string>>({});
   // The header reads as a heading; the pencil opens it for renaming.
   const [renaming, setRenaming] = useState(false);
@@ -1105,6 +1118,17 @@ export default function MarketingCollaterals({
       })()}
 
       {/* Every send of the month, on one rail — the comms plan the studio actually runs. */}
+      <div className="crm-view" role="tablist" aria-label="CRM view">
+        <button type="button" role="tab" aria-selected={crmView === 'month'} className={crmView === 'month' ? 'is-on' : ''} onClick={() => setCrmView('month')}>
+          This month
+        </button>
+        <button type="button" role="tab" aria-selected={crmView === 'year'} className={crmView === 'year' ? 'is-on' : ''} onClick={() => setCrmView('year')}>
+          Year calendar
+        </button>
+      </div>
+      {crmView === 'year' ? (
+        <CrmYearCalendar year={year} studioId={crmStudioId} focusMonth={month} />
+      ) : (
       <CommsCalendar
         offers={offers}
         year={year}
@@ -1114,6 +1138,7 @@ export default function MarketingCollaterals({
         custom={customChannels}
         leads={{ whatsapp: waLead, email: emailLead, tent: tentLead }}
       />
+      )}
 
       {editable && hiddenChannels.length > 0 && (
         <div className="mw-restore-strip">

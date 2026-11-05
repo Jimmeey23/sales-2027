@@ -27,6 +27,15 @@ export interface AgentQuestion {
   options: string[];
 }
 
+export interface AgentState {
+  messages: any[];
+  actions: AgentAction[];
+  steps: AgentStep[];
+  nudged: boolean;
+  step: number;
+  reply: string;
+}
+
 export interface AgentScope {
   path?: string | null;
   studioId?: number | null;
@@ -243,11 +252,24 @@ export async function runAgent(input: {
   user: any;
   system?: string;
   maxSteps?: number;
-}): Promise<{ reply: string; actions: AgentAction[]; steps: AgentStep[]; questions: AgentQuestion[] | null }> {
-  const client = await anthropicClient(120_000);
+  /** Working state from the previous round; absent on the first call. */
+  state?: AgentState | null;
+  /** Wall-clock budget for this round. Serverless hosts kill long requests, so the agent works in rounds. */
+  budgetMs?: number;
+}): Promise<{
+  reply: string;
+  actions: AgentAction[];
+  steps: AgentStep[];
+  questions: AgentQuestion[] | null;
+  done: boolean;
+  state?: AgentState;
+}> {
+  const started = Date.now();
+  const client = await anthropicClient(150_000);
   const { user, scope } = input;
-  const actions: AgentAction[] = [];
-  const steps: AgentStep[] = [];
+  const prior = input.state;
+  const actions: AgentAction[] = prior?.actions ? [...prior.actions] : [];
+  const steps: AgentStep[] = prior?.steps ? [...prior.steps] : [];
   let questions: AgentQuestion[] | null = null;
   const studioList = studios(user);
   const capOf = (sid: number) => Number(studioList.find(s => s.id === sid)?.max_discount_percent ?? 50) || 50;
@@ -266,7 +288,9 @@ export async function runAgent(input: {
     .filter(h => h.content)
     .map(h => ({ role: (h.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant', content: h.content }));
   while (turns.length && turns[0].role !== 'user') turns.shift();
-  const messages: any[] = [...turns, { role: 'user', content: `Context: ${JSON.stringify(scopeNote)}\n\nRequest: ${input.message}` }];
+  const messages: any[] = prior?.messages?.length
+    ? prior.messages
+    : [...turns, { role: 'user', content: `Context: ${JSON.stringify(scopeNote)}\n\nRequest: ${input.message}` }];
 
   const run = (name: string, a: any): any => {
     const where = { studioId: Number(a.studio_id), year: Number(a.year), month: Number(a.month) };
@@ -363,10 +387,22 @@ export async function runAgent(input: {
     }
   };
 
-  let reply = '';
+  let reply = prior?.reply || '';
   let finished = false;
-  let nudged = false;
-  for (let step = 0; step < (input.maxSteps ?? 12); step++) {
+  let nudged = !!prior?.nudged;
+  let step = prior?.step ?? 0;
+  const budget = input.budgetMs ?? Infinity;
+  for (; step < (input.maxSteps ?? 12); step++) {
+    // Time for another model call? If not, hand the work back; the browser calls again at once.
+    if (Date.now() - started > budget)
+      return {
+        reply: '',
+        actions,
+        steps,
+        questions: null,
+        done: false,
+        state: { messages, actions, steps, nudged, step, reply },
+      };
     const response = await client.messages.create({
       model: COPILOT_MODEL,
       max_tokens: 32000,
@@ -442,7 +478,7 @@ export async function runAgent(input: {
                     : 'ok',
           error: !!result?.error,
         });
-        return { type: 'tool_result', tool_use_id: u.id, content: body.slice(0, 60000), is_error: !!result?.error };
+        return { type: 'tool_result', tool_use_id: u.id, content: body.slice(0, 24000), is_error: !!result?.error };
       }),
     });
   }
@@ -474,7 +510,7 @@ export async function runAgent(input: {
       /* keep whatever text we had */
     }
   }
-  return { reply: reply || (actions.length ? 'Here is what I propose.' : 'No answer was produced. Try a narrower request.'), actions, steps, questions };
+  return { reply: reply || (actions.length ? 'Here is what I propose.' : 'No answer was produced. Try a narrower request.'), actions, steps, questions, done: true };
 }
 
 export const AUDIT_BRIEF = `AUDIT MODE. Do not ask clarifying questions. You are auditing the sales plan independently, like a sceptical commercial director before sign-off.

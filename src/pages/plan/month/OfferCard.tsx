@@ -6,6 +6,7 @@ import {
   ChevronDown,
   Copy,
   MessageSquare,
+  ArrowLeftRight,
   FileText,
   Gift,
   Link2,
@@ -184,6 +185,7 @@ export function OfferCard({
   onEdit,
   onDuplicate,
   onChat,
+  onReplace,
   onRemove,
   onDelete,
   onSwap,
@@ -664,6 +666,18 @@ export function OfferCard({
                         aria-busy={regenerating}
                       >
                         {regenerating ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}
+                      </button>
+                    )}
+                    {editable && onReplace && (
+                      <button
+                        type="button"
+                        aria-label={`Replace ${o.name} with another offer`}
+                        title="Replace — pick from the bank or an AI recommendation"
+                        className="ocv-tool"
+                        onClick={onReplace}
+                        disabled={busy}
+                      >
+                        <ArrowLeftRight size={14} />
                       </button>
                     )}
                     {editable && onChat && (

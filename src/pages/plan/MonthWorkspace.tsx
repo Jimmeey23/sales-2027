@@ -70,6 +70,9 @@ import {
   isRecommended,
   alternateFor,
   bankIdOf,
+  isBankOffer,
+  roleLabel,
+  TEAM_ROLES,
   STREAMS,
   fullCoverageStreams,
   STREAM_OF,
@@ -95,6 +98,7 @@ import { assignMonthPhotos, pickOfferCardPhoto, OfferCard } from './month/OfferC
 import { OfferEditor } from './month/OfferEditor';
 import { OfferCopilot } from './month/OfferCopilot';
 import { OfferEditChat } from './month/OfferEditChat';
+import { ReplaceOfferModal } from './month/ReplaceOfferModal';
 import { setCopilotScope } from '../../lib/copilotActions';
 import { SectionHead } from './month/SectionHead';
 import { Act } from './month/Act';
@@ -197,7 +201,7 @@ export default function MonthWorkspace({
   const monthOffers = (m: number) => selectedForPlan(data, plan, m) as any[];
   const pickedBank = new Set(selected.map(o => bankIdOf(o)));
   const alternates = ownOffers
-    .filter(o => o.year === year && o.month == null && !pickedBank.has(o.id))
+    .filter(o => o.year === year && isBankOffer(o) && !pickedBank.has(o.id))
     .sort(
       (a, b) =>
         Number(isRecommended(b, month)) - Number(isRecommended(a, month)) ||
@@ -757,6 +761,7 @@ export default function MonthWorkspace({
   const [regenerating, setRegenerating] = useState<number | null>(null);
   // Chat edits: null = closed; 0 = all of the month's offers; an id = that offer.
   const [editChat, setEditChat] = useState<number | null>(null);
+  const [replacing, setReplacing] = useState<any | null>(null);
   // Tell the app-wide copilot which studio and month are on screen.
   useEffect(() => {
     setCopilotScope({ studioId: studio?.id ?? null, year, month, label: studio?.name ?? null });
@@ -952,7 +957,16 @@ export default function MonthWorkspace({
   const fieldProps = { disabled: !editable };
   // Ticking a step off is progress, not editing: anyone who can edit plans can mark it, even
   // once the plan is approved. When the page is read-only only the actions list is saved.
-  const [collapsedWeeks, setCollapsedWeeks] = useState<number[]>([]);
+  // Only the live week is open (week 1 for months not under way); the rest fold to one line.
+  const liveWeek = () => {
+    const now = new Date();
+    return now.getFullYear() === year && now.getMonth() + 1 === month ? Math.min(5, Math.ceil(now.getDate() / 7)) : 1;
+  };
+  const [collapsedWeeks, setCollapsedWeeks] = useState<number[]>(() => [1, 2, 3, 4, 5].filter(w => w !== liveWeek()));
+  useEffect(() => {
+    setCollapsedWeeks([1, 2, 3, 4, 5].filter(w => w !== liveWeek()));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [month, year]);
   const toggleWeek = (week: number) =>
     setCollapsedWeeks(list => (list.includes(week) ? list.filter(w => w !== week) : [...list, week]));
   // The editing passcode hides pencils, not progress: ticking only needs the plan permission.
@@ -1513,7 +1527,8 @@ export default function MonthWorkspace({
             )}
 
             {/* The filed launch brief, with the live projection kept distinct from its estimate. */}
-            {page === 'overview' && (
+            {/* The filed launch brief is detail, not overview: it sits with the numbers. */}
+            {page === 'targets' && (
               <MonthBrief
                 content={form.content}
                 offers={selected}
@@ -2846,7 +2861,7 @@ export default function MonthWorkspace({
                                       .map((a, i) => (
                                         <li key={i} className={a.done ? 'done' : ''}>
                                           <span>{inline(a.text)}</span>
-                                          {a.owner && <em>{a.owner}</em>}
+                                          {a.owner && <em>{roleLabel(a.owner)}</em>}
                                         </li>
                                       ))}
                                   </ul>
@@ -2979,6 +2994,40 @@ export default function MonthWorkspace({
                       }
                     />
 
+                    {replacing && (
+                      <ReplaceOfferModal
+                        offer={replacing}
+                        bank={alternates}
+                        month={month}
+                        year={year}
+                        theme={displayTheme}
+                        busy={busy}
+                        onClose={() => setReplacing(null)}
+                        onPick={async incoming => {
+                          await replaceOffer(replacing.id, incoming);
+                          setReplacing(null);
+                        }}
+                        onCreate={async f => {
+                          const edit = {
+                            name: f.name,
+                            headline: f.headline,
+                            benefit: f.benefit,
+                            audience: f.audience,
+                            offer_type: f.offer_type,
+                            objective: f.objective,
+                            redemption_conditions: f.redemption_conditions,
+                            expected_asp: f.expected_asp,
+                            target_purchases: f.target_purchases,
+                            plan_slot: replacing.plan_slot || slotOf(replacing.id) || null,
+                            pricing: { discount: f.discount_percent / 100 },
+                          };
+                          if (await offerChange({ op: 'create', edit }, `“${f.name}” created`)) {
+                            await offerChange({ op: 'remove', offerId: replacing.id }, `“${f.name}” replaced “${replacing.name}”`);
+                            setReplacing(null);
+                          }
+                        }}
+                      />
+                    )}
                     {editChat !== null && selected.length > 0 && (
                       <OfferEditChat
                         offers={selected}
@@ -3107,6 +3156,7 @@ export default function MonthWorkspace({
                                 setEditing(o.id);
                               }}
                               onChat={() => setEditChat(o.id)}
+                              onReplace={() => setReplacing(o)}
                               onDuplicate={() =>
                                 openNewOffer({
                                   ...o,
@@ -3409,19 +3459,19 @@ export default function MonthWorkspace({
                                       },
                                       {
                                         text: 'Launch primary offers & brief front-desk team on scripts',
-                                        owner: 'Studio Manager',
+                                        owner: 'Team Leader',
                                         week: 1,
                                         done: false,
                                       },
                                       {
                                         text: 'Mid-month renewal & trial conversion check-in',
-                                        owner: 'Sales Lead',
+                                        owner: 'Senior CST',
                                         week: 2,
                                         done: false,
                                       },
                                       {
                                         text: '48-hour closing reminder broadcast & lapsed follow-up calls',
-                                        owner: 'Studio Manager',
+                                        owner: 'Team Leader',
                                         week: 4,
                                         done: false,
                                       },
@@ -3471,6 +3521,11 @@ export default function MonthWorkspace({
 
                       return (
                         <div className="mp-run">
+                          <datalist id="p57-team-roles">
+                            {TEAM_ROLES.map(r => (
+                              <option key={r} value={r} />
+                            ))}
+                          </datalist>
                           {/* The plan as an infographic: four figures, a completion metre and a
                               week ribbon across the top, then the work itself underneath. */}
                           <header className="mp-run-head">
@@ -3490,7 +3545,7 @@ export default function MonthWorkspace({
                                 <small>weeks in play</small>
                               </span>
                               <span>
-                                <b>{new Set(form.actions.map(a => a.owner).filter(Boolean)).size}</b>
+                                <b>{new Set(form.actions.map(a => roleLabel(a.owner)).filter(Boolean)).size}</b>
                                 <small>owners</small>
                               </span>
                               <span>
@@ -3622,8 +3677,9 @@ export default function MonthWorkspace({
                                                     <div className="mp-step-meta">
                                                       <input
                                                         className="mp-step-owner"
-                                                        value={action.owner}
-                                                        placeholder="Owner"
+                                                        value={roleLabel(action.owner)}
+                                                        list="p57-team-roles"
+                                                        placeholder="Team Leader / Senior CST / CST"
                                                         aria-label={`Owner for step ${index + 1}`}
                                                         onChange={e => patchAt(index, { owner: e.target.value })}
                                                         {...fieldProps}
@@ -3648,7 +3704,7 @@ export default function MonthWorkspace({
                                                   </span>
                                                 )}
                                               </div>
-                                              {!editing && action.owner && <span className="mp-step-owner-pill">{action.owner}</span>}
+                                              {!editing && action.owner && <span className="mp-step-owner-pill">{roleLabel(action.owner)}</span>}
                                               {editing && (
                                                 <button
                                                   type="button"

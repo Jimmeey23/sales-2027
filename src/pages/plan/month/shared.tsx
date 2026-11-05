@@ -44,9 +44,12 @@ export const alternateFor = (o: any, month: number) => {
   const p = typeof o.provenance === 'string' ? JSON.parse(o.provenance || '{}') : o.provenance || {};
   return (p.alternateFor || []).find((a: any) => a.month === month) as { slot: string; for: string } | undefined;
 };
+/* A bank offer is one not filed under a month. The plan bundle derives a display month from the
+   validity dates, so `month` alone cannot tell; `filed_month` is the stored value. */
+export const isBankOffer = (o: any) => ('filed_month' in (o || {}) ? o.filed_month == null : o?.month == null);
 // A month's copy points back at the bank offer it was picked from.
 export const bankIdOf = (o: any) => {
-  if (o.month == null) return o.id;
+  if (isBankOffer(o)) return o.id;
   try {
     return (typeof o.provenance === 'string' ? JSON.parse(o.provenance) : o.provenance || {}).bankId ?? o.id;
   } catch {
@@ -411,3 +414,21 @@ export const DAY_PLAYS: Record<string, { play: string; lead: number; channel: st
 };
 
 export type Prices = { keys: Record<string, string>; prices: Record<string, Record<string, number | null>> };
+
+/* Team designations: the studio manager is the Team Leader; the sales team are CSTs and Senior
+   CSTs. Older plans and imported text carry the old labels, so they are mapped on display. */
+const ROLE_MAP: [RegExp, string][] = [
+  [/^(studio\s*manager|studio\s*head|manager)$/i, 'Team Leader'],
+  [/^(sales\s*(lead|manager|head)|senior\s*(sales|cst).*)$/i, 'Senior CST'],
+  [/^(sales(\s*(associate|executive|team|rep|consultant))?|front\s*desk|cst|client\s*services?(\s*team)?)$/i, 'CST'],
+];
+export const roleLabel = (owner: unknown) => {
+  const raw = String(owner ?? '').trim();
+  if (!raw) return raw;
+  return raw
+    .split(/\s*(?:,|\/|&|\+| and )\s*/i)
+    .map(part => ROLE_MAP.find(([re]) => re.test(part))?.[1] || part)
+    .filter((v, i, a) => a.indexOf(v) === i)
+    .join(' & ');
+};
+export const TEAM_ROLES = ['Team Leader', 'Senior CST', 'CST', 'Marketing', 'Lead trainer'];

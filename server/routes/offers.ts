@@ -249,7 +249,7 @@ export function planOffers(studioIds: number[], year: number) {
   const ids = [...new Set(studioIds.filter(Boolean))];
   const rows = db
     .prepare(
-      `SELECT o.*,
+      `SELECT o.*, o.month AS filed_month,
   COALESCE(o.month, CASE WHEN o.validity_start GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]*'
     THEN CAST(substr(o.validity_start,6,2) AS INTEGER) END) AS month,
   s.name studio,s.city,u.name created_by_name FROM offers o LEFT JOIN studios s ON s.id=o.studio_id

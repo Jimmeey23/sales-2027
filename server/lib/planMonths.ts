@@ -296,7 +296,7 @@ export function monthSections(input: MonthSectionInput): MonthSections {
   const iso = (date: Date) =>
     `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const crm = {
-    rule: 'One audience, one send.',
+    rule: 'At most four messages per audience a month, every offer combined, never two within five days.',
     sends: comms.clubbed.sends.map(send => ({
       date: iso(send.date),
       day: `${send.date.getDate()} ${NAMES[send.date.getMonth()].slice(0, 3)}`,

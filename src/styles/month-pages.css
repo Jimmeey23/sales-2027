@@ -2296,3 +2296,22 @@
 .mw .mw-body {
   position: relative;
 }
+
+/* Overview is a glance, not a read: the lede and each offer line stop at two lines. */
+.mo2-lede, .mo2-points.is-brief li span {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+}
+
+/* Execution, tightened: the page header already carries the counts, so the dark banner goes;
+   steps sit on one dense line each and clamp long activation text. */
+.is-page-execution .mp-run-head { display: none; }
+.is-page-execution .mp-ribbon { margin-top: 0; }
+.is-page-execution .mp-run-calendar { padding: 8px 12px; }
+.is-page-execution .mp-steps > li { padding-top: 7px !important; padding-bottom: 7px !important; }
+.is-page-execution .mp-step-read, .is-page-execution .mp-step-text { font-size: 13px; line-height: 1.45; }
+.is-page-execution .mp-step-read { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.is-page-execution .mp-phase-toggle { padding-top: 10px !important; padding-bottom: 10px !important; }
+.is-page-execution .mp-track { gap: 8px; }
+/* The brief's offers sit two to a row so the overview stays one screen. */
+.mo2-points.is-brief { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px 28px; }
+.mo2-points.is-brief li { margin: 0; }

@@ -24,6 +24,7 @@ import registerImportsRoutes from './routes/imports.js';
 import registerReportsRoutes from './routes/reports.js';
 import registerAdminRoutes from './routes/admin.js';
 import registerCalendarRoutes, { registerPublicCalendarRoutes } from './routes/calendar.js';
+import registerCrmCalendarRoutes, { registerPublicCrmCalendarRoutes } from './routes/crmCalendar.js';
 import registerPlanBundleRoutes from './routes/planBundle.js';
 import registerPlanExportRoutes from './routes/planExport.js';
 import registerOfferImportRoutes from './routes/offerImport.js';
@@ -129,6 +130,7 @@ registerAuthRoutes(app);
 // A calendar feed is opened from a phone by scanning a QR, so it cannot carry a session.
 // It is guarded by a signed token instead and serves campaign dates only.
 registerPublicCalendarRoutes(app);
+registerPublicCrmCalendarRoutes(app);
 app.use('/api', requireAuth);
 // Any write makes the cached reads stale; dropping them here keeps every GET honest.
 app.use('/api', (req, _res, next) => {
@@ -146,6 +148,7 @@ registerImportsRoutes(app);
 registerReportsRoutes(app);
 registerAdminRoutes(app);
 registerCalendarRoutes(app);
+registerCrmCalendarRoutes(app);
 registerPlanBundleRoutes(app);
 registerPlanExportRoutes(app);
 registerOfferImportRoutes(app);

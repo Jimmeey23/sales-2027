@@ -153,13 +153,13 @@ function planResponse(studio: any, message: string) {
     workstreams: [
       {
         sequence: 1,
-        owner: 'Studio manager',
+        owner: 'Team Leader',
         action: `Review ${renewals.summary.duePackages} open memberships expiring in ${key}; prioritise exact paid-value follow-up where available.`,
         measure: 'Due members contacted and subsequent observed renewals',
       },
       {
         sequence: 2,
-        owner: 'Sales manager',
+        owner: 'Senior CST',
         action: 'Validate newcomer eligibility and capacity, then submit the appropriate journey offer for approval.',
         measure: 'Eligible trials, attendance and 90-day purchase conversion',
       },

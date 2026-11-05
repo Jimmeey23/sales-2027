@@ -9,10 +9,35 @@ import { asyncRoute, bodyError, id, studioFilter } from '../http.js';
 import { persistOffer } from './offers.js';
 import { AUDIT_BRIEF, runAgent } from '../lib/copilotAgent.js';
 import { auditYear } from '../lib/planAudit.js';
+import { replaceSuggestions } from '../lib/replaceSuggest.js';
 import { aiEdits, claudeConfigured, ruleEdits, type OfferEditInput } from '../lib/offerEditCopilot.js';
 import type { Express } from 'express';
 
 export default function registerCopilotRoutes(app: Express) {
+  // AI picks for replacing one offer: best bank alternates plus fresh drafts when the bank is thin.
+  app.post(
+    '/api/copilot/replace-suggestions',
+    asyncRoute(async (req: any, res: any) => {
+      const offerId = Number(req.body.offerId);
+      const row = db.prepare('SELECT studio_id FROM offers WHERE id=?').get(offerId) as any;
+      if (!row || (row.studio_id && !canAccessStudio(req.user, row.studio_id))) throw bodyError('Offer not found.', 404);
+      if (!claudeConfigured()) throw bodyError('AI suggestions need ANTHROPIC_API_KEY on the server.', 503);
+      try {
+        res.json(
+          await replaceSuggestions({
+            offerId,
+            candidateIds: (Array.isArray(req.body.candidateIds) ? req.body.candidateIds : []).map(Number).filter((v: number) => v > 0),
+            month: Number(req.body.month) || 1,
+            year: Number(req.body.year) || new Date().getFullYear(),
+            theme: req.body.theme ? String(req.body.theme).slice(0, 200) : null,
+          }),
+        );
+      } catch (error: any) {
+        if (error?.status === 404) throw error;
+        throw bodyError(`AI suggestions failed: ${[401, 403].includes(Number(error?.status)) ? 'API key rejected' : error.message}`, 502);
+      }
+    }),
+  );
   // The app-wide copilot. Reads with tools, returns proposed actions; nothing is saved here.
   app.post(
     '/api/copilot/agent',
@@ -33,8 +58,12 @@ export default function registerCopilotRoutes(app: Express) {
       };
       try {
         const audit = req.body.mode === 'audit';
+      const state = req.body.state && typeof req.body.state === 'object' ? req.body.state : null;
+      if (state && (!Array.isArray(state.messages) || JSON.stringify(state).length > 3_500_000))
+        throw bodyError('Copilot state is invalid; start a new question.');
+      // The deterministic findings are computed once, on the first round.
       const findings =
-        audit && scope.studioId && canAccessStudio(req.user, scope.studioId)
+        !state && audit && scope.studioId && canAccessStudio(req.user, scope.studioId)
           ? auditYear(scope.studioId, scope.year || new Date().getFullYear())
           : null;
       const result = await runAgent({
@@ -44,6 +73,8 @@ export default function registerCopilotRoutes(app: Express) {
         user: req.user,
         system: audit ? AUDIT_BRIEF : undefined,
         maxSteps: audit ? 20 : 12,
+        state,
+        budgetMs: 25_000,
       });
       res.json({ ...result, audit: findings });
       } catch (error: any) {

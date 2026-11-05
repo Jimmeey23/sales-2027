@@ -95,13 +95,13 @@ export function defaultPlan(
   const actions: ActionItem[] = [
     {
       week: 1,
-      owner: 'Studio manager',
+      owner: 'Team Leader',
       done: false,
       text: `Brief the team on ${entry.theme} (${entry.hook}) and the three offers: ${entry.offers.map(o => o.name).join(', ')}.`,
     },
     {
       week: 1,
-      owner: 'Sales',
+      owner: 'CST',
       done: false,
       text: `Renewals: run “${renewal?.name || '—'}”${when(renewal)} — ${fmt(f.renewals[0])} due, ${fmt(f.renewals[1])} purchases planned.`,
     },
@@ -113,13 +113,13 @@ export function defaultPlan(
     },
     {
       week: 2,
-      owner: 'Sales',
+      owner: 'CST',
       done: false,
       text: `Newcomers: run “${newcomer?.name || '—'}”${when(newcomer)} — ${fmt(funnel.requiredLeads ?? f.leadsTrials[0])} leads and ${fmt(funnel.requiredTrialBookings ?? f.leadsTrials[1])} trials.`,
     },
     {
       week: 2,
-      owner: 'Studio manager',
+      owner: 'Team Leader',
       done: false,
       text: activation
         ? `Run activation: ${activation.Activation} (${activation.Format}) — target ${activation['Participant target'] ?? '—'} participants; KPI: ${activation['Primary KPI']}.`
@@ -127,13 +127,13 @@ export function defaultPlan(
     },
     {
       week: 3,
-      owner: 'Sales',
+      owner: 'CST',
       done: false,
       text: `Lapsed: run “${lapsed?.name || '—'}”${when(lapsed)} — ${fmt(f.lapsed[0])} touches, ${fmt(f.lapsed[1])} reactivated.`,
     },
     {
       week: 3,
-      owner: 'Studio manager',
+      owner: 'Team Leader',
       done: false,
       text: `Watch: ${entry.offers
         .map(o => field(o, 'What to watch'))
@@ -142,7 +142,7 @@ export function defaultPlan(
     },
     {
       week: 4,
-      owner: 'Sales',
+      owner: 'CST',
       done: false,
       text: `Close the month: ${fmt(funnel.requiredNewBuyers ?? f.newBuyers)} new buyers; ${entry.job}`,
     },
