@@ -135,6 +135,8 @@ export interface ImportedOffer {
   objective: string;
   offerType: string;
   price: number | null;
+  /** The blended amount one buyer actually pays — what the plan built its revenue from. */
+  ticket: number | null;
   buyers: number | null;
   expectedRevenue: number | null;
   discountPercent: number | null;
@@ -185,6 +187,10 @@ export interface ImportedMonth {
   studioRole: string;
   /** What the plan expects its offers alone to carry, when it states it. */
   offersPlannedRevenue: number | null;
+  /** Revenue the month expects at full price, by stream — what no offer carries. */
+  standardTrade: Record<string, number> | null;
+  /** How the target for this month was set: a formula, or a judgement call. */
+  targetBasis: string | null;
   /** The month's collateral and CRM plan, as filed. */
   collateral: any;
   crm: any;
@@ -226,7 +232,11 @@ function offerFrom(raw: any, index: number): ImportedOffer | null {
     .trim();
   if (!name) return null;
   const validity = first(source, ['validity', 'dates', 'window']);
-  const price = numOf(first(source, ['price', 'expectedAsp', 'expected_asp', 'sellingPrice', 'asp']));
+  // `ticket` is the blended amount one buyer actually pays, and it is what the revenue
+  // was built from. The bare `price` is the shelf price of a single product, so it is
+  // only a substitute when no ticket was stated.
+  const price = numOf(first(source, ['ticket', 'expectedTicket', 'averageTicket'])) ??
+    numOf(first(source, ['price', 'expectedAsp', 'expected_asp', 'sellingPrice', 'asp']));
   const buyers = numOf(first(source, ['buyers', 'targetPurchases', 'target_purchases', 'units', 'expectedBuyers']));
   const revenue = numOf(first(source, ['expectedRevenue', 'expected_revenue', 'revenue', 'modelledRevenue']));
   // Every slot the plan uses is kept: the three journey slots fill the month's columns, the
@@ -271,6 +281,7 @@ function offerFrom(raw: any, index: number): ImportedOffer | null {
     price,
     buyers,
     expectedRevenue: revenue,
+    ticket: numOf(first(source, ['ticket', 'expectedTicket', 'averageTicket'])),
     discountPercent: discount,
     validityStart:
       textOf(first(source, ['validityStart', 'validity_start', 'starts', 'start', 'from'])) ||
@@ -467,6 +478,17 @@ function monthFrom(raw: any, fallbackMonth: number): ImportedMonth | null {
       : 'draft',
     studioRole: textOf(first(raw, ['studioRole', 'role', 'portfolioRole'])),
     offersPlannedRevenue: numOf(first(raw, ['offersPlannedRevenue', 'offersRevenue', 'offerRevenue'])),
+    standardTrade: (() => {
+      const value = first(raw, ['standardTrade', 'standard_trade']);
+      const out: Record<string, number> = {};
+      if (!isObj(value)) return null;
+      for (const [k, v] of Object.entries(value)) {
+        const n = numOf(v);
+        if (n != null) out[k] = n;
+      }
+      return Object.keys(out).length ? out : null;
+    })(),
+    targetBasis: textOf(first(raw, ['targetBasis', 'target_basis'])),
     collateral: first(raw, ['collateral', 'collateralPlan']) ?? null,
     crm: first(raw, ['crm', 'crmPlan']) ?? null,
     keyDates: keyDatesFrom(first(raw, ['keyDates', 'dates', 'moments'])),
@@ -1181,8 +1203,11 @@ function offerColumnsFor(offer: ImportedOffer, month: ImportedMonth, context: Im
         : offer.slot === 'renewal'
           ? month.streams.renewal
           : Math.round(month.target / Math.max(1, month.offers.length));
+  // ASP has to be the blended ticket when the plan states one. The shelf `price` is the
+  // price of one product, which for a ladder or a credited intro is not what the revenue
+  // was built from — and deriving ASP back out of revenue only hides that.
   const price =
-    offer.price ?? (offer.buyers && offer.expectedRevenue ? Math.round(offer.expectedRevenue / offer.buyers) : null);
+    offer.ticket ?? offer.price ?? (offer.buyers && offer.expectedRevenue ? Math.round(offer.expectedRevenue / offer.buyers) : null);
   return {
     name: offer.name,
     headline: offer.headline || null,
@@ -1435,6 +1460,10 @@ function writeTarget(month: ImportedMonth, context: ImportContext, plan: SalesPl
       trailing: plan.trailing,
       prices: plan.prices,
       feasibility: month.feasibility || null,
+      // How much of the month is expected at full price, by stream. Without this the app
+      // reads a low coverage figure as a gap in the plan rather than as a deliberate bet.
+      standardTrade: month.standardTrade || null,
+      targetBasis: month.targetBasis || null,
     },
   };
   const growth = month.priorYear > 0 ? Number(((target / month.priorYear - 1) * 100).toFixed(1)) : null;

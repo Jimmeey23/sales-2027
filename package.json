@@ -27,7 +27,10 @@
     "plan:library": "tsx scripts/import-membership-library.ts",
     "plan:import-json": "tsx scripts/import-year-plan.ts",
     "plan:kc:build": "tsx scripts/build-kc-plan.ts",
-    "plan:kc:unpack": "tsx scripts/unpack-plan.ts"
+    "plan:kc:unpack": "tsx scripts/unpack-plan.ts",
+    "plan:audit": "node scripts/audit-2027-offers.mjs",
+    "plan:kc:sync": "node scripts/portfolio-to-studio.mjs --studio=KH --out=server/data/kc-2027/plan-2027.json && tsx scripts/unpack-plan.ts server/data/kc-2027/plan-2027.json && tsx scripts/build-kc-plan.ts",
+    "plan:repair": "node scripts/repair-portfolio-2027.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.5.0",

@@ -159,7 +159,7 @@ npm run plan:import-json -- path/to/plan.json --studio=1 --mode=modify --write
 npm run plan:import-json -- server/data/portfolio-2027/v5-portfolio.json --mode=replace --write
 ```
 
-A portfolio document names several locations, so it is imported location by location: each block is matched to its studio by id, name, alias or code, and written in its own transaction — its twelve months, its year target and prior year, its rates and prices, and every offer with its copy and maths. One location failing access or matching stops the whole file before anything is written. Together the four are ₹7,97,11,540 against ₹6,44,59,711 last year (+23.7%) and 172 offers.
+A portfolio document names several locations, so it is imported location by location: each block is matched to its studio by id, name, alias or code, and written in its own transaction — its twelve months, its year target and prior year, its rates and prices, and every offer with its copy and maths. One location failing access or matching stops the whole file before anything is written. Together the four are ₹7,97,11,540 against ₹6,44,59,711 last year (+23.7%) and 189 offers carrying ₹5,00,60,021 of planned revenue.
 
 What the file says about the year rather than about one location is written once, after the months:
 
@@ -171,7 +171,7 @@ What the file says about the year rather than about one location is written once
 
 ### Kemps Corner 2027, month by month
 
-The Kemps Corner year is kept as one file per month in `server/data/kc-2027/` — `month-01.json` … `month-12.json`, in the shape the importer reads: theme, objective, strategy, notes, target, prior year, streams, funnel, feasibility, key dates, the Week 1–4 sections with their owners, and the month's offers. The document the app imports is generated from those files, so there is one place to edit a month and no chance of the two drifting apart:
+The Kemps Corner year is also kept as one file per month in `server/data/kc-2027/` — `month-01.json` … `month-12.json`, in the shape the importer reads. The document the app imports is generated from those files, so there is one place to edit a month and no chance of the two drifting apart:
 
 ```bash
 npx tsx scripts/build-kc-plan.ts     # months → server/data/kc-2027/plan-2027.json
@@ -180,14 +180,33 @@ npm run plan:import-json -- server/data/kc-2027/plan-2027.json --studio=1 --mode
 
 The year contract — the location, the year block, the basis, the measured window, the trailing rates and the price book — lives beside the months in `year.json`, so the build checks the months against the year they belong to rather than against a number written into the script. Every month's streams must add to that month's target, and the twelve months must add to the year.
 
-A plan document that was authored elsewhere goes the other way, without paraphrasing anything:
+**The portfolio is upstream of these files, not the other way round.** The month files are a per-location view of the same plan, and they are regenerated from it rather than maintained by hand:
+
+```bash
+node scripts/portfolio-to-studio.mjs --studio=KH --out=server/data/kc-2027/plan-2027.json
+npx tsx scripts/unpack-plan.ts server/data/kc-2027/plan-2027.json   # → year.json + month-01..12.json
+npx tsx scripts/build-kc-plan.ts                                    # → plan-2027.json again
+```
+
+A plan document authored elsewhere goes the same way, without paraphrasing anything:
 
 ```bash
 npx tsx scripts/unpack-plan.ts path/to/plan.json          # → year.json + month-01..12.json
 npx tsx scripts/unpack-plan.ts path/to/plan.json --check   # report, write nothing
 ```
 
-`build(unpack(x))` is `x`: only `name` and `growthPercent` are dropped, because the build derives them again. For the year the studio signed the figures are ₹4,20,00,000 against ₹3,34,38,469 (+25.6%), 55 offers, streams of ₹61.92L new clients, ₹2.64Cr renewals, ₹52.87L comebacks and ₹41.10L other.
+`build(unpack(x))` is `x`: only `name` and `growthPercent` are dropped, because the build derives them again.
+
+Before this was wired up, the month files carried their own version of the Kemps Corner year — ₹3,34,38,469 prior year, 55 offers, and monthly targets that differed from the portfolio's in eleven of the twelve months. The version the studio signed is preserved at `server/data/archive/kc-2027-signed-2026-11/`; the files in `server/data/kc-2027/` now agree with the portfolio at ₹4,20,00,000 against ₹3,22,52,914 (+30.2%) and 50 offers.
+
+### Auditing the plan before it is imported
+
+```bash
+npm run plan:audit            # read the plan of record, report findings
+npm run plan:audit -- --strict   # exit 1 when anything critical or high is open
+```
+
+`scripts/audit-2027-offers.mjs` checks the plan document rather than the database: every month's arithmetic, the offer bank against the schedule, prices against the live product catalogue, discounts against the studio's own cap, stream coverage, funnel consistency, validity windows, and whether the two copies of the Kemps Corner year still agree. It reads no data the app holds, so it can be run before an import, in CI, or on a branch that has never been deployed. See [docs/OFFER-AUDIT-2027.md](docs/OFFER-AUDIT-2027.md) for what it looks for and why.
 
 ### Advanced Reporting Studio and exports
 

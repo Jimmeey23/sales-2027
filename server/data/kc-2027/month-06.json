@@ -2,163 +2,208 @@
   "month": 6,
   "name": "June",
   "status": "draft",
-  "theme": "Out of Office",
-  "objective": "Stop summer lapses with flexibility, not discounts; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.",
-  "strategy": "Out of Office.\n\nCommercial job: Stop summer lapses with flexibility, not discounts; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.\n\nNewcomer: Home for the Holidays (“Back in town? A week unlimited, then 20% off if you stay.”). Summer visitors and returning students need a short, intense entry and a reason to commit before they leave again.\n\nNewcomer: Golden Hours (“Student hours, student price: 25% off.”). Fills Kwality's emptiest slots (27–41% full) with a younger audience; the discount only exists where seats would otherwise be empty.\n\nWinback: Out of Office, Not Out of Shape (“Freeze when you fly. Train when you're home. 20% off.”). Travel is the most common lapse reason; freezes answer it and the 20% gets the decision made.\n\nRenewal: The Pause Button (“Three months, 15% off, freeze as often as you like.”). Travel is the main reason to let a membership lapse; flexibility plus 15% moves 1 Month members onto 3 Months before the summer.",
-  "notes": "Moment: Golden Hours launch for students and under-25s; 'Postcard Wall' where travelling members send a photo of their travel workout.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 32 × ₹11,468 = ₹3.7L; privates/retail/drop-ins ₹2.8L; renewals ₹15.0L. First visits needed 140 vs 128 last year (1.09×); CRM leads needed 280 vs 129 last year.",
-  "target": 2650000,
+  "theme": "Privates Month + Out of Office",
+  "focus": "Privates month + Out of Office",
+  "objective": "Grow privates with off-peak pricing and bulk packs (Bandra's biggest gap); stop summer travel lapses with freezes, not discounts; test a private-first intro.",
+  "studioRole": "Retention-led",
+  "strategy": "Privates Month + Out of Office.\n\nCommercial job: Grow privates with off-peak pricing and bulk packs (Bandra's biggest gap); stop summer travel lapses with freezes, not discounts; test a private-first intro.\n\nPrivates: Happy Hour (Zero Hangover, All Glutes) (“Happy hour, but the only thing on tap is a trainer.”). Privates are 6.2% of Kwality's revenue (₹20.1L in 12 months) but only ₹31k at Bandra — the biggest product gap in the portfolio. Quiet-hour pricing uses capacity that is otherwise unpaid.\n\nPrivates: Private Practice (“Ten sessions. One trainer who knows your knees better than your physio.”). Bulk private purchase is one of the allowed 25% cases. Kwality's PR1V@TE10 code (39 uses) shows demand; a pack converts one-off buyers into a 6-month relationship.\n\nRenewal: Auto-Reply: Out of Office, Still Squatting (“Auto-reply: I'm on vacation, but my membership isn't lapsing.”). Travel is the main reason members lapse in June–July. Flexibility removes the reason; list price protects the ticket. Virtual privates cost trainer time only.\n\nNewcomer: Shy Girl Starter Pack (“Not a front-row person yet? Start with a private.”). Half of CRM leads never trial (Bandra 1,114 of 2,317; Kenkere 2,053 of 3,217). A private first visit removes the intimidation barrier. No historical data on private-first conversion — this is a test.",
+  "notes": "Build: 62 new buyers × ₹11,150 first-60-day spend = ₹6.9L; 68 renewals × ₹23,384 = ₹15.8L; 30 winbacks = ₹3.5L; privates/retail/drop-ins ₹2.6L. Offers carry ₹17.0L (59% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
+  "target": 2880000,
   "priorYear": 2180716,
-  "growthPercent": 21.5,
+  "growthPercent": 32.1,
   "streams": {
-    "newClient": 504000,
-    "renewal": 1499024,
-    "reactivation": 366976,
-    "other": 280000
+    "newClient": 691200,
+    "renewal": 1584000,
+    "reactivation": 345600,
+    "other": 259200
   },
   "funnel": {
-    "leads": 280,
-    "trials": 140,
-    "newBuyers": 42,
-    "existingPayingRenewals": 169,
-    "winbacksNeeded": 32,
-    "expiringMemberships": 264,
-    "renewalCoverage": 1.092,
-    "leadToTrial": 0.5,
-    "trialToMember": 0.3,
-    "spendPerVisit": 1727,
-    "firstMonthSpend": 12000,
-    "renewalTicket": 8855,
-    "winbackTicket": 11468
+    "leads": 451,
+    "trials": 230,
+    "newBuyers": 62,
+    "existingPayingRenewals": 68,
+    "winbacksNeeded": 30,
+    "leadToTrial": 0.51,
+    "trialToMember": 0.269,
+    "renewalRate": 0.765,
+    "firstSixtyDaySpend": 11150,
+    "renewalTicket": 23384,
+    "winbackTicket": 11468,
+    "dataQuality": "lead→trial = CRM 'Trial Completed' status (not attendance-verified); trial→member = trailing measured; see dataGaps"
   },
-  "feasibility": "balanced",
+  "feasibility": "stretch",
   "offers": [
     {
-      "id": 2408,
-      "slot": "newcomer",
-      "name": "Home for the Holidays",
-      "headline": "Back in town? A week unlimited, then 20% off if you stay.",
-      "benefit": "7-Day Unlimited Intro for ₹1,999 — ₹1,999 credited and 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours",
-      "customerCopy": "Back in town? A week unlimited, then 20% off if you stay.\n• You buy: 7-Day Unlimited Intro for ₹1,999\n• You get: ₹1,999 credited and 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours\n• When: Start any day in June\n• Good to know: One intro per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
-      "internalDescription": "140 in pool × 11.4% plan rate = 16 buyers × ₹16,191 ticket = ₹2.6L (51% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.6L at 20% effective.",
-      "rationale": "Why: Summer visitors and returning students need a short, intense entry and a reason to commit before they leave again.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "First-time clients.",
+      "id": "O27-23-KC",
+      "bankId": "O27-23",
+      "slot": "privates",
+      "name": "Happy Hour (Zero Hangover, All Glutes)",
+      "headline": "Happy hour, but the only thing on tap is a trainer.",
+      "benefit": "Privates booked in quiet hours (Mon–Fri 12–4 pm, Sat 1–4 pm): 20% off a single private (Mumbai ₹4,200 vs ₹5,250; Kenkere 20% off list) and a free 30-min virtual private with every 2 in-studio privates booked in June.",
+      "customerCopy": "Happy hour, but the only thing on tap is a trainer. Book a private between 12 and 4 and get 20% off — plus a free virtual session for every two you book.",
+      "description": "Privates booked in quiet hours (Mon–Fri 12–4 pm, Sat 1–4 pm): 20% off a single private (Mumbai ₹4,200 vs ₹5,250; Kenkere 20% off list) and a free 30-min virtual private with every 2 in-studio privates booked in June.",
+      "internalDescription": "Plan: 40 buyers × ₹8,400 = ₹336,000 (Mumbai pricing).",
+      "rationale": "Privates are 6.2% of Kwality's revenue (₹20.1L in 12 months) but only ₹31k at Bandra — the biggest product gap in the portfolio. Quiet-hour pricing uses capacity that is otherwise unpaid.",
+      "objective": "Grow privates revenue using idle trainer hours, especially at Bandra.",
+      "type": "Off-peak privates",
+      "mechanicTags": [
+        "off-peak pricing",
+        "virtual private bonus"
+      ],
+      "audience": "Members and newcomers buying private sessions.",
       "excludedAudience": null,
-      "conditions": "One intro per person; the 20% replaces the standing 15%; Doesn't combine with any other campaign offer.",
-      "cta": "All June.",
+      "conditions": "Off-peak only; ≤20%.",
+      "cta": "2027-06-01 to 2027-06-30",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 16191,
-      "expectedRevenue": 259056,
-      "buyers": 16,
+      "price": 4200,
+      "expectedRevenue": 336000,
+      "buyers": 40,
       "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
+      "kpi": "Privates booked 12–4 pm; Bandra privates revenue (target ₹1.5L in June).",
       "validity": {
         "start": "2027-06-01",
         "end": "2027-06-30"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "other",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 8400
     },
     {
-      "id": 2512,
-      "slot": "newcomer",
-      "name": "Golden Hours",
-      "headline": "Student hours, student price: 25% off.",
-      "benefit": "An 8-class pack at 25% off list — valid for classes Mon–Fri 10 am–12 pm and Sat–Sun 4–7 pm",
-      "customerCopy": "Student hours, student price: 25% off.\n• You buy: An 8-class pack at 25% off list\n• You get: valid for classes Mon–Fri 10 am–12 pm and Sat–Sun 4–7 pm\n• When: Buy 1 Jun–15 Jul\n• Good to know: Students and under-25s (ID checked); off-peak classes only; one pack at a time; buy 1 Jun–15 Jul; Doesn't combine with any other campaign offer.",
-      "internalDescription": "140 in pool × 11.4% plan rate = 16 buyers × ₹9,850 ticket = ₹1.6L (31% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.5L at 25% effective.",
-      "rationale": "Why: Fills Kwality's emptiest slots (27–41% full) with a younger audience; the discount only exists where seats would otherwise be empty.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "Students and under-25s.",
+      "id": "O27-24-KC",
+      "bankId": "O27-24",
+      "slot": "privates",
+      "name": "Private Practice",
+      "headline": "Ten sessions. One trainer who knows your knees better than your physio.",
+      "benefit": "10-private pack at 25% off — Mumbai ₹39,375 (list ₹52,500); Kenkere 25% off list — valid 6 months, with a posture and strength assessment in session one. 20-pack: 25% off plus a P57 retail kit.",
+      "customerCopy": "Ten sessions. One trainer who knows your knees better than your physio. 25% off when you go big on privates.",
+      "description": "10-private pack at 25% off — Mumbai ₹39,375 (list ₹52,500); Kenkere 25% off list — valid 6 months, with a posture and strength assessment in session one. 20-pack: 25% off plus a P57 retail kit.",
+      "internalDescription": "Plan: 5 buyers × ₹39,375 = ₹196,875 (Mumbai pricing).",
+      "rationale": "Bulk private purchase is one of the allowed 25% cases. Kwality's PR1V@TE10 code (39 uses) shows demand; a pack converts one-off buyers into a 6-month relationship.",
+      "objective": "Sell high-value private packs before the monsoon.",
+      "type": "Bulk privates (25%)",
+      "mechanicTags": [
+        "bulk private purchase 25%",
+        "assessment",
+        "retail kit"
+      ],
+      "audience": "Members and newcomers buying private sessions.",
       "excludedAudience": null,
-      "conditions": "Students and under-25s (ID checked); off-peak classes only; one pack at a time; buy 1 Jun–15 Jul; Doesn't combine with any other campaign offer.",
-      "cta": "1 Jun–15 Jul.",
+      "conditions": "Bulk privates rule (25%).",
+      "cta": "2027-06-01 to 2027-06-30",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 9850,
-      "expectedRevenue": 157600,
-      "buyers": 16,
+      "price": 39375,
+      "expectedRevenue": 196875,
+      "buyers": 5,
       "effectiveDiscountPercent": 25,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-06-01",
-        "end": "2027-07-15"
-      },
-      "mechanics": {}
-    },
-    {
-      "id": 2409,
-      "slot": "lapsed",
-      "name": "Out of Office, Not Out of Shape",
-      "headline": "Freeze when you fly. Train when you're home. 20% off.",
-      "benefit": "1 Month Unlimited at 20% off (₹16,191) — 2 extra freezes and a written travel workout plan",
-      "customerCopy": "Freeze when you fly. Train when you're home. 20% off.\n• You buy: 1 Month Unlimited at 20% off (₹16,191)\n• You get: 2 extra freezes and a written travel workout plan\n• When: All June\n• Good to know: Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "internalDescription": "607 in pool × 3.3% plan rate = 20 buyers × ₹16,191 ticket = ₹3.2L (88% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.8L at 20% effective.",
-      "rationale": "Why: Travel is the most common lapse reason; freezes answer it and the 20% gets the decision made.",
-      "objective": "reactivation",
-      "type": "experience",
-      "audience": "Lapsed clients.",
-      "excludedAudience": null,
-      "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "cta": "All June.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 16191,
-      "expectedRevenue": 323820,
-      "buyers": 20,
-      "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
+      "kpi": "Packs sold; trainer utilisation.",
       "validity": {
         "start": "2027-06-01",
         "end": "2027-06-30"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "other",
+        "discountRule": "OK: bulk purchase (≤25%)"
+      },
+      "ticket": 39375
     },
     {
-      "id": 2411,
+      "id": "O27-25-KC",
+      "bankId": "O27-25",
       "slot": "renewal",
-      "name": "The Pause Button",
-      "headline": "Three months, 15% off, freeze as often as you like.",
-      "benefit": "3 Months Unlimited at 15% off (₹49,177) — unlimited freezes, used within 6 months of purchase",
-      "customerCopy": "Three months, 15% off, freeze as often as you like.\n• You buy: 3 Months Unlimited at 15% off (₹49,177)\n• You get: unlimited freezes, used within 6 months of purchase\n• When: Renew or upgrade in June\n• Good to know: Freezes in blocks of 3+ days; plan must end within 6 months of purchase; Doesn't combine with any other campaign offer.",
-      "internalDescription": "264 in pool × 8.3% plan rate = 22 buyers × ₹49,177 ticket = ₹10.8L (72% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹1.9L at 15% effective.",
-      "rationale": "Why: Travel is the main reason to let a membership lapse; flexibility plus 15% moves 1 Month members onto 3 Months before the summer.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "1 Month and 3 Months members renewing in June.",
+      "name": "Auto-Reply: Out of Office, Still Squatting",
+      "headline": "Auto-reply: I'm on vacation, but my membership isn't lapsing.",
+      "benefit": "3 Months Unlimited at list (₹57,855 / ₹42,210) with unlimited freezes (blocks of 3+ days, plan must end within 6 months) and 2 virtual 30-min privates to use while travelling.",
+      "customerCopy": "Auto-reply: I'm on vacation, but my membership isn't lapsing. 3 months with unlimited freezes and 2 virtual privates for the road. We'll be here when you land.",
+      "description": "3 Months Unlimited at list (₹57,855 / ₹42,210) with unlimited freezes (blocks of 3+ days, plan must end within 6 months) and 2 virtual 30-min privates to use while travelling.",
+      "internalDescription": "Plan: 18 buyers × ₹57,855 = ₹1,041,390 (Mumbai pricing).",
+      "rationale": "Travel is the main reason members lapse in June–July. Flexibility removes the reason; list price protects the ticket. Virtual privates cost trainer time only.",
+      "objective": "Stop summer lapses without discounting.",
+      "type": "Flexibility renewal",
+      "mechanicTags": [
+        "unlimited freezes",
+        "virtual privates",
+        "3M at list"
+      ],
+      "audience": "No price discount; ≈9% value from virtual privates",
       "excludedAudience": null,
-      "conditions": "Freezes in blocks of 3+ days; plan must end within 6 months of purchase; Doesn't combine with any other campaign offer.",
-      "cta": "All June.",
+      "conditions": "No price discount; ≈9% value from virtual privates.",
+      "cta": "2027-06-01 to 2027-06-30",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 49177,
-      "expectedRevenue": 1081894,
-      "buyers": 22,
-      "effectiveDiscountPercent": 15,
-      "contributionMargin": 0,
+      "price": 57855,
+      "expectedRevenue": 1041390,
+      "buyers": 18,
+      "effectiveDiscountPercent": 9,
+      "kpi": "1M → 3M upgrades; June–July lapse rate vs 2026.",
       "validity": {
         "start": "2027-06-01",
         "end": "2027-06-30"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 57855
+    },
+    {
+      "id": "O27-26-KC",
+      "bankId": "O27-26",
+      "slot": "newcomer",
+      "name": "Shy Girl Starter Pack",
+      "headline": "Not a front-row person yet? Start with a private.",
+      "benefit": "For nervous starters: a 30-min private + one group class within 7 days for ₹1,999 (Kenkere ₹1,499). ₹999 (Kenkere ₹749) is credited against a first 1 Month or 12-class pack bought within 72 hours, with the standard 15% — 1 Month nets ₹16,204 / ₹11,657.",
+      "customerCopy": "Not a front-row person yet? Start with a 30-minute private, then join a class with a trainer who already knows your name. ₹999 of it comes off your first month.",
+      "description": "For nervous starters: a 30-min private + one group class within 7 days for ₹1,999 (Kenkere ₹1,499). ₹999 (Kenkere ₹749) is credited against a first 1 Month or 12-class pack bought within 72 hours, with the standard 15% — 1 Month nets ₹16,204 / ₹11,657.",
+      "internalDescription": "Plan: 8 buyers × ₹16,204 = ₹129,632 (Mumbai pricing).",
+      "rationale": "Half of CRM leads never trial (Bandra 1,114 of 2,317; Kenkere 2,053 of 3,217). A private first visit removes the intimidation barrier. No historical data on private-first conversion — this is a test.",
+      "objective": "Convert hesitant leads who never book a group trial.",
+      "type": "Newcomer experiment (private first)",
+      "mechanicTags": [
+        "private-first intro",
+        "partial credit"
+      ],
+      "audience": "First-time clients (phone verified).",
+      "excludedAudience": null,
+      "conditions": "Effective 20% on conversion. Test at 2 studios before scaling.",
+      "cta": "2027-06-01 to 2027-06-30",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 16204,
+      "expectedRevenue": 129632,
+      "buyers": 8,
+      "effectiveDiscountPercent": 20,
+      "kpi": "Packs sold to 'Not Tried' leads; private-first → member (target 40%).",
+      "validity": {
+        "start": "2027-06-01",
+        "end": "2027-06-30"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 16204
     }
   ],
+  "offersPlannedRevenue": 1703897,
   "keyDates": [
     {
       "day": 20,
-      "end": null,
       "date": "2027-06-20",
       "name": "Father's Day",
       "kind": "retail",
-      "label": "Retail moment",
-      "approx": false,
-      "note": "A low-effort pairing window."
+      "approx": false
     }
   ],
   "sections": [
@@ -168,47 +213,47 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Home for the Holidays in Momence (All June.): 7-Day Unlimited Intro for ₹1,999 — ₹1,999 credited and 1 Month Unlimited at 20% off (₹16,191) if you buy within 72 hours."
+          "detail": "Set up Happy Hour (Zero Hangover, All Glutes) in Momence (2027-06-01 to 2027-06-30): Privates booked in quiet hours (Mon–Fri 12–4 pm, Sat 1–4 pm): 20% off a single private (Mumbai ₹4,200 vs ₹5,250; Kenkere 20% off list) and a free 30-min virtual private with every 2 in-studio privates booked in June."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Golden Hours in Momence (1 Jun–15 Jul.): An 8-class pack at 25% off list — valid for classes Mon–Fri 10 am–12 pm and Sat–Sun 4–7 pm."
+          "detail": "Set up Private Practice in Momence (2027-06-01 to 2027-06-30): 10-private pack at 25% off — Mumbai ₹39,375 (list ₹52,500); Kenkere 25% off list — valid 6 months, with a posture and strength assessment in session one. 20-pack: 25% off plus a P57 retail kit."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Out of Office, Not Out of Shape in Momence (All June.): 1 Month Unlimited at 20% off (₹16,191) — 2 extra freezes and a written travel workout plan."
+          "detail": "Set up Auto-Reply: Out of Office, Still Squatting in Momence (2027-06-01 to 2027-06-30): 3 Months Unlimited at list (₹57,855 / ₹42,210) with unlimited freezes (blocks of 3+ days, plan must end within 6 months) and 2 virtual 30-min privates to use while travelling."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up The Pause Button in Momence (All June.): 3 Months Unlimited at 15% off (₹49,177) — unlimited freezes, used within 6 months of purchase."
+          "detail": "Set up Shy Girl Starter Pack in Momence (2027-06-01 to 2027-06-30): For nervous starters: a 30-min private + one group class within 7 days for ₹1,999 (Kenkere ₹1,499). ₹999 (Kenkere ₹749) is credited against a first 1 Month or 12-class pack bought within 72 hours, with the standard 15% — 1 Month nets ₹16,204 / ₹11,657."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Brief the team on the 4 June offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+          "detail": "Brief the team on the 4 June offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Home for the Holidays to First-time clients."
+          "detail": "Launch Happy Hour (Zero Hangover, All Glutes): Happy hour, but the only thing on tap is a trainer. Book a private between 12 and 4 and get 20% off — plus a free virtual session for every two you book."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Golden Hours to Students and under-25s."
+          "detail": "Launch Private Practice: Ten sessions. One trainer who knows your knees better than your physio. 25% off when you go big on privates."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Out of Office, Not Out of Shape to Lapsed clients."
+          "detail": "Launch Auto-Reply: Out of Office, Still Squatting: Auto-reply: I'm on vacation, but my membership isn't lapsing. 3 months with unlimited freezes and 2 virtual privates for the road. We'll be here when you land."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch The Pause Button to 1 Month and 3 Months members renewing in June."
+          "detail": "Launch Shy Girl Starter Pack: Not a front-row person yet? Start with a 30-minute private, then join a class with a trainer who already knows your name. ₹999 of it comes off your first month."
         }
       ]
     },
@@ -217,13 +262,8 @@
       "items": [
         {
           "label": "",
-          "value": "Studio manager",
-          "detail": "Run the month's moment: Golden Hours launch for students and under-25s; 'Postcard Wall' where travelling members send a photo of their travel workout."
-        },
-        {
-          "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Home for the Holidays: Intro conversion (target 40%). | Golden Hours: Golden Hours fill; repeat purchases. | Out of Office, Not Out of Shape: Freeze usage; purchases. | The Pause Button: 3M renewals and 1M→3M upgrades."
+          "detail": "Weekly check: Happy Hour (Zero Hangover, All Glutes): Privates booked 12–4 pm; Bandra privates revenue (target ₹1.5L in June). | Private Practice: Packs sold; trainer utilisation. | Auto-Reply: Out of Office, Still Squatting: 1M → 3M upgrades; June–July lapse rate vs 2026. | Shy Girl Starter Pack: Packs sold to 'Not Tried' leads; private-first → member (target 40%)."
         }
       ]
     },
@@ -233,7 +273,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Mid-month review against ₹26.5L: by the 15th aim for about half of 169 renewals, 32 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
+          "detail": "Mid-month review against ₹28.8L: by the 15th aim for ~half of 62 new buyers (230 first visits), 68 renewals and 30 winbacks. Push the lists, not a deeper discount."
         }
       ]
     },
@@ -243,9 +283,91 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Close June: tag every redemption by offer, record results, and brief July's offers."
+          "detail": "Close June: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
         }
       ]
     }
-  ]
+  ],
+  "collateral": {
+    "title": "Privates Month + Out of Office",
+    "pieces": [
+      {
+        "offerId": "O27-23-KC",
+        "headline": "Happy hour, but the only thing on tap is a trainer.",
+        "copy": "Happy hour, but the only thing on tap is a trainer. Book a private between 12 and 4 and get 20% off — plus a free virtual session for every two you book.",
+        "detail": "Privates booked in quiet hours (Mon–Fri 12–4 pm, Sat 1–4 pm): 20% off a single private (Mumbai ₹4,200 vs ₹5,250; Kenkere 20% off list) and a free 30-min virtual private with every 2 in-studio privates booked in June.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-24-KC",
+        "headline": "Ten sessions. One trainer who knows your knees better than your physio.",
+        "copy": "Ten sessions. One trainer who knows your knees better than your physio. 25% off when you go big on privates.",
+        "detail": "10-private pack at 25% off — Mumbai ₹39,375 (list ₹52,500); Kenkere 25% off list — valid 6 months, with a posture and strength assessment in session one. 20-pack: 25% off plus a P57 retail kit.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-25-KC",
+        "headline": "Auto-reply: I'm on vacation, but my membership isn't lapsing.",
+        "copy": "Auto-reply: I'm on vacation, but my membership isn't lapsing. 3 months with unlimited freezes and 2 virtual privates for the road. We'll be here when you land.",
+        "detail": "3 Months Unlimited at list (₹57,855 / ₹42,210) with unlimited freezes (blocks of 3+ days, plan must end within 6 months) and 2 virtual 30-min privates to use while travelling.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-26-KC",
+        "headline": "Not a front-row person yet? Start with a private.",
+        "copy": "Not a front-row person yet? Start with a 30-minute private, then join a class with a trainer who already knows your name. ₹999 of it comes off your first month.",
+        "detail": "For nervous starters: a 30-min private + one group class within 7 days for ₹1,999 (Kenkere ₹1,499). ₹999 (Kenkere ₹749) is credited against a first 1 Month or 12-class pack bought within 72 hours, with the standard 15% — 1 Month nets ₹16,204 / ₹11,657.",
+        "channels": [
+          "WhatsApp",
+          "Instagram",
+          "Email",
+          "Desk card"
+        ]
+      }
+    ]
+  },
+  "crm": {
+    "rule": "One send per offer to its own audience; no member gets more than 2 offer sends a week.",
+    "sends": [
+      {
+        "offerId": "O27-23-KC",
+        "audience": "Members and newcomers buying private sessions.",
+        "message": "Happy hour, but the only thing on tap is a trainer. Book a private between 12 and 4 and get 20% off — plus a free virtual session for every two you book."
+      },
+      {
+        "offerId": "O27-24-KC",
+        "audience": "Members and newcomers buying private sessions.",
+        "message": "Ten sessions. One trainer who knows your knees better than your physio. 25% off when you go big on privates."
+      },
+      {
+        "offerId": "O27-25-KC",
+        "audience": "No price discount; ≈9% value from virtual privates",
+        "message": "Auto-reply: I'm on vacation, but my membership isn't lapsing. 3 months with unlimited freezes and 2 virtual privates for the road. We'll be here when you land."
+      },
+      {
+        "offerId": "O27-26-KC",
+        "audience": "First-time clients (phone verified).",
+        "message": "Not a front-row person yet? Start with a 30-minute private, then join a class with a trainer who already knows your name. ₹999 of it comes off your first month."
+      }
+    ],
+    "sendsCount": 4
+  },
+  "standardTrade": {
+    "revenue": 1176103,
+    "shareOfMonth": 40.8,
+    "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
+  },
+  "targetBasis": "hand_set"
 }

@@ -3,172 +3,215 @@
   "name": "October",
   "status": "draft",
   "theme": "Festival of Lights",
-  "objective": "Gift-led acquisition and Diwali renewals without codes; upgrade 1 Month members to 3 Months before the November dip.",
-  "strategy": "Festival of Lights.\n\nCommercial job: Gift-led acquisition and Diwali renewals without codes; upgrade 1 Month members to 3 Months before the November dip.\n\nNewcomer: Gift a Flight (“Give someone three classes and a reason to stay.”). Gifting is real Diwali spend, and a Flight leads into the best-converting journey.\n\nWinback: Come Home for Diwali (“Your mat's still here, at 20% off.”). Simple, on-theme, and the pack fits festive schedules.\n\nRenewal: Pay It Forward (“Renew in October; get 10% back to gift a friend.”). Turns renewal value into new-client acquisition: the discount only exists if it brings someone new.\n\nRenewal: Light Years Ahead (“Upgrade for Diwali: 3 months at 20% off.”). Upgrading before November protects the base through the softest month of the year and lifts cash 2.3×.",
-  "notes": "Moment: Gift cards on sale from 1 Oct; candle-lit evening classes in Diwali week (25–28 Oct); a 'Lights On' community class on Sat 23 Oct.\nBuild: new clients 42 buyers × ₹12,000 = ₹5.0L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹3.5L; renewals ₹26.8L. First visits needed 140 vs 102 last year (1.37×); CRM leads needed 280 vs 67 last year.",
-  "target": 3950000,
-  "priorYear": 3071247,
-  "growthPercent": 28.6,
+  "focus": "Diwali gifting + upgrades",
+  "objective": "Gift-led acquisition, 1M→6M upgrades and a Dhanteras annual window, without open codes.",
+  "studioRole": "Retention-led",
+  "strategy": "Festival of Lights.\n\nCommercial job: Gift-led acquisition, 1M→6M upgrades and a Dhanteras annual window, without open codes.\n\nNewcomer: Diwali Gifting, Minus the Dry-Fruit Box (“This Diwali, gift something they'll actually use.”). Gifting is real festive spend; the 3-for-2 gets recipients to the 3-visit mark that converts at 73–89%.\n\nUpgrade: From Phuljhadi to Anaar (“Upgrade from a phuljhadi to an anaar.”). Upgrading lifts cash per member 2.3–4.4× and protects the base through November, the softest month.\n\nRenewal: Gold Rush (Dhanteras Edition) (“Buy gold this Dhanteras. The kind that lifts.”). Dhanteras is India's 'buy something lasting' day; an annual fits. ≈24.5% effective sits under the annual cap.\n\nLapsed: Diwali Cleaning: Found Your Old Grip Socks? (“Diwali cleaning found your old grip socks. Sign?”). A physical prompt from the client's own home is a memorable trigger; the retail cost is low.",
+  "notes": "Build: 108 new buyers × ₹11,150 first-60-day spend = ₹12.0L; 118 renewals × ₹23,384 = ₹27.6L; 53 winbacks = ₹6.0L; privates/retail/drop-ins ₹4.5L. Offers carry ₹23.5L (47% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
+  "target": 5020000,
+  "priorYear": 2634376,
+  "growthPercent": 90.6,
   "streams": {
-    "newClient": 504000,
-    "renewal": 2683152,
-    "reactivation": 412848,
-    "other": 350000
+    "newClient": 1204800,
+    "renewal": 2761000,
+    "reactivation": 602400,
+    "other": 451800
   },
   "funnel": {
-    "leads": 280,
-    "trials": 140,
-    "newBuyers": 42,
-    "existingPayingRenewals": 208,
-    "winbacksNeeded": 36,
-    "expiringMemberships": 181,
-    "renewalCoverage": 0.609,
-    "leadToTrial": 0.5,
-    "trialToMember": 0.3,
-    "spendPerVisit": 1727,
-    "firstMonthSpend": 12000,
-    "renewalTicket": 12906,
-    "winbackTicket": 11468
+    "leads": 786,
+    "trials": 401,
+    "newBuyers": 108,
+    "existingPayingRenewals": 118,
+    "winbacksNeeded": 53,
+    "leadToTrial": 0.51,
+    "trialToMember": 0.269,
+    "renewalRate": 0.765,
+    "firstSixtyDaySpend": 11150,
+    "renewalTicket": 23384,
+    "winbackTicket": 11468,
+    "dataQuality": "lead→trial = CRM 'Trial Completed' status (not attendance-verified); trial→member = trailing measured; see dataGaps"
   },
   "feasibility": "stretch",
   "offers": [
     {
-      "id": 2429,
+      "id": "O27-39-KC",
+      "bankId": "O27-39",
       "slot": "newcomer",
-      "name": "Gift a Flight",
-      "headline": "Give someone three classes and a reason to stay.",
-      "benefit": "A Tasting Flight gift card for ₹2,499 (3 classes in 10 days, 3 different formats) — the recipient's ₹2,499 is credited and they get 1 Month at 20% off (₹16,191) if they buy within 72 hours of class 3; the giver gets 1 bonus class when they do",
-      "customerCopy": "Give someone three classes and a reason to stay.\n• You buy: A Tasting Flight gift card for ₹2,499 (3 classes in 10 days, 3 different formats)\n• You get: the recipient's ₹2,499 is credited and they get 1 Month at 20% off (₹16,191) if they buy within 72 hours of class 3; the giver gets 1 bonus class when they do\n• When: Gift cards on sale 1 Oct–15 Nov\n• Good to know: Recipient must be new; activate within 60 days; Doesn't combine with any other campaign offer.",
-      "internalDescription": "140 in pool × 12.9% plan rate = 18 buyers × ₹16,191 ticket = ₹2.9L (58% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 20% effective.",
-      "rationale": "Why: Gifting is real Diwali spend, and a Flight leads into the best-converting journey.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "Anyone buying for a friend new to P57.",
+      "name": "Diwali Gifting, Minus the Dry-Fruit Box",
+      "headline": "This Diwali, gift something they'll actually use.",
+      "benefit": "A festive gift envelope with 3 classes for the price of 2 — Mumbai ₹3,885, Kenkere ₹2,835, pop-ups ₹1,890 — for someone new. The recipient gets the standard 15% on a first membership; the giver gets 1 bonus class when they buy.",
+      "customerCopy": "This Diwali, skip the 14th dry-fruit box. Gift 3 classes for the price of 2. If they join, you get a bonus class too.",
+      "description": "A festive gift envelope with 3 classes for the price of 2 — Mumbai ₹3,885, Kenkere ₹2,835, pop-ups ₹1,890 — for someone new. The recipient gets the standard 15% on a first membership; the giver gets 1 bonus class when they buy.",
+      "internalDescription": "Plan: 30 buyers × ₹3,885 = ₹116,550 (Mumbai pricing).",
+      "rationale": "Gifting is real festive spend; the 3-for-2 gets recipients to the 3-visit mark that converts at 73–89%.",
+      "objective": "Turn Diwali gifting spend into new clients.",
+      "type": "Gift card (3-for-2)",
+      "mechanicTags": [
+        "gift card",
+        "3 for the price of 2",
+        "giver reward"
+      ],
+      "audience": "First-time clients (phone verified).",
       "excludedAudience": null,
-      "conditions": "Recipient must be new; activate within 60 days; Doesn't combine with any other campaign offer.",
-      "cta": "1 Oct–15 Nov.",
+      "conditions": "Recipient must be new; activate within 60 days. Claim by 2027-11-15.",
+      "cta": "2027-10-01 to 2027-10-31",
       "status": "draft",
       "approval": "pending",
       "runAds": true,
-      "price": 16191,
-      "expectedRevenue": 291438,
-      "buyers": 18,
-      "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
+      "price": 3885,
+      "expectedRevenue": 116550,
+      "buyers": 30,
+      "effectiveDiscountPercent": 33,
+      "kpi": "Gift envelopes sold; activation rate; recipient → member.",
       "validity": {
         "start": "2027-10-01",
-        "end": "2027-11-15"
+        "end": "2027-10-31"
       },
-      "mechanics": {}
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: intro/acquisition product, credited/converted at ≤20%"
+      },
+      "ticket": 3885
     },
     {
-      "id": 2430,
+      "id": "O27-40-KC",
+      "bankId": "O27-40",
+      "slot": "upgrade",
+      "name": "From Phuljhadi to Anaar",
+      "headline": "Upgrade from a phuljhadi to an anaar.",
+      "benefit": "1 Month and pack members upgrade to 6 Months at 20% off (₹90,972 / ₹65,772) with 3 extra freezes, or to 3 Months at 15% (₹49,177 / ₹35,879).",
+      "customerCopy": "Still on a one-month phuljhadi? Upgrade to the six-month anaar: 20% off and 3 extra freezes for the festive madness.",
+      "description": "1 Month and pack members upgrade to 6 Months at 20% off (₹90,972 / ₹65,772) with 3 extra freezes, or to 3 Months at 15% (₹49,177 / ₹35,879).",
+      "internalDescription": "Plan: 18 buyers × ₹65,000 = ₹1,170,000 (Mumbai pricing).",
+      "rationale": "Upgrading lifts cash per member 2.3–4.4× and protects the base through November, the softest month.",
+      "objective": "Move short-plan members onto long plans before November.",
+      "type": "Upgrade (1M → 6M)",
+      "mechanicTags": [
+        "upgrade",
+        "6M at 20%",
+        "extra freezes"
+      ],
+      "audience": "Members on 1 Month or class packs.",
+      "excludedAudience": null,
+      "conditions": "6M at 20% (standard 15% + 5 pts), inside the cap.",
+      "cta": "2027-10-01 to 2027-10-31",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 90972,
+      "expectedRevenue": 1170000,
+      "buyers": 18,
+      "effectiveDiscountPercent": 20,
+      "kpi": "1M → 3M/6M upgrades.",
+      "validity": {
+        "start": "2027-10-01",
+        "end": "2027-10-31"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 65000
+    },
+    {
+      "id": "O27-41-KC",
+      "bankId": "O27-41",
+      "slot": "renewal",
+      "name": "Gold Rush (Dhanteras Edition)",
+      "headline": "Buy gold this Dhanteras. The kind that lifts.",
+      "benefit": "Dhanteras window, Tue 26–Thu 28 Oct: Annual Unlimited at 22% off (₹1,71,171 / ₹1,21,867) + 1 extra private (3 in total) + a gold-foil membership card, with the standard annual perks.",
+      "customerCopy": "This Dhanteras, invest in gold that actually lifts. Annual at 22% off, an extra private and a gold-foil membership card. 72 hours only.",
+      "description": "Dhanteras window, Tue 26–Thu 28 Oct: Annual Unlimited at 22% off (₹1,71,171 / ₹1,21,867) + 1 extra private (3 in total) + a gold-foil membership card, with the standard annual perks.",
+      "internalDescription": "Plan: 4 buyers × ₹171,171 = ₹684,684 (Mumbai pricing).",
+      "rationale": "Dhanteras is India's 'buy something lasting' day; an annual fits. ≈24.5% effective sits under the annual cap.",
+      "objective": "Annual cash ahead of the November dip.",
+      "type": "Annual (festive)",
+      "mechanicTags": [
+        "annual 22%",
+        "extra private",
+        "gold card"
+      ],
+      "audience": "Annual cap 25%",
+      "excludedAudience": null,
+      "conditions": "Annual cap 25%.",
+      "cta": "2027-10-26 to 2027-10-28",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 171171,
+      "expectedRevenue": 684684,
+      "buyers": 4,
+      "effectiveDiscountPercent": 24.4,
+      "kpi": "Annuals sold.",
+      "validity": {
+        "start": "2027-10-26",
+        "end": "2027-10-28"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: annual (≤25%)"
+      },
+      "ticket": 171171
+    },
+    {
+      "id": "O27-42-KC",
+      "bankId": "O27-42",
       "slot": "lapsed",
-      "name": "Come Home for Diwali",
-      "headline": "Your mat's still here, at 20% off.",
-      "benefit": "A 12-class pack at 20% off (₹15,750) — a comeback class in Diwali week",
-      "customerCopy": "Your mat's still here, at 20% off.\n• You buy: A 12-class pack at 20% off (₹15,750)\n• You get: a comeback class in Diwali week\n• When: All October\n• Good to know: Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "internalDescription": "573 in pool × 3.8% plan rate = 22 buyers × ₹15,750 ticket = ₹3.5L (84% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 20% effective.",
-      "rationale": "Why: Simple, on-theme, and the pack fits festive schedules.",
-      "objective": "reactivation",
-      "type": "experience",
-      "audience": "Lapsed clients.",
+      "name": "Diwali Cleaning: Found Your Old Grip Socks?",
+      "headline": "Diwali cleaning found your old grip socks. Sign?",
+      "benefit": "Lapsed clients: bring (or just mention) your old grip socks, get the standard 15% on 1 Month or a 12-class pack, and swap them for a new pair of P57 grip socks.",
+      "customerCopy": "Diwali cleaning found your old grip socks. That's a sign. Bring them back: 15% off your return and a brand-new pair on us.",
+      "description": "Lapsed clients: bring (or just mention) your old grip socks, get the standard 15% on 1 Month or a 12-class pack, and swap them for a new pair of P57 grip socks.",
+      "internalDescription": "Plan: 22 buyers × ₹17,203 = ₹378,466 (Mumbai pricing).",
+      "rationale": "A physical prompt from the client's own home is a memorable trigger; the retail cost is low.",
+      "objective": "Festive winback with a tangible, shareable reason.",
+      "type": "Winback (retail swap)",
+      "mechanicTags": [
+        "standard 15% lapsed",
+        "retail swap"
+      ],
+      "audience": "Standard lapsed 15% + retail (≤20% effective)",
       "excludedAudience": null,
-      "conditions": "Lapsed clients; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "cta": "All October.",
+      "conditions": "Standard lapsed 15% + retail (≤20% effective).",
+      "cta": "2027-10-01 to 2027-10-31",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 15750,
-      "expectedRevenue": 346500,
+      "price": 17203,
+      "expectedRevenue": 378466,
       "buyers": 22,
-      "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
+      "effectiveDiscountPercent": 19,
+      "kpi": "Reactivations.",
       "validity": {
         "start": "2027-10-01",
         "end": "2027-10-31"
       },
-      "mechanics": {}
-    },
-    {
-      "id": 2432,
-      "slot": "renewal",
-      "name": "Pay It Forward",
-      "headline": "Renew in October; get 10% back to gift a friend.",
-      "benefit": "Your current membership at list — 10% of what you pay back as credit, usable only on a P57 gift card for someone new",
-      "customerCopy": "Renew in October; get 10% back to gift a friend.\n• You buy: Your current membership at list\n• You get: 10% of what you pay back as credit, usable only on a P57 gift card for someone new\n• When: All October\n• Good to know: Credit valid until 15 Nov; Doesn't combine with any other campaign offer.",
-      "internalDescription": "181 in pool × 24.9% plan rate = 45 buyers × ₹21,000 ticket = ₹9.4L (35% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹0.9L at 9% effective.",
-      "rationale": "Why: Turns renewal value into new-client acquisition: the discount only exists if it brings someone new.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "October renewers.",
-      "excludedAudience": null,
-      "conditions": "Credit valid until 15 Nov; Doesn't combine with any other campaign offer.",
-      "cta": "All October.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 21000,
-      "expectedRevenue": 945000,
-      "buyers": 45,
-      "effectiveDiscountPercent": 9,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-10-01",
-        "end": "2027-10-31"
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "reactivation",
+        "discountRule": "OK: ≤20% effective"
       },
-      "mechanics": {}
-    },
-    {
-      "id": 2516,
-      "slot": "renewal",
-      "name": "Light Years Ahead",
-      "headline": "Upgrade for Diwali: 3 months at 20% off.",
-      "benefit": "From 1 Month to 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698) — a festive box and the candle-lit Diwali week classes on us",
-      "customerCopy": "Upgrade for Diwali: 3 months at 20% off.\n• You buy: From 1 Month to 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698)\n• You get: a festive box and the candle-lit Diwali week classes on us\n• When: All October\n• Good to know: Current 1 Month members; Doesn't combine with any other campaign offer.",
-      "internalDescription": "120 in pool × 15.0% plan rate = 18 buyers × ₹52,000 ticket = ₹9.4L (35% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹2.5L at 21% effective.",
-      "rationale": "Why: Upgrading before November protects the base through the softest month of the year and lifts cash 2.3×.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "1 Month members.",
-      "excludedAudience": null,
-      "conditions": "Current 1 Month members; Doesn't combine with any other campaign offer.",
-      "cta": "All October.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 52000,
-      "expectedRevenue": 936000,
-      "buyers": 18,
-      "effectiveDiscountPercent": 21,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-10-01",
-        "end": "2027-10-31"
-      },
-      "mechanics": {}
+      "ticket": 17203
     }
   ],
+  "offersPlannedRevenue": 2349700,
   "keyDates": [
     {
-      "day": 23,
-      "end": null,
-      "date": "2027-10-23",
-      "name": "Lights On community class",
-      "kind": "brand",
-      "label": "P57 moment",
-      "approx": false,
-      "note": "Plus the Diwali Fit Check re-test."
+      "day": 26,
+      "date": "2027-10-26",
+      "name": "Dhanteras window (26–28 Oct, approx.)",
+      "kind": "festival",
+      "approx": true
     },
     {
       "day": 29,
-      "end": null,
       "date": "2027-10-29",
-      "name": "Diwali",
+      "name": "Diwali (approx.)",
       "kind": "festival",
-      "label": "Festival",
-      "approx": true,
-      "note": "The gifting window."
+      "approx": true
     }
   ],
   "sections": [
@@ -178,52 +221,47 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Gift a Flight in Momence (1 Oct–15 Nov.): A Tasting Flight gift card for ₹2,499 (3 classes in 10 days, 3 different formats) — the recipient's ₹2,499 is credited and they get 1 Month at 20% off (₹16,191) if they buy within 72 hours of class 3; the giver gets 1 bonus class when they do."
+          "detail": "Set up Diwali Gifting, Minus the Dry-Fruit Box in Momence (2027-10-01 to 2027-11-15): A festive gift envelope with 3 classes for the price of 2 — Mumbai ₹3,885, Kenkere ₹2,835, pop-ups ₹1,890 — for someone new. The recipient gets the standard 15% on a first membership; the giver gets 1 bonus class when they buy."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Come Home for Diwali in Momence (All October.): A 12-class pack at 20% off (₹15,750) — a comeback class in Diwali week."
+          "detail": "Set up From Phuljhadi to Anaar in Momence (2027-10-01 to 2027-10-31): 1 Month and pack members upgrade to 6 Months at 20% off (₹90,972 / ₹65,772) with 3 extra freezes, or to 3 Months at 15% (₹49,177 / ₹35,879)."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Pay It Forward in Momence (All October.): Your current membership at list — 10% of what you pay back as credit, usable only on a P57 gift card for someone new."
+          "detail": "Set up Gold Rush (Dhanteras Edition) in Momence (2027-10-26 to 2027-10-28): Dhanteras window, Tue 26–Thu 28 Oct: Annual Unlimited at 22% off (₹1,71,171 / ₹1,21,867) + 1 extra private (3 in total) + a gold-foil membership card, with the standard annual perks."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Light Years Ahead in Momence (All October.): From 1 Month to 3 Months at 20% off (₹46,284), 6 Months at 22% off (₹88,698) — a festive box and the candle-lit Diwali week classes on us."
+          "detail": "Set up Diwali Cleaning: Found Your Old Grip Socks? in Momence (2027-10-01 to 2027-10-31): Lapsed clients: bring (or just mention) your old grip socks, get the standard 15% on 1 Month or a 12-class pack, and swap them for a new pair of P57 grip socks."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Brief the team on the 4 October offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+          "detail": "Brief the team on the 4 October offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Gift a Flight to Anyone buying for a friend new to P57."
+          "detail": "Launch Diwali Gifting, Minus the Dry-Fruit Box: This Diwali, skip the 14th dry-fruit box. Gift 3 classes for the price of 2. If they join, you get a bonus class too."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Come Home for Diwali to Lapsed clients."
+          "detail": "Launch From Phuljhadi to Anaar: Still on a one-month phuljhadi? Upgrade to the six-month anaar: 20% off and 3 extra freezes for the festive madness."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Pay It Forward to October renewers."
+          "detail": "Launch Gold Rush (Dhanteras Edition): This Dhanteras, invest in gold that actually lifts. Annual at 22% off, an extra private and a gold-foil membership card. 72 hours only."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Light Years Ahead to 1 Month members."
-        },
-        {
-          "label": "",
-          "value": "Marketing",
-          "detail": "Run paid lead ads for Gift a Flight: 280 CRM leads needed vs 67 in the same month last year."
+          "detail": "Launch Diwali Cleaning: Found Your Old Grip Socks?: Diwali cleaning found your old grip socks. That's a sign. Bring them back: 15% off your return and a brand-new pair on us."
         }
       ]
     },
@@ -232,13 +270,8 @@
       "items": [
         {
           "label": "",
-          "value": "Studio manager",
-          "detail": "Run the month's moment: Gift cards on sale from 1 Oct; candle-lit evening classes in Diwali week (25–28 Oct); a 'Lights On' community class on Sat 23 Oct."
-        },
-        {
-          "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Gift a Flight: Gift cards sold; activations; recipient conversion. | Come Home for Diwali: Reactivations. | Pay It Forward: Credit used on gift cards. | Light Years Ahead: 1M → 3M upgrades."
+          "detail": "Weekly check: Diwali Gifting, Minus the Dry-Fruit Box: Gift envelopes sold; activation rate; recipient → member. | From Phuljhadi to Anaar: 1M → 3M/6M upgrades. | Gold Rush (Dhanteras Edition): Annuals sold. | Diwali Cleaning: Found Your Old Grip Socks?: Reactivations."
         }
       ]
     },
@@ -248,7 +281,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Mid-month review against ₹39.5L: by the 15th aim for about half of 208 renewals, 36 reactivations and 42 new buyers (140 first visits). Push the lists, not a deeper discount."
+          "detail": "Mid-month review against ₹50.2L: by the 15th aim for ~half of 108 new buyers (401 first visits), 118 renewals and 53 winbacks. Push the lists, not a deeper discount."
         }
       ]
     },
@@ -258,9 +291,91 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Close October: tag every redemption by offer, record results, and brief November's offers."
+          "detail": "Close October: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
         }
       ]
     }
-  ]
+  ],
+  "collateral": {
+    "title": "Festival of Lights",
+    "pieces": [
+      {
+        "offerId": "O27-39-KC",
+        "headline": "This Diwali, gift something they'll actually use.",
+        "copy": "This Diwali, skip the 14th dry-fruit box. Gift 3 classes for the price of 2. If they join, you get a bonus class too.",
+        "detail": "A festive gift envelope with 3 classes for the price of 2 — Mumbai ₹3,885, Kenkere ₹2,835, pop-ups ₹1,890 — for someone new. The recipient gets the standard 15% on a first membership; the giver gets 1 bonus class when they buy.",
+        "channels": [
+          "WhatsApp",
+          "Instagram",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-40-KC",
+        "headline": "Upgrade from a phuljhadi to an anaar.",
+        "copy": "Still on a one-month phuljhadi? Upgrade to the six-month anaar: 20% off and 3 extra freezes for the festive madness.",
+        "detail": "1 Month and pack members upgrade to 6 Months at 20% off (₹90,972 / ₹65,772) with 3 extra freezes, or to 3 Months at 15% (₹49,177 / ₹35,879).",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-41-KC",
+        "headline": "Buy gold this Dhanteras. The kind that lifts.",
+        "copy": "This Dhanteras, invest in gold that actually lifts. Annual at 22% off, an extra private and a gold-foil membership card. 72 hours only.",
+        "detail": "Dhanteras window, Tue 26–Thu 28 Oct: Annual Unlimited at 22% off (₹1,71,171 / ₹1,21,867) + 1 extra private (3 in total) + a gold-foil membership card, with the standard annual perks.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-42-KC",
+        "headline": "Diwali cleaning found your old grip socks. Sign?",
+        "copy": "Diwali cleaning found your old grip socks. That's a sign. Bring them back: 15% off your return and a brand-new pair on us.",
+        "detail": "Lapsed clients: bring (or just mention) your old grip socks, get the standard 15% on 1 Month or a 12-class pack, and swap them for a new pair of P57 grip socks.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      }
+    ]
+  },
+  "crm": {
+    "rule": "One send per offer to its own audience; no member gets more than 2 offer sends a week.",
+    "sends": [
+      {
+        "offerId": "O27-39-KC",
+        "audience": "First-time clients (phone verified).",
+        "message": "This Diwali, skip the 14th dry-fruit box. Gift 3 classes for the price of 2. If they join, you get a bonus class too."
+      },
+      {
+        "offerId": "O27-40-KC",
+        "audience": "Members on 1 Month or class packs.",
+        "message": "Still on a one-month phuljhadi? Upgrade to the six-month anaar: 20% off and 3 extra freezes for the festive madness."
+      },
+      {
+        "offerId": "O27-41-KC",
+        "audience": "Annual cap 25%",
+        "message": "This Dhanteras, invest in gold that actually lifts. Annual at 22% off, an extra private and a gold-foil membership card. 72 hours only."
+      },
+      {
+        "offerId": "O27-42-KC",
+        "audience": "Standard lapsed 15% + retail (≤20% effective)",
+        "message": "Diwali cleaning found your old grip socks. That's a sign. Bring them back: 15% off your return and a brand-new pair on us."
+      }
+    ],
+    "sendsCount": 4
+  },
+  "standardTrade": {
+    "revenue": 2670300,
+    "shareOfMonth": 53.2,
+    "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
+  },
+  "targetBasis": "hand_set"
 }

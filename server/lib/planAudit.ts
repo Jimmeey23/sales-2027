@@ -88,6 +88,37 @@ export function auditYear(studioId: number, year: number): { studio: string; fin
     if (!hasRenew && num(t?.renewal_target)) findings.push({ severity: 'warn', month: m, area: 'offers', title: `${label} has no renewal offer`, detail: `Renewal target is ${L(Number(t.renewal_target))} but no offer serves renewing members.` });
     if (!hasBack && num(t?.reactivation_target)) findings.push({ severity: 'info', month: m, area: 'offers', title: `${label} has no win-back offer`, detail: `Reactivation target ${L(Number(t.reactivation_target))} with no lapsed-client offer.` });
 
+    // Stream coverage: is the money each stream is expected to bring actually behind an
+    // offer? A month can clear its overall coverage check and still leave one stream —
+    // usually new clients — carried entirely by full-price trade nobody planned.
+    const byStream: Record<string, number> = {};
+    for (const o of offers) {
+      const stream = String(json(o.mechanics, {}).stream || '').trim();
+      if (!stream) continue;
+      const r = num(o.expected_revenue) ?? (num(o.target_purchases) ?? 0) * (num(o.expected_asp) ?? 0);
+      byStream[stream] = (byStream[stream] ?? 0) + r;
+    }
+    const standardTrade = (json(t?.assumptions, {}).planImport || {}).standardTrade ?? null;
+    for (const [key, wording, goal] of [
+      ['newClient', 'new-client', num(t?.new_client_target)],
+      ['renewal', 'renewal', num(t?.renewal_target)],
+      ['reactivation', 'comeback', num(t?.reactivation_target)],
+    ] as Array<[string, string, number | null]>) {
+      if (!goal || goal <= 0) continue;
+      const covered = byStream[key] ?? 0;
+      if (covered / goal >= 0.5) continue;
+      const declared = standardTrade ? num(standardTrade[key]) : null;
+      findings.push({
+        severity: 'warn',
+        month: m,
+        area: 'coverage',
+        title: `${label} offers carry ${Math.round((covered / goal) * 100)}% of the ${wording} target`,
+        detail: `${L(covered)} of offers against ${L(goal)}${
+          declared ? `; ${L(declared)} is expected as full-price trade, declared in the month’s standardTrade.` : ', and the balance is declared nowhere.'
+        }`,
+      });
+    }
+
     const monthStart = `${year}-${String(m).padStart(2, '0')}-01`;
     const monthEnd = `${year}-${String(m).padStart(2, '0')}-${new Date(year, m, 0).getDate()}`;
     for (const o of offers) {
@@ -98,6 +129,13 @@ export function auditYear(studioId: number, year: number): { studio: string; fin
       const key = String(o.name || '').trim().toLowerCase();
       nameSeen.set(key, [...(nameSeen.get(key) || []), m]);
       if (!num(o.expected_asp)) findings.push({ ...base, severity: 'critical', area: 'pricing', title: `“${o.name}” has no price`, detail: 'No selling price, so its revenue cannot be forecast.' });
+      // Does the money add up? ASP × buyers is what the app will forecast from, so it has
+      // to agree with the revenue the plan filed — otherwise the two drift apart silently.
+      const asp = num(o.expected_asp);
+      const buys = num(o.target_purchases);
+      const rev = num(o.expected_revenue);
+      if (asp && buys && rev != null && Math.abs(asp * buys - rev) > 1)
+        findings.push({ ...base, severity: 'critical', area: 'pricing', title: `“${o.name}” revenue does not reconcile`, detail: `${L(asp)} × ${buys} buyers = ${L(asp * buys)}, but the plan files ${L(rev)}. One of the three was typed in by hand.` });
       if (!num(o.target_purchases)) findings.push({ ...base, severity: 'warn', area: 'offers', title: `“${o.name}” has no buyer target`, detail: 'No planned buyers, so it contributes nothing to the month.' });
       if (disc != null && disc * 100 > cap + 0.01) findings.push({ ...base, severity: 'critical', area: 'pricing', title: `“${o.name}” discount ${Math.round(disc * 100)}% exceeds the ${cap}% cap`, detail: 'Above studio policy.' });
       if (eff != null && eff > cap + 5) findings.push({ ...base, severity: 'warn', area: 'pricing', title: `“${o.name}” effective discount ${Math.round(eff)}%`, detail: `Cash plus perks give away more than the ${cap}% cap.` });

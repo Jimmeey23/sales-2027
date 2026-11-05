@@ -2,173 +2,218 @@
   "month": 9,
   "name": "September",
   "status": "draft",
-  "theme": "57 Days to Diwali",
-  "objective": "Carry race momentum into the festive season; lock 3-month memberships before the October–December dip; grow privates.",
-  "strategy": "57 Days to Diwali.\n\nCommercial job: Carry race momentum into the festive season; lock 3-month memberships before the October–December dip; grow privates.\n\nNewcomer: The 57-Day Proof (“Measure on day 1. Re-test before Diwali. Or your next month is free.”). A results promise is more persuasive than a bigger %, and the 20-class condition makes the guarantee rarely paid.\n\nWinback: The Return Policy (“Come back within 7 days of your comeback class: 20% off and a bonus.”). A 7-day window keeps decisions fast.\n\nRenewal: Festive Pause Button (“Three months at 18% off. Diwali and year-end travel covered.”). October–December are troughs; locking 3 Months now carries members through them.\n\nRenewal: Private Matters (“Ten privates at 15% off, booked before the festive rush.”). Privates are Kwality's highest-value add-on (₹5.1L in Sep-2026); a pack sold before Diwali fills trainers' quiet October hours.",
-  "notes": "Moment: 57 Days to Diwali countdown (Thu 2 Sep → Thu 28 Oct): weekly countdown classes and a studio 'Diwali Fit Check' re-test day on Sat 23 Oct.\nBuild: new clients 44 buyers × ₹12,000 = ₹5.3L; reactivation 36 × ₹11,468 = ₹4.1L; privates/retail/drop-ins ₹4.8L; renewals ₹25.3L. First visits needed 147 vs 136 last year (1.08×); CRM leads needed 294 vs 189 last year.",
-  "target": 3950000,
+  "theme": "The Comeback + 57 Days to Diwali",
+  "focus": "The Comeback (winback month) + 57 Days to Diwali",
+  "objective": "Winback month: manager calls for high-value lapsed clients, fast comebacks for recent lapsers; a results-guarantee bundle; lock 3M plans before the festive dip.",
+  "studioRole": "Retention-led",
+  "strategy": "The Comeback + 57 Days to Diwali.\n\nCommercial job: Winback month: manager calls for high-value lapsed clients, fast comebacks for recent lapsers; a results-guarantee bundle; lock 3M plans before the festive dip.\n\nLapsed: We Need to Talk (“We need to talk. Not like that — we just miss you.”). These clients bought big before; a long plan at a serious price fits them. A personal call converts better than a broadcast.\n\nLapsed: New Phone, Who Dis? (“New phone, who dis? (It's us. Your favourite class.)”). A free first step lowers the barrier; the 7-day window keeps the decision fast. The freeze has no cash cost.\n\nNewcomer: Glow-Up or Give Back (“57 days to Diwali. Glow up, or we give back.”). New clients' first 60-day spend averages ₹11,150 at Kwality, ₹8,411 at Bandra and ₹6,747 at Kenkere — under one month's list price. A 2-month bundle doubles it; the 30-class condition makes the guarantee rarely paid.\n\nRenewal: Lock It Before the Laddoos (“Lock it before the laddoos.”). October–December are troughs (Kwality Nov-25 ₹18.5L; Bandra Oct-25 ₹10.2L). Locking 3M before the festive season protects the base.",
+  "notes": "Build: 85 new buyers × ₹11,150 first-60-day spend = ₹9.5L; 93 renewals × ₹23,384 = ₹21.8L; 41 winbacks = ₹4.8L; privates/retail/drop-ins ₹3.6L. Offers carry ₹23.6L (59% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
+  "target": 3960000,
   "priorYear": 3206431,
-  "growthPercent": 23.2,
+  "growthPercent": 23.5,
   "streams": {
-    "newClient": 528000,
-    "renewal": 2529152,
-    "reactivation": 412848,
-    "other": 480000
+    "newClient": 950400,
+    "renewal": 2178000,
+    "reactivation": 475200,
+    "other": 356400
   },
   "funnel": {
-    "leads": 294,
-    "trials": 147,
-    "newBuyers": 44,
-    "existingPayingRenewals": 242,
-    "winbacksNeeded": 36,
-    "expiringMemberships": 269,
-    "renewalCoverage": 0.779,
-    "leadToTrial": 0.5,
-    "trialToMember": 0.3,
-    "spendPerVisit": 1727,
-    "firstMonthSpend": 12000,
-    "renewalTicket": 10458,
-    "winbackTicket": 11468
+    "leads": 620,
+    "trials": 316,
+    "newBuyers": 85,
+    "existingPayingRenewals": 93,
+    "winbacksNeeded": 41,
+    "leadToTrial": 0.51,
+    "trialToMember": 0.269,
+    "renewalRate": 0.765,
+    "firstSixtyDaySpend": 11150,
+    "renewalTicket": 23384,
+    "winbackTicket": 11468,
+    "dataQuality": "lead→trial = CRM 'Trial Completed' status (not attendance-verified); trial→member = trailing measured; see dataGaps"
   },
   "feasibility": "balanced",
   "offers": [
     {
-      "id": 2424,
-      "slot": "newcomer",
-      "name": "The 57-Day Proof",
-      "headline": "Measure on day 1. Re-test before Diwali. Or your next month is free.",
-      "benefit": "1 Month Unlimited at 15% off (₹17,203) — a fitness check on day 1, coach check-ins, and a re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures = your next month free",
-      "customerCopy": "Measure on day 1. Re-test before Diwali. Or your next month is free.\n• You buy: 1 Month Unlimited at 15% off (₹17,203)\n• You get: a fitness check on day 1, coach check-ins, and a re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures = your next month free\n• When: Buy 2–30 Sep\n• Good to know: Same protocol for everyone; buy 2–30 Sep; Doesn't combine with any other campaign offer.",
-      "internalDescription": "147 in pool × 15.0% plan rate = 22 buyers × ₹17,203 ticket = ₹3.8L (72% of the month's new-client plan; the rest is business-as-usual sales). Discount given ≈ ₹0.7L at 15% effective.",
-      "rationale": "Why: A results promise is more persuasive than a bigger %, and the 20-class condition makes the guarantee rarely paid.",
-      "objective": "acquisition",
-      "type": "experience",
-      "audience": "First-time clients.",
+      "id": "O27-35-KC",
+      "bankId": "O27-35",
+      "slot": "lapsed",
+      "name": "We Need to Talk",
+      "headline": "We need to talk. Not like that — we just miss you.",
+      "benefit": "Named list — lapsed clients with ≥₹50k lifetime spend (Kenkere ≥₹35k): a call from the studio manager, then 6 Months at 20% (₹90,972 / ₹65,772) or 3 Months at the standard 15% (₹49,177 / ₹35,879), unlimited freezes and a 30-min private to restart.",
+      "customerCopy": "We need to talk. Not like that — we just miss you. Our studio manager will call; say yes and get 6 months at 20% off, unlimited freezes and a private to restart.",
+      "description": "Named list — lapsed clients with ≥₹50k lifetime spend (Kenkere ≥₹35k): a call from the studio manager, then 6 Months at 20% (₹90,972 / ₹65,772) or 3 Months at the standard 15% (₹49,177 / ₹35,879), unlimited freezes and a 30-min private to restart.",
+      "internalDescription": "Plan: 5 buyers × ₹70,000 = ₹350,000 (Mumbai pricing).",
+      "rationale": "These clients bought big before; a long plan at a serious price fits them. A personal call converts better than a broadcast.",
+      "objective": "Win back the highest-value lapsed clients onto long plans.",
+      "type": "High-value winback",
+      "mechanicTags": [
+        "manager call",
+        "long plan",
+        "unlimited freezes",
+        "private"
+      ],
+      "audience": "6M ≈22% effective with the private",
       "excludedAudience": null,
-      "conditions": "Same protocol for everyone; buy 2–30 Sep; Doesn't combine with any other campaign offer.",
-      "cta": "2–30 Sep.",
+      "conditions": "6M ≈22% effective with the private.",
+      "cta": "2027-09-01 to 2027-09-30",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 90972,
+      "expectedRevenue": 350000,
+      "buyers": 5,
+      "effectiveDiscountPercent": 22,
+      "kpi": "Calls made (100% of list); restarts.",
+      "validity": {
+        "start": "2027-09-01",
+        "end": "2027-09-30"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "reactivation",
+        "discountRule": "OK: 6M+/long plan, ≤25% effective incl. perks (cash ≤20%)"
+      },
+      "ticket": 70000
+    },
+    {
+      "id": "O27-36-KC",
+      "bankId": "O27-36",
+      "slot": "lapsed",
+      "name": "New Phone, Who Dis?",
+      "headline": "New phone, who dis? (It's us. Your favourite class.)",
+      "benefit": "Lapsed 61–180 days: a free 'no questions asked' comeback class; buy within 7 days for the standard 15% on 1 Month or a 12-class pack + 1 extra freeze. Pop-ups: free comeback class, then 15% on an 8- or 10-class pack.",
+      "customerCopy": "New phone, who dis? It's us — your favourite class. Come back for one free, no-questions-asked class. Buy within 7 days and get 15% off plus an extra freeze.",
+      "description": "Lapsed 61–180 days: a free 'no questions asked' comeback class; buy within 7 days for the standard 15% on 1 Month or a 12-class pack + 1 extra freeze. Pop-ups: free comeback class, then 15% on an 8- or 10-class pack.",
+      "internalDescription": "Plan: 24 buyers × ₹17,203 = ₹412,872 (Mumbai pricing).",
+      "rationale": "A free first step lowers the barrier; the 7-day window keeps the decision fast. The freeze has no cash cost.",
+      "objective": "Fast reactivation of recently lapsed clients.",
+      "type": "Winback (7-day window)",
+      "mechanicTags": [
+        "free comeback class",
+        "standard 15% lapsed",
+        "extra freeze"
+      ],
+      "audience": "Standard lapsed 15% only",
+      "excludedAudience": null,
+      "conditions": "Standard lapsed 15% only.",
+      "cta": "2027-09-01 to 2027-09-30",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
       "price": 17203,
-      "expectedRevenue": 378466,
-      "buyers": 22,
+      "expectedRevenue": 412872,
+      "buyers": 24,
       "effectiveDiscountPercent": 15,
-      "contributionMargin": 0,
+      "kpi": "Comeback classes booked; comeback → purchase within 7 days (target 35%).",
+      "validity": {
+        "start": "2027-09-01",
+        "end": "2027-09-30"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "reactivation",
+        "discountRule": "OK: ≤20% effective"
+      },
+      "ticket": 17203
+    },
+    {
+      "id": "O27-37-KC",
+      "bankId": "O27-37",
+      "slot": "newcomer",
+      "name": "Glow-Up or Give Back",
+      "headline": "57 days to Diwali. Glow up, or we give back.",
+      "benefit": "2 Months Unlimited at the standard 15% — Mumbai ₹34,406, Kenkere ₹24,812 — with a fitness check on day 1 and a re-test on day 56 (before Diwali, 29 Oct). Take 30+ classes and don't improve on 2 of 3 measures: your third month is free.",
+      "customerCopy": "57 days to Diwali. We measure you on day 1 and again before the festive photos. Do 30 classes and don't improve? Your third month is on us.",
+      "description": "2 Months Unlimited at the standard 15% — Mumbai ₹34,406, Kenkere ₹24,812 — with a fitness check on day 1 and a re-test on day 56 (before Diwali, 29 Oct). Take 30+ classes and don't improve on 2 of 3 measures: your third month is free.",
+      "internalDescription": "Plan: 12 buyers × ₹34,406 = ₹412,872 (Mumbai pricing).",
+      "rationale": "New clients' first 60-day spend averages ₹11,150 at Kwality, ₹8,411 at Bandra and ₹6,747 at Kenkere — under one month's list price. A 2-month bundle doubles it; the 30-class condition makes the guarantee rarely paid.",
+      "objective": "Raise first-purchase value from 1 month to 2 and sell results, not a discount.",
+      "type": "Newcomer guarantee bundle",
+      "mechanicTags": [
+        "2-month bundle",
+        "results guarantee",
+        "fitness check"
+      ],
+      "audience": "First-time clients (phone verified).",
+      "excludedAudience": null,
+      "conditions": "Standard 15% only; guarantee paid in time.",
+      "cta": "2027-09-02 to 2027-09-30",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 34406,
+      "expectedRevenue": 412872,
+      "buyers": 12,
+      "effectiveDiscountPercent": 15,
+      "kpi": "Bundles sold; day-56 re-test attendance; 3rd-month purchases.",
       "validity": {
         "start": "2027-09-02",
         "end": "2027-09-30"
       },
-      "mechanics": {}
-    },
-    {
-      "id": 2425,
-      "slot": "lapsed",
-      "name": "The Return Policy",
-      "headline": "Come back within 7 days of your comeback class: 20% off and a bonus.",
-      "benefit": "1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off — a free comeback class first, and 1 bonus class if you buy within 7 days of it",
-      "customerCopy": "Come back within 7 days of your comeback class: 20% off and a bonus.\n• You buy: 1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off\n• You get: a free comeback class first, and 1 bonus class if you buy within 7 days of it\n• When: All September\n• Good to know: Clients lapsed 61–365 days; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "internalDescription": "593 in pool × 3.7% plan rate = 22 buyers × ₹16,000 ticket = ₹3.5L (85% of the month's reactivation plan; the rest is business-as-usual sales). Discount given ≈ ₹1.1L at 24% effective.",
-      "rationale": "Why: A 7-day window keeps decisions fast.",
-      "objective": "reactivation",
-      "type": "experience",
-      "audience": "Clients lapsed 61–365 days.",
-      "excludedAudience": null,
-      "conditions": "Clients lapsed 61–365 days; replaces the standing 15% lapsed perk; Doesn't combine with any other campaign offer.",
-      "cta": "All September.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 16000,
-      "expectedRevenue": 352000,
-      "buyers": 22,
-      "effectiveDiscountPercent": 24,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-09-01",
-        "end": "2027-09-30"
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: ≤20% effective"
       },
-      "mechanics": {}
+      "ticket": 34406
     },
     {
-      "id": 2427,
+      "id": "O27-38-KC",
+      "bankId": "O27-38",
       "slot": "renewal",
-      "name": "Festive Pause Button",
-      "headline": "Three months at 18% off. Diwali and year-end travel covered.",
-      "benefit": "3 Months Unlimited at 18% off (₹47,441) — unlimited freezes (used within 6 months) and a festive gift box",
-      "customerCopy": "Three months at 18% off. Diwali and year-end travel covered.\n• You buy: 3 Months Unlimited at 18% off (₹47,441)\n• You get: unlimited freezes (used within 6 months) and a festive gift box\n• When: All September\n• Good to know: 1 Month and 3 Months renewers; Doesn't combine with any other campaign offer.",
-      "internalDescription": "269 in pool × 9.7% plan rate = 26 buyers × ₹47,441 ticket = ₹12.3L (49% of the month's renewal plan; the rest is business-as-usual sales). Discount given ≈ ₹3.1L at 20% effective.",
-      "rationale": "Why: October–December are troughs; locking 3 Months now carries members through them.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "1 Month and 3 Months renewers.",
+      "name": "Lock It Before the Laddoos",
+      "headline": "Lock it before the laddoos.",
+      "benefit": "Renew to 3 Months at 15% off (₹49,177 / ₹35,879) by 30 Sep: a Diwali hamper (≈₹2,000 retail — confirm) and unlimited freezes for Oct–Dec travel.",
+      "customerCopy": "Lock it before the laddoos. Renew for 3 months by 30 September: 15% off, a Diwali hamper, and unlimited freezes for festive travel.",
+      "description": "Renew to 3 Months at 15% off (₹49,177 / ₹35,879) by 30 Sep: a Diwali hamper (≈₹2,000 retail — confirm) and unlimited freezes for Oct–Dec travel.",
+      "internalDescription": "Plan: 24 buyers × ₹49,177 = ₹1,180,248 (Mumbai pricing).",
+      "rationale": "October–December are troughs (Kwality Nov-25 ₹18.5L; Bandra Oct-25 ₹10.2L). Locking 3M before the festive season protects the base.",
+      "objective": "Carry members through the Oct–Dec dip on 3-month plans.",
+      "type": "Pre-festive 3M renewal",
+      "mechanicTags": [
+        "3M at 15%",
+        "festive hamper",
+        "unlimited freezes"
+      ],
+      "audience": "≈18",
       "excludedAudience": null,
-      "conditions": "1 Month and 3 Months renewers; Doesn't combine with any other campaign offer.",
-      "cta": "All September.",
+      "conditions": "≈18.5% effective.",
+      "cta": "2027-09-01 to 2027-09-30",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 47441,
-      "expectedRevenue": 1233466,
-      "buyers": 26,
-      "effectiveDiscountPercent": 20,
-      "contributionMargin": 0,
+      "price": 49177,
+      "expectedRevenue": 1180248,
+      "buyers": 24,
+      "effectiveDiscountPercent": 18.5,
+      "kpi": "3M renewals and upgrades.",
       "validity": {
         "start": "2027-09-01",
         "end": "2027-09-30"
       },
-      "mechanics": {}
-    },
-    {
-      "id": 2515,
-      "slot": "renewal",
-      "name": "Private Matters",
-      "headline": "Ten privates at 15% off, booked before the festive rush.",
-      "benefit": "A 10-private pack at 15% off (₹44,625, list ₹52,500) — a posture and strength assessment in session one",
-      "customerCopy": "Ten privates at 15% off, booked before the festive rush.\n• You buy: A 10-private pack at 15% off (₹44,625, list ₹52,500)\n• You get: a posture and strength assessment in session one\n• When: All September\n• Good to know: Privates valid 6 months; Doesn't combine with any other campaign offer.",
-      "internalDescription": "80 in pool × 7.5% plan rate = 6 buyers × ₹44,625 ticket = ₹2.7L (56% of the month's privates/other plan; the rest is business-as-usual sales). Discount given ≈ ₹0.5L at 15% effective.",
-      "rationale": "Why: Privates are Kwality's highest-value add-on (₹5.1L in Sep-2026); a pack sold before Diwali fills trainers' quiet October hours.",
-      "objective": "retention",
-      "type": "experience",
-      "audience": "Active members and private clients.",
-      "excludedAudience": null,
-      "conditions": "Privates valid 6 months; Doesn't combine with any other campaign offer.",
-      "cta": "All September.",
-      "status": "draft",
-      "approval": "pending",
-      "runAds": false,
-      "price": 44625,
-      "expectedRevenue": 267750,
-      "buyers": 6,
-      "effectiveDiscountPercent": 15,
-      "contributionMargin": 0,
-      "validity": {
-        "start": "2027-09-01",
-        "end": "2027-09-30"
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: ≤20% effective"
       },
-      "mechanics": {}
+      "ticket": 49177
     }
   ],
+  "offersPlannedRevenue": 2355992,
   "keyDates": [
     {
       "day": 2,
-      "end": null,
       "date": "2027-09-02",
-      "name": "57 Days to Diwali begins",
+      "name": "57 Days to Diwali countdown begins",
       "kind": "brand",
-      "label": "P57 moment",
-      "approx": false,
-      "note": "Countdown to 28 Oct."
+      "approx": false
     },
     {
       "day": 29,
-      "end": null,
       "date": "2027-09-29",
       "name": "World Heart Day",
       "kind": "awareness",
-      "label": "Wellness moment",
-      "approx": false,
-      "note": "Cardio and cycle formats get a reason to be talked about."
+      "approx": false
     }
   ],
   "sections": [
@@ -178,47 +223,47 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up The 57-Day Proof in Momence (2–30 Sep.): 1 Month Unlimited at 15% off (₹17,203) — a fitness check on day 1, coach check-ins, and a re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures = your next month free."
+          "detail": "Set up We Need to Talk in Momence (2027-09-01 to 2027-09-30): Named list — lapsed clients with ≥₹50k lifetime spend (Kenkere ≥₹35k): a call from the studio manager, then 6 Months at 20% (₹90,972 / ₹65,772) or 3 Months at the standard 15% (₹49,177 / ₹35,879), unlimited freezes and a 30-min private to restart."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up The Return Policy in Momence (All September.): 1 Month Unlimited (₹16,191) or a 12-class pack (₹15,750) at 20% off — a free comeback class first, and 1 bonus class if you buy within 7 days of it."
+          "detail": "Set up New Phone, Who Dis? in Momence (2027-09-01 to 2027-09-30): Lapsed 61–180 days: a free 'no questions asked' comeback class; buy within 7 days for the standard 15% on 1 Month or a 12-class pack + 1 extra freeze. Pop-ups: free comeback class, then 15% on an 8- or 10-class pack."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Festive Pause Button in Momence (All September.): 3 Months Unlimited at 18% off (₹47,441) — unlimited freezes (used within 6 months) and a festive gift box."
+          "detail": "Set up Glow-Up or Give Back in Momence (2027-09-02 to 2027-09-30): 2 Months Unlimited at the standard 15% — Mumbai ₹34,406, Kenkere ₹24,812 — with a fitness check on day 1 and a re-test on day 56 (before Diwali, 29 Oct). Take 30+ classes and don't improve on 2 of 3 measures: your third month is free."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Private Matters in Momence (All September.): A 10-private pack at 15% off (₹44,625, list ₹52,500) — a posture and strength assessment in session one."
+          "detail": "Set up Lock It Before the Laddoos in Momence (2027-09-01 to 2027-09-30): Renew to 3 Months at 15% off (₹49,177 / ₹35,879) by 30 Sep: a Diwali hamper (≈₹2,000 retail — confirm) and unlimited freezes for Oct–Dec travel."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Brief the team on the 4 September offers, who each one is for, and the no-stacking rule; print the offer cards for the desk."
+          "detail": "Brief the team on the 4 September offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch The 57-Day Proof to First-time clients."
+          "detail": "Launch We Need to Talk: We need to talk. Not like that — we just miss you. Our studio manager will call; say yes and get 6 months at 20% off, unlimited freezes and a private to restart."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch The Return Policy to Clients lapsed 61–365 days."
+          "detail": "Launch New Phone, Who Dis?: New phone, who dis? It's us — your favourite class. Come back for one free, no-questions-asked class. Buy within 7 days and get 15% off plus an extra freeze."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Festive Pause Button to 1 Month and 3 Months renewers."
+          "detail": "Launch Glow-Up or Give Back: 57 days to Diwali. We measure you on day 1 and again before the festive photos. Do 30 classes and don't improve? Your third month is on us."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Private Matters to Active members and private clients."
+          "detail": "Launch Lock It Before the Laddoos: Lock it before the laddoos. Renew for 3 months by 30 September: 15% off, a Diwali hamper, and unlimited freezes for festive travel."
         }
       ]
     },
@@ -227,13 +272,8 @@
       "items": [
         {
           "label": "",
-          "value": "Studio manager",
-          "detail": "Run the month's moment: 57 Days to Diwali countdown (Thu 2 Sep → Thu 28 Oct): weekly countdown classes and a studio 'Diwali Fit Check' re-test day on Sat 23 Oct."
-        },
-        {
-          "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: The 57-Day Proof: Day-1 checks done; October renewals of September joiners. | The Return Policy: Comeback classes → purchase within 7 days. | Festive Pause Button: 3M renewals and upgrades. | Private Matters: Packs sold; trainer utilisation."
+          "detail": "Weekly check: We Need to Talk: Calls made (100% of list); restarts. | New Phone, Who Dis?: Comeback classes booked; comeback → purchase within 7 days (target 35%). | Glow-Up or Give Back: Bundles sold; day-56 re-test attendance; 3rd-month purchases. | Lock It Before the Laddoos: 3M renewals and upgrades."
         }
       ]
     },
@@ -243,7 +283,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Mid-month review against ₹39.5L: by the 15th aim for about half of 242 renewals, 36 reactivations and 44 new buyers (147 first visits). Push the lists, not a deeper discount."
+          "detail": "Mid-month review against ₹39.6L: by the 15th aim for ~half of 85 new buyers (316 first visits), 93 renewals and 41 winbacks. Push the lists, not a deeper discount."
         }
       ]
     },
@@ -253,9 +293,91 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Close September: tag every redemption by offer, record results, and brief October's offers."
+          "detail": "Close September: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
         }
       ]
     }
-  ]
+  ],
+  "collateral": {
+    "title": "The Comeback + 57 Days to Diwali",
+    "pieces": [
+      {
+        "offerId": "O27-35-KC",
+        "headline": "We need to talk. Not like that — we just miss you.",
+        "copy": "We need to talk. Not like that — we just miss you. Our studio manager will call; say yes and get 6 months at 20% off, unlimited freezes and a private to restart.",
+        "detail": "Named list — lapsed clients with ≥₹50k lifetime spend (Kenkere ≥₹35k): a call from the studio manager, then 6 Months at 20% (₹90,972 / ₹65,772) or 3 Months at the standard 15% (₹49,177 / ₹35,879), unlimited freezes and a 30-min private to restart.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-36-KC",
+        "headline": "New phone, who dis? (It's us. Your favourite class.)",
+        "copy": "New phone, who dis? It's us — your favourite class. Come back for one free, no-questions-asked class. Buy within 7 days and get 15% off plus an extra freeze.",
+        "detail": "Lapsed 61–180 days: a free 'no questions asked' comeback class; buy within 7 days for the standard 15% on 1 Month or a 12-class pack + 1 extra freeze. Pop-ups: free comeback class, then 15% on an 8- or 10-class pack.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-37-KC",
+        "headline": "57 days to Diwali. Glow up, or we give back.",
+        "copy": "57 days to Diwali. We measure you on day 1 and again before the festive photos. Do 30 classes and don't improve? Your third month is on us.",
+        "detail": "2 Months Unlimited at the standard 15% — Mumbai ₹34,406, Kenkere ₹24,812 — with a fitness check on day 1 and a re-test on day 56 (before Diwali, 29 Oct). Take 30+ classes and don't improve on 2 of 3 measures: your third month is free.",
+        "channels": [
+          "WhatsApp",
+          "Instagram",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-38-KC",
+        "headline": "Lock it before the laddoos.",
+        "copy": "Lock it before the laddoos. Renew for 3 months by 30 September: 15% off, a Diwali hamper, and unlimited freezes for festive travel.",
+        "detail": "Renew to 3 Months at 15% off (₹49,177 / ₹35,879) by 30 Sep: a Diwali hamper (≈₹2,000 retail — confirm) and unlimited freezes for Oct–Dec travel.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      }
+    ]
+  },
+  "crm": {
+    "rule": "One send per offer to its own audience; no member gets more than 2 offer sends a week.",
+    "sends": [
+      {
+        "offerId": "O27-35-KC",
+        "audience": "6M ≈22% effective with the private",
+        "message": "We need to talk. Not like that — we just miss you. Our studio manager will call; say yes and get 6 months at 20% off, unlimited freezes and a private to restart."
+      },
+      {
+        "offerId": "O27-36-KC",
+        "audience": "Standard lapsed 15% only",
+        "message": "New phone, who dis? It's us — your favourite class. Come back for one free, no-questions-asked class. Buy within 7 days and get 15% off plus an extra freeze."
+      },
+      {
+        "offerId": "O27-37-KC",
+        "audience": "First-time clients (phone verified).",
+        "message": "57 days to Diwali. We measure you on day 1 and again before the festive photos. Do 30 classes and don't improve? Your third month is on us."
+      },
+      {
+        "offerId": "O27-38-KC",
+        "audience": "≈18",
+        "message": "Lock it before the laddoos. Renew for 3 months by 30 September: 15% off, a Diwali hamper, and unlimited freezes for festive travel."
+      }
+    ],
+    "sendsCount": 4
+  },
+  "standardTrade": {
+    "revenue": 1604008,
+    "shareOfMonth": 40.5,
+    "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
+  },
+  "targetBasis": "hand_set"
 }
