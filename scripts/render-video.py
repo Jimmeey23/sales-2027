@@ -398,7 +398,7 @@ def draw_offer(img, d, lt, dur, ctx, sc):
         y += size * 1.12
     # stamp
     st = back(clamp((lt - 0.5) / 0.5))
-    if st > 0:
+    if st > 0 and o["discount"]:
         r = 118 * st
         cx, cy = 1680, 330
         d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=mix(BG, col, 0.9 * clamp(st)), outline=col, width=6)

@@ -114,7 +114,7 @@ def build(slug_path):
         o = sc["data"]; name = clean_name(o["name"]); slot = o["slotLabel"]
         quip = pick(SLOT_QUIP.get(slot, DEFAULT_QUIP), seed + k)
         b_segments.append({"id":sc["id"],"kicker":f"Offer {k+1} of {n_off} \u00b7 {slot}","title":o["name"],
-            "text": f"Offer {k+1} of {n_off}. {name}. {slot}. {o['buyers']} buyers at {round(o['ticket']):,} rupees, that is {say_money(o['revenue'])}, with {num(o['discount'])} per cent off. {quip}"})
+            "text": f"Offer {k+1} of {n_off}. {name}. {slot}. {o['buyers']} buyers at {round(o['ticket']):,} rupees, that is {say_money(o['revenue'])}" + (f", with {num(o['discount'])} per cent off" if o['discount'] else "") + f". {quip}"})
     wk = {"W1":"Week one, launch the offers.","W2":"Week two, check sell-out and redemptions every week.","W3":None,"W4":"Week four, close the month, tag every redemption, and brief next month."}
     steps = []
     for stp in plan["data"]["steps"]:
