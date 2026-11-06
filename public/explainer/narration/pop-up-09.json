@@ -1,0 +1,85 @@
+{
+ "slug": "pop-up-09",
+ "studio": "Pop-up",
+ "month": 9,
+ "monthName": "September",
+ "year": 2027,
+ "target": 272533,
+ "lastYear": 189909,
+ "yoy": 0.4350715342611462,
+ "offers": 3,
+ "buyers": 72,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "September 2027 at Pop-up. The theme is The Comeback + 57 Days to Diwali. September. Back to routine, and the routine is the product. The target is 2.73 lakh rupees. That is 44 per cent above the 1.9 lakh rupees of last September. A stretch, but a friendly one. New clients lead at 1.26 lakh rupees, 46.4 per cent. Then renewals at 1.2 lakh rupees, 44 per cent, comeback at 23,564 rupees, 8.6 per cent, other at 2,725 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 842 leads, 219 trials, 72 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Three offers carry 1.39 lakh rupees, 51 per cent of the 2.73 lakh rupees target. The other 1.34 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Pop-up · 2027",
+     "title": "September",
+     "text": "September 2027 at Pop-up. The theme is The Comeback + 57 Days to Diwali. September. Back to routine, and the routine is the product."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹2.73L",
+     "text": "The target is 2.73 lakh rupees. That is 44 per cent above the 1.9 lakh rupees of last September. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "New clients lead at 1.26 lakh rupees, 46.4 per cent. Then renewals at 1.2 lakh rupees, 44 per cent, comeback at 23,564 rupees, 8.6 per cent, other at 2,725 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "72 buyers",
+     "text": "842 leads, 219 trials, 72 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "51%",
+     "text": "Three offers carry 1.39 lakh rupees, 51 per cent of the 2.73 lakh rupees target. The other 1.34 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 3. The Second Date's On Us. New clients. 11 buyers at 5,891 rupees, that is 64,801 rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 3. New Phone, Who Dis?. Win-backs. 4 buyers at 5,891 rupees, that is 23,564 rupees, with 15 per cent off. The mat has been waiting. Be kind, come back. Offer 3 of 3. Same Time Next Week. Renewals. 7 buyers at 7,229 rupees, that is 50,603 rupees, with 15 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 2.73 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's September at Pop-up: 2.73 lakh rupees across Three offers, and 72 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-12-POP-m9",
+     "kicker": "Offer 1 of 3 · New clients",
+     "title": "The Second Date's On Us",
+     "text": "Offer 1 of 3. The Second Date's On Us. New clients. 11 buyers at 5,891 rupees, that is 64,801 rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-36-POP",
+     "kicker": "Offer 2 of 3 · Win-backs",
+     "title": "New Phone, Who Dis?",
+     "text": "Offer 2 of 3. New Phone, Who Dis?. Win-backs. 4 buyers at 5,891 rupees, that is 23,564 rupees, with 15 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-51-POP-m9",
+     "kicker": "Offer 3 of 3 · Renewals",
+     "title": "Same Time Next Week",
+     "text": "Offer 3 of 3. Same Time Next Week. Renewals. 7 buyers at 7,229 rupees, that is 50,603 rupees, with 15 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 2.73 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "September 2027",
+     "title": "That is the plan",
+     "text": "That's September at Pop-up: 2.73 lakh rupees across Three offers, and 72 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

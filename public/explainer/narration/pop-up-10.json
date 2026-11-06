@@ -1,0 +1,85 @@
+{
+ "slug": "pop-up-10",
+ "studio": "Pop-up",
+ "month": 10,
+ "monthName": "October",
+ "year": 2027,
+ "target": 186559,
+ "lastYear": 65205,
+ "yoy": 1.861114945172916,
+ "offers": 3,
+ "buyers": 49,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "October 2027 at Pop-up. The theme is Festival of Lights. October. Festive season is knocking, with gifting questions behind it. The target is 1.87 lakh rupees. That is 186 per cent above the 65,205 rupees of last October. Up on last year. The plan has a plan for that. Renewals lead at 82,086 rupees, 44 per cent. Then new clients at 79,043 rupees, 42.4 per cent, comeback at 23,564 rupees, 12.6 per cent, other at 1,866 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them. 573 leads, 149 trials, 49 buyers, and 32.9 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Three offers carry 65,392 rupees, 35 per cent of the 1.87 lakh rupees target. The other 1.21 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Pop-up · 2027",
+     "title": "October",
+     "text": "October 2027 at Pop-up. The theme is Festival of Lights. October. Festive season is knocking, with gifting questions behind it."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹1.87L",
+     "text": "The target is 1.87 lakh rupees. That is 186 per cent above the 65,205 rupees of last October. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 82,086 rupees, 44 per cent. Then new clients at 79,043 rupees, 42.4 per cent, comeback at 23,564 rupees, 12.6 per cent, other at 1,866 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "49 buyers",
+     "text": "573 leads, 149 trials, 49 buyers, and 32.9 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "35%",
+     "text": "Three offers carry 65,392 rupees, 35 per cent of the 1.87 lakh rupees target. The other 1.21 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 3. Diwali Gifting, Minus the Dry-Fruit Box. New clients. 4 buyers at 1,890 rupees, that is 7,560 rupees, with 33 per cent off. Step one is the awkward class. Step two is the good one. Offer 2 of 3. Diwali Cleaning: Found Your Old Grip Socks?. Win-backs. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 20 per cent off. A gentle nudge, with a discount on the nudge. Offer 3 of 3. Same Time Next Week. Renewals. 5 buyers at 7,229 rupees, that is 36,145 rupees, with 15 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.87 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's October at Pop-up: 1.87 lakh rupees across Three offers, and 49 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-39-POP",
+     "kicker": "Offer 1 of 3 · New clients",
+     "title": "Diwali Gifting, Minus the Dry-Fruit Box",
+     "text": "Offer 1 of 3. Diwali Gifting, Minus the Dry-Fruit Box. New clients. 4 buyers at 1,890 rupees, that is 7,560 rupees, with 33 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-42-POP",
+     "kicker": "Offer 2 of 3 · Win-backs",
+     "title": "Diwali Cleaning: Found Your Old Grip Socks?",
+     "text": "Offer 2 of 3. Diwali Cleaning: Found Your Old Grip Socks?. Win-backs. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 20 per cent off. A gentle nudge, with a discount on the nudge."
+    },
+    {
+     "id": "offer-O27-51-POP-m10",
+     "kicker": "Offer 3 of 3 · Renewals",
+     "title": "Same Time Next Week",
+     "text": "Offer 3 of 3. Same Time Next Week. Renewals. 5 buyers at 7,229 rupees, that is 36,145 rupees, with 15 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.87 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "October 2027",
+     "title": "That is the plan",
+     "text": "That's October at Pop-up: 1.87 lakh rupees across Three offers, and 49 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

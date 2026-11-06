@@ -1,0 +1,91 @@
+{
+ "slug": "kenkere-house-01",
+ "studio": "Kenkere House",
+ "month": 1,
+ "monthName": "January",
+ "year": 2027,
+ "target": 1180000,
+ "lastYear": 1110874,
+ "yoy": 0.062226679173335686,
+ "offers": 4,
+ "buyers": 59,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "January 2027 at Kenkere House. The theme is Resolutions with Receipts. New year, same you, better spreadsheet. Let's see what January wants from us. The target is 11.8 lakh rupees. That is 6 per cent above the 11.11 lakh rupees of last January. Up on last year. The plan has a plan for that. Renewals lead at 6.25 lakh rupees, 53 per cent. Then new clients at 4.01 lakh rupees, 34 per cent, other at 82,600 rupees, 7 per cent, comeback at 70,800 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them. 878 leads, 316 trials, 59 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 6.14 lakh rupees, 52 per cent of the 11.8 lakh rupees target. The other 5.66 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kenkere House · 2027",
+     "title": "January",
+     "text": "January 2027 at Kenkere House. The theme is Resolutions with Receipts. New year, same you, better spreadsheet. Let's see what January wants from us."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹11.8L",
+     "text": "The target is 11.8 lakh rupees. That is 6 per cent above the 11.11 lakh rupees of last January. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 6.25 lakh rupees, 53 per cent. Then new clients at 4.01 lakh rupees, 34 per cent, other at 82,600 rupees, 7 per cent, comeback at 70,800 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "59 buyers",
+     "text": "878 leads, 316 trials, 59 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "52%",
+     "text": "Four offers carry 6.14 lakh rupees, 52 per cent of the 11.8 lakh rupees target. The other 5.66 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. The 57-Hour Hangover Sale. Revenue boost. 10 buyers at 10,000 rupees, that is 1 lakh rupees, with 31 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Third Time's the Charm. New clients. 12 buyers at 12,406 rupees, that is 1.49 lakh rupees, with 33 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. U Up? It's 2027. Win-backs. 8 buyers at 12,406 rupees, that is 99,248 rupees, with 20 per cent off. The mat has been waiting. Be kind, come back. Offer 4 of 4. The Baker's Dozen. Renewals. 2 buyers at 132,804 rupees, that is 2.66 lakh rupees, with 21.5 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.8 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's January at Kenkere House: 11.8 lakh rupees across Four offers, and 59 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-01-KK",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "The 57-Hour Hangover Sale",
+     "text": "Offer 1 of 4. The 57-Hour Hangover Sale. Revenue boost. 10 buyers at 10,000 rupees, that is 1 lakh rupees, with 31 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-02-KK",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Third Time's the Charm",
+     "text": "Offer 2 of 4. Third Time's the Charm. New clients. 12 buyers at 12,406 rupees, that is 1.49 lakh rupees, with 33 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-04-KK",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "U Up? It's 2027.",
+     "text": "Offer 3 of 4. U Up? It's 2027. Win-backs. 8 buyers at 12,406 rupees, that is 99,248 rupees, with 20 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-03-KK",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "The Baker's Dozen",
+     "text": "Offer 4 of 4. The Baker's Dozen. Renewals. 2 buyers at 132,804 rupees, that is 2.66 lakh rupees, with 21.5 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.8 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "January 2027",
+     "title": "That is the plan",
+     "text": "That's January at Kenkere House: 11.8 lakh rupees across Four offers, and 59 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

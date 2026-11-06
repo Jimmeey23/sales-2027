@@ -1,0 +1,85 @@
+{
+ "slug": "kenkere-house-03",
+ "studio": "Kenkere House",
+ "month": 3,
+ "monthName": "March",
+ "year": 2027,
+ "target": 712651,
+ "lastYear": 621187,
+ "yoy": 0.14724068597700857,
+ "offers": 3,
+ "buyers": 36,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "March 2027 at Kenkere House. The theme is Main Character Month. March. The month that starts with good intentions and ends with a playlist on repeat. The target is 7.13 lakh rupees. That is 15 per cent above the 6.21 lakh rupees of last March. Up on last year. The plan has a plan for that. Renewals lead at 3.78 lakh rupees, 53 per cent. Then new clients at 2.42 lakh rupees, 34 per cent, other at 49,886 rupees, 7 per cent, comeback at 42,759 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them. 536 leads, 193 trials, 36 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Three offers carry 5.35 lakh rupees, 75 per cent of the 7.13 lakh rupees target. The other 1.78 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kenkere House · 2027",
+     "title": "March",
+     "text": "March 2027 at Kenkere House. The theme is Main Character Month. March. The month that starts with good intentions and ends with a playlist on repeat."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹7.13L",
+     "text": "The target is 7.13 lakh rupees. That is 15 per cent above the 6.21 lakh rupees of last March. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 3.78 lakh rupees, 53 per cent. Then new clients at 2.42 lakh rupees, 34 per cent, other at 49,886 rupees, 7 per cent, comeback at 42,759 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "36 buyers",
+     "text": "536 leads, 193 trials, 36 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "75%",
+     "text": "Three offers carry 5.35 lakh rupees, 75 per cent of the 7.13 lakh rupees target. The other 1.78 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 3. The Second Date's On Us. New clients. 17 buyers at 12,406 rupees, that is 2.11 lakh rupees, with 15 per cent off. Step one is the awkward class. Step two is the good one. Offer 2 of 3. Bura Na Mano, Renewal Hai. Renewals. 5 buyers at 35,879 rupees, that is 1.79 lakh rupees, with 19.7 per cent off. Loyalty, but make it financially reasonable. Offer 3 of 3. Monogamy Is Overrated. Renewals. 11 buyers at 13,125 rupees, that is 1.44 lakh rupees, with 17 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 7.13 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's March at Kenkere House: 7.13 lakh rupees across Three offers, and 36 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-12-KK",
+     "kicker": "Offer 1 of 3 · New clients",
+     "title": "The Second Date's On Us",
+     "text": "Offer 1 of 3. The Second Date's On Us. New clients. 17 buyers at 12,406 rupees, that is 2.11 lakh rupees, with 15 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-11-KK",
+     "kicker": "Offer 2 of 3 · Renewals",
+     "title": "Bura Na Mano, Renewal Hai",
+     "text": "Offer 2 of 3. Bura Na Mano, Renewal Hai. Renewals. 5 buyers at 35,879 rupees, that is 1.79 lakh rupees, with 19.7 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "offer-O27-09-KK",
+     "kicker": "Offer 3 of 3 · Renewals",
+     "title": "Monogamy Is Overrated",
+     "text": "Offer 3 of 3. Monogamy Is Overrated. Renewals. 11 buyers at 13,125 rupees, that is 1.44 lakh rupees, with 17 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 7.13 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "March 2027",
+     "title": "That is the plan",
+     "text": "That's March at Kenkere House: 7.13 lakh rupees across Three offers, and 36 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

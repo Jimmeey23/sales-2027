@@ -1,0 +1,91 @@
+{
+ "slug": "pop-up-04",
+ "studio": "Pop-up",
+ "month": 4,
+ "monthName": "April",
+ "year": 2027,
+ "target": 151888,
+ "lastYear": 105840,
+ "yoy": 0.435071806500378,
+ "offers": 4,
+ "buyers": 40,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "April 2027 at Pop-up. The theme is Cloud Nine — 9 Years of Physique 57. April, the anniversary month. The confetti budget has been approved. The target is 1.52 lakh rupees. That is 44 per cent above the 1.06 lakh rupees of last April. Up on last year. The plan has a plan for that. Renewals lead at 66,831 rupees, 44 per cent. Then new clients at 59,974 rupees, 39.5 per cent, comeback at 23,564 rupees, 15.5 per cent, other at 1,519 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them. 469 leads, 122 trials, 40 buyers, and 32.8 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 1.03 lakh rupees, 68 per cent of the 1.52 lakh rupees target. The other 48,391 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Pop-up · 2027",
+     "title": "April",
+     "text": "April 2027 at Pop-up. The theme is Cloud Nine — 9 Years of Physique 57. April, the anniversary month. The confetti budget has been approved."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹1.52L",
+     "text": "The target is 1.52 lakh rupees. That is 44 per cent above the 1.06 lakh rupees of last April. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 66,831 rupees, 44 per cent. Then new clients at 59,974 rupees, 39.5 per cent, comeback at 23,564 rupees, 15.5 per cent, other at 1,519 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "40 buyers",
+     "text": "469 leads, 122 trials, 40 buyers, and 32.8 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "68%",
+     "text": "Four offers carry 1.03 lakh rupees, 68 per cent of the 1.52 lakh rupees target. The other 48,391 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Plus One, Plus Nine. Revenue boost. 1 buyers at 5,891 rupees, that is 5,891 rupees, with 15 per cent off. A sale with a spine. Spend it fast, or it spends you. Offer 2 of 4. Party Crasher Pass. New clients. 3 buyers at 4,893 rupees, that is 14,679 rupees, with 15 per cent off. The welcome mat is out. Please wipe your feet. Offer 3 of 4. Where Are They Now?. Win-backs. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 20 per cent off. This one says we missed you, politely, with a discount attached. Offer 4 of 4. Spin Class, Literally. Renewals. 8 buyers at 7,655 rupees, that is 61,240 rupees, with 18 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.52 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's April at Pop-up: 1.52 lakh rupees across Four offers, and 40 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-18-POP",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Plus One, Plus Nine",
+     "text": "Offer 1 of 4. Plus One, Plus Nine. Revenue boost. 1 buyers at 5,891 rupees, that is 5,891 rupees, with 15 per cent off. A sale with a spine. Spend it fast, or it spends you."
+    },
+    {
+     "id": "offer-O27-16-POP",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Party Crasher Pass",
+     "text": "Offer 2 of 4. Party Crasher Pass. New clients. 3 buyers at 4,893 rupees, that is 14,679 rupees, with 15 per cent off. The welcome mat is out. Please wipe your feet."
+    },
+    {
+     "id": "offer-O27-17-POP",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "Where Are They Now?",
+     "text": "Offer 3 of 4. Where Are They Now?. Win-backs. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 20 per cent off. This one says we missed you, politely, with a discount attached."
+    },
+    {
+     "id": "offer-O27-15-POP",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Spin Class (Literally)",
+     "text": "Offer 4 of 4. Spin Class, Literally. Renewals. 8 buyers at 7,655 rupees, that is 61,240 rupees, with 18 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.52 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "April 2027",
+     "title": "That is the plan",
+     "text": "That's April at Pop-up: 1.52 lakh rupees across Four offers, and 40 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

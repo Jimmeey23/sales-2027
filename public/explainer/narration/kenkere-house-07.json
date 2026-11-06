@@ -1,0 +1,91 @@
+{
+ "slug": "kenkere-house-07",
+ "studio": "Kenkere House",
+ "month": 7,
+ "monthName": "July",
+ "year": 2027,
+ "target": 1248415,
+ "lastYear": 1088189,
+ "yoy": 0.14724096641300366,
+ "offers": 4,
+ "buyers": 63,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "July 2027 at Kenkere House. The theme is Book the Studio + Rain Check. July. The monsoon is here to test your willpower. The plan brought an umbrella. The target is 12.48 lakh rupees. That is 15 per cent above the 10.88 lakh rupees of last July. Up on last year. The plan has a plan for that. Renewals lead at 6.62 lakh rupees, 53 per cent. Then new clients at 4.24 lakh rupees, 34 per cent, other at 87,389 rupees, 7 per cent, comeback at 74,905 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them. 936 leads, 337 trials, 63 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 3.61 lakh rupees, 29 per cent of the 12.48 lakh rupees target. The other 8.88 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kenkere House · 2027",
+     "title": "July",
+     "text": "July 2027 at Kenkere House. The theme is Book the Studio + Rain Check. July. The monsoon is here to test your willpower. The plan brought an umbrella."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹12.48L",
+     "text": "The target is 12.48 lakh rupees. That is 15 per cent above the 10.88 lakh rupees of last July. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 6.62 lakh rupees, 53 per cent. Then new clients at 4.24 lakh rupees, 34 per cent, other at 87,389 rupees, 7 per cent, comeback at 74,905 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "63 buyers",
+     "text": "936 leads, 337 trials, 63 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "29%",
+     "text": "Four offers carry 3.61 lakh rupees, 29 per cent of the 12.48 lakh rupees target. The other 8.88 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Kitty Party, But Make It Cardio. Revenue boost. 3 buyers at 14,999 rupees, that is 44,997 rupees, with 0 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Shy Girl Starter Pack. New clients. 4 buyers at 11,657 rupees, that is 46,628 rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Gone With the Wind, Back With the Rain. Win-backs. 9 buyers at 12,406 rupees, that is 1.12 lakh rupees, with 15 per cent off. The mat has been waiting. Be kind, come back. Offer 4 of 4. Rain Check, Literally. Renewals. 12 buyers at 13,136 rupees, that is 1.58 lakh rupees, with 15 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 12.48 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's July at Kenkere House: 12.48 lakh rupees across Four offers, and 63 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-27-KK",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Kitty Party, But Make It Cardio",
+     "text": "Offer 1 of 4. Kitty Party, But Make It Cardio. Revenue boost. 3 buyers at 14,999 rupees, that is 44,997 rupees, with 0 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-26-KK-m7",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Shy Girl Starter Pack",
+     "text": "Offer 2 of 4. Shy Girl Starter Pack. New clients. 4 buyers at 11,657 rupees, that is 46,628 rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-30-KK",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "Gone With the Wind, Back With the Rain",
+     "text": "Offer 3 of 4. Gone With the Wind, Back With the Rain. Win-backs. 9 buyers at 12,406 rupees, that is 1.12 lakh rupees, with 15 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-29-KK",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Rain Check (Literally)",
+     "text": "Offer 4 of 4. Rain Check, Literally. Renewals. 12 buyers at 13,136 rupees, that is 1.58 lakh rupees, with 15 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 12.48 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "July 2027",
+     "title": "That is the plan",
+     "text": "That's July at Kenkere House: 12.48 lakh rupees across Four offers, and 63 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

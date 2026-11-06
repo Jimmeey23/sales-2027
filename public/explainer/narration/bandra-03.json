@@ -1,0 +1,85 @@
+{
+ "slug": "bandra-03",
+ "studio": "Bandra",
+ "month": 3,
+ "monthName": "March",
+ "year": 2027,
+ "target": 1360000,
+ "lastYear": 1128944,
+ "yoy": 0.20466559900225345,
+ "offers": 3,
+ "buyers": 44,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "March 2027 at Bandra. The theme is Main Character Month. March. The month that starts with good intentions and ends with a playlist on repeat. The target is 13.6 lakh rupees. That is 20 per cent above the 11.29 lakh rupees of last March. A stretch, but a friendly one. Renewals lead at 6.94 lakh rupees, 51 per cent. Then new clients at 3.67 lakh rupees, 27 per cent, comeback at 2.45 lakh rupees, 18 per cent, other at 54,400 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 392 leads, 204 trials, 44 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Three offers carry 10.08 lakh rupees, 74 per cent of the 13.6 lakh rupees target. The other 3.52 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "March",
+     "text": "March 2027 at Bandra. The theme is Main Character Month. March. The month that starts with good intentions and ends with a playlist on repeat."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹13.6L",
+     "text": "The target is 13.6 lakh rupees. That is 20 per cent above the 11.29 lakh rupees of last March. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 6.94 lakh rupees, 51 per cent. Then new clients at 3.67 lakh rupees, 27 per cent, comeback at 2.45 lakh rupees, 18 per cent, other at 54,400 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "44 buyers",
+     "text": "392 leads, 204 trials, 44 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "74%",
+     "text": "Three offers carry 10.08 lakh rupees, 74 per cent of the 13.6 lakh rupees target. The other 3.52 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 3. Lift Like a Girl. New clients. 10 buyers at 17,203 rupees, that is 1.72 lakh rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 3. Bura Na Mano, Renewal Hai. Renewals. 9 buyers at 49,177 rupees, that is 4.43 lakh rupees, with 18.5 per cent off. The easiest sale is the member already in the building. Offer 3 of 3. Monogamy Is Overrated. Renewals. 20 buyers at 19,688 rupees, that is 3.94 lakh rupees, with 17 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 13.6 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's March at Bandra: 13.6 lakh rupees across Three offers, and 44 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-10-BA",
+     "kicker": "Offer 1 of 3 · New clients",
+     "title": "Lift Like a Girl",
+     "text": "Offer 1 of 3. Lift Like a Girl. New clients. 10 buyers at 17,203 rupees, that is 1.72 lakh rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-11-BA",
+     "kicker": "Offer 2 of 3 · Renewals",
+     "title": "Bura Na Mano, Renewal Hai",
+     "text": "Offer 2 of 3. Bura Na Mano, Renewal Hai. Renewals. 9 buyers at 49,177 rupees, that is 4.43 lakh rupees, with 18.5 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "offer-O27-09-BA",
+     "kicker": "Offer 3 of 3 · Renewals",
+     "title": "Monogamy Is Overrated",
+     "text": "Offer 3 of 3. Monogamy Is Overrated. Renewals. 20 buyers at 19,688 rupees, that is 3.94 lakh rupees, with 17 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 13.6 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "March 2027",
+     "title": "That is the plan",
+     "text": "That's March at Bandra: 13.6 lakh rupees across Three offers, and 44 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

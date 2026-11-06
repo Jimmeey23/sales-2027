@@ -1,0 +1,85 @@
+{
+ "slug": "bandra-11",
+ "studio": "Bandra",
+ "month": 11,
+ "monthName": "November",
+ "year": 2027,
+ "target": 1360000,
+ "lastYear": 1319884,
+ "yoy": 0.030393580041882418,
+ "offers": 3,
+ "buyers": 44,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "November 2027 at Bandra. The theme is Black Friday + Thank U, Next. November. Black Friday, Diwali leftovers, and a lot of good resolutions. The target is 13.6 lakh rupees. That is 3 per cent above the 13.2 lakh rupees of last November. A stretch, but a friendly one. Renewals lead at 6.94 lakh rupees, 51 per cent. Then new clients at 3.67 lakh rupees, 27 per cent, comeback at 2.45 lakh rupees, 18 per cent, other at 54,400 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 392 leads, 204 trials, 44 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Three offers carry 8.6 lakh rupees, 63 per cent of the 13.6 lakh rupees target. The other 5 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "November",
+     "text": "November 2027 at Bandra. The theme is Black Friday + Thank U, Next. November. Black Friday, Diwali leftovers, and a lot of good resolutions."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹13.6L",
+     "text": "The target is 13.6 lakh rupees. That is 3 per cent above the 13.2 lakh rupees of last November. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 6.94 lakh rupees, 51 per cent. Then new clients at 3.67 lakh rupees, 27 per cent, comeback at 2.45 lakh rupees, 18 per cent, other at 54,400 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "44 buyers",
+     "text": "392 leads, 204 trials, 44 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "63%",
+     "text": "Three offers carry 8.6 lakh rupees, 63 per cent of the 13.6 lakh rupees target. The other 5 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 3. Thank U, Next, Year. Revenue boost. 5 buyers at 17,203 rupees, that is 86,015 rupees, with 0 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 3. Secret Santa Squats. New clients. 12 buyers at 1,999 rupees, that is 23,988 rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 3. Black Friday, Strong Monday, Sore Tuesday. Renewals. 10 buyers at 75,000 rupees, that is 7.5 lakh rupees, with 21 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 13.6 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's November at Bandra: 13.6 lakh rupees across Three offers, and 44 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-44-BA",
+     "kicker": "Offer 1 of 3 · Revenue boost",
+     "title": "Thank U, Next (Year)",
+     "text": "Offer 1 of 3. Thank U, Next, Year. Revenue boost. 5 buyers at 17,203 rupees, that is 86,015 rupees, with 0 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-49-SHQ-m11",
+     "kicker": "Offer 2 of 3 · New clients",
+     "title": "Secret Santa Squats",
+     "text": "Offer 2 of 3. Secret Santa Squats. New clients. 12 buyers at 1,999 rupees, that is 23,988 rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-43-BA",
+     "kicker": "Offer 3 of 3 · Renewals",
+     "title": "Black Friday, Strong Monday, Sore Tuesday",
+     "text": "Offer 3 of 3. Black Friday, Strong Monday, Sore Tuesday. Renewals. 10 buyers at 75,000 rupees, that is 7.5 lakh rupees, with 21 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 13.6 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "November 2027",
+     "title": "That is the plan",
+     "text": "That's November at Bandra: 13.6 lakh rupees across Three offers, and 44 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

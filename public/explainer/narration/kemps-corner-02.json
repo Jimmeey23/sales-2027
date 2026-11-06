@@ -1,0 +1,91 @@
+{
+ "slug": "kemps-corner-02",
+ "studio": "Kemps Corner",
+ "month": 2,
+ "monthName": "February",
+ "year": 2027,
+ "target": 2570000,
+ "lastYear": 1921110,
+ "yoy": 0.33776826938592786,
+ "offers": 4,
+ "buyers": 55,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "February 2027 at Kemps Corner. The theme is Valentine's + Stronger in 30 2.0. February is short, so the plan is short on drama and long on follow-through. The target is 25.7 lakh rupees. That is 34 per cent above the 19.21 lakh rupees of last February. Up on last year. The plan has a plan for that. Renewals lead at 14.13 lakh rupees, 55 per cent. Then new clients at 6.17 lakh rupees, 24 per cent, comeback at 3.08 lakh rupees, 12 per cent, other at 2.31 lakh rupees, 9 per cent. Existing members are doing the heavy lifting. Be nice to them. 400 leads, 204 trials, 55 buyers, and 27 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 19.69 lakh rupees, 77 per cent of the 25.7 lakh rupees target. The other 6.01 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kemps Corner · 2027",
+     "title": "February",
+     "text": "February 2027 at Kemps Corner. The theme is Valentine's + Stronger in 30 2.0. February is short, so the plan is short on drama and long on follow-through."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹25.7L",
+     "text": "The target is 25.7 lakh rupees. That is 34 per cent above the 19.21 lakh rupees of last February. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 14.13 lakh rupees, 55 per cent. Then new clients at 6.17 lakh rupees, 24 per cent, comeback at 3.08 lakh rupees, 12 per cent, other at 2.31 lakh rupees, 9 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "55 buyers",
+     "text": "400 leads, 204 trials, 55 buyers, and 27 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "77%",
+     "text": "Four offers carry 19.69 lakh rupees, 77 per cent of the 25.7 lakh rupees target. The other 6.01 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Couples Therapy, Cheaper Than the Real Thing. Revenue boost. 12 buyers at 18,215 rupees, that is 2.19 lakh rupees, with 16 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Situationship to Relationship. New clients. 22 buyers at 17,203 rupees, that is 3.78 lakh rupees, with 18 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Galentine's Gone Ghost. Win-backs. 10 buyers at 17,203 rupees, that is 1.72 lakh rupees, with 20 per cent off. The mat has been waiting. Be kind, come back. Offer 4 of 4. Proof of Work. Renewals. 20 buyers at 60,000 rupees, that is 12 lakh rupees, with 20 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 25.7 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's February at Kemps Corner: 25.7 lakh rupees across Four offers, and 55 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-06-KC",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Couples Therapy (Cheaper Than the Real Thing)",
+     "text": "Offer 1 of 4. Couples Therapy, Cheaper Than the Real Thing. Revenue boost. 12 buyers at 18,215 rupees, that is 2.19 lakh rupees, with 16 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-05-KC",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Situationship → Relationship",
+     "text": "Offer 2 of 4. Situationship to Relationship. New clients. 22 buyers at 17,203 rupees, that is 3.78 lakh rupees, with 18 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-08-KC",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "Galentine's Gone Ghost",
+     "text": "Offer 3 of 4. Galentine's Gone Ghost. Win-backs. 10 buyers at 17,203 rupees, that is 1.72 lakh rupees, with 20 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-07-KC",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Proof of Work",
+     "text": "Offer 4 of 4. Proof of Work. Renewals. 20 buyers at 60,000 rupees, that is 12 lakh rupees, with 20 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 25.7 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "February 2027",
+     "title": "That is the plan",
+     "text": "That's February at Kemps Corner: 25.7 lakh rupees across Four offers, and 55 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

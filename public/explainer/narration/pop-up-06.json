@@ -1,0 +1,79 @@
+{
+ "slug": "pop-up-06",
+ "studio": "Pop-up",
+ "month": 6,
+ "monthName": "June",
+ "year": 2027,
+ "target": 224630,
+ "lastYear": 156529,
+ "yoy": 0.4350695398296802,
+ "offers": 2,
+ "buyers": 59,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "June 2027 at Pop-up. The theme is Privates Month + Out of Office. June. Long evenings, Pride energy, and a plan that wants people to stay. The target is 2.25 lakh rupees. That is 44 per cent above the 1.57 lakh rupees of last June. Up on last year. The plan has a plan for that. New clients lead at 1.24 lakh rupees, 55 per cent. Then renewals at 98,837 rupees, 44 per cent, other at 2,246 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them. 688 leads, 179 trials, 59 buyers, and 33 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Two offers carry 1.02 lakh rupees, 46 per cent of the 2.25 lakh rupees target. The other 1.22 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Pop-up · 2027",
+     "title": "June",
+     "text": "June 2027 at Pop-up. The theme is Privates Month + Out of Office. June. Long evenings, Pride energy, and a plan that wants people to stay."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹2.25L",
+     "text": "The target is 2.25 lakh rupees. That is 44 per cent above the 1.57 lakh rupees of last June. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "3 streams",
+     "text": "New clients lead at 1.24 lakh rupees, 55 per cent. Then renewals at 98,837 rupees, 44 per cent, other at 2,246 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "59 buyers",
+     "text": "688 leads, 179 trials, 59 buyers, and 33 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "46%",
+     "text": "Two offers carry 1.02 lakh rupees, 46 per cent of the 2.25 lakh rupees target. The other 1.22 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 2. The Second Date's On Us. New clients. 10 buyers at 5,891 rupees, that is 58,910 rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 2. Don't Ghost Us After the Party. Renewals. 6 buyers at 7,229 rupees, that is 43,374 rupees, with 19.5 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 2.25 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's June at Pop-up: 2.25 lakh rupees across Two offers, and 59 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-12-POP-m6",
+     "kicker": "Offer 1 of 2 · New clients",
+     "title": "The Second Date's On Us",
+     "text": "Offer 1 of 2. The Second Date's On Us. New clients. 10 buyers at 5,891 rupees, that is 58,910 rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-22-POP-m6",
+     "kicker": "Offer 2 of 2 · Renewals",
+     "title": "Don't Ghost Us After the Party",
+     "text": "Offer 2 of 2. Don't Ghost Us After the Party. Renewals. 6 buyers at 7,229 rupees, that is 43,374 rupees, with 19.5 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 2.25 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "June 2027",
+     "title": "That is the plan",
+     "text": "That's June at Pop-up: 2.25 lakh rupees across Two offers, and 59 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}
