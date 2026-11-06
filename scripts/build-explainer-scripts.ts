@@ -94,7 +94,7 @@ function offerFor(o: any): ExplainerOffer {
     buyers: Number(o.buyers) || 0,
     revenue: Number(o.expectedRevenue) || 0,
     discount: o.effectiveDiscountPercent == null ? null : Number(o.effectiveDiscountPercent),
-    validity: start && end ? `${day(start)} – ${day(end)}` : null,
+    validity: start && end ? `${day(o.validity.start)} – ${day(o.validity.end)}` : null,
   };
 }
 
