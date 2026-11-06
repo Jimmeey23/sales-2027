@@ -1,0 +1,294 @@
+{
+  "slug": "pop-up",
+  "month": 5,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "May",
+  "year": 2027,
+  "title": "May 2027 · Pop-up",
+  "duration": 95332,
+  "scenes": 11,
+  "hash": "23f81bb4",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "May 2027 at Pop-up. The theme is Home for the Holidays. The target is 1.55 lakh rupees — 44 per cent above the 1.08 lakh rupees of last May. New clients lead at 85,030 rupees, 55 per cent. Then renewals 68,024 rupees, other 1,546 rupees. 481 leads, 125 trials, 41 buyers, and 33 per cent of trials convert.",
+    "b": "4 offers carry 67,726 rupees, 44 per cent of the 1.55 lakh rupees target. The other 86,874 rupees is expected at full price. New clients: Mom Said Get Off the Couch. Home for the summer and Mom's already said 'do something'? 8 classes. 3 buyers at 5,544 rupees — 16,632 rupees. 20 per cent off. New clients: Mom-entum. She carried you for 9 months. 2 buyers at 5,891 rupees — 11,782 rupees. 18 per cent off. New clients: Group Project (Finally, Everyone Pulls Their Weight). Group projects: usually one person does all the work. 2 buyers at 5,198 rupees — 10,396 rupees. 25 per cent off. Renewals: Don't Ghost Us After the Party. Great party. Now the real test. 4 buyers at 7,229 rupees — 28,916 rupees. 18 per cent off. First, Set up Mom Said Get Off the Couch in Momence. Then, Weekly check: Mom Said Get Off the Couch: Golden Hours fill target +15. That is May at Pop-up: 1.55 lakh rupees across 4 offers, and 41 buyers to find."
+  },
+  "script": {
+    "title": "May 2027 · Pop-up",
+    "monthName": "May",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "May",
+        "narration": "May 2027 at Pop-up. The theme is Home for the Holidays.",
+        "duration": 4958,
+        "data": {
+          "month": 5,
+          "monthName": "May",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "Home for the Holidays",
+          "description": "Students home for the holidays + Mother's Day",
+          "target": 154600,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹1.55L",
+        "narration": "The target is 1.55 lakh rupees — 44 per cent above the 1.08 lakh rupees of last May.",
+        "duration": 7668,
+        "data": {
+          "target": 154600,
+          "lastYear": 107730,
+          "yoy": 0.4350691543673999,
+          "delta": 46870,
+          "monthName": "May"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "3 streams",
+        "narration": "New clients lead at 85,030 rupees, 55 per cent. Then renewals 68,024 rupees, other 1,546 rupees.",
+        "duration": 6894,
+        "data": {
+          "streams": [
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 85030,
+              "share": 55.00000000000001
+            },
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 68024,
+              "share": 44
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 1546,
+              "share": 1
+            }
+          ],
+          "total": 154600,
+          "standard": 86874,
+          "standardShare": 56.2
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "41 buyers",
+        "narration": "481 leads, 125 trials, 41 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 481,
+          "trials": 125,
+          "buyers": 41,
+          "leadToTrial": 0.2598752598752599,
+          "trialToBuyer": 0.328,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "44%",
+        "narration": "4 offers carry 67,726 rupees, 44 per cent of the 1.55 lakh rupees target. The other 86,874 rupees is expected at full price.",
+        "duration": 9603,
+        "data": {
+          "target": 154600,
+          "offerRevenue": 67726,
+          "share": 0.4380724450194049,
+          "standard": 86874,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-19-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · New clients",
+        "title": "Mom Said Get Off the Couch",
+        "narration": "New clients: Mom Said Get Off the Couch. Home for the summer and Mom's already said 'do something'? 8 classes. 3 buyers at 5,544 rupees — 16,632 rupees. 20 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "Mom Said Get Off the Couch",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Home for the summer and Mom's already said 'do something'?",
+          "benefit": "Home for the summer and Mom's already said 'do something'? 8 classes at 20% off for students — in the hours when the studio is basically yours.",
+          "rationale": "Weekday 10–12 and weekend 4–7 pm run 27–41% full; the marginal cost of a seat there is near zero. Students arriving home in May are a predictable, untapped audience.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Discount only exists in empty slots; ≤20%. Claim by 2027-06-30.",
+          "kpi": "Golden Hours fill (target +15 pts); student repeat purchase.",
+          "offerType": "Student pass (off-peak)",
+          "ticket": 5544,
+          "buyers": 3,
+          "revenue": 16632,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.2455777692466704
+        }
+      },
+      {
+        "id": "offer-O27-21-POP",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · New clients",
+        "title": "Mom-entum",
+        "narration": "New clients: Mom-entum. She carried you for 9 months. 2 buyers at 5,891 rupees — 11,782 rupees. 18 per cent off.",
+        "duration": 8829,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Mom-entum",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "She carried you for 9 months. You can carry her to class.",
+          "benefit": "She carried you for 9 months. You can carry her to class. Mother–child duos get a 30-minute duo private and a gift for mum. New to P57? Your first month is 15% off.",
+          "rationale": "Duos with a booked second class convert best; Mother's Day gives a reason. The perk is a shared session, not a bigger discount.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "≈18% effective for a newcomer, ≈16% for a member renewing.",
+          "kpi": "Duos trialled; both-buy rate.",
+          "offerType": "Duo (Mother's Day)",
+          "ticket": 5891,
+          "buyers": 2,
+          "revenue": 11782,
+          "discount": 18,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.17396568526119954
+        }
+      },
+      {
+        "id": "offer-O27-20-POP",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · New clients",
+        "title": "Group Project (Finally, Everyone Pulls Their Weight)",
+        "narration": "New clients: Group Project (Finally, Everyone Pulls Their Weight). Group projects: usually one person does all the work. 2 buyers at 5,198 rupees — 10,396 rupees. 25 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "Group Project (Finally, Everyone Pulls Their Weight)",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Group projects: usually one person does all the work. Not here.",
+          "benefit": "Group projects: usually one person does all the work. Not here. Buy as a squad of 4 and everyone gets 25% off. Free-loaders still have to do the planks.",
+          "rationale": "Bulk purchase is one of the few places 25% is allowed. Groups attend together (higher usage → higher renewal) and bring four new names per sale.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Bulk rule: 4+ packs in one transaction. Off-peak only. Claim by 2027-06-30.",
+          "kpi": "Squads sold; squad members buying again within 60 days.",
+          "offerType": "Bulk student purchase",
+          "ticket": 5198,
+          "buyers": 2,
+          "revenue": 10396,
+          "discount": 25,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.15350087115731034
+        }
+      },
+      {
+        "id": "offer-O27-22-POP",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "Don't Ghost Us After the Party",
+        "narration": "Renewals: Don't Ghost Us After the Party. Great party. Now the real test. 4 buyers at 7,229 rupees — 28,916 rupees. 18 per cent off.",
+        "duration": 10377,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "Don't Ghost Us After the Party",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Great party. Now show up 8 times in May.",
+          "benefit": "Great party. Now the real test: show up 8 times in May and your next renewal costs less — plus a 30-minute private on us.",
+          "rationale": "2026 anniversary-code buyers renewed at only 24.5%. Attendance in the month after purchase is the best predictor of renewal; the reward is earned by it.",
+          "audience": "≈20% effective on 3M, ≈20% on 1M with the private",
+          "conditions": "≈20% effective on 3M, ≈20% on 1M with the private.",
+          "kpi": "April cohort with 8+ May visits (target 55%); April cohort renewal at next expiry (target 55%).",
+          "offerType": "Post-April retention",
+          "ticket": 7229,
+          "buyers": 4,
+          "revenue": 28916,
+          "discount": 18,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.42695567433481973
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Mom Said Get Off the Couch in Momence. Then, Weekly check: Mom Said Get Off the Couch: Golden Hours fill target +15.",
+        "duration": 10377,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Mom Said Get Off the Couch in Momence (2027-05-01 to 2027-06-30): Students and under-25s (ID checked): 8-class pack at 20% off — Mumbai ₹10,500, Kenkere ₹6,972, pop-ups ₹5,544 — valid 45 days, Golden Hours only (Mon–Fri 10 am–12 pm, Sat–Sun 4–7 pm). On sale 1 May–30 Jun."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Mom Said Get Off the Couch: Golden Hours fill (target +15 pts); student repeat purchase. | Group Project (Finally, Everyone Pulls Their Weight): Squads sold; squad members buying again within 60 days. | Mom-entum: Duos trialled; both-buy rate. | Don't Ghost Us After the Party: April cohort with 8+ May visits (target 55%); April cohort renewal at next expiry (target 55%)."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹1.5L: by the 15th aim for ~half of 41 new buyers (125 first visits), 9 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close May: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "May 2027",
+        "title": "That is the plan",
+        "narration": "That is May at Pop-up: 1.55 lakh rupees across 4 offers, and 41 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 154600,
+          "offerRevenue": 67726,
+          "offers": 4,
+          "buyers": 41,
+          "monthName": "May",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 95332
+  }
+}

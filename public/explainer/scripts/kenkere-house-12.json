@@ -1,0 +1,330 @@
+{
+  "slug": "kenkere-house",
+  "month": 12,
+  "studio": "KK",
+  "studioName": "Kenkere House",
+  "monthName": "December",
+  "year": 2027,
+  "title": "December 2027 · Kenkere House",
+  "duration": 106909,
+  "scenes": 12,
+  "hash": "103eca00",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "December 2027 at Kenkere House. The theme is Wrapped. The target is 8.3 lakh rupees — 57 per cent above the 5.28 lakh rupees of last December. Renewals lead at 4.4 lakh rupees, 53 per cent. Then new clients 2.82 lakh rupees, other 58,100 rupees, comeback 49,800 rupees. 625 leads, 225 trials, 42 buyers, and 19 per cent of trials convert.",
+    "b": "5 offers carry 6.01 lakh rupees, 72 per cent of the 8.3 lakh rupees target. The other 2.29 lakh rupees is expected at full price. New clients: Resolution Pre-Order (Ships 1 Jan). Your resolution, pre-ordered. 4 buyers at 12,406 rupees — 49,624 rupees. 15 per cent off. New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 9 buyers at 1,499 rupees — 13,491 rupees. 20 per cent off. Win-backs: Last Seen: 2026 (We Noticed). Last seen: 2026. We noticed. Come back before the new year: 15%. 4 buyers at 12,406 rupees — 49,624 rupees. 15 per cent off. Renewals: Wrapped: Your Top Artist Was Your Trainer. Your 2027 Wrapped is in: classes, top artist, peak hour. 8 buyers at 40,000 rupees — 3.2 lakh rupees. 18 per cent off.  First, Set up Wrapped: Your Top Artist Was Your Trainer in Momence: Each. Then, Weekly check: Wrapped: Your Top Artist Was Your Trainer: Renewal yield. Also running: 12 Days of Shakemas — 1.68 lakh rupees between them. That is December at Kenkere House: 8.3 lakh rupees across 5 offers, and 42 buyers to find."
+  },
+  "script": {
+    "title": "December 2027 · Kenkere House",
+    "monthName": "December",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Kenkere House · 2027",
+        "title": "December",
+        "narration": "December 2027 at Kenkere House. The theme is Wrapped.",
+        "duration": 4184,
+        "data": {
+          "month": 12,
+          "monthName": "December",
+          "year": 2027,
+          "studio": "Kenkere House",
+          "theme": "Wrapped",
+          "description": "Wrapped + gifting + pre-sell January",
+          "target": 830000,
+          "offers": 5
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹8.3L",
+        "narration": "The target is 8.3 lakh rupees — 57 per cent above the 5.28 lakh rupees of last December.",
+        "duration": 7668,
+        "data": {
+          "target": 830000,
+          "lastYear": 527555,
+          "yoy": 0.5732956753324299,
+          "delta": 302445,
+          "monthName": "December"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 4.4 lakh rupees, 53 per cent. Then new clients 2.82 lakh rupees, other 58,100 rupees, comeback 49,800 rupees.",
+        "duration": 8829,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 439900,
+              "share": 53
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 282200,
+              "share": 34
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 58100,
+              "share": 7.000000000000001
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 49800,
+              "share": 6
+            }
+          ],
+          "total": 830000,
+          "standard": 229261,
+          "standardShare": 27.6
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "42 buyers",
+        "narration": "625 leads, 225 trials, 42 buyers, and 19 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 625,
+          "trials": 225,
+          "buyers": 42,
+          "leadToTrial": 0.36,
+          "trialToBuyer": 0.18666666666666668,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.604
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "72%",
+        "narration": "5 offers carry 6.01 lakh rupees, 72 per cent of the 8.3 lakh rupees target. The other 2.29 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 830000,
+          "offerRevenue": 600739,
+          "share": 0.7237819277108434,
+          "standard": 229261,
+          "offers": 5
+        }
+      },
+      {
+        "id": "offer-O27-48-KK",
+        "kind": "offer",
+        "kicker": "Offer 1 of 5 · New clients",
+        "title": "Resolution Pre-Order (Ships 1 Jan)",
+        "narration": "New clients: Resolution Pre-Order (Ships 1 Jan). Your resolution, pre-ordered. 4 buyers at 12,406 rupees — 49,624 rupees. 15 per cent off.",
+        "duration": 9216,
+        "data": {
+          "index": 0,
+          "count": 5,
+          "narrated": true,
+          "name": "Resolution Pre-Order (Ships 1 Jan)",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Your resolution, pre-ordered. Ships 1 January.",
+          "benefit": "Your resolution, pre-ordered. Buy now, start 1–10 January, and a coach checks in during week one so it actually sticks.",
+          "rationale": "December is softer than January in Mumbai; pre-selling lands buyers ready for Stronger in 30 2028.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only.",
+          "kpi": "Pre-orders; January activation rate.",
+          "offerType": "Pre-sale",
+          "ticket": 12406,
+          "buyers": 4,
+          "revenue": 49624,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.0826049249341228
+        }
+      },
+      {
+        "id": "offer-O27-49-KK",
+        "kind": "offer",
+        "kicker": "Offer 2 of 5 · New clients",
+        "title": "Secret Santa Squats",
+        "narration": "New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 9 buyers at 1,499 rupees — 13,491 rupees. 20 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 1,
+          "count": 5,
+          "narrated": true,
+          "name": "Secret Santa Squats",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Secret Santa budget ₹2,000? Gift squats.",
+          "benefit": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
+          "rationale": "Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Recipient must be new.",
+          "kpi": "Vouchers sold; redemption; voucher → member.",
+          "offerType": "Gift voucher",
+          "ticket": 1499,
+          "buyers": 9,
+          "revenue": 13491,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.022457340042847225
+        }
+      },
+      {
+        "id": "offer-O27-50-KK",
+        "kind": "offer",
+        "kicker": "Offer 3 of 5 · Win-backs",
+        "title": "Last Seen: 2026 (We Noticed)",
+        "narration": "Win-backs: Last Seen: 2026 (We Noticed). Last seen: 2026. We noticed. Come back before the new year: 15%. 4 buyers at 12,406 rupees — 49,624 rupees. 15 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 2,
+          "count": 5,
+          "narrated": true,
+          "name": "Last Seen: 2026 (We Noticed)",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "Last seen: 2026. We noticed.",
+          "benefit": "Last seen: 2026. We noticed. Come back before the new year: 15% off, a free comeback class, and a spot on the Stronger in 30 Comeback track.",
+          "rationale": "Long-lapsed clients need a fresh start, not a bigger discount; the challenge gives a dated goal.",
+          "audience": "Standard lapsed 15%; ≈19",
+          "conditions": "Standard lapsed 15%; ≈19.5% effective on 3M.",
+          "kpi": "Long-lapsed reactivations.",
+          "offerType": "Long-lapsed winback",
+          "ticket": 12406,
+          "buyers": 4,
+          "revenue": 49624,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.0826049249341228
+        }
+      },
+      {
+        "id": "offer-O27-46-KK",
+        "kind": "offer",
+        "kicker": "Offer 4 of 5 · Renewals",
+        "title": "Wrapped: Your Top Artist Was Your Trainer",
+        "narration": "Renewals: Wrapped: Your Top Artist Was Your Trainer. Your 2027 Wrapped is in: classes, top artist, peak hour. 8 buyers at 40,000 rupees — 3.2 lakh rupees. 18 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 3,
+          "count": 5,
+          "narrated": true,
+          "name": "Wrapped: Your Top Artist Was Your Trainer",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Your top artist this year? Your trainer.",
+          "benefit": "Your 2027 Wrapped is in: {n} classes, top artist {trainer}, peak hour {time}. Next year's plan, priced for how you actually train.",
+          "rationale": "A usage-based recommendation renews members onto plans that fit; year-in-review pages get shared.",
+          "audience": "Caps respected",
+          "conditions": "Caps respected.",
+          "kpi": "Renewal yield on Dec–Jan expiries; 3M+ share.",
+          "offerType": "Data-led renewal",
+          "ticket": 40000,
+          "buyers": 8,
+          "revenue": 320000,
+          "discount": 18,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.5326772525173161
+        }
+      },
+      {
+        "id": "offer-O27-47-KK",
+        "kind": "offer",
+        "kicker": "Offer 5 of 5 · Renewals",
+        "title": "12 Days of Shakemas",
+        "narration": "",
+        "duration": 2600,
+        "data": {
+          "index": 4,
+          "count": 5,
+          "narrated": false,
+          "name": "12 Days of Shakemas",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Twelve days, twelve published deals. Day 12 is the big one.",
+          "benefit": "12 Days of Shakemas: a new deal every day from 13 to 24 December, all published upfront — no hidden prizes, no FOMO tricks. Day 12 is the big one.",
+          "rationale": "Published, rotating deals create daily traffic; the best prices sit on the longest plans and bulk privates (the allowed 25% cases).",
+          "audience": "One deal per person per day",
+          "conditions": "One deal per person per day. 25% only on annual and bulk privates.",
+          "kpi": "Sales per Shakemas day; long-plan share.",
+          "offerType": "Published daily calendar",
+          "ticket": 21000,
+          "buyers": 8,
+          "revenue": 168000,
+          "discount": 18,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.279655557571591
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Wrapped: Your Top Artist Was Your Trainer in Momence: Each. Then, Weekly check: Wrapped: Your Top Artist Was Your Trainer: Renewal yield.",
+        "duration": 10377,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Wrapped: Your Top Artist Was Your Trainer in Momence (2027-12-01 to 2027-12-31): Each member gets a personal 2027 Wrapped (classes, top trainer, favourite time, best month) and a recommended plan: 3 Months at 15% (₹49,177 / ₹35,879), 6 Months at 20% (₹90,972 / ₹65,772) or Annual at 22% (₹1,71,171 / ₹1,21,867) + Stronger in 30 2028 early-entry kit. Staying on 1 Month: list + 3 days."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Wrapped: Your Top Artist Was Your Trainer: Renewal yield on Dec–Jan expiries; 3M+ share. | 12 Days of Shakemas: Sales per Shakemas day; long-plan share. | Resolution Pre-Order (Ships 1 Jan): Pre-orders; January activation rate. | Secret Santa Squats: Vouchers sold; redemption; voucher → member. | Last Seen: 2026 (We Noticed): Long-lapsed reactivations."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹8.3L: by the 15th aim for ~half of 42 new buyers (225 first visits), 29 renewals and 6 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close December: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "December 2027",
+        "title": "That is the plan",
+        "narration": "Also running: 12 Days of Shakemas — 1.68 lakh rupees between them. That is December at Kenkere House: 8.3 lakh rupees across 5 offers, and 42 buyers to find.",
+        "duration": 11926,
+        "data": {
+          "target": 830000,
+          "offerRevenue": 600739,
+          "offers": 5,
+          "buyers": 42,
+          "monthName": "December",
+          "studio": "Kenkere House"
+        }
+      }
+    ],
+    "duration": 106909
+  }
+}

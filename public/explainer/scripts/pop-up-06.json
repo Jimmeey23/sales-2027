@@ -1,0 +1,234 @@
+{
+  "slug": "pop-up",
+  "month": 6,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "June",
+  "year": 2027,
+  "title": "June 2027 · Pop-up",
+  "duration": 69783,
+  "scenes": 9,
+  "hash": "6dad0bf2",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "June 2027 at Pop-up. The theme is Privates Month + Out of Office. The target is 2.25 lakh rupees — 44 per cent above the 1.57 lakh rupees of last June. New clients lead at 1.24 lakh rupees, 55 per cent. Then renewals 98,837 rupees, other 2,246 rupees. 688 leads, 179 trials, 59 buyers, and 33 per cent of trials convert.",
+    "b": "2 offers carry 1.02 lakh rupees, 46 per cent of the 2.25 lakh rupees target. The other 1.22 lakh rupees is expected at full price. New clients: The Second Date's On Us. First date: half price. 10 buyers at 5,891 rupees — 58,910 rupees. 15 per cent off. Renewals: Don't Ghost Us After the Party. Great party. Now the real test. 6 buyers at 7,229 rupees — 43,374 rupees. 19.5 per cent off. First, Brief the team on the 2 June offers, who each. Then, Weekly check. That is June at Pop-up: 2.25 lakh rupees across 2 offers, and 59 buyers to find."
+  },
+  "script": {
+    "title": "June 2027 · Pop-up",
+    "monthName": "June",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "June",
+        "narration": "June 2027 at Pop-up. The theme is Privates Month + Out of Office.",
+        "duration": 5732,
+        "data": {
+          "month": 6,
+          "monthName": "June",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "Privates Month + Out of Office",
+          "description": "Privates month + Out of Office",
+          "target": 224630,
+          "offers": 2
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹2.25L",
+        "narration": "The target is 2.25 lakh rupees — 44 per cent above the 1.57 lakh rupees of last June.",
+        "duration": 7668,
+        "data": {
+          "target": 224630,
+          "lastYear": 156529,
+          "yoy": 0.4350695398296802,
+          "delta": 68101,
+          "monthName": "June"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "3 streams",
+        "narration": "New clients lead at 1.24 lakh rupees, 55 per cent. Then renewals 98,837 rupees, other 2,246 rupees.",
+        "duration": 7281,
+        "data": {
+          "streams": [
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 123547,
+              "share": 55.00022258825624
+            },
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 98837,
+              "share": 43.999910964697506
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 2246,
+              "share": 0.9998664470462538
+            }
+          ],
+          "total": 224630,
+          "standard": 122346,
+          "standardShare": 54.5
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "59 buyers",
+        "narration": "688 leads, 179 trials, 59 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 688,
+          "trials": 179,
+          "buyers": 59,
+          "leadToTrial": 0.2601744186046512,
+          "trialToBuyer": 0.329608938547486,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "46%",
+        "narration": "2 offers carry 1.02 lakh rupees, 46 per cent of the 2.25 lakh rupees target. The other 1.22 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 224630,
+          "offerRevenue": 102284,
+          "share": 0.45534434403240887,
+          "standard": 122346,
+          "offers": 2
+        }
+      },
+      {
+        "id": "offer-O27-12-POP-m6",
+        "kind": "offer",
+        "kicker": "Offer 1 of 2 · New clients",
+        "title": "The Second Date's On Us",
+        "narration": "New clients: The Second Date's On Us. First date: half price. 10 buyers at 5,891 rupees — 58,910 rupees. 15 per cent off.",
+        "duration": 9603,
+        "data": {
+          "index": 0,
+          "count": 2,
+          "narrated": true,
+          "name": "The Second Date's On Us",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "First date: half price. Second date: on us. Third: it's a relationship.",
+          "benefit": "First date: half price. Second date: on us. Third date? That's a relationship — 15% off your first month and an extra freeze for when life gets busy.",
+          "rationale": "Kenkere logged 3,217 leads in 12 months; only 36% reached a trial and 13.1% converted. 581 single-class sales show high drop-in, low commitment. A booked second visit lifts conversion from 10.8% to 43.9%.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only; freeze has no cash value.",
+          "kpi": "Second-visit rate (target 55%); trial → member (target 25% vs 18.7%).",
+          "offerType": "Newcomer journey (Bengaluru)",
+          "ticket": 5891,
+          "buyers": 10,
+          "revenue": 58910,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.575945406906261
+        }
+      },
+      {
+        "id": "offer-O27-22-POP-m6",
+        "kind": "offer",
+        "kicker": "Offer 2 of 2 · Renewals",
+        "title": "Don't Ghost Us After the Party",
+        "narration": "Renewals: Don't Ghost Us After the Party. Great party. Now the real test. 6 buyers at 7,229 rupees — 43,374 rupees. 19.5 per cent off.",
+        "duration": 10377,
+        "data": {
+          "index": 1,
+          "count": 2,
+          "narrated": true,
+          "name": "Don't Ghost Us After the Party",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Great party. Now show up 8 times in May.",
+          "benefit": "Great party. Now the real test: show up 8 times in May and your next renewal costs less — plus a 30-minute private on us.",
+          "rationale": "2026 anniversary-code buyers renewed at only 24.5%. Attendance in the month after purchase is the best predictor of renewal; the reward is earned by it.",
+          "audience": "Members whose plan expires in June.",
+          "conditions": "≈20% effective on 3M, ≈20% on 1M with the private.",
+          "kpi": "April cohort with 8+ May visits (target 55%); April cohort renewal at next expiry (target 55%).",
+          "offerType": "Post-April retention",
+          "ticket": 7229,
+          "buyers": 6,
+          "revenue": 43374,
+          "discount": 19.5,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.424054593093739
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Brief the team on the 2 June offers, who each. Then, Weekly check.",
+        "duration": 6119,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Brief the team on the 2 June offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check:"
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹2.2L: by the 15th aim for ~half of 59 new buyers (179 first visits), 14 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close June: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "June 2027",
+        "title": "That is the plan",
+        "narration": "That is June at Pop-up: 2.25 lakh rupees across 2 offers, and 59 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 224630,
+          "offerRevenue": 102284,
+          "offers": 2,
+          "buyers": 59,
+          "monthName": "June",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 69783
+  }
+}

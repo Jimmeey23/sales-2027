@@ -1,0 +1,294 @@
+{
+  "slug": "pop-up",
+  "month": 11,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "November",
+  "year": 2027,
+  "title": "November 2027 · Pop-up",
+  "duration": 94945,
+  "scenes": 11,
+  "hash": "8aa90899",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "November 2027 at Pop-up. The theme is Black Friday + Thank U, Next. The target is 1.81 lakh rupees — 44 per cent above the 1.26 lakh rupees of last November. New clients lead at 99,732 rupees, 55 per cent. Then renewals 79,786 rupees, other 1,813 rupees. 562 leads, 146 trials, 48 buyers, and 33 per cent of trials convert.",
+    "b": "4 offers carry 1.12 lakh rupees, 62 per cent of the 1.81 lakh rupees target. The other 69,239 rupees is expected at full price. Revenue boost: Thank U, Next (Year). Thank u, next year. This week is just for you. 1 buyers at 5,891 rupees — 5,891 rupees. New clients: Pop-Up, Don't Drop Out. You popped. Don't drop out. Buy a pack within 72 hours of your trial. 12 buyers at 7,229 rupees — 86,748 rupees. 15 per cent off. New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 5 buyers at 999 rupees — 4,995 rupees. 20 per cent off. Renewals: Black Friday, Strong Monday, Sore Tuesday. Black Friday, Strong Monday, sore Tuesday. 2 buyers at 7,229 rupees — 14,458 rupees. 15 per cent off. First, Set up Black Friday, Strong Monday, Sore Tuesday in Momence. Then, Weekly check: Black Friday, Strong Monday. That is November at Pop-up: 1.81 lakh rupees across 4 offers, and 48 buyers to find."
+  },
+  "script": {
+    "title": "November 2027 · Pop-up",
+    "monthName": "November",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "November",
+        "narration": "November 2027 at Pop-up. The theme is Black Friday + Thank U, Next.",
+        "duration": 5732,
+        "data": {
+          "month": 11,
+          "monthName": "November",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "Black Friday + Thank U, Next",
+          "description": "Black Friday + member appreciation",
+          "target": 181331,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹1.81L",
+        "narration": "The target is 1.81 lakh rupees — 44 per cent above the 1.26 lakh rupees of last November.",
+        "duration": 7668,
+        "data": {
+          "target": 181331,
+          "lastYear": 126357,
+          "yoy": 0.4350688921072834,
+          "delta": 54974,
+          "monthName": "November"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "3 streams",
+        "narration": "New clients lead at 99,732 rupees, 55 per cent. Then renewals 79,786 rupees, other 1,813 rupees.",
+        "duration": 6894,
+        "data": {
+          "streams": [
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 99732,
+              "share": 54.999972426115775
+            },
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 79786,
+              "share": 44.000198531966404
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 1813,
+              "share": 0.9998290419178189
+            }
+          ],
+          "total": 181331,
+          "standard": 69239,
+          "standardShare": 38.2
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "48 buyers",
+        "narration": "562 leads, 146 trials, 48 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 562,
+          "trials": 146,
+          "buyers": 48,
+          "leadToTrial": 0.2597864768683274,
+          "trialToBuyer": 0.3287671232876712,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "62%",
+        "narration": "4 offers carry 1.12 lakh rupees, 62 per cent of the 1.81 lakh rupees target. The other 69,239 rupees is expected at full price.",
+        "duration": 9990,
+        "data": {
+          "target": 181331,
+          "offerRevenue": 112092,
+          "share": 0.6181623660598574,
+          "standard": 69239,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-44-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · Revenue boost",
+        "title": "Thank U, Next (Year)",
+        "narration": "Revenue boost: Thank U, Next (Year). Thank u, next year. This week is just for you. 1 buyers at 5,891 rupees — 5,891 rupees.",
+        "duration": 9990,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "Thank U, Next (Year)",
+          "slot": "goodwill",
+          "slotLabel": "Revenue boost",
+          "headline": "Thank u, next (year).",
+          "benefit": "Thank u, next (year). This week is just for you: a guest pass to share, a members-only night, and a gift if you've hit 100 classes this year. No catch. Just gratitude (and glutes).",
+          "rationale": "Each guest pass is a referral-quality lead (referrals convert 22–76%). Goodwill before December renewals lifts renewal yield.",
+          "audience": "Current members; no purchase needed.",
+          "conditions": "No discount. Guest pass for someone new.",
+          "kpi": "Guest passes used; guest → member (target 20%); December renewal yield.",
+          "offerType": "Member appreciation",
+          "ticket": 5891,
+          "buyers": 1,
+          "revenue": 5891,
+          "discount": 0,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.05255504407094173
+        }
+      },
+      {
+        "id": "offer-O27-45-POP",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · New clients",
+        "title": "Pop-Up, Don't Drop Out",
+        "narration": "New clients: Pop-Up, Don't Drop Out. You popped. Don't drop out. Buy a pack within 72 hours of your trial. 12 buyers at 7,229 rupees — 86,748 rupees. 15 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Pop-Up, Don't Drop Out",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "You popped in. Don't drop out.",
+          "benefit": "You popped in. Don't drop out. Buy a pack within 72 hours of your trial: 15% off, 15 extra days, and a class to bring a friend.",
+          "rationale": "76% of pop-up revenue is single sessions/credits; only 26 10-packs in 12 months. Referral leads convert at 76%, so the friend class feeds the best channel.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only.",
+          "kpi": "Trial → pack (target 25%); friend classes used.",
+          "offerType": "Pop-up conversion",
+          "ticket": 7229,
+          "buyers": 12,
+          "revenue": 86748,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.773900010705492
+        }
+      },
+      {
+        "id": "offer-O27-49-POP-m11",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · New clients",
+        "title": "Secret Santa Squats",
+        "narration": "New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 5 buyers at 999 rupees — 4,995 rupees. 20 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "Secret Santa Squats",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Secret Santa budget ₹2,000? Gift squats.",
+          "benefit": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
+          "rationale": "Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Recipient must be new.",
+          "kpi": "Vouchers sold; redemption; voucher → member.",
+          "offerType": "Gift voucher",
+          "ticket": 999,
+          "buyers": 5,
+          "revenue": 4995,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.04456161010598437
+        }
+      },
+      {
+        "id": "offer-O27-43-POP",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "Black Friday, Strong Monday, Sore Tuesday",
+        "narration": "Renewals: Black Friday, Strong Monday, Sore Tuesday. Black Friday, Strong Monday, sore Tuesday. 2 buyers at 7,229 rupees — 14,458 rupees. 15 per cent off.",
+        "duration": 10377,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "Black Friday, Strong Monday, Sore Tuesday",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Black Friday, Strong Monday, sore Tuesday.",
+          "benefit": "Black Friday, Strong Monday, sore Tuesday. Four days of the year's best long-plan prices — and the last Club Nine seats. No one-month discounts; we're not that kind of studio.",
+          "rationale": "November is the trough (Kwality ₹18.5L, Bandra ₹13.2L in Nov-25). Long-plan pricing brings cash forward without discounting 1 Month.",
+          "audience": "Annual 25% and bulk packs (allowed); 6M ≤20%",
+          "conditions": "Annual 25% and bulk packs (allowed); 6M ≤20%.",
+          "kpi": "Long-plan units; Club Nine seats closed out.",
+          "offerType": "4-day long-plan sale",
+          "ticket": 7229,
+          "buyers": 2,
+          "revenue": 14458,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.12898333511758198
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Black Friday, Strong Monday, Sore Tuesday in Momence. Then, Weekly check: Black Friday, Strong Monday.",
+        "duration": 7668,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Black Friday, Strong Monday, Sore Tuesday in Momence (2027-11-26 to 2027-11-29): Fri 26–Mon 29 Nov: 6 Months at 20% (₹90,972 / ₹65,772), Annual at 25% (₹1,64,588 / ₹1,17,180, including leftover Club Nine numbered seats), 20- and 30-class packs at 20% (bulk). No discount on 1 Month. Pop-ups: 10-class pack at 15%."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Black Friday, Strong Monday, Sore Tuesday: Long-plan units; Club Nine seats closed out. | Thank U, Next (Year): Guest passes used; guest → member (target 20%); December renewal yield. | Pop-Up, Don't Drop Out: Trial → pack (target 25%); friend classes used."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹1.8L: by the 15th aim for ~half of 48 new buyers (146 first visits), 11 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close November: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "November 2027",
+        "title": "That is the plan",
+        "narration": "That is November at Pop-up: 1.81 lakh rupees across 4 offers, and 48 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 181331,
+          "offerRevenue": 112092,
+          "offers": 4,
+          "buyers": 48,
+          "monthName": "November",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 94945
+  }
+}

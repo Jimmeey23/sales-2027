@@ -1,0 +1,360 @@
+{
+  "slug": "kemps-corner",
+  "month": 4,
+  "studio": "KH",
+  "studioName": "Kemps Corner",
+  "monthName": "April",
+  "year": 2027,
+  "title": "April 2027 · Kemps Corner",
+  "duration": 110910,
+  "scenes": 13,
+  "hash": "c159b1b7",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "April 2027 at Kemps Corner. The theme is Cloud Nine — 9 Years of Physique 57. The target is 60 lakh rupees — 20 per cent above the 50 lakh rupees of last April. Renewals lead at 33 lakh rupees, 55 per cent. Then new clients 14.4 lakh rupees, comeback 7.2 lakh rupees, other 5.4 lakh rupees. 941 leads, 480 trials, 129 buyers, and 27 per cent of trials convert.",
+    "b": "6 offers carry 45.1 lakh rupees, 75 per cent of the 60 lakh rupees target. The other 14.9 lakh rupees is expected at full price. Revenue boost: Cloud Nine Limited Edition. Nine years. Nine months. Nine freezes. Plus one month. 11 buyers at 1.65 lakh rupees — 18.1 lakh rupees. 18.5 per cent off. Revenue boost: Plus One, Plus Nine. It's our birthday, so we're giving presents for presents. 11 buyers at 17,203 rupees — 1.89 lakh rupees. 15 per cent off. New clients: Party Crasher Pass. It's our 9th birthday and you're invited. 21 buyers at 16,204 rupees — 3.4 lakh rupees. 20 per cent off. Win-backs: Where Are They Now? You joined us. A lot has changed we got. 23 buyers at 17,203 rupees — 3.96 lakh rupees. 20 per cent off.   First, Set up Cloud Nine Limited Edition in Momence. Then, Weekly check: Cloud Nine Limited Edition: Units sold; repeat purchase. Also running: Spin Class (Literally), Club Nine: The Founders' Table — 17.7 lakh rupees between them. That is April at Kemps Corner: 60 lakh rupees across 6 offers, and 129 buyers to find."
+  },
+  "script": {
+    "title": "April 2027 · Kemps Corner",
+    "monthName": "April",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Kemps Corner · 2027",
+        "title": "April",
+        "narration": "April 2027 at Kemps Corner. The theme is Cloud Nine — 9 Years of Physique 57.",
+        "duration": 6894,
+        "data": {
+          "month": 4,
+          "monthName": "April",
+          "year": 2027,
+          "studio": "Kemps Corner",
+          "theme": "Cloud Nine — 9 Years of Physique 57",
+          "description": "Cloud Nine — 9th anniversary",
+          "target": 6000000,
+          "offers": 6
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹60L",
+        "narration": "The target is 60 lakh rupees — 20 per cent above the 50 lakh rupees of last April.",
+        "duration": 7668,
+        "data": {
+          "target": 6000000,
+          "lastYear": 5001388,
+          "yoy": 0.19966697244844833,
+          "delta": 998612,
+          "monthName": "April"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 33 lakh rupees, 55 per cent. Then new clients 14.4 lakh rupees, comeback 7.2 lakh rupees, other 5.4 lakh rupees.",
+        "duration": 9603,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 3300000,
+              "share": 55.00000000000001
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 1440000,
+              "share": 24
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 720000,
+              "share": 12
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 540000,
+              "share": 9
+            }
+          ],
+          "total": 6000000,
+          "standard": 1489490,
+          "standardShare": 24.8
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "129 buyers",
+        "narration": "941 leads, 480 trials, 129 buyers, and 27 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 941,
+          "trials": 480,
+          "buyers": 129,
+          "leadToTrial": 0.51009564293305,
+          "trialToBuyer": 0.26875,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.765
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "75%",
+        "narration": "6 offers carry 45.1 lakh rupees, 75 per cent of the 60 lakh rupees target. The other 14.9 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 6000000,
+          "offerRevenue": 4510510,
+          "share": 0.7517516666666667,
+          "standard": 1489490,
+          "offers": 6
+        }
+      },
+      {
+        "id": "offer-O27-13-KC",
+        "kind": "offer",
+        "kicker": "Offer 1 of 6 · Revenue boost",
+        "title": "Cloud Nine Limited Edition",
+        "narration": "Revenue boost: Cloud Nine Limited Edition. Nine years. Nine months. Nine freezes. Plus one month. 11 buyers at 1.65 lakh rupees — 18.1 lakh rupees. 18.5 per cent off.",
+        "duration": 11926,
+        "data": {
+          "index": 0,
+          "count": 6,
+          "narrated": true,
+          "name": "Cloud Nine Limited Edition",
+          "slot": "upgrade",
+          "slotLabel": "Revenue boost",
+          "headline": "Nine years. Nine months. Nine freezes. Plus one month on us.",
+          "benefit": "Nine years. Nine months. Nine freezes. Plus one month on us — because we're feeling generous on our birthday. Only 99 numbered memberships in Mumbai and 39 in Bengaluru. When they're gone, they're gone (like your 2018 resolutions).",
+          "rationale": "Kwality's 1M average ticket is ₹16,030; this is ₹1.65L upfront. At ₹16,500/month it sits between 6M list (₹18,953/month) and an annual at 20% (₹14,630/month), so it upsells 1M/3M members without cannibalising annuals. Effective discount vs 10× 1M list: 18.5% Mumbai, 17.8% Bengaluru.",
+          "audience": "Members on 1 Month or class packs.",
+          "conditions": "Long-plan purchase ≤20% effective. Numbered, no extra units added. 15% newcomer/lapsed perks don't stack.",
+          "kpi": "Units sold; repeat purchase at expiry.",
+          "offerType": "Limited-edition long plan",
+          "ticket": 164999,
+          "buyers": 11,
+          "revenue": 1814989,
+          "discount": 18.5,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.4023910821614407
+        }
+      },
+      {
+        "id": "offer-O27-18-KC",
+        "kind": "offer",
+        "kicker": "Offer 2 of 6 · Revenue boost",
+        "title": "Plus One, Plus Nine",
+        "narration": "Revenue boost: Plus One, Plus Nine. It's our birthday, so we're giving presents for presents. 11 buyers at 17,203 rupees — 1.89 lakh rupees. 15 per cent off.",
+        "duration": 11539,
+        "data": {
+          "index": 1,
+          "count": 6,
+          "narrated": true,
+          "name": "Plus One, Plus Nine",
+          "slot": "referral",
+          "slotLabel": "Revenue boost",
+          "headline": "Bring a friend, get 9 days. Bring three, get a month.",
+          "benefit": "It's our birthday, so we're giving presents for presents. Bring a friend who joins: +9 days on us. Bring three: a whole free month. They get 15% off and a Cloud Nine tote.",
+          "rationale": "Referral is the best converting source in every studio (22.6–76.1%) and Kwality's third-largest lead source. The reward is only paid when a new client buys, so it is acquisition spend, not discount.",
+          "audience": "Current members bringing a guest.",
+          "conditions": "Friend must be new (phone verified). Max 1 free month per member.",
+          "kpi": "Referred buyers (target 2× Apr-26); members with 3 referrals.",
+          "offerType": "Referral (tiered)",
+          "ticket": 17203,
+          "buyers": 11,
+          "revenue": 189233,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.04195379236494321
+        }
+      },
+      {
+        "id": "offer-O27-16-KC",
+        "kind": "offer",
+        "kicker": "Offer 3 of 6 · New clients",
+        "title": "Party Crasher Pass",
+        "narration": "New clients: Party Crasher Pass. It's our 9th birthday and you're invited. 21 buyers at 16,204 rupees — 3.4 lakh rupees. 20 per cent off.",
+        "duration": 10377,
+        "data": {
+          "index": 2,
+          "count": 6,
+          "narrated": true,
+          "name": "Party Crasher Pass",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "It's our 9th birthday and you're invited. 3 classes for ₹999.",
+          "benefit": "It's our 9th birthday and you're invited. 3 classes for ₹999 (Bengaluru ₹699) — including the party class. Love it? Your ₹999 comes off your first month.",
+          "rationale": "3+ visits convert 73–94%. A paid pass filters no-shows (free trials have no attendance data); crediting it plus the standard 15% lands exactly at a 20% effective discount.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "One per person. Effective 20% on conversion.",
+          "kpi": "Passes sold; 3-visit completion (target 65%); pass → member (target 40%).",
+          "offerType": "Newcomer intro (credited)",
+          "ticket": 16204,
+          "buyers": 21,
+          "revenue": 340284,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.07544246659468663
+        }
+      },
+      {
+        "id": "offer-O27-17-KC",
+        "kind": "offer",
+        "kicker": "Offer 4 of 6 · Win-backs",
+        "title": "Where Are They Now?",
+        "narration": "Win-backs: Where Are They Now? You joined us. A lot has changed we got. 23 buyers at 17,203 rupees — 3.96 lakh rupees. 20 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 3,
+          "count": 6,
+          "narrated": true,
+          "name": "Where Are They Now?",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "You joined us in {year}. A lot has changed (we got prettier).",
+          "benefit": "You joined us in {year}. A lot has changed (we got prettier). Come back for our 9th birthday: 15% off, a bonus class for every year you've known us, and a seat at the Throwback Reunion.",
+          "rationale": "A personal anniversary in the brand's anniversary month is a stronger trigger than a generic code. Bandra's reactivation pool is the largest; the reunion is a public attendance moment.",
+          "audience": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack)",
+          "conditions": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack).",
+          "kpi": "Personalised sends; reunion RSVPs; reactivations.",
+          "offerType": "Winback (reunion)",
+          "ticket": 17203,
+          "buyers": 23,
+          "revenue": 395669,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.08772156585397217
+        }
+      },
+      {
+        "id": "offer-O27-15-KC",
+        "kind": "offer",
+        "kicker": "Offer 5 of 6 · Renewals",
+        "title": "Spin Class (Literally)",
+        "narration": "",
+        "duration": 2600,
+        "data": {
+          "index": 4,
+          "count": 6,
+          "narrated": false,
+          "name": "Spin Class (Literally)",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Renew, then spin. Every spin wins.",
+          "benefit": "Renew in April, get 10% off, then spin the Wheel of Nine. Every spin wins — from smoothies to a free month. The odds are printed on the wall, because we're fit, not shady.",
+          "rationale": "April 2026 discount depth was 20.4% at Kwality and 20.6% at Bandra on blanket codes. A sure 10% plus a game worth ~9% keeps the average 1M ticket near ₹18,000 instead of ~₹14,000.",
+          "audience": "One spin per renewal, ≈19",
+          "conditions": "One spin per renewal, ≈19.5% effective at expected value.",
+          "kpi": "1M average ticket (target ≥₹18,000); spins filmed and shared.",
+          "offerType": "Gamified renewal",
+          "ticket": 18215,
+          "buyers": 49,
+          "revenue": 892535,
+          "discount": 19.5,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.1978789538211865
+        }
+      },
+      {
+        "id": "offer-O27-14-KC",
+        "kind": "offer",
+        "kicker": "Offer 6 of 6 · Renewals",
+        "title": "Club Nine: The Founders' Table",
+        "narration": "",
+        "duration": 2600,
+        "data": {
+          "index": 5,
+          "count": 6,
+          "narrated": false,
+          "name": "Club Nine: The Founders' Table",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Nine numbered seats. Founder perks for a year.",
+          "benefit": "Nine numbered annual seats per studio. Twice the perks: 4 privates, 8 guest passes, 2 hosted classes, a numbered jacket and your name on the Club Nine wall. Public seat counter. No seat ever added.",
+          "rationale": "Kwality sold 34 annuals on a flat 25% code in 2026 (₹9.7L given away). Numbered scarcity, a public counter and perks deliver ≈25% value at a 20% cash discount.",
+          "audience": "≈25% effective with perks (annual cap)",
+          "conditions": "≈25% effective with perks (annual cap). Leftover seats return on Black Friday.",
+          "kpi": "Seats sold out of 9 per studio; guest-pass → new buyer conversion.",
+          "offerType": "Numbered annual (status)",
+          "ticket": 175560,
+          "buyers": 5,
+          "revenue": 877800,
+          "discount": 25,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.19461213920377074
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Cloud Nine Limited Edition in Momence. Then, Weekly check: Cloud Nine Limited Edition: Units sold; repeat purchase.",
+        "duration": 8442,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Cloud Nine Limited Edition in Momence (2027-04-01 to 2027-04-30): 9 Months Unlimited + 1 complimentary month (10 months) + 9 freezes (min 3 days each). Mumbai ₹1,64,999 — 99 numbered memberships across Kwality and Supreme HQ. Kenkere ₹1,19,999 — 39 numbered. Works out to ₹16,500 / ₹12,000 a month."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Cloud Nine Limited Edition: Units sold; repeat purchase at expiry. | Club Nine: The Founders' Table: Seats sold out of 9 per studio; guest-pass → new buyer conversion. | Spin Class (Literally): 1M average ticket (target ≥₹18,000); spins filmed and shared. | Party Crasher Pass: Passes sold; 3-visit completion (target 65%); pass → member (target 40%). | Where Are They Now?: Personalised sends; reunion RSVPs; reactivations. | Plus One, Plus Nine: Referred buyers (target 2× Apr-26); me"
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹60.0L: by the 15th aim for ~half of 129 new buyers (480 first visits), 141 renewals and 63 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close April: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "April 2027",
+        "title": "That is the plan",
+        "narration": "Also running: Spin Class (Literally), Club Nine: The Founders' Table — 17.7 lakh rupees between them. That is April at Kemps Corner: 60 lakh rupees across 6 offers, and 129 buyers to find.",
+        "duration": 12000,
+        "data": {
+          "target": 6000000,
+          "offerRevenue": 4510510,
+          "offers": 6,
+          "buyers": 129,
+          "monthName": "April",
+          "studio": "Kemps Corner"
+        }
+      }
+    ],
+    "duration": 110910
+  }
+}

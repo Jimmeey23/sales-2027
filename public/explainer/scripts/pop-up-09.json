@@ -1,0 +1,270 @@
+{
+  "slug": "pop-up",
+  "month": 9,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "September",
+  "year": 2027,
+  "title": "September 2027 · Pop-up",
+  "duration": 84032,
+  "scenes": 10,
+  "hash": "ea2732d7",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "September 2027 at Pop-up. The theme is The Comeback + 57 Days to Diwali. The target is 2.73 lakh rupees — 44 per cent above the 1.9 lakh rupees of last September. New clients lead at 1.26 lakh rupees, 46 per cent. Then renewals 1.2 lakh rupees, comeback 23,564 rupees, other 2,725 rupees. 842 leads, 219 trials, 72 buyers, and 33 per cent of trials convert.",
+    "b": "3 offers carry 1.39 lakh rupees, 51 per cent of the 2.73 lakh rupees target. The other 1.34 lakh rupees is expected at full price. New clients: The Second Date's On Us. First date: half price. 11 buyers at 5,891 rupees — 64,801 rupees. 15 per cent off. Win-backs: New Phone, Who Dis? New phone, who dis? It's us — your favourite class. 4 buyers at 5,891 rupees — 23,564 rupees. 15 per cent off. Renewals: Same Time Next Week. You're nearly out of classes. 7 buyers at 7,229 rupees — 50,603 rupees. 15 per cent off. First, Set up New Phone, Who Dis? in Momence. Then, Weekly check: New Phone, Who Dis?: Comeback classes booked; comeback. That is September at Pop-up: 2.73 lakh rupees across 3 offers, and 72 buyers to find."
+  },
+  "script": {
+    "title": "September 2027 · Pop-up",
+    "monthName": "September",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "September",
+        "narration": "September 2027 at Pop-up. The theme is The Comeback + 57 Days to Diwali.",
+        "duration": 6119,
+        "data": {
+          "month": 9,
+          "monthName": "September",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "The Comeback + 57 Days to Diwali",
+          "description": "The Comeback winback month + 57 Days to Diwali",
+          "target": 272533,
+          "offers": 3
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹2.73L",
+        "narration": "The target is 2.73 lakh rupees — 44 per cent above the 1.9 lakh rupees of last September.",
+        "duration": 7668,
+        "data": {
+          "target": 272533,
+          "lastYear": 189909,
+          "yoy": 0.4350715342611462,
+          "delta": 82624,
+          "monthName": "September"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "New clients lead at 1.26 lakh rupees, 46 per cent. Then renewals 1.2 lakh rupees, comeback 23,564 rupees, other 2,725 rupees.",
+        "duration": 8829,
+        "data": {
+          "streams": [
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 126329,
+              "share": 46.35365258519152
+            },
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 119915,
+              "share": 44.00017612546004
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 23564,
+              "share": 8.64629237560222
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 2725,
+              "share": 0.9998789137462253
+            }
+          ],
+          "total": 272533,
+          "standard": 133565,
+          "standardShare": 49
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "72 buyers",
+        "narration": "842 leads, 219 trials, 72 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 842,
+          "trials": 219,
+          "buyers": 72,
+          "leadToTrial": 0.26009501187648454,
+          "trialToBuyer": 0.3287671232876712,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "51%",
+        "narration": "3 offers carry 1.39 lakh rupees, 51 per cent of the 2.73 lakh rupees target. The other 1.34 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 272533,
+          "offerRevenue": 138968,
+          "share": 0.5099125610476529,
+          "standard": 133565,
+          "offers": 3
+        }
+      },
+      {
+        "id": "offer-O27-12-POP-m9",
+        "kind": "offer",
+        "kicker": "Offer 1 of 3 · New clients",
+        "title": "The Second Date's On Us",
+        "narration": "New clients: The Second Date's On Us. First date: half price. 11 buyers at 5,891 rupees — 64,801 rupees. 15 per cent off.",
+        "duration": 9603,
+        "data": {
+          "index": 0,
+          "count": 3,
+          "narrated": true,
+          "name": "The Second Date's On Us",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "First date: half price. Second date: on us. Third: it's a relationship.",
+          "benefit": "First date: half price. Second date: on us. Third date? That's a relationship — 15% off your first month and an extra freeze for when life gets busy.",
+          "rationale": "Kenkere logged 3,217 leads in 12 months; only 36% reached a trial and 13.1% converted. 581 single-class sales show high drop-in, low commitment. A booked second visit lifts conversion from 10.8% to 43.9%.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only; freeze has no cash value.",
+          "kpi": "Second-visit rate (target 55%); trial → member (target 25% vs 18.7%).",
+          "offerType": "Newcomer journey (Bengaluru)",
+          "ticket": 5891,
+          "buyers": 11,
+          "revenue": 64801,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.46630159461170917
+        }
+      },
+      {
+        "id": "offer-O27-36-POP",
+        "kind": "offer",
+        "kicker": "Offer 2 of 3 · Win-backs",
+        "title": "New Phone, Who Dis?",
+        "narration": "Win-backs: New Phone, Who Dis? New phone, who dis? It's us — your favourite class. 4 buyers at 5,891 rupees — 23,564 rupees. 15 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 1,
+          "count": 3,
+          "narrated": true,
+          "name": "New Phone, Who Dis?",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "New phone, who dis? (It's us. Your favourite class.)",
+          "benefit": "New phone, who dis? It's us — your favourite class. Come back for one free, no-questions-asked class. Buy within 7 days and get 15% off plus an extra freeze.",
+          "rationale": "A free first step lowers the barrier; the 7-day window keeps the decision fast. The freeze has no cash cost.",
+          "audience": "Standard lapsed 15% only",
+          "conditions": "Standard lapsed 15% only.",
+          "kpi": "Comeback classes booked; comeback → purchase within 7 days (target 35%).",
+          "offerType": "Winback (7-day window)",
+          "ticket": 5891,
+          "buyers": 4,
+          "revenue": 23564,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.1695642162224397
+        }
+      },
+      {
+        "id": "offer-O27-51-POP-m9",
+        "kind": "offer",
+        "kicker": "Offer 3 of 3 · Renewals",
+        "title": "Same Time Next Week",
+        "narration": "Renewals: Same Time Next Week. You're nearly out of classes. 7 buyers at 7,229 rupees — 50,603 rupees. 15 per cent off.",
+        "duration": 9216,
+        "data": {
+          "index": 2,
+          "count": 3,
+          "narrated": true,
+          "name": "Same Time Next Week",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Your pack is nearly out. Same one again, 15% less.",
+          "benefit": "You're nearly out of classes. Take the same pack again at 15% off — ₹7,229 for ten at Copper + Cloves, ₹5,891 for eight — and we’ll add a week of validity so none of them go to waste.",
+          "rationale": "The pop-ups sell class packs, not memberships, so renewal is a repurchase decision rather than an expiry date. Four of the twelve months carried a renewal target with no renewal offer in the catalogue; this is the standing one.",
+          "audience": "Pop-up clients whose class pack is running out.",
+          "conditions": "15% off the pack, inside the cap. One per client per pack expiry. The extra week of validity has no cash value.",
+          "kpi": "Packs repurchased within 14 days of running out (target 55%); share of pop-up renewal revenue with an offer behind it.",
+          "offerType": "Pack renewal (standing)",
+          "ticket": 7229,
+          "buyers": 7,
+          "revenue": 50603,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.3641341891658511
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up New Phone, Who Dis? in Momence. Then, Weekly check: New Phone, Who Dis?: Comeback classes booked; comeback.",
+        "duration": 8442,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up New Phone, Who Dis? in Momence (2027-09-01 to 2027-09-30): Lapsed 61–180 days: a free 'no questions asked' comeback class; buy within 7 days for the standard 15% on 1 Month or a 12-class pack + 1 extra freeze. Pop-ups: free comeback class, then 15% on an 8- or 10-class pack."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: New Phone, Who Dis?: Comeback classes booked; comeback → purchase within 7 days (target 35%)."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹2.7L: by the 15th aim for ~half of 72 new buyers (219 first visits), 17 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close September: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "September 2027",
+        "title": "That is the plan",
+        "narration": "That is September at Pop-up: 2.73 lakh rupees across 3 offers, and 72 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 272533,
+          "offerRevenue": 138968,
+          "offers": 3,
+          "buyers": 72,
+          "monthName": "September",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 84032
+  }
+}

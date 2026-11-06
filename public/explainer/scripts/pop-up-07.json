@@ -1,0 +1,300 @@
+{
+  "slug": "pop-up",
+  "month": 7,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "July",
+  "year": 2027,
+  "title": "July 2027 · Pop-up",
+  "duration": 95258,
+  "scenes": 11,
+  "hash": "59e8be5a",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "July 2027 at Pop-up. The theme is Book the Studio + Rain Check. The target is 2.09 lakh rupees — 44 per cent above the 1.46 lakh rupees of last July. Renewals lead at 92,142 rupees, 44 per cent. Then new clients 91,613 rupees, comeback 23,564 rupees, other 2,094 rupees. 642 leads, 167 trials, 55 buyers, and 33 per cent of trials convert.",
+    "b": "4 offers carry 1.19 lakh rupees, 57 per cent of the 2.09 lakh rupees target. The other 89,980 rupees is expected at full price. Revenue boost: Kitty Party, But Make It Cardio. Kitty party, but make it cardio. 2 buyers at 9,999 rupees — 19,998 rupees. New clients: The Second Date's On Us. First date: half price. 8 buyers at 5,891 rupees — 47,128 rupees. 15 per cent off. Win-backs: Gone With the Wind, Back With the Rain. Left us in the summer heat? Come back for the monsoon. 3 buyers at 7,229 rupees — 21,687 rupees. 15 per cent off. Renewals: Rain Check (Literally). Monsoon happens. Your late-cancel fee doesn't have. Renew in July. 4 buyers at 7,655 rupees — 30,620 rupees. 12 per cent off. First, Set up Kitty Party, But Make It Cardio in Momence. Then, Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest. That is July at Pop-up: 2.09 lakh rupees across 4 offers, and 55 buyers to find."
+  },
+  "script": {
+    "title": "July 2027 · Pop-up",
+    "monthName": "July",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "July",
+        "narration": "July 2027 at Pop-up. The theme is Book the Studio + Rain Check.",
+        "duration": 5732,
+        "data": {
+          "month": 7,
+          "monthName": "July",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "Book the Studio + Rain Check",
+          "description": "Studio bookouts + monsoon",
+          "target": 209413,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹2.09L",
+        "narration": "The target is 2.09 lakh rupees — 44 per cent above the 1.46 lakh rupees of last July.",
+        "duration": 7668,
+        "data": {
+          "target": 209413,
+          "lastYear": 145925,
+          "yoy": 0.43507281137570675,
+          "delta": 63488,
+          "monthName": "July"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 92,142 rupees, 44 per cent. Then new clients 91,613 rupees, comeback 23,564 rupees, other 2,094 rupees.",
+        "duration": 8055,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 92142,
+              "share": 44.00013370707645
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 91613,
+              "share": 43.74752283764618
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 23564,
+              "share": 11.252405533562863
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 2094,
+              "share": 0.9999379217145067
+            }
+          ],
+          "total": 209413,
+          "standard": 89980,
+          "standardShare": 43
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "55 buyers",
+        "narration": "642 leads, 167 trials, 55 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 642,
+          "trials": 167,
+          "buyers": 55,
+          "leadToTrial": 0.2601246105919003,
+          "trialToBuyer": 0.32934131736526945,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "57%",
+        "narration": "4 offers carry 1.19 lakh rupees, 57 per cent of the 2.09 lakh rupees target. The other 89,980 rupees is expected at full price.",
+        "duration": 9990,
+        "data": {
+          "target": 209413,
+          "offerRevenue": 119433,
+          "share": 0.5703227593320377,
+          "standard": 89980,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-27-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · Revenue boost",
+        "title": "Kitty Party, But Make It Cardio",
+        "narration": "Revenue boost: Kitty Party, But Make It Cardio. Kitty party, but make it cardio. 2 buyers at 9,999 rupees — 19,998 rupees.",
+        "duration": 9216,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "Kitty Party, But Make It Cardio",
+          "slot": "bookout",
+          "slotLabel": "Revenue boost",
+          "headline": "Kitty party, but make it cardio.",
+          "benefit": "Kitty party, but make it cardio. Book out the studio for your crew — up to 12 people, your playlist, our instructor. Everyone new gets 3 classes for the price of 2 afterwards.",
+          "rationale": "Hosted classes are a top lead source (Kwality 394, Bandra 353, Kenkere 281 leads) but convert only 4.6–6.1%. A paid bookout has a host who brings warm friends and pays for the room.",
+          "audience": "Anyone booking the studio for a private group of up to 12.",
+          "conditions": "Guests: standard newcomer terms only.",
+          "kpi": "Bookouts sold; guest → member (target 15%).",
+          "offerType": "Studio bookout",
+          "ticket": 9999,
+          "buyers": 2,
+          "revenue": 19998,
+          "discount": 0,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.16744115947853608
+        }
+      },
+      {
+        "id": "offer-O27-12-POP-m7",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · New clients",
+        "title": "The Second Date's On Us",
+        "narration": "New clients: The Second Date's On Us. First date: half price. 8 buyers at 5,891 rupees — 47,128 rupees. 15 per cent off.",
+        "duration": 9603,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "The Second Date's On Us",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "First date: half price. Second date: on us. Third: it's a relationship.",
+          "benefit": "First date: half price. Second date: on us. Third date? That's a relationship — 15% off your first month and an extra freeze for when life gets busy.",
+          "rationale": "Kenkere logged 3,217 leads in 12 months; only 36% reached a trial and 13.1% converted. 581 single-class sales show high drop-in, low commitment. A booked second visit lifts conversion from 10.8% to 43.9%.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only; freeze has no cash value.",
+          "kpi": "Second-visit rate (target 55%); trial → member (target 25% vs 18.7%).",
+          "offerType": "Newcomer journey (Bengaluru)",
+          "ticket": 5891,
+          "buyers": 8,
+          "revenue": 47128,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.39459780797602
+        }
+      },
+      {
+        "id": "offer-O27-30-POP",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · Win-backs",
+        "title": "Gone With the Wind, Back With the Rain",
+        "narration": "Win-backs: Gone With the Wind, Back With the Rain. Left us in the summer heat? Come back for the monsoon. 3 buyers at 7,229 rupees — 21,687 rupees. 15 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "Gone With the Wind, Back With the Rain",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "Left us in the summer heat? Come back for the monsoon.",
+          "benefit": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0.",
+          "rationale": "An event with a start date beats a generic reminder. Freezes answer the monsoon objection at no cash cost.",
+          "audience": "Standard lapsed 15% only",
+          "conditions": "Standard lapsed 15% only.",
+          "kpi": "Lapsed race entries; reactivations.",
+          "offerType": "Winback (pre-race)",
+          "ticket": 7229,
+          "buyers": 3,
+          "revenue": 21687,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.18158297957850844
+        }
+      },
+      {
+        "id": "offer-O27-29-POP",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "Rain Check (Literally)",
+        "narration": "Renewals: Rain Check (Literally). Monsoon happens. Your late-cancel fee doesn't have. Renew in July. 4 buyers at 7,655 rupees — 30,620 rupees. 12 per cent off.",
+        "duration": 10765,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "Rain Check (Literally)",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Monsoon happens. Your late-cancel fee doesn't have to.",
+          "benefit": "Monsoon happens. Your late-cancel fee doesn't have to. Renew in July: 10% off, 3 'Rain Check' tokens, and classes credited back on red-alert days.",
+          "rationale": "Average late cancels per membership: Bandra 1.18, Kenkere 1.36. Late-cancel fees in the monsoon make members feel they 'wasted' a month and lapse.",
+          "audience": "≈15% effective",
+          "conditions": "≈15% effective.",
+          "kpi": "July 1M renewal yield (target 70%); tokens used.",
+          "offerType": "Monsoon renewal",
+          "ticket": 7655,
+          "buyers": 4,
+          "revenue": 30620,
+          "discount": 12,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.25637805296693544
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Kitty Party, But Make It Cardio in Momence. Then, Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest.",
+        "duration": 9603,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Kitty Party, But Make It Cardio in Momence (2027-07-01 to 2027-07-31): Book out the studio for a private 50-min class for up to 12 (birthdays, bachelorettes, kitty parties, reunions): Mumbai ₹24,999, Kenkere ₹14,999, pop-ups ₹9,999. Every first-timer gets Third Time's the Charm (3-for-2) and the standard 15% on a first membership within 7 days; the host gets 2 guest passes."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest → member (target 15%). | Rain Check (Literally): July 1M renewal yield (target 70%); tokens used. | Gone With the Wind, Back With the Rain: Lapsed race entries; reactivations."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹2.1L: by the 15th aim for ~half of 55 new buyers (167 first visits), 13 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close July: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "July 2027",
+        "title": "That is the plan",
+        "narration": "That is July at Pop-up: 2.09 lakh rupees across 4 offers, and 55 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 209413,
+          "offerRevenue": 119433,
+          "offers": 4,
+          "buyers": 55,
+          "monthName": "July",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 95258
+  }
+}

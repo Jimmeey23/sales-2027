@@ -1,0 +1,270 @@
+{
+  "slug": "pop-up",
+  "month": 10,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "October",
+  "year": 2027,
+  "title": "October 2027 · Pop-up",
+  "duration": 83259,
+  "scenes": 10,
+  "hash": "fe94ef1a",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "October 2027 at Pop-up. The theme is Festival of Lights. The target is 1.87 lakh rupees — 186 per cent above the 65,205 rupees of last October. Renewals lead at 82,086 rupees, 44 per cent. Then new clients 79,043 rupees, comeback 23,564 rupees, other 1,866 rupees. 573 leads, 149 trials, 49 buyers, and 33 per cent of trials convert.",
+    "b": "3 offers carry 65,392 rupees, 35 per cent of the 1.87 lakh rupees target. The other 1.21 lakh rupees is expected at full price. New clients: Diwali Gifting, Minus the Dry-Fruit Box. This Diwali, skip the 14th dry-fruit box. 4 buyers at 1,890 rupees — 7,560 rupees. 33 per cent off. Win-backs: Diwali Cleaning: Found Your Old Grip Socks? Diwali cleaning found your old grip socks. 3 buyers at 7,229 rupees — 21,687 rupees. 20 per cent off. Renewals: Same Time Next Week. You're nearly out of classes. 5 buyers at 7,229 rupees — 36,145 rupees. 15 per cent off. First, Set up Diwali Gifting, Minus the Dry-Fruit Box in Momence. Then, Weekly check: Diwali Gifting, Minus the Dry-Fruit Box: Gift envelopes. That is October at Pop-up: 1.87 lakh rupees across 3 offers, and 49 buyers to find."
+  },
+  "script": {
+    "title": "October 2027 · Pop-up",
+    "monthName": "October",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "October",
+        "narration": "October 2027 at Pop-up. The theme is Festival of Lights.",
+        "duration": 4571,
+        "data": {
+          "month": 10,
+          "monthName": "October",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "Festival of Lights",
+          "description": "Diwali gifting + upgrades",
+          "target": 186559,
+          "offers": 3
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹1.87L",
+        "narration": "The target is 1.87 lakh rupees — 186 per cent above the 65,205 rupees of last October.",
+        "duration": 7281,
+        "data": {
+          "target": 186559,
+          "lastYear": 65205,
+          "yoy": 1.861114945172916,
+          "delta": 121354,
+          "monthName": "October"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 82,086 rupees, 44 per cent. Then new clients 79,043 rupees, comeback 23,564 rupees, other 1,866 rupees.",
+        "duration": 8055,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 82086,
+              "share": 44.000021440938255
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 79043,
+              "share": 42.36890206315429
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 23564,
+              "share": 12.630856726290343
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 1866,
+              "share": 1.0002197696171184
+            }
+          ],
+          "total": 186559,
+          "standard": 121167,
+          "standardShare": 64.9
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "49 buyers",
+        "narration": "573 leads, 149 trials, 49 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 573,
+          "trials": 149,
+          "buyers": 49,
+          "leadToTrial": 0.2600349040139616,
+          "trialToBuyer": 0.3288590604026846,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "35%",
+        "narration": "3 offers carry 65,392 rupees, 35 per cent of the 1.87 lakh rupees target. The other 1.21 lakh rupees is expected at full price.",
+        "duration": 9990,
+        "data": {
+          "target": 186559,
+          "offerRevenue": 65392,
+          "share": 0.35051645860022834,
+          "standard": 121167,
+          "offers": 3
+        }
+      },
+      {
+        "id": "offer-O27-39-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 3 · New clients",
+        "title": "Diwali Gifting, Minus the Dry-Fruit Box",
+        "narration": "New clients: Diwali Gifting, Minus the Dry-Fruit Box. This Diwali, skip the 14th dry-fruit box. 4 buyers at 1,890 rupees — 7,560 rupees. 33 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 0,
+          "count": 3,
+          "narrated": true,
+          "name": "Diwali Gifting, Minus the Dry-Fruit Box",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "This Diwali, gift something they'll actually use.",
+          "benefit": "This Diwali, skip the 14th dry-fruit box. Gift 3 classes for the price of 2. If they join, you get a bonus class too.",
+          "rationale": "Gifting is real festive spend; the 3-for-2 gets recipients to the 3-visit mark that converts at 73–89%.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Recipient must be new; activate within 60 days. Claim by 2027-11-15.",
+          "kpi": "Gift envelopes sold; activation rate; recipient → member.",
+          "offerType": "Gift card (3-for-2)",
+          "ticket": 1890,
+          "buyers": 4,
+          "revenue": 7560,
+          "discount": 33,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.11561047222901884
+        }
+      },
+      {
+        "id": "offer-O27-42-POP",
+        "kind": "offer",
+        "kicker": "Offer 2 of 3 · Win-backs",
+        "title": "Diwali Cleaning: Found Your Old Grip Socks?",
+        "narration": "Win-backs: Diwali Cleaning: Found Your Old Grip Socks? Diwali cleaning found your old grip socks. 3 buyers at 7,229 rupees — 21,687 rupees. 20 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 1,
+          "count": 3,
+          "narrated": true,
+          "name": "Diwali Cleaning: Found Your Old Grip Socks?",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "Diwali cleaning found your old grip socks. Sign?",
+          "benefit": "Diwali cleaning found your old grip socks. That's a sign. Bring them back: 15% off your return and a brand-new pair on us.",
+          "rationale": "A physical prompt from the client's own home is a memorable trigger; the retail cost is low.",
+          "audience": "Standard lapsed 15% + retail (≤20% effective)",
+          "conditions": "Standard lapsed 15% + retail (≤20% effective).",
+          "kpi": "Reactivations.",
+          "offerType": "Winback (retail swap)",
+          "ticket": 7229,
+          "buyers": 3,
+          "revenue": 21687,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.33164607291411796
+        }
+      },
+      {
+        "id": "offer-O27-51-POP-m10",
+        "kind": "offer",
+        "kicker": "Offer 3 of 3 · Renewals",
+        "title": "Same Time Next Week",
+        "narration": "Renewals: Same Time Next Week. You're nearly out of classes. 5 buyers at 7,229 rupees — 36,145 rupees. 15 per cent off.",
+        "duration": 9216,
+        "data": {
+          "index": 2,
+          "count": 3,
+          "narrated": true,
+          "name": "Same Time Next Week",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Your pack is nearly out. Same one again, 15% less.",
+          "benefit": "You're nearly out of classes. Take the same pack again at 15% off — ₹7,229 for ten at Copper + Cloves, ₹5,891 for eight — and we’ll add a week of validity so none of them go to waste.",
+          "rationale": "The pop-ups sell class packs, not memberships, so renewal is a repurchase decision rather than an expiry date. Four of the twelve months carried a renewal target with no renewal offer in the catalogue; this is the standing one.",
+          "audience": "Pop-up clients whose class pack is running out.",
+          "conditions": "15% off the pack, inside the cap. One per client per pack expiry. The extra week of validity has no cash value.",
+          "kpi": "Packs repurchased within 14 days of running out (target 55%); share of pop-up renewal revenue with an offer behind it.",
+          "offerType": "Pack renewal (standing)",
+          "ticket": 7229,
+          "buyers": 5,
+          "revenue": 36145,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.5527434548568633
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Diwali Gifting, Minus the Dry-Fruit Box in Momence. Then, Weekly check: Diwali Gifting, Minus the Dry-Fruit Box: Gift envelopes.",
+        "duration": 9216,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Diwali Gifting, Minus the Dry-Fruit Box in Momence (2027-10-01 to 2027-11-15): A festive gift envelope with 3 classes for the price of 2 — Mumbai ₹3,885, Kenkere ₹2,835, pop-ups ₹1,890 — for someone new. The recipient gets the standard 15% on a first membership; the giver gets 1 bonus class when they buy."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Diwali Gifting, Minus the Dry-Fruit Box: Gift envelopes sold; activation rate; recipient → member. | Diwali Cleaning: Found Your Old Grip Socks?: Reactivations."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹1.9L: by the 15th aim for ~half of 49 new buyers (149 first visits), 11 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close October: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "October 2027",
+        "title": "That is the plan",
+        "narration": "That is October at Pop-up: 1.87 lakh rupees across 3 offers, and 49 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 186559,
+          "offerRevenue": 65392,
+          "offers": 3,
+          "buyers": 49,
+          "monthName": "October",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 83259
+  }
+}

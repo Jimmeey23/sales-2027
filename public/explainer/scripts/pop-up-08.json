@@ -1,0 +1,264 @@
+{
+  "slug": "pop-up",
+  "month": 8,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "August",
+  "year": 2027,
+  "title": "August 2027 · Pop-up",
+  "duration": 82484,
+  "scenes": 10,
+  "hash": "a231c00f",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "August 2027 at Pop-up. The theme is The Amazing Race 2.0. The target is 2.05 lakh rupees — 44 per cent above the 1.43 lakh rupees of last August. New clients lead at 1.13 lakh rupees, 55 per cent. Then renewals 90,201 rupees, other 2,050 rupees. 631 leads, 164 trials, 54 buyers, and 33 per cent of trials convert.",
+    "b": "3 offers carry 76,724 rupees, 37 per cent of the 2.05 lakh rupees target. The other 1.28 lakh rupees is expected at full price. Revenue boost: Friends With Benefits (Strictly Fitness). Friends with benefits. 2 buyers at 5,891 rupees — 11,782 rupees. 15 per cent off. New clients: Rookie Mistake (The Only Good One). Two weeks unlimited for 3,999 rupees Bengaluru 2,999 rupees. 4 buyers at 5,392 rupees — 21,568 rupees. 20 per cent off. Renewals: Medal Detector. Finished the race? Our medal detector just beeped. 6 buyers at 7,229 rupees — 43,374 rupees. 18 per cent off. First, Set up Rookie Mistake The Only Good One in Momence. Then, Weekly check: Rookie Mistake The Only Good One: Average visits. That is August at Pop-up: 2.05 lakh rupees across 3 offers, and 54 buyers to find."
+  },
+  "script": {
+    "title": "August 2027 · Pop-up",
+    "monthName": "August",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "August",
+        "narration": "August 2027 at Pop-up. The theme is The Amazing Race 2.0.",
+        "duration": 4958,
+        "data": {
+          "month": 8,
+          "monthName": "August",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "The Amazing Race 2.0",
+          "description": "The Amazing Race 2.0 + Friendship Day + Independence Day",
+          "target": 205003,
+          "offers": 3
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹2.05L",
+        "narration": "The target is 2.05 lakh rupees — 44 per cent above the 1.43 lakh rupees of last August.",
+        "duration": 7668,
+        "data": {
+          "target": 205003,
+          "lastYear": 142852,
+          "yoy": 0.4350726626158541,
+          "delta": 62151,
+          "monthName": "August"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "3 streams",
+        "narration": "New clients lead at 1.13 lakh rupees, 55 per cent. Then renewals 90,201 rupees, other 2,050 rupees.",
+        "duration": 7281,
+        "data": {
+          "streams": [
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 112752,
+              "share": 55.00017072920884
+            },
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 90201,
+              "share": 43.99984390472335
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 2050,
+              "share": 0.9999853660678136
+            }
+          ],
+          "total": 205003,
+          "standard": 128279,
+          "standardShare": 62.6
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "54 buyers",
+        "narration": "631 leads, 164 trials, 54 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 631,
+          "trials": 164,
+          "buyers": 54,
+          "leadToTrial": 0.25990491283676703,
+          "trialToBuyer": 0.32926829268292684,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "37%",
+        "narration": "3 offers carry 76,724 rupees, 37 per cent of the 2.05 lakh rupees target. The other 1.28 lakh rupees is expected at full price.",
+        "duration": 9990,
+        "data": {
+          "target": 205003,
+          "offerRevenue": 76724,
+          "share": 0.37425793768871674,
+          "standard": 128279,
+          "offers": 3
+        }
+      },
+      {
+        "id": "offer-O27-33-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 3 · Revenue boost",
+        "title": "Friends With Benefits (Strictly Fitness)",
+        "narration": "Revenue boost: Friends With Benefits (Strictly Fitness). Friends with benefits. 2 buyers at 5,891 rupees — 11,782 rupees. 15 per cent off.",
+        "duration": 9216,
+        "data": {
+          "index": 0,
+          "count": 3,
+          "narrated": true,
+          "name": "Friends With Benefits (Strictly Fitness)",
+          "slot": "referral",
+          "slotLabel": "Revenue boost",
+          "headline": "Friends with benefits. Strictly fitness.",
+          "benefit": "Friends with benefits. Strictly fitness. Bring a friend who's never been — 2 classes on us — and if they join, you both get race tees and you get 7 bonus days and double points.",
+          "rationale": "Friendship Day falls on race day one. Referred friends convert 22–76% vs 4–6% for website leads.",
+          "audience": "Current members bringing a guest.",
+          "conditions": "Friend must be new.",
+          "kpi": "Tag Teams formed; friend → member (target 35%).",
+          "offerType": "Referral (Friendship Day)",
+          "ticket": 5891,
+          "buyers": 2,
+          "revenue": 11782,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.15356342213648924
+        }
+      },
+      {
+        "id": "offer-O27-31-POP",
+        "kind": "offer",
+        "kicker": "Offer 2 of 3 · New clients",
+        "title": "Rookie Mistake (The Only Good One)",
+        "narration": "New clients: Rookie Mistake (The Only Good One). Two weeks unlimited for 3,999 rupees Bengaluru 2,999 rupees. 4 buyers at 5,392 rupees — 21,568 rupees. 20 per cent off.",
+        "duration": 11926,
+        "data": {
+          "index": 1,
+          "count": 3,
+          "narrated": true,
+          "name": "Rookie Mistake (The Only Good One)",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Two weeks unlimited. The only rookie mistake is not trying.",
+          "benefit": "Two weeks unlimited for ₹3,999 (Bengaluru ₹2,999) and a spot on the Rookie leaderboard. The only rookie mistake is not starting.",
+          "rationale": "Clients with 5+ visits in month one buy at 93.5%. A 14-day window lets newcomers reach 5+ visits; the race gives them a reason. Effective 20% on conversion.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "One per person. Effective 20% on conversion.",
+          "kpi": "Average visits in 14 days (target 6); intro → member (target 45%).",
+          "offerType": "Newcomer experiment (14-day intro)",
+          "ticket": 5392,
+          "buyers": 4,
+          "revenue": 21568,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.2811115166049737
+        }
+      },
+      {
+        "id": "offer-O27-34-POP",
+        "kind": "offer",
+        "kicker": "Offer 3 of 3 · Renewals",
+        "title": "Medal Detector",
+        "narration": "Renewals: Medal Detector. Finished the race? Our medal detector just beeped. 6 buyers at 7,229 rupees — 43,374 rupees. 18 per cent off.",
+        "duration": 9603,
+        "data": {
+          "index": 2,
+          "count": 3,
+          "narrated": true,
+          "name": "Medal Detector",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Finished the race? Your renewal just found gold.",
+          "benefit": "Finished the race? Our medal detector just beeped: 6 months at 20% off plus a private, or 3 months at 15% off plus 5 days.",
+          "rationale": "Race attendance lifts usage into the 75%+ band where renewal is 82–88%. August is Mumbai's second peak (Kwality ₹30.0L, Bandra ₹22.8L in Aug-26).",
+          "audience": "6M ≈24% effective with private, inside the cap for 6M+ plans",
+          "conditions": "6M ≈24% effective with private, inside the cap for 6M+ plans. Claim by 2027-09-05.",
+          "kpi": "Race finish rate; 3M+ share of August renewals (target 45%).",
+          "offerType": "Race finisher renewal",
+          "ticket": 7229,
+          "buyers": 6,
+          "revenue": 43374,
+          "discount": 18,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.5653250612585371
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Rookie Mistake The Only Good One in Momence. Then, Weekly check: Rookie Mistake The Only Good One: Average visits.",
+        "duration": 9216,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Rookie Mistake (The Only Good One) in Momence (2027-08-01 to 2027-08-20): 14 days unlimited: Mumbai ₹3,999 (barre + powerCycle, 1 Lab induction at Supreme HQ), Kenkere ₹2,999 (barre), pop-ups ₹1,999 for 4 classes in 14 days. Every class counts on the Rookie leaderboard. ₹999 (Kenkere ₹749, pop-up ₹499) credited against a first membership within 72 hours of day 14, with the standard 15%."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Rookie Mistake (The Only Good One): Average visits in 14 days (target 6); intro → member (target 45%). | Friends With Benefits (Strictly Fitness): Tag Teams formed; friend → member (target 35%). | Medal Detector: Race finish rate; 3M+ share of August renewals (target 45%)."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹2.1L: by the 15th aim for ~half of 54 new buyers (164 first visits), 12 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close August: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "August 2027",
+        "title": "That is the plan",
+        "narration": "That is August at Pop-up: 2.05 lakh rupees across 3 offers, and 54 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 205003,
+          "offerRevenue": 76724,
+          "offers": 3,
+          "buyers": 54,
+          "monthName": "August",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 82484
+  }
+}

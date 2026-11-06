@@ -1,0 +1,300 @@
+{
+  "slug": "kenkere-house",
+  "month": 1,
+  "studio": "KK",
+  "studioName": "Kenkere House",
+  "monthName": "January",
+  "year": 2027,
+  "title": "January 2027 · Kenkere House",
+  "duration": 95184,
+  "scenes": 11,
+  "hash": "21653e81",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "January 2027 at Kenkere House. The theme is Resolutions with Receipts. The target is 11.8 lakh rupees — 6 per cent above the 11.1 lakh rupees of last January. Renewals lead at 6.25 lakh rupees, 53 per cent. Then new clients 4.01 lakh rupees, other 82,600 rupees, comeback 70,800 rupees. 878 leads, 316 trials, 59 buyers, and 19 per cent of trials convert.",
+    "b": "4 offers carry 6.14 lakh rupees, 52 per cent of the 11.8 lakh rupees target. The other 5.66 lakh rupees is expected at full price. Revenue boost: The 57-Hour Hangover Sale. Hungover? Same. For the next 57 hours. 10 buyers at 10,000 rupees — 1 lakh rupees. 31 per cent off. New clients: Third Time's the Charm. First class: awkward. 12 buyers at 12,406 rupees — 1.49 lakh rupees. 33 per cent off. Win-backs: U Up? It's 2027. U up? Your mat's been asking about you. Come back this January. 8 buyers at 12,406 rupees — 99,248 rupees. 20 per cent off. Renewals: The Baker's Dozen. 12 months is so 2026. 2 buyers at 1.33 lakh rupees — 2.66 lakh rupees. 21.5 per cent off. First, Set up The 57-Hour Hangover Sale in Momence. Then, Weekly check: The 57-Hour Hangover Sale: Sell-out time; share of spot. That is January at Kenkere House: 11.8 lakh rupees across 4 offers, and 59 buyers to find."
+  },
+  "script": {
+    "title": "January 2027 · Kenkere House",
+    "monthName": "January",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Kenkere House · 2027",
+        "title": "January",
+        "narration": "January 2027 at Kenkere House. The theme is Resolutions with Receipts.",
+        "duration": 4958,
+        "data": {
+          "month": 1,
+          "monthName": "January",
+          "year": 2027,
+          "studio": "Kenkere House",
+          "theme": "Resolutions with Receipts",
+          "description": "Resolutions with receipts",
+          "target": 1180000,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹11.8L",
+        "narration": "The target is 11.8 lakh rupees — 6 per cent above the 11.1 lakh rupees of last January.",
+        "duration": 7668,
+        "data": {
+          "target": 1180000,
+          "lastYear": 1110874,
+          "yoy": 0.062226679173335686,
+          "delta": 69126,
+          "monthName": "January"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 6.25 lakh rupees, 53 per cent. Then new clients 4.01 lakh rupees, other 82,600 rupees, comeback 70,800 rupees.",
+        "duration": 8829,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 625400,
+              "share": 53
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 401200,
+              "share": 34
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 82600,
+              "share": 7.000000000000001
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 70800,
+              "share": 6
+            }
+          ],
+          "total": 1180000,
+          "standard": 566272,
+          "standardShare": 48
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "59 buyers",
+        "narration": "878 leads, 316 trials, 59 buyers, and 19 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 878,
+          "trials": 316,
+          "buyers": 59,
+          "leadToTrial": 0.35990888382687924,
+          "trialToBuyer": 0.18670886075949367,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.604
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "52%",
+        "narration": "4 offers carry 6.14 lakh rupees, 52 per cent of the 11.8 lakh rupees target. The other 5.66 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 1180000,
+          "offerRevenue": 613728,
+          "share": 0.5201084745762712,
+          "standard": 566272,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-01-KK",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · Revenue boost",
+        "title": "The 57-Hour Hangover Sale",
+        "narration": "Revenue boost: The 57-Hour Hangover Sale. Hungover? Same. For the next 57 hours. 10 buyers at 10,000 rupees — 1 lakh rupees. 31 per cent off.",
+        "duration": 10765,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "The 57-Hour Hangover Sale",
+          "slot": "spot",
+          "slotLabel": "Revenue boost",
+          "headline": "Hungover? Same. 1 month unlimited, flat ₹15,000. 57 hours only.",
+          "benefit": "Hungover? Same. For the next 57 hours, 1 Month Unlimited is a flat ₹15,000 (Bengaluru: ₹10,000). Only 57 memberships per city, then it disappears faster than your NYE plans. Start any day before 15 Jan.",
+          "rationale": "January is the strongest non-April month in Mumbai (Jan-26: Kwality ₹27.4L, Bandra ₹20.0L; Kenkere ₹11.1L). A capped spot price creates urgency without training clients to wait — only 57 units per city, so the maximum discount exposure is ~₹3.0L in Mumbai and ~₹2.6L in Bengaluru.",
+          "audience": "Everyone, while the capped stock lasts; one per person.",
+          "conditions": "Spot offer, so the >25% cap does not apply. Replaces (does not stack with) the 15% newcomer or lapsed perk. Active members may buy it as their next renewal only if their plan ends before 31 Jan.",
+          "kpi": "Sell-out time; share of spot buyers renewing in Feb at standard price (target 55%).",
+          "offerType": "Spot price (flash)",
+          "ticket": 10000,
+          "buyers": 10,
+          "revenue": 100000,
+          "discount": 31,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.1629386307940977
+        }
+      },
+      {
+        "id": "offer-O27-02-KK",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · New clients",
+        "title": "Third Time's the Charm",
+        "narration": "New clients: Third Time's the Charm. First class: awkward. 12 buyers at 12,406 rupees — 1.49 lakh rupees. 33 per cent off.",
+        "duration": 9216,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Third Time's the Charm",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "First class: awkward. Second: better. Third: hooked. 3 classes for the price of 2.",
+          "benefit": "First class: awkward. Second class: better. Third class: you're hooked. Try barre, powerCycle and Strength Lab — 3 classes for the price of 2 (₹3,885). Bengaluru: 3 barre classes for ₹2,835. Love it? Your first membership is 15% off.",
+          "rationale": "60.6% of first-timers never take a 2nd class. Purchase within 60 days by month-1 visits: 0 return visits 10.8%, 1 → 43.9%, 2 → 73.3%, 3–4 → 88.6%. The 2-for-1 route converts 20.8% (Bandra 17%). A third class moves people into the 73–89% band.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "One per person (phone verified). Intro products sit outside the 25% cap as acquisition cost. Class 2 booked at the desk before leaving class 1.",
+          "kpi": "Packs with all 3 classes used in 14 days (target 60%); pack → membership (target 35% vs 20.8% on 2-for-1).",
+          "offerType": "Newcomer experiment (3-for-2)",
+          "ticket": 12406,
+          "buyers": 12,
+          "revenue": 148872,
+          "discount": 33,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.24256999843578914
+        }
+      },
+      {
+        "id": "offer-O27-04-KK",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · Win-backs",
+        "title": "U Up? It's 2027.",
+        "narration": "Win-backs: U Up? It's 2027. U up? Your mat's been asking about you. Come back this January. 8 buyers at 12,406 rupees — 99,248 rupees. 20 per cent off.",
+        "duration": 11926,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "U Up? It's 2027.",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "U up? Your mat's been asking about you.",
+          "benefit": "U up? Your mat's been asking about you. Come back this January: 15% off, and hit 12 classes this month for 5 bonus days. No awkward small talk, promise.",
+          "rationale": "Bandra is reactivation-led (3,209 lapsed vs 5,065 renewed membership records). Renewal climbs with usage: Bandra members using <50% of sessions renew 49–58% vs 82% at 75%+. The bonus is only paid for attendance that predicts the next renewal.",
+          "audience": "Standard lapsed 15%, bonus earned (≈20% effective if earned)",
+          "conditions": "Standard lapsed 15%, bonus earned (≈20% effective if earned). No stacking with the spot sale.",
+          "kpi": "Lapsed buyers; share hitting 12 classes (target 40%); Feb renewal of Jan winbacks.",
+          "offerType": "Winback (earned bonus)",
+          "ticket": 12406,
+          "buyers": 8,
+          "revenue": 99248,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.1617133322905261
+        }
+      },
+      {
+        "id": "offer-O27-03-KK",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "The Baker's Dozen",
+        "narration": "Renewals: The Baker's Dozen. 12 months is so 2026. 2 buyers at 1.33 lakh rupees — 2.66 lakh rupees. 21.5 per cent off.",
+        "duration": 9603,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "The Baker's Dozen",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "12 months is so 2026. Renew your annual and get 13.",
+          "benefit": "12 months is so 2026. Renew your annual this January and we'll bake in a 13th month — plus your 2 privates, 4 guest passes, a hosted class and monthly trainer check-ins. A baker's dozen hits different.",
+          "rationale": "Annual is Kwality's #1 product (32 units, ₹51.6L in the last 12 months) and Bandra's #3 (15 units, ₹23.8L). The ANN-2026-25%-KH code gave away ₹9.7L at a flat 25%; this gives less cash away (≈21.5% effective) and adds time, which costs little at spare capacity.",
+          "audience": "≈21",
+          "conditions": "≈21.5% effective (annual cap 25%). Annual, 6M and 3M members expiring 1 Dec–28 Feb.",
+          "kpi": "Annual re-up rate (target 75%); 3M/6M → annual upgrades.",
+          "offerType": "Annual renewal (time bonus)",
+          "ticket": 132804,
+          "buyers": 2,
+          "revenue": 265608,
+          "discount": 21.5,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.43277803847958707
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up The 57-Hour Hangover Sale in Momence. Then, Weekly check: The 57-Hour Hangover Sale: Sell-out time; share of spot.",
+        "duration": 8829,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up The 57-Hour Hangover Sale in Momence (2027-01-01 to 2027-01-03): 1 Month Unlimited at a flat ₹15,000 in Mumbai (list ₹20,239, 26% off) or ₹10,000 at Kenkere (list ₹14,595, 31% off). Fri 1 Jan 00:00 to Sun 3 Jan 09:00 — 57 hours. Capped at 57 memberships per city, 1 per person, activate by 15 Jan."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: The 57-Hour Hangover Sale: Sell-out time; share of spot buyers renewing in Feb at standard price (target 55%). | Third Time's the Charm: Packs with all 3 classes used in 14 days (target 60%); pack → membership (target 35% vs 20.8% on 2-for-1). | The Baker's Dozen: Annual re-up rate (target 75%); 3M/6M → annual upgrades. | U Up? It's 2027.: Lapsed buyers; share hitting 12 classes (target 40%); Feb renewal of Jan winbacks."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹11.8L: by the 15th aim for ~half of 59 new buyers (316 first visits), 41 renewals and 8 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close January: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "January 2027",
+        "title": "That is the plan",
+        "narration": "That is January at Kenkere House: 11.8 lakh rupees across 4 offers, and 59 buyers to find.",
+        "duration": 7281,
+        "data": {
+          "target": 1180000,
+          "offerRevenue": 613728,
+          "offers": 4,
+          "buyers": 59,
+          "monthName": "January",
+          "studio": "Kenkere House"
+        }
+      }
+    ],
+    "duration": 95184
+  }
+}
