@@ -1,0 +1,91 @@
+{
+ "slug": "kemps-corner-01",
+ "studio": "Kemps Corner",
+ "month": 1,
+ "monthName": "January",
+ "year": 2027,
+ "target": 3300000,
+ "lastYear": 2744705,
+ "yoy": 0.2023150028873777,
+ "offers": 4,
+ "buyers": 71,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "January 2027 at Kemps Corner. The theme is Resolutions with Receipts. New year, same you, better spreadsheet. Let's see what January wants from us. The target is 33 lakh rupees. That is 20 per cent above the 27.45 lakh rupees of last January. A stretch, but a friendly one. Renewals lead at 18.15 lakh rupees, 55 per cent. Then new clients at 7.92 lakh rupees, 24 per cent, comeback at 3.96 lakh rupees, 12 per cent, other at 2.97 lakh rupees, 9 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 518 leads, 264 trials, 71 buyers, and 26.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 23.39 lakh rupees, 71 per cent of the 33 lakh rupees target. The other 9.61 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kemps Corner · 2027",
+     "title": "January",
+     "text": "January 2027 at Kemps Corner. The theme is Resolutions with Receipts. New year, same you, better spreadsheet. Let's see what January wants from us."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹33L",
+     "text": "The target is 33 lakh rupees. That is 20 per cent above the 27.45 lakh rupees of last January. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 18.15 lakh rupees, 55 per cent. Then new clients at 7.92 lakh rupees, 24 per cent, comeback at 3.96 lakh rupees, 12 per cent, other at 2.97 lakh rupees, 9 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "71 buyers",
+     "text": "518 leads, 264 trials, 71 buyers, and 26.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "71%",
+     "text": "Four offers carry 23.39 lakh rupees, 71 per cent of the 33 lakh rupees target. The other 9.61 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. The 57-Hour Hangover Sale. Revenue boost. 24 buyers at 15,000 rupees, that is 3.6 lakh rupees, with 26 per cent off. A sale with a spine. Spend it fast, or it spends you. Offer 2 of 4. Third Time's the Charm. New clients. 30 buyers at 17,203 rupees, that is 5.16 lakh rupees, with 33 per cent off. The welcome mat is out. Please wipe your feet. Offer 3 of 4. U Up? It's 2027. Win-backs. 20 buyers at 17,203 rupees, that is 3.44 lakh rupees, with 20 per cent off. This one says we missed you, politely, with a discount attached. Offer 4 of 4. The Baker's Dozen. Renewals. 6 buyers at 186,533 rupees, that is 11.19 lakh rupees, with 21.5 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 33 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's January at Kemps Corner: 33 lakh rupees across Four offers, and 71 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-01-KC",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "The 57-Hour Hangover Sale",
+     "text": "Offer 1 of 4. The 57-Hour Hangover Sale. Revenue boost. 24 buyers at 15,000 rupees, that is 3.6 lakh rupees, with 26 per cent off. A sale with a spine. Spend it fast, or it spends you."
+    },
+    {
+     "id": "offer-O27-02-KC",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Third Time's the Charm",
+     "text": "Offer 2 of 4. Third Time's the Charm. New clients. 30 buyers at 17,203 rupees, that is 5.16 lakh rupees, with 33 per cent off. The welcome mat is out. Please wipe your feet."
+    },
+    {
+     "id": "offer-O27-04-KC",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "U Up? It's 2027.",
+     "text": "Offer 3 of 4. U Up? It's 2027. Win-backs. 20 buyers at 17,203 rupees, that is 3.44 lakh rupees, with 20 per cent off. This one says we missed you, politely, with a discount attached."
+    },
+    {
+     "id": "offer-O27-03-KC",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "The Baker's Dozen",
+     "text": "Offer 4 of 4. The Baker's Dozen. Renewals. 6 buyers at 186,533 rupees, that is 11.19 lakh rupees, with 21.5 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 33 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "January 2027",
+     "title": "That is the plan",
+     "text": "That's January at Kemps Corner: 33 lakh rupees across Four offers, and 71 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

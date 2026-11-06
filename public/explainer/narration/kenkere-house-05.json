@@ -1,0 +1,91 @@
+{
+ "slug": "kenkere-house-05",
+ "studio": "Kenkere House",
+ "month": 5,
+ "monthName": "May",
+ "year": 2027,
+ "target": 1134068,
+ "lastYear": 988518,
+ "yoy": 0.14724061676165734,
+ "offers": 4,
+ "buyers": 57,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "May 2027 at Kenkere House. The theme is Home for the Holidays. May. Warm enough to skip the jacket, cool enough to skip nothing. The target is 11.34 lakh rupees. That is 15 per cent above the 9.89 lakh rupees of last May. Up on last year. The plan has a plan for that. Renewals lead at 6.01 lakh rupees, 53 per cent. Then new clients at 3.86 lakh rupees, 34 per cent, other at 79,385 rupees, 7 per cent, comeback at 68,044 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them. 847 leads, 305 trials, 57 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 3.95 lakh rupees, 35 per cent of the 11.34 lakh rupees target. The other 7.39 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kenkere House · 2027",
+     "title": "May",
+     "text": "May 2027 at Kenkere House. The theme is Home for the Holidays. May. Warm enough to skip the jacket, cool enough to skip nothing."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹11.34L",
+     "text": "The target is 11.34 lakh rupees. That is 15 per cent above the 9.89 lakh rupees of last May. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 6.01 lakh rupees, 53 per cent. Then new clients at 3.86 lakh rupees, 34 per cent, other at 79,385 rupees, 7 per cent, comeback at 68,044 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "57 buyers",
+     "text": "847 leads, 305 trials, 57 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "35%",
+     "text": "Four offers carry 3.95 lakh rupees, 35 per cent of the 11.34 lakh rupees target. The other 7.39 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Mom-entum. New clients. 4 buyers at 12,406 rupees, that is 49,624 rupees, with 18 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 4. Mom Said Get Off the Couch. New clients. 7 buyers at 6,972 rupees, that is 48,804 rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one. Offer 3 of 4. Group Project, Finally, Everyone Pulls Their Weight. New clients. 5 buyers at 6,536 rupees, that is 32,680 rupees, with 25 per cent off. The welcome mat is out. Please wipe your feet. Offer 4 of 4. Don't Ghost Us After the Party. Renewals. 12 buyers at 22,000 rupees, that is 2.64 lakh rupees, with 19.5 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.34 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's May at Kenkere House: 11.34 lakh rupees across Four offers, and 57 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-21-KK",
+     "kicker": "Offer 1 of 4 · New clients",
+     "title": "Mom-entum",
+     "text": "Offer 1 of 4. Mom-entum. New clients. 4 buyers at 12,406 rupees, that is 49,624 rupees, with 18 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-19-KK",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Mom Said Get Off the Couch",
+     "text": "Offer 2 of 4. Mom Said Get Off the Couch. New clients. 7 buyers at 6,972 rupees, that is 48,804 rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-20-KK",
+     "kicker": "Offer 3 of 4 · New clients",
+     "title": "Group Project (Finally, Everyone Pulls Their Weight)",
+     "text": "Offer 3 of 4. Group Project, Finally, Everyone Pulls Their Weight. New clients. 5 buyers at 6,536 rupees, that is 32,680 rupees, with 25 per cent off. The welcome mat is out. Please wipe your feet."
+    },
+    {
+     "id": "offer-O27-22-KK",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Don't Ghost Us After the Party",
+     "text": "Offer 4 of 4. Don't Ghost Us After the Party. Renewals. 12 buyers at 22,000 rupees, that is 2.64 lakh rupees, with 19.5 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.34 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "May 2027",
+     "title": "That is the plan",
+     "text": "That's May at Kenkere House: 11.34 lakh rupees across Four offers, and 57 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

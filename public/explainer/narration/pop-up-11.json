@@ -1,0 +1,91 @@
+{
+ "slug": "pop-up-11",
+ "studio": "Pop-up",
+ "month": 11,
+ "monthName": "November",
+ "year": 2027,
+ "target": 181331,
+ "lastYear": 126357,
+ "yoy": 0.4350688921072834,
+ "offers": 4,
+ "buyers": 48,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "November 2027 at Pop-up. The theme is Black Friday + Thank U, Next. November. Black Friday, Diwali leftovers, and a lot of good resolutions. The target is 1.81 lakh rupees. That is 44 per cent above the 1.26 lakh rupees of last November. A stretch, but a friendly one. New clients lead at 99,732 rupees, 55 per cent. Then renewals at 79,786 rupees, 44 per cent, other at 1,813 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 562 leads, 146 trials, 48 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 1.12 lakh rupees, 62 per cent of the 1.81 lakh rupees target. The other 69,239 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Pop-up · 2027",
+     "title": "November",
+     "text": "November 2027 at Pop-up. The theme is Black Friday + Thank U, Next. November. Black Friday, Diwali leftovers, and a lot of good resolutions."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹1.81L",
+     "text": "The target is 1.81 lakh rupees. That is 44 per cent above the 1.26 lakh rupees of last November. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "3 streams",
+     "text": "New clients lead at 99,732 rupees, 55 per cent. Then renewals at 79,786 rupees, 44 per cent, other at 1,813 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "48 buyers",
+     "text": "562 leads, 146 trials, 48 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "62%",
+     "text": "Four offers carry 1.12 lakh rupees, 62 per cent of the 1.81 lakh rupees target. The other 69,239 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Thank U, Next, Year. Revenue boost. 1 buyers at 5,891 rupees, that is 5,891 rupees. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Pop-Up, Don't Drop Out. New clients. 12 buyers at 7,229 rupees, that is 86,748 rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Secret Santa Squats. New clients. 5 buyers at 999 rupees, that is 4,995 rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one. Offer 4 of 4. Black Friday, Strong Monday, Sore Tuesday. Renewals. 2 buyers at 7,229 rupees, that is 14,458 rupees, with 15 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.81 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's November at Pop-up: 1.81 lakh rupees across Four offers, and 48 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-44-POP",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Thank U, Next (Year)",
+     "text": "Offer 1 of 4. Thank U, Next, Year. Revenue boost. 1 buyers at 5,891 rupees, that is 5,891 rupees. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-45-POP",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Pop-Up, Don't Drop Out",
+     "text": "Offer 2 of 4. Pop-Up, Don't Drop Out. New clients. 12 buyers at 7,229 rupees, that is 86,748 rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-49-POP-m11",
+     "kicker": "Offer 3 of 4 · New clients",
+     "title": "Secret Santa Squats",
+     "text": "Offer 3 of 4. Secret Santa Squats. New clients. 5 buyers at 999 rupees, that is 4,995 rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-43-POP",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Black Friday, Strong Monday, Sore Tuesday",
+     "text": "Offer 4 of 4. Black Friday, Strong Monday, Sore Tuesday. Renewals. 2 buyers at 7,229 rupees, that is 14,458 rupees, with 15 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.81 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "November 2027",
+     "title": "That is the plan",
+     "text": "That's November at Pop-up: 1.81 lakh rupees across Four offers, and 48 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

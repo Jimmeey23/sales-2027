@@ -1,0 +1,91 @@
+{
+ "slug": "pop-up-12",
+ "studio": "Pop-up",
+ "month": 12,
+ "monthName": "December",
+ "year": 2027,
+ "target": 169592,
+ "lastYear": 118178,
+ "yoy": 0.43505559410380945,
+ "offers": 4,
+ "buyers": 45,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "December 2027 at Pop-up. The theme is Wrapped. December. Gifts, goals and very festive sweat. Let's close the year properly. The target is 1.7 lakh rupees. That is 44 per cent above the 1.18 lakh rupees of last December. Up on last year. The plan has a plan for that. New clients lead at 81,494 rupees, 48.1 per cent. Then renewals at 74,620 rupees, 44 per cent, comeback at 11,782 rupees, 6.9 per cent, other at 1,696 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them. 527 leads, 137 trials, 45 buyers, and 32.8 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 76,286 rupees, 45 per cent of the 1.7 lakh rupees target. The other 93,306 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Pop-up · 2027",
+     "title": "December",
+     "text": "December 2027 at Pop-up. The theme is Wrapped. December. Gifts, goals and very festive sweat. Let's close the year properly."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹1.7L",
+     "text": "The target is 1.7 lakh rupees. That is 44 per cent above the 1.18 lakh rupees of last December. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "New clients lead at 81,494 rupees, 48.1 per cent. Then renewals at 74,620 rupees, 44 per cent, comeback at 11,782 rupees, 6.9 per cent, other at 1,696 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "45 buyers",
+     "text": "527 leads, 137 trials, 45 buyers, and 32.8 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "45%",
+     "text": "Four offers carry 76,286 rupees, 45 per cent of the 1.7 lakh rupees target. The other 93,306 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Secret Santa Squats. New clients. 4 buyers at 999 rupees, that is 3,996 rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 4. Last Seen: 2026, We Noticed. Win-backs. 2 buyers at 7,229 rupees, that is 14,458 rupees, with 15 per cent off. The mat has been waiting. Be kind, come back. Offer 3 of 4. Wrapped: Your Top Artist Was Your Trainer. Renewals. 4 buyers at 7,229 rupees, that is 28,916 rupees, with 15 per cent off. Loyalty, but make it financially reasonable. Offer 4 of 4. 12 Days of Shakemas. Renewals. 4 buyers at 7,229 rupees, that is 28,916 rupees, with 15 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.7 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's December at Pop-up: 1.7 lakh rupees across Four offers, and 45 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-49-POP",
+     "kicker": "Offer 1 of 4 · New clients",
+     "title": "Secret Santa Squats",
+     "text": "Offer 1 of 4. Secret Santa Squats. New clients. 4 buyers at 999 rupees, that is 3,996 rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-50-POP",
+     "kicker": "Offer 2 of 4 · Win-backs",
+     "title": "Last Seen: 2026 (We Noticed)",
+     "text": "Offer 2 of 4. Last Seen: 2026, We Noticed. Win-backs. 2 buyers at 7,229 rupees, that is 14,458 rupees, with 15 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-46-POP",
+     "kicker": "Offer 3 of 4 · Renewals",
+     "title": "Wrapped: Your Top Artist Was Your Trainer",
+     "text": "Offer 3 of 4. Wrapped: Your Top Artist Was Your Trainer. Renewals. 4 buyers at 7,229 rupees, that is 28,916 rupees, with 15 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "offer-O27-47-POP",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "12 Days of Shakemas",
+     "text": "Offer 4 of 4. 12 Days of Shakemas. Renewals. 4 buyers at 7,229 rupees, that is 28,916 rupees, with 15 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.7 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "December 2027",
+     "title": "That is the plan",
+     "text": "That's December at Pop-up: 1.7 lakh rupees across Four offers, and 45 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

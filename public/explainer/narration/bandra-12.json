@@ -1,0 +1,97 @@
+{
+ "slug": "bandra-12",
+ "studio": "Bandra",
+ "month": 12,
+ "monthName": "December",
+ "year": 2027,
+ "target": 1850000,
+ "lastYear": 1445206,
+ "yoy": 0.28009432565322867,
+ "offers": 5,
+ "buyers": 59,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "December 2027 at Bandra. The theme is Wrapped. December. Gifts, goals and very festive sweat. Let's close the year properly. The target is 18.5 lakh rupees. That is 28 per cent above the 14.45 lakh rupees of last December. Up on last year. The plan has a plan for that. Renewals lead at 9.44 lakh rupees, 51 per cent. Then new clients at 5 lakh rupees, 27 per cent, comeback at 3.33 lakh rupees, 18 per cent, other at 74,000 rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them. 525 leads, 273 trials, 59 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Five offers carry 14.2 lakh rupees, 77 per cent of the 18.5 lakh rupees target. The other 4.3 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "December",
+     "text": "December 2027 at Bandra. The theme is Wrapped. December. Gifts, goals and very festive sweat. Let's close the year properly."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹18.5L",
+     "text": "The target is 18.5 lakh rupees. That is 28 per cent above the 14.45 lakh rupees of last December. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 9.44 lakh rupees, 51 per cent. Then new clients at 5 lakh rupees, 27 per cent, comeback at 3.33 lakh rupees, 18 per cent, other at 74,000 rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "59 buyers",
+     "text": "525 leads, 273 trials, 59 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "77%",
+     "text": "Five offers carry 14.2 lakh rupees, 77 per cent of the 18.5 lakh rupees target. The other 4.3 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 5. Resolution Pre-Order, Ships 1 Jan. New clients. 7 buyers at 17,203 rupees, that is 1.2 lakh rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 5. Secret Santa Squats. New clients. 16 buyers at 1,999 rupees, that is 31,984 rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one. Offer 3 of 5. Last Seen: 2026, We Noticed. Win-backs. 8 buyers at 17,203 rupees, that is 1.38 lakh rupees, with 15 per cent off. A gentle nudge, with a discount on the nudge. Offer 4 of 5. Wrapped: Your Top Artist Was Your Trainer. Renewals. 14 buyers at 55,000 rupees, that is 7.7 lakh rupees, with 18 per cent off. This one rewards the people who already picked us. Respect. Offer 5 of 5. 12 Days of Shakemas. Renewals. 12 buyers at 30,000 rupees, that is 3.6 lakh rupees, with 18 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 18.5 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's December at Bandra: 18.5 lakh rupees across Five offers, and 59 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-48-BA",
+     "kicker": "Offer 1 of 5 · New clients",
+     "title": "Resolution Pre-Order (Ships 1 Jan)",
+     "text": "Offer 1 of 5. Resolution Pre-Order, Ships 1 Jan. New clients. 7 buyers at 17,203 rupees, that is 1.2 lakh rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-49-BA",
+     "kicker": "Offer 2 of 5 · New clients",
+     "title": "Secret Santa Squats",
+     "text": "Offer 2 of 5. Secret Santa Squats. New clients. 16 buyers at 1,999 rupees, that is 31,984 rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-50-BA",
+     "kicker": "Offer 3 of 5 · Win-backs",
+     "title": "Last Seen: 2026 (We Noticed)",
+     "text": "Offer 3 of 5. Last Seen: 2026, We Noticed. Win-backs. 8 buyers at 17,203 rupees, that is 1.38 lakh rupees, with 15 per cent off. A gentle nudge, with a discount on the nudge."
+    },
+    {
+     "id": "offer-O27-46-BA",
+     "kicker": "Offer 4 of 5 · Renewals",
+     "title": "Wrapped: Your Top Artist Was Your Trainer",
+     "text": "Offer 4 of 5. Wrapped: Your Top Artist Was Your Trainer. Renewals. 14 buyers at 55,000 rupees, that is 7.7 lakh rupees, with 18 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "offer-O27-47-BA",
+     "kicker": "Offer 5 of 5 · Renewals",
+     "title": "12 Days of Shakemas",
+     "text": "Offer 5 of 5. 12 Days of Shakemas. Renewals. 12 buyers at 30,000 rupees, that is 3.6 lakh rupees, with 18 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 18.5 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "December 2027",
+     "title": "That is the plan",
+     "text": "That's December at Bandra: 18.5 lakh rupees across Five offers, and 59 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "slug": "bandra-06",
+ "studio": "Bandra",
+ "month": 6,
+ "monthName": "June",
+ "year": 2027,
+ "target": 1550000,
+ "lastYear": 1439262,
+ "yoy": 0.07694082105968203,
+ "offers": 4,
+ "buyers": 50,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "June 2027 at Bandra. The theme is Privates Month + Out of Office. June. Long evenings, Pride energy, and a plan that wants people to stay. The target is 15.5 lakh rupees. That is 8 per cent above the 14.39 lakh rupees of last June. Up on last year. The plan has a plan for that. Renewals lead at 7.91 lakh rupees, 51 per cent. Then new clients at 4.18 lakh rupees, 27 per cent, comeback at 2.79 lakh rupees, 18 per cent, other at 62,000 rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them. 444 leads, 231 trials, 50 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 11.12 lakh rupees, 72 per cent of the 15.5 lakh rupees target. The other 4.38 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "June",
+     "text": "June 2027 at Bandra. The theme is Privates Month + Out of Office. June. Long evenings, Pride energy, and a plan that wants people to stay."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹15.5L",
+     "text": "The target is 15.5 lakh rupees. That is 8 per cent above the 14.39 lakh rupees of last June. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 7.91 lakh rupees, 51 per cent. Then new clients at 4.18 lakh rupees, 27 per cent, comeback at 2.79 lakh rupees, 18 per cent, other at 62,000 rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "50 buyers",
+     "text": "444 leads, 231 trials, 50 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "72%",
+     "text": "Four offers carry 11.12 lakh rupees, 72 per cent of the 15.5 lakh rupees target. The other 4.38 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Happy Hour, Zero Hangover, All Glutes. Revenue boost. 26 buyers at 8,400 rupees, that is 2.18 lakh rupees, with 20 per cent off. Flash energy, zero fake countdown timers. Well, almost. Offer 2 of 4. Private Practice. Revenue boost. 3 buyers at 39,375 rupees, that is 1.18 lakh rupees, with 25 per cent off. A sale with a spine. Spend it fast, or it spends you. Offer 3 of 4. Shy Girl Starter Pack. New clients. 5 buyers at 16,204 rupees, that is 81,020 rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet. Offer 4 of 4. Auto-Reply: Out of Office, Still Squatting. Renewals. 12 buyers at 57,855 rupees, that is 6.94 lakh rupees, with 9 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 15.5 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's June at Bandra: 15.5 lakh rupees across Four offers, and 50 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-23-BA",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Happy Hour (Zero Hangover, All Glutes)",
+     "text": "Offer 1 of 4. Happy Hour, Zero Hangover, All Glutes. Revenue boost. 26 buyers at 8,400 rupees, that is 2.18 lakh rupees, with 20 per cent off. Flash energy, zero fake countdown timers. Well, almost."
+    },
+    {
+     "id": "offer-O27-24-BA",
+     "kicker": "Offer 2 of 4 · Revenue boost",
+     "title": "Private Practice",
+     "text": "Offer 2 of 4. Private Practice. Revenue boost. 3 buyers at 39,375 rupees, that is 1.18 lakh rupees, with 25 per cent off. A sale with a spine. Spend it fast, or it spends you."
+    },
+    {
+     "id": "offer-O27-26-BA",
+     "kicker": "Offer 3 of 4 · New clients",
+     "title": "Shy Girl Starter Pack",
+     "text": "Offer 3 of 4. Shy Girl Starter Pack. New clients. 5 buyers at 16,204 rupees, that is 81,020 rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet."
+    },
+    {
+     "id": "offer-O27-25-BA",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Auto-Reply: Out of Office, Still Squatting",
+     "text": "Offer 4 of 4. Auto-Reply: Out of Office, Still Squatting. Renewals. 12 buyers at 57,855 rupees, that is 6.94 lakh rupees, with 9 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 15.5 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "June 2027",
+     "title": "That is the plan",
+     "text": "That's June at Bandra: 15.5 lakh rupees across Four offers, and 50 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "slug": "kemps-corner-05",
+ "studio": "Kemps Corner",
+ "month": 5,
+ "monthName": "May",
+ "year": 2027,
+ "target": 2890000,
+ "lastYear": 2428386,
+ "yoy": 0.19009086693795796,
+ "offers": 4,
+ "buyers": 62,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "May 2027 at Kemps Corner. The theme is Home for the Holidays. May. Warm enough to skip the jacket, cool enough to skip nothing. The target is 28.9 lakh rupees. That is 19 per cent above the 24.28 lakh rupees of last May. A stretch, but a friendly one. Renewals lead at 15.89 lakh rupees, 55 per cent. Then new clients at 6.94 lakh rupees, 24 per cent, comeback at 3.47 lakh rupees, 12 per cent, other at 2.6 lakh rupees, 9 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 451 leads, 230 trials, 62 buyers, and 27 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 13.79 lakh rupees, 48 per cent of the 28.9 lakh rupees target. The other 15.11 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kemps Corner · 2027",
+     "title": "May",
+     "text": "May 2027 at Kemps Corner. The theme is Home for the Holidays. May. Warm enough to skip the jacket, cool enough to skip nothing."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹28.9L",
+     "text": "The target is 28.9 lakh rupees. That is 19 per cent above the 24.28 lakh rupees of last May. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 15.89 lakh rupees, 55 per cent. Then new clients at 6.94 lakh rupees, 24 per cent, comeback at 3.47 lakh rupees, 12 per cent, other at 2.6 lakh rupees, 9 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "62 buyers",
+     "text": "451 leads, 230 trials, 62 buyers, and 27 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "48%",
+     "text": "Four offers carry 13.79 lakh rupees, 48 per cent of the 28.9 lakh rupees target. The other 15.11 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Mom Said Get Off the Couch. New clients. 18 buyers at 10,500 rupees, that is 1.89 lakh rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet. Offer 2 of 4. Mom-entum. New clients. 10 buyers at 17,203 rupees, that is 1.72 lakh rupees, with 18 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Group Project, Finally, Everyone Pulls Their Weight. New clients. 12 buyers at 9,844 rupees, that is 1.18 lakh rupees, with 25 per cent off. Step one is the awkward class. Step two is the good one. Offer 4 of 4. Don't Ghost Us After the Party. Renewals. 30 buyers at 30,000 rupees, that is 9 lakh rupees, with 19.5 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 28.9 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's May at Kemps Corner: 28.9 lakh rupees across Four offers, and 62 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-19-KC",
+     "kicker": "Offer 1 of 4 · New clients",
+     "title": "Mom Said Get Off the Couch",
+     "text": "Offer 1 of 4. Mom Said Get Off the Couch. New clients. 18 buyers at 10,500 rupees, that is 1.89 lakh rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet."
+    },
+    {
+     "id": "offer-O27-21-KC",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Mom-entum",
+     "text": "Offer 2 of 4. Mom-entum. New clients. 10 buyers at 17,203 rupees, that is 1.72 lakh rupees, with 18 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-20-KC",
+     "kicker": "Offer 3 of 4 · New clients",
+     "title": "Group Project (Finally, Everyone Pulls Their Weight)",
+     "text": "Offer 3 of 4. Group Project, Finally, Everyone Pulls Their Weight. New clients. 12 buyers at 9,844 rupees, that is 1.18 lakh rupees, with 25 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-22-KC",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Don't Ghost Us After the Party",
+     "text": "Offer 4 of 4. Don't Ghost Us After the Party. Renewals. 30 buyers at 30,000 rupees, that is 9 lakh rupees, with 19.5 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 28.9 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "May 2027",
+     "title": "That is the plan",
+     "text": "That's May at Kemps Corner: 28.9 lakh rupees across Four offers, and 62 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

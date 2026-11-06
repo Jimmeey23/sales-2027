@@ -1,0 +1,91 @@
+{
+ "slug": "kenkere-house-09",
+ "studio": "Kenkere House",
+ "month": 9,
+ "monthName": "September",
+ "year": 2027,
+ "target": 1179862,
+ "lastYear": 1028435,
+ "yoy": 0.14724022422418526,
+ "offers": 4,
+ "buyers": 59,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "September 2027 at Kenkere House. The theme is The Comeback + 57 Days to Diwali. September. Back to routine, and the routine is the product. The target is 11.8 lakh rupees. That is 15 per cent above the 10.28 lakh rupees of last September. Up on last year. The plan has a plan for that. Renewals lead at 6.25 lakh rupees, 53 per cent. Then new clients at 4.01 lakh rupees, 34 per cent, other at 82,590 rupees, 7 per cent, comeback at 70,792 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them. 878 leads, 316 trials, 59 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 7.57 lakh rupees, 64 per cent of the 11.8 lakh rupees target. The other 4.23 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kenkere House · 2027",
+     "title": "September",
+     "text": "September 2027 at Kenkere House. The theme is The Comeback + 57 Days to Diwali. September. Back to routine, and the routine is the product."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹11.8L",
+     "text": "The target is 11.8 lakh rupees. That is 15 per cent above the 10.28 lakh rupees of last September. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 6.25 lakh rupees, 53 per cent. Then new clients at 4.01 lakh rupees, 34 per cent, other at 82,590 rupees, 7 per cent, comeback at 70,792 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "59 buyers",
+     "text": "878 leads, 316 trials, 59 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "64%",
+     "text": "Four offers carry 7.57 lakh rupees, 64 per cent of the 11.8 lakh rupees target. The other 4.23 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Glow-Up or Give Back. New clients. 5 buyers at 24,812 rupees, that is 1.24 lakh rupees, with 15 per cent off. Step one is the awkward class. Step two is the good one. Offer 2 of 4. We Need to Talk. Win-backs. 3 buyers at 50,000 rupees, that is 1.5 lakh rupees, with 22 per cent off. A gentle nudge, with a discount on the nudge. Offer 3 of 4. New Phone, Who Dis?. Win-backs. 10 buyers at 12,406 rupees, that is 1.24 lakh rupees, with 15 per cent off. This one says we missed you, politely, with a discount attached. Offer 4 of 4. Lock It Before the Laddoos. Renewals. 10 buyers at 35,879 rupees, that is 3.59 lakh rupees, with 19.7 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.8 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's September at Kenkere House: 11.8 lakh rupees across Four offers, and 59 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-37-KK",
+     "kicker": "Offer 1 of 4 · New clients",
+     "title": "Glow-Up or Give Back",
+     "text": "Offer 1 of 4. Glow-Up or Give Back. New clients. 5 buyers at 24,812 rupees, that is 1.24 lakh rupees, with 15 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-35-KK",
+     "kicker": "Offer 2 of 4 · Win-backs",
+     "title": "We Need to Talk",
+     "text": "Offer 2 of 4. We Need to Talk. Win-backs. 3 buyers at 50,000 rupees, that is 1.5 lakh rupees, with 22 per cent off. A gentle nudge, with a discount on the nudge."
+    },
+    {
+     "id": "offer-O27-36-KK",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "New Phone, Who Dis?",
+     "text": "Offer 3 of 4. New Phone, Who Dis?. Win-backs. 10 buyers at 12,406 rupees, that is 1.24 lakh rupees, with 15 per cent off. This one says we missed you, politely, with a discount attached."
+    },
+    {
+     "id": "offer-O27-38-KK",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Lock It Before the Laddoos",
+     "text": "Offer 4 of 4. Lock It Before the Laddoos. Renewals. 10 buyers at 35,879 rupees, that is 3.59 lakh rupees, with 19.7 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.8 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "September 2027",
+     "title": "That is the plan",
+     "text": "That's September at Kenkere House: 11.8 lakh rupees across Four offers, and 59 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

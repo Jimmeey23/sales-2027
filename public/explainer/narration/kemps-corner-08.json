@@ -1,0 +1,91 @@
+{
+ "slug": "kemps-corner-08",
+ "studio": "Kemps Corner",
+ "month": 8,
+ "monthName": "August",
+ "year": 2027,
+ "target": 3810000,
+ "lastYear": 3000656,
+ "yoy": 0.2697223540452487,
+ "offers": 4,
+ "buyers": 82,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "August 2027 at Kemps Corner. The theme is The Amazing Race 2.0. August. Half the city is on holiday. The other half is on our waitlist. The target is 38.1 lakh rupees. That is 27 per cent above the 30.01 lakh rupees of last August. Up on last year. The plan has a plan for that. Renewals lead at 20.95 lakh rupees, 55 per cent. Then new clients at 9.14 lakh rupees, 24 per cent, comeback at 4.57 lakh rupees, 12 per cent, other at 3.43 lakh rupees, 9 per cent. Existing members are doing the heavy lifting. Be nice to them. 598 leads, 305 trials, 82 buyers, and 26.9 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 29.23 lakh rupees, 77 per cent of the 38.1 lakh rupees target. The other 8.87 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kemps Corner · 2027",
+     "title": "August",
+     "text": "August 2027 at Kemps Corner. The theme is The Amazing Race 2.0. August. Half the city is on holiday. The other half is on our waitlist."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹38.1L",
+     "text": "The target is 38.1 lakh rupees. That is 27 per cent above the 30.01 lakh rupees of last August. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 20.95 lakh rupees, 55 per cent. Then new clients at 9.14 lakh rupees, 24 per cent, comeback at 4.57 lakh rupees, 12 per cent, other at 3.43 lakh rupees, 9 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "82 buyers",
+     "text": "598 leads, 305 trials, 82 buyers, and 26.9 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "77%",
+     "text": "Four offers carry 29.23 lakh rupees, 77 per cent of the 38.1 lakh rupees target. The other 8.87 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Friends With Benefits, Strictly Fitness. Revenue boost. 11 buyers at 17,203 rupees, that is 1.89 lakh rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Rookie Mistake, The Only Good One. New clients. 22 buyers at 16,204 rupees, that is 3.56 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Medal Detector. Renewals. 37 buyers at 42,000 rupees, that is 15.54 lakh rupees, with 20 per cent off. The easiest sale is the member already in the building. Offer 4 of 4. At the Stroke of the Midnight Hour. Renewals. 5 buyers at 164,588 rupees, that is 8.23 lakh rupees, with 25 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 38.1 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's August at Kemps Corner: 38.1 lakh rupees across Four offers, and 82 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-33-KC",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Friends With Benefits (Strictly Fitness)",
+     "text": "Offer 1 of 4. Friends With Benefits, Strictly Fitness. Revenue boost. 11 buyers at 17,203 rupees, that is 1.89 lakh rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-31-KC",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Rookie Mistake (The Only Good One)",
+     "text": "Offer 2 of 4. Rookie Mistake, The Only Good One. New clients. 22 buyers at 16,204 rupees, that is 3.56 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-34-KC",
+     "kicker": "Offer 3 of 4 · Renewals",
+     "title": "Medal Detector",
+     "text": "Offer 3 of 4. Medal Detector. Renewals. 37 buyers at 42,000 rupees, that is 15.54 lakh rupees, with 20 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "offer-O27-32-KC",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "At the Stroke of the Midnight Hour",
+     "text": "Offer 4 of 4. At the Stroke of the Midnight Hour. Renewals. 5 buyers at 164,588 rupees, that is 8.23 lakh rupees, with 25 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 38.1 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "August 2027",
+     "title": "That is the plan",
+     "text": "That's August at Kemps Corner: 38.1 lakh rupees across Four offers, and 82 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}
