@@ -1,0 +1,300 @@
+{
+  "slug": "bandra",
+  "month": 8,
+  "studio": "SHQ",
+  "studioName": "Bandra",
+  "monthName": "August",
+  "year": 2027,
+  "title": "August 2027 · Bandra",
+  "duration": 98041,
+  "scenes": 11,
+  "hash": "bda4faca",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "August 2027 at Bandra. The theme is The Amazing Race 2.0. The target is 25.5 lakh rupees — 12 per cent above the 22.8 lakh rupees of last August. Renewals lead at 13 lakh rupees, 51 per cent. Then new clients 6.88 lakh rupees, comeback 4.59 lakh rupees, other 1.02 lakh rupees. 731 leads, 380 trials, 82 buyers, and 22 per cent of trials convert.",
+    "b": "4 offers carry 18.7 lakh rupees, 73 per cent of the 25.5 lakh rupees target. The other 6.85 lakh rupees is expected at full price. Revenue boost: Friends With Benefits (Strictly Fitness). Friends with benefits. 7 buyers at 17,203 rupees — 1.2 lakh rupees. 15 per cent off. New clients: Rookie Mistake (The Only Good One). Two weeks unlimited for 3,999 rupees Bengaluru 2,999 rupees. 15 buyers at 16,204 rupees — 2.43 lakh rupees. 20 per cent off. Renewals: Medal Detector. Finished the race? Our medal detector just beeped. 24 buyers at 42,000 rupees — 10.1 lakh rupees. 20 per cent off. Renewals: At the Stroke of the Midnight Hour. At the stroke of the midnight hour, when the world. 3 buyers at 1.65 lakh rupees — 4.94 lakh rupees. 25 per cent off. First, Set up Rookie Mistake The Only Good One in Momence. Then, Weekly check: Rookie Mistake The Only Good One: Average visits. That is August at Bandra: 25.5 lakh rupees across 4 offers, and 82 buyers to find."
+  },
+  "script": {
+    "title": "August 2027 · Bandra",
+    "monthName": "August",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Bandra · 2027",
+        "title": "August",
+        "narration": "August 2027 at Bandra. The theme is The Amazing Race 2.0.",
+        "duration": 4958,
+        "data": {
+          "month": 8,
+          "monthName": "August",
+          "year": 2027,
+          "studio": "Bandra",
+          "theme": "The Amazing Race 2.0",
+          "description": "The Amazing Race 2.0 + Friendship Day + Independence Day",
+          "target": 2550000,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹25.5L",
+        "narration": "The target is 25.5 lakh rupees — 12 per cent above the 22.8 lakh rupees of last August.",
+        "duration": 7668,
+        "data": {
+          "target": 2550000,
+          "lastYear": 2280685,
+          "yoy": 0.11808513670235032,
+          "delta": 269315,
+          "monthName": "August"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 13 lakh rupees, 51 per cent. Then new clients 6.88 lakh rupees, comeback 4.59 lakh rupees, other 1.02 lakh rupees.",
+        "duration": 9603,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 1300500,
+              "share": 51
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 688500,
+              "share": 27
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 459000,
+              "share": 18
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 102000,
+              "share": 4
+            }
+          ],
+          "total": 2550000,
+          "standard": 684755,
+          "standardShare": 26.9
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "82 buyers",
+        "narration": "731 leads, 380 trials, 82 buyers, and 22 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 731,
+          "trials": 380,
+          "buyers": 82,
+          "leadToTrial": 0.5198358413132695,
+          "trialToBuyer": 0.21578947368421053,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.612
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "73%",
+        "narration": "4 offers carry 18.7 lakh rupees, 73 per cent of the 25.5 lakh rupees target. The other 6.85 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 2550000,
+          "offerRevenue": 1865245,
+          "share": 0.7314686274509804,
+          "standard": 684755,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-33-BA",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · Revenue boost",
+        "title": "Friends With Benefits (Strictly Fitness)",
+        "narration": "Revenue boost: Friends With Benefits (Strictly Fitness). Friends with benefits. 7 buyers at 17,203 rupees — 1.2 lakh rupees. 15 per cent off.",
+        "duration": 9603,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "Friends With Benefits (Strictly Fitness)",
+          "slot": "referral",
+          "slotLabel": "Revenue boost",
+          "headline": "Friends with benefits. Strictly fitness.",
+          "benefit": "Friends with benefits. Strictly fitness. Bring a friend who's never been — 2 classes on us — and if they join, you both get race tees and you get 7 bonus days and double points.",
+          "rationale": "Friendship Day falls on race day one. Referred friends convert 22–76% vs 4–6% for website leads.",
+          "audience": "Current members bringing a guest.",
+          "conditions": "Friend must be new.",
+          "kpi": "Tag Teams formed; friend → member (target 35%).",
+          "offerType": "Referral (Friendship Day)",
+          "ticket": 17203,
+          "buyers": 7,
+          "revenue": 120421,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.06456041967677169
+        }
+      },
+      {
+        "id": "offer-O27-31-BA",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · New clients",
+        "title": "Rookie Mistake (The Only Good One)",
+        "narration": "New clients: Rookie Mistake (The Only Good One). Two weeks unlimited for 3,999 rupees Bengaluru 2,999 rupees. 15 buyers at 16,204 rupees — 2.43 lakh rupees. 20 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Rookie Mistake (The Only Good One)",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Two weeks unlimited. The only rookie mistake is not trying.",
+          "benefit": "Two weeks unlimited for ₹3,999 (Bengaluru ₹2,999) and a spot on the Rookie leaderboard. The only rookie mistake is not starting.",
+          "rationale": "Clients with 5+ visits in month one buy at 93.5%. A 14-day window lets newcomers reach 5+ visits; the race gives them a reason. Effective 20% on conversion.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "One per person. Effective 20% on conversion.",
+          "kpi": "Average visits in 14 days (target 6); intro → member (target 45%).",
+          "offerType": "Newcomer experiment (14-day intro)",
+          "ticket": 16204,
+          "buyers": 15,
+          "revenue": 243060,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.1303099592814885
+        }
+      },
+      {
+        "id": "offer-O27-34-BA",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · Renewals",
+        "title": "Medal Detector",
+        "narration": "Renewals: Medal Detector. Finished the race? Our medal detector just beeped. 24 buyers at 42,000 rupees — 10.1 lakh rupees. 20 per cent off.",
+        "duration": 9990,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "Medal Detector",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Finished the race? Your renewal just found gold.",
+          "benefit": "Finished the race? Our medal detector just beeped: 6 months at 20% off plus a private, or 3 months at 15% off plus 5 days.",
+          "rationale": "Race attendance lifts usage into the 75%+ band where renewal is 82–88%. August is Mumbai's second peak (Kwality ₹30.0L, Bandra ₹22.8L in Aug-26).",
+          "audience": "6M ≈24% effective with private, inside the cap for 6M+ plans",
+          "conditions": "6M ≈24% effective with private, inside the cap for 6M+ plans. Claim by 2027-09-05.",
+          "kpi": "Race finish rate; 3M+ share of August renewals (target 45%).",
+          "offerType": "Race finisher renewal",
+          "ticket": 42000,
+          "buyers": 24,
+          "revenue": 1008000,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.5404115813204163
+        }
+      },
+      {
+        "id": "offer-O27-32-BA",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "At the Stroke of the Midnight Hour",
+        "narration": "Renewals: At the Stroke of the Midnight Hour. At the stroke of the midnight hour, when the world. 3 buyers at 1.65 lakh rupees — 4.94 lakh rupees. 25 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "At the Stroke of the Midnight Hour",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "At the stroke of the midnight hour, your annual goes 25% off.",
+          "benefit": "At the stroke of the midnight hour, when the world sleeps, your annual goes 25% off. 15 August only. 47 memberships in Mumbai, for 1947.",
+          "rationale": "Annual is the only membership where 25% is allowed. One day and a cap keep it an event, not a price.",
+          "audience": "Annual cap 25%",
+          "conditions": "Annual cap 25%.",
+          "kpi": "Annuals sold.",
+          "offerType": "One-day annual (25%)",
+          "ticket": 164588,
+          "buyers": 3,
+          "revenue": 493764,
+          "discount": 25,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.26471803972132346
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Rookie Mistake The Only Good One in Momence. Then, Weekly check: Rookie Mistake The Only Good One: Average visits.",
+        "duration": 9216,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Rookie Mistake (The Only Good One) in Momence (2027-08-01 to 2027-08-20): 14 days unlimited: Mumbai ₹3,999 (barre + powerCycle, 1 Lab induction at Supreme HQ), Kenkere ₹2,999 (barre), pop-ups ₹1,999 for 4 classes in 14 days. Every class counts on the Rookie leaderboard. ₹999 (Kenkere ₹749, pop-up ₹499) credited against a first membership within 72 hours of day 14, with the standard 15%."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Rookie Mistake (The Only Good One): Average visits in 14 days (target 6); intro → member (target 45%). | At the Stroke of the Midnight Hour: Annuals sold. | Friends With Benefits (Strictly Fitness): Tag Teams formed; friend → member (target 35%). | Medal Detector: Race finish rate; 3M+ share of August renewals (target 45%)."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹25.5L: by the 15th aim for ~half of 82 new buyers (380 first visits), 60 renewals and 42 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close August: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "August 2027",
+        "title": "That is the plan",
+        "narration": "That is August at Bandra: 25.5 lakh rupees across 4 offers, and 82 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 2550000,
+          "offerRevenue": 1865245,
+          "offers": 4,
+          "buyers": 82,
+          "monthName": "August",
+          "studio": "Bandra"
+        }
+      }
+    ],
+    "duration": 98041
+  }
+}

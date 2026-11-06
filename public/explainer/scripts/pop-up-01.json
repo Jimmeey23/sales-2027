@@ -1,0 +1,270 @@
+{
+  "slug": "pop-up",
+  "month": 1,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "January",
+  "year": 2027,
+  "title": "January 2027 · Pop-up",
+  "duration": 82097,
+  "scenes": 10,
+  "hash": "6ffca2cc",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "January 2027 at Pop-up. The theme is Resolutions with Receipts. The target is 1.93 lakh rupees — 44 per cent above the 1.35 lakh rupees of last January. Renewals lead at 85,030 rupees, 44 per cent. Then new clients 82,723 rupees, comeback 23,564 rupees, other 1,932 rupees. 596 leads, 155 trials, 51 buyers, and 33 per cent of trials convert.",
+    "b": "3 offers carry 75,505 rupees, 39 per cent of the 1.93 lakh rupees target. The other 1.18 lakh rupees is expected at full price. New clients: Third Time's the Charm. First class: awkward. 3 buyers at 5,891 rupees — 17,673 rupees. 33 per cent off. Win-backs: U Up? It's 2027. U up? Your mat's been asking about you. Come back this January. 3 buyers at 7,229 rupees — 21,687 rupees. 20 per cent off. Renewals: Same Time Next Week. You're nearly out of classes. 5 buyers at 7,229 rupees — 36,145 rupees. 15 per cent off. First, Set up U Up? It's 2027. in Momence. Then, Weekly check: U Up? It's 2027.: Lapsed buyers; share hitting 12 classes. That is January at Pop-up: 1.93 lakh rupees across 3 offers, and 51 buyers to find."
+  },
+  "script": {
+    "title": "January 2027 · Pop-up",
+    "monthName": "January",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "January",
+        "narration": "January 2027 at Pop-up. The theme is Resolutions with Receipts.",
+        "duration": 4571,
+        "data": {
+          "month": 1,
+          "monthName": "January",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "Resolutions with Receipts",
+          "description": "Resolutions with receipts",
+          "target": 193249,
+          "offers": 3
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹1.93L",
+        "narration": "The target is 1.93 lakh rupees — 44 per cent above the 1.35 lakh rupees of last January.",
+        "duration": 7668,
+        "data": {
+          "target": 193249,
+          "lastYear": 134662,
+          "yoy": 0.4350670567791952,
+          "delta": 58587,
+          "monthName": "January"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 85,030 rupees, 44 per cent. Then new clients 82,723 rupees, comeback 23,564 rupees, other 1,932 rupees.",
+        "duration": 8055,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 85030,
+              "share": 44.0002276855249
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 82723,
+              "share": 42.80643108114401
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 23564,
+              "share": 12.193594792211085
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 1932,
+              "share": 0.9997464411200058
+            }
+          ],
+          "total": 193249,
+          "standard": 117744,
+          "standardShare": 60.9
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "51 buyers",
+        "narration": "596 leads, 155 trials, 51 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 596,
+          "trials": 155,
+          "buyers": 51,
+          "leadToTrial": 0.2600671140939597,
+          "trialToBuyer": 0.32903225806451614,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "39%",
+        "narration": "3 offers carry 75,505 rupees, 39 per cent of the 1.93 lakh rupees target. The other 1.18 lakh rupees is expected at full price.",
+        "duration": 9990,
+        "data": {
+          "target": 193249,
+          "offerRevenue": 75505,
+          "share": 0.3907135353869878,
+          "standard": 117744,
+          "offers": 3
+        }
+      },
+      {
+        "id": "offer-O27-02-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 3 · New clients",
+        "title": "Third Time's the Charm",
+        "narration": "New clients: Third Time's the Charm. First class: awkward. 3 buyers at 5,891 rupees — 17,673 rupees. 33 per cent off.",
+        "duration": 8829,
+        "data": {
+          "index": 0,
+          "count": 3,
+          "narrated": true,
+          "name": "Third Time's the Charm",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "First class: awkward. Second: better. Third: hooked. 3 classes for the price of 2.",
+          "benefit": "First class: awkward. Second class: better. Third class: you're hooked. Try barre, powerCycle and Strength Lab — 3 classes for the price of 2 (₹3,885). Bengaluru: 3 barre classes for ₹2,835. Love it? Your first membership is 15% off.",
+          "rationale": "60.6% of first-timers never take a 2nd class. Purchase within 60 days by month-1 visits: 0 return visits 10.8%, 1 → 43.9%, 2 → 73.3%, 3–4 → 88.6%. The 2-for-1 route converts 20.8% (Bandra 17%). A third class moves people into the 73–89% band.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "One per person (phone verified). Intro products sit outside the 25% cap as acquisition cost. Class 2 booked at the desk before leaving class 1.",
+          "kpi": "Packs with all 3 classes used in 14 days (target 60%); pack → membership (target 35% vs 20.8% on 2-for-1).",
+          "offerType": "Newcomer experiment (3-for-2)",
+          "ticket": 5891,
+          "buyers": 3,
+          "revenue": 17673,
+          "discount": 33,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.23406396927355805
+        }
+      },
+      {
+        "id": "offer-O27-04-POP",
+        "kind": "offer",
+        "kicker": "Offer 2 of 3 · Win-backs",
+        "title": "U Up? It's 2027.",
+        "narration": "Win-backs: U Up? It's 2027. U up? Your mat's been asking about you. Come back this January. 3 buyers at 7,229 rupees — 21,687 rupees. 20 per cent off.",
+        "duration": 11926,
+        "data": {
+          "index": 1,
+          "count": 3,
+          "narrated": true,
+          "name": "U Up? It's 2027.",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "U up? Your mat's been asking about you.",
+          "benefit": "U up? Your mat's been asking about you. Come back this January: 15% off, and hit 12 classes this month for 5 bonus days. No awkward small talk, promise.",
+          "rationale": "Bandra is reactivation-led (3,209 lapsed vs 5,065 renewed membership records). Renewal climbs with usage: Bandra members using <50% of sessions renew 49–58% vs 82% at 75%+. The bonus is only paid for attendance that predicts the next renewal.",
+          "audience": "Standard lapsed 15%, bonus earned (≈20% effective if earned)",
+          "conditions": "Standard lapsed 15%, bonus earned (≈20% effective if earned). No stacking with the spot sale.",
+          "kpi": "Lapsed buyers; share hitting 12 classes (target 40%); Feb renewal of Jan winbacks.",
+          "offerType": "Winback (earned bonus)",
+          "ticket": 7229,
+          "buyers": 3,
+          "revenue": 21687,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.2872260115224157
+        }
+      },
+      {
+        "id": "offer-O27-51-POP",
+        "kind": "offer",
+        "kicker": "Offer 3 of 3 · Renewals",
+        "title": "Same Time Next Week",
+        "narration": "Renewals: Same Time Next Week. You're nearly out of classes. 5 buyers at 7,229 rupees — 36,145 rupees. 15 per cent off.",
+        "duration": 9216,
+        "data": {
+          "index": 2,
+          "count": 3,
+          "narrated": true,
+          "name": "Same Time Next Week",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Your pack is nearly out. Same one again, 15% less.",
+          "benefit": "You're nearly out of classes. Take the same pack again at 15% off — ₹7,229 for ten at Copper + Cloves, ₹5,891 for eight — and we’ll add a week of validity so none of them go to waste.",
+          "rationale": "The pop-ups sell class packs, not memberships, so renewal is a repurchase decision rather than an expiry date. Four of the twelve months carried a renewal target with no renewal offer in the catalogue; this is the standing one.",
+          "audience": "Pop-up clients whose class pack is running out.",
+          "conditions": "15% off the pack, inside the cap. One per client per pack expiry. The extra week of validity has no cash value.",
+          "kpi": "Packs repurchased within 14 days of running out (target 55%); share of pop-up renewal revenue with an offer behind it.",
+          "offerType": "Pack renewal (standing)",
+          "ticket": 7229,
+          "buyers": 5,
+          "revenue": 36145,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.4787100192040262
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up U Up? It's 2027. in Momence. Then, Weekly check: U Up? It's 2027.: Lapsed buyers; share hitting 12 classes.",
+        "duration": 9216,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up U Up? It's 2027. in Momence (2027-01-01 to 2027-01-31): Lapsed 61–365 days: the standard 15% on 1 Month (₹17,203 / ₹12,406) or a 12-class pack (₹16,735 / ₹11,156). Take 12 classes by 31 Jan and get +5 days (pack buyers: +1 class). Pop-ups: 15% on an 8- or 10-class pack (₹5,891 / ₹7,229) and +1 class for 6 classes by 31 Jan."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: U Up? It's 2027.: Lapsed buyers; share hitting 12 classes (target 40%); Feb renewal of Jan winbacks."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹1.9L: by the 15th aim for ~half of 51 new buyers (155 first visits), 12 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close January: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "January 2027",
+        "title": "That is the plan",
+        "narration": "That is January at Pop-up: 1.93 lakh rupees across 3 offers, and 51 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 193249,
+          "offerRevenue": 75505,
+          "offers": 3,
+          "buyers": 51,
+          "monthName": "January",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 82097
+  }
+}

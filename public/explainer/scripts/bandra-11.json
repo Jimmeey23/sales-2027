@@ -1,0 +1,270 @@
+{
+  "slug": "bandra",
+  "month": 11,
+  "studio": "SHQ",
+  "studioName": "Bandra",
+  "monthName": "November",
+  "year": 2027,
+  "title": "November 2027 · Bandra",
+  "duration": 86042,
+  "scenes": 10,
+  "hash": "c6eef503",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "November 2027 at Bandra. The theme is Black Friday + Thank U, Next. The target is 13.6 lakh rupees — 3 per cent above the 13.2 lakh rupees of last November. Renewals lead at 6.94 lakh rupees, 51 per cent. Then new clients 3.67 lakh rupees, comeback 2.45 lakh rupees, other 54,400 rupees. 392 leads, 204 trials, 44 buyers, and 22 per cent of trials convert.",
+    "b": "3 offers carry 8.6 lakh rupees, 63 per cent of the 13.6 lakh rupees target. The other 5 lakh rupees is expected at full price. Revenue boost: Thank U, Next (Year). Thank u, next year. This week is just for you. 5 buyers at 17,203 rupees — 86,015 rupees. New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 12 buyers at 1,999 rupees — 23,988 rupees. 20 per cent off. Renewals: Black Friday, Strong Monday, Sore Tuesday. Black Friday, Strong Monday, sore Tuesday. 10 buyers at 75,000 rupees — 7.5 lakh rupees. 21 per cent off. First, Set up Black Friday, Strong Monday, Sore Tuesday in Momence. Then, Weekly check: Black Friday, Strong Monday. That is November at Bandra: 13.6 lakh rupees across 3 offers, and 44 buyers to find."
+  },
+  "script": {
+    "title": "November 2027 · Bandra",
+    "monthName": "November",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Bandra · 2027",
+        "title": "November",
+        "narration": "November 2027 at Bandra. The theme is Black Friday + Thank U, Next.",
+        "duration": 5732,
+        "data": {
+          "month": 11,
+          "monthName": "November",
+          "year": 2027,
+          "studio": "Bandra",
+          "theme": "Black Friday + Thank U, Next",
+          "description": "Black Friday + member appreciation",
+          "target": 1360000,
+          "offers": 3
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹13.6L",
+        "narration": "The target is 13.6 lakh rupees — 3 per cent above the 13.2 lakh rupees of last November.",
+        "duration": 7668,
+        "data": {
+          "target": 1360000,
+          "lastYear": 1319884,
+          "yoy": 0.030393580041882418,
+          "delta": 40116,
+          "monthName": "November"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 6.94 lakh rupees, 51 per cent. Then new clients 3.67 lakh rupees, comeback 2.45 lakh rupees, other 54,400 rupees.",
+        "duration": 9216,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 693600,
+              "share": 51
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 367200,
+              "share": 27
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 244800,
+              "share": 18
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 54400,
+              "share": 4
+            }
+          ],
+          "total": 1360000,
+          "standard": 499997,
+          "standardShare": 36.8
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "44 buyers",
+        "narration": "392 leads, 204 trials, 44 buyers, and 22 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 392,
+          "trials": 204,
+          "buyers": 44,
+          "leadToTrial": 0.5204081632653061,
+          "trialToBuyer": 0.21568627450980393,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.612
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "63%",
+        "narration": "3 offers carry 8.6 lakh rupees, 63 per cent of the 13.6 lakh rupees target. The other 5 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 1360000,
+          "offerRevenue": 860003,
+          "share": 0.6323551470588236,
+          "standard": 499997,
+          "offers": 3
+        }
+      },
+      {
+        "id": "offer-O27-44-BA",
+        "kind": "offer",
+        "kicker": "Offer 1 of 3 · Revenue boost",
+        "title": "Thank U, Next (Year)",
+        "narration": "Revenue boost: Thank U, Next (Year). Thank u, next year. This week is just for you. 5 buyers at 17,203 rupees — 86,015 rupees.",
+        "duration": 9990,
+        "data": {
+          "index": 0,
+          "count": 3,
+          "narrated": true,
+          "name": "Thank U, Next (Year)",
+          "slot": "goodwill",
+          "slotLabel": "Revenue boost",
+          "headline": "Thank u, next (year).",
+          "benefit": "Thank u, next (year). This week is just for you: a guest pass to share, a members-only night, and a gift if you've hit 100 classes this year. No catch. Just gratitude (and glutes).",
+          "rationale": "Each guest pass is a referral-quality lead (referrals convert 22–76%). Goodwill before December renewals lifts renewal yield.",
+          "audience": "Current members; no purchase needed.",
+          "conditions": "No discount. Guest pass for someone new.",
+          "kpi": "Guest passes used; guest → member (target 20%); December renewal yield.",
+          "offerType": "Member appreciation",
+          "ticket": 17203,
+          "buyers": 5,
+          "revenue": 86015,
+          "discount": 0,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.10001709296362919
+        }
+      },
+      {
+        "id": "offer-O27-49-SHQ-m11",
+        "kind": "offer",
+        "kicker": "Offer 2 of 3 · New clients",
+        "title": "Secret Santa Squats",
+        "narration": "New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 12 buyers at 1,999 rupees — 23,988 rupees. 20 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 1,
+          "count": 3,
+          "narrated": true,
+          "name": "Secret Santa Squats",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Secret Santa budget ₹2,000? Gift squats.",
+          "benefit": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
+          "rationale": "Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Recipient must be new.",
+          "kpi": "Vouchers sold; redemption; voucher → member.",
+          "offerType": "Gift voucher",
+          "ticket": 1999,
+          "buyers": 12,
+          "revenue": 23988,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.02789292595490946
+        }
+      },
+      {
+        "id": "offer-O27-43-BA",
+        "kind": "offer",
+        "kicker": "Offer 3 of 3 · Renewals",
+        "title": "Black Friday, Strong Monday, Sore Tuesday",
+        "narration": "Renewals: Black Friday, Strong Monday, Sore Tuesday. Black Friday, Strong Monday, sore Tuesday. 10 buyers at 75,000 rupees — 7.5 lakh rupees. 21 per cent off.",
+        "duration": 10765,
+        "data": {
+          "index": 2,
+          "count": 3,
+          "narrated": true,
+          "name": "Black Friday, Strong Monday, Sore Tuesday",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Black Friday, Strong Monday, sore Tuesday.",
+          "benefit": "Black Friday, Strong Monday, sore Tuesday. Four days of the year's best long-plan prices — and the last Club Nine seats. No one-month discounts; we're not that kind of studio.",
+          "rationale": "November is the trough (Kwality ₹18.5L, Bandra ₹13.2L in Nov-25). Long-plan pricing brings cash forward without discounting 1 Month.",
+          "audience": "Annual 25% and bulk packs (allowed); 6M ≤20%",
+          "conditions": "Annual 25% and bulk packs (allowed); 6M ≤20%.",
+          "kpi": "Long-plan units; Club Nine seats closed out.",
+          "offerType": "4-day long-plan sale",
+          "ticket": 75000,
+          "buyers": 10,
+          "revenue": 750000,
+          "discount": 21,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.8720899810814613
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Black Friday, Strong Monday, Sore Tuesday in Momence. Then, Weekly check: Black Friday, Strong Monday.",
+        "duration": 7668,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Black Friday, Strong Monday, Sore Tuesday in Momence (2027-11-26 to 2027-11-29): Fri 26–Mon 29 Nov: 6 Months at 20% (₹90,972 / ₹65,772), Annual at 25% (₹1,64,588 / ₹1,17,180, including leftover Club Nine numbered seats), 20- and 30-class packs at 20% (bulk). No discount on 1 Month. Pop-ups: 10-class pack at 15%."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Black Friday, Strong Monday, Sore Tuesday: Long-plan units; Club Nine seats closed out. | Thank U, Next (Year): Guest passes used; guest → member (target 20%); December renewal yield."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹13.6L: by the 15th aim for ~half of 44 new buyers (204 first visits), 32 renewals and 22 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close November: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "November 2027",
+        "title": "That is the plan",
+        "narration": "That is November at Bandra: 13.6 lakh rupees across 3 offers, and 44 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 1360000,
+          "offerRevenue": 860003,
+          "offers": 3,
+          "buyers": 44,
+          "monthName": "November",
+          "studio": "Bandra"
+        }
+      }
+    ],
+    "duration": 86042
+  }
+}

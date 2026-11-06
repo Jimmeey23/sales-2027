@@ -1,0 +1,300 @@
+{
+  "slug": "bandra",
+  "month": 2,
+  "studio": "SHQ",
+  "studioName": "Bandra",
+  "monthName": "February",
+  "year": 2027,
+  "title": "February 2027 · Bandra",
+  "duration": 99591,
+  "scenes": 11,
+  "hash": "827843b4",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "February 2027 at Bandra. The theme is Valentine's + Stronger in 30 2.0. The target is 16.2 lakh rupees — 5 per cent above the 15.4 lakh rupees of last February. Renewals lead at 8.26 lakh rupees, 51 per cent. Then new clients 4.37 lakh rupees, comeback 2.92 lakh rupees, other 64,800 rupees. 463 leads, 241 trials, 52 buyers, and 22 per cent of trials convert.",
+    "b": "4 offers carry 12.7 lakh rupees, 78 per cent of the 16.2 lakh rupees target. The other 3.5 lakh rupees is expected at full price. Revenue boost: Couples Therapy (Cheaper Than the Real Thing). Couples therapy, but cheaper — and the only thing you'll fight. 8 buyers at 18,215 rupees — 1.46 lakh rupees. 16 per cent off. New clients: Situationship → Relationship. Stop situationship-ing your fitness. Two dates, then make it official. 14 buyers at 17,203 rupees — 2.41 lakh rupees. 18 per cent off. Win-backs: Galentine's Gone Ghost. Your bestie's been ghosting the gym too? Come back together. 6 buyers at 17,203 rupees — 1.03 lakh rupees. 20 per cent off. Renewals: Proof of Work. You did 30 classes in 30 days. Your renewal price should show it. 13 buyers at 60,000 rupees — 7.8 lakh rupees. 20 per cent off. First, Set up Situationship to Relationship in Momence. Then, Weekly check: Situationship to Relationship: Second-visit rate target. That is February at Bandra: 16.2 lakh rupees across 4 offers, and 52 buyers to find."
+  },
+  "script": {
+    "title": "February 2027 · Bandra",
+    "monthName": "February",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Bandra · 2027",
+        "title": "February",
+        "narration": "February 2027 at Bandra. The theme is Valentine's + Stronger in 30 2.0.",
+        "duration": 5732,
+        "data": {
+          "month": 2,
+          "monthName": "February",
+          "year": 2027,
+          "studio": "Bandra",
+          "theme": "Valentine's + Stronger in 30 2.0",
+          "description": "Valentine's + Stronger in 30 2.0",
+          "target": 1620000,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹16.2L",
+        "narration": "The target is 16.2 lakh rupees — 5 per cent above the 15.4 lakh rupees of last February.",
+        "duration": 7668,
+        "data": {
+          "target": 1620000,
+          "lastYear": 1539479,
+          "yoy": 0.052304058710771706,
+          "delta": 80521,
+          "monthName": "February"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 8.26 lakh rupees, 51 per cent. Then new clients 4.37 lakh rupees, comeback 2.92 lakh rupees, other 64,800 rupees.",
+        "duration": 9216,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 826200,
+              "share": 51
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 437400,
+              "share": 27
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 291600,
+              "share": 18
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 64800,
+              "share": 4
+            }
+          ],
+          "total": 1620000,
+          "standard": 350220,
+          "standardShare": 21.6
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "52 buyers",
+        "narration": "463 leads, 241 trials, 52 buyers, and 22 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 463,
+          "trials": 241,
+          "buyers": 52,
+          "leadToTrial": 0.5205183585313174,
+          "trialToBuyer": 0.2157676348547718,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.612
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "78%",
+        "narration": "4 offers carry 12.7 lakh rupees, 78 per cent of the 16.2 lakh rupees target. The other 3.5 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 1620000,
+          "offerRevenue": 1269780,
+          "share": 0.7838148148148149,
+          "standard": 350220,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-06-BA",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · Revenue boost",
+        "title": "Couples Therapy (Cheaper Than the Real Thing)",
+        "narration": "Revenue boost: Couples Therapy (Cheaper Than the Real Thing). Couples therapy, but cheaper — and the only thing you'll fight. 8 buyers at 18,215 rupees — 1.46 lakh rupees. 16 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "Couples Therapy (Cheaper Than the Real Thing)",
+          "slot": "referral",
+          "slotLabel": "Revenue boost",
+          "headline": "Couples therapy, but cheaper and with better glutes.",
+          "benefit": "Couples therapy, but cheaper — and the only thing you'll fight about is who's holding the plank longer. Bring someone new: you get 10% off, they get 15% off, and you both get a 30-minute duo private.",
+          "rationale": "Referrals convert 41.2% at Kwality, 22.6% at Bandra, 28.3% at Kenkere and 76.1% at pop-ups, versus 3.8–5.7% for website leads. The 2026 BOGO codes (70 uses, ₹3.1L given) went mostly to existing clients; this only pays out when a new person buys.",
+          "audience": "Current members bringing a guest.",
+          "conditions": "New person must be new to P57 (phone verified). Both must buy. ≈16% effective for the member.",
+          "kpi": "Pairs formed; new buyers from referral (target +40% vs Feb-26).",
+          "offerType": "Pair / referral bundle",
+          "ticket": 18215,
+          "buyers": 8,
+          "revenue": 145720,
+          "discount": 16,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.11476003717179353
+        }
+      },
+      {
+        "id": "offer-O27-05-BA",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · New clients",
+        "title": "Situationship → Relationship",
+        "narration": "New clients: Situationship → Relationship. Stop situationship-ing your fitness. Two dates, then make it official. 14 buyers at 17,203 rupees — 2.41 lakh rupees. 18 per cent off.",
+        "duration": 11539,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Situationship → Relationship",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Stop situationship-ing your fitness. Two dates, then make it official.",
+          "benefit": "Stop situationship-ing your fitness. Two dates, then make it official: 15% off your first month and a spot on the Stronger in 30 Rookie track. Finish it and we'll throw in an extra week. Commitment never looked this good.",
+          "rationale": "Kenkere's VDAY50! code (38 uses, ₹2.6L given away at 50%) bought February volume at a huge cost. This replaces 50% with a structured path: a booked second visit lifts conversion from 10.8% to 43.9%; the challenge gives a reason to keep coming.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only; the +7 days are earned. Challenge is free with an active membership.",
+          "kpi": "Second-visit rate (target 55%); trial → member (target 30%); Rookie finish rate.",
+          "offerType": "Newcomer journey + challenge",
+          "ticket": 17203,
+          "buyers": 14,
+          "revenue": 240842,
+          "discount": 18,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.18967222668493755
+        }
+      },
+      {
+        "id": "offer-O27-08-BA",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · Win-backs",
+        "title": "Galentine's Gone Ghost",
+        "narration": "Win-backs: Galentine's Gone Ghost. Your bestie's been ghosting the gym too? Come back together. 6 buyers at 17,203 rupees — 1.03 lakh rupees. 20 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "Galentine's Gone Ghost",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "Your bestie's been ghosting the gym too? Come back together.",
+          "benefit": "Your bestie's been ghosting the gym too? Come back together. You get 15% off, she gets 2 classes on us — and if she joins, you both get matching grip socks and you get 7 bonus days.",
+          "rationale": "Lapsed clients already know the product and bring friends who convert like referrals (22–76%). Pairing two hesitant people raises the odds both show up.",
+          "audience": "Friend must be new",
+          "conditions": "Friend must be new. Bonus only when the friend buys (≈20% effective for the returner).",
+          "kpi": "Returners with a friend; friend → purchase (target 30%).",
+          "offerType": "Winback + referral",
+          "ticket": 17203,
+          "buyers": 6,
+          "revenue": 103218,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.08128809715068752
+        }
+      },
+      {
+        "id": "offer-O27-07-BA",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "Proof of Work",
+        "narration": "Renewals: Proof of Work. You did 30 classes in 30 days. Your renewal price should show it. 13 buyers at 60,000 rupees — 7.8 lakh rupees. 20 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "Proof of Work",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "You did 30 in 30. Your renewal price should show it.",
+          "benefit": "You did 30 classes in 30 days. Your renewal price should show it: 6 months at 20% off, or an annual at 22% off with an extra private. Receipts, not resolutions.",
+          "rationale": "Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers; members using 75%+ of sessions renew 82–88% across studios. The best price only goes to proven attenders.",
+          "audience": "Price unlocked by verified attendance",
+          "conditions": "Price unlocked by verified attendance. 6M at 20% and annual at ≈24% effective sit inside the caps. Claim by 2027-03-10.",
+          "kpi": "Finish rate; finisher renewal yield vs non-finishers; 3M+ share of renewal value (target 45%).",
+          "offerType": "Attendance-gated renewal ladder",
+          "ticket": 60000,
+          "buyers": 13,
+          "revenue": 780000,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.6142796389925814
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Situationship to Relationship in Momence. Then, Weekly check: Situationship to Relationship: Second-visit rate target.",
+        "duration": 7281,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Situationship → Relationship in Momence (2027-02-01 to 2027-02-21): Mumbai: Newcomers 2-for-1 (₹1,943); take both classes within 10 days, buy 1 Month at the standard 15% (₹17,203) within 72 hours and join the Stronger in 30 Rookie track (16 classes) — finish it for +7 days. Kenkere: 50% intro (₹709) + class 2 free if booked at the desk, then the same. Pop-ups: paid trial (≈₹945) → 8-class pack at 15% (₹5,891) within 72 hours + Rookie track (8 classes)."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Situationship → Relationship: Second-visit rate (target 55%); trial → member (target 30%); Rookie finish rate. | Couples Therapy (Cheaper Than the Real Thing): Pairs formed; new buyers from referral (target +40% vs Feb-26). | Proof of Work: Finish rate; finisher renewal yield vs non-finishers; 3M+ share of renewal value (target 45%). | Galentine's Gone Ghost: Returners with a friend; friend → purchase (target 30%)."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹16.2L: by the 15th aim for ~half of 52 new buyers (241 first visits), 38 renewals and 27 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close February: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "February 2027",
+        "title": "That is the plan",
+        "narration": "That is February at Bandra: 16.2 lakh rupees across 4 offers, and 52 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 1620000,
+          "offerRevenue": 1269780,
+          "offers": 4,
+          "buyers": 52,
+          "monthName": "February",
+          "studio": "Bandra"
+        }
+      }
+    ],
+    "duration": 99591
+  }
+}

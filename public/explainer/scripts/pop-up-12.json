@@ -1,0 +1,300 @@
+{
+  "slug": "pop-up",
+  "month": 12,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "December",
+  "year": 2027,
+  "title": "December 2027 · Pop-up",
+  "duration": 98891,
+  "scenes": 11,
+  "hash": "73aec4fe",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "December 2027 at Pop-up. The theme is Wrapped. The target is 1.7 lakh rupees — 44 per cent above the 1.18 lakh rupees of last December. New clients lead at 81,494 rupees, 48 per cent. Then renewals 74,620 rupees, comeback 11,782 rupees, other 1,696 rupees. 527 leads, 137 trials, 45 buyers, and 33 per cent of trials convert.",
+    "b": "4 offers carry 76,286 rupees, 45 per cent of the 1.7 lakh rupees target. The other 93,306 rupees is expected at full price. New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 4 buyers at 999 rupees — 3,996 rupees. 20 per cent off. Win-backs: Last Seen: 2026 (We Noticed). Last seen: 2026. We noticed. Come back before the new year: 15%. 2 buyers at 7,229 rupees — 14,458 rupees. 15 per cent off. Renewals: Wrapped: Your Top Artist Was Your Trainer. Your 2027 Wrapped is in: classes, top artist, peak hour. 4 buyers at 7,229 rupees — 28,916 rupees. 15 per cent off. Renewals: 12 Days of Shakemas. 12 Days of Shakemas: a new deal every day. 4 buyers at 7,229 rupees — 28,916 rupees. 15 per cent off. First, Set up Wrapped: Your Top Artist Was Your Trainer in Momence: Each. Then, Weekly check: Wrapped: Your Top Artist Was Your Trainer: Renewal yield. That is December at Pop-up: 1.7 lakh rupees across 4 offers, and 45 buyers to find."
+  },
+  "script": {
+    "title": "December 2027 · Pop-up",
+    "monthName": "December",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "December",
+        "narration": "December 2027 at Pop-up. The theme is Wrapped.",
+        "duration": 3797,
+        "data": {
+          "month": 12,
+          "monthName": "December",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "Wrapped",
+          "description": "Wrapped + gifting + pre-sell January",
+          "target": 169592,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹1.7L",
+        "narration": "The target is 1.7 lakh rupees — 44 per cent above the 1.18 lakh rupees of last December.",
+        "duration": 7668,
+        "data": {
+          "target": 169592,
+          "lastYear": 118178,
+          "yoy": 0.43505559410380945,
+          "delta": 51414,
+          "monthName": "December"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "New clients lead at 81,494 rupees, 48 per cent. Then renewals 74,620 rupees, comeback 11,782 rupees, other 1,696 rupees.",
+        "duration": 8055,
+        "data": {
+          "streams": [
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 81494,
+              "share": 48.05297419689608
+            },
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 74620,
+              "share": 43.9997169677815
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 11782,
+              "share": 6.947261663286004
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 1696,
+              "share": 1.0000471720364168
+            }
+          ],
+          "total": 169592,
+          "standard": 93306,
+          "standardShare": 55
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "45 buyers",
+        "narration": "527 leads, 137 trials, 45 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 527,
+          "trials": 137,
+          "buyers": 45,
+          "leadToTrial": 0.25996204933586337,
+          "trialToBuyer": 0.3284671532846715,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "45%",
+        "narration": "4 offers carry 76,286 rupees, 45 per cent of the 1.7 lakh rupees target. The other 93,306 rupees is expected at full price.",
+        "duration": 9603,
+        "data": {
+          "target": 169592,
+          "offerRevenue": 76286,
+          "share": 0.4498207462616161,
+          "standard": 93306,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-49-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · New clients",
+        "title": "Secret Santa Squats",
+        "narration": "New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 4 buyers at 999 rupees — 3,996 rupees. 20 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "Secret Santa Squats",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Secret Santa budget ₹2,000? Gift squats.",
+          "benefit": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
+          "rationale": "Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Recipient must be new.",
+          "kpi": "Vouchers sold; redemption; voucher → member.",
+          "offerType": "Gift voucher",
+          "ticket": 999,
+          "buyers": 4,
+          "revenue": 3996,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.052381826285294815
+        }
+      },
+      {
+        "id": "offer-O27-50-POP",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · Win-backs",
+        "title": "Last Seen: 2026 (We Noticed)",
+        "narration": "Win-backs: Last Seen: 2026 (We Noticed). Last seen: 2026. We noticed. Come back before the new year: 15%. 2 buyers at 7,229 rupees — 14,458 rupees. 15 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Last Seen: 2026 (We Noticed)",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "Last seen: 2026. We noticed.",
+          "benefit": "Last seen: 2026. We noticed. Come back before the new year: 15% off, a free comeback class, and a spot on the Stronger in 30 Comeback track.",
+          "rationale": "Long-lapsed clients need a fresh start, not a bigger discount; the challenge gives a dated goal.",
+          "audience": "Standard lapsed 15%; ≈19",
+          "conditions": "Standard lapsed 15%; ≈19.5% effective on 3M.",
+          "kpi": "Long-lapsed reactivations.",
+          "offerType": "Long-lapsed winback",
+          "ticket": 7229,
+          "buyers": 2,
+          "revenue": 14458,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.18952363474294104
+        }
+      },
+      {
+        "id": "offer-O27-46-POP",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · Renewals",
+        "title": "Wrapped: Your Top Artist Was Your Trainer",
+        "narration": "Renewals: Wrapped: Your Top Artist Was Your Trainer. Your 2027 Wrapped is in: classes, top artist, peak hour. 4 buyers at 7,229 rupees — 28,916 rupees. 15 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "Wrapped: Your Top Artist Was Your Trainer",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Your top artist this year? Your trainer.",
+          "benefit": "Your 2027 Wrapped is in: {n} classes, top artist {trainer}, peak hour {time}. Next year's plan, priced for how you actually train.",
+          "rationale": "A usage-based recommendation renews members onto plans that fit; year-in-review pages get shared.",
+          "audience": "Caps respected",
+          "conditions": "Caps respected.",
+          "kpi": "Renewal yield on Dec–Jan expiries; 3M+ share.",
+          "offerType": "Data-led renewal",
+          "ticket": 7229,
+          "buyers": 4,
+          "revenue": 28916,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.3790472694858821
+        }
+      },
+      {
+        "id": "offer-O27-47-POP",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "12 Days of Shakemas",
+        "narration": "Renewals: 12 Days of Shakemas. 12 Days of Shakemas: a new deal every day. 4 buyers at 7,229 rupees — 28,916 rupees. 15 per cent off.",
+        "duration": 10765,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "12 Days of Shakemas",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Twelve days, twelve published deals. Day 12 is the big one.",
+          "benefit": "12 Days of Shakemas: a new deal every day from 13 to 24 December, all published upfront — no hidden prizes, no FOMO tricks. Day 12 is the big one.",
+          "rationale": "Published, rotating deals create daily traffic; the best prices sit on the longest plans and bulk privates (the allowed 25% cases).",
+          "audience": "One deal per person per day",
+          "conditions": "One deal per person per day. 25% only on annual and bulk privates.",
+          "kpi": "Sales per Shakemas day; long-plan share.",
+          "offerType": "Published daily calendar",
+          "ticket": 7229,
+          "buyers": 4,
+          "revenue": 28916,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.3790472694858821
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Wrapped: Your Top Artist Was Your Trainer in Momence: Each. Then, Weekly check: Wrapped: Your Top Artist Was Your Trainer: Renewal yield.",
+        "duration": 10377,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Wrapped: Your Top Artist Was Your Trainer in Momence (2027-12-01 to 2027-12-31): Each member gets a personal 2027 Wrapped (classes, top trainer, favourite time, best month) and a recommended plan: 3 Months at 15% (₹49,177 / ₹35,879), 6 Months at 20% (₹90,972 / ₹65,772) or Annual at 22% (₹1,71,171 / ₹1,21,867) + Stronger in 30 2028 early-entry kit. Staying on 1 Month: list + 3 days."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Wrapped: Your Top Artist Was Your Trainer: Renewal yield on Dec–Jan expiries; 3M+ share. | 12 Days of Shakemas: Sales per Shakemas day; long-plan share. | Secret Santa Squats: Vouchers sold; redemption; voucher → member. | Last Seen: 2026 (We Noticed): Long-lapsed reactivations."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹1.7L: by the 15th aim for ~half of 45 new buyers (137 first visits), 10 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close December: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "December 2027",
+        "title": "That is the plan",
+        "narration": "That is December at Pop-up: 1.7 lakh rupees across 4 offers, and 45 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 169592,
+          "offerRevenue": 76286,
+          "offers": 4,
+          "buyers": 45,
+          "monthName": "December",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 98891
+  }
+}

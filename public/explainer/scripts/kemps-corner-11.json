@@ -1,0 +1,270 @@
+{
+  "slug": "kemps-corner",
+  "month": 11,
+  "studio": "KH",
+  "studioName": "Kemps Corner",
+  "monthName": "November",
+  "year": 2027,
+  "title": "November 2027 · Kemps Corner",
+  "duration": 87590,
+  "scenes": 10,
+  "hash": "20103be4",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "November 2027 at Kemps Corner. The theme is Black Friday + Thank U, Next. The target is 21.4 lakh rupees — 16 per cent above the 18.5 lakh rupees of last November. Renewals lead at 11.8 lakh rupees, 55 per cent. Then new clients 5.14 lakh rupees, comeback 2.57 lakh rupees, other 1.93 lakh rupees. 335 leads, 171 trials, 46 buyers, and 27 per cent of trials convert.",
+    "b": "3 offers carry 13.7 lakh rupees, 64 per cent of the 21.4 lakh rupees target. The other 7.66 lakh rupees is expected at full price. Revenue boost: Thank U, Next (Year). Thank u, next year. This week is just for you. 8 buyers at 17,203 rupees — 1.38 lakh rupees. New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 18 buyers at 1,999 rupees — 35,982 rupees. 20 per cent off. Renewals: Black Friday, Strong Monday, Sore Tuesday. Black Friday, Strong Monday, sore Tuesday. 16 buyers at 75,000 rupees — 12 lakh rupees. 21 per cent off. First, Set up Black Friday, Strong Monday, Sore Tuesday in Momence. Then, Weekly check: Black Friday, Strong Monday. That is November at Kemps Corner: 21.4 lakh rupees across 3 offers, and 46 buyers to find."
+  },
+  "script": {
+    "title": "November 2027 · Kemps Corner",
+    "monthName": "November",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Kemps Corner · 2027",
+        "title": "November",
+        "narration": "November 2027 at Kemps Corner. The theme is Black Friday + Thank U, Next.",
+        "duration": 6119,
+        "data": {
+          "month": 11,
+          "monthName": "November",
+          "year": 2027,
+          "studio": "Kemps Corner",
+          "theme": "Black Friday + Thank U, Next",
+          "description": "Black Friday + member appreciation",
+          "target": 2140000,
+          "offers": 3
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹21.4L",
+        "narration": "The target is 21.4 lakh rupees — 16 per cent above the 18.5 lakh rupees of last November.",
+        "duration": 7668,
+        "data": {
+          "target": 2140000,
+          "lastYear": 1851052,
+          "yoy": 0.1560993424279815,
+          "delta": 288948,
+          "monthName": "November"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 11.8 lakh rupees, 55 per cent. Then new clients 5.14 lakh rupees, comeback 2.57 lakh rupees, other 1.93 lakh rupees.",
+        "duration": 9603,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 1177000,
+              "share": 55.00000000000001
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 513600,
+              "share": 24
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 256800,
+              "share": 12
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 192600,
+              "share": 9
+            }
+          ],
+          "total": 2140000,
+          "standard": 766394,
+          "standardShare": 35.8
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "46 buyers",
+        "narration": "335 leads, 171 trials, 46 buyers, and 27 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 335,
+          "trials": 171,
+          "buyers": 46,
+          "leadToTrial": 0.5104477611940299,
+          "trialToBuyer": 0.26900584795321636,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.765
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "64%",
+        "narration": "3 offers carry 13.7 lakh rupees, 64 per cent of the 21.4 lakh rupees target. The other 7.66 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 2140000,
+          "offerRevenue": 1373606,
+          "share": 0.6418719626168224,
+          "standard": 766394,
+          "offers": 3
+        }
+      },
+      {
+        "id": "offer-O27-44-KC",
+        "kind": "offer",
+        "kicker": "Offer 1 of 3 · Revenue boost",
+        "title": "Thank U, Next (Year)",
+        "narration": "Revenue boost: Thank U, Next (Year). Thank u, next year. This week is just for you. 8 buyers at 17,203 rupees — 1.38 lakh rupees.",
+        "duration": 10377,
+        "data": {
+          "index": 0,
+          "count": 3,
+          "narrated": true,
+          "name": "Thank U, Next (Year)",
+          "slot": "goodwill",
+          "slotLabel": "Revenue boost",
+          "headline": "Thank u, next (year).",
+          "benefit": "Thank u, next (year). This week is just for you: a guest pass to share, a members-only night, and a gift if you've hit 100 classes this year. No catch. Just gratitude (and glutes).",
+          "rationale": "Each guest pass is a referral-quality lead (referrals convert 22–76%). Goodwill before December renewals lifts renewal yield.",
+          "audience": "Current members; no purchase needed.",
+          "conditions": "No discount. Guest pass for someone new.",
+          "kpi": "Guest passes used; guest → member (target 20%); December renewal yield.",
+          "offerType": "Member appreciation",
+          "ticket": 17203,
+          "buyers": 8,
+          "revenue": 137624,
+          "discount": 0,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.10019175804415531
+        }
+      },
+      {
+        "id": "offer-O27-49-KH-m11",
+        "kind": "offer",
+        "kicker": "Offer 2 of 3 · New clients",
+        "title": "Secret Santa Squats",
+        "narration": "New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 18 buyers at 1,999 rupees — 35,982 rupees. 20 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 1,
+          "count": 3,
+          "narrated": true,
+          "name": "Secret Santa Squats",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Secret Santa budget ₹2,000? Gift squats.",
+          "benefit": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
+          "rationale": "Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Recipient must be new.",
+          "kpi": "Vouchers sold; redemption; voucher → member.",
+          "offerType": "Gift voucher",
+          "ticket": 1999,
+          "buyers": 18,
+          "revenue": 35982,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.026195284528460126
+        }
+      },
+      {
+        "id": "offer-O27-43-KC",
+        "kind": "offer",
+        "kicker": "Offer 3 of 3 · Renewals",
+        "title": "Black Friday, Strong Monday, Sore Tuesday",
+        "narration": "Renewals: Black Friday, Strong Monday, Sore Tuesday. Black Friday, Strong Monday, sore Tuesday. 16 buyers at 75,000 rupees — 12 lakh rupees. 21 per cent off.",
+        "duration": 10765,
+        "data": {
+          "index": 2,
+          "count": 3,
+          "narrated": true,
+          "name": "Black Friday, Strong Monday, Sore Tuesday",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Black Friday, Strong Monday, sore Tuesday.",
+          "benefit": "Black Friday, Strong Monday, sore Tuesday. Four days of the year's best long-plan prices — and the last Club Nine seats. No one-month discounts; we're not that kind of studio.",
+          "rationale": "November is the trough (Kwality ₹18.5L, Bandra ₹13.2L in Nov-25). Long-plan pricing brings cash forward without discounting 1 Month.",
+          "audience": "Annual 25% and bulk packs (allowed); 6M ≤20%",
+          "conditions": "Annual 25% and bulk packs (allowed); 6M ≤20%.",
+          "kpi": "Long-plan units; Club Nine seats closed out.",
+          "offerType": "4-day long-plan sale",
+          "ticket": 75000,
+          "buyers": 16,
+          "revenue": 1200000,
+          "discount": 21,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.8736129574273845
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Black Friday, Strong Monday, Sore Tuesday in Momence. Then, Weekly check: Black Friday, Strong Monday.",
+        "duration": 7668,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Black Friday, Strong Monday, Sore Tuesday in Momence (2027-11-26 to 2027-11-29): Fri 26–Mon 29 Nov: 6 Months at 20% (₹90,972 / ₹65,772), Annual at 25% (₹1,64,588 / ₹1,17,180, including leftover Club Nine numbered seats), 20- and 30-class packs at 20% (bulk). No discount on 1 Month. Pop-ups: 10-class pack at 15%."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Black Friday, Strong Monday, Sore Tuesday: Long-plan units; Club Nine seats closed out. | Thank U, Next (Year): Guest passes used; guest → member (target 20%); December renewal yield."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹21.4L: by the 15th aim for ~half of 46 new buyers (171 first visits), 50 renewals and 22 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close November: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "November 2027",
+        "title": "That is the plan",
+        "narration": "That is November at Kemps Corner: 21.4 lakh rupees across 3 offers, and 46 buyers to find.",
+        "duration": 7281,
+        "data": {
+          "target": 2140000,
+          "offerRevenue": 1373606,
+          "offers": 3,
+          "buyers": 46,
+          "monthName": "November",
+          "studio": "Kemps Corner"
+        }
+      }
+    ],
+    "duration": 87590
+  }
+}

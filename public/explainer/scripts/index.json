@@ -1,0 +1,487 @@
+{
+  "generatedAt": "2026-11-05T20:28:14.579Z",
+  "year": 2027,
+  "count": 48,
+  "scripts": [
+    {
+      "slug": "bandra",
+      "month": 1,
+      "studio": "Bandra",
+      "title": "January 2027 · Bandra",
+      "duration": 96806,
+      "scenes": 11,
+      "hash": "c3af6aa8",
+      "file": "bandra-01.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 2,
+      "studio": "Bandra",
+      "title": "February 2027 · Bandra",
+      "duration": 99591,
+      "scenes": 11,
+      "hash": "827843b4",
+      "file": "bandra-02.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 3,
+      "studio": "Bandra",
+      "title": "March 2027 · Bandra",
+      "duration": 83258,
+      "scenes": 10,
+      "hash": "da699e78",
+      "file": "bandra-03.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 4,
+      "studio": "Bandra",
+      "title": "April 2027 · Bandra",
+      "duration": 110522,
+      "scenes": 13,
+      "hash": "0d9e9ecf",
+      "file": "bandra-04.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 5,
+      "studio": "Bandra",
+      "title": "May 2027 · Bandra",
+      "duration": 99203,
+      "scenes": 11,
+      "hash": "d4cbbfe4",
+      "file": "bandra-05.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 6,
+      "studio": "Bandra",
+      "title": "June 2027 · Bandra",
+      "duration": 99130,
+      "scenes": 11,
+      "hash": "befb5f0e",
+      "file": "bandra-06.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 7,
+      "studio": "Bandra",
+      "title": "July 2027 · Bandra",
+      "duration": 105987,
+      "scenes": 12,
+      "hash": "19390ad8",
+      "file": "bandra-07.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 8,
+      "studio": "Bandra",
+      "title": "August 2027 · Bandra",
+      "duration": 98041,
+      "scenes": 11,
+      "hash": "bda4faca",
+      "file": "bandra-08.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 9,
+      "studio": "Bandra",
+      "title": "September 2027 · Bandra",
+      "duration": 102687,
+      "scenes": 11,
+      "hash": "603100a1",
+      "file": "bandra-09.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 10,
+      "studio": "Bandra",
+      "title": "October 2027 · Bandra",
+      "duration": 99443,
+      "scenes": 11,
+      "hash": "5890933f",
+      "file": "bandra-10.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 11,
+      "studio": "Bandra",
+      "title": "November 2027 · Bandra",
+      "duration": 86042,
+      "scenes": 10,
+      "hash": "c6eef503",
+      "file": "bandra-11.json"
+    },
+    {
+      "slug": "bandra",
+      "month": 12,
+      "studio": "Bandra",
+      "title": "December 2027 · Bandra",
+      "duration": 106909,
+      "scenes": 12,
+      "hash": "1a7b426a",
+      "file": "bandra-12.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 1,
+      "studio": "Kemps Corner",
+      "title": "January 2027 · Kemps Corner",
+      "duration": 96032,
+      "scenes": 11,
+      "hash": "9f3a1ef4",
+      "file": "kemps-corner-01.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 2,
+      "studio": "Kemps Corner",
+      "title": "February 2027 · Kemps Corner",
+      "duration": 100752,
+      "scenes": 11,
+      "hash": "05599554",
+      "file": "kemps-corner-02.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 3,
+      "studio": "Kemps Corner",
+      "title": "March 2027 · Kemps Corner",
+      "duration": 84419,
+      "scenes": 10,
+      "hash": "9c975d73",
+      "file": "kemps-corner-03.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 4,
+      "studio": "Kemps Corner",
+      "title": "April 2027 · Kemps Corner",
+      "duration": 110910,
+      "scenes": 13,
+      "hash": "c159b1b7",
+      "file": "kemps-corner-04.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 5,
+      "studio": "Kemps Corner",
+      "title": "May 2027 · Kemps Corner",
+      "duration": 100364,
+      "scenes": 11,
+      "hash": "8560233d",
+      "file": "kemps-corner-05.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 6,
+      "studio": "Kemps Corner",
+      "title": "June 2027 · Kemps Corner",
+      "duration": 100678,
+      "scenes": 11,
+      "hash": "8f5e6a3a",
+      "file": "kemps-corner-06.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 7,
+      "studio": "Kemps Corner",
+      "title": "July 2027 · Kemps Corner",
+      "duration": 107148,
+      "scenes": 12,
+      "hash": "e7c9c1ee",
+      "file": "kemps-corner-07.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 8,
+      "studio": "Kemps Corner",
+      "title": "August 2027 · Kemps Corner",
+      "duration": 98815,
+      "scenes": 11,
+      "hash": "5a8868f1",
+      "file": "kemps-corner-08.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 9,
+      "studio": "Kemps Corner",
+      "title": "September 2027 · Kemps Corner",
+      "duration": 103848,
+      "scenes": 11,
+      "hash": "125851cd",
+      "file": "kemps-corner-09.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 10,
+      "studio": "Kemps Corner",
+      "title": "October 2027 · Kemps Corner",
+      "duration": 100991,
+      "scenes": 11,
+      "hash": "89a735cc",
+      "file": "kemps-corner-10.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 11,
+      "studio": "Kemps Corner",
+      "title": "November 2027 · Kemps Corner",
+      "duration": 87590,
+      "scenes": 10,
+      "hash": "20103be4",
+      "file": "kemps-corner-11.json"
+    },
+    {
+      "slug": "kemps-corner",
+      "month": 12,
+      "studio": "Kemps Corner",
+      "title": "December 2027 · Kemps Corner",
+      "duration": 108070,
+      "scenes": 12,
+      "hash": "79163238",
+      "file": "kemps-corner-12.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 1,
+      "studio": "Kenkere House",
+      "title": "January 2027 · Kenkere House",
+      "duration": 95184,
+      "scenes": 11,
+      "hash": "21653e81",
+      "file": "kenkere-house-01.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 2,
+      "studio": "Kenkere House",
+      "title": "February 2027 · Kenkere House",
+      "duration": 99591,
+      "scenes": 11,
+      "hash": "fca70685",
+      "file": "kenkere-house-02.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 3,
+      "studio": "Kenkere House",
+      "title": "March 2027 · Kenkere House",
+      "duration": 83645,
+      "scenes": 10,
+      "hash": "f0ad3697",
+      "file": "kenkere-house-03.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 4,
+      "studio": "Kenkere House",
+      "title": "April 2027 · Kenkere House",
+      "duration": 110136,
+      "scenes": 13,
+      "hash": "e70434a0",
+      "file": "kenkere-house-04.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 5,
+      "studio": "Kenkere House",
+      "title": "May 2027 · Kenkere House",
+      "duration": 99203,
+      "scenes": 11,
+      "hash": "5315b6b2",
+      "file": "kenkere-house-05.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 6,
+      "studio": "Kenkere House",
+      "title": "June 2027 · Kenkere House",
+      "duration": 99129,
+      "scenes": 11,
+      "hash": "09a7c2ef",
+      "file": "kenkere-house-06.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 7,
+      "studio": "Kenkere House",
+      "title": "July 2027 · Kenkere House",
+      "duration": 99129,
+      "scenes": 11,
+      "hash": "f270889b",
+      "file": "kenkere-house-07.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 8,
+      "studio": "Kenkere House",
+      "title": "August 2027 · Kenkere House",
+      "duration": 97654,
+      "scenes": 11,
+      "hash": "b77cd689",
+      "file": "kenkere-house-08.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 9,
+      "studio": "Kenkere House",
+      "title": "September 2027 · Kenkere House",
+      "duration": 103074,
+      "scenes": 11,
+      "hash": "55c591ef",
+      "file": "kenkere-house-09.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 10,
+      "studio": "Kenkere House",
+      "title": "October 2027 · Kenkere House",
+      "duration": 99443,
+      "scenes": 11,
+      "hash": "d78106f8",
+      "file": "kenkere-house-10.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 11,
+      "studio": "Kenkere House",
+      "title": "November 2027 · Kenkere House",
+      "duration": 86429,
+      "scenes": 10,
+      "hash": "fae25e84",
+      "file": "kenkere-house-11.json"
+    },
+    {
+      "slug": "kenkere-house",
+      "month": 12,
+      "studio": "Kenkere House",
+      "title": "December 2027 · Kenkere House",
+      "duration": 106909,
+      "scenes": 12,
+      "hash": "103eca00",
+      "file": "kenkere-house-12.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 1,
+      "studio": "Pop-up",
+      "title": "January 2027 · Pop-up",
+      "duration": 82097,
+      "scenes": 10,
+      "hash": "6ffca2cc",
+      "file": "pop-up-01.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 2,
+      "studio": "Pop-up",
+      "title": "February 2027 · Pop-up",
+      "duration": 97195,
+      "scenes": 11,
+      "hash": "b683771c",
+      "file": "pop-up-02.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 3,
+      "studio": "Pop-up",
+      "title": "March 2027 · Pop-up",
+      "duration": 69397,
+      "scenes": 9,
+      "hash": "df179513",
+      "file": "pop-up-03.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 4,
+      "studio": "Pop-up",
+      "title": "April 2027 · Pop-up",
+      "duration": 96733,
+      "scenes": 11,
+      "hash": "8e2fccf5",
+      "file": "pop-up-04.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 5,
+      "studio": "Pop-up",
+      "title": "May 2027 · Pop-up",
+      "duration": 95332,
+      "scenes": 11,
+      "hash": "23f81bb4",
+      "file": "pop-up-05.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 6,
+      "studio": "Pop-up",
+      "title": "June 2027 · Pop-up",
+      "duration": 69783,
+      "scenes": 9,
+      "hash": "6dad0bf2",
+      "file": "pop-up-06.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 7,
+      "studio": "Pop-up",
+      "title": "July 2027 · Pop-up",
+      "duration": 95258,
+      "scenes": 11,
+      "hash": "59e8be5a",
+      "file": "pop-up-07.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 8,
+      "studio": "Pop-up",
+      "title": "August 2027 · Pop-up",
+      "duration": 82484,
+      "scenes": 10,
+      "hash": "a231c00f",
+      "file": "pop-up-08.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 9,
+      "studio": "Pop-up",
+      "title": "September 2027 · Pop-up",
+      "duration": 84032,
+      "scenes": 10,
+      "hash": "ea2732d7",
+      "file": "pop-up-09.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 10,
+      "studio": "Pop-up",
+      "title": "October 2027 · Pop-up",
+      "duration": 83259,
+      "scenes": 10,
+      "hash": "fe94ef1a",
+      "file": "pop-up-10.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 11,
+      "studio": "Pop-up",
+      "title": "November 2027 · Pop-up",
+      "duration": 94945,
+      "scenes": 11,
+      "hash": "8aa90899",
+      "file": "pop-up-11.json"
+    },
+    {
+      "slug": "pop-up",
+      "month": 12,
+      "studio": "Pop-up",
+      "title": "December 2027 · Pop-up",
+      "duration": 98891,
+      "scenes": 11,
+      "hash": "73aec4fe",
+      "file": "pop-up-12.json"
+    }
+  ]
+}

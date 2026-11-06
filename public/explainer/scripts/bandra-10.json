@@ -1,0 +1,300 @@
+{
+  "slug": "bandra",
+  "month": 10,
+  "studio": "SHQ",
+  "studioName": "Bandra",
+  "monthName": "October",
+  "year": 2027,
+  "title": "October 2027 · Bandra",
+  "duration": 99443,
+  "scenes": 11,
+  "hash": "5890933f",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "October 2027 at Bandra. The theme is Festival of Lights. The target is 16.6 lakh rupees — 63 per cent above the 10.2 lakh rupees of last October. Renewals lead at 8.47 lakh rupees, 51 per cent. Then new clients 4.48 lakh rupees, comeback 2.99 lakh rupees, other 66,400 rupees. 471 leads, 245 trials, 53 buyers, and 22 per cent of trials convert.",
+    "b": "4 offers carry 11.8 lakh rupees, 71 per cent of the 16.6 lakh rupees target. The other 4.81 lakh rupees is expected at full price. Revenue boost: From Phuljhadi to Anaar. Still on a one-month phuljhadi? Upgrade to the six-month anaar. 9 buyers at 65,000 rupees — 5.85 lakh rupees. 20 per cent off. New clients: Diwali Gifting, Minus the Dry-Fruit Box. This Diwali, skip the 14th dry-fruit box. 16 buyers at 3,885 rupees — 62,160 rupees. 33 per cent off. Win-backs: Diwali Cleaning: Found Your Old Grip Socks? Diwali cleaning found your old grip socks. 11 buyers at 17,203 rupees — 1.89 lakh rupees. 19 per cent off. Renewals: Gold Rush (Dhanteras Edition). This Dhanteras, invest in gold that actually lifts. 2 buyers at 1.71 lakh rupees — 3.42 lakh rupees. 24.4 per cent off. First, Set up Diwali Gifting, Minus the Dry-Fruit Box in Momence. Then, Weekly check: Diwali Gifting, Minus the Dry-Fruit Box: Gift envelopes. That is October at Bandra: 16.6 lakh rupees across 4 offers, and 53 buyers to find."
+  },
+  "script": {
+    "title": "October 2027 · Bandra",
+    "monthName": "October",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Bandra · 2027",
+        "title": "October",
+        "narration": "October 2027 at Bandra. The theme is Festival of Lights.",
+        "duration": 4571,
+        "data": {
+          "month": 10,
+          "monthName": "October",
+          "year": 2027,
+          "studio": "Bandra",
+          "theme": "Festival of Lights",
+          "description": "Diwali gifting + upgrades",
+          "target": 1660000,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹16.6L",
+        "narration": "The target is 16.6 lakh rupees — 63 per cent above the 10.2 lakh rupees of last October.",
+        "duration": 7668,
+        "data": {
+          "target": 1660000,
+          "lastYear": 1019961,
+          "yoy": 0.6275132088383772,
+          "delta": 640039,
+          "monthName": "October"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 8.47 lakh rupees, 51 per cent. Then new clients 4.48 lakh rupees, comeback 2.99 lakh rupees, other 66,400 rupees.",
+        "duration": 9216,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 846600,
+              "share": 51
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 448200,
+              "share": 27
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 298800,
+              "share": 18
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 66400,
+              "share": 4
+            }
+          ],
+          "total": 1660000,
+          "standard": 481265,
+          "standardShare": 29
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "53 buyers",
+        "narration": "471 leads, 245 trials, 53 buyers, and 22 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 471,
+          "trials": 245,
+          "buyers": 53,
+          "leadToTrial": 0.5201698513800425,
+          "trialToBuyer": 0.2163265306122449,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.612
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "71%",
+        "narration": "4 offers carry 11.8 lakh rupees, 71 per cent of the 16.6 lakh rupees target. The other 4.81 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 1660000,
+          "offerRevenue": 1178735,
+          "share": 0.7100813253012048,
+          "standard": 481265,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-40-BA",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · Revenue boost",
+        "title": "From Phuljhadi to Anaar",
+        "narration": "Revenue boost: From Phuljhadi to Anaar. Still on a one-month phuljhadi? Upgrade to the six-month anaar. 9 buyers at 65,000 rupees — 5.85 lakh rupees. 20 per cent off.",
+        "duration": 11926,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "From Phuljhadi to Anaar",
+          "slot": "upgrade",
+          "slotLabel": "Revenue boost",
+          "headline": "Upgrade from a phuljhadi to an anaar.",
+          "benefit": "Still on a one-month phuljhadi? Upgrade to the six-month anaar: 20% off and 3 extra freezes for the festive madness.",
+          "rationale": "Upgrading lifts cash per member 2.3–4.4× and protects the base through November, the softest month.",
+          "audience": "Members on 1 Month or class packs.",
+          "conditions": "6M at 20% (standard 15% + 5 pts), inside the cap.",
+          "kpi": "1M → 3M/6M upgrades.",
+          "offerType": "Upgrade (1M → 6M)",
+          "ticket": 65000,
+          "buyers": 9,
+          "revenue": 585000,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.496294756667105
+        }
+      },
+      {
+        "id": "offer-O27-39-BA",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · New clients",
+        "title": "Diwali Gifting, Minus the Dry-Fruit Box",
+        "narration": "New clients: Diwali Gifting, Minus the Dry-Fruit Box. This Diwali, skip the 14th dry-fruit box. 16 buyers at 3,885 rupees — 62,160 rupees. 33 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Diwali Gifting, Minus the Dry-Fruit Box",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "This Diwali, gift something they'll actually use.",
+          "benefit": "This Diwali, skip the 14th dry-fruit box. Gift 3 classes for the price of 2. If they join, you get a bonus class too.",
+          "rationale": "Gifting is real festive spend; the 3-for-2 gets recipients to the 3-visit mark that converts at 73–89%.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Recipient must be new; activate within 60 days. Claim by 2027-11-15.",
+          "kpi": "Gift envelopes sold; activation rate; recipient → member.",
+          "offerType": "Gift card (3-for-2)",
+          "ticket": 3885,
+          "buyers": 16,
+          "revenue": 62160,
+          "discount": 33,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.05273449927252521
+        }
+      },
+      {
+        "id": "offer-O27-42-BA",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · Win-backs",
+        "title": "Diwali Cleaning: Found Your Old Grip Socks?",
+        "narration": "Win-backs: Diwali Cleaning: Found Your Old Grip Socks? Diwali cleaning found your old grip socks. 11 buyers at 17,203 rupees — 1.89 lakh rupees. 19 per cent off.",
+        "duration": 11539,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "Diwali Cleaning: Found Your Old Grip Socks?",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "Diwali cleaning found your old grip socks. Sign?",
+          "benefit": "Diwali cleaning found your old grip socks. That's a sign. Bring them back: 15% off your return and a brand-new pair on us.",
+          "rationale": "A physical prompt from the client's own home is a memorable trigger; the retail cost is low.",
+          "audience": "Standard lapsed 15% + retail (≤20% effective)",
+          "conditions": "Standard lapsed 15% + retail (≤20% effective).",
+          "kpi": "Reactivations.",
+          "offerType": "Winback (retail swap)",
+          "ticket": 17203,
+          "buyers": 11,
+          "revenue": 189233,
+          "discount": 19,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.16053905245877997
+        }
+      },
+      {
+        "id": "offer-O27-41-BA",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "Gold Rush (Dhanteras Edition)",
+        "narration": "Renewals: Gold Rush (Dhanteras Edition). This Dhanteras, invest in gold that actually lifts. 2 buyers at 1.71 lakh rupees — 3.42 lakh rupees. 24.4 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "Gold Rush (Dhanteras Edition)",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Buy gold this Dhanteras. The kind that lifts.",
+          "benefit": "This Dhanteras, invest in gold that actually lifts. Annual at 22% off, an extra private and a gold-foil membership card. 72 hours only.",
+          "rationale": "Dhanteras is India's 'buy something lasting' day; an annual fits. ≈24.5% effective sits under the annual cap.",
+          "audience": "Annual cap 25%",
+          "conditions": "Annual cap 25%.",
+          "kpi": "Annuals sold.",
+          "offerType": "Annual (festive)",
+          "ticket": 171171,
+          "buyers": 2,
+          "revenue": 342342,
+          "discount": 24.4,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.2904316916015898
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Diwali Gifting, Minus the Dry-Fruit Box in Momence. Then, Weekly check: Diwali Gifting, Minus the Dry-Fruit Box: Gift envelopes.",
+        "duration": 9216,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Diwali Gifting, Minus the Dry-Fruit Box in Momence (2027-10-01 to 2027-11-15): A festive gift envelope with 3 classes for the price of 2 — Mumbai ₹3,885, Kenkere ₹2,835, pop-ups ₹1,890 — for someone new. The recipient gets the standard 15% on a first membership; the giver gets 1 bonus class when they buy."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Diwali Gifting, Minus the Dry-Fruit Box: Gift envelopes sold; activation rate; recipient → member. | From Phuljhadi to Anaar: 1M → 3M/6M upgrades. | Gold Rush (Dhanteras Edition): Annuals sold. | Diwali Cleaning: Found Your Old Grip Socks?: Reactivations."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹16.6L: by the 15th aim for ~half of 53 new buyers (245 first visits), 39 renewals and 27 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close October: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "October 2027",
+        "title": "That is the plan",
+        "narration": "That is October at Bandra: 16.6 lakh rupees across 4 offers, and 53 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 1660000,
+          "offerRevenue": 1178735,
+          "offers": 4,
+          "buyers": 53,
+          "monthName": "October",
+          "studio": "Bandra"
+        }
+      }
+    ],
+    "duration": 99443
+  }
+}

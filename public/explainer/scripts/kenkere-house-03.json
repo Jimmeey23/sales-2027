@@ -1,0 +1,270 @@
+{
+  "slug": "kenkere-house",
+  "month": 3,
+  "studio": "KK",
+  "studioName": "Kenkere House",
+  "monthName": "March",
+  "year": 2027,
+  "title": "March 2027 · Kenkere House",
+  "duration": 83645,
+  "scenes": 10,
+  "hash": "f0ad3697",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "March 2027 at Kenkere House. The theme is Main Character Month. The target is 7.13 lakh rupees — 15 per cent above the 6.21 lakh rupees of last March. Renewals lead at 3.78 lakh rupees, 53 per cent. Then new clients 2.42 lakh rupees, other 49,886 rupees, comeback 42,759 rupees. 536 leads, 193 trials, 36 buyers, and 19 per cent of trials convert.",
+    "b": "3 offers carry 5.35 lakh rupees, 75 per cent of the 7.13 lakh rupees target. The other 1.78 lakh rupees is expected at full price. New clients: The Second Date's On Us. First date: half price. 17 buyers at 12,406 rupees — 2.11 lakh rupees. 15 per cent off. Renewals: Bura Na Mano, Renewal Hai. Bura na mano, renewal hai. 48 hours only. 5 buyers at 35,879 rupees — 1.79 lakh rupees. 19.7 per cent off. Renewals: Monogamy Is Overrated. Committed to one class? Cute. 11 buyers at 13,125 rupees — 1.44 lakh rupees. 17 per cent off. First, Set up Monogamy Is Overrated in Momence. Then, Weekly check: Monogamy Is Overrated: Members trying a new format target. That is March at Kenkere House: 7.13 lakh rupees across 3 offers, and 36 buyers to find."
+  },
+  "script": {
+    "title": "March 2027 · Kenkere House",
+    "monthName": "March",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Kenkere House · 2027",
+        "title": "March",
+        "narration": "March 2027 at Kenkere House. The theme is Main Character Month.",
+        "duration": 4958,
+        "data": {
+          "month": 3,
+          "monthName": "March",
+          "year": 2027,
+          "studio": "Kenkere House",
+          "theme": "Main Character Month",
+          "description": "Women's Day + Main Character Month format exploration",
+          "target": 712651,
+          "offers": 3
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹7.13L",
+        "narration": "The target is 7.13 lakh rupees — 15 per cent above the 6.21 lakh rupees of last March.",
+        "duration": 7668,
+        "data": {
+          "target": 712651,
+          "lastYear": 621187,
+          "yoy": 0.14724068597700857,
+          "delta": 91464,
+          "monthName": "March"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 3.78 lakh rupees, 53 per cent. Then new clients 2.42 lakh rupees, other 49,886 rupees, comeback 42,759 rupees.",
+        "duration": 8829,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 377705,
+              "share": 52.99999579036583
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 242301,
+              "share": 33.99995229081275
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 49886,
+              "share": 7.000060338089751
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 42759,
+              "share": 5.999991580731662
+            }
+          ],
+          "total": 712651,
+          "standard": 177979,
+          "standardShare": 25
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "36 buyers",
+        "narration": "536 leads, 193 trials, 36 buyers, and 19 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 536,
+          "trials": 193,
+          "buyers": 36,
+          "leadToTrial": 0.36007462686567165,
+          "trialToBuyer": 0.18652849740932642,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.604
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "75%",
+        "narration": "3 offers carry 5.35 lakh rupees, 75 per cent of the 7.13 lakh rupees target. The other 1.78 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 712651,
+          "offerRevenue": 534672,
+          "share": 0.7502578400928365,
+          "standard": 177979,
+          "offers": 3
+        }
+      },
+      {
+        "id": "offer-O27-12-KK",
+        "kind": "offer",
+        "kicker": "Offer 1 of 3 · New clients",
+        "title": "The Second Date's On Us",
+        "narration": "New clients: The Second Date's On Us. First date: half price. 17 buyers at 12,406 rupees — 2.11 lakh rupees. 15 per cent off.",
+        "duration": 9990,
+        "data": {
+          "index": 0,
+          "count": 3,
+          "narrated": true,
+          "name": "The Second Date's On Us",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "First date: half price. Second date: on us. Third: it's a relationship.",
+          "benefit": "First date: half price. Second date: on us. Third date? That's a relationship — 15% off your first month and an extra freeze for when life gets busy.",
+          "rationale": "Kenkere logged 3,217 leads in 12 months; only 36% reached a trial and 13.1% converted. 581 single-class sales show high drop-in, low commitment. A booked second visit lifts conversion from 10.8% to 43.9%.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only; freeze has no cash value.",
+          "kpi": "Second-visit rate (target 55%); trial → member (target 25% vs 18.7%).",
+          "offerType": "Newcomer journey (Bengaluru)",
+          "ticket": 12406,
+          "buyers": 17,
+          "revenue": 210902,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.39445117754436365
+        }
+      },
+      {
+        "id": "offer-O27-11-KK",
+        "kind": "offer",
+        "kicker": "Offer 2 of 3 · Renewals",
+        "title": "Bura Na Mano, Renewal Hai",
+        "narration": "Renewals: Bura Na Mano, Renewal Hai. Bura na mano, renewal hai. 48 hours only. 5 buyers at 35,879 rupees — 1.79 lakh rupees. 19.7 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 1,
+          "count": 3,
+          "narrated": true,
+          "name": "Bura Na Mano, Renewal Hai",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Bura na mano, renewal hai. 48 hours only.",
+          "benefit": "Bura na mano, renewal hai. 48 hours only: 3 months at 15% off and a limited-edition Holi tee. Colours wash out. Abs don't.",
+          "rationale": "In 2026 Kwality did ₹20.2L in March, then ₹50.0L in April at 20.4% discount depth — March renewals waited. A short, fun window with a 3M upgrade pulls them forward at ≤20% effective.",
+          "audience": "Members expiring 1–31 Mar only",
+          "conditions": "Members expiring 1–31 Mar only. 3M ≈18.5% effective; pack ≈20%.",
+          "kpi": "March renewal yield (target 70%); 3M share of March renewals.",
+          "offerType": "48-hour festival renewal",
+          "ticket": 35879,
+          "buyers": 5,
+          "revenue": 179395,
+          "discount": 19.7,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.33552346111260734
+        }
+      },
+      {
+        "id": "offer-O27-09-KK",
+        "kind": "offer",
+        "kicker": "Offer 3 of 3 · Renewals",
+        "title": "Monogamy Is Overrated",
+        "narration": "Renewals: Monogamy Is Overrated. Committed to one class? Cute. 11 buyers at 13,125 rupees — 1.44 lakh rupees. 17 per cent off.",
+        "duration": 9216,
+        "data": {
+          "index": 2,
+          "count": 3,
+          "narrated": true,
+          "name": "Monogamy Is Overrated",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Committed to one class? Cute. Members who play the field stay longer.",
+          "benefit": "Committed to one class? Cute. Members who play the field stay longer — so renew this month and we'll pay for your next two flings: 2 bonus classes in formats you've never tried.",
+          "rationale": "One-format members renew 58–67% vs 85–87% for members on 4+ formats. Bonus classes cost little in off-peak slots and target the single biggest renewal predictor after attendance.",
+          "audience": "No price discount; ≈17% value on a 12-class pack, ≈16% on 1M if the bonus is earned",
+          "conditions": "No price discount; ≈17% value on a 12-class pack, ≈16% on 1M if the bonus is earned.",
+          "kpi": "Members trying a new format (target 40% of eligible); 60-day renewal of exposed vs unexposed members.",
+          "offerType": "Format-exploration renewal",
+          "ticket": 13125,
+          "buyers": 11,
+          "revenue": 144375,
+          "discount": 17,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.270025361343029
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Monogamy Is Overrated in Momence. Then, Weekly check: Monogamy Is Overrated: Members trying a new format target.",
+        "duration": 8442,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Monogamy Is Overrated in Momence (2027-03-01 to 2027-03-31): For members who've used one format in the last 60 days. Pack members renew at list and get 2 bonus classes valid only in formats they've never tried (Mumbai: powerCycle / Strength Lab induction / Cardio Barre; Kenkere: Cardio Barre / Mat 57 / Foundations). Unlimited members renew at list and get +5 days if they take 3 different formats in their first 30 days."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Monogamy Is Overrated: Members trying a new format (target 40% of eligible); 60-day renewal of exposed vs unexposed members. | Bura Na Mano, Renewal Hai: March renewal yield (target 70%); 3M share of March renewals. | The Second Date's On Us: Second-visit rate (target 55%); trial → member (target 25% vs 18.7%)."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹7.1L: by the 15th aim for ~half of 36 new buyers (193 first visits), 24 renewals and 5 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close March: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "March 2027",
+        "title": "That is the plan",
+        "narration": "That is March at Kenkere House: 7.13 lakh rupees across 3 offers, and 36 buyers to find.",
+        "duration": 7281,
+        "data": {
+          "target": 712651,
+          "offerRevenue": 534672,
+          "offers": 3,
+          "buyers": 36,
+          "monthName": "March",
+          "studio": "Kenkere House"
+        }
+      }
+    ],
+    "duration": 83645
+  }
+}

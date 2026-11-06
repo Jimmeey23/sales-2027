@@ -1,0 +1,330 @@
+{
+  "slug": "bandra",
+  "month": 7,
+  "studio": "SHQ",
+  "studioName": "Bandra",
+  "monthName": "July",
+  "year": 2027,
+  "title": "July 2027 · Bandra",
+  "duration": 105987,
+  "scenes": 12,
+  "hash": "19390ad8",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "July 2027 at Bandra. The theme is Book the Studio + Rain Check. The target is 21.4 lakh rupees — 13 per cent above the 18.9 lakh rupees of last July. Renewals lead at 10.9 lakh rupees, 51 per cent. Then new clients 5.78 lakh rupees, comeback 3.85 lakh rupees, other 85,600 rupees. 613 leads, 319 trials, 69 buyers, and 22 per cent of trials convert.",
+    "b": "5 offers carry 9.45 lakh rupees, 44 per cent of the 21.4 lakh rupees target. The other 11.9 lakh rupees is expected at full price. Revenue boost: Team Building Without the Trust Falls. Team building without the trust falls. 10 buyers at 15,179 rupees — 1.52 lakh rupees. 25 per cent off. Revenue boost: Kitty Party, But Make It Cardio. Kitty party, but make it cardio. 3 buyers at 24,999 rupees — 74,997 rupees. New clients: Shy Girl Starter Pack. Not a front-row person yet? Start with a 30-minute. 7 buyers at 16,204 rupees — 1.13 lakh rupees. 20 per cent off. Win-backs: Gone With the Wind, Back With the Rain. Left us in the summer heat? Come back for the monsoon. 14 buyers at 17,203 rupees — 2.41 lakh rupees. 15 per cent off.  First, Set up Kitty Party, But Make It Cardio in Momence. Then, Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest. Also running: Rain Check (Literally) — 3.64 lakh rupees between them. That is July at Bandra: 21.4 lakh rupees across 5 offers, and 69 buyers to find."
+  },
+  "script": {
+    "title": "July 2027 · Bandra",
+    "monthName": "July",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Bandra · 2027",
+        "title": "July",
+        "narration": "July 2027 at Bandra. The theme is Book the Studio + Rain Check.",
+        "duration": 5732,
+        "data": {
+          "month": 7,
+          "monthName": "July",
+          "year": 2027,
+          "studio": "Bandra",
+          "theme": "Book the Studio + Rain Check",
+          "description": "Studio bookouts + monsoon",
+          "target": 2140000,
+          "offers": 5
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹21.4L",
+        "narration": "The target is 21.4 lakh rupees — 13 per cent above the 18.9 lakh rupees of last July.",
+        "duration": 7668,
+        "data": {
+          "target": 2140000,
+          "lastYear": 1889427,
+          "yoy": 0.13261851344349362,
+          "delta": 250573,
+          "monthName": "July"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 10.9 lakh rupees, 51 per cent. Then new clients 5.78 lakh rupees, comeback 3.85 lakh rupees, other 85,600 rupees.",
+        "duration": 9216,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 1091400,
+              "share": 51
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 577800,
+              "share": 27
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 385200,
+              "share": 18
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 85600,
+              "share": 4
+            }
+          ],
+          "total": 2140000,
+          "standard": 1194643,
+          "standardShare": 55.8
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "69 buyers",
+        "narration": "613 leads, 319 trials, 69 buyers, and 22 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 613,
+          "trials": 319,
+          "buyers": 69,
+          "leadToTrial": 0.5203915171288744,
+          "trialToBuyer": 0.21630094043887146,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.612
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "44%",
+        "narration": "5 offers carry 9.45 lakh rupees, 44 per cent of the 21.4 lakh rupees target. The other 11.9 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 2140000,
+          "offerRevenue": 945357,
+          "share": 0.4417556074766355,
+          "standard": 1194643,
+          "offers": 5
+        }
+      },
+      {
+        "id": "offer-O27-28-BA",
+        "kind": "offer",
+        "kicker": "Offer 1 of 5 · Revenue boost",
+        "title": "Team Building Without the Trust Falls",
+        "narration": "Revenue boost: Team Building Without the Trust Falls. Team building without the trust falls. 10 buyers at 15,179 rupees — 1.52 lakh rupees. 25 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 0,
+          "count": 5,
+          "narrated": true,
+          "name": "Team Building Without the Trust Falls",
+          "slot": "corporate",
+          "slotLabel": "Revenue boost",
+          "headline": "Team building without the trust falls.",
+          "benefit": "Team building without the trust falls. Buy 10 or more memberships for your team and save 25% each. The only thing your colleagues will drop is their excuses.",
+          "rationale": "Bulk purchase is an allowed 25% case. Corporate buyers bring 10+ new members per sale and fit the monsoon trough.",
+          "audience": "Offices, HR and team leads; 10+ units on one invoice.",
+          "conditions": "Bulk rule: 10+ units on one invoice.",
+          "kpi": "Corporate deals.",
+          "offerType": "Corporate bulk",
+          "ticket": 15179,
+          "buyers": 10,
+          "revenue": 151790,
+          "discount": 25,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.16056368123365036
+        }
+      },
+      {
+        "id": "offer-O27-27-BA",
+        "kind": "offer",
+        "kicker": "Offer 2 of 5 · Revenue boost",
+        "title": "Kitty Party, But Make It Cardio",
+        "narration": "Revenue boost: Kitty Party, But Make It Cardio. Kitty party, but make it cardio. 3 buyers at 24,999 rupees — 74,997 rupees.",
+        "duration": 9216,
+        "data": {
+          "index": 1,
+          "count": 5,
+          "narrated": true,
+          "name": "Kitty Party, But Make It Cardio",
+          "slot": "bookout",
+          "slotLabel": "Revenue boost",
+          "headline": "Kitty party, but make it cardio.",
+          "benefit": "Kitty party, but make it cardio. Book out the studio for your crew — up to 12 people, your playlist, our instructor. Everyone new gets 3 classes for the price of 2 afterwards.",
+          "rationale": "Hosted classes are a top lead source (Kwality 394, Bandra 353, Kenkere 281 leads) but convert only 4.6–6.1%. A paid bookout has a host who brings warm friends and pays for the room.",
+          "audience": "Anyone booking the studio for a private group of up to 12.",
+          "conditions": "Guests: standard newcomer terms only.",
+          "kpi": "Bookouts sold; guest → member (target 15%).",
+          "offerType": "Studio bookout",
+          "ticket": 24999,
+          "buyers": 3,
+          "revenue": 74997,
+          "discount": 0,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.07933193491982395
+        }
+      },
+      {
+        "id": "offer-O27-26-SHQ-m7",
+        "kind": "offer",
+        "kicker": "Offer 3 of 5 · New clients",
+        "title": "Shy Girl Starter Pack",
+        "narration": "New clients: Shy Girl Starter Pack. Not a front-row person yet? Start with a 30-minute. 7 buyers at 16,204 rupees — 1.13 lakh rupees. 20 per cent off.",
+        "duration": 11539,
+        "data": {
+          "index": 2,
+          "count": 5,
+          "narrated": true,
+          "name": "Shy Girl Starter Pack",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Not a front-row person yet? Start with a private.",
+          "benefit": "Not a front-row person yet? Start with a 30-minute private, then join a class with a trainer who already knows your name. ₹999 of it comes off your first month.",
+          "rationale": "Half of CRM leads never trial (Bandra 1,114 of 2,317; Kenkere 2,053 of 3,217). A private first visit removes the intimidation barrier. No historical data on private-first conversion — this is a test.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Effective 20% on conversion. Test at 2 studios before scaling.",
+          "kpi": "Packs sold to 'Not Tried' leads; private-first → member (target 40%).",
+          "offerType": "Newcomer experiment (private first)",
+          "ticket": 16204,
+          "buyers": 7,
+          "revenue": 113428,
+          "discount": 20,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.11998430222656627
+        }
+      },
+      {
+        "id": "offer-O27-30-BA",
+        "kind": "offer",
+        "kicker": "Offer 4 of 5 · Win-backs",
+        "title": "Gone With the Wind, Back With the Rain",
+        "narration": "Win-backs: Gone With the Wind, Back With the Rain. Left us in the summer heat? Come back for the monsoon. 14 buyers at 17,203 rupees — 2.41 lakh rupees. 15 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 3,
+          "count": 5,
+          "narrated": true,
+          "name": "Gone With the Wind, Back With the Rain",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "Left us in the summer heat? Come back for the monsoon.",
+          "benefit": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0.",
+          "rationale": "An event with a start date beats a generic reminder. Freezes answer the monsoon objection at no cash cost.",
+          "audience": "Standard lapsed 15% only",
+          "conditions": "Standard lapsed 15% only.",
+          "kpi": "Lapsed race entries; reactivations.",
+          "offerType": "Winback (pre-race)",
+          "ticket": 17203,
+          "buyers": 14,
+          "revenue": 240842,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.2547630154534213
+        }
+      },
+      {
+        "id": "offer-O27-29-BA",
+        "kind": "offer",
+        "kicker": "Offer 5 of 5 · Renewals",
+        "title": "Rain Check (Literally)",
+        "narration": "",
+        "duration": 2600,
+        "data": {
+          "index": 4,
+          "count": 5,
+          "narrated": false,
+          "name": "Rain Check (Literally)",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Monsoon happens. Your late-cancel fee doesn't have to.",
+          "benefit": "Monsoon happens. Your late-cancel fee doesn't have to. Renew in July: 10% off, 3 'Rain Check' tokens, and classes credited back on red-alert days.",
+          "rationale": "Average late cancels per membership: Bandra 1.18, Kenkere 1.36. Late-cancel fees in the monsoon make members feel they 'wasted' a month and lapse.",
+          "audience": "≈15% effective",
+          "conditions": "≈15% effective.",
+          "kpi": "July 1M renewal yield (target 70%); tokens used.",
+          "offerType": "Monsoon renewal",
+          "ticket": 18215,
+          "buyers": 20,
+          "revenue": 364300,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.38535706616653814
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up Kitty Party, But Make It Cardio in Momence. Then, Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest.",
+        "duration": 9603,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up Kitty Party, But Make It Cardio in Momence (2027-07-01 to 2027-07-31): Book out the studio for a private 50-min class for up to 12 (birthdays, bachelorettes, kitty parties, reunions): Mumbai ₹24,999, Kenkere ₹14,999, pop-ups ₹9,999. Every first-timer gets Third Time's the Charm (3-for-2) and the standard 15% on a first membership within 7 days; the host gets 2 guest passes."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest → member (target 15%). | Team Building Without the Trust Falls: Corporate deals. | Rain Check (Literally): July 1M renewal yield (target 70%); tokens used. | Gone With the Wind, Back With the Rain: Lapsed race entries; reactivations."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹21.4L: by the 15th aim for ~half of 69 new buyers (319 first visits), 50 renewals and 35 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close July: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "July 2027",
+        "title": "That is the plan",
+        "narration": "Also running: Rain Check (Literally) — 3.64 lakh rupees between them. That is July at Bandra: 21.4 lakh rupees across 5 offers, and 69 buyers to find.",
+        "duration": 11152,
+        "data": {
+          "target": 2140000,
+          "offerRevenue": 945357,
+          "offers": 5,
+          "buyers": 69,
+          "monthName": "July",
+          "studio": "Bandra"
+        }
+      }
+    ],
+    "duration": 105987
+  }
+}

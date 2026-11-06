@@ -1,0 +1,234 @@
+{
+  "slug": "pop-up",
+  "month": 3,
+  "studio": "POP",
+  "studioName": "Pop-up",
+  "monthName": "March",
+  "year": 2027,
+  "title": "March 2027 · Pop-up",
+  "duration": 69397,
+  "scenes": 9,
+  "hash": "df179513",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "March 2027 at Pop-up. The theme is Main Character Month. The target is 1.74 lakh rupees — 44 per cent above the 1.21 lakh rupees of last March. New clients lead at 95,472 rupees, 55 per cent. Then renewals 76,378 rupees, other 1,736 rupees. 538 leads, 140 trials, 46 buyers, and 33 per cent of trials convert.",
+    "b": "2 offers carry 76,044 rupees, 44 per cent of the 1.74 lakh rupees target. The other 97,542 rupees is expected at full price. New clients: The Second Date's On Us. First date: half price. 8 buyers at 5,891 rupees — 47,128 rupees. 15 per cent off. Renewals: Same Time Next Week. You're nearly out of classes. 4 buyers at 7,229 rupees — 28,916 rupees. 15 per cent off. First, Set up The Second Date's On Us in Momence. Then, Weekly check: The Second Date's On Us: Second-visit rate target 55%. That is March at Pop-up: 1.74 lakh rupees across 2 offers, and 46 buyers to find."
+  },
+  "script": {
+    "title": "March 2027 · Pop-up",
+    "monthName": "March",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Pop-up · 2027",
+        "title": "March",
+        "narration": "March 2027 at Pop-up. The theme is Main Character Month.",
+        "duration": 4571,
+        "data": {
+          "month": 3,
+          "monthName": "March",
+          "year": 2027,
+          "studio": "Pop-up",
+          "theme": "Main Character Month",
+          "description": "Women's Day + Main Character Month format exploration",
+          "target": 173586,
+          "offers": 2
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹1.74L",
+        "narration": "The target is 1.74 lakh rupees — 44 per cent above the 1.21 lakh rupees of last March.",
+        "duration": 7668,
+        "data": {
+          "target": 173586,
+          "lastYear": 120960,
+          "yoy": 0.4350694444444445,
+          "delta": 52626,
+          "monthName": "March"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "3 streams",
+        "narration": "New clients lead at 95,472 rupees, 55 per cent. Then renewals 76,378 rupees, other 1,736 rupees.",
+        "duration": 6894,
+        "data": {
+          "streams": [
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 95472,
+              "share": 54.99982717500259
+            },
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 76378,
+              "share": 44.00009217333195
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 1736,
+              "share": 1.000080651665457
+            }
+          ],
+          "total": 173586,
+          "standard": 97542,
+          "standardShare": 56.2
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "46 buyers",
+        "narration": "538 leads, 140 trials, 46 buyers, and 33 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 538,
+          "trials": 140,
+          "buyers": 46,
+          "leadToTrial": 0.26022304832713755,
+          "trialToBuyer": 0.32857142857142857,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.769
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "44%",
+        "narration": "2 offers carry 76,044 rupees, 44 per cent of the 1.74 lakh rupees target. The other 97,542 rupees is expected at full price.",
+        "duration": 9603,
+        "data": {
+          "target": 173586,
+          "offerRevenue": 76044,
+          "share": 0.43807680342884797,
+          "standard": 97542,
+          "offers": 2
+        }
+      },
+      {
+        "id": "offer-O27-12-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 2 · New clients",
+        "title": "The Second Date's On Us",
+        "narration": "New clients: The Second Date's On Us. First date: half price. 8 buyers at 5,891 rupees — 47,128 rupees. 15 per cent off.",
+        "duration": 9603,
+        "data": {
+          "index": 0,
+          "count": 2,
+          "narrated": true,
+          "name": "The Second Date's On Us",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "First date: half price. Second date: on us. Third: it's a relationship.",
+          "benefit": "First date: half price. Second date: on us. Third date? That's a relationship — 15% off your first month and an extra freeze for when life gets busy.",
+          "rationale": "Kenkere logged 3,217 leads in 12 months; only 36% reached a trial and 13.1% converted. 581 single-class sales show high drop-in, low commitment. A booked second visit lifts conversion from 10.8% to 43.9%.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only; freeze has no cash value.",
+          "kpi": "Second-visit rate (target 55%); trial → member (target 25% vs 18.7%).",
+          "offerType": "Newcomer journey (Bengaluru)",
+          "ticket": 5891,
+          "buyers": 8,
+          "revenue": 47128,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.6197464625742991
+        }
+      },
+      {
+        "id": "offer-O27-51-POP-m3",
+        "kind": "offer",
+        "kicker": "Offer 2 of 2 · Renewals",
+        "title": "Same Time Next Week",
+        "narration": "Renewals: Same Time Next Week. You're nearly out of classes. 4 buyers at 7,229 rupees — 28,916 rupees. 15 per cent off.",
+        "duration": 9216,
+        "data": {
+          "index": 1,
+          "count": 2,
+          "narrated": true,
+          "name": "Same Time Next Week",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Your pack is nearly out. Same one again, 15% less.",
+          "benefit": "You're nearly out of classes. Take the same pack again at 15% off — ₹7,229 for ten at Copper + Cloves, ₹5,891 for eight — and we’ll add a week of validity so none of them go to waste.",
+          "rationale": "The pop-ups sell class packs, not memberships, so renewal is a repurchase decision rather than an expiry date. Four of the twelve months carried a renewal target with no renewal offer in the catalogue; this is the standing one.",
+          "audience": "Pop-up clients whose class pack is running out.",
+          "conditions": "15% off the pack, inside the cap. One per client per pack expiry. The extra week of validity has no cash value.",
+          "kpi": "Packs repurchased within 14 days of running out (target 55%); share of pop-up renewal revenue with an offer behind it.",
+          "offerType": "Pack renewal (standing)",
+          "ticket": 7229,
+          "buyers": 4,
+          "revenue": 28916,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.3802535374257009
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up The Second Date's On Us in Momence. Then, Weekly check: The Second Date's On Us: Second-visit rate target 55%.",
+        "duration": 9216,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up The Second Date's On Us in Momence (2027-03-01 to 2027-03-31): Kenkere: Newcomers Intro (first class at 50% off, ₹709) → class 2 free if booked at the desk before leaving, within 7 days → 1 Month (₹12,406) or 8-class pack (₹7,408) at the standard 15% within 72 hours of class 2, plus 1 extra freeze. Pop-ups: paid trial (≈₹945) → second class free if booked before leaving → 8- or 10-class pack at 15% within 72 hours."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: The Second Date's On Us: Second-visit rate (target 55%); trial → member (target 25% vs 18.7%)."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹1.7L: by the 15th aim for ~half of 46 new buyers (140 first visits), 11 renewals and 0 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close March: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "March 2027",
+        "title": "That is the plan",
+        "narration": "That is March at Pop-up: 1.74 lakh rupees across 2 offers, and 46 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 173586,
+          "offerRevenue": 76044,
+          "offers": 2,
+          "buyers": 46,
+          "monthName": "March",
+          "studio": "Pop-up"
+        }
+      }
+    ],
+    "duration": 69397
+  }
+}

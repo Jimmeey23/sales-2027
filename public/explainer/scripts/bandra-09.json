@@ -1,0 +1,300 @@
+{
+  "slug": "bandra",
+  "month": 9,
+  "studio": "SHQ",
+  "studioName": "Bandra",
+  "monthName": "September",
+  "year": 2027,
+  "title": "September 2027 · Bandra",
+  "duration": 102687,
+  "scenes": 11,
+  "hash": "603100a1",
+  "scenesKinds": [
+    "open",
+    "target",
+    "streams",
+    "funnel",
+    "coverage",
+    "offer",
+    "offer",
+    "offer",
+    "offer",
+    "plan",
+    "close"
+  ],
+  "voiceBlocks": {
+    "a": "September 2027 at Bandra. The theme is The Comeback + 57 Days to Diwali. The target is 18 lakh rupees — 18 per cent above the 15.3 lakh rupees of last September. Renewals lead at 9.18 lakh rupees, 51 per cent. Then new clients 4.86 lakh rupees, comeback 3.24 lakh rupees, other 72,000 rupees. 517 leads, 269 trials, 58 buyers, and 22 per cent of trials convert.",
+    "b": "4 offers carry 13.5 lakh rupees, 75 per cent of the 18 lakh rupees target. The other 4.51 lakh rupees is expected at full price. New clients: Glow-Up or Give Back. 57 days to Diwali. We measure you on day 1 and again. 6 buyers at 34,406 rupees — 2.06 lakh rupees. 15 per cent off. Win-backs: We Need to Talk. We need to talk. Not like that — we just miss. 4 buyers at 70,000 rupees — 2.8 lakh rupees. 22 per cent off. Win-backs: New Phone, Who Dis? New phone, who dis? It's us — your favourite class. 13 buyers at 17,203 rupees — 2.24 lakh rupees. 15 per cent off. Renewals: Lock It Before the Laddoos. Lock it before the laddoos. Renew for 3 months by 30 September. 13 buyers at 49,177 rupees — 6.39 lakh rupees. 18.5 per cent off. First, Set up We Need to Talk in Momence. Then, Weekly check: We Need to Talk: Calls made 100% of list; restarts. That is September at Bandra: 18 lakh rupees across 4 offers, and 58 buyers to find."
+  },
+  "script": {
+    "title": "September 2027 · Bandra",
+    "monthName": "September",
+    "scenes": [
+      {
+        "id": "open",
+        "kind": "open",
+        "kicker": "Bandra · 2027",
+        "title": "September",
+        "narration": "September 2027 at Bandra. The theme is The Comeback + 57 Days to Diwali.",
+        "duration": 6119,
+        "data": {
+          "month": 9,
+          "monthName": "September",
+          "year": 2027,
+          "studio": "Bandra",
+          "theme": "The Comeback + 57 Days to Diwali",
+          "description": "The Comeback winback month + 57 Days to Diwali",
+          "target": 1800000,
+          "offers": 4
+        }
+      },
+      {
+        "id": "target",
+        "kind": "target",
+        "kicker": "What the month has to do",
+        "title": "₹18L",
+        "narration": "The target is 18 lakh rupees — 18 per cent above the 15.3 lakh rupees of last September.",
+        "duration": 7668,
+        "data": {
+          "target": 1800000,
+          "lastYear": 1529410,
+          "yoy": 0.17692443491280962,
+          "delta": 270590,
+          "monthName": "September"
+        }
+      },
+      {
+        "id": "streams",
+        "kind": "streams",
+        "kicker": "Where it comes from",
+        "title": "4 streams",
+        "narration": "Renewals lead at 9.18 lakh rupees, 51 per cent. Then new clients 4.86 lakh rupees, comeback 3.24 lakh rupees, other 72,000 rupees.",
+        "duration": 9216,
+        "data": {
+          "streams": [
+            {
+              "key": "renewal",
+              "label": "Renewals",
+              "value": 918000,
+              "share": 51
+            },
+            {
+              "key": "newClient",
+              "label": "New clients",
+              "value": 486000,
+              "share": 27
+            },
+            {
+              "key": "reactivation",
+              "label": "Comeback",
+              "value": 324000,
+              "share": 18
+            },
+            {
+              "key": "other",
+              "label": "Other",
+              "value": 72000,
+              "share": 4
+            }
+          ],
+          "total": 1800000,
+          "standard": 450624,
+          "standardShare": 25
+        }
+      },
+      {
+        "id": "funnel",
+        "kind": "funnel",
+        "kicker": "Who has to walk in",
+        "title": "58 buyers",
+        "narration": "517 leads, 269 trials, 58 buyers, and 22 per cent of trials convert.",
+        "duration": 5732,
+        "data": {
+          "leads": 517,
+          "trials": 269,
+          "buyers": 58,
+          "leadToTrial": 0.5203094777562862,
+          "trialToBuyer": 0.21561338289962825,
+          "renewalsDue": 0,
+          "renewalCoverage": 0.612
+        }
+      },
+      {
+        "id": "coverage",
+        "kind": "coverage",
+        "kicker": "What the offers carry",
+        "title": "75%",
+        "narration": "4 offers carry 13.5 lakh rupees, 75 per cent of the 18 lakh rupees target. The other 4.51 lakh rupees is expected at full price.",
+        "duration": 10377,
+        "data": {
+          "target": 1800000,
+          "offerRevenue": 1349376,
+          "share": 0.7496533333333333,
+          "standard": 450624,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-37-BA",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · New clients",
+        "title": "Glow-Up or Give Back",
+        "narration": "New clients: Glow-Up or Give Back. 57 days to Diwali. We measure you on day 1 and again. 6 buyers at 34,406 rupees — 2.06 lakh rupees. 15 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "Glow-Up or Give Back",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "57 days to Diwali. Glow up, or we give back.",
+          "benefit": "57 days to Diwali. We measure you on day 1 and again before the festive photos. Do 30 classes and don't improve? Your third month is on us.",
+          "rationale": "New clients' first 60-day spend averages ₹11,150 at Kwality, ₹8,411 at Bandra and ₹6,747 at Kenkere — under one month's list price. A 2-month bundle doubles it; the 30-class condition makes the guarantee rarely paid.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "Standard 15% only; guarantee paid in time.",
+          "kpi": "Bundles sold; day-56 re-test attendance; 3rd-month purchases.",
+          "offerType": "Newcomer guarantee bundle",
+          "ticket": 34406,
+          "buyers": 6,
+          "revenue": 206436,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.15298626920887878
+        }
+      },
+      {
+        "id": "offer-O27-35-BA",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · Win-backs",
+        "title": "We Need to Talk",
+        "narration": "Win-backs: We Need to Talk. We need to talk. Not like that — we just miss. 4 buyers at 70,000 rupees — 2.8 lakh rupees. 22 per cent off.",
+        "duration": 11926,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "We Need to Talk",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "We need to talk. Not like that — we just miss you.",
+          "benefit": "We need to talk. Not like that — we just miss you. Our studio manager will call; say yes and get 6 months at 20% off, unlimited freezes and a private to restart.",
+          "rationale": "These clients bought big before; a long plan at a serious price fits them. A personal call converts better than a broadcast.",
+          "audience": "6M ≈22% effective with the private",
+          "conditions": "6M ≈22% effective with the private.",
+          "kpi": "Calls made (100% of list); restarts.",
+          "offerType": "High-value winback",
+          "ticket": 70000,
+          "buyers": 4,
+          "revenue": 280000,
+          "discount": 22,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.20750332005312086
+        }
+      },
+      {
+        "id": "offer-O27-36-BA",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · Win-backs",
+        "title": "New Phone, Who Dis?",
+        "narration": "Win-backs: New Phone, Who Dis? New phone, who dis? It's us — your favourite class. 13 buyers at 17,203 rupees — 2.24 lakh rupees. 15 per cent off.",
+        "duration": 11539,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "New Phone, Who Dis?",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "New phone, who dis? (It's us. Your favourite class.)",
+          "benefit": "New phone, who dis? It's us — your favourite class. Come back for one free, no-questions-asked class. Buy within 7 days and get 15% off plus an extra freeze.",
+          "rationale": "A free first step lowers the barrier; the 7-day window keeps the decision fast. The freeze has no cash cost.",
+          "audience": "Standard lapsed 15% only",
+          "conditions": "Standard lapsed 15% only.",
+          "kpi": "Comeback classes booked; comeback → purchase within 7 days (target 35%).",
+          "offerType": "Winback (7-day window)",
+          "ticket": 17203,
+          "buyers": 13,
+          "revenue": 223639,
+          "discount": 15,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.16573512497628534
+        }
+      },
+      {
+        "id": "offer-O27-38-BA",
+        "kind": "offer",
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "Lock It Before the Laddoos",
+        "narration": "Renewals: Lock It Before the Laddoos. Lock it before the laddoos. Renew for 3 months by 30 September. 13 buyers at 49,177 rupees — 6.39 lakh rupees. 18.5 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 3,
+          "count": 4,
+          "narrated": true,
+          "name": "Lock It Before the Laddoos",
+          "slot": "renewal",
+          "slotLabel": "Renewals",
+          "headline": "Lock it before the laddoos.",
+          "benefit": "Lock it before the laddoos. Renew for 3 months by 30 September: 15% off, a Diwali hamper, and unlimited freezes for festive travel.",
+          "rationale": "October–December are troughs (Kwality Nov-25 ₹18.5L; Bandra Oct-25 ₹10.2L). Locking 3M before the festive season protects the base.",
+          "audience": "≈18",
+          "conditions": "≈18.5% effective.",
+          "kpi": "3M renewals and upgrades.",
+          "offerType": "Pre-festive 3M renewal",
+          "ticket": 49177,
+          "buyers": 13,
+          "revenue": 639301,
+          "discount": 18.5,
+          "validity": "Invalid Date – Invalid Date",
+          "share": 0.47377528576171507
+        }
+      },
+      {
+        "id": "plan",
+        "kind": "plan",
+        "kicker": "How the month runs",
+        "title": "4 moves",
+        "narration": "First, Set up We Need to Talk in Momence. Then, Weekly check: We Need to Talk: Calls made 100% of list; restarts.",
+        "duration": 9216,
+        "data": {
+          "steps": [
+            {
+              "label": "W1",
+              "text": "Set up We Need to Talk in Momence (2027-09-01 to 2027-09-30): Named list — lapsed clients with ≥₹50k lifetime spend (Kenkere ≥₹35k): a call from the studio manager, then 6 Months at 20% (₹90,972 / ₹65,772) or 3 Months at the standard 15% (₹49,177 / ₹35,879), unlimited freezes and a 30-min private to restart."
+            },
+            {
+              "label": "W2",
+              "text": "Weekly check: We Need to Talk: Calls made (100% of list); restarts. | New Phone, Who Dis?: Comeback classes booked; comeback → purchase within 7 days (target 35%). | Glow-Up or Give Back: Bundles sold; day-56 re-test attendance; 3rd-month purchases. | Lock It Before the Laddoos: 3M renewals and upgrades."
+            },
+            {
+              "label": "W3",
+              "text": "Mid-month review against ₹18.0L: by the 15th aim for ~half of 58 new buyers (269 first visits), 42 renewals and 29 winbacks. Push the lists, not a deeper discount."
+            },
+            {
+              "label": "W4",
+              "text": "Close September: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+            }
+          ]
+        }
+      },
+      {
+        "id": "close",
+        "kind": "close",
+        "kicker": "September 2027",
+        "title": "That is the plan",
+        "narration": "That is September at Bandra: 18 lakh rupees across 4 offers, and 58 buyers to find.",
+        "duration": 6894,
+        "data": {
+          "target": 1800000,
+          "offerRevenue": 1349376,
+          "offers": 4,
+          "buyers": 58,
+          "monthName": "September",
+          "studio": "Bandra"
+        }
+      }
+    ],
+    "duration": 102687
+  }
+}
