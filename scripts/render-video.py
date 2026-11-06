@@ -285,7 +285,7 @@ def draw_target(img, d, lt, dur, ctx, sc):
                fill=INK, anchor="mm")
     gap = tgt - ly
     sign = "+" if gap >= 0 else "\u2212"
-    d.text((1450, 760), f"Gap to last year: {sign}{lakh_disp(abs(gap))}",
+    d.text((1450, 716), f"Gap to last year: {sign}{lakh_disp(abs(gap))}",
            font=font(F_SANS, 34), fill=mix(BG, INK, eo((lt - 1.8) / 0.6)), anchor="ma")
 
 
@@ -346,7 +346,7 @@ def draw_funnel(img, d, lt, dur, ctx, sc):
         d.line((1420, y - 6, 1420, y + 30), fill=mix(BG, CHAMP, a), width=3)
         d.polygon([(1412, y + 24), (1428, y + 24), (1420, y + 36)], fill=mix(BG, CHAMP, a))
         d.text((1460, y + 10), txt, font=font(F_BOLD, 40), fill=mix(BG, CHAMP, a), anchor="lm")
-    d.text((90, 760), f"{leads} leads became {trials} trials and {buyers} buyers.",
+    d.text((90, 716), f"{leads} leads became {trials} trials and {buyers} buyers.",
            font=font(F_SANS, 32), fill=mix(BG, MUTE, eo((lt - 2.2) / 0.6)), anchor="la")
 
 
@@ -422,7 +422,7 @@ def draw_offer(img, d, lt, dur, ctx, sc):
     d.rounded_rectangle((90, 700, 90 + max(10, bar_w), 736), radius=18, fill=col)
     kpi = clean_title(o.get("kpi", ""))[:150]
     if kpi:
-        d.text((90, 760), f"Watch: {kpi}", font=font(F_SANS, 26), fill=mix(BG, CHAMP, eo((lt - 1.2) / 0.6)),
+        d.text((90, 738), f"Watch: {kpi}", font=font(F_SANS, 26), fill=mix(BG, CHAMP, eo((lt - 1.2) / 0.6)),
                anchor="la")
 
 
@@ -779,13 +779,16 @@ def caption_for(sc):
     return sc["seg"]["text"]
 
 
-def draw_caption(img, d, text, progress):
+def caption_shown(text, progress):
+    return int(len(text.split()) * clamp(progress)) + 1
+
+
+def draw_caption(img, d, text, progress, oy=0):
     f = font(F_SANS, 36)
     lines = wrap(text, f, 1640)
-    words_total = len(text.split())
-    shown = int(words_total * clamp(progress)) + 1
+    shown = caption_shown(text, progress)
     y_bottom = 1040
-    y = y_bottom - len(lines) * 52
+    y = y_bottom - len(lines) * 52 - oy
     wi = 0
     for ln in lines:
         x = 140
@@ -833,6 +836,9 @@ def render_month(slug, mm):
     write_audio(tmp_audio, tl)
     bg = make_background()
     band = make_band()
+    # The caption band is static: bake it into the background once instead of compositing per frame.
+    bottom = Image.alpha_composite(bg.crop((0, H - 300, W, H)).convert("RGBA"), band).convert("RGB")
+    bg.paste(bottom, (0, H - 300))
     cmd = [FFMPEG, "-y", "-v", "error",
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
            "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", str(tmp_audio),
@@ -840,8 +846,10 @@ def render_month(slug, mm):
            "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-c:a", "aac", "-b:a", "160k",
            "-t", f"{tl['T_TOTAL']:.2f}", str(out)]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
-    total = int(tl["T_TOTAL"] * FPS)
+    limit = float(os.environ.get("RENDER_LIMIT", tl["T_TOTAL"]))
+    total = int(min(tl["T_TOTAL"], limit) * FPS)
     scenes = tl["scenes"]
+    strip_key, strip_img = None, None
     for fi in range(total):
         t = fi / FPS
         sc = next((s for s in scenes if s["s"] <= t < s["e"]), scenes[-1])
@@ -849,18 +857,20 @@ def render_month(slug, mm):
         lt = t - sc["s"]
         img = bg.copy()
         draw_particles(img, t)
-        img.paste(Image.alpha_composite(img.crop((0, H - 300, W, H)).convert("RGBA"), band).convert("RGB"),
-                  (0, H - 300))
-        scene_img = img.copy()
-        sd = ImageDraw.Draw(scene_img)
-        render_scene(scene_img, sd, sc, lt, dur, ctx, t, tl["T_TOTAL"])
-        a = eo(lt / 0.35)
-        img = Image.blend(img, scene_img, a) if a < 1 else scene_img
-        d = ImageDraw.Draw(img)
+        fade_from = img.copy() if lt < 0.35 else None
+        render_scene(img, ImageDraw.Draw(img), sc, lt, dur, ctx, t, tl["T_TOTAL"])
+        if fade_from is not None:
+            img = Image.blend(fade_from, img, eo(lt / 0.35))
+        header(ImageDraw.Draw(img), ctx, t / tl["T_TOTAL"])
         caption = caption_for(sc)
-        header(d, ctx, t / tl["T_TOTAL"])
         if caption:
-            draw_caption(img, d, caption, lt / dur if dur > 0 else 1)
+            prog = lt / dur if dur > 0 else 1
+            key = (id(sc), caption_shown(caption, prog))
+            if key != strip_key:
+                strip_img = bottom.copy()
+                draw_caption(strip_img, ImageDraw.Draw(strip_img), caption, prog, oy=H - 300)
+                strip_key = key
+            img.paste(strip_img, (0, H - 300))
         proc.stdin.write(img.tobytes())
     proc.stdin.close()
     rc = proc.wait()
