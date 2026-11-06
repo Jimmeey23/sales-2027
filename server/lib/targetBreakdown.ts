@@ -1,4 +1,4 @@
-import { planSeedEnabled } from './seedPolicy';
+import { planSeedEnabled } from './seedPolicy.js';
 import { db } from '../db.js';
 import { POPUP_CHILDREN, POPUP_PARENT } from './plan2027.js';
 

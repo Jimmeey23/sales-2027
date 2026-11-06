@@ -1,4 +1,4 @@
-import { planSeedEnabled } from './lib/seedPolicy';
+import { planSeedEnabled } from './lib/seedPolicy.js';
 import express from 'express';
 import compression from 'compression';
 import { jsonRequestBody } from './lib/requestBody.js';
