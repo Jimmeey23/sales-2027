@@ -28,6 +28,8 @@
 .oc.ocx.cat-new { --x-accent: #2f7a63; }
 .oc.ocx.cat-winback { --x-accent: #b5562d; }
 .oc.ocx.cat-renewal { --x-accent: #3d5c9e; }
+.oc.ocx.cat-booster { --x-accent: #8a6a1f; }
+.oc.ocx.cat-flash { --x-accent: #c2410c; }
 .oc.ocx::before {
   /* the journey rail */
   content: '';

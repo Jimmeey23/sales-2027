@@ -69,11 +69,14 @@ const SORTS: Array<[Sort, string]> = [
 /** Offers without a recorded pricing product are matched to a membership from their wording. */
 function membershipKey(o: LibraryOffer) {
   if (o.provenance?.pricing?.product) return o.provenance.pricing.product;
+  // An imported offer names its product in its own description: "3-Month Unlimited at ₹49,177 …".
+  const described = String((o.provenance as any)?.description || '').match(/^(.+?)\s+at\s+₹/);
+  if (described) return described[1].replace(/^./, c => c.toUpperCase());
   const t = `${o.benefit || ''} ${o.headline || ''} ${o.name || ''}`.toLowerCase();
-  if (/annual|12 ?m(onth)?\b|year/.test(t)) return 'ANNUAL';
-  if (/\b6 ?m(onth)?\b|six[- ]month/.test(t)) return '6M';
-  if (/\b3 ?m(onth)?\b|three[- ]month/.test(t)) return '3M';
-  if (/\b1 ?m(onth)?\b|one[- ]month/.test(t)) return '1M';
+  if (/annual|12[- ]?m(onth)?\b|year/.test(t)) return 'ANNUAL';
+  if (/\b6[- ]?m(onth)?\b|six[- ]month/.test(t)) return '6M';
+  if (/\b3[- ]?m(onth)?\b|three[- ]month/.test(t)) return '3M';
+  if (/\b1[- ]?m(onth)?\b|one[- ]month/.test(t)) return '1M';
   if (/private/.test(t)) return 'PRIV10';
   if (/\b8 (single )?class|8-class/.test(t)) return '8C';
   if (/\b12 (single )?class|12-class/.test(t)) return '12C';

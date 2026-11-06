@@ -657,6 +657,7 @@ const SLOT_LABEL: Record<string, string> = {
   renewal: 'Renewals',
   retention: 'Renewals',
   upsell: 'Revenue boost',
+  flash: 'Flash sale',
 };
 
 function CoverBrief({ text, live }: { text: string; live: Live }) {

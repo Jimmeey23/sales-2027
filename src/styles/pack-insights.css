@@ -1,0 +1,151 @@
+/* Insights page: pack documents rendered as readable sections, bullets and tables. */
+.pk-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.pk-hub-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+.pk-hub-card:hover,
+.pk-hub-card.active {
+  border-color: var(--gold);
+}
+.pk-hub-card h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.pk-hub-card .pk-kpi {
+  font-size: 24px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.pk-hub-card small,
+.pk-hub-card p {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin: 0;
+  line-height: 1.45;
+}
+.pk-doc-switch {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 4px 0 14px;
+}
+.pk-lede {
+  border-left: 3px solid var(--gold);
+  background: var(--gold-soft);
+  color: var(--ink);
+  padding: 14px 16px;
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 14px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.pk-nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.pk-nav button {
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink-soft);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.pk-nav button.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.pk-section {
+  margin-bottom: 14px;
+  padding: 18px 20px;
+}
+.pk-section h3 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+.pk-sub {
+  margin: 16px 0 6px;
+  font-size: 13.5px;
+}
+.pk-p {
+  margin: 8px 0;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+}
+.pk-list {
+  margin: 8px 0 12px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pk-list li {
+  line-height: 1.55;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+.pk-list li strong,
+.pk-p strong {
+  color: var(--ink);
+}
+.pk-callout {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--canvas-deep);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 10px 0;
+  color: var(--gold-deep);
+}
+.pk-callout p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.pk-table {
+  margin: 10px 0 14px;
+}
+.pk-table .data-table td,
+.pk-table .data-table th {
+  font-size: 12.5px;
+  vertical-align: top;
+}
+.pk-table tr.pk-total td {
+  background: var(--canvas-deep);
+  font-weight: 600;
+}
+.pk-empty,
+.pk-note {
+  color: var(--muted);
+  font-size: 13px;
+}
+@media (max-width: 720px) {
+  .pk-section {
+    padding: 14px;
+  }
+}

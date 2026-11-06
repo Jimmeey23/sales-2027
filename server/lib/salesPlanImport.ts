@@ -44,7 +44,7 @@ const MONTH_NAMES = [
   'December',
 ];
 
-const SLOTS = ['newcomer', 'lapsed', 'renewal'] as const;
+const SLOTS = ['newcomer', 'lapsed', 'renewal', 'upsell', 'flash'] as const;
 type Slot = (typeof SLOTS)[number];
 
 /** Offers this importer owns, and may therefore retire when the plan stops naming them. */
@@ -322,6 +322,7 @@ const SLOT_OBJECTIVE: Record<string, string> = {
   goodwill: 'retention',
   spot: 'acquisition',
   corporate: 'acquisition',
+  flash: 'additional_purchase',
 };
 
 function guessObjective(slot: string | null) {
@@ -1552,7 +1553,7 @@ function writeTarget(month: ImportedMonth, context: ImportContext, plan: SalesPl
 
 function writePlan(month: ImportedMonth, context: ImportContext, plan: SalesPlanDocument, offerIds: number[]) {
   const { content, actions } = contentFor(month, plan, context);
-  const slots: Record<string, number | null> = { newcomer: null, lapsed: null, renewal: null };
+  const slots: Record<string, number | null> = { newcomer: null, lapsed: null, renewal: null, upsell: null, flash: null };
   const extras: number[] = [];
   const ordered = [...offerIds];
   const rows = db

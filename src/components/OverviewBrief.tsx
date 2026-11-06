@@ -5,6 +5,7 @@ import { useLoad } from '../hooks';
 import { money, number } from '../types';
 import { ReportFindings, ReportPerformance } from './ReportIntel';
 import { reportStudioFor } from '../data/salesIntelligenceReport';
+import OverviewPlanBrief from './OverviewPlanBrief';
 import { Badge, Card, CardHeader, ErrorState, Loading, TableScroll, Tabs } from './ui';
 
 const signed = (v: number | null | undefined, digits = 1) =>
@@ -38,6 +39,7 @@ export default function OverviewBrief({ studioId }: { studioId: number | null })
   if (loading && !b) return <Loading label="Building the 2025 → 2027 brief…" />;
   if (error && !b) return <ErrorState message={error} retry={() => reload().catch(() => {})} />;
   if (!b) return null;
+  if (b.hasActuals === false) return <OverviewPlanBrief b={b} />;
   const y25 = b.ytd2025,
     y26 = b.ytd2026,
     f25 = b.full2025,

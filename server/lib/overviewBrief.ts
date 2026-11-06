@@ -1,6 +1,7 @@
 import { db } from '../db.js';
 import { studioScopeIds } from './studios.js';
 import { targetBreakdown } from './targetBreakdown.js';
+import { PACK_STUDIOS, packHistory, packNameFor } from './packInsights.js';
 
 // The 2026 full-year figure is the same one the Targets breakdown compares 2027 against
 // (complete months actual, the rest estimated), so Overview and Plan never disagree.
@@ -120,14 +121,24 @@ function revenueBetween(ids: number[], from: string, to: string) {
   );
 }
 
-export function overviewBrief(studioId: number | null) {
+export function overviewBrief(requestedId: number | null) {
   const allStudios = db.prepare('SELECT id, name, city FROM studios WHERE active=1 ORDER BY id').all() as Studio[];
+  // A pop-up venue is planned and reported under the Pop-up parent, so a venue selection reads the parent.
+  const requestedStudio = allStudios.find(s => s.id === requestedId);
+  const studioId =
+    requestedStudio && POPUP_CHILDREN.includes(requestedStudio.name)
+      ? (allStudios.find(s => s.name === 'Pop-up')?.id ?? requestedId)
+      : requestedId;
   const scopeIds = studioId ? studioScopeIds(db, studioId) : allStudios.map(s => s.id);
   // Portfolio rows: top-level studios only (children roll into Pop-up).
-  const rowStudios = studioId
-    ? allStudios.filter(s => s.id === studioId)
+  const selected = studioId ? allStudios.find(s => s.id === studioId) : undefined;
+  const planId = studioId;
+  const rowStudios = planId
+    ? allStudios.filter(s => s.id === planId)
     : allStudios.filter(s => !POPUP_CHILDREN.includes(s.name));
-  const targetIds = studioId ? [studioId] : allStudios.filter(s => !POPUP_CHILDREN.includes(s.name)).map(s => s.id);
+  const targetIds = planId ? [planId] : allStudios.filter(s => !POPUP_CHILDREN.includes(s.name)).map(s => s.id);
+  const packName = studioId ? packNameFor(studioId).name : null;
+  const pack = packHistory(studioId ? (packName ? [packName] : []) : PACK_STUDIOS);
 
   const lastSale =
     (
@@ -144,6 +155,7 @@ export function overviewBrief(studioId: number | null) {
   const dayOfYear = Math.round((Date.parse(`${cutoff26}T00:00:00Z`) - Date.parse('2026-01-01T00:00:00Z')) / 864e5) + 1;
 
   const full2025 = periodMetrics(scopeIds, '2025-01-01', '2025-12-31');
+  const hasActuals = full2025.transactions > 0 || periodMetrics(scopeIds, '2026-01-01', cutoff26).transactions > 0;
   const ytd2025 = periodMetrics(scopeIds, '2025-01-01', cutoff25);
   const ytd2026 = periodMetrics(scopeIds, '2026-01-01', cutoff26);
   const ytdGrowth = ytd2025.revenue >= MIN_COMPARABLE_BASE ? pct(ytd2026.revenue, ytd2025.revenue) : null;
@@ -163,7 +175,7 @@ export function overviewBrief(studioId: number | null) {
     : planningIds.map(breakdown2026).every(v => v !== null)
       ? planningIds.reduce((a, id) => a + (breakdown2026(id) || 0), 0)
       : null;
-  const forecast2026 = scoped2026 ?? forecast(ytd2026.revenue, ytd2025.revenue, rest2025);
+  const forecast2026 = !hasActuals ? (pack?.l12 ?? scoped2026 ?? 0) : scoped2026 ?? forecast(ytd2026.revenue, ytd2025.revenue, rest2025);
 
   const m25 = monthlyRevenue(scopeIds, 2025);
   const m26 = monthlyRevenue(scopeIds, 2026);
@@ -252,21 +264,28 @@ export function overviewBrief(studioId: number | null) {
       } catch {
         /* malformed funnel */
       }
-      acc.leads += Number(f.requiredLeads || 0);
-      acc.trials += Number(f.requiredCompletedTrials || 0);
-      acc.buyers += Number(f.requiredNewBuyers || 0);
+      acc.leads += Number(f.leads ?? f.requiredLeads ?? 0);
+      acc.trials += Number(f.trials ?? f.requiredCompletedTrials ?? 0);
+      acc.buyers += Number(f.newBuyers ?? f.requiredNewBuyers ?? 0);
+      acc.newMembers += Number(f.newMembers || 0);
+      acc.renewals += Number(f.renewals || 0);
+      acc.renewalsDue += Number(f.renewalsDue || 0);
+      acc.winbacks += Number(f.winbacksNeeded || 0);
       return acc;
     },
-    { leads: 0, trials: 0, buyers: 0 },
+    { leads: 0, trials: 0, buyers: 0, newMembers: 0, renewals: 0, renewalsDue: 0, winbacks: 0 },
   );
   const quarters = [0, 1, 2, 3].map(q => {
     const rows = t27.filter(t => Math.ceil(t.month / 3) === q + 1);
-    const actual25 = m25.slice(q * 3, q * 3 + 3).reduce((a, r) => a + (r?.revenue || 0), 0);
+    // Without imported actuals the baseline is the pack's last-12-month figure for the same calendar months.
+    const actual25 = hasActuals
+      ? m25.slice(q * 3, q * 3 + 3).reduce((a, r) => a + (r?.revenue || 0), 0)
+      : (pack?.monthly.slice(q * 3, q * 3 + 3).reduce((a, r) => a + r.actual, 0) ?? 0);
     return {
       quarter: `Q${q + 1}`,
       target: sum(rows, 'target'),
       actual2025: actual25,
-      vs2025: pct(sum(rows, 'target'), actual25),
+      vs2025: actual25 ? pct(sum(rows, 'target'), actual25) : null,
     };
   });
 
@@ -281,9 +300,14 @@ export function overviewBrief(studioId: number | null) {
       `SELECT month, COUNT(*) n FROM offers WHERE year=2027 AND month IS NOT NULL AND status NOT IN ('archived','rejected') AND data_mode!='demo' ${studioId ? `AND studio_id IN (${placeholders(scopeIds)})` : ''} GROUP BY month`,
     )
     .all(...(studioId ? scopeIds : [])) as any[];
+  const offerRevenue = db
+    .prepare(
+      `SELECT COALESCE(SUM(expected_revenue),0) revenue, COALESCE(SUM(target_purchases),0) purchases FROM offers WHERE year=2027 AND month IS NOT NULL AND status NOT IN ('archived','rejected') AND data_mode!='demo' ${studioId ? `AND studio_id IN (${placeholders(scopeIds)})` : ''}`,
+    )
+    .get(...(studioId ? scopeIds : [])) as any;
   const offerTypes = db
     .prepare(
-      `SELECT offer_type, COUNT(*) n FROM offers WHERE year=2027 AND month IS NOT NULL AND status NOT IN ('archived','rejected') AND data_mode!='demo' ${studioId ? `AND studio_id IN (${placeholders(scopeIds)})` : ''} GROUP BY 1 ORDER BY 2 DESC`,
+      `SELECT offer_type, COUNT(*) n, COALESCE(SUM(expected_revenue),0) revenue FROM offers WHERE year=2027 AND month IS NOT NULL AND status NOT IN ('archived','rejected') AND data_mode!='demo' ${studioId ? `AND studio_id IN (${placeholders(scopeIds)})` : ''} GROUP BY 1 ORDER BY 2 DESC`,
     )
     .all(...(studioId ? scopeIds : [])) as any[];
   const campaigns = db
@@ -303,8 +327,12 @@ export function overviewBrief(studioId: number | null) {
       month: m.month,
       label: m.label,
       target: m.target2027,
-      actual2025: m.actual2025,
-      forecastBase2026: m.actual2026 && !m.partial2026 ? m.actual2026 : null,
+      actual2025: hasActuals ? m.actual2025 : null,
+      forecastBase2026: hasActuals
+        ? m.actual2026 && !m.partial2026
+          ? m.actual2026
+          : null
+        : (pack?.monthly[m.month - 1]?.actual ?? null),
       theme: theme?.theme ?? null,
       objective: theme?.objective ?? null,
       offers: Number(offerCounts.find(o => o.month === m.month)?.n || 0),
@@ -399,7 +427,9 @@ export function overviewBrief(studioId: number | null) {
     quarters,
     months: monthPlan,
     offerTotal: offerCounts.reduce((a, o) => a + Number(o.n), 0),
-    offerTypes: offerTypes.map(o => ({ type: o.offer_type, count: Number(o.n) })),
+    offerRevenue: Number(offerRevenue.revenue),
+    offerPurchases: Number(offerRevenue.purchases),
+    offerTypes: offerTypes.map(o => ({ type: o.offer_type, count: Number(o.n), revenue: Number(o.revenue) })),
     campaigns: { count: Number(campaigns.n), target: Number(campaigns.target) },
     alwaysOn: playbook.filter(p => p.section === 'always_on').map(p => ({ title: p.title, body: p.body })),
     recovery: playbook.filter(p => p.section === 'recovery').map(p => ({ title: p.title, body: p.body })),
@@ -410,6 +440,48 @@ export function overviewBrief(studioId: number | null) {
       { label: '2027 target', value: target2027 },
     ],
   };
+
+  // No imported sales yet: findings come only from the pack's history and the 2027 plan itself.
+  const planFindings: typeof findings = [];
+  if (pack) {
+    planFindings.push({
+      tone: (pack.yoy ?? 0) >= 0 ? 'positive' : 'negative',
+      title: `Last 12 months (${pack.period.current}): ${crore(pack.l12)}, ${signed(pack.yoy)} on the prior 12 months`,
+      detail: `${crore(pack.prior12)} in ${pack.period.prior}. Source: pack Performance History and Insights documents.`,
+    });
+    const top = [...pack.streams].sort((a, b) => b.l12 - a.l12)[0];
+    planFindings.push({
+      tone: 'neutral',
+      title: `${top.label} carry the business: ${top.shareL12?.toFixed(0)}% of last-12-month revenue`,
+      detail: pack.streams
+        .map(x => `${x.label} ${lakh(x.l12)} (${x.shareL12?.toFixed(0)}%, ${signed(x.yoy)} YoY)`)
+        .join(' · '),
+    });
+    const peakM = pack.monthly.reduce((b, r, i) => (r.actual > pack.monthly[b].actual ? i : b), 0);
+    const lowM = pack.monthly.reduce((b, r, i) => (r.actual < pack.monthly[b].actual ? i : b), 0);
+    planFindings.push({
+      tone: 'neutral',
+      title: `Seasonality: ${MONTH_NAMES[peakM]} peaks, ${MONTH_NAMES[lowM]} is the low point`,
+      detail: `Last-12-month ${MONTH_NAMES[peakM]} ${lakh(pack.monthly[peakM].actual)} vs ${MONTH_NAMES[lowM]} ${lakh(pack.monthly[lowM].actual)}. The 2027 target keeps each month's share of the year.`,
+    });
+  }
+  planFindings.push({
+    tone: 'neutral',
+    title: `2027 target ${crore(target2027)}${pack ? `, ${signed(pct(target2027, pack.l12))} on the last 12 months` : ''}`,
+    detail: `New clients ${lakh(streams2027.newClient)} · renewals ${lakh(streams2027.renewal)} · reactivation ${lakh(streams2027.reactivation)} · add-ons and other ${lakh(streams2027.other)}.`,
+  });
+  if (funnel2027.leads)
+    planFindings.push({
+      tone: 'neutral',
+      title: `Funnel needed: ${funnel2027.leads.toLocaleString('en-IN')} leads → ${funnel2027.trials.toLocaleString('en-IN')} first visits → ${funnel2027.buyers.toLocaleString('en-IN')} new paying clients`,
+      detail: `Plus ${funnel2027.renewals.toLocaleString('en-IN')} renewals to sell (of ${funnel2027.renewalsDue.toLocaleString('en-IN')} due) and ${funnel2027.winbacks.toLocaleString('en-IN')} win-backs.`,
+    });
+  if (plan.offerTotal)
+    planFindings.push({
+      tone: 'neutral',
+      title: `${plan.offerTotal} offers planned across 2027`,
+      detail: `Expected offer revenue ${crore(plan.offerRevenue)}. ${plan.offerTypes.map(o => `${o.type} ${o.count}`).join(' · ')}.`,
+    });
 
   return {
     scope: studioId ? allStudios.find(s => s.id === studioId)?.name : 'All studios',
@@ -422,13 +494,18 @@ export function overviewBrief(studioId: number | null) {
     forecast2026,
     monthly,
     studios,
-    findings,
+    hasActuals,
+    pack,
+    findings: hasActuals ? findings : planFindings,
     plan,
-    notes: [
+    notes: hasActuals ? [
       `YTD comparisons use identical calendar windows (1 Jan – ${cutoff26.slice(5)}) in both years.`,
       '2026 full-year forecast = 2026 YTD + remaining 2025 days scaled by the YTD growth rate.',
       'Renewal / reactivation streams are inferred from observed membership timing.',
       'Pop-up totals include Copper + Cloves and Plash Pilates; they are not counted twice.',
+    ] : [
+      'No sales transactions are imported yet, so actuals-based metrics (2026 year to date, check-ins, discount rate, first-visit conversion) are hidden rather than shown as zero.',
+      'Last-12-month and prior-year figures come from the 2027 Sales Plan Pack (Nov-25 to Oct-26 vs Nov-24 to Oct-25). Targets, streams, funnel and offers come from the 2027 plan in the database.',
     ],
   };
 }

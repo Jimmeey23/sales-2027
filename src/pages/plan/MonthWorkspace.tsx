@@ -115,6 +115,7 @@ const EXPLAINER_SLOT_LABEL: Record<string, string> = {
   renewal: 'Renewals',
   retention: 'Renewals',
   upsell: 'Revenue boost',
+  flash: 'Flash sale',
 };
 
 // Full-screen month plan: everything for one month in one place, editable per studio, with alternate offers on the side.
@@ -240,7 +241,9 @@ export default function MonthWorkspace({
   const monthOffers = (m: number) => selectedForPlan(data, plan, m) as any[];
   const pickedBank = new Set(selected.map(o => bankIdOf(o)));
   const alternates = ownOffers
-    .filter(o => o.year === year && isBankOffer(o) && !pickedBank.has(o.id))
+    // The bank is every offer of the year this month has not picked (imports file each offer
+    // under its own month, so a month-less filter left the library empty).
+    .filter(o => o.year === year && !pickedBank.has(o.id) && !selectedIds.includes(o.id))
     .sort(
       (a, b) =>
         Number(isRecommended(b, month)) - Number(isRecommended(a, month)) ||
@@ -463,6 +466,22 @@ export default function MonthWorkspace({
       return false;
     } finally {
       setBusy(false);
+    }
+  };
+
+  // A unit change from a card: this location only, and the month reloads so the projected
+  // revenue, the mix bar and the charts all follow the new count.
+  const offerUnits = async (offer: any, units: number) => {
+    try {
+      await api(`/studio-plans/${studio.id}/${year}/${month}/offers`, {
+        method: 'POST',
+        body: JSON.stringify({ op: 'update', offerId: offer.id, edit: { target_purchases: units }, solo: true }),
+      });
+      await onSaved();
+      return true;
+    } catch (e: any) {
+      toast(e.message, 'error');
+      return false;
     }
   };
 
@@ -3339,6 +3358,7 @@ export default function MonthWorkspace({
                               busy={busy}
                               onApprove={(next: boolean) => offerApproval(o, next)}
                               onPlanning={offerPlanning}
+                              onUnits={offerUnits}
                               onEdit={() => {
                                 setCreatingOffer(null);
                                 setEditing(o.id);

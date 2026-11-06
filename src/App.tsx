@@ -200,8 +200,8 @@ export default function App() {
             <Route path="tools" element={<Navigate to="/" replace />} />
             <Route path="plan" element={<Navigate to="/sales-plan/plan" replace />} />
             <Route path="plan/:id" element={<Navigate to="/sales-plan/plan" replace />} />
-            <Route path="planner" element={<Navigate to="/sales-plan/approvals" replace />} />
-            <Route path="calendar" element={<Navigate to="/sales-plan/activations" replace />} />
+            <Route path="planner" element={<Navigate to="/sales-plan/breakdown" replace />} />
+            <Route path="calendar" element={<Navigate to="/sales-plan/breakdown" replace />} />
             <Route path="anniversary" element={<Navigate to="/sales-plan/anniversary" replace />} />
             <Route path="ai-offers" element={<OfferViewRedirect view="generate" />} />
             <Route path="goal-builder" element={<OfferViewRedirect view="gap" />} />

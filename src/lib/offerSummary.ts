@@ -209,6 +209,13 @@ function benefitOf(offer: any, pricing: PlanPricing) {
 function purposeOf(offer: any): string {
   const objective = clean(offer?.objective || '').toLowerCase();
   const slot = clean(offer?.plan_slot || offer?.planSlot || offer?.slot || '').toLowerCase();
+  // The plan slot is the offer's job; imported objectives are free sentences, so they only decide
+  // when no slot is set.
+  if (slot === 'newcomer') return 'winning new clients';
+  if (slot === 'lapsed') return 'bringing lapsed clients back';
+  if (slot === 'renewal') return 'renewing members before they lapse';
+  if (slot === 'upsell') return 'growing the month’s revenue with a bigger purchase';
+  if (slot === 'flash') return 'a short flash-sale spike';
   const key = objective || slot;
   if (/acquisition|new_client|newclient|new client|conversion|trial|referral/.test(key)) return 'winning new clients';
   if (/reactivation|winback|win-back|lapsed|retention_winback/.test(key)) return 'bringing lapsed clients back';
@@ -245,6 +252,19 @@ export function offerSummary(offer: any): OfferSummary {
   const benefit = benefitOf(offer, pricing);
   const purpose = purposeOf(offer);
   const audience = audienceOf(offer);
+
+  // An imported offer carries its own one-line description ("12-class pack at ₹19,688 …"):
+  // that is the truth about this offer, so it wins over anything derived from pricing fields.
+  const prov = (() => {
+    try {
+      return typeof offer?.provenance === 'string' ? JSON.parse(offer.provenance) : offer?.provenance || {};
+    } catch {
+      return {};
+    }
+  })();
+  const stated = clean(prov?.description || offer?.description || '').replace(/\.\s*$/, '');
+  if (stated)
+    return { membership, benefit, audience, purpose, sentence: `${stated.charAt(0).toUpperCase()}${stated.slice(1)} — aimed at ${purpose}.` };
 
   // When the offer states its own terms, describe it in those words; the derived
   // membership/benefit guess is only for offers that say nothing.

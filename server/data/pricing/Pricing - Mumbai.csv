@@ -1,0 +1,37 @@
+Group,Host ID,ID,Name,Duration,Type,Class Limit,Active Signups,Price Before GST (₹),Price After GST (5%) (₹),Freeze Attempts,Max Freeze Days
+1. Newcomers & Promos,13752,33609,Studio Open Barre Class,14 Days,Package,1 Class,437,0,Free,0,0 Days
+,13752,240932,Newcomers 2 For 1,14 Days,Package,2 Classes,23,"1,850.00","1,942.50",0,0 Days
+,13752,27848,Studio Newcomers 2 Week Unlimited,14 Days,Package,Unlimited,0,"7,500.00","7,875.00",0,0 Days
+2. Class Packs,13752,27845,Studio Single Class,7 Days,Package,1 Class,71,"1,850.00","1,942.50",0,0 Days
+,13752,25768,Studio 4 Class Package,14 Days,Package,4 Classes,15,"6,750.00","7,087.50",0,0 Days
+,13752,97883,Studio 8 Class Package,30 Days (~1 mo),Subscription,8 Classes,32,"12,500.00","13,125.00",1,30 Days
+,13752,97885,Studio 12 Class Package,45 Days (~1.5 mo),Subscription,12 Classes,69,"18,750.00","19,687.50",1,30 Days
+,13752,395212,Studio Extended 10 Single Class Pack,90 Days (~3 mo),Subscription,10 Classes,53,"18,500.00","19,425.00",3,90 Days
+,13752,98510,Studio 20 Single Class Pack,105 Days (~3.5 mo),Subscription,20 Classes,15,"37,000.00","38,850.00",3,90 Days
+,13752,98515,Studio 30 Single Class Pack,140 Days (~4.6 mo),Subscription,30 Classes,13,"55,500.00","58,275.00",4,120 Days
+3. Unlimited (All-Access),13752,27849,Studio 2 Week Unlimited,14 Days,Package,Unlimited,2,"10,766.50","11,304.83",0,0 Days
+,13752,69064,Studio 1 Month Unlimited,1 Month,Subscription,Unlimited,82,"19,275.00","20,238.75",1,30 Days
+,13752,69065,Studio 3 Month Unlimited,3 Months,Subscription,Unlimited,47,"55,100.00","57,855.00",3,90 Days
+,13752,116641,Studio 3 Month U/L Monthly Installment,30 Days (~1 mo),Subscription,Unlimited,2,"16,917.00 / mo","17,762.85 / mo",1,30 Days
+,13752,97972,Studio 6 Month Unlimited,6 Months,Subscription,Unlimited,15,"1,08,300.00","1,13,715.00",6,180 Days
+,13752,69067,Studio Annual Unlimited,12 Months,Subscription,Unlimited,47,"2,09,000.00","2,19,450.00",12,360 Days
+,13752,144454,Studio Annual - Monthly Installment,30 Days (~1 mo),Subscription,Unlimited,0,"13,750.00 / mo","14,437.50 / mo",1,30 Days
+4. Specialized Unlimited,13752,495695,Barre 1 month Unlimited,30 Days (~1 mo),Subscription,Barre Only,8,"16,775.00","17,613.75",1,30 Days
+,13752,495700,Barre 3 months Unlimited,90 Days (~3 mo),Subscription,Barre Only,2,"47,850.00","50,242.50",3,90 Days
+,13752,495696,powerCycle 1 month Unlimited,30 Days (~1 mo),Subscription,Cycle Only,1,"16,775.00","17,613.75",1,30 Days
+,13752,495701,powerCycle 3 months Unlimited,90 Days (~3 mo),Subscription,Cycle Only,0,"47,850.00","50,242.50",3,90 Days
+,13752,495697,Strength Lab 1 month Unlimited,30 Days (~1 mo),Subscription,Strength Only,0,"16,775.00","17,613.75",1,30 Days
+5. Private Training,13752,65342,Studio Private Class,7 Days,Package,1 Class,20,"5,000.00","5,250.00",0,0 Days
+,13752,121839,Studio Private Class X 10,70 Days (~2.3 mo),Package,10 Classes,15,"50,000.00","52,500.00",2,60 Days
+,13752,98500,Studio Happy Hour Private,Flexible,Package,1 Class,8,"3,000.00","3,150.00",0,0 Days
+,13752,423238,Studio Private - Anisha (Single Class),7 Days,Package,1 Class,3,"5,950.00","6,247.50",0,0 Days
+,13752,423239,Studio Privates - Anisha x 10,70 Days (~2.3 mo),Package,10 Classes,0,"59,500.00","62,475.00",2,60 Days
+,13752,97977,Virtual Private Class,Flexible,Package,1 Class,1,"4,500.00","4,725.00",0,0 Days
+,13752,149879,Virtual Private Class X 10,70 Days (~2.3 mo),Package,10 Classes,6,"45,000.00","47,250.00",2,60 Days
+,13752,467480,Virtual Private - Anisha,7 Days,Package,1 Class,0,"5,400.00","5,670.00",0,0 Days
+,13752,467481,Virtual Privates - Anisha x 10,500 Days (~16.6 mo),Package,10 Classes,4,"54,000.00","56,700.00",16,480 Days
+6. Complimentary & Perks,13752,97880,Studio Complimentary Class,7 Days,Package,1 Class,85,0,Free,0,0 Days
+,13752,97881,Studio Staff/Family Class,7 Days,Package,1 Class,33,0,Free,0,0 Days
+,13752,97981,Studio Free Influencer Class,7 Days,Package,1 Class,5,0,Free,0,0 Days
+,13752,263860,Studio Complimentary Referral Class,7 Days,Package,1 Class,123,0,Free,0,0 Days
+,13752,263870,Studio Referrer Complimentary Class Package,14 Days,Package,2 Classes,25,0,Free,0,0 Days

@@ -1,0 +1,874 @@
+{
+ "generated": "2026-11-06",
+ "source": "9th_Anniversary_Cloud_Nine_April_2027.docx",
+ "title": "Cloud Nine: the 9th Anniversary",
+ "subtitle": "Physique 57 India · April 2027 · limited editions, games, drama and the offers attached to them",
+ "summary": "April 2027 target: ₹1.13 Cr (₹1,12,68,966), the first ₹1 crore month in Physique 57 India's history, against ₹90.7L in April 2026. April has to win on excitement and on economics: two products that exist only this month, a flash sale at 9:09, a wheel you can gamble on, an awards night, and not a single offer above 25% effective discount. Every buyer should leave April with a reason to come back in May.",
+ "idea": "Cloud Nine: nine years, one month, no chill. April is a month-long party with a plot. Members collect stamps in a Nine Lives Passport, newcomers hit a buzzer when they make a reckless decision, lapsed clients receive their own obituary and rise from the dead, renewers gamble on a wheel, and 99 people per city get the keys to a membership that will never be sold again. It ends with the Golden Glute Awards, a member-voted awards night with a trainer roast. Every reward is something to do or to show off, which costs less than a discount and brings clients into the studio more often, which is what makes them renew.",
+ "why": [
+  {
+   "head": "April 2026 was bought with discount",
+   "body": "Kemps Corner's April 2026 revenue was a record ₹50.0L, but its average discount was 30.1% (April 2025: 14.1%), and anniversary codes ran at 40–48% effective discount. Bandra discounted more (25.3%) and still earned less than in April 2025."
+  },
+  {
+   "head": "April buyers do not all come back",
+   "body": "Between May and October 2026, 57% of Kemps Corner's April buyers bought again, 51% at Bandra, 68% at Kenkere House and 41% at the pop-ups. The wheel's dare cards and the May upgrade offer are built to fix this."
+  },
+  {
+   "head": "Usage drives renewal",
+   "body": "Clients who use 75% or more of their sessions renew at around 80–86%; those who use under a quarter renew at 30–40%. Games that make people book classes are the best retention tool there is."
+  },
+  {
+   "head": "Scarcity beats discount",
+   "body": "A numbered, one-month-only product (the 9-Month Unlimited, the 9-Class Pack) gives people a reason to buy now without cutting the price of the core memberships."
+  },
+  {
+   "head": "March waits for April",
+   "body": "March is one of the weakest months at every studio. Platinum Tier Delusion makes renewing in March the way to get the anniversary first."
+  }
+ ],
+ "targets": [
+  {
+   "studio": "Kemps Corner",
+   "apr26": 5001388,
+   "apr27": 6377578,
+   "newClient": 1244539,
+   "renewal": 3971274,
+   "reactivation": 480620,
+   "addOn": 681145
+  },
+  {
+   "studio": "Bandra",
+   "apr26": 2744837,
+   "apr27": 3293530,
+   "newClient": 850994,
+   "renewal": 1984358,
+   "reactivation": 347418,
+   "addOn": 110760
+  },
+  {
+   "studio": "Kenkere House",
+   "apr26": 1216947,
+   "apr27": 1460239,
+   "newClient": 534704,
+   "renewal": 632589,
+   "reactivation": 130552,
+   "addOn": 162394
+  },
+  {
+   "studio": "Pop-ups",
+   "apr26": 105840,
+   "apr27": 137619,
+   "newClient": 79441,
+   "renewal": 18412,
+   "reactivation": 6165,
+   "addOn": 33601
+  },
+  {
+   "studio": "Total",
+   "apr26": 9069012,
+   "apr27": 11268966,
+   "newClient": 2709678,
+   "renewal": 6606633,
+   "reactivation": 964755,
+   "addOn": 987900
+  }
+ ],
+ "funnel": [
+  {
+   "studio": "Kemps Corner",
+   "leads": 214,
+   "firstVisits": 165,
+   "newMembers": 38,
+   "newPaying": 97,
+   "renewals": 138,
+   "winbacks": 65,
+   "m3": 15,
+   "m6": 2,
+   "annual": 6
+  },
+  {
+   "studio": "Bandra",
+   "leads": 271,
+   "firstVisits": 172,
+   "newMembers": 31,
+   "newPaying": 90,
+   "renewals": 76,
+   "winbacks": 58,
+   "m3": 8,
+   "m6": 3,
+   "annual": 2
+  },
+  {
+   "studio": "Kenkere House",
+   "leads": 341,
+   "firstVisits": 150,
+   "newMembers": 21,
+   "newPaying": 90,
+   "renewals": 39,
+   "winbacks": 30,
+   "m3": 7,
+   "m6": 1,
+   "annual": 1
+  },
+  {
+   "studio": "Pop-ups",
+   "leads": 123,
+   "firstVisits": 43,
+   "newMembers": 2,
+   "newPaying": 40,
+   "renewals": 3,
+   "winbacks": 7,
+   "m3": 0,
+   "m6": 0,
+   "annual": 0
+  }
+ ],
+ "offerUnits": [
+  {
+   "offer": "Reckless Impulse Decision",
+   "slot": "Newcomer",
+   "kcUnits": 11,
+   "kcRevenue": 521852,
+   "baUnits": 7,
+   "baRevenue": 332088,
+   "khUnits": 6,
+   "khRevenue": 207673
+  },
+  {
+   "offer": "Faking Your Own Death Didn’t Work",
+   "slot": "Winback",
+   "kcUnits": 5,
+   "kcRevenue": 237206,
+   "baUnits": 4,
+   "baRevenue": 189764,
+   "khUnits": 2,
+   "khRevenue": 70069
+  },
+  {
+   "offer": "Recreational Gambling (For Hamstrings)",
+   "slot": "Renewal",
+   "kcUnits": 34,
+   "kcRevenue": 1967070,
+   "baUnits": 17,
+   "baRevenue": 983535,
+   "khUnits": 7,
+   "khRevenue": 295470
+  },
+  {
+   "offer": "Moving In & Changing The Locks",
+   "slot": "Revenue booster",
+   "kcUnits": 6,
+   "kcRevenue": 839994,
+   "baUnits": 3,
+   "baRevenue": 419997,
+   "khUnits": 1,
+   "khRevenue": 99999
+  },
+  {
+   "offer": "The 9:09 Panic Attack",
+   "slot": "Flash sale",
+   "kcUnits": 40,
+   "kcRevenue": 459960,
+   "baUnits": 24,
+   "baRevenue": 275976,
+   "khUnits": 12,
+   "khRevenue": 92388
+  }
+ ],
+ "offerTotals": {
+  "kc": 4026082,
+  "ba": 2201360,
+  "kh": 765599
+ },
+ "offerShare": {
+  "kc": "63%",
+  "ba": "67%",
+  "kh": "52%"
+ },
+ "limitedEditions": [
+  {
+   "name": "Limited Edition 9-Month Unlimited",
+   "fields": [
+    {
+     "label": "Price",
+     "value": "Mumbai ₹1,39,999 · Bengaluru ₹99,999"
+    },
+    {
+     "label": "Compared with list",
+     "value": "A 6-Month plus a 3-Month: ₹1,71,570 (Mumbai), ₹1,24,425 (Bengaluru)"
+    },
+    {
+     "label": "What comes with it",
+     "value": "9 freeze attempts, a numbered brass studio key (001–099), the anniversary hoodie, name on the Lease Wall"
+    },
+    {
+     "label": "How many",
+     "value": "99 per city, numbered; a live counter on the studio screens"
+    },
+    {
+     "label": "Effective discount",
+     "value": "20.0% Mumbai, 21.8% Bengaluru (hoodie counted)"
+    },
+    {
+     "label": "Who it is for",
+     "value": "Members ready for a long commitment and returning clients who want the best price of the year"
+    },
+    {
+     "label": "Its job",
+     "value": "The biggest ticket of the month, carrying members to January 2028"
+    }
+   ]
+  },
+  {
+   "name": "Limited Edition 9-Class Pack",
+   "fields": [
+    {
+     "label": "Price",
+     "value": "Mumbai ₹12,999 all April, ₹11,499 in the 9:09 flash · Bengaluru ₹8,699 all April, ₹7,699 in the flash"
+    },
+    {
+     "label": "Compared with list",
+     "value": "An 8-class pack plus a single: ₹15,067.50 (Mumbai), ₹10,132.50 (Bengaluru)"
+    },
+    {
+     "label": "What comes with it",
+     "value": "99 days to use the 9 classes"
+    },
+    {
+     "label": "How many",
+     "value": "Unlimited, April only"
+    },
+    {
+     "label": "Effective discount",
+     "value": "23.7% Mumbai, 24.0% Bengaluru at the flash price"
+    },
+    {
+     "label": "Who it is for",
+     "value": "Newcomers, pack buyers and anyone not ready for a membership"
+    },
+    {
+     "label": "Its job",
+     "value": "The entry product, and the reason for the loudest moment of the month"
+    }
+   ]
+  }
+ ],
+ "calendar": [
+  {
+   "date": "30–31 Mar",
+   "what": "Platinum Hour: 48-hour early access for March Platinum renewers. First pick of numbered 9-Month keys (001 goes to the first Platinum holder through the door).",
+   "job": "Reward March commitment; sell the first keys before launch."
+  },
+  {
+   "date": "Thu 1 Apr",
+   "what": "Launch: \"Nine Years in Ninety Seconds\" film; the 9-Month and the 9-Class Pack go on sale; Nine Lives Passports handed out; the Impulse Buzzer goes live at every front desk.",
+   "job": "Create the moment; explain how to play."
+  },
+  {
+   "date": "Sat 3 Apr",
+   "what": "Blind Date With a Class: the format and trainer are a secret until you walk in.",
+   "job": "Members try a class they would never book; passport stamp."
+  },
+  {
+   "date": "Mon 5 Apr",
+   "what": "The wheel opens (Recreational Gambling (For Hamstrings)) for renewals and upgrades.",
+   "job": "Full-price renewals with a prize."
+  },
+  {
+   "date": "Tue 6 Apr",
+   "what": "Throwback Class: the 2018 playlist and the original choreography.",
+   "job": "Nostalgia for long-time members; content for social."
+  },
+  {
+   "date": "Wed 7 Apr",
+   "what": "Plank of Fame: a studio plank-off; the top 9 at each studio win a private session and a spot on the wall for the year.",
+   "job": "Bragging rights; introduces privates."
+  },
+  {
+   "date": "Thu 8 Apr",
+   "what": "Bring Your Barre-stie: free guest pass for every member; the referral ladder pays double for the day (2 bonus classes for each friend who tries).",
+   "job": "Referral acquisition at its warmest; friends meet the Impulse Buzzer."
+  },
+  {
+   "date": "Fri 9 Apr",
+   "what": "The 9:09 Panic Attack: the 9-Class Pack at its flash price from 9:09 am and 9:09 pm, 99 minutes each, with a siren in studio and a countdown on Instagram.",
+   "job": "The loudest sales moment of the year."
+  },
+  {
+   "date": "Sat 10 Apr",
+   "what": "The Birthday Class: DJ, cake, confetti, guest trainers swapped between Kemps Corner and Bandra; Kenkere House hosts the pop-up regulars.",
+   "job": "The memorable centrepiece; strongest day for upgrades and referrals."
+  },
+  {
+   "date": "Sun 11 Apr",
+   "what": "The Time Capsule: members write to their future selves, sealed until the 10th anniversary in April 2028.",
+   "job": "A promise to come back next year."
+  },
+  {
+   "date": "12–25 Apr",
+   "what": "Hidden 9s: nine gold envelopes hidden each week (under mats, in lockers, in the plants). Prizes: a private session, the hoodie, retail vouchers.",
+   "job": "Footfall and chatter; every class might be the one."
+  },
+  {
+   "date": "12–30 Apr",
+   "what": "The Resurrection Booth: obituary postcards to every client lapsed 60+ days (\"Here lie the glutes of …\"); bring it in, pose in the Back From the Dead frame, rise again.",
+   "job": "Peak-month winback on a 3-Month."
+  },
+  {
+   "date": "Sat 24 Apr",
+   "what": "The Golden Glute Awards and Trainer Roast: member-voted awards night with trophies, a red carpet for 9-Month key holders and reserved seats for Platinum.",
+   "job": "The emotional peak of the month; last big push for keys and renewals."
+  },
+  {
+   "date": "Fri 30 Apr",
+   "what": "The Lock-In: the studio stays open late; the key counter counts down live; last class at 9:09 pm. Anniversary products end at midnight.",
+   "job": "Close the month; protect price integrity."
+  }
+ ],
+ "activationsIntro": "Every reward attached to a purchase is valued at list and counted in that purchase's effective discount. Game prizes that are not tied to a purchase (Hidden 9s, Plank of Fame, the awards) are a marketing cost, not a discount.",
+ "activations": [
+  {
+   "name": "The Impulse Buzzer",
+   "drama": "A big red buzzer at the front desk. A newcomer who buys a 3-Month within 9 hours of their first class hits it: confetti, the whole class applauds, name on the Reckless Decisions board.",
+   "sells": "Reckless Impulse Decision (3-Month at 18% off with the tee and a trainer consult)",
+   "cap": "23.5% Mumbai, 24.4% Bengaluru"
+  },
+  {
+   "name": "The wheel, with a twist",
+   "drama": "Spin, then choose: keep the prize, double it by taking a dare card (9 classes in 14 days; a 7 am class every week of May; bring a friend to the Birthday Class), or donate it to a friend as guest passes.",
+   "sells": "Recreational Gambling (For Hamstrings): full-price 3-Month, 6-Month and Annual renewals and upgrades",
+   "cap": "Checked on the doubled jackpot: 24.0% Mumbai, 24.8% Bengaluru on a 3-Month; lower on 6-Month and Annual"
+  },
+  {
+   "name": "The Resurrection Booth",
+   "drama": "Obituary postcards to the lapsed list; a Back From the Dead photo frame in studio; every resurrection posted (with permission).",
+   "sells": "Faking Your Own Death Didn’t Work (3-Month at 18% off in Mumbai, 17% in Bengaluru, plus a private)",
+   "cap": "24.8% Mumbai, 24.4% Bengaluru"
+  },
+  {
+   "name": "Keys and the Lease Wall",
+   "drama": "99 numbered brass keys per city; names go on the Lease Wall; a live counter on screen.",
+   "sells": "Moving In & Changing The Locks (the 9-Month)",
+   "cap": "20.0% Mumbai, 21.8% Bengaluru"
+  },
+  {
+   "name": "The 9:09 Panic Attack",
+   "drama": "Siren, countdown, 99 minutes, twice on 9 April.",
+   "sells": "The 9-Class Pack at its flash price",
+   "cap": "23.7% Mumbai, 24.0% Bengaluru"
+  },
+  {
+   "name": "Nine Lives Passport",
+   "drama": "Nine stamps: a 7 am class, a weekend class, a new trainer, a new format, Blind Date With a Class, bring a friend, 9 classes in 9 days, the Birthday Class, a Time Capsule note.",
+   "sells": "Attendance (the strongest predictor of renewal). A full passport earns 1 bonus class on the member's current product, a seat at the awards and an entry to the draw for one 9-Month per city.",
+   "cap": "Attendance reward, not attached to a sale; the draw prize is a marketing cost."
+  },
+  {
+   "name": "Golden Glute Awards",
+   "drama": "Member-voted categories: Most Likely to Arrive at 6:59 for a 7 am, Loudest Involuntary Shake, Most Dramatic Exit During Thigh Work, Comeback of the Year, Recruiter of the Year, Delulu of the Year. Trainers get roasted by anonymous member submissions.",
+   "sells": "Community and the last big push for keys and renewals",
+   "cap": "Trophies and a private session per winner; marketing cost."
+  },
+  {
+   "name": "Hidden 9s",
+   "drama": "Nine gold envelopes a week.",
+   "sells": "Footfall",
+   "cap": "Marketing cost."
+  },
+  {
+   "name": "Time Capsule",
+   "drama": "A note to your 2028 self.",
+   "sells": "A renewal conversation in April 2028",
+   "cap": "No price element."
+  }
+ ],
+ "presale": {
+  "name": "Platinum Tier Delusion",
+  "body": "Members who renew on a 3-Month in March get 15% off, 9 extra days and 1 extra freeze (23.1% Mumbai, 23.0% Bengaluru), plus Platinum status: the 30–31 March early access, first pick of numbered keys, reserved seats at the Golden Glute Awards and the first spins of the wheel. Platinum perks have no cash value, so they do not change the effective discount. Target: 20 March renewals across the three studios."
+ },
+ "bulk": {
+  "name": "The Cloud Nine 90",
+  "quote": "“Ninety classes. One year. Zero commitment issues.”",
+  "body": "What the client gets: 90 classes valid for 12 months: Mumbai ₹1,34,999 (₹1,500 a class; 90 single classes cost ₹1,74,825 at list, so 22.8% off) and Bengaluru ₹99,999 (₹1,111 a class against ₹1,27,575 at list, 21.6% off). April only. Who: high-frequency pack buyers. Commercial job: lock in a year of revenue from the heaviest users. Why: the Anniversary Big 85 Flex sold 4 times at Kemps Corner and once at Kenkere House in April 2026; this replaces it at a price inside the cap. Target: 1 at Kemps Corner (the workbook's April bulk-pack line); Bandra and Kenkere House sell it opportunistically on top of target."
+ },
+ "popup": {
+  "name": "Nine Lives, Ten Classes",
+  "body": "10-class pack at 15% off (₹7,229 against ₹8,505) plus 1 bonus class and a free Kenkere House anniversary class (23.5% effective discount). Pop-up regulars are invited to the Kenkere House Birthday Class on 10 April and can enter the Golden Glute Awards. April pop-up target: ₹1,37,619."
+ },
+ "guardrails": [
+  "Cap: no April offer goes above 25% effective discount, counting every bonus at list value. The highest April offer is Faking Your Own Death Didn’t Work at 24.8%.",
+  "One reward per purchase: offers, the wheel and the flash price do not combine on the same purchase. Passport and game prizes are attendance rewards, credited to the member's current product, not to a sale.",
+  "Average discount target for April: under 15% of gross sales at every studio (April 2026: Kemps Corner 30.1%, Bandra 25.3%, Kenkere House 8.8%).",
+  "Product mix: at least half of April membership revenue from 3-Month, 6-Month, 9-Month and Annual.",
+  "Scarcity is real: 99 keys per city means 99. When they are gone, the 9-Month is gone. No second batch.",
+  "Price integrity: no anniversary prices after 30 April. The May offers reward April buyers who attend; they do not extend April pricing."
+ ],
+ "repeat": [
+  {
+   "studio": "Kemps Corner",
+   "apr26": "57.4%",
+   "target": "65%"
+  },
+  {
+   "studio": "Bandra",
+   "apr26": "50.6%",
+   "target": "60%"
+  },
+  {
+   "studio": "Kenkere House",
+   "apr26": "68.3%",
+   "target": "72%"
+  },
+  {
+   "studio": "Pop-ups",
+   "apr26": "40.8%",
+   "target": "50%"
+  }
+ ],
+ "afterActions": [
+  {
+   "head": "No Graceful Exit Strategy (May)",
+   "body": "April buyers who attend 12+ classes in their first 30 days are offered the upgrade to a 3-Month with a private session and summer freezes."
+  },
+  {
+   "head": "Dare cards",
+   "body": "every wheel winner who took a dare gets a trainer check-in at the halfway point; doubled prizes are credited only when the dare is complete."
+  },
+  {
+   "head": "Passport follow-up",
+   "body": "every member who collected fewer than 3 stamps gets a trainer call in the first week of May."
+  },
+  {
+   "head": "Resurrection follow-up",
+   "body": "everyone who came back for a class in April but did not buy gets a personal message within 7 days."
+  },
+  {
+   "head": "Time Capsule",
+   "body": "opened at the 10th anniversary in April 2028, with a renewal conversation for every member who wrote one."
+  }
+ ],
+ "runSheet": [
+  {
+   "what": "Platinum renewal product and member list in Momence; front-desk script",
+   "owner": "Studio managers",
+   "by": "1 Mar"
+  },
+  {
+   "what": "9-Month (numbered, 99 per city) and 9-Class Pack products set up; 25% check signed off",
+   "owner": "Sales head",
+   "by": "20 Mar"
+  },
+  {
+   "what": "Brass keys, Lease Wall, Impulse Buzzer, confetti cannons, wheel and dare cards, Back From the Dead frame",
+   "owner": "Marketing",
+   "by": "25 Mar"
+  },
+  {
+   "what": "Obituary postcards printed and addressed to the lapsed list",
+   "owner": "Marketing",
+   "by": "5 Apr"
+  },
+  {
+   "what": "Passports (print and digital), Hidden 9s envelopes, awards categories and voting form",
+   "owner": "Marketing",
+   "by": "28 Mar"
+  },
+  {
+   "what": "\"Nine Years in Ninety Seconds\" film and 9:09 countdown assets",
+   "owner": "Marketing",
+   "by": "28 Mar"
+  },
+  {
+   "what": "Birthday Class and Golden Glute Awards line-up, guest trainers, DJ, cake, trophies",
+   "owner": "Head trainers",
+   "by": "1 Apr"
+  },
+  {
+   "what": "Daily tracker: sales and keys sold against April daily targets (target workbooks, Daily tab)",
+   "owner": "Studio managers",
+   "by": "Daily from 30 Mar"
+  },
+  {
+   "what": "May follow-up lists (upgrades, dares, passports, resurrections)",
+   "owner": "Studio managers",
+   "by": "3 May"
+  }
+ ],
+ "appOffers": [
+  {
+   "studioId": 1,
+   "studio": "Kemps Corner",
+   "name": "The 9:09 Panic Attack",
+   "slot": "flash",
+   "rank": 5,
+   "type": "Flash sale",
+   "headline": "Plank for your price. Or wait for 9:09 and panic with everyone else.",
+   "benefit": "Earned at the front desk with Plank Your Price: hold a plank for 57 seconds and the Limited Edition 9-Class Pack (valid 99 days; an 8-class pack plus a single cost ₹15,067.50) is ₹12,999; hold 1:57 and it is ₹12,249; hold 2:57 and it is ₹11,499, the floor. On 9 April, during two 99-minute windows from 9:09 am and 9:09 pm, everyone gets the floor price, no plank needed, with a siren in studio and a countdown on Instagram.",
+   "audience": "Everyone: members, packs and newcomers",
+   "objective": "The anniversary's entry product and its loudest moment: a flash sale everyone talks about.",
+   "rationale": "A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. The floor price is inside the cap; the unit target uses the floor price.",
+   "when": "Limited Edition 9-Class Pack all April; Plank Your Price at every front desk; floor price for everyone on 9 Apr from 9:09 am and 9:09 pm, 99 minutes each",
+   "priceText": "₹11,499 (list ₹15,068)",
+   "listPrice": 15068,
+   "targetBasis": "25% of the month's class-pack revenue (₹18,26,173)",
+   "units": 40,
+   "asp": 11499,
+   "revenue": 459960,
+   "effectiveDiscount": 23.7,
+   "status": "draft"
+  },
+  {
+   "studioId": 1,
+   "studio": "Kemps Corner",
+   "name": "Moving In & Changing The Locks",
+   "slot": "upsell",
+   "rank": 4,
+   "type": "Revenue boost",
+   "headline": "Nine months. One brass key. The rent goes up every 33 keys.",
+   "benefit": "Earned at the Lease Signing: the buyer signs a giant lease on the Lease Wall, rings the studio bell and is handed a numbered brass key. Limited Edition 9-Month Unlimited (a 6-Month plus a 3-Month cost ₹1,71,570 at list), with 9 freeze attempts and the anniversary hoodie. The rent rises as keys go: keys 001–033 ₹1,34,999, keys 034–066 ₹1,39,999, keys 067–099 ₹1,44,999, and the price also steps up at midnight on 18 April, the anniversary. A live key counter runs on the studio screens.",
+   "audience": "Members and returning clients; 99 numbered memberships per city",
+   "objective": "The anniversary's biggest-ticket product: lock in long commitments in the month with the highest target.",
+   "rationale": "A rising price rewards deciding early and makes every sale visible to everyone else. The cap is checked at the lowest key price; the unit target also uses the lowest price, so revenue is conservative.",
+   "when": "1–30 Apr (Platinum holders from 30 Mar)",
+   "priceText": "₹1,34,999 (list ₹1,71,570)",
+   "listPrice": 171570,
+   "targetBasis": "60% of the month's 6-Month and Annual revenue (₹13,26,909)",
+   "units": 6,
+   "asp": 134999,
+   "revenue": 809994,
+   "effectiveDiscount": 22.9,
+   "status": "draft"
+  },
+  {
+   "studioId": 1,
+   "studio": "Kemps Corner",
+   "name": "Recreational Gambling (For Hamstrings)",
+   "slot": "renewal",
+   "rank": 3,
+   "type": "Renewal",
+   "headline": "Renew. Grab the claw. Then decide: keep it, double it, or give it away.",
+   "benefit": "Earned, not handed over: renew or upgrade at the standard price (₹57,855 for a 3-Month) and play The Claw, a real arcade claw machine at the front desk filled with capsules. A 3-Month gets 3 tries, a 6-Month 5, an Annual 9; you keep your best capsule. Capsules hold 2 or 3 bonus classes, a private, a virtual private, 7 extra days, 2 extra freezes, the hoodie, or the golden jackpot (a private and 2 bonus classes). Then the twist: keep it, double it by completing a dare card (9 classes in 14 days; a 7 am class every week of May), or donate it to a friend as guest passes.",
+   "audience": "Members renewing or upgrading to 3-Month, 6-Month or Annual",
+   "objective": "The anniversary renewal offer: higher-value renewals with no percentage off.",
+   "rationale": "More tries for longer plans makes the upgrade the fun choice. The dare turns the prize into attendance in May, the month April buyers drift. Cap checked on the doubled jackpot.",
+   "when": "5–30 Apr",
+   "priceText": "₹57,855 (list ₹57,855)",
+   "listPrice": 57855,
+   "targetBasis": "50% of the month's renewal revenue (₹39,71,274)",
+   "units": 34,
+   "asp": 57855,
+   "revenue": 1967070,
+   "effectiveDiscount": 24,
+   "status": "draft"
+  },
+  {
+   "studioId": 1,
+   "studio": "Kemps Corner",
+   "name": "Faking Your Own Death Didn’t Work",
+   "slot": "lapsed",
+   "rank": 2,
+   "type": "Win-back",
+   "headline": "We found you. We always find you. Come to the séance.",
+   "benefit": "Earned, not handed over: every lapsed client gets a mock obituary postcard (\"Here lie the glutes of …\") that doubles as a ticket to the candle-lit Séance Class on 15 April, or to any class that week. Take the class, pose in the Back From the Dead frame at the Resurrection Booth, and unlock a 3-Month Unlimited at 18% off (₹47,441) plus 1 private to rebuild form.",
+   "audience": "Clients lapsed 60+ days",
+   "objective": "Peak-month winback on a 3-month product instead of a pack.",
+   "rationale": "A free class with a story is easier to say yes to than a discount code, and the client buys after training, not before. The booth photo becomes content.",
+   "when": "12–30 Apr; Séance Class on Thu 15 Apr",
+   "priceText": "₹47,441 (list ₹57,855)",
+   "listPrice": 57855,
+   "targetBasis": "50% of the month's reactivation revenue (₹4,80,620)",
+   "units": 5,
+   "asp": 47441,
+   "revenue": 237206,
+   "effectiveDiscount": 24.8,
+   "status": "draft"
+  },
+  {
+   "studioId": 1,
+   "studio": "Kemps Corner",
+   "name": "Reckless Impulse Decision",
+   "slot": "newcomer",
+   "rank": 1,
+   "type": "New clients",
+   "headline": "Bad decisions make good stories. This one comes out of a fortune cookie.",
+   "benefit": "Earned, not handed over: after the first class the newcomer hits the Impulse Buzzer at the front desk (confetti, the class applauds, name on the Reckless Decisions board) and cracks a giant fortune cookie. Every cookie unlocks a 3-Month Unlimited at 15% off (₹49,177) with the anniversary tee, plus one fortune: a trainer consult, a virtual private, the hoodie, or 2 guest passes. The cookie only opens within 9 hours of the first class.",
+   "audience": "First-time clients, within 9 hours of their first class",
+   "objective": "Sell newcomers a 3-month first purchase on the day they feel best.",
+   "rationale": "The hours after a first class are the highest-intent moment there is, and a 3-Month first purchase renews far better than a 1-Month. The buzzer and the cookie turn a sales conversation into a moment the whole room sees. Cap checked on the most valuable fortune.",
+   "when": "1–30 Apr",
+   "priceText": "₹49,177 (list ₹57,855)",
+   "listPrice": 57855,
+   "targetBasis": "50% of the month's new-member revenue (₹10,33,465)",
+   "units": 11,
+   "asp": 49177,
+   "revenue": 540944,
+   "effectiveDiscount": 23.3,
+   "status": "draft"
+  },
+  {
+   "studioId": 4,
+   "studio": "Pop-up",
+   "name": "Big City Upgrade",
+   "slot": "upsell",
+   "rank": 4,
+   "type": "Revenue boost",
+   "headline": "You have outgrown the pop-up. The big studio is ready for you.",
+   "benefit": "Any pop-up pack buyer gets a free class at Kenkere House (worth ₹1,417.50); pack at ₹8,505.",
+   "audience": "Pop-up pack buyers",
+   "objective": "Feed Kenkere House with pack-ready clients.",
+   "rationale": "The pop-ups' strategic job is to send regulars to the flagship studio.",
+   "when": "Always on; 2–3 conversions to Kenkere a month",
+   "priceText": "Revenue",
+   "listPrice": null,
+   "targetBasis": null,
+   "units": 2,
+   "asp": null,
+   "revenue": null,
+   "effectiveDiscount": 14.3,
+   "status": "draft"
+  },
+  {
+   "studioId": 4,
+   "studio": "Pop-up",
+   "name": "Running on Empty, Babe",
+   "slot": "renewal",
+   "rank": 3,
+   "type": "Renewal",
+   "headline": "Two classes left? Do not let your streak hit zero.",
+   "benefit": "Buy your next pack when 2 or fewer classes are left and get 1 bonus class (10-class pack at ₹8,505).",
+   "audience": "Pack holders with 2 or fewer classes left",
+   "objective": "Renew packs before they run out.",
+   "rationale": "Pack holders lapse in the gap between packs.",
+   "when": "Always on",
+   "priceText": "₹8,505 (list ₹8,505)",
+   "listPrice": 8505,
+   "targetBasis": null,
+   "units": 1,
+   "asp": 8505,
+   "revenue": 8505,
+   "effectiveDiscount": 10,
+   "status": "draft"
+  },
+  {
+   "studioId": 4,
+   "studio": "Pop-up",
+   "name": "Ghosted? We Saved Your Spot",
+   "slot": "lapsed",
+   "rank": 2,
+   "type": "Win-back",
+   "headline": "Your mat has been staring at the door for weeks.",
+   "benefit": "8-class pack at 14% off (₹5,960) plus 1 bonus class.",
+   "audience": "Pop-up clients who have not visited for 60+ days",
+   "objective": "Reactivate lapsed drop-in clients.",
+   "rationale": "A small pack is the easiest yes for a lapsed drop-in client.",
+   "when": "Every month, sent in week 2",
+   "priceText": "₹5,960 (list ₹6,930)",
+   "listPrice": 6930,
+   "targetBasis": null,
+   "units": 1,
+   "asp": 5960,
+   "revenue": 5960,
+   "effectiveDiscount": 24.3,
+   "status": "draft"
+  },
+  {
+   "studioId": 3,
+   "studio": "Kenkere House",
+   "name": "Moving In & Changing The Locks",
+   "slot": "upsell",
+   "rank": 4,
+   "type": "Revenue boost",
+   "headline": "Nine months. One key. No, you cannot have your old life back.",
+   "benefit": "The Limited Edition 9-Class Pack (an 8-class pack plus a single cost ₹10,132.50 at list), valid 99 days: ₹8,699 all April, ₹7,699 during the two 99-minute flash windows on 9 April.",
+   "audience": "Everyone: members, packs and newcomers",
+   "objective": "The anniversary's entry product and its loudest moment: a flash sale everyone talks about.",
+   "rationale": "A limited pack priced off the anniversary number is easy to say yes to for newcomers and pack buyers alike. The flash price is inside the cap; the unit target is set at the flash price, so revenue is conservative.",
+   "when": "Limited Edition 9-Class Pack all April; flash price on 9 Apr from 9:09 am and 9:09 pm, 99 minutes each",
+   "priceText": "Revenue",
+   "listPrice": null,
+   "targetBasis": null,
+   "units": 12,
+   "asp": null,
+   "revenue": null,
+   "effectiveDiscount": 24,
+   "status": "draft"
+  },
+  {
+   "studioId": 3,
+   "studio": "Kenkere House",
+   "name": "Recreational Gambling (For Hamstrings)",
+   "slot": "renewal",
+   "rank": 3,
+   "type": "Renewal",
+   "headline": "Spin the wheel. Then decide: keep it, double it, or give it away.",
+   "benefit": "Renew or upgrade at the standard price (₹42,210 for a 3-Month) and spin the Cloud Nine wheel. Every slot pays: 2 or 3 bonus classes, 1 private, 1 virtual private, 7 extra days, 2 extra freezes, an anniversary hoodie, or the jackpot (1 private and 2 bonus classes). The twist: keep the prize, double it by taking a dare card (for example 9 classes in 14 days, or a 7 am class every week of May), or donate it to a friend as guest passes.",
+   "audience": "Members renewing or upgrading to 3-Month, 6-Month or Annual",
+   "objective": "The anniversary renewal offer: higher-value renewals with no percentage off.",
+   "rationale": "The wheel makes a full-price renewal exciting, and the dare turns the prize into attendance in May, the month when April buyers drift. Donating brings a friend in. The cap is checked on the doubled jackpot.",
+   "when": "5–30 Apr",
+   "priceText": "₹42,210 (list ₹42,210)",
+   "listPrice": 42210,
+   "targetBasis": null,
+   "units": 7,
+   "asp": 42210,
+   "revenue": 295470,
+   "effectiveDiscount": 24.8,
+   "status": "draft"
+  },
+  {
+   "studioId": 3,
+   "studio": "Kenkere House",
+   "name": "Faking Your Own Death Didn’t Work",
+   "slot": "lapsed",
+   "rank": 2,
+   "type": "Win-back",
+   "headline": "We found you. We always find you. Welcome back from the dead.",
+   "benefit": "Each lapsed client gets a mock obituary postcard (\"Here lie the glutes of …\"). Bring it in, pose at the Resurrection Booth, and get a 3-Month Unlimited at 17% off (₹35,034) plus 1 private session to rebuild form.",
+   "audience": "Clients lapsed 60+ days",
+   "objective": "Peak-month winback on a 3-month product instead of a pack.",
+   "rationale": "Humour lowers the awkwardness of coming back, and the booth photo becomes content. A private session in week one is the strongest way to rebuild confidence after a long break.",
+   "when": "12–30 Apr",
+   "priceText": "₹35,034 (list ₹42,210)",
+   "listPrice": 42210,
+   "targetBasis": null,
+   "units": 2,
+   "asp": 35034,
+   "revenue": 70068,
+   "effectiveDiscount": 24.4,
+   "status": "draft"
+  },
+  {
+   "studioId": 3,
+   "studio": "Kenkere House",
+   "name": "Reckless Impulse Decision",
+   "slot": "newcomer",
+   "rank": 1,
+   "type": "New clients",
+   "headline": "Bad decisions make good stories. This one comes with confetti.",
+   "benefit": "Buy a 3-Month Unlimited within 9 hours of your first class at 18% off (₹34,612 instead of ₹42,210), hit the Impulse Buzzer at the front desk (confetti cannon included), and take home the anniversary tee plus a 30-minute trainer consult to plan your first 12 weeks.",
+   "audience": "First-time clients, within 9 hours of their first class",
+   "objective": "Sell newcomers a 3-month first purchase on the day they feel best.",
+   "rationale": "Endorphins fade fast: the first hours after a first class are the highest-intent moment there is. A 3-Month first purchase renews far better than a 1-Month one, and the buzzer turns every sale into a moment the whole class sees.",
+   "when": "1–30 Apr",
+   "priceText": "₹34,612 (list ₹42,210)",
+   "listPrice": 42210,
+   "targetBasis": null,
+   "units": 6,
+   "asp": 34612,
+   "revenue": 207672,
+   "effectiveDiscount": 24.4,
+   "status": "draft"
+  },
+  {
+   "studioId": 2,
+   "studio": "Bandra",
+   "name": "Moving In & Changing The Locks",
+   "slot": "upsell",
+   "rank": 4,
+   "type": "Revenue boost",
+   "headline": "Nine months. One key. No, you cannot have your old life back.",
+   "benefit": "The Limited Edition 9-Class Pack (an 8-class pack plus a single cost ₹15,067.50 at list), valid 99 days: ₹12,999 all April, ₹11,499 during the two 99-minute flash windows on 9 April.",
+   "audience": "Everyone: members, packs and newcomers",
+   "objective": "The anniversary's entry product and its loudest moment: a flash sale everyone talks about.",
+   "rationale": "A limited pack priced off the anniversary number is easy to say yes to for newcomers and pack buyers alike. The flash price is inside the cap; the unit target is set at the flash price, so revenue is conservative.",
+   "when": "Limited Edition 9-Class Pack all April; flash price on 9 Apr from 9:09 am and 9:09 pm, 99 minutes each",
+   "priceText": "Revenue",
+   "listPrice": null,
+   "targetBasis": null,
+   "units": 24,
+   "asp": null,
+   "revenue": null,
+   "effectiveDiscount": 23.7,
+   "status": "draft"
+  },
+  {
+   "studioId": 2,
+   "studio": "Bandra",
+   "name": "Recreational Gambling (For Hamstrings)",
+   "slot": "renewal",
+   "rank": 3,
+   "type": "Renewal",
+   "headline": "Spin the wheel. Then decide: keep it, double it, or give it away.",
+   "benefit": "Renew or upgrade at the standard price (₹57,855 for a 3-Month) and spin the Cloud Nine wheel. Every slot pays: 2 or 3 bonus classes, 1 private, 1 virtual private, 7 extra days, 2 extra freezes, an anniversary hoodie, or the jackpot (1 private and 2 bonus classes). The twist: keep the prize, double it by taking a dare card (for example 9 classes in 14 days, or a 7 am class every week of May), or donate it to a friend as guest passes.",
+   "audience": "Members renewing or upgrading to 3-Month, 6-Month or Annual",
+   "objective": "The anniversary renewal offer: higher-value renewals with no percentage off.",
+   "rationale": "The wheel makes a full-price renewal exciting, and the dare turns the prize into attendance in May, the month when April buyers drift. Donating brings a friend in. The cap is checked on the doubled jackpot.",
+   "when": "5–30 Apr",
+   "priceText": "₹57,855 (list ₹57,855)",
+   "listPrice": 57855,
+   "targetBasis": null,
+   "units": 17,
+   "asp": 57855,
+   "revenue": 983535,
+   "effectiveDiscount": 24,
+   "status": "draft"
+  },
+  {
+   "studioId": 2,
+   "studio": "Bandra",
+   "name": "Faking Your Own Death Didn’t Work",
+   "slot": "lapsed",
+   "rank": 2,
+   "type": "Win-back",
+   "headline": "We found you. We always find you. Welcome back from the dead.",
+   "benefit": "Each lapsed client gets a mock obituary postcard (\"Here lie the glutes of …\"). Bring it in, pose at the Resurrection Booth, and get a 3-Month Unlimited at 18% off (₹47,441) plus 1 private session to rebuild form.",
+   "audience": "Clients lapsed 60+ days",
+   "objective": "Peak-month winback on a 3-month product instead of a pack.",
+   "rationale": "Humour lowers the awkwardness of coming back, and the booth photo becomes content. A private session in week one is the strongest way to rebuild confidence after a long break.",
+   "when": "12–30 Apr",
+   "priceText": "₹47,441 (list ₹57,855)",
+   "listPrice": 57855,
+   "targetBasis": null,
+   "units": 4,
+   "asp": 47441,
+   "revenue": 189764,
+   "effectiveDiscount": 24.8,
+   "status": "draft"
+  },
+  {
+   "studioId": 2,
+   "studio": "Bandra",
+   "name": "Reckless Impulse Decision",
+   "slot": "newcomer",
+   "rank": 1,
+   "type": "New clients",
+   "headline": "Bad decisions make good stories. This one comes with confetti.",
+   "benefit": "Buy a 3-Month Unlimited within 9 hours of your first class at 18% off (₹47,441 instead of ₹57,855), hit the Impulse Buzzer at the front desk (confetti cannon included), and take home the anniversary tee plus a 30-minute trainer consult to plan your first 12 weeks.",
+   "audience": "First-time clients, within 9 hours of their first class",
+   "objective": "Sell newcomers a 3-month first purchase on the day they feel best.",
+   "rationale": "Endorphins fade fast: the first hours after a first class are the highest-intent moment there is. A 3-Month first purchase renews far better than a 1-Month one, and the buzzer turns every sale into a moment the whole class sees.",
+   "when": "1–30 Apr",
+   "priceText": "₹47,441 (list ₹57,855)",
+   "listPrice": 57855,
+   "targetBasis": null,
+   "units": 7,
+   "asp": 47441,
+   "revenue": 332087,
+   "effectiveDiscount": 23.5,
+   "status": "draft"
+  },
+  {
+   "studioId": 4,
+   "studio": "Pop-up",
+   "name": "Nine Lives, Ten Classes",
+   "slot": "newcomer",
+   "rank": 1,
+   "type": "New clients",
+   "headline": "Nine years old and still the hottest party in town.",
+   "benefit": "10-class pack at 15% off (₹7,229) plus 1 bonus class and a free Kenkere House anniversary class.",
+   "audience": "Drop-in regulars and first-time pop-up clients",
+   "objective": "Move drop-in and credit buyers to packs.",
+   "rationale": "Single classes and credits are about three-quarters of pop-up revenue; packs make clients regulars and feed Kenkere House.",
+   "when": "All of April",
+   "priceText": "₹7,229 (list ₹8,505)",
+   "listPrice": 8505,
+   "targetBasis": null,
+   "units": 3,
+   "asp": 7229,
+   "revenue": 21687,
+   "effectiveDiscount": 23.5,
+   "status": "draft"
+  }
+ ]
+}

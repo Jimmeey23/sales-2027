@@ -323,8 +323,7 @@ export default function TargetBreakdown({
         </p>
       )}
 
-      {children}
-
+      {/* The month-by-month table leads; the stream and volume summary follows it. */}
       <div className="tb-scroll">
         <table className="tb-table">
           <thead>
@@ -388,6 +387,8 @@ export default function TargetBreakdown({
           </tfoot>
         </table>
       </div>
+
+      {children}
       <p className="tb-foot">
         e = estimate for months not yet complete. Counts round up per month, so annual unit totals can sit slightly
         above the revenue maths. Existing and total paying clients in the total row are monthly averages; leads / week

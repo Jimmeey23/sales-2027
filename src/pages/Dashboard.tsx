@@ -16,10 +16,10 @@ export default function Dashboard() {
     <div className="dashboard-page">
       <PageHeader
         eyebrow="MANAGEMENT CONTROL CENTRE"
-        title="2025 → 2026 → 2027, in one view."
+        title="History to 2027, in one view."
         description={
           <>
-            Imported actuals and the 2027 target for <strong>{name}</strong>. Estimates are labelled.
+            Last-12-month history from the 2027 pack and the 2027 plan for <strong>{name}</strong>. Sources are labelled.
           </>
         }
         actions={

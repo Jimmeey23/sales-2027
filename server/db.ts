@@ -255,6 +255,19 @@ export function initSchema() {
   if (!planColumns.some(column => column.name === 'slots')) db.exec('ALTER TABLE monthly_plans ADD COLUMN slots TEXT');
   if (!planColumns.some(column => column.name === 'content'))
     db.exec('ALTER TABLE monthly_plans ADD COLUMN content TEXT');
+  // Price-list detail for the catalogue (scripts/import-pricing.ts).
+  const productCols = db.pragma('table_info(products)') as any[];
+  for (const [name, type] of [
+    ['price_before_gst', 'REAL'],
+    ['plan_type', 'TEXT'],
+    ['class_limit', 'TEXT'],
+    ['freeze_attempts', 'INTEGER'],
+    ['max_freeze_days', 'INTEGER'],
+    ['active_signups', 'INTEGER'],
+    ['duration_label', 'TEXT'],
+    ['price_basis', 'TEXT'],
+  ])
+    if (!productCols.some(column => column.name === name)) db.exec(`ALTER TABLE products ADD COLUMN ${name} ${type}`);
   const offerCols = db.pragma('table_info(offers)') as any[];
   // plan_slot marks an offer as a month's newcomer / lapsed / renewal option; plan_rank 1 = primary, 2+ = alternates.
   if (!offerCols.some(column => column.name === 'plan_slot')) db.exec('ALTER TABLE offers ADD COLUMN plan_slot TEXT');

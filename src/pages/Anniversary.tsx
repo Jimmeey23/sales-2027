@@ -6,7 +6,7 @@ import { useApp } from '../App';
 import { useLoad, useOnChange } from '../hooks';
 import { MONTHS_SHORT, money, number, percent } from '../types';
 import { Badge, Button, Callout, Card, CardHeader, Field, Input, Metric, Select } from '../components/ui';
-import PageHeader from '../components/PageHeader';
+import AnniversaryOverview from './plan/AnniversaryOverview';
 import OfferConceptBoard from '../components/OfferConceptBoard';
 
 const AUDIENCES = [
@@ -169,16 +169,12 @@ export default function Anniversary() {
       })) || [];
   return (
     <div>
-      <PageHeader
-        eyebrow="APRIL · BRAND ANNIVERSARY"
-        title="Build April without borrowing from May"
-        description="A dedicated anniversary portfolio for every customer lifecycle—creative enough for WhatsApp, disciplined enough for management."
-        actions={
-          <Badge tone="purple">
-            <Gift size={13} /> {year} anniversary · {boot.studios.find(s => s.id === studio)?.name}
-          </Badge>
-        }
-      />
+      <AnniversaryOverview />
+      <div className="ao-divider" style={{ margin: '28px 0 12px' }}>
+        <Badge tone="purple">
+          <Gift size={13} /> {year} anniversary planning tools · {boot.studios.find(s => s.id === studio)?.name}
+        </Badge>
+      </div>
       <div className="dashboard-grid-main">
         <Card>
           <CardHeader
@@ -202,19 +198,6 @@ export default function Anniversary() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </Card>
-        <Card>
-          <CardHeader title="Anniversary guardrails" />
-          <ul className="check-list">
-            <li>Independent offers for each lifecycle audience</li>
-            <li>Low-discount, balanced and high-impact lanes</li>
-            <li>High-impact remains inside studio price guardrails</li>
-            <li>Capacity and discount exposure shown per offer</li>
-            <li>May/June retention tasks are part of the plan</li>
-          </ul>
-          <Callout tone="info">
-            Historical April strength does not prove that an anniversary offer caused the uplift.
-          </Callout>
         </Card>
       </div>
       <Card>

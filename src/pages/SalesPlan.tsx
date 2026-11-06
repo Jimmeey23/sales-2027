@@ -2,24 +2,28 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Download, Upload } from 'lucide-react';
 import { useApp } from '../App';
-import { Callout, ErrorState, Loading } from '../components/ui';
+import { ErrorState, Loading } from '../components/ui';
 import { lakh, usePlanData } from './plan/usePlanData';
 import TargetsTab from './plan/TargetsTab';
 import Playbook2027 from '../components/Playbook2027';
 const AnnualPlanner = React.lazy(() => import('./AnnualPlanner'));
 const Anniversary = React.lazy(() => import('./Anniversary'));
-import RevenueTab from './plan/RevenueTab';
-import CampaignsTab from './plan/CampaignsTab';
-import MarketingTab from './plan/MarketingTab';
 import PlanExportDialog from '../components/PlanExportDialog';
 import OfferImportDialog from '../components/OfferImportDialog';
 import PlanImportDialog from '../components/PlanImportDialog';
 
-// Plan has exactly six tabs: Target Metrics, Approvals & Calculations, Sales Plan,
-// Activations & Community Activations, Anniversary Plan, Marketing & Performance Marketing.
-const LEGACY_TABS: Record<string, string> = { revenue: 'approvals', campaigns: 'activations' };
+// Plan has three tabs: Target Breakdown, Sales Plan and Anniversary Plan. Approvals, Activations,
+// Marketing and the old Target Metrics link land on the Target Breakdown.
+const LEGACY_TABS: Record<string, string> = {
+  targets: 'breakdown',
+  revenue: 'breakdown',
+  approvals: 'breakdown',
+  campaigns: 'breakdown',
+  activations: 'breakdown',
+  marketing: 'breakdown',
+};
 export default function SalesPlan() {
-  const { tab: rawTab = 'targets' } = useParams(),
+  const { tab: rawTab = 'breakdown' } = useParams(),
     tab = LEGACY_TABS[rawTab] || rawTab,
     { boot, studioId, year } = useApp();
   const { data, loading, error, reload } = usePlanData();
@@ -92,12 +96,6 @@ export default function SalesPlan() {
         year={year}
         onImported={() => reload().catch(() => {})}
       />
-      {year !== boot.planningYear && ['activations', 'marketing'].includes(tab) && (
-        <Callout tone="warning" title={`Activation playbook is for ${boot.planningYear}`}>
-          Targets and offers below follow {year}, but the campaign and marketing playbook was written for{' '}
-          {boot.planningYear}.
-        </Callout>
-      )}
       {loading && !data ? (
         <Loading label="Assembling the sales plan…" />
       ) : error && !data ? (
@@ -105,19 +103,12 @@ export default function SalesPlan() {
       ) : (
         data && (
           <>
-            {tab === 'targets' && <TargetsTab data={data} onSaved={reload} section="metrics" />}
-            {tab === 'approvals' && (
+            {tab === 'breakdown' && (
               <div className="ws-embedded">
+                <TargetsTab data={data} onSaved={reload} section="metrics" />
                 <React.Suspense fallback={<Loading />}>
                   <AnnualPlanner />
                 </React.Suspense>
-                <div className="ws-toolbar">
-                  <div>
-                    <h2>Calculations · how each month's target is made up</h2>
-                    <p>The revenue streams behind every target and the volumes each one needs.</p>
-                  </div>
-                </div>
-                <RevenueTab data={data} />
               </div>
             )}
             {tab === 'plan' && (
@@ -132,13 +123,11 @@ export default function SalesPlan() {
                 <TargetsTab data={data} onSaved={reload} section="plan" />
               </>
             )}
-            {tab === 'activations' && <CampaignsTab data={data} onSaved={reload} />}
             {tab === 'anniversary' && (
               <React.Suspense fallback={<Loading />}>
                 <Anniversary />
               </React.Suspense>
             )}
-            {tab === 'marketing' && <MarketingTab data={data} />}
           </>
         )
       )}

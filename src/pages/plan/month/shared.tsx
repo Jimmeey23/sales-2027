@@ -15,7 +15,7 @@ import { number } from '../../../types';
 import { type ActionItem } from '../../../data/planDefaults';
 import { lakh } from '../usePlanData';
 
-export const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal'] as const;
+export const SLOT_KEYS = ['newcomer', 'lapsed', 'renewal', 'upsell', 'flash'] as const;
 
 /* The month is read as four pages rather than one long scroll: the story, the numbers,
    the offers and the work. Every section keeps its id and its edit controls; the page

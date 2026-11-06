@@ -183,6 +183,7 @@ export function OfferCard({
   busy,
   onApprove,
   onPlanning,
+  onUnits,
   onEdit,
   onDuplicate,
   onChat,
@@ -555,15 +556,31 @@ export function OfferCard({
   const listCut = packList && offerPrice > 0 ? ((packList - offerPrice) / packList) * 100 : null;
   // Compact: name and numbers only.
   const [compact, setCompact] = useState(false);
-  // What-if: try a different unit count. A scenario on screen only — never saved.
+  // Units: the stepper saves the new count (after a short pause, so a run of clicks is one
+  // save); until the month reloads, the card shows the pending figure.
   const [whatIf, setWhatIf] = useState<number | null>(null);
+  const [savingUnits, setSavingUnits] = useState(false);
+  const unitsTimer = useRef<number | undefined>(undefined);
+  useEffect(() => setWhatIf(null), [units]);
+  useEffect(() => () => window.clearTimeout(unitsTimer.current), []);
   const [copied, setCopied] = useState(false);
   const perUnit = units > 0 && revenue !== null ? revenue / units : asp || offerPrice;
   const liveUnits = whatIf ?? units;
   const liveRevenue = whatIf !== null ? whatIf * perUnit : revenue;
   const liveShare = monthTarget > 0 && liveRevenue !== null ? (liveRevenue / monthTarget) * 100 : sharePct;
   const livePerWeek = liveUnits ? Math.max(1, Math.round((liveUnits / days) * 7)) : 0;
-  const stepUnits = (d: number) => setWhatIf(Math.max(0, (whatIf ?? units) + d));
+  const stepUnits = (d: number) => {
+    const next = Math.max(0, (whatIf ?? units) + d);
+    setWhatIf(next);
+    if (!onUnits) return;
+    window.clearTimeout(unitsTimer.current);
+    unitsTimer.current = window.setTimeout(async () => {
+      setSavingUnits(true);
+      const ok = await onUnits(o, next);
+      setSavingUnits(false);
+      if (!ok) setWhatIf(null);
+    }, 700);
+  };
   // Where the offer stands today.
   const status = (() => {
     if (!o.validity_start) return null;
@@ -671,11 +688,11 @@ export function OfferCard({
             <div>
               <dt>Units</dt>
               <dd className="ocx-units">
-                <button type="button" className="ocx-step" aria-label="One fewer unit (what-if)" onClick={() => stepUnits(-1)} disabled={!liveUnits}>
+                <button type="button" className="ocx-step" aria-label={onUnits ? "One fewer unit" : "One fewer unit (what-if)"} onClick={() => stepUnits(-1)} disabled={!liveUnits}>
                   −
                 </button>
                 <span className={whatIf !== null ? 'is-whatif' : ''}>{liveUnits ? number(liveUnits) : '0'}</span>
-                <button type="button" className="ocx-step" aria-label="One more unit (what-if)" onClick={() => stepUnits(1)}>
+                <button type="button" className="ocx-step" aria-label={onUnits ? "One more unit" : "One more unit (what-if)"} onClick={() => stepUnits(1)}>
                   +
                 </button>
                 {livePerWeek ? <small> ~{livePerWeek}/wk</small> : null}
@@ -695,11 +712,16 @@ export function OfferCard({
               <i style={{ width: `${Math.max(2, Math.min(100, liveShare))}%` }} />
             </span>
           )}
-          {whatIf !== null && (
-            <button type="button" className="ocx-whatif-reset" onClick={() => setWhatIf(null)} title="What-if only — not saved">
-              What-if · reset to {number(units)}
-            </button>
-          )}
+          {whatIf !== null &&
+            (onUnits ? (
+              <span className="ocx-whatif-reset" aria-live="polite">
+                {savingUnits ? 'Saving units…' : 'Updating revenue…'}
+              </span>
+            ) : (
+              <button type="button" className="ocx-whatif-reset" onClick={() => setWhatIf(null)} title="What-if only — not saved">
+                What-if · reset to {number(units)}
+              </button>
+            ))}
         </aside>
       </div>
 

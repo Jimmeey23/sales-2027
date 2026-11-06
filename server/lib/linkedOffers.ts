@@ -393,7 +393,9 @@ function applyEdit(offer: any, edit: OfferEdit, ownFields: boolean, sourceStudio
     if (edit.photoKey) nextProv.photoKey = edit.photoKey;
     else delete nextProv.photoKey;
   }
-  if (offer.approval_status === 'approved' || offer.status === 'approved') {
+  // A unit count is a forecast, not a change to the offer's terms, so it keeps the approval.
+  const unitsOnly = Object.keys(edit).every(k => k === 'target_purchases');
+  if (!unitsOnly && (offer.approval_status === 'approved' || offer.status === 'approved')) {
     next.approval_status = 'pending';
     next.status = 'draft';
   }

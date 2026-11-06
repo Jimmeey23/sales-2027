@@ -1115,7 +1115,7 @@ export default function OfferBuilder() {
               title="Scenario comparison"
               subtitle="Cash revenue quality, total benefit and target coverage"
             />
-            <table className="data-table">
+            <table className="data-table scenario-table">
               <thead>
                 <tr>
                   <th>Scenario</th>

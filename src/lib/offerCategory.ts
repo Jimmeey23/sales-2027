@@ -3,6 +3,8 @@ export const OFFER_CATEGORIES = [
   { key: 'new', label: 'New' },
   { key: 'winback', label: 'Winback' },
   { key: 'renewal', label: 'Renewal' },
+  { key: 'booster', label: 'Revenue boost' },
+  { key: 'flash', label: 'Flash sale' },
   { key: 'other', label: 'Other' },
 ] as const;
 
@@ -31,6 +33,11 @@ const SLOT_CATEGORIES = new Map<string, OfferCategory>([
   ['renewal', 'renewal'],
   ['renewals', 'renewal'],
   ['retention', 'renewal'],
+  ['upsell', 'booster'],
+  ['booster', 'booster'],
+  ['revenue_boost', 'booster'],
+  ['flash', 'flash'],
+  ['flash_sale', 'flash'],
   ['other', 'other'],
 ]);
 

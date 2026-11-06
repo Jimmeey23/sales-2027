@@ -2315,3 +2315,18 @@
 /* The brief's offers sit two to a row so the overview stays one screen. */
 .mo2-points.is-brief { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px 28px; }
 .mo2-points.is-brief li { margin: 0; }
+
+/* Six categories no longer fit as equal columns in the narrow rail: wrap them as pills. */
+.olib-scopes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 3px;
+}
+.olib-scopes button {
+  flex: 0 0 auto;
+  height: 26px;
+  padding: 0 10px;
+  white-space: nowrap;
+  border-radius: 99px;
+}

@@ -30,22 +30,12 @@ export const NAV: NavSection[] = [
       // Target Metrics is no longer a tab of its own: the complete breakdown table now sits
       // inside the month plan's "Targets & mix" page, reached from Offers › Planned promotions.
       {
-        to: '/sales-plan/approvals',
-        label: 'Approvals & Calculations',
-        detail: 'Edit and approve targets; how each month is made up',
+        to: '/sales-plan/breakdown',
+        label: 'Target Breakdown',
+        detail: 'The full target breakdown table and its splits',
       },
       { to: '/sales-plan/plan', label: 'Sales Plan', detail: 'Location playbook, offers and month plans' },
-      {
-        to: '/sales-plan/activations',
-        label: 'Activations & Community Activations',
-        detail: 'Challenges, events, partnerships and retention plays',
-      },
       { to: '/sales-plan/anniversary', label: 'Anniversary Plan', detail: 'April anniversary programme' },
-      {
-        to: '/sales-plan/marketing',
-        label: 'Marketing & Performance Marketing',
-        detail: 'Channel plan, ads and creative hooks',
-      },
     ],
   },
   {

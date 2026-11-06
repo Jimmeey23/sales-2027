@@ -49,6 +49,14 @@ type CatalogueProduct = {
   validity_days: number | null;
   source: string;
   active?: number;
+  price_before_gst?: number | null;
+  plan_type?: string | null;
+  class_limit?: string | null;
+  freeze_attempts?: number | null;
+  max_freeze_days?: number | null;
+  active_signups?: number | null;
+  duration_label?: string | null;
+  price_basis?: string | null;
 };
 type CatalogueOffer = {
   id: number;
@@ -431,8 +439,11 @@ export default function Memberships() {
                           )}
                         </header>
                         <div className="membership-price">
-                          {money(p.list_price)}
-                          <small>listed price</small>
+                          {p.list_price ? money(p.list_price) : 'Free'}
+                          <small>
+                            {p.price_basis === 'per month' ? 'per month, ' : ''}
+                            {p.price_before_gst ? `incl. 5% GST · ${money(p.price_before_gst)} before GST` : 'listed price'}
+                          </small>
                         </div>
                         <div className="membership-facts">
                           <span>
@@ -440,13 +451,34 @@ export default function Memberships() {
                             {p.studio || 'Not specified'}
                           </span>
                           <span>
-                            <b>Sessions</b>
-                            {p.sessions_included != null ? number(p.sessions_included) : 'Not recorded'}
+                            <b>Classes</b>
+                            {p.class_limit || (p.sessions_included != null ? number(p.sessions_included) : 'Not recorded')}
                           </span>
                           <span>
                             <b>Validity</b>
-                            {p.validity_days != null ? `${number(p.validity_days)} days` : 'Not recorded'}
+                            {p.duration_label ||
+                              (p.validity_days != null ? `${number(p.validity_days)} days` : 'Not recorded')}
                           </span>
+                          {p.plan_type && (
+                            <span>
+                              <b>Billing</b>
+                              {p.plan_type}
+                            </span>
+                          )}
+                          {p.freeze_attempts != null && (
+                            <span>
+                              <b>Freezes</b>
+                              {p.freeze_attempts
+                                ? `${p.freeze_attempts} attempt${p.freeze_attempts === 1 ? '' : 's'} · up to ${p.max_freeze_days} days`
+                                : 'None'}
+                            </span>
+                          )}
+                          {p.active_signups != null && (
+                            <span>
+                              <b>Active sign-ups</b>
+                              {number(p.active_signups)}
+                            </span>
+                          )}
                           <span>
                             <b>Catalogue source</b>
                             {titleCase(p.source)}

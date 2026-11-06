@@ -185,9 +185,19 @@ export function validateOfferForSave(
   // the mechanics engine just priced the offer — there target_purchases is buyers *required*
   // for the goal, not buyers expected — and when a hand save would contradict a stored model.
   const isImport = Boolean(options.reconcile) || IMPORT_SOURCES.has(String(row.generation_source));
-  if (!modelRan && (financials.expectedRevenue == null || options.reconcile)) {
+  if (!modelRan) {
+    // Units × price always wins over a stored figure, so changing the units sold re-prices the
+    // forecast (and every chart built on it); the model is re-pointed at the new figure.
     const derived = expectedRevenueOf({ ...row, financials });
-    if (derived != null) row.expected_revenue = derived;
+    if (derived != null) {
+      row.expected_revenue = derived;
+      if (financials.expectedRevenue != null && !forecastMatchesModel(derived, financials.expectedRevenue)) {
+        financials.expectedRevenue = derived;
+        if (row.target_purchases != null) financials.expectedBuyers = Number(row.target_purchases);
+        if (row.expected_asp != null) financials.sellingPrice = Number(row.expected_asp);
+        row.financials = JSON.stringify(financials);
+      }
+    }
   }
   const violation = discountPolicyViolation(row);
   if (violation) {

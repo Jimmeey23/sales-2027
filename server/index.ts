@@ -30,6 +30,7 @@ import registerPlanBundleRoutes from './routes/planBundle.js';
 import registerPlanExportRoutes from './routes/planExport.js';
 import registerOfferImportRoutes from './routes/offerImport.js';
 import registerPlanImportRoutes from './routes/planImport.js';
+import registerPackInsightsRoutes from './routes/packInsights.js';
 import { clearJsonCache } from './lib/httpCache.js';
 initSchema();
 if (process.env.NODE_ENV === 'production') {
@@ -154,6 +155,7 @@ registerPlanBundleRoutes(app);
 registerPlanExportRoutes(app);
 registerOfferImportRoutes(app);
 registerPlanImportRoutes(app);
+registerPackInsightsRoutes(app);
 
 app.use('/api', (req, res) => res.status(404).json({ error: `API route not found: ${req.method} ${req.path}` }));
 app.use((error: any, _req: any, res: any, _next: any) => {
