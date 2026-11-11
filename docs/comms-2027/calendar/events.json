@@ -1,0 +1,2212 @@
+[
+ {
+  "title": "Creative lock: January offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2026-12-18",
+  "end": "2026-12-18",
+  "month": 0,
+  "desc": "Creative lock for January 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Week-one habit tracker card, Annual re-up letter (8 Jan-2026 annuals)",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: January offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2026-12-25",
+  "end": "2026-12-25",
+  "month": 0,
+  "desc": "WhatsApp + email ready for January 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: January offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2026-12-29",
+  "end": "2026-12-29",
+  "month": 0,
+  "desc": "Team briefing for January 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Back to the Barre",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-01-01",
+  "end": "2027-01-24",
+  "month": 1,
+  "desc": "Your barre is still here. A class on us, then the standing return price.\nWho: Clients lapsed 61–365 days.\nPay: KC: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price). | BA: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price). | KH: 1M unlimited: ₹12.4k (15% off the ₹14.6k list price).\nGet: 1M unlimited or a 12-class pack at the standing 15% lapsed perk · A free comeback class to book before buying · Come back in January and the desk books your first four classes of the year\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Missed You at the Pop-up",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-01-01",
+  "end": "2027-01-31",
+  "month": 1,
+  "desc": "Your neighbourhood class is waiting.\nWho: Lapsed pop-up clients.\nPay: 8-class pack: ₹5.9k (15% off the ₹6.9k list price).\nGet: 8-class pack at the standing 15% + a free return class\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The First Seven Days",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-01-01",
+  "end": "2027-01-24",
+  "month": 1,
+  "desc": "Seven days unlimited. Then decide.\nWho: First-time clients (phone verified).\nPay: KC: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | BA: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | KH: Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).\nGet: Unlimited Barre and powerCycle for 7 days (max 2 classes a day) · Goal-setting chat after class 1; owner check-in on day 3 · Lab Induction seat at Kwality/Bandra · Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15% · Buy within 72 hours of day 7 and the desk books your next four classes before you leave\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "First Drop-in Counts",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-01-01",
+  "end": "2027-01-31",
+  "month": 1,
+  "desc": "Your first class fee comes off your first pack.\nWho: First-time pop-up clients.\nPay: 8-class pack: ₹6.9k (list price).\nGet: First drop-in fee credited toward a C+C 8-class pack bought within 7 days\nEffective discount: 13.6% effective = 0% cash + 13.6% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Credit Where It's Due",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-01-01",
+  "end": "2027-01-31",
+  "month": 1,
+  "desc": "Your last two drop-ins count toward a 10-pack.\nWho: Clients with 3+ drop-ins in 60 days.\nPay: 10-class pack: ₹8.5k (list price).\nGet: Last 2 drop-ins credited toward a C+C 10-class pack\nEffective discount: 22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The Annual Re-Up",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-01-02",
+  "end": "2027-01-31",
+  "month": 1,
+  "desc": "The January annuals renew at 10% off list, and the rate for the year is settled in one sitting.\nWho: Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).\nPay: Renewal at 10% off your product's list price.\nGet: 10% off the renewal when you re-up by 31 Jan · The 2027 rate locked for the whole term — no re-price mid-year\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: February offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-01-18",
+  "end": "2027-01-18",
+  "month": 1,
+  "desc": "Creative lock for February 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Valentine buddy-pass cards, Renewal reminder sequence for 22 Feb – 10 Mar",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: February offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-01-25",
+  "end": "2027-01-25",
+  "month": 1,
+  "desc": "WhatsApp + email ready for February 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: February offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-01-29",
+  "end": "2027-01-29",
+  "month": 1,
+  "desc": "Team briefing for February 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "It's Not You, It's Our Schedule",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "Let's try again. This time with freezes — and a challenge to come back for.\nWho: Clients lapsed 61–365 days.\nPay: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price).\nGet: 1M unlimited at the standing 15% lapsed perk · 2 extra freezes so travel can't break it again · A free comeback class to book first · Entry to Stronger in 30 2.0, target scaled to the return date\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Come Back as a Pair",
+  "type": "lapsed",
+  "studios": [
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "Return with a friend. Their first class is on us — and you both enter the challenge.\nWho: Lapsed clients plus a friend who is new to P57.\nPay: BA: 12-class pack: ₹16.7k (15% off the ₹19.7k list price). | KH: 12-class pack: ₹11.2k (15% off the ₹13.1k list price).\nGet: Lapsed client: 12-class pack at the standing 15% · Friend: free first class · If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month · Lapsed client and friend both enter Stronger in 30 2.0\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Neighbourhood Reunion",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "One Saturday a month, all the regulars.\nWho: Lapsed pop-up clients.\nPay: 4-class pack: ₹4k (15% off the ₹4.7k list price).\nGet: Monthly reunion class · At the door: 4-class pack at the standing 15% · A February pack is your Stronger in 30 2.0 entry\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Week Zero",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-21",
+  "month": 2,
+  "desc": "Seven days unlimited. Then the challenge clock starts.\nWho: First-time clients (phone verified).\nPay: KC: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | BA: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | KH: Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).\nGet: Unlimited Barre and powerCycle for 7 days (max 2 classes a day) · Goal-setting chat after class 1; owner check-in on day 3 · Lab Induction seat at Kwality/Bandra · Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15% · A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The Second Date for Two",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "Bring someone. You both join the challenge.\nWho: Two first-timers who trial together.\nPay: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price).\nGet: Free first Barre class for both · Class 2 booked together before leaving, free within 7 days · Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private · Both enter Stronger in 30 2.0 on purchase; both count as finishers if they hit the target\nEffective discount: 21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The 30-Day Proof",
+  "type": "newcomer",
+  "studios": [
+   "Bandra"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "Show up 12 times. If you don't get stronger, next month is free.\nWho: First-time clients.\nPay: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price).\nGet: 1M unlimited at the standing 15% · Day-1 fitness check (3 measures), coach check-ins on days 7 and 21 · Day-30 re-test: 12+ classes and no improvement on 2 of 3 measures → next month free · Counts as your Stronger in 30 2.0 entry from day 1\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Swipe Right Flight",
+  "type": "newcomer",
+  "studios": [
+   "Kenkere House"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "Three first dates, three formats, ten days.\nWho: First-time clients.\nPay: Intro: ₹1.8k for the Tasting Flight (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).\nGet: 3 classes in 10 days: Barre, powerCycle and Strength Lab (Kwality: held 6 am Lab seats; Kenkere: Barre, Mat, Cardio Barre/FIT) · All 3 booked at purchase · \"Match\" within 72 hours of class 3: full fee credited + standing 15% on any pack or membership · All three classes count toward Stronger in 30 2.0\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Saturday Squad",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "Saturdays: bring a friend free — and the pack is your challenge entry.\nWho: First-timers on Saturdays.\nPay: 4-class pack: ₹4k (15% off the ₹4.7k list price).\nGet: Bring a friend free · Both buy a 4-class pack at the standing 15% · A February pack is your Stronger in 30 2.0 entry\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Partners in Crime",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "Renew with your workout partner. You both finish the challenge.\nWho: Two active members renewing in the same week.\nPay: Renewal at 10% off your product's list price.\nGet: Both partners renew at 10% off list when you renew together · Both enter Stronger in 30 2.0\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Credit Where It's Due",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-02-01",
+  "end": "2027-02-28",
+  "month": 2,
+  "desc": "Your last two drop-ins count toward a 10-pack.\nWho: Clients with 3+ drop-ins in 60 days.\nPay: 10-class pack: ₹8.5k (list price).\nGet: Last 2 drop-ins credited toward a C+C 10-class pack · A February pack is your Stronger in 30 2.0 entry\nEffective discount: 22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Back for Stronger",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-02-08",
+  "end": "2027-02-15",
+  "month": 2,
+  "desc": "The challenge starts without you. Unless you're back by 7 Feb.\nWho: Clients lapsed 61–365 days.\nPay: KC: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price). | BA: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price). | KH: 1M unlimited: ₹12.4k (15% off the ₹14.6k list price).\nGet: 1M unlimited or a 12-class pack at the standing 15% lapsed perk · Full entry to Stronger in 30 2.0, including finisher rewards · A free comeback class to book before buying\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Valentine's Day",
+  "type": "seasonal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-02-14",
+  "end": "2027-02-14",
+  "month": 2,
+  "desc": "Seasonal moment",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: March offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-02-15",
+  "end": "2027-02-15",
+  "month": 2,
+  "desc": "Creative lock for March 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Platinum status card + lanyard, \"Nine Years in Ninety Seconds\" teaser film, Club Nine wall (numbered plates 1–9)",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: March offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-02-22",
+  "end": "2027-02-22",
+  "month": 2,
+  "desc": "WhatsApp + email ready for March 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Finish Line Renewal",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-02-22",
+  "end": "2027-03-10",
+  "month": 2,
+  "desc": "Finish Stronger in 30 and your renewal gets a medal.\nWho: Active members renewing in late February or early March.\nPay: Renewal at 12% off your product's list price.\nGet: Challenge finishers renew at 12% off list · Members who reach 50% of the target renew at 8% off list\nEffective discount: 12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: March offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-02-26",
+  "end": "2027-02-26",
+  "month": 2,
+  "desc": "Team briefing for March 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Beat Your Best",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Kenkere House"
+  ],
+  "start": "2027-03-01",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "Remember March 2025? 18 classes. Let's beat it.\nWho: Lapsed clients with a recorded best month.\nPay: 1M unlimited at 15% off the list price.\nGet: 1M unlimited at 15% off list · Match your best month's class count → 2 complimentary classes\nEffective discount: 18.0% effective = 15% cash + 3.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Move to Kenkere",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-03-01",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "Closer to Kenkere House? Come to the flagship.\nWho: Lapsed pop-up clients living near Kenkere.\nPay: 8-class pack: ₹5.9k (15% off the ₹6.9k list price).\nGet: Kenkere 8-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The Second Date",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner"
+  ],
+  "start": "2027-03-01",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "Your second class is booked before you leave.\nWho: First-time clients starting with Barre.\nPay: Then any pack or membership at 15% off list (the standing new-client perk).\nGet: Free first Barre class · Class 2 free within 7 days, booked at the desk · 15% within 72 hours of class 2; 10% until day 14\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Kickstart 21: She Moves Cohort",
+  "type": "newcomer",
+  "studios": [
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-03-01",
+  "end": "2027-03-21",
+  "month": 3,
+  "desc": "Starting Women's Day. 21 days. Stronger together.\nWho: First-time clients.\nPay: BA: Kickstart 21 cohort: ₹10k (list price). | KH: Kickstart 21 cohort: ₹8k (list price).\nGet: Cohort starts Mon 8 Mar (Women's Day); second cohort Mon 22 Mar · 21 days unlimited + coach, WhatsApp group, fitness checks, graduation · Each member gets a free class to gift a woman she nominates · Graduates: standing 15% within 7 days\nEffective discount: 0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Studio Passport",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-03-01",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "3 stamps at the pop-ups, a free class at Kenkere.\nWho: Pop-up clients.\nPay: 10-class pack: ₹7.7k (10% off the ₹8.5k list price).\nGet: 3 classes across Copper + Cloves / Plash → 1 free Kenkere class · 10-class pack at 10% off\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Lock In Early",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra"
+  ],
+  "start": "2027-03-01",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "Renew in March, keep the anniversary perks.\nWho: Members expiring 1 Mar–15 Apr.\nPay: Renewal at 10% off your product's list price.\nGet: Renew at 10% off list · First booking window for anniversary party classes\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Pre-Party Upgrade",
+  "type": "renewal",
+  "studios": [
+   "Kenkere House"
+  ],
+  "start": "2027-03-01",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "Moving to 3 months? Freeze freely and grab your tote early.\nWho: 1M renewers with 8+ visits a month.\nPay: 3M unlimited at 10% off the list price.\nGet: 3M unlimited at 10% off list · Unlimited freezes (use within 6 months) · Anniversary tote (≈₹1,000)\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Pack + Passport",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-03-01",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "10 classes here, 1 at Kenkere.\nWho: Pop-up regulars.\nPay: 10-class pack: ₹8.5k (list price).\nGet: 10-class pack at list + 1 Kenkere class\nEffective discount: 16.7% effective = 0% cash + 16.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "International Women's Day",
+  "type": "seasonal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-03-08",
+  "end": "2027-03-08",
+  "month": 3,
+  "desc": "Seasonal moment",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: April offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-03-11",
+  "end": "2027-03-11",
+  "month": 3,
+  "desc": "Creative lock for April 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Nine Lives Passport (print 2,000), Lucky Nine Wheel (physical, 3 studios) + prize cards, Impulse Buzzer + Reckless Decisions board, Lease key counter screen + 198 numbered keys, 9:09 siren + IG countdown stickers, Obituary postcards (lapsed list), Back From the Dead photo frame, Golden Glute trophies + voting form, Birthday Class décor, DJ, cake, Hidden 9s gold envelopes (27/week), Merch capsule (hoodie, socks, tote, bottle), Gift Nine cards (printed + digital)",
+  "anniv": false
+ },
+ {
+  "title": "Class of 2024 Reunion",
+  "type": "lapsed",
+  "studios": [
+   "Bandra"
+  ],
+  "start": "2027-03-13",
+  "end": "2027-03-22",
+  "month": 3,
+  "desc": "Where it all started. One class, the whole launch crew.\nWho: Clients lapsed 61 days–2 years (Bandra priority: 2024 opening cohort).\nPay: 12-class pack: ₹17.3k (12% off the ₹19.7k list price).\nGet: Free reunion class · Buy within 7 days: 12-class pack at 12% off + 1 bonus class\nEffective discount: 21.9% effective = 12% cash + 9.9% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: April offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-03-18",
+  "end": "2027-03-18",
+  "month": 3,
+  "desc": "WhatsApp + email ready for April 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: April offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-03-22",
+  "end": "2027-03-22",
+  "month": 3,
+  "desc": "Team briefing for April 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "🎂 Pre-Party: Platinum renewals open",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-03-25",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "Members-only 3-Month renewal at 15% + 9 days + Platinum status.",
+  "anniv": true
+ },
+ {
+  "title": "Platinum Pre-Party",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-03-25",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "Renew in March, get the anniversary first.\nGet: Members who renew a 3-Month in March get 15% off + 9 bonus days, plus Platinum status: first pick of Club Nine seats and Lease keys on 30–31 March (Platinum Hour), first spins of the wheel, reserved seats at the Golden Glute Awards. Target: 30 March renewals across the three studios.\nEffective discount: 23.1% Mumbai · 23.0% Bengaluru",
+  "anniv": true
+ },
+ {
+  "title": "Club Nine",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-03-25",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Nine numbered Annual memberships per studio. Full price. Founder perks for life.\nWho: Any active member or high-frequency pack buyer. Platinum (March) renewers get first pick.\nPay: Annual Unlimited at list: ₹2,19,450 Mumbai · ₹1,56,240 Bengaluru (monthly instalment allowed at list).\nGet: Numbered brass key #1–9 and your name on the Club Nine wall · 4 private sessions (2 standing + 2 extra) · 48-hour early booking all year · 4 extra guest passes and the anniversary box (hoodie, socks, bottle)\nEffective discount: 5.7% effective (0% cash)",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Teaser: \"Nine Years in Ninety Seconds\" film",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-03-28",
+  "end": "2027-03-28",
+  "month": 3,
+  "desc": "Film drops on Instagram + WhatsApp; Club Nine wall unveiled in studio.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Platinum Hour",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-03-30",
+  "end": "2027-03-31",
+  "month": 3,
+  "desc": "Platinum renewers get first pick of Club Nine seats and Lease keys, first wheel spins.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Launch day",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-01",
+  "month": 4,
+  "desc": "All hero offers live; Nine Lives Passports handed out; Impulse Buzzer live at every desk.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Nine Lives Passport",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "9 stamps (7 am class, weekend class, new trainer, new format, Blind Date, bring a friend, 9 classes in 9 days, Birthday Class, Time Capsule). Full passport = 1 bonus class + awards seat + draw for a Lease.",
+  "anniv": true
+ },
+ {
+  "title": "Missed You at the Pop-up",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Your neighbourhood class is waiting.\nWho: Lapsed pop-up clients.\nPay: 8-class pack: ₹5.9k (15% off the ₹6.9k list price).\nGet: 8-class pack at the standing 15% + a free return class\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Nine Years, Nine Reasons",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Nine things changed while you were away. Come see them.\nWho: Clients lapsed 61–365 days.\nPay: 12-class pack at the standing 15% lapsed perk: ₹16,734 Mumbai · ₹11,156 Bengaluru.\nGet: A personal note with 9 things new at your studio · Pose in the Back From the Dead frame at the Resurrection Booth · Invite to the Birthday Class\nEffective discount: 15% (standing perk)",
+  "anniv": true
+ },
+ {
+  "title": "First Drop-in Counts",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Your first class fee comes off your first pack.\nWho: First-time pop-up clients.\nPay: 8-class pack: ₹6.9k (list price).\nGet: First drop-in fee credited toward a C+C 8-class pack bought within 7 days\nEffective discount: 13.6% effective = 0% cash + 13.6% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Cloud Nine Intro",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-21",
+  "month": 4,
+  "desc": "Nine days unlimited for less than one class.\nWho: First-time clients (phone verified).\nPay: ₹999 Mumbai · ₹799 Bengaluru, credited in full if you buy within 72 hours of day 9.\nGet: Unlimited Barre + powerCycle for 9 days (max 2/day) · Hit the Impulse Buzzer: buy within 72 h and get the standing 15% + Nine Lives tote · Name on the Reckless Decisions board\nEffective discount: 21% effective on the follow-on purchase",
+  "anniv": true
+ },
+ {
+  "title": "Squad Goals",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Three or more friends buy a 3-Month together, each gets 12% off and a squad private.\nWho: Groups of 3+ (at least one new client).\nPay: 3M at 12% off: ₹50,912 Mumbai · ₹37,145 Bengaluru each.\nGet: 12% off each · One free group private for the squad · Squad photo on the Lease Wall\nEffective discount: ≈15% incl. the group private",
+  "anniv": true
+ },
+ {
+  "title": "Credit Where It's Due",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Your last two drop-ins count toward a 10-pack.\nWho: Clients with 3+ drop-ins in 60 days.\nPay: 10-class pack: ₹8.5k (list price).\nGet: Last 2 drop-ins credited toward a C+C 10-class pack\nEffective discount: 22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The Nine-Month Lease",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "A 9-Month Unlimited that only exists this April. 99 keys per city, then it is gone forever.\nWho: Members renewing or upgrading from a 1M/3M; also open to newcomers after their intro.\nPay: ₹1,39,999 Mumbai · ₹99,999 Bengaluru (6M + 3M at list = ₹1,71,570 / ₹1,24,425).\nGet: 9 months unlimited · 9 freezes · Numbered Lease key (001–099) + live key counter in studio · Nine Lives hoodie\nEffective discount: 21.3% Mumbai · 23.6% Bengaluru (incl. hoodie)",
+  "anniv": true
+ },
+ {
+  "title": "Lock In Before You Clock Out",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Pack and 1-Month renewals at 10% off; 12-class packs get a bonus class.\nWho: Pack and 1-Month members renewing in April.\nPay: 10% off your product's list price.\nGet: 10% off · 12-class packs: +1 complimentary class · Passport double-stamp\nEffective discount: 10% (1M, 8-pack) · 19.9% (12-pack incl. bonus class)",
+  "anniv": true
+ },
+ {
+  "title": "Nine Lives merch capsule",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-01",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Hoodie, grip socks, tote and bottle, numbered drop.\nWho: Everyone.\nPay: Hoodie ₹4,999 · socks ₹999 · tote ₹1,499 · bottle ₹1,299.\nGet: Limited 999-piece run\nEffective discount: Full price",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Blind Date With a Class",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-03",
+  "end": "2027-04-03",
+  "month": 4,
+  "desc": "Format and trainer kept secret until you walk in. Passport stamp.",
+  "anniv": true
+ },
+ {
+  "title": "The Lucky Nine Wheel",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-05",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Renew your 3-Month or 6-Month at 10% off, then spin. Everyone wins something.\nWho: Active members on a 1M, 3M or 6M renewing or upgrading in April.\nPay: 3M: ₹52,070 Mumbai · ₹37,989 Bengaluru. 6M: ₹1,02,344 Mumbai · ₹73,994 Bengaluru.\nGet: One spin: 2 bonus classes · a private session · grip socks · 3 guest passes · a Nine Lives tote · Golden Ticket (on 6M only: +2 weeks free) · Dare card: do 9 classes in your first 14 days and get 1 more bonus class\nEffective discount: Max 23.2% (3M jackpot + dare) · 19.9% (6M Golden Ticket)",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Throwback Class",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-06",
+  "end": "2027-04-06",
+  "month": 4,
+  "desc": "The 2018 playlist and original choreography. Big social content day.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Plank of Fame",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-07",
+  "end": "2027-04-07",
+  "month": 4,
+  "desc": "Studio plank-off; top 9 per studio win a private session + a spot on the wall.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Bring Your Barre-stie",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-08",
+  "end": "2027-04-08",
+  "month": 4,
+  "desc": "Free guest pass for every member; friends meet the Impulse Buzzer.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 The 9:09 Panic",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-09",
+  "end": "2027-04-09",
+  "month": 4,
+  "desc": "Flash Pack at 9:09 am and 9:09 pm, 99 minutes each. Siren + countdown.",
+  "anniv": true
+ },
+ {
+  "title": "The 9:09 Flash Pack",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-09",
+  "end": "2027-04-09",
+  "month": 4,
+  "desc": "A 9-Class Pack, 99 days to use it. Flash price for 99 minutes from 9:09 am and 9:09 pm on 9 April.\nWho: Everyone: newcomers, pack buyers, members buying for a friend.\nPay: Flash: ₹11,499 Mumbai · ₹7,699 Bengaluru. Rest of April: ₹12,999 · ₹8,699.\nGet: 9 classes, valid 99 days · Siren in studio + live countdown on Instagram\nEffective discount: Flash 23.7% Mumbai / 24.0% Bengaluru · regular 13.7% / 14.1%",
+  "anniv": true
+ },
+ {
+  "title": "🎂 The Birthday Class",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-10",
+  "end": "2027-04-10",
+  "month": 4,
+  "desc": "DJ, cake, confetti, guest trainers swapped between Kemps Corner and Bandra; Kenkere hosts the pop-up regulars.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Time Capsule",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-11",
+  "end": "2027-04-11",
+  "month": 4,
+  "desc": "Members write to their future selves, opened at the 10th anniversary in April 2028.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Hidden 9s",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-12",
+  "end": "2027-04-25",
+  "month": 4,
+  "desc": "Nine gold envelopes hidden each week (privates, hoodies, retail vouchers).",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Resurrection Booth",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-12",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Obituary postcards to the lapsed list; Back From the Dead photo frame in studio.",
+  "anniv": true
+ },
+ {
+  "title": "Creative lock: May offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-17",
+  "end": "2027-04-17",
+  "month": 4,
+  "desc": "Creative lock for May 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Mother's Day gift card + mum-and-me pass, Passport reward certificates, Dare-card check-in messages",
+  "anniv": false
+ },
+ {
+  "title": "Gift Nine",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-20",
+  "end": "2027-05-09",
+  "month": 4,
+  "desc": "Pay ₹9,000, gift ₹10,000. Perfect for Mother's Day.\nWho: Anyone, members and their families.\nPay: ₹9,000 gift card worth ₹10,000.\nGet: ₹10,000 of credit, valid 6 months · Gift-wrapped card + digital version\nEffective discount: 10%",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Golden Glute Awards & Trainer Roast",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-24",
+  "end": "2027-04-24",
+  "month": 4,
+  "desc": "Member-voted awards night; red carpet for Club Nine + Lease holders.",
+  "anniv": true
+ },
+ {
+  "title": "WhatsApp + email ready: May offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-24",
+  "end": "2027-04-24",
+  "month": 4,
+  "desc": "WhatsApp + email ready for May 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: May offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-04-28",
+  "end": "2027-04-28",
+  "month": 4,
+  "desc": "Team briefing for May 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "🎂 The Lock-In",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-04-30",
+  "end": "2027-04-30",
+  "month": 4,
+  "desc": "Studio open late; live key counter; last class 9:09 pm. Anniversary prices end at midnight.",
+  "anniv": true
+ },
+ {
+  "title": "🎂 Afterparty",
+  "type": "activation",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-09",
+  "month": 5,
+  "desc": "Passport rewards credited, dare-card check-ins, April buyers with 12+ classes offered the 3M upgrade.",
+  "anniv": true
+ },
+ {
+  "title": "A Class for Mum",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Kenkere House"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-16",
+  "month": 5,
+  "desc": "Come back, and bring your mother for free.\nWho: Lapsed clients.\nPay: KC: 12-class pack: ₹16.7k (15% off the ₹19.7k list price). | KH: 12-class pack: ₹11.2k (15% off the ₹13.1k list price).\nGet: 12-class pack at the standing 15% · A free class for their mother (or any mum)\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The Comeback Squad",
+  "type": "lapsed",
+  "studios": [
+   "Bandra"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-17",
+  "month": 5,
+  "desc": "Rejoin with a group that starts the same day.\nWho: Lapsed clients.\nPay: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price).\nGet: 1M unlimited at the standing 15% · A fixed weekly squad class, trainer WhatsApp group, week-4 check-in\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Neighbourhood Reunion",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-31",
+  "month": 5,
+  "desc": "One Saturday a month, all the regulars.\nWho: Lapsed pop-up clients.\nPay: 4-class pack: ₹4k (15% off the ₹4.7k list price).\nGet: Monthly reunion class · At the door: 4-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Mother Shaker Second Date",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-16",
+  "month": 5,
+  "desc": "Bring your mum. Both second classes are on us.\nWho: A mother and a family member, both new.\nPay: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price).\nGet: Free first Barre class for both · Class 2 booked together, free within 7 days · Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private\nEffective discount: 21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Kickstart 21: Summer Cohort",
+  "type": "newcomer",
+  "studios": [
+   "Kenkere House"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-16",
+  "month": 5,
+  "desc": "21 days to start summer strong.\nWho: First-time clients.\nPay: Kickstart 21 cohort: ₹8k (list price).\nGet: Cohorts start Mon 3 May and Mon 17 May · 21 days unlimited + coach, WhatsApp, fitness checks, graduation · Graduates: standing 15% within 7 days\nEffective discount: 0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Saturday Squad",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-31",
+  "month": 5,
+  "desc": "Saturdays: bring a friend free.\nWho: First-timers on Saturdays.\nPay: 4-class pack: ₹4k (15% off the ₹4.7k list price).\nGet: Bring a friend free · Both buy a 4-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The Afterparty",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-31",
+  "month": 5,
+  "desc": "Book 8 in May; get a hosted class and a progress check.\nWho: April buyers and May renewers.\nPay: Renewal at your product's list price (no % off).\nGet: Book 8 classes in May → a free hosted class + a trainer progress check · Renew at list\nEffective discount: 2.0% effective = 0% cash + 2.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Credit Where It's Due",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-05-01",
+  "end": "2027-05-31",
+  "month": 5,
+  "desc": "Your last two drop-ins count toward a 10-pack.\nWho: Clients with 3+ drop-ins in 60 days.\nPay: 10-class pack: ₹8.5k (list price).\nGet: Last 2 drop-ins credited toward a C+C 10-class pack\nEffective discount: 22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Mother's Day",
+  "type": "seasonal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-05-09",
+  "end": "2027-05-09",
+  "month": 5,
+  "desc": "Seasonal moment",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: June offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-05-18",
+  "end": "2027-05-18",
+  "month": 5,
+  "desc": "Creative lock for June 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Pause Button explainer card, Travel-friendly class schedule",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: June offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-05-25",
+  "end": "2027-05-25",
+  "month": 5,
+  "desc": "WhatsApp + email ready for June 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: June offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-05-29",
+  "end": "2027-05-29",
+  "month": 5,
+  "desc": "Team briefing for June 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Out of Office, Not Out of Shape",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Kenkere House"
+  ],
+  "start": "2027-06-01",
+  "end": "2027-06-30",
+  "month": 6,
+  "desc": "Freeze when you fly. Train when you're home.\nWho: Lapsed clients.\nPay: KC: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price). | KH: 1M unlimited: ₹12.4k (15% off the ₹14.6k list price).\nGet: 1M at the standing 15% · 2 extra freezes · A written travel workout plan\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Pay-As-You-Return",
+  "type": "lapsed",
+  "studios": [
+   "Bandra"
+  ],
+  "start": "2027-06-01",
+  "end": "2027-06-30",
+  "month": 6,
+  "desc": "Start with 4. If you're back, it all counts.\nWho: Lapsed clients.\nPay: 4-class pack: ₹7.1k (list price).\nGet: 4-class pack at list · Buy a 12-class pack within 14 days → the full 4-pack price is credited\nEffective discount: 0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Move to Kenkere",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-06-01",
+  "end": "2027-06-30",
+  "month": 6,
+  "desc": "Closer to Kenkere House? Come to the flagship.\nWho: Lapsed pop-up clients living near Kenkere.\nPay: 8-class pack: ₹5.9k (15% off the ₹6.9k list price).\nGet: Kenkere 8-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Week Zero: Home for the Summer",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner"
+  ],
+  "start": "2027-06-01",
+  "end": "2027-06-30",
+  "month": 6,
+  "desc": "Back in town? A week unlimited, credited if you stay.\nWho: First-time clients.\nPay: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).\nGet: 7 days unlimited (max 2 a day) · Credited within 72 hours against any pack or membership + standing 15% · Buy 1M before you travel → 1 virtual private to use abroad\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Golden Hours Flight",
+  "type": "newcomer",
+  "studios": [
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-06-01",
+  "end": "2027-07-31",
+  "month": 6,
+  "desc": "Students: three classes in ten days, in the hours with room.\nWho: Students or under-25s with ID.\nPay: BA: Intro: ₹1.5k for the Student Tasting Flight (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. 8-class pack: ₹10.5k (20% off the ₹13.1k list price). | KH: Intro: ₹1k for the Student Tasting Flight (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. 8-class pack: ₹7k (20% off the ₹8.7k list price).\nGet: 3 classes in 10 days in weekday 10–12 or weekend 4–7 pm classes · Full fee credited within 72 hours against the Golden Hours 8-class pack (20% off, valid in those slots only)\nEffective discount: 20.0% effective = 20% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Studio Passport",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-06-01",
+  "end": "2027-06-30",
+  "month": 6,
+  "desc": "3 stamps at the pop-ups, a free class at Kenkere.\nWho: Pop-up clients.\nPay: 10-class pack: ₹7.7k (10% off the ₹8.5k list price).\nGet: 3 classes across Copper + Cloves / Plash → 1 free Kenkere class · 10-class pack at 10% off\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The Pause Button",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-06-01",
+  "end": "2027-06-30",
+  "month": 6,
+  "desc": "Three months unlimited. Freeze it as often as you like.\nWho: 1M and 3M renewers.\nPay: KC: 3M unlimited: ₹57.9k (list price). | BA: 3M unlimited: ₹57.9k (list price). | KH: 3M unlimited: ₹42.2k (list price).\nGet: 3M unlimited at list · Unlimited freezes (use within 6 months)\nEffective discount: 0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Pack + Passport",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-06-01",
+  "end": "2027-06-30",
+  "month": 6,
+  "desc": "10 classes here, 1 at Kenkere.\nWho: Pop-up regulars.\nPay: 10-class pack: ₹8.5k (list price).\nGet: 10-class pack at list + 1 Kenkere class\nEffective discount: 16.7% effective = 0% cash + 16.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: July offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-06-17",
+  "end": "2027-06-17",
+  "month": 6,
+  "desc": "Creative lock for July 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Kickstart 21 cohort welcome kit, Monsoon streak tracker",
+  "anniv": false
+ },
+ {
+  "title": "International Yoga Day",
+  "type": "seasonal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-06-21",
+  "end": "2027-06-21",
+  "month": 6,
+  "desc": "Seasonal moment",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: July offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-06-24",
+  "end": "2027-06-24",
+  "month": 6,
+  "desc": "WhatsApp + email ready for July 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: July offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-06-28",
+  "end": "2027-06-28",
+  "month": 6,
+  "desc": "Team briefing for July 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Missed You at the Pop-up",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-07-01",
+  "end": "2027-07-31",
+  "month": 7,
+  "desc": "Your neighbourhood class is waiting.\nWho: Lapsed pop-up clients.\nPay: 8-class pack: ₹5.9k (15% off the ₹6.9k list price).\nGet: 8-class pack at the standing 15% + a free return class\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Kickstart 21: Race Ready Cohort",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra"
+  ],
+  "start": "2027-07-01",
+  "end": "2027-07-11",
+  "month": 7,
+  "desc": "21 days that end on the Amazing Race start line.\nWho: First-time clients.\nPay: Kickstart 21 cohort: ₹10k (list price).\nGet: Cohort Mon 12 Jul → graduates 1 Aug, race day one · 21 days unlimited + coach, WhatsApp, fitness checks · Graduates: standing 15% within 7 days and a Rookie leaderboard entry\nEffective discount: 0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Rain Check Second Date",
+  "type": "newcomer",
+  "studios": [
+   "Kenkere House"
+  ],
+  "start": "2027-07-01",
+  "end": "2027-07-31",
+  "month": 7,
+  "desc": "Book your second class before you leave. Rain days don't count against you.\nWho: First-time clients starting with Barre.\nPay: Then any pack or membership at 15% off list (the standing new-client perk).\nGet: Free first Barre class · Class 2 free within 7 days, booked at the desk; on IMD orange/red-alert days the 7 days pause · 15% within 72 hours of class 2; 10% until day 14\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "First Drop-in Counts",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-07-01",
+  "end": "2027-07-31",
+  "month": 7,
+  "desc": "Your first class fee comes off your first pack.\nWho: First-time pop-up clients.\nPay: 8-class pack: ₹6.9k (list price).\nGet: First drop-in fee credited toward a C+C 8-class pack bought within 7 days\nEffective discount: 13.6% effective = 0% cash + 13.6% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Midyear Report Card",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner"
+  ],
+  "start": "2027-07-01",
+  "end": "2027-07-31",
+  "month": 7,
+  "desc": "Your half-year, in numbers.\nWho: July renewers.\nPay: Renewal at your product's list price (no % off).\nGet: Personal half-year stats and a trainer review · Renew the recommended product at list → 2 guest passes\nEffective discount: 0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Monsoon Streak",
+  "type": "renewal",
+  "studios": [
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-07-01",
+  "end": "2027-07-31",
+  "month": 7,
+  "desc": "12+ classes, zero late cancels, +7 days.\nWho: July renewers.\nPay: Renewal at your product's list price (no % off).\nGet: Renew at list · 12+ classes and zero late cancels in July → +7 days (unlimited) or +1 class (packs)\nEffective discount: 7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Credit Where It's Due",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-07-01",
+  "end": "2027-07-31",
+  "month": 7,
+  "desc": "Your last two drop-ins count toward a 10-pack.\nWho: Clients with 3+ drop-ins in 60 days.\nPay: 10-class pack: ₹8.5k (list price).\nGet: Last 2 drop-ins credited toward a C+C 10-class pack\nEffective discount: 22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Warm-Up Lap",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-07-15",
+  "end": "2027-07-31",
+  "month": 7,
+  "desc": "Get race-fit before the gun goes on 1 August.\nWho: Lapsed clients.\nPay: KC: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price). | BA: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price). | KH: 1M unlimited: ₹12.4k (15% off the ₹14.6k list price).\nGet: 1M at the standing 15%, start 15 Jul–1 Aug · Free race-prep assessment · Full race entry\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: August offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-07-18",
+  "end": "2027-07-18",
+  "month": 7,
+  "desc": "Creative lock for August 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Starting Gun Week race bib + tracker, Pit Stop renewal card",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: August offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-07-25",
+  "end": "2027-07-25",
+  "month": 7,
+  "desc": "WhatsApp + email ready for August 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: August offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-07-29",
+  "end": "2027-07-29",
+  "month": 7,
+  "desc": "Team briefing for August 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Back on Track",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-08-01",
+  "end": "2027-08-15",
+  "month": 8,
+  "desc": "Your lane is still open.\nWho: Lapsed clients.\nPay: KC: 1M unlimited: ₹17.8k (12% off the ₹20.2k list price). | BA: 1M unlimited: ₹17.8k (12% off the ₹20.2k list price). | KH: 1M unlimited: ₹12.8k (12% off the ₹14.6k list price).\nGet: 1M at 12% off · Finish the race target → +3 days\nEffective discount: 22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Neighbourhood Reunion",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-08-01",
+  "end": "2027-08-31",
+  "month": 8,
+  "desc": "One Saturday a month, all the regulars.\nWho: Lapsed pop-up clients.\nPay: 4-class pack: ₹4k (15% off the ₹4.7k list price).\nGet: Monthly reunion class · At the door: 4-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Starting Gun Week",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-08-01",
+  "end": "2027-08-20",
+  "month": 8,
+  "desc": "Seven days unlimited from the day the race starts.\nWho: First-time clients.\nPay: KC: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | BA: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | KH: Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).\nGet: 7 days unlimited (max 2 a day); classes count on the Rookie leaderboard · Credited within 72 hours against any pack or membership + standing 15% · Race kit (bib and tote, ≈₹1,000) with the purchase\nEffective discount: 21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Saturday Squad",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-08-01",
+  "end": "2027-08-31",
+  "month": 8,
+  "desc": "Saturdays: bring a friend free.\nWho: First-timers on Saturdays.\nPay: 4-class pack: ₹4k (15% off the ₹4.7k list price).\nGet: Bring a friend free · Both buy a 4-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Pit Stop",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-08-01",
+  "end": "2027-08-31",
+  "month": 8,
+  "desc": "Renew mid-race and keep your streak.\nWho: Members expiring in August or early September.\nPay: Renewal at 10% off your product's list price.\nGet: Renew at 10% off list; race progress carries over · Race finishers get 2 complimentary classes · Upgrade to 3M with unlimited freezes\nEffective discount: 12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Credit Where It's Due",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-08-01",
+  "end": "2027-08-31",
+  "month": 8,
+  "desc": "Your last two drop-ins count toward a 10-pack.\nWho: Clients with 3+ drop-ins in 60 days.\nPay: 10-class pack: ₹8.5k (list price).\nGet: Last 2 drop-ins credited toward a C+C 10-class pack\nEffective discount: 22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: September offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-08-18",
+  "end": "2027-08-18",
+  "month": 8,
+  "desc": "Creative lock for September 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: 57-Day Proof progress card, Festive pause explainer",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: September offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-08-25",
+  "end": "2027-08-25",
+  "month": 8,
+  "desc": "WhatsApp + email ready for September 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: September offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-08-29",
+  "end": "2027-08-29",
+  "month": 8,
+  "desc": "Team briefing for September 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "The Return Policy",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Kenkere House"
+  ],
+  "start": "2027-09-01",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "Come back within 7 days of your comeback class and get a bonus.\nWho: Clients lapsed 61–365 days.\nPay: KC: 12-class pack: ₹17.3k (12% off the ₹19.7k list price). | KH: 12-class pack: ₹11.6k (12% off the ₹13.1k list price).\nGet: Free comeback class · Buy 1M or a 12-class pack within 7 days at 12% off + 1 bonus class\nEffective discount: 21.9% effective = 12% cash + 9.9% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "We Kept Your Spot",
+  "type": "lapsed",
+  "studios": [
+   "Bandra"
+  ],
+  "start": "2027-09-01",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "A personal note from your favourite trainer.\nWho: Lapsed clients with a most-booked trainer.\nPay: 12-class pack: ₹16.7k (15% off the ₹19.7k list price).\nGet: Message from that trainer with a reserved spot in their class · 12-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Move to Kenkere",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-09-01",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "Closer to Kenkere House? Come to the flagship.\nWho: Lapsed pop-up clients living near Kenkere.\nPay: 8-class pack: ₹5.9k (15% off the ₹6.9k list price).\nGet: Kenkere 8-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "The Second Date",
+  "type": "newcomer",
+  "studios": [
+   "Bandra"
+  ],
+  "start": "2027-09-01",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "Your second class is booked before you leave.\nWho: First-time clients starting with Barre.\nPay: Then any pack or membership at 15% off list (the standing new-client perk).\nGet: Free first Barre class · Class 2 free within 7 days, booked at the desk · 15% within 72 hours of class 2; 10% until day 14\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Studio Passport",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-09-01",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "3 stamps at the pop-ups, a free class at Kenkere.\nWho: Pop-up clients.\nPay: 10-class pack: ₹7.7k (10% off the ₹8.5k list price).\nGet: 3 classes across Copper + Cloves / Plash → 1 free Kenkere class · 10-class pack at 10% off\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Festive Pause Button",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra"
+  ],
+  "start": "2027-09-01",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "Renew 3 months; Diwali and year-end travel covered.\nWho: 1M and 3M renewers.\nPay: 3M unlimited at 10% off the list price.\nGet: 3M at 10% off list · Unlimited freezes (use within 6 months) · Festive gift (≈₹1,000)\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Challenge Captain",
+  "type": "renewal",
+  "studios": [
+   "Kenkere House"
+  ],
+  "start": "2027-09-01",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "Bring two friends into the countdown, get two weeks.\nWho: September renewers.\nPay: Renewal at your product's list price (no % off).\nGet: Renew at list · Bring 2 friends who join → +14 days (unlimited) or +2 classes (packs)\nEffective discount: 4.0% effective = 0% cash + 4.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Pack + Passport",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-09-01",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "10 classes here, 1 at Kenkere.\nWho: Pop-up regulars.\nPay: 10-class pack: ₹8.5k (list price).\nGet: 10-class pack at list + 1 Kenkere class\nEffective discount: 16.7% effective = 0% cash + 16.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "57-Day Proof",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Kenkere House"
+  ],
+  "start": "2027-09-02",
+  "end": "2027-09-30",
+  "month": 9,
+  "desc": "Measure on day 1. Re-test before Diwali.\nWho: First-time clients.\nPay: KC: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price). | KH: 1M unlimited: ₹12.4k (15% off the ₹14.6k list price).\nGet: 1M unlimited at the standing 15% · Fitness check on day 1, coach check-ins · Re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures → your next month free\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: October offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-09-17",
+  "end": "2027-09-17",
+  "month": 9,
+  "desc": "Creative lock for October 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Gift a Flight gift cards, Diwali décor + homecoming postcard",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: October offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-09-24",
+  "end": "2027-09-24",
+  "month": 9,
+  "desc": "WhatsApp + email ready for October 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: October offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-09-28",
+  "end": "2027-09-28",
+  "month": 9,
+  "desc": "Team briefing for October 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Come Home for Diwali",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Bandra"
+  ],
+  "start": "2027-10-01",
+  "end": "2027-10-31",
+  "month": 10,
+  "desc": "Your mat's still here.\nWho: Lapsed clients.\nPay: 12-class pack: ₹16.7k (15% off the ₹19.7k list price).\nGet: 12-class pack at the standing 15% + a comeback class in Diwali week\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Light Up Your Streak",
+  "type": "lapsed",
+  "studios": [
+   "Kenkere House"
+  ],
+  "start": "2027-10-01",
+  "end": "2027-10-31",
+  "month": 10,
+  "desc": "15 classes in 30 days lights up 3 extra days.\nWho: Lapsed clients.\nPay: 1M unlimited: ₹12.8k (12% off the ₹14.6k list price).\nGet: 1M at 12% off · 15 classes in 30 days → +3 days\nEffective discount: 22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Missed You at the Pop-up",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-10-01",
+  "end": "2027-10-31",
+  "month": 10,
+  "desc": "Your neighbourhood class is waiting.\nWho: Lapsed pop-up clients.\nPay: 8-class pack: ₹5.9k (15% off the ₹6.9k list price).\nGet: 8-class pack at the standing 15% + a free return class\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Gift a Flight",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Kenkere House"
+  ],
+  "start": "2027-10-01",
+  "end": "2027-11-15",
+  "month": 10,
+  "desc": "Give someone three classes and a reason to stay.\nWho: Anyone buying for a friend who is new to P57.\nPay: KC: Intro: ₹2.5k for the Tasting Flight gift (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | KH: Intro: ₹1.8k for the Tasting Flight gift (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).\nGet: A Tasting Flight as a Diwali gift card · The recipient follows the Flight journey; the fee is credited if they buy within 72 hours of class 3 · The giver gets 1 bonus class when the recipient buys\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "First Drop-in Counts",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-10-01",
+  "end": "2027-10-31",
+  "month": 10,
+  "desc": "Your first class fee comes off your first pack.\nWho: First-time pop-up clients.\nPay: 8-class pack: ₹6.9k (list price).\nGet: First drop-in fee credited toward a C+C 8-class pack bought within 7 days\nEffective discount: 13.6% effective = 0% cash + 13.6% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Renew & Gift",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra"
+  ],
+  "start": "2027-10-01",
+  "end": "2027-10-31",
+  "month": 10,
+  "desc": "Renew in October; 5% back to spend on a gift card.\nWho: October renewers.\nPay: Renewal at 8% off your product's list price.\nGet: Renew at 8% off list · 1 complimentary guest class to gift a friend\nEffective discount: 10.0% effective = 8% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Festive Pause Pass",
+  "type": "renewal",
+  "studios": [
+   "Kenkere House"
+  ],
+  "start": "2027-10-01",
+  "end": "2027-10-31",
+  "month": 10,
+  "desc": "Renew now; pause for the holidays.\nWho: October renewers.\nPay: Renewal at your product's list price (no % off).\nGet: Renew 1M or longer at list · 1 extra freeze for festive travel + 2 guest passes for family\nEffective discount: 0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Credit Where It's Due",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-10-01",
+  "end": "2027-10-31",
+  "month": 10,
+  "desc": "Your last two drop-ins count toward a 10-pack.\nWho: Clients with 3+ drop-ins in 60 days.\nPay: 10-class pack: ₹8.5k (list price).\nGet: Last 2 drop-ins credited toward a C+C 10-class pack\nEffective discount: 22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: November offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-10-18",
+  "end": "2027-10-18",
+  "month": 10,
+  "desc": "Creative lock for November 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: Black Friday countdown assets, Club Nine: Last Seats wall update",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: November offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-10-25",
+  "end": "2027-10-25",
+  "month": 10,
+  "desc": "WhatsApp + email ready for November 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Festival of Lights Second Date",
+  "type": "newcomer",
+  "studios": [
+   "Bandra"
+  ],
+  "start": "2027-10-25",
+  "end": "2027-10-31",
+  "month": 10,
+  "desc": "A candle-lit first class. Your second is booked at the door.\nWho: First-timers at candle-lit 7 pm classes in Diwali week.\nPay: Then any pack or membership at 15% off list (the standing new-client perk).\nGet: Free candle-lit class · Class 2 booked at the door, free within 7 days · 15% within 72 hours of class 2\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: November offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-10-29",
+  "end": "2027-10-29",
+  "month": 10,
+  "desc": "Team briefing for November 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Diwali (Lakshmi Puja)",
+  "type": "seasonal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-10-29",
+  "end": "2027-10-29",
+  "month": 10,
+  "desc": "Seasonal moment",
+  "anniv": false
+ },
+ {
+  "title": "High-Value Homecoming",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner"
+  ],
+  "start": "2027-11-01",
+  "end": "2027-11-30",
+  "month": 11,
+  "desc": "A manager call, three flexible months and a private.\nWho: Lapsed clients with ≥₹50k lifetime spend.\nPay: 3M unlimited: ₹49.2k (15% off the ₹57.9k list price).\nGet: Manager call · 3M at the standing 15% + unlimited freezes + one 30-minute private\nEffective discount: 19.5% effective = 15% cash + 4.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Neighbourhood Reunion",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-11-01",
+  "end": "2027-11-30",
+  "month": 11,
+  "desc": "One Saturday a month, all the regulars.\nWho: Lapsed pop-up clients.\nPay: 4-class pack: ₹4k (15% off the ₹4.7k list price).\nGet: Monthly reunion class · At the door: 4-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Saturday Squad",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-11-01",
+  "end": "2027-11-30",
+  "month": 11,
+  "desc": "Saturdays: bring a friend free.\nWho: First-timers on Saturdays.\nPay: 4-class pack: ₹4k (15% off the ₹4.7k list price).\nGet: Bring a friend free · Both buy a 4-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Credit Where It's Due",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-11-01",
+  "end": "2027-11-30",
+  "month": 11,
+  "desc": "Your last two drop-ins count toward a 10-pack.\nWho: Clients with 3+ drop-ins in 60 days.\nPay: 10-class pack: ₹8.5k (list price).\nGet: Last 2 drop-ins credited toward a C+C 10-class pack\nEffective discount: 22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Creative lock: December offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-11-17",
+  "end": "2027-11-17",
+  "month": 11,
+  "desc": "Creative lock for December 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script. Extras: \"Your 2027 Wrapped\" personal stats card, Kickstart 21 Jan cohort sign-up sheet",
+  "anniv": false
+ },
+ {
+  "title": "Black Friday Week Zero",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-11-20",
+  "end": "2027-12-05",
+  "month": 11,
+  "desc": "Seven days unlimited, fully credited.\nWho: First-time clients.\nPay: KC: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | BA: Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). | KH: Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).\nGet: 7 days unlimited (max 2 a day) · Credited within 72 hours against any pack or membership + standing 15% · Upgrade to 3M before day 21 of a 1M: the 1M amount is credited and the 3M gets unlimited freezes (use within 6 months)\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "WhatsApp + email ready: December offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-11-24",
+  "end": "2027-11-24",
+  "month": 11,
+  "desc": "WhatsApp + email ready for December 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Black Friday Comeback",
+  "type": "lapsed",
+  "studios": [
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-11-26",
+  "end": "2027-11-29",
+  "month": 11,
+  "desc": "Back for a month, plus three days.\nWho: Lapsed clients.\nPay: BA: 1M unlimited: ₹17.8k (12% off the ₹20.2k list price). | KH: 1M unlimited: ₹12.8k (12% off the ₹14.6k list price).\nGet: 1M at 12% off + 3 days\nEffective discount: 22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Club Nine: Last Seats",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra"
+  ],
+  "start": "2027-11-26",
+  "end": "2027-12-31",
+  "month": 11,
+  "desc": "The last numbered seats.\nWho: Active members.\nPay: Annual unlimited: ₹2.2L (list price).\nGet: Only the Club Nine seats unsold in April, same perks\nEffective discount: 5.7% effective = 0% cash + 5.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Strong Monday Ladder",
+  "type": "renewal",
+  "studios": [
+   "Kenkere House"
+  ],
+  "start": "2027-11-26",
+  "end": "2027-11-29",
+  "month": 11,
+  "desc": "Renew long in the Black Friday window.\nWho: Members renewing 26–29 Nov.\nPay: Renewal at 8% off list on 3M, 12% on 6M, 15% on Annual.\nGet: 3M 8% off, 6M 12% off, Annual 15% off list\nEffective discount: 12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Black Friday",
+  "type": "seasonal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-11-26",
+  "end": "2027-11-26",
+  "month": 11,
+  "desc": "Seasonal moment",
+  "anniv": false
+ },
+ {
+  "title": "Team briefing: December offers",
+  "type": "deadline",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-11-28",
+  "end": "2027-11-28",
+  "month": 11,
+  "desc": "Team briefing for December 2027 offers. Standard kit: hero creative, landing page, WhatsApp, email, signage, desk script.",
+  "anniv": false
+ },
+ {
+  "title": "Your 2027 Wrapped",
+  "type": "lapsed",
+  "studios": [
+   "Kemps Corner",
+   "Kenkere House"
+  ],
+  "start": "2027-12-01",
+  "end": "2027-12-31",
+  "month": 12,
+  "desc": "You took 87 classes with us. Here's to the next year.\nWho: Lapsed clients.\nPay: KC: 12-class pack: ₹16.7k (15% off the ₹19.7k list price). | KH: 12-class pack: ₹11.2k (15% off the ₹13.1k list price).\nGet: Personal stats page (classes, favourite trainer, best month) · 12-class pack at the standing 15% + a comeback class\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Challenge Comeback Ticket",
+  "type": "lapsed",
+  "studios": [
+   "Bandra"
+  ],
+  "start": "2027-12-01",
+  "end": "2027-12-31",
+  "month": 12,
+  "desc": "Buy now, start by 1 January, join February's challenge.\nWho: Lapsed clients.\nPay: 1M unlimited: ₹17.2k (15% off the ₹20.2k list price).\nGet: 1M at the standing 15%, start any day until 1 Jan · Eligible for the February challenge (2028)\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Move to Kenkere",
+  "type": "lapsed",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-12-01",
+  "end": "2027-12-31",
+  "month": 12,
+  "desc": "Closer to Kenkere House? Come to the flagship.\nWho: Lapsed pop-up clients living near Kenkere.\nPay: 8-class pack: ₹5.9k (15% off the ₹6.9k list price).\nGet: Kenkere 8-class pack at the standing 15%\nEffective discount: 15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Kickstart 21: Pre-Solution Cohort",
+  "type": "newcomer",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-12-01",
+  "end": "2027-12-31",
+  "month": 12,
+  "desc": "Buy in December. Start Mon 3 Jan. Arrive at the February challenge.\nWho: First-time clients.\nPay: KC: Kickstart 21 cohort: ₹10k (list price). | BA: Kickstart 21 cohort: ₹10k (list price). | KH: Kickstart 21 cohort: ₹8k (list price).\nGet: Cohort starts Mon 3 Jan 2028; sold in December · 21 days unlimited + coach, WhatsApp, fitness checks, graduation · Graduates who buy a membership join the February 2028 challenge with a scaled target\nEffective discount: 0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Studio Passport",
+  "type": "newcomer",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-12-01",
+  "end": "2027-12-31",
+  "month": 12,
+  "desc": "3 stamps at the pop-ups, a free class at Kenkere.\nWho: Pop-up clients.\nPay: 10-class pack: ₹7.7k (10% off the ₹8.5k list price).\nGet: 3 classes across Copper + Cloves / Plash → 1 free Kenkere class · 10-class pack at 10% off\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Challenge-Ready Renewal",
+  "type": "renewal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House"
+  ],
+  "start": "2027-12-01",
+  "end": "2027-12-31",
+  "month": 12,
+  "desc": "Renew in December so you're covered for the whole February challenge.\nWho: Members expiring Dec–Jan.\nPay: Renewal at 10% off your product's list price.\nGet: Renew at 10% off list so the membership covers January and February's challenge · February challenge kit (≈₹1,000)\nEffective discount: 10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "Pack + Passport",
+  "type": "renewal",
+  "studios": [
+   "Pop-up"
+  ],
+  "start": "2027-12-01",
+  "end": "2027-12-31",
+  "month": 12,
+  "desc": "10 classes here, 1 at Kenkere.\nWho: Pop-up regulars.\nPay: 10-class pack: ₹8.5k (list price).\nGet: 10-class pack at list + 1 Kenkere class\nEffective discount: 16.7% effective = 0% cash + 16.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero.",
+  "anniv": false
+ },
+ {
+  "title": "New Year's Eve",
+  "type": "seasonal",
+  "studios": [
+   "Kemps Corner",
+   "Bandra",
+   "Kenkere House",
+   "Pop-up"
+  ],
+  "start": "2027-12-31",
+  "end": "2027-12-31",
+  "month": 12,
+  "desc": "Seasonal moment",
+  "anniv": false
+ }
+]

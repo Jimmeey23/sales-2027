@@ -1,0 +1,128 @@
+<title>P57 Offer Calendar 2027</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: sticky filter bar, month tabs, per-month Gantt (rows = offers, columns = days), detail panel below. Atelier tokens. */
+:root{
+  --bg:#f7f3ec;--paper:#fffdf9;--ink:#24211c;--soft:#4a453c;--muted:#7a7266;--line:#e6dfd2;--gold:#b08d4a;--gold-soft:#f3ead8;
+  --new:#1f6a57;--win:#a2712f;--mem:#2b5c85;--act:#7a3b56;--moment:#6b6458;--due:#b4532a;--today:#b4532a;
+  --display:'Bodoni Moda',Georgia,'Times New Roman',serif;--sans:Inter,'Helvetica Neue',Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17150f;--paper:#211e18;--ink:#f1ebe0;--soft:#cfc6b7;--muted:#9a917f;--line:#3a352c;--gold:#d2b071;--gold-soft:#3a3122;--new:#4fae92;--win:#d39b52;--mem:#6aa0cf;--act:#c47a9a;--moment:#a59c8b;--due:#e0835a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17150f;--paper:#211e18;--ink:#f1ebe0;--soft:#cfc6b7;--muted:#9a917f;--line:#3a352c;--gold:#d2b071;--gold-soft:#3a3122;--new:#4fae92;--win:#d39b52;--mem:#6aa0cf;--act:#c47a9a;--moment:#a59c8b;--due:#e0835a;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:20px}
+header h1{font-family:var(--display);font-weight:500;font-size:clamp(28px,4vw,40px);margin:0;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--soft);max-width:68ch}
+.eyebrow{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;display:grid;gap:10px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.lab{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+button.chip{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--paper);color:var(--soft);border-radius:999px;padding:5px 12px;cursor:pointer}
+button.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.gantt{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+table.g{border-collapse:collapse;width:100%;min-width:900px;font-variant-numeric:tabular-nums}
+.g th,.g td{border-bottom:1px solid var(--line);padding:0;height:34px}
+.g thead th{font-size:10.5px;color:var(--muted);font-weight:500;height:30px;text-align:center}
+.g thead th.we{color:var(--gold)}
+.g .name{position:sticky;left:0;background:var(--paper);z-index:2;text-align:left;padding:4px 12px;width:250px;min-width:250px;font-size:13px;border-right:1px solid var(--line);cursor:pointer}
+.g .name small{display:block;color:var(--muted);font-size:11px}
+.g td.day{min-width:22px;position:relative}
+.g td.day.we{background:color-mix(in srgb,var(--gold-soft) 45%,transparent)}
+.g td.on::after{content:"";position:absolute;inset:8px 0;background:var(--c)}
+.g td.on.s::after{left:3px;border-radius:5px 0 0 5px}.g td.on.e::after{right:3px;border-radius:0 5px 5px 0}
+.g tr.grp td{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:12px 12px 4px;height:auto;background:var(--bg)}
+.g tbody tr:hover .name{color:var(--gold)}
+.detail{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:6px}
+.detail h2{font-family:var(--display);font-weight:500;font-size:24px;margin:0}
+.detail pre{white-space:pre-wrap;font-family:var(--sans);margin:0;color:var(--soft)}
+.ics{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.ics div{min-width:0}
+.ics h3{font-family:var(--display);font-weight:500;margin:0 0 6px;font-size:19px}
+.ics ol{margin:0;padding-left:18px;color:var(--soft)}
+code{font-size:12.5px;background:var(--gold-soft);padding:1px 6px;border-radius:4px;word-break:break-all}
+.year{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.mcard{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.mcard:focus-visible{outline:2px solid var(--gold)}
+.mcard h3{font-family:var(--display);font-weight:500;font-size:20px;margin:0 0 6px}
+.mcard li{font-size:12.5px;color:var(--soft);list-style:none;margin:2px 0}
+.mcard ul{padding:0;margin:0}
+.muted{color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Physique 57 India · Sales &amp; Offer Plan</div>
+    <h1>2027 Offer Calendar</h1>
+    <p>Every offer, anniversary activation and creative deadline, with start and end dates. Pick a month, filter by studio or offer type, and click a row for the full offer details.</p>
+  </header>
+
+  <div class="bar">
+    <div class="row" id="months" role="group" aria-label="Month"></div>
+    <div class="row" id="studios" role="group" aria-label="Studio"><span class="lab">Studio</span></div>
+    <div class="row" id="types" role="group" aria-label="Type"><span class="lab">Show</span></div>
+  </div>
+
+  <div id="view"></div>
+  <section class="detail" id="detail"><span class="muted">Click any offer row to see who it is for, what clients pay and get, and the effective discount.</span></section>
+
+  <section class="detail">
+    <div class="eyebrow">Add it to your phone</div>
+    <div class="ics">
+      <div><h3>Google Calendar</h3><ol><li>Get <code>p57-offers-2027.ics</code> (attached to the annual email, or in the repo at <code>docs/comms-2027/calendar/</code>).</li><li>On a computer, open Google Calendar → Settings → Import &amp; export → Import.</li><li>Choose the file and a calendar (we suggest a new one called “P57 Offers 2027”), then Import.</li></ol></div>
+      <div><h3>Apple Calendar</h3><ol><li>On Mac: double-click the .ics file, or File → Import.</li><li>On iPhone: open the file from Mail or Files and tap “Add All”.</li><li>Pick a new calendar so you can hide or delete it in one go.</li></ol></div>
+      <div><h3>What's inside</h3><p class="muted" id="count" style="margin:0"></p><p class="muted" style="margin:6px 0 0">All-day events, tagged [New], [Win-back], [Members], [Anniversary], [Moment] and [Deadline]. Each description carries who qualifies, the price and what's included.</p></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const EVENTS=/*__EVENTS__*/[];
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const STUDIOS=['Kemps Corner','Bandra','Kenkere House','Pop-up'];
+const TYPES={newcomer:['New clients','--new'],lapsed:['Win-back','--win'],renewal:['Members','--mem'],activation:['Anniversary','--act'],seasonal:['Moments','--moment'],deadline:['Deadlines','--due']};
+let state={month:0,studio:'All',types:new Set(Object.keys(TYPES))};
+try{const s=JSON.parse(localStorage.getItem('p57cal')||'null');if(s){state.month=s.month;state.studio=s.studio;state.types=new Set(s.types)}}catch(e){}
+const h=location.hash.slice(1);if(/^m\d{1,2}$/.test(h))state.month=+h.slice(1);
+function save(){try{localStorage.setItem('p57cal',JSON.stringify({month:state.month,studio:state.studio,types:[...state.types]}))}catch(e){}}
+const el=(t,a={},...k)=>{const n=document.createElement(t);for(const[x,y]of Object.entries(a)){if(x==='on')for(const[ev,f]of Object.entries(y))n.addEventListener(ev,f);else if(x==='style')n.style.cssText=y;else n.setAttribute(x,y)}k.flat().forEach(c=>n.append(c));return n};
+function chip(label,pressed,fn,dotVar){const b=el('button',{class:'chip','aria-pressed':pressed,type:'button',on:{click:fn}});if(dotVar)b.append(el('span',{class:'dot',style:`background:var(${dotVar})`}));b.append(label);return b}
+function filtered(){return EVENTS.filter(e=>state.types.has(e.type)&&(state.studio==='All'||e.studios.includes(state.studio)))}
+const D=s=>new Date(s+'T00:00:00');
+const fmt=e=>{const a=D(e.start),b=D(e.end),f=d=>d.getDate()+' '+MONTHS[d.getMonth()];return e.start===e.end?f(a):f(a)+' – '+f(b)};
+function controls(){
+  const m=document.getElementById('months');m.replaceChildren(chip('Year',String(state.month===0),()=>{state.month=0;go()}),...MONTHS.map((n,i)=>chip(n,String(state.month===i+1),()=>{state.month=i+1;go()})));
+  const s=document.getElementById('studios');s.replaceChildren(el('span',{class:'lab'},'Studio'),...['All',...STUDIOS].map(x=>chip(x,String(state.studio===x),()=>{state.studio=x;go()})));
+  const t=document.getElementById('types');t.replaceChildren(el('span',{class:'lab'},'Show'),...Object.entries(TYPES).map(([k,[l,v]])=>chip(l,String(state.types.has(k)),()=>{state.types.has(k)?state.types.delete(k):state.types.add(k);go()},v)));
+}
+function show(e){const d=document.getElementById('detail');d.replaceChildren(el('div',{class:'eyebrow'},TYPES[e.type][0]+' · '+fmt(e)),el('h2',{},e.title),el('div',{class:'muted'},e.studios.join(' · ')),el('pre',{},e.desc));d.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'})}
+function monthView(m){
+  const days=new Date(2027,m,0).getDate();
+  const evs=filtered().filter(e=>D(e.start)<=new Date(2027,m-1,days)&&D(e.end)>=new Date(2027,m-1,1));
+  const head=el('tr',{},el('th',{class:'name'},MONTHS[m-1]+' 2027'),...Array.from({length:days},(_,i)=>{const w=new Date(2027,m-1,i+1).getDay();return el('th',{class:w===0||w===6?'we':''},String(i+1))}));
+  const body=el('tbody');
+  Object.keys(TYPES).forEach(k=>{const list=evs.filter(e=>e.type===k);if(!list.length)return;
+    body.append(el('tr',{class:'grp'},el('td',{colspan:days+1},TYPES[k][0]+' ('+list.length+')')));
+    list.forEach(e=>{const a=D(e.start),b=D(e.end);const tr=el('tr',{style:`--c:var(${TYPES[k][1]})`});
+      const nm=el('td',{class:'name',tabindex:'0',role:'button',on:{click:()=>show(e),keydown:x=>{if(x.key==='Enter')show(e)}}},e.title,el('small',{},fmt(e)+' · '+e.studios.map(s=>s.split(' ')[0]).join('/')));tr.append(nm);
+      for(let i=1;i<=days;i++){const dd=new Date(2027,m-1,i),w=dd.getDay();const on=dd>=a&&dd<=b;let c='day'+(w===0||w===6?' we':'');if(on){c+=' on';if(+dd===+a||i===1&&a<dd)c+=+dd===+a?' s':'';if(+dd===+b)c+=' e'}tr.append(el('td',{class:c,title:on?e.title:''}))}
+      body.append(tr)})});
+  if(!evs.length)return el('p',{class:'muted'},'Nothing matches these filters this month.');
+  return el('div',{class:'gantt'},el('table',{class:'g'},el('thead',{},head),body));
+}
+function yearView(){
+  const evs=filtered();
+  return el('div',{class:'year'},...MONTHS.map((n,i)=>{const list=evs.filter(e=>e.month===i+1&&e.type!=='deadline');
+    return el('button',{class:'mcard',type:'button',on:{click:()=>{state.month=i+1;go()}}},el('h3',{},new Date(2027,i,1).toLocaleString('en',{month:'long'})),
+      el('ul',{},...list.slice(0,9).map(e=>el('li',{},el('span',{class:'dot',style:`background:var(${TYPES[e.type][1]})`}),e.title.replace('🎂 ',''),el('span',{class:'muted'},' · '+fmt(e)))),list.length>9?el('li',{class:'muted'},'+ '+(list.length-9)+' more'):''))}));
+}
+function go(){save();controls();document.getElementById('view').replaceChildren(state.month?monthView(state.month):yearView());
+  try{history.replaceState(null,'',state.month?'#m'+state.month:location.pathname)}catch(e){}}
+document.getElementById('count').textContent=EVENTS.length+' events across 2027: '+EVENTS.filter(e=>['newcomer','lapsed','renewal'].includes(e.type)).length+' offers, '+EVENTS.filter(e=>e.type==='activation').length+' anniversary activations, '+EVENTS.filter(e=>e.type==='deadline').length+' deadlines.';
+addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(/^m\d{1,2}$/.test(h)){state.month=+h.slice(1);go()}});
+go();
+</script>
