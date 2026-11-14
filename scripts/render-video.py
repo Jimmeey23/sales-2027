@@ -3,9 +3,12 @@
 
 Inputs (all produced by this repo's tooling):
   public/explainer/scripts/<slug>-<MM>.json     the month's figures (from the app's plan data)
-  public/explainer/narration/<slug>-<MM>.json   two-host narration, one block per host
-  public/explainer/audio/<slug>-<MM>-a.mp3      host A (figures)
-  public/explainer/audio/<slug>-<MM>-b.mp3      host B (offers and plan)
+  public/explainer/narration/<slug>-<MM>.json   narration segments, one per scene (build_narration.py)
+  public/explainer/audio/<slug>-<MM>.mp3        the recorded read (.mp3, .m4a, .wav or .aac)
+
+Timing: the reader pauses about a second between sections (marked "· · ·" in the script).
+Those pauses are found in the recording and each scene starts on its own sentence. If the
+pauses can't be matched one-to-one, scenes are timed by word count instead.
 
 Output:
   public/explainer/video/<slug>-<MM>.mp4
@@ -41,7 +44,6 @@ MANIFEST = ROOT / "public/explainer/manifest.json"
 SR = 44100
 W, H, FPS = 1920, 1080, 24
 PRE = 2.5      # intro card before host A starts
-HAND = 1.6     # handoff card between the two hosts
 OUTRO = 3.5    # end card
 
 
@@ -71,7 +73,21 @@ TRACK = (46, 42, 35)
 SLOT_COL = {"Revenue boost": GOLD, "New clients": TEAL, "Win-backs": ROSE, "Renewals": BLUE}
 STREAM_COL = {"renewal": GOLD, "newClient": TEAL, "reactivation": ROSE, "other": BLUE}
 
-FD = "/usr/share/fonts/truetype/dejavu/"
+def _font_dir():
+    """DejaVu fonts: the Linux system copy, or the one matplotlib ships (works on macOS)."""
+    cands = [os.environ.get("FONT_DIR", ""), "/usr/share/fonts/truetype/dejavu/"]
+    try:
+        import matplotlib
+        cands.append(os.path.join(os.path.dirname(matplotlib.__file__), "mpl-data/fonts/ttf/"))
+    except Exception:
+        pass
+    for c in cands:
+        if c and os.path.exists(os.path.join(c, "DejaVuSans-Bold.ttf")):
+            return c.rstrip("/") + "/"
+    raise SystemExit("DejaVu fonts not found: pip install matplotlib, or set FONT_DIR")
+
+
+FD = _font_dir()
 F_BOLD, F_SANS, F_SERIF, F_SERIFB, F_MONO = (
     "DejaVuSans-Bold.ttf", "DejaVuSans.ttf", "DejaVuSerif.ttf", "DejaVuSerif-Bold.ttf", "DejaVuSansMono-Bold.ttf")
 _FONTS = {}
@@ -179,6 +195,88 @@ def draw_particles(img, t):
         d.ellipse((x - r, y - r, x + r, y + r), fill=mix(BG, col, 0.35))
 
 
+# ---------- annotation layer (hand-drawn marks that animate in) ----------
+def scribble_ellipse(d, box, p, col, width=5, seed=0):
+    """A marker circle drawn around box, revealed from 0..1 like a pen stroke."""
+    if p <= 0:
+        return
+    x0, y0, x1, y1 = box
+    cx, cy, rx, ry = (x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2 + 26, (y1 - y0) / 2 + 20
+    n = 90
+    end = int(n * 1.12 * clamp(p))
+    pts = []
+    for i in range(end + 1):
+        a = -2.3 + 2 * math.pi * i / n
+        wob = 1 + 0.035 * math.sin(i * 0.37 + seed) + 0.05 * (i / n)
+        pts.append((cx + rx * wob * math.cos(a), cy + ry * wob * math.sin(a)))
+    if len(pts) > 1:
+        d.line(pts, fill=col, width=width, joint="curve")
+
+
+def draw_arrow(d, p0, p1, p, col, width=5, bend=0.25):
+    """Curved arrow from p0 to p1, drawn progressively; head appears at the end."""
+    if p <= 0:
+        return
+    (x0, y0), (x1, y1) = p0, p1
+    mx, my = (x0 + x1) / 2 - (y1 - y0) * bend, (y0 + y1) / 2 + (x1 - x0) * bend
+    n = 40
+    k = max(2, int(n * clamp(p)))
+    pts = []
+    for i in range(k + 1):
+        t = i / n
+        pts.append(((1 - t) ** 2 * x0 + 2 * (1 - t) * t * mx + t * t * x1,
+                    (1 - t) ** 2 * y0 + 2 * (1 - t) * t * my + t * t * y1))
+    d.line(pts, fill=col, width=width, joint="curve")
+    if p >= 0.98:
+        ang = math.atan2(y1 - pts[-2][1], x1 - pts[-2][0])
+        L = 24
+        for s_ in (-0.5, 0.5):
+            d.line((x1, y1, x1 - L * math.cos(ang + s_), y1 - L * math.sin(ang + s_)), fill=col, width=width)
+
+
+def note(d, x, y, text, p, col=None, size=30, maxw=520, anchor="l"):
+    """A sticky-note callout that pops in."""
+    if p <= 0:
+        return
+    col = col or CHAMP
+    f = font(F_BOLD, size)
+    lines = wrap(text, f, maxw)
+    w = max(f.getlength(ln) for ln in lines) + 44
+    h = len(lines) * (size + 10) + 30
+    sc = 0.7 + 0.3 * back(clamp(p))
+    w2, h2 = w * sc, h * sc
+    x0 = x if anchor == "l" else x - w2
+    d.rounded_rectangle((x0, y, x0 + w2, y + h2), radius=16, fill=mix(BG, col, clamp(p)))
+    if sc > 0.95:
+        for i, ln in enumerate(lines):
+            d.text((x0 + 22, y + 15 + i * (size + 10)), ln, font=f, fill=BG, anchor="la")
+
+
+def underline(d, x0, x1, y, p, col, width=8):
+    if p <= 0:
+        return
+    xe = x0 + (x1 - x0) * eo(p)
+    pts = [(x0 + (xe - x0) * i / 20, y + 3 * math.sin(i * 0.9)) for i in range(21)]
+    d.line(pts, fill=col, width=width, joint="curve")
+
+
+def chapter_rail(d, scenes, idx, t):
+    """Dots under the header: one per narrated scene, the current one lit."""
+    named = [s for s in scenes if s.get("seg")]
+    if not named:
+        return
+    n = len(named)
+    gap = 34
+    x0 = W / 2 - (n - 1) * gap / 2
+    for i, s in enumerate(named):
+        x = x0 + i * gap
+        if s is idx:
+            d.rounded_rectangle((x - 13, 56, x + 13, 66), radius=5, fill=GOLD)
+        else:
+            done = s["e"] <= t
+            d.ellipse((x - 5, 56, x + 5, 66), fill=CHAMP if done else TRACK)
+
+
 # ---------- scene drawers ----------
 def header(d, ctx, p_global):
     d.text((90, 50), "P57 \u00b7 SALES PLAN 2027", font=font(F_BOLD, 26), fill=GOLD, anchor="la")
@@ -202,17 +300,6 @@ def draw_intro(img, d, lt, ctx):
     a2 = eo((lt - 1.1) / 0.6)
     d.text((960, 710), f"{ctx['monthName']} \u00b7 {ctx['studio']}", font=font(F_SERIF, 56),
            fill=mix(BG, CHAMP, a2), anchor="mm")
-
-
-def draw_handoff(img, d, lt, ctx):
-    a = eo(lt / 0.5)
-    d.text((960, 380), "Now, the offers", font=font(F_SERIFB, 120), fill=mix(BG, INK, a), anchor="mm")
-    d.text((960, 480), f"{ctx['offers']} offers, one at a time", font=font(F_SANS, 42),
-           fill=mix(BG, MUTE, a), anchor="mm")
-    for i in range(3):
-        x = 880 + i * 80 + ((lt * 240) % 80) - 40
-        col = mix(BG, GOLD, eo((lt - 0.2) / 0.4) * (0.3 + 0.7 * i / 2))
-        d.polygon([(x, 600), (x + 26, 620), (x, 640), (x + 10, 620)], fill=col)
 
 
 def draw_open(img, d, lt, dur, ctx, sc):
@@ -287,6 +374,10 @@ def draw_target(img, d, lt, dur, ctx, sc):
     sign = "+" if gap >= 0 else "\u2212"
     d.text((1450, 716), f"Gap to last year: {sign}{lakh_disp(abs(gap))}",
            font=font(F_SANS, 34), fill=mix(BG, INK, eo((lt - 1.8) / 0.6)), anchor="ma")
+    # annotations: circle the headline number, arrow from the bars to the verdict pill
+    tw = font(F_BOLD, 230).getlength(lakh_disp(tgt))
+    scribble_ellipse(d, (90, 205, 90 + tw, 400), (lt - 1.0) / 0.9, CHAMP, seed=3)
+    draw_arrow(d, (90 + max(w_t, w_ly) + 30, 713), (1450 - 250, 640), (lt - 2.2) / 0.7, CHAMP, bend=-0.2)
 
 
 def draw_streams(img, d, lt, dur, ctx, sc):
@@ -319,6 +410,12 @@ def draw_streams(img, d, lt, dur, ctx, sc):
         d.rounded_rectangle((560, y - 14, 560 + max(8, fw), y + 14), radius=14, fill=mix(BG, col, a))
         d.text((1460, y), f"{lakh_disp(s['value'])} \u00b7 {num1(s['share'])}%", font=font(F_SANS, 34),
                fill=mix(BG, INK, a), anchor="lm")
+    if streams:
+        lead = streams[0]
+        lw = font(F_BOLD, 38).getlength(lead["label"])
+        scribble_ellipse(d, (90, 432, 180 + lw, 488), (lt - 2.4) / 0.8, CHAMP, width=4, seed=5)
+        note(d, 1180, 175, f"{round(lead['share'] / 10)} in every \u20b910 comes from {lead['label'].lower()}",
+             (lt - 3.0) / 0.5, maxw=560)
 
 
 def draw_funnel(img, d, lt, dur, ctx, sc):
@@ -346,8 +443,12 @@ def draw_funnel(img, d, lt, dur, ctx, sc):
         d.line((1420, y - 6, 1420, y + 30), fill=mix(BG, CHAMP, a), width=3)
         d.polygon([(1412, y + 24), (1428, y + 24), (1420, y + 36)], fill=mix(BG, CHAMP, a))
         d.text((1460, y + 10), txt, font=font(F_BOLD, 40), fill=mix(BG, CHAMP, a), anchor="lm")
-    d.text((90, 716), f"{leads} leads became {trials} trials and {buyers} buyers.",
+    d.text((90, 716), f"{leads} leads become {trials} trials and {buyers} buyers.",
            font=font(F_SANS, 32), fill=mix(BG, MUTE, eo((lt - 2.2) / 0.6)), anchor="la")
+    per = max(1, round(1 / max(data["trialToBuyer"], 0.01)))
+    note(d, 1830, 175, f"About 1 in {per} trials buys. The first class wins it.", (lt - 3.0) / 0.5,
+         col=TEAL, anchor="r", maxw=600)
+    underline(d, 1460, 1460 + font(F_BOLD, 40).getlength(conv[1][0]), cy0 + 2 * 130 + 30, (lt - 3.4) / 0.6, TEAL)
 
 
 def draw_coverage(img, d, lt, dur, ctx, sc):
@@ -370,6 +471,8 @@ def draw_coverage(img, d, lt, dur, ctx, sc):
     c = eo((lt - 2.2) / 0.6)
     d.text((x, 730), f"of the {lakh_disp(data['target'])} target", font=font(F_SANS, 36), fill=mix(BG, CHAMP, c),
            anchor="la")
+    draw_arrow(d, (x - 20, 400), (cx + r + 30, cy - 120), (lt - 2.6) / 0.6, CHAMP, bend=0.3)
+    note(d, x, 175, "Offers boost. Full price still matters.", (lt - 3.2) / 0.5, maxw=700)
 
 
 def draw_offer(img, d, lt, dur, ctx, sc):
@@ -420,27 +523,49 @@ def draw_offer(img, d, lt, dur, ctx, sc):
     d.text((90, 660), "Revenue against the month\u2019s biggest offer", font=font(F_SANS, 28), fill=MUTE, anchor="la")
     d.rounded_rectangle((90, 700, 1830, 736), radius=18, fill=TRACK)
     d.rounded_rectangle((90, 700, 90 + max(10, bar_w), 736), radius=18, fill=col)
+    who = (o.get("audience") or "").strip()
+    if who and not who[:1].isdigit() and "\u2248" not in who and "effective" not in who:
+        who_txt = f"Who it's for: {who}"
+        while len(wrap(who_txt, font(F_BOLD, 24), 640)) > 2:
+            who_txt = who_txt.rsplit(" ", 1)[0].rstrip(",;:") + "\u2026"
+        note(d, 1830, 92, who_txt, (lt - 2.0) / 0.5, col=col, anchor="r", maxw=640, size=24)
+    if o["revenue"] == o["maxRevenue"]:
+        bp = (lt - 1.6) / 0.5
+        if bp > 0:
+            bx = 90 + 2 * 440
+            scribble_ellipse(d, (bx + 10, 480, bx + 390, 610), bp, GOLD, seed=9)
+            note(d, bx + 250, 410, "Biggest offer this month", (lt - 2.0) / 0.4, col=GOLD, size=24, maxw=400)
     kpi = clean_title(o.get("kpi", ""))[:150]
     if kpi:
         d.text((90, 738), f"Watch: {kpi}", font=font(F_SANS, 26), fill=mix(BG, CHAMP, eo((lt - 1.2) / 0.6)),
                anchor="la")
 
 
-def draw_plan(img, d, lt, dur, ctx, sc):
+def draw_plan(img, d, lt, dur, ctx, sc, seg=None):
     kicker(d, "How the month runs")
-    d.text((90, 175), "4 moves", font=font(F_BOLD, 120), fill=INK, anchor="la")
+    d.text((90, 175), "4 weeks", font=font(F_BOLD, 120), fill=INK, anchor="la")
     xs = [330, 760, 1190, 1620]
     d.line((xs[0], 380, xs[0] + (xs[-1] - xs[0]) * eo((lt - 0.2) / 1.6), 380), fill=GOLD, width=6)
     steps = [("W1", "Launch", "Set up every offer, so it is live from day one."),
              ("W2", "Track weekly", "Check sell-out and redemptions every week."),
              ("W3", "Mid-month check", f"Review against the {ctx['target_say']} target."),
              ("W4", "Close and brief", "Tag every redemption by offer ID, then brief next month.")]
+    beats = (seg or {}).get("beats") or []
+    if len(beats) == 4:
+        heads = ["Week one", "Week two", "Week three", "Week four"]
+        steps = [(f"W{i+1}", heads[i], b[0].upper() + b[1:]) for i, b in enumerate(beats)]
     for i, (lab, head, body) in enumerate(steps):
-        a = eo((lt - 0.4 - i * 0.45) / 0.6)
+        # each week lands as the narrator reaches it
+        at = 0.4 + (dur * 0.12 + dur * 0.22 * i if beats else i * 0.45)
+        a = eo((lt - at) / 0.6)
         if a <= 0:
             continue
         x = xs[i]
-        r = 56 * back(clamp((lt - 0.4 - i * 0.45) / 0.7))
+        r = 56 * back(clamp((lt - at) / 0.7))
+        if i < 3 and beats:
+            nxt = 0.4 + dur * 0.12 + dur * 0.22 * (i + 1)
+            if lt < nxt:
+                scribble_ellipse(d, (x - 60, 324, x + 60, 436), (lt - at) / 0.6, CHAMP, width=4, seed=i)
         d.ellipse((x - r, 380 - r, x + r, 380 + r), fill=mix(BG, GOLD, a))
         d.text((x, 380), lab, font=font(F_BOLD, int(34 * max(0.2, r / 56))), fill=BG, anchor="mm")
         d.text((x, 490), head, font=font(F_BOLD, 40), fill=mix(BG, INK, a), anchor="ma")
@@ -448,7 +573,7 @@ def draw_plan(img, d, lt, dur, ctx, sc):
             d.text((x, 550 + j * 42), ln, font=font(F_SANS, 30), fill=mix(BG, MUTE, a), anchor="ma")
 
 
-def draw_close(img, d, lt, dur, ctx, sc):
+def draw_close(img, d, lt, dur, ctx, sc, seg=None):
     kicker(d, f"{ctx['monthName']} 2027")
     d.text((90, 175), "That is the plan", font=font(F_BOLD, 110), fill=INK, anchor="la")
     tgt = ctx["target"]
@@ -464,7 +589,13 @@ def draw_close(img, d, lt, dur, ctx, sc):
         d.text((x + 135, 425), v, font=font(F_BOLD, 52), fill=mix(BG, INK, a), anchor="mm")
         d.text((x + 135, 485), lab, font=font(F_SANS, 24), fill=mix(BG, MUTE, a), anchor="mm")
     g = eo((lt - 1.4) / 0.8)
-    d.text((90, 640), "Go find them.", font=font(F_SERIFB, 104), fill=mix(BG, CHAMP, g), anchor="la")
+    line = (seg or {}).get("signoff") or "Go find them."
+    size = 96
+    while font(F_SERIFB, size).getlength(line) > 1740 and size > 50:
+        size -= 4
+    lines = wrap(line, font(F_SERIFB, size), 1740)
+    for j, ln in enumerate(lines[:2]):
+        d.text((90, 600 + j * size * 1.1), ln, font=font(F_SERIFB, size), fill=mix(BG, CHAMP, g), anchor="la")
     # confetti
     rnd = np.random.default_rng(ctx["seed"])
     for i in range(70):
@@ -663,11 +794,109 @@ def decode(path):
     return np.frombuffer(raw, dtype=np.float32).copy()
 
 
+AUDIO_EXT = (".mp3", ".m4a", ".wav", ".aac")
+
+
+def find_audio(slug):
+    for ext in AUDIO_EXT:
+        f = AUDIO / f"{slug}{ext}"
+        if f.exists():
+            return f
+    return None
+
+
+def trim_silence(x, thr):
+    """Index of first and last sample above the threshold."""
+    hop = int(SR * 0.02)
+    rms = np.sqrt(np.convolve(x ** 2, np.ones(hop) / hop, mode="same"))
+    loud = np.where(rms > thr)[0]
+    if len(loud) == 0:
+        return 0, len(x)
+    return max(0, loud[0] - hop * 5), min(len(x), loud[-1] + hop * 10)
+
+
+def _short_gaps(quiet, min_len=0.18):
+    out, k, f = [], 0, len(quiet)
+    while k < f:
+        if quiet[k]:
+            j = k
+            while j < f and quiet[j]:
+                j += 1
+            if (j - k) * 0.02 >= min_len and k > 0 and j < f:
+                out.append(((k + j) / 2 * 0.02, (j - k) * 0.02))
+            k = j
+        else:
+            k += 1
+    return out
+
+
+def align(voice, segs):
+    """Scene start/end times (seconds into the voice), one per segment.
+
+    Looks for the reader's pauses between sections. The N-1 longest pauses become the scene
+    boundaries when every resulting scene is a plausible length for its words; otherwise
+    scenes are timed by word count. Returns (bounds, method)."""
+    n = len(segs)
+    dur = len(voice) / SR
+    words = np.array([len(sg["text"].split()) for sg in segs], np.float64)
+    expect = np.cumsum(words) / words.sum() * dur
+    fallback = [0.0] + list(expect[:-1]) + [dur]
+    hop = int(SR * 0.02)
+    frames = len(voice) // hop
+    if frames < 10 or n < 2:
+        return fallback, "words"
+    rms = np.sqrt((voice[: frames * hop].reshape(frames, hop) ** 2).mean(axis=1))
+    thr = max(np.percentile(rms, 95) * 0.06, 1e-4)
+    quiet = rms < thr
+    gaps, k = [], 0
+    while k < frames:
+        if quiet[k]:
+            j = k
+            while j < frames and quiet[j]:
+                j += 1
+            length = (j - k) * 0.02
+            if length >= 0.45 and k > 0 and j < frames:
+                gaps.append(((k + j) / 2 * 0.02, length))
+            k = j
+        else:
+            k += 1
+    def plausible(bounds):
+        for q in range(n):
+            got = bounds[q + 1] - bounds[q]
+            want = fallback[q + 1] - fallback[q]
+            if not (0.4 * want <= got <= 2.5 * want):
+                return False
+        return True
+
+    # 1) the reader left clearly longer pauses at the section breaks
+    if len(gaps) >= n - 1:
+        best = sorted(gaps, key=lambda g: -g[1])[: n - 1]
+        bounds = [0.0] + sorted(g[0] for g in best) + [dur]
+        if plausible(bounds):
+            return bounds, "pauses"
+    # 2) otherwise estimate each break from word count and snap it to the nearest real pause,
+    #    so scenes never change mid-word
+    small = [g for g in gaps] + [(t, l) for t, l in _short_gaps(quiet) if all(abs(t - g[0]) > 0.1 for g in gaps)]
+    cuts, prev = [], 0.0
+    for q in range(1, n):
+        want = fallback[q]
+        win = max(3.0, 0.25 * (fallback[q + 1] - fallback[q - 1]))
+        cands = [g for g in small if abs(g[0] - want) <= win and g[0] > prev + 1.5]
+        if cands:
+            t = min(cands, key=lambda g: abs(g[0] - want) / win - 1.5 * min(g[1], 1.0))[0]
+        else:
+            t = max(want, prev + 1.5)
+        cuts.append(t)
+        prev = t
+    bounds = [0.0] + cuts + [dur]
+    return (bounds, "snapped") if plausible(bounds) else (fallback, "words")
+
+
 def build_timeline(script, narr):
     scenes_by_id = {s["id"]: s for s in script["script"]["scenes"]}
     ctx = dict(
         monthName=narr["monthName"], month=narr["month"], studio=narr["studio"], offers=narr["offers"],
-        buyers=narr["buyers"], target=narr["target"], offersWord=None,
+        buyers=narr["buyers"], target=narr["target"],
         theme=scenes_by_id["open"]["data"]["theme"], seed=narr["month"] * 31 + len(narr["studio"]),
     )
     ctx["target_say"] = lakh_disp(narr["target"])
@@ -675,78 +904,55 @@ def build_timeline(script, narr):
     ctx["offers_word"] = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"}.get(narr["offers"], str(narr["offers"]))
     offer_rev = [s["data"]["revenue"] for s in script["script"]["scenes"] if s["kind"] == "offer"]
     max_rev = max(offer_rev) if offer_rev else 1
-    top_offer = max(offer_rev) if offer_rev else None
-    a_audio = decode(AUDIO / f"{narr['slug']}-a.mp3")
-    b_audio = decode(AUDIO / f"{narr['slug']}-b.mp3")
-    dA, dB = len(a_audio) / SR, len(b_audio) / SR
-    T_A = PRE
-    T_H = T_A + dA
-    T_B = T_H + HAND
-    T_END = T_B + dB
+    raw = decode(narr["audio"])
+    peak = float(np.abs(raw).max() or 1.0)
+    raw = raw / peak * 0.89  # level the read so every month sits at the same loudness
+    a0, a1 = trim_silence(raw, 0.01)
+    voice = raw[a0:a1]
+    segs = narr["segments"]
+    bounds, method = align(voice, segs)
+    T_V = PRE
+    T_END = T_V + len(voice) / SR
     T_TOTAL = T_END + OUTRO
-    scenes, sfx = [], []
-    scenes.append(dict(kind="intro", s=0.0, e=PRE, seg=None, sc=None))
-    sfx.append((0.15, "whoosh", 0.6))
-    sfx.append((0.7, "tada", 0.5))
-
-    def add_block(segs, start, dur):
-        total = sum(len(x["text"]) for x in segs)
-        acc = 0
-        for seg in segs:
-            s = start + dur * acc / total
-            acc += len(seg["text"])
-            e = start + dur * acc / total
-            kind = "offer" if seg["id"].startswith("offer-") else seg["id"]
-            scenes.append(dict(kind=kind, s=s, e=e, seg=seg, sc=scenes_by_id.get(seg["id"])))
-            sfx.append((s, "whoosh", 0.35))
-    add_block(narr["blocks"]["a"]["segments"], T_A, dA)
-    scenes.append(dict(kind="handoff", s=T_H, e=T_B, seg=None, sc=None))
-    sfx.append((T_H + 0.05, "record_scratch", 0.7))
-    add_block(narr["blocks"]["b"]["segments"], T_B, dB)
+    scenes, sfx = [dict(kind="intro", s=0.0, e=T_V, seg=None, sc=None)], []
+    sfx += [(0.15, "whoosh", 0.6), (0.7, "tada", 0.5)]
+    for q, seg in enumerate(segs):
+        s_, e_ = T_V + bounds[q], T_V + bounds[q + 1]
+        kind = "offer" if seg["id"].startswith("offer-") else seg["id"]
+        scenes.append(dict(kind=kind, s=s_, e=e_, seg=seg, sc=scenes_by_id.get(seg["id"])))
+        sfx.append((max(0.0, s_ - 0.15), "whoosh", 0.3))
     scenes.append(dict(kind="endcard", s=T_END, e=T_TOTAL, seg=None, sc=None))
     sfx.append((T_END + 0.2, "ding", 0.6))
-
-    # sound effect cues on the scenes that deserve a meme
+    # light sound cues; kept quiet so they sit under a real voice
     for sc in scenes:
-        k, s, e = sc["kind"], sc["s"], sc["e"]
-        D = e - s
+        k, s_, e_ = sc["kind"], sc["s"], sc["e"]
+        D = e_ - s_
         if k == "target":
-            if narr["targetTrend"] == "up":
-                sfx.append((s + 0.6 * D, "cha_ching", 0.8))
-            else:
-                sfx.append((s + 0.35 * D, "sad_trombone", 0.9))
+            sfx.append((s_ + 1.2, "cha_ching" if narr["targetTrend"] == "up" else "boing", 0.45))
         elif k == "streams":
             for i in range(4):
-                sfx.append((s + D * (0.15 + 0.13 * i), "pop", 0.45))
-        elif k == "funnel":
-            sfx.append((s + 0.2 * D, "drum_roll", 0.6))
-            sfx.append((s + 0.78 * D, "rimshot", 0.9))
+                sfx.append((s_ + 1.0 + 0.35 * i, "pop", 0.3))
         elif k == "coverage":
-            sfx.append((s + 0.25 * D, "ding", 0.6))
-            sfx.append((s + 0.55 * D, "cha_ching", 0.8))
+            sfx.append((s_ + 1.6, "ding", 0.4))
         elif k == "offer":
-            sfx.append((s + 0.12 * D, "pop", 0.6))
-            sfx.append((s + 0.5 * D, "cha_ching", 0.75))
-            if sc["sc"] and sc["sc"]["data"]["revenue"] == top_offer:
-                sfx.append((s + 0.12 * D, "vine_boom", 0.9))
+            sfx.append((s_ + 0.5, "pop", 0.4))
+            if sc["sc"] and sc["sc"]["data"]["revenue"] == max_rev:
+                sfx.append((s_ + 1.6, "cha_ching", 0.45))
         elif k == "plan":
             for i in range(4):
-                sfx.append((s + D * (0.12 + 0.2 * i), "ding", 0.55))
+                sfx.append((s_ + 0.4 + D * (0.12 + 0.22 * i), "ding", 0.3))
         elif k == "close":
-            sfx.append((s + 0.08 * D, "airhorn", 0.85))
-            sfx.append((s + 0.75 * D, "tada", 0.6))
+            sfx.append((s_ + 0.3, "tada", 0.5))
     ctx["maxRevenue"] = max_rev
-    return dict(ctx=ctx, scenes=scenes, sfx=sfx, a=a_audio, b=b_audio, T_A=T_A, T_B=T_B, T_TOTAL=T_TOTAL,
-                dA=dA, dB=dB, T_END=T_END, max_rev=max_rev)
+    print(f"  timing: scenes matched to {method} ({len(segs)} scenes, {len(voice)/SR:.0f}s of voice)")
+    return dict(ctx=ctx, scenes=scenes, sfx=sfx, voice=voice, T_V=T_V, T_TOTAL=T_TOTAL, T_END=T_END,
+                max_rev=max_rev, method=method)
 
 
 def render_scene(img, d, sc, lt, dur, ctx, t, T_TOTAL):
     k = sc["kind"]
     if k == "intro":
         draw_intro(img, d, lt, ctx)
-        return
-    if k == "handoff":
-        draw_handoff(img, d, lt, ctx)
         return
     if k == "endcard":
         draw_endcard(img, d, lt, dur, ctx, sc)
@@ -768,9 +974,9 @@ def render_scene(img, d, sc, lt, dur, ctx, t, T_TOTAL):
         o["maxRevenue"] = ctx["maxRevenue"]
         draw_offer(img, d, lt, dur, ctx, dict(sc=None, data=o))
     elif k == "plan":
-        draw_plan(img, d, lt, dur, ctx, data_for)
+        draw_plan(img, d, lt, dur, ctx, data_for, sc.get("seg"))
     elif k == "close":
-        draw_close(img, d, lt, dur, ctx, data_for)
+        draw_close(img, d, lt, dur, ctx, data_for, sc.get("seg"))
 
 
 def caption_for(sc):
@@ -783,19 +989,56 @@ def caption_shown(text, progress):
     return int(len(text.split()) * clamp(progress)) + 1
 
 
+FIGURE_WORDS = {"lakh", "crore", "rupees", "per", "cent", "buyers", "buyer", "trials", "leads"}
+
+
+def is_figure(w, prev_fig):
+    core = w.strip(".,!?:;").lower()
+    return any(ch.isdigit() for ch in core) or core in ("lakh", "crore", "rupees") or (
+        core in FIGURE_WORDS and prev_fig)
+
+
+def caption_window(text, progress, maxw, f, max_lines=3):
+    """Long sections scroll: show the 3 lines around the spoken word."""
+    lines = wrap(text, f, maxw)
+    shown = caption_shown(text, progress)
+    acc, cur = 0, 0
+    for i, ln in enumerate(lines):
+        if acc + len(ln.split()) >= shown:
+            cur = i
+            break
+        acc += len(ln.split())
+    else:
+        cur = len(lines) - 1
+    start = max(0, min(cur - 1, len(lines) - max_lines))
+    skip = sum(len(ln.split()) for ln in lines[:start])
+    return lines[start:start + max_lines], shown - skip
+
+
 def draw_caption(img, d, text, progress, oy=0):
     f = font(F_SANS, 36)
-    lines = wrap(text, f, 1640)
-    shown = caption_shown(text, progress)
+    fb = font(F_BOLD, 36)
+    lines, shown = caption_window(text, progress, 1640, f)
     y_bottom = 1040
     y = y_bottom - len(lines) * 52 - oy
-    wi = 0
+    wi, prev = 0, False
     for ln in lines:
         x = 140
         for w in ln.split():
-            col = INK if wi < shown else mix(BG, INK, 0.45)
-            d.text((x, y), w, font=f, fill=col, anchor="la")
-            x += f.getlength(w + " ")
+            fig = is_figure(w, prev)
+            if w[-1:] in ".,!?:;":
+                prev_end = True
+            else:
+                prev_end = False
+            ff = fb if fig else f
+            base = GOLD if fig else INK
+            col = base if wi < shown else mix(BG, base, 0.4)
+            d.text((x, y), w, font=ff, fill=col, anchor="la")
+            wl = ff.getlength(w)
+            if wi == shown - 1:
+                d.line((x, y + 44, x + wl, y + 44), fill=GOLD, width=3)
+            x += wl + f.getlength(" ")
+            prev = fig and not prev_end
             wi += 1
         y += 52
 
@@ -804,8 +1047,8 @@ def write_audio(path, tl):
     n = int(tl["T_TOTAL"] * SR) + SR
     rng = np.random.default_rng(7)
     voice = np.zeros(n, np.float32)
-    voice[int(tl["T_A"] * SR): int(tl["T_A"] * SR) + len(tl["a"])] += tl["a"]
-    voice[int(tl["T_B"] * SR): int(tl["T_B"] * SR) + len(tl["b"])] += tl["b"]
+    i0 = int(tl["T_V"] * SR)
+    voice[i0: i0 + len(tl["voice"])] += tl["voice"]
     bed = make_bed(n, rng)
     fx = np.zeros(n, np.float32)
     cache = {}
@@ -818,7 +1061,12 @@ def write_audio(path, tl):
             continue
         m = min(len(clip), n - i0)
         fx[i0: i0 + m] += clip[:m] * gain
-    mono = voice * 1.0 + bed * 0.9 + fx
+    # duck the music bed and effects under the voice
+    env = np.abs(voice)
+    k = int(SR * 0.25)
+    env = np.convolve(env, np.ones(k) / k, mode="same")
+    duck = 1.0 - 0.6 * np.clip(env / 0.05, 0, 1)
+    mono = voice * 1.0 + bed * 0.9 * duck + fx * (0.5 + 0.5 * duck)
     mono = np.tanh(mono * 1.1).astype(np.float32)
     stereo = np.stack([mono, mono], axis=1).astype("<f4")
     path.write_bytes(stereo.tobytes())
@@ -828,6 +1076,11 @@ def render_month(slug, mm):
     script = json.loads((SCRIPTS / f"{slug}-{mm}.json").read_text())
     narr = json.loads((NARR / f"{slug}-{mm}.json").read_text())
     narr["slug"] = f"{slug}-{mm}"
+    narr["audio"] = find_audio(narr["slug"])
+    if narr["audio"] is None:
+        raise SystemExit(f"no recording for {slug}-{mm}: add public/explainer/audio/{slug}-{mm}.mp3")
+    if "segments" not in narr:
+        raise SystemExit(f"{slug}-{mm}: old narration format; run scripts/explainer/build_narration.py")
     tl = build_timeline(script, narr)
     ctx = tl["ctx"]
     VIDEO.mkdir(parents=True, exist_ok=True)
@@ -861,7 +1114,9 @@ def render_month(slug, mm):
         render_scene(img, ImageDraw.Draw(img), sc, lt, dur, ctx, t, tl["T_TOTAL"])
         if fade_from is not None:
             img = Image.blend(fade_from, img, eo(lt / 0.35))
-        header(ImageDraw.Draw(img), ctx, t / tl["T_TOTAL"])
+        hd = ImageDraw.Draw(img)
+        header(hd, ctx, t / tl["T_TOTAL"])
+        chapter_rail(hd, scenes, sc, t)
         caption = caption_for(sc)
         if caption:
             prog = lt / dur if dur > 0 else 1
@@ -900,8 +1155,10 @@ def main(argv):
         return
     for f in sorted(NARR.glob("*-[0-9][0-9].json")):
         slug, mm = f.stem.rsplit("-", 1)
-        if (AUDIO / f"{slug}-{mm}-b.mp3").exists() and (AUDIO / f"{slug}-{mm}-a.mp3").exists():
+        if find_audio(f"{slug}-{mm}"):
             render_month(slug, mm)
+        else:
+            print(f"skip {slug}-{mm}: no recording yet")
 
 
 if __name__ == "__main__":

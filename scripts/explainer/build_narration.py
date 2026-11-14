@@ -1,159 +1,278 @@
 #!/usr/bin/env python3
-"""Writes the two-host narration for every studio-month explainer video.
+"""Writes the narration for every studio-month explainer video (one narrator, one recording).
 
-Source of truth: public/explainer/scripts/<slug>-<MM>.json (the same numbers the app shows).
-Output:          public/explainer/narration/<slug>-<MM>.json
+Source of truth: public/explainer/scripts/<slug>-<MM>.json   (the same numbers the app shows)
+Voice:           scripts/explainer/narration_copy.py                   (hand-written month and offer copy)
+Output:
+  public/explainer/narration/<slug>-<MM>.json   segments the renderer animates, one per scene
+  docs/explainer-scripts/<slug>-<MM>.md         the read-aloud script for the recording
+  docs/explainer-scripts/README.md              index with word counts and estimated run time
 
-Host A (figures):  open, target, streams, funnel, coverage
-Host B (offers):   each offer, the weekly plan, the close
+Recording contract: one file per month, public/explainer/audio/<slug>-<MM>.mp3 (or .m4a/.wav).
+Leave a clear pause (about one second) at every "· · ·" so the renderer can line scenes up with
+the voice. Without clean pauses it falls back to timing scenes by word count.
 
-Each host block is one text the TTS voice reads in a single clip (kept under 1,500 chars).
+Usage: python3 scripts/explainer/build_narration.py [bandra-01 ...]
 """
-import json, re, sys
+import json
+import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import narration_copy as C  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / "public/explainer/scripts"
 OUT = ROOT / "public/explainer/narration"
+DOCS = ROOT / "docs/explainer-scripts"
 
-MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-WORDS = {1:"One",2:"Two",3:"Three",4:"Four",5:"Five",6:"Six",7:"Seven",8:"Eight",9:"Nine",10:"Ten"}
+WPM = 145  # a relaxed, clear read
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
+          "September", "October", "November", "December"]
+WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight"}
+ORD = {"first": "First up", "mid": ["Next", "Then", "Also this month", "After that"], "last": "And finally"}
 
-MONTH_OPEN = {
-  1: "New year, same you, better spreadsheet. Let's see what January wants from us.",
-  2: "February is short, so the plan is short on drama and long on follow-through.",
-  3: "March. The month that starts with good intentions and ends with a playlist on repeat.",
-  4: "April, the anniversary month. The confetti budget has been approved.",
-  5: "May. Warm enough to skip the jacket, cool enough to skip nothing.",
-  6: "June. Long evenings, Pride energy, and a plan that wants people to stay.",
-  7: "July. The monsoon is here to test your willpower. The plan brought an umbrella.",
-  8: "August. Half the city is on holiday. The other half is on our waitlist.",
-  9: "September. Back to routine, and the routine is the product.",
-  10: "October. Festive season is knocking, with gifting questions behind it.",
-  11: "November. Black Friday, Diwali leftovers, and a lot of good resolutions.",
-  12: "December. Gifts, goals and very festive sweat. Let's close the year properly.",
-}
-TARGET_UP = ["Up on last year. The plan has a plan for that.", "A stretch, but a friendly one."]
-TARGET_DOWN = ["Down on last year. Not a crisis, just a smaller mountain.", "Lower than last year, and the plan says that's fine. Let's make it count."]
-STREAM_QUIP = ["Existing members are doing the heavy lifting. Be nice to them.", "The loyal crowd carries this month. Thank them, then sell them something lovely."]
-FUNNEL_QUIP = ["Every trial is a person who showed up. Welcome them, then sell gently.", "Trials are the warm-up. Buyers are the main set."]
-COVER_QUIP = ["Offers do the heavy lifting. Full-price sales do the encore."]
-SLOT_QUIP = {
-  "Revenue boost": ["Flash energy, zero fake countdown timers. Well, almost.", "A sale with a spine. Spend it fast, or it spends you.", "The kind of deal that makes people ask, wait, is this real?"],
-  "New clients": ["Give first-timers a reason to come back for class two.", "Step one is the awkward class. Step two is the good one.", "The welcome mat is out. Please wipe your feet."],
-  "Win-backs": ["This one says we missed you, politely, with a discount attached.", "The mat has been waiting. Be kind, come back.", "A gentle nudge, with a discount on the nudge."],
-  "Renewals": ["This one rewards the people who already picked us. Respect.", "The easiest sale is the member already in the building.", "Loyalty, but make it financially reasonable."],
-}
-DEFAULT_QUIP = ["Let's get this one on the board."]
 
 def num(x):
     x = round(float(x), 1)
     return str(int(x)) if x == int(x) else f"{x:.1f}"
 
-def lakh(v):
+
+def money(v, unit=True):
+    """Spoken money: '17.6 lakh rupees', '45,000 rupees'."""
     v = float(v or 0)
     if v >= 1e7:
-        return f"{v/1e7:.2f}".rstrip("0").rstrip(".") + " crore"
-    if v >= 1e5:
-        return f"{v/1e5:.2f}".rstrip("0").rstrip(".") + " lakh"
-    return None
+        s = f"{v/1e7:.2f}".rstrip("0").rstrip(".") + " crore"
+    elif v >= 1e5:
+        s = f"{v/1e5:.{2 if v < 1e6 else 1}f}".rstrip("0").rstrip(".") + " lakh"
+    else:
+        s = f"{int(round(v, -2)):,}"
+    return s + (" rupees" if unit else "")
 
-def say_money(v):
-    l = lakh(v)
-    if l: return f"{l} rupees"
-    return f"{round(float(v or 0)):,} rupees"
 
 def disp_money(v):
     v = float(v or 0)
     if v >= 1e5:
-        return "\u20b9" + f"{v/1e5:.2f}".rstrip("0").rstrip(".") + "L"
-    return f"\u20b9{round(v):,}"
+        return "₹" + f"{v/1e5:.2f}".rstrip("0").rstrip(".") + "L"
+    return f"₹{round(v):,}"
 
-def clean_name(n):
-    n = n.replace("\u2192", " to ").replace("(", ", ").replace(")", "").replace("  ", " ")
-    n = re.sub(r"\s+,", ",", n).strip().rstrip(",")
-    return n.rstrip(".")
 
 def pick(pool, seed):
     return pool[seed % len(pool)]
 
-def build(slug_path):
-    d = json.load(open(slug_path))
-    m = d["month"]; mname = MONTHS[m-1]; studio = d["studioName"]
+
+SEQ_WORDS = re.compile(r"^(First up|First|Then|Next|And finally|Finally|And)\s*,?\s+", re.I)
+
+
+def plan_beats(m, names):
+    out = []
+    for i, beat in enumerate(C.MONTHS[m]["plan"]):
+        need = C.PLAN_NEEDS.get(m, [None] * 4)[i]
+        beat = beat if (need is None or need in names) else C.PLAN_FALLBACK[i]
+        out.append(beat)
+    return out
+
+
+def offer_line(o, k, n, seed):
+    name = o["name"]
+    c = C.OFFERS.get(name)
+    if c is None:  # an offer the copy library has not met yet: use the plan's own headline
+        c = dict(hook=f"{name}.", how=o.get("headline") or "")
+        print(f"  ! no hand-written copy for offer: {name}", file=sys.stderr)
+    hook = SEQ_WORDS.sub("", c["hook"].strip())
+    first = hook.split(" ", 1)[0]
+    if first in ("For", "The", "Our", "And"):
+        hook = hook[0].lower() + hook[1:]
+    if n == 1:
+        lead = "Our one offer this month"
+        hook = f"{lead}: {hook[0].upper() + hook[1:]}"
+    elif k == 0:
+        hook = f"{ORD['first']}, {hook}"
+    elif k == n - 1:
+        hook = f"{ORD['last']}, {hook}"
+    else:
+        hook = f"{pick(ORD['mid'], k - 1)}, {hook}"
+    hook = hook[0].upper() + hook[1:]
+    how = c["how"]
+    if n >= 5:  # busy months: keep only the mechanic, drop the joke tail
+        how = re.split(r"(?<=[.?!])\s+", how)[0]
+    b = o["buyers"]
+    who = f"{b} {'buyer' if b == 1 else 'buyers'}"
+    figure = (f"That's {who}, for {money(o['revenue'])}." if n >= 5 else
+              f"The plan is {who} at about {money(o['ticket'], unit=False)}, so {money(o['revenue'])}.")
+    return f"{hook} {how} {figure}"
+
+
+def build(path):
+    d = json.load(open(path))
+    m = d["month"]
+    mname = MONTHS[m - 1]
+    studio = d["studioName"]
+    mc = C.MONTHS[m]
     scenes = {s["id"]: s for s in d["script"]["scenes"]}
-    op = scenes["open"]["data"]; tg = scenes["target"]["data"]; st = scenes["streams"]["data"]
-    fn = scenes["funnel"]["data"]; cv = scenes["coverage"]["data"]
+    op, tg, st = scenes["open"]["data"], scenes["target"]["data"], scenes["streams"]["data"]
+    fn, cv = scenes["funnel"]["data"], scenes["coverage"]["data"]
     offers = [s for s in d["script"]["scenes"] if s["kind"] == "offer"]
-    plan = [s for s in d["script"]["scenes"] if s["kind"] == "plan"][0]
-    target = tg["target"]; ly = tg["lastYear"]; yoy = tg["yoy"]
-    n_off = len(offers)
+    n = len(offers)
+    target, ly, yoy = tg["target"], tg["lastYear"], tg["yoy"]
     seed = m * 7 + len(studio)
+    segs = []
 
-    a_segments = []
-    a_segments.append({"id":"open","kicker":f"{studio} \u00b7 2027","title":mname,
-        "text": f"{mname} 2027 at {studio}. The theme is {op['theme']}. {MONTH_OPEN[m]}"})
-    direction = "above" if yoy >= 0 else "below"
-    pctv = round(abs(yoy) * 100)
-    quip_t = pick(TARGET_UP if yoy >= 0 else TARGET_DOWN, seed)
-    a_segments.append({"id":"target","kicker":"What the month has to do","title":disp_money(target),
-        "text": f"The target is {say_money(target)}. That is {pctv} per cent {direction} the {say_money(ly)} of last {mname}. {quip_t}"})
+    def add(id_, kicker, title, text, notes=None, **extra):
+        segs.append(dict(id=id_, kicker=kicker, title=title, text=re.sub(r"\s+", " ", text).strip(),
+                         **({"notes": notes} if notes else {}), **extra))
+
+    # open
+    add("open", f"{studio} · 2027", mname,
+        f"Hello {studio}! {mc['open']}")
+
+    # target
+    pct = round(abs(yoy) * 100)
+    if pct < 2:
+        trend = pick(C.TARGET_FLAT, seed)
+    elif yoy > 0:
+        trend = pick(C.TARGET_UP, seed)
+    else:
+        trend = pick(C.TARGET_DOWN, seed)
+    add("target", "The number", disp_money(target),
+        f"So, the number. Our {mname} target for {studio} is {money(target)}. "
+        + trend.format(pct=pct, month=mname))
+
+    # streams
     s = sorted(st["streams"], key=lambda x: -x["value"])
-    label = {"renewal":"renewals","newClient":"new clients","reactivation":"comeback","other":"other"}
-    parts = [f"{label.get(x['key'], x['label'].lower())} at {say_money(x['value'])}, {num(x['share'])} per cent" for x in s]
-    lead = f"{s[0]['label']} lead" if s[0]['key']!='renewal' else "Renewals lead"
-    a_segments.append({"id":"streams","kicker":"Where it comes from","title":f"{len(s)} streams",
-        "text": f"{'Renewals' if s[0]['key']=='renewal' else s[0]['label']} lead at {say_money(s[0]['value'])}, {num(s[0]['share'])} per cent. Then " + ", ".join(parts[1:]) + ". " + pick(STREAM_QUIP, seed)})
-    a_segments.append({"id":"funnel","kicker":"Who has to walk in","title":f"{fn['buyers']} buyers",
-        "text": f"{fn['leads']} leads, {fn['trials']} trials, {fn['buyers']} buyers, and {num(fn['trialToBuyer']*100)} per cent of trials convert. " + pick(FUNNEL_QUIP, seed)})
-    cov_pct = round(cv["share"] * 100)
-    a_segments.append({"id":"coverage","kicker":"What the offers carry","title":f"{cov_pct}%",
-        "text": f"{WORDS.get(n_off, str(n_off))} offers carry {say_money(cv['offerRevenue'])}, {cov_pct} per cent of the {say_money(target)} target. The other {say_money(cv['standard'])} is expected at full price. " + pick(COVER_QUIP, seed)})
+    label = {"renewal": "renewals", "newClient": "new clients", "reactivation": "comebacks", "other": "everything else"}
+    lead = s[0]
+    rest = [f"{label.get(x['key'], x['label'].lower())} {money(x['value'], unit=False)}" for x in s[1:] if x["value"] > 0]
+    rest_txt = (", ".join(rest[:-1]) + (", and " if len(rest) > 1 else "") + rest[-1]) if rest else ""
+    tenth = round(lead["share"] / 10)
+    add("streams", "Where it comes from", f"{len(s)} streams",
+        f"Where does it come from? {label.get(lead['key'], lead['label']).capitalize()} lead the way with {money(lead['value'])}. "
+        f"That's {tenth} of every 10 rupees. "
+        + (f"Then {rest_txt}. " if rest_txt else "")
+        + C.STREAM_LEAD.get(lead["key"], ""))
 
-    b_segments = []
+    # funnel
+    conv = fn["trialToBuyer"] * 100
+    add("funnel", "Who has to walk in", f"{fn['buyers']} buyers",
+        f"Behind the number are people: {fn['leads']} leads, {fn['trials']} trials, "
+        f"and {fn['buyers']} buyers, with about {round(conv)} per cent of trials converting. "
+        + pick(C.FUNNEL_TAIL, seed))
+
+    # coverage
+    cov = round(cv["share"] * 100)
+    add("coverage", "What the offers carry", f"{cov}%",
+        f"Here's where the offers come in. {WORDS.get(n, str(n)).capitalize()} "
+        f"{'offer carries' if n == 1 else 'offers carry'} {money(cv['offerRevenue'])}, which is {cov} per cent of our target. "
+        + pick(C.COVER_TAIL, seed) + (" Let's meet them." if n > 1 else " Let's meet it."))
+
+    # offers
     for k, sc in enumerate(offers):
-        o = sc["data"]; name = clean_name(o["name"]); slot = o["slotLabel"]
-        quip = pick(SLOT_QUIP.get(slot, DEFAULT_QUIP), seed + k)
-        b_segments.append({"id":sc["id"],"kicker":f"Offer {k+1} of {n_off} \u00b7 {slot}","title":o["name"],
-            "text": f"Offer {k+1} of {n_off}. {name}. {slot}. {o['buyers']} buyers at {round(o['ticket']):,} rupees, that is {say_money(o['revenue'])}" + (f", with {num(o['discount'])} per cent off" if o['discount'] else "") + f". {quip}"})
-    wk = {"W1":"Week one, launch the offers.","W2":"Week two, check sell-out and redemptions every week.","W3":None,"W4":"Week four, close the month, tag every redemption, and brief next month."}
-    steps = []
-    for stp in plan["data"]["steps"]:
-        if stp["label"] == "W3":
-            steps.append(f"Week three, a mid-month review against {say_money(target)}.")
-        else:
-            steps.append(wk[stp["label"]])
-    b_segments.append({"id":"plan","kicker":"How the month runs","title":"4 moves",
-        "text": "How the month runs. " + " ".join(steps)})
-    b_segments.append({"id":"close","kicker":f"{mname} 2027","title":"That is the plan",
-        "text": f"That's {mname} at {studio}: {say_money(target)} across {WORDS.get(n_off, str(n_off))} offers, and {fn['buyers']} buyers to find. Go find them."})
+        o = sc["data"]
+        add(sc["id"], f"Offer {k+1} of {n} · {o['slotLabel']}", o["name"], offer_line(o, k, n, seed + k),
+            notes=o.get("audience"))
 
-    def block(segs):
-        return {"text": " ".join(x["text"] for x in segs), "segments": segs}
+    # plan
+    beats = plan_beats(m, {o["data"]["name"] for o in offers})
+    add("plan", "How the month runs", "4 weeks", "How does the month run? " + " ".join(beats),
+        beats=[re.sub(r"^Week \w+, ", "", b) for b in beats])
+
+    # close
+    add("close", f"{mname} 2027", "That's the plan",
+        f"That's {mname} at {studio}. {money(target)}, {WORDS.get(n, str(n))} "
+        f"{'offer' if n == 1 else 'offers'}, and {fn['buyers']} buyers to welcome. {mc['close']}", signoff=mc["close"])
+
+    words = sum(len(x["text"].split()) for x in segs)
     return {
-        "slug": slug_path.stem,
+        "slug": path.stem,
         "studio": studio,
         "month": m,
         "monthName": mname,
         "year": 2027,
+        "theme": op["theme"],
         "target": target, "lastYear": ly, "yoy": yoy,
-        "offers": n_off,
+        "offers": n,
         "buyers": fn["buyers"],
         "targetTrend": "up" if yoy >= 0 else "down",
-        "blocks": {"a": block(a_segments), "b": block(b_segments)},
+        "words": words,
+        "estSeconds": round(words / WPM * 60),
+        "segments": segs,
     }
+
+
+def mmss(sec):
+    return f"{sec // 60}:{sec % 60:02d}"
+
+
+def write_doc(doc):
+    lines = [f"# {doc['monthName']} 2027 · {doc['studio']}", "",
+             f"**Theme:** {doc['theme']}  ",
+             f"**Read time:** about {mmss(doc['estSeconds'])} ({doc['words']} words at a relaxed pace)  ",
+             f"**Save the recording as:** `public/explainer/audio/{doc['slug']}.mp3`", "",
+             "> Read warmly, smile on the jokes, and pause for a full beat at every `· · ·`. "
+             "Those pauses are how the video knows when to change scenes.", ""]
+    for i, s in enumerate(doc["segments"]):
+        lines.append(f"### {i+1}. {s['kicker']} — {s['title']}")
+        lines.append("")
+        lines.append(s["text"])
+        lines.append("")
+        if i < len(doc["segments"]) - 1:
+            lines.append("· · ·")
+            lines.append("")
+    (DOCS / f"{doc['slug']}.md").write_text("\n".join(lines))
+
+
+def write_index(docs):
+    rows = ["# 2027 month explainer scripts", "",
+            "One script per studio-month. Record each one as a single take and save it as "
+            "`public/explainer/audio/<slug>.mp3`, then run `./scripts/render-all.sh`.", "",
+            "| Script | Theme | Offers | Words | Read time |", "|---|---|---|---|---|"]
+    for d in docs:
+        rows.append(f"| [{d['monthName']} · {d['studio']}]({d['slug']}.md) | {d['theme']} | {d['offers']} | "
+                    f"{d['words']} | {mmss(d['estSeconds'])} |")
+    (DOCS / "README.md").write_text("\n".join(rows) + "\n")
+
+
+def write_all(docs):
+    """Every script in one document, month by month, for review and recording."""
+    out = ["# Sales Plan 2027 — Explainer Video Scripts", "",
+           "All 48 scripts: 12 months × 4 studios. Each runs about 2 to 3 minutes at a relaxed pace.", "",
+           "**Recording notes:** one take per script, warm and smiling on the jokes. Pause for a full beat at "
+           "every `· · ·` (that's how the video changes scenes). Save as `public/explainer/audio/<file>.mp3`.", ""]
+    for m in range(1, 13):
+        group = [d for d in docs if d["month"] == m]
+        if not group:
+            continue
+        out += ["---", "", f"# {MONTHS[m-1]} — {group[0]['theme']}", ""]
+        for d in group:
+            out += [f"## {d['monthName']} · {d['studio']}", "",
+                    f"*Read time ≈ {mmss(d['estSeconds'])} · {d['words']} words · save as `{d['slug']}.mp3`*", ""]
+            for i, sg in enumerate(d["segments"]):
+                out += [f"**{sg['kicker']} — {sg['title']}**", "", sg["text"], ""]
+                if i < len(d["segments"]) - 1:
+                    out += ["· · ·", ""]
+    (DOCS / "ALL-SCRIPTS.md").write_text("\n".join(out) + "\n")
+
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    only = sys.argv[1:]  # optional slugs like bandra-01
-    files = sorted(SCRIPTS.glob("*-[0-9][0-9].json"))
-    for f in files:
-        if only and f.stem not in only: continue
+    DOCS.mkdir(parents=True, exist_ok=True)
+    only = sys.argv[1:]
+    docs = []
+    for f in sorted(SCRIPTS.glob("*-[0-9][0-9].json")):
+        if only and f.stem not in only:
+            continue
         doc = build(f)
         (OUT / f"{f.stem}.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1))
-        a, b = doc["blocks"]["a"]["text"], doc["blocks"]["b"]["text"]
-        flag = "" if max(len(a), len(b)) <= 1450 else "  <-- OVER 1450, split needed"
-        print(f"{f.stem}: A={len(a)} B={len(b)}{flag}")
-    print("wrote", len(files), "narration files")
+        write_doc(doc)
+        docs.append(doc)
+        flag = "" if 120 <= doc["estSeconds"] <= 185 else "   <-- outside 2:00-3:05"
+        print(f"{f.stem}: {doc['words']} words, ~{mmss(doc['estSeconds'])}{flag}")
+    if not only:
+        write_index(docs)
+        write_all(docs)
+    print("wrote", len(docs), "narrations")
+
 
 if __name__ == "__main__":
     main()

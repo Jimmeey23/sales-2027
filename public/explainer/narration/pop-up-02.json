@@ -4,88 +4,92 @@
  "month": 2,
  "monthName": "February",
  "year": 2027,
+ "theme": "Valentine's + Stronger in 30 2.0",
  "target": 183233,
  "lastYear": 127682,
  "yoy": 0.43507307216365665,
  "offers": 4,
  "buyers": 48,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "February 2027 at Pop-up. The theme is Valentine's + Stronger in 30 2.0. February is short, so the plan is short on drama and long on follow-through. The target is 1.83 lakh rupees. That is 44 per cent above the 1.28 lakh rupees of last February. Up on last year. The plan has a plan for that. New clients lead at 88,996 rupees, 48.6 per cent. Then renewals at 80,623 rupees, 44 per cent, comeback at 11,782 rupees, 6.4 per cent, other at 1,832 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them. 562 leads, 146 trials, 48 buyers, and 32.9 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 63,616 rupees, 35 per cent of the 1.83 lakh rupees target. The other 1.2 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Pop-up · 2027",
-     "title": "February",
-     "text": "February 2027 at Pop-up. The theme is Valentine's + Stronger in 30 2.0. February is short, so the plan is short on drama and long on follow-through."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹1.83L",
-     "text": "The target is 1.83 lakh rupees. That is 44 per cent above the 1.28 lakh rupees of last February. Up on last year. The plan has a plan for that."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "4 streams",
-     "text": "New clients lead at 88,996 rupees, 48.6 per cent. Then renewals at 80,623 rupees, 44 per cent, comeback at 11,782 rupees, 6.4 per cent, other at 1,832 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "48 buyers",
-     "text": "562 leads, 146 trials, 48 buyers, and 32.9 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "35%",
-     "text": "Four offers carry 63,616 rupees, 35 per cent of the 1.83 lakh rupees target. The other 1.2 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 442,
+ "estSeconds": 183,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Pop-up · 2027",
+   "title": "February",
+   "text": "Hello Pop-up! February. The shortest month, and the most romantic. Our theme pairs Valentine's with Stronger in 30, round two. Love is in the air, and so are a lot of very committed glutes."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹1.83L",
+   "text": "So, the number. Our February target for Pop-up is 1.83 lakh rupees. That's 44 per cent above last February. We're growing, and the plan knows exactly how."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "4 streams",
+   "text": "Where does it come from? New clients lead the way with 89,000 rupees. That's 5 of every 10 rupees. Then renewals 80,600, comebacks 11,800, and everything else 1,800. New clients carry this month, so every trial is a first impression worth getting right."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "48 buyers",
+   "text": "Behind the number are people: 562 leads, 146 trials, and 48 buyers, with about 33 per cent of trials converting. Roughly one in five trials becomes a member. Our job is to make it one in four."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "35%",
+   "text": "Here's where the offers come in. Four offers carry 63,600 rupees, which is 35 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them."
+  },
+  {
+   "id": "offer-O27-06-POP",
+   "kicker": "Offer 1 of 4 · Revenue boost",
+   "title": "Couples Therapy (Cheaper Than the Real Thing)",
+   "text": "First up, Couples Therapy, cheaper than the real thing. Members bring someone new. The member gets ten per cent off, the guest gets fifteen, and both get a duo private. The only fight is over who holds the plank longer. The plan is 2 buyers at about 6,200, so 12,500 rupees.",
+   "notes": "Current members bringing a guest."
+  },
+  {
+   "id": "offer-O27-05-POP",
+   "kicker": "Offer 2 of 4 · New clients",
+   "title": "Situationship → Relationship",
+   "text": "Next, Situationship to Relationship. First-timers get fifteen per cent off their first month and a spot on the Stronger in 30 rookie track. Finish it, and they earn an extra week. Commitment never looked this good. The plan is 3 buyers at about 5,900, so 17,700 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-08-POP",
+   "kicker": "Offer 3 of 4 · Win-backs",
+   "title": "Galentine's Gone Ghost",
+   "text": "Then, for lapsed members, Galentine's Gone Ghost. Come back with your best friend. You get fifteen per cent off, she gets two classes on us, and if she joins, matching grip socks and bonus days. The plan is 2 buyers at about 5,900, so 11,800 rupees.",
+   "notes": "Friend must be new"
+  },
+  {
+   "id": "offer-O27-07-POP",
+   "kicker": "Offer 4 of 4 · Renewals",
+   "title": "Proof of Work",
+   "text": "And finally, for the challengers, Proof of Work. Did thirty classes in thirty days? Your renewal price shows it. Six months at twenty per cent off, or an annual with an extra private. Receipts, not resolutions. The plan is 3 buyers at about 7,200, so 21,700 rupees.",
+   "notes": "Price unlocked by verified attendance"
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, launch the couples offers and open Stronger in 30. Week two, Valentine's week, so every member hears about bringing someone new. Week three, cheer the challengers on, because attendance is the pitch. Week four, everyone who finished thirty classes gets their Proof of Work price.",
+   "beats": [
+    "launch the couples offers and open Stronger in 30.",
+    "Valentine's week, so every member hears about bringing someone new.",
+    "cheer the challengers on, because attendance is the pitch.",
+    "everyone who finished thirty classes gets their Proof of Work price."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 4. Couples Therapy, Cheaper Than the Real Thing. Revenue boost. 2 buyers at 6,237 rupees, that is 12,474 rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Situationship to Relationship. New clients. 3 buyers at 5,891 rupees, that is 17,673 rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Galentine's Gone Ghost. Win-backs. 2 buyers at 5,891 rupees, that is 11,782 rupees, with 18 per cent off. The mat has been waiting. Be kind, come back. Offer 4 of 4. Proof of Work. Renewals. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 15 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.83 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's February at Pop-up: 1.83 lakh rupees across Four offers, and 48 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-06-POP",
-     "kicker": "Offer 1 of 4 · Revenue boost",
-     "title": "Couples Therapy (Cheaper Than the Real Thing)",
-     "text": "Offer 1 of 4. Couples Therapy, Cheaper Than the Real Thing. Revenue boost. 2 buyers at 6,237 rupees, that is 12,474 rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real?"
-    },
-    {
-     "id": "offer-O27-05-POP",
-     "kicker": "Offer 2 of 4 · New clients",
-     "title": "Situationship → Relationship",
-     "text": "Offer 2 of 4. Situationship to Relationship. New clients. 3 buyers at 5,891 rupees, that is 17,673 rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
-    },
-    {
-     "id": "offer-O27-08-POP",
-     "kicker": "Offer 3 of 4 · Win-backs",
-     "title": "Galentine's Gone Ghost",
-     "text": "Offer 3 of 4. Galentine's Gone Ghost. Win-backs. 2 buyers at 5,891 rupees, that is 11,782 rupees, with 18 per cent off. The mat has been waiting. Be kind, come back."
-    },
-    {
-     "id": "offer-O27-07-POP",
-     "kicker": "Offer 4 of 4 · Renewals",
-     "title": "Proof of Work",
-     "text": "Offer 4 of 4. Proof of Work. Renewals. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 15 per cent off. Loyalty, but make it financially reasonable."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.83 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "February 2027",
-     "title": "That is the plan",
-     "text": "That's February at Pop-up: 1.83 lakh rupees across Four offers, and 48 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "February 2027",
+   "title": "That's the plan",
+   "text": "That's February at Pop-up. 1.83 lakh rupees, four offers, and 48 buyers to welcome. Short month, long commitments. That's the dream.",
+   "signoff": "Short month, long commitments. That's the dream."
   }
- }
+ ]
 }

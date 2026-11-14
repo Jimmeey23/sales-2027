@@ -4,88 +4,92 @@
  "month": 6,
  "monthName": "June",
  "year": 2027,
+ "theme": "Privates Month + Out of Office",
  "target": 1052834,
  "lastYear": 917710,
  "yoy": 0.14724041363829543,
  "offers": 4,
  "buyers": 53,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "June 2027 at Kenkere House. The theme is Privates Month + Out of Office. June. Long evenings, Pride energy, and a plan that wants people to stay. The target is 10.53 lakh rupees. That is 15 per cent above the 9.18 lakh rupees of last June. A stretch, but a friendly one. Renewals lead at 5.58 lakh rupees, 53 per cent. Then new clients at 3.58 lakh rupees, 34 per cent, other at 73,698 rupees, 7 per cent, comeback at 63,170 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 786 leads, 283 trials, 53 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 4.98 lakh rupees, 47 per cent of the 10.53 lakh rupees target. The other 5.55 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Kenkere House · 2027",
-     "title": "June",
-     "text": "June 2027 at Kenkere House. The theme is Privates Month + Out of Office. June. Long evenings, Pride energy, and a plan that wants people to stay."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹10.53L",
-     "text": "The target is 10.53 lakh rupees. That is 15 per cent above the 9.18 lakh rupees of last June. A stretch, but a friendly one."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "4 streams",
-     "text": "Renewals lead at 5.58 lakh rupees, 53 per cent. Then new clients at 3.58 lakh rupees, 34 per cent, other at 73,698 rupees, 7 per cent, comeback at 63,170 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "53 buyers",
-     "text": "786 leads, 283 trials, 53 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "47%",
-     "text": "Four offers carry 4.98 lakh rupees, 47 per cent of the 10.53 lakh rupees target. The other 5.55 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 422,
+ "estSeconds": 175,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Kenkere House · 2027",
+   "title": "June",
+   "text": "Hello Kenkere House! June is Privates Month, with a side of Out of Office. Half our members are packing for holidays, the other half want results before they go. Either way, a trainer who knows your name is the answer."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹10.53L",
+   "text": "So, the number. Our June target for Kenkere House is 10.5 lakh rupees. That's 15 per cent up on last June. A stretch, but a friendly one."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "4 streams",
+   "text": "Where does it come from? Renewals lead the way with 5.58 lakh rupees. That's 5 of every 10 rupees. Then new clients 3.58 lakh, everything else 73,700, and comebacks 63,200. Our existing members carry this month, so every renewal conversation matters."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "53 buyers",
+   "text": "Behind the number are people: 786 leads, 283 trials, and 53 buyers, with about 19 per cent of trials converting. The trial class is where this month is won. Warm welcome, clear next step, every time."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "47%",
+   "text": "Here's where the offers come in. Four offers carry 4.98 lakh rupees, which is 47 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-23-KK",
+   "kicker": "Offer 1 of 4 · Revenue boost",
+   "title": "Happy Hour (Zero Hangover, All Glutes)",
+   "text": "First up, Happy Hour. Zero hangover, all glutes. Privates booked between twelve and four get twenty per cent off, plus a free virtual session for every two. The only thing on tap is a trainer. The plan is 16 buyers at about 6,600, so 1.06 lakh rupees.",
+   "notes": "Members and newcomers buying private sessions."
+  },
+  {
+   "id": "offer-O27-24-KK",
+   "kicker": "Offer 2 of 4 · Revenue boost",
+   "title": "Private Practice",
+   "text": "Next, Private Practice. Ten private sessions at twenty-five per cent off, with one trainer who knows your knees better than your physio. The plan is 2 buyers at about 30,900, so 61,800 rupees.",
+   "notes": "Members and newcomers buying private sessions."
+  },
+  {
+   "id": "offer-O27-26-KK",
+   "kicker": "Offer 3 of 4 · New clients",
+   "title": "Shy Girl Starter Pack",
+   "text": "Then, for the nervous newcomer, the Shy Girl Starter Pack. Start with a thirty-minute private, then join class with a trainer who already knows your name. Part of the price comes off the first month. The plan is 3 buyers at about 11,700, so 35,000 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-25-KK",
+   "kicker": "Offer 4 of 4 · Renewals",
+   "title": "Auto-Reply: Out of Office, Still Squatting",
+   "text": "And finally, for travellers, Auto-Reply, Out of Office, Still Squatting. Three months with unlimited freezes and two virtual privates for the road. They're on vacation. Their membership isn't lapsing. The plan is 7 buyers at about 42,200, so 2.95 lakh rupees.",
+   "notes": "No price discount; ≈9% value from virtual privates"
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, the private session offers go live, and trainers build their call lists. Week two, the happy hour push fills twelve to four. Week three, travellers renew with freezes, so nobody lapses on a beach. Week four, count every conversion and brief the monsoon plan for July.",
+   "beats": [
+    "the private session offers go live, and trainers build their call lists.",
+    "the happy hour push fills twelve to four.",
+    "travellers renew with freezes, so nobody lapses on a beach.",
+    "count every conversion and brief the monsoon plan for July."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 4. Happy Hour, Zero Hangover, All Glutes. Revenue boost. 16 buyers at 6,594 rupees, that is 1.06 lakh rupees, with 20 per cent off. A sale with a spine. Spend it fast, or it spends you. Offer 2 of 4. Private Practice. Revenue boost. 2 buyers at 30,909 rupees, that is 61,818 rupees, with 25 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 3 of 4. Shy Girl Starter Pack. New clients. 3 buyers at 11,657 rupees, that is 34,971 rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 4 of 4. Auto-Reply: Out of Office, Still Squatting. Renewals. 7 buyers at 42,210 rupees, that is 2.95 lakh rupees, with 8 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 10.53 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's June at Kenkere House: 10.53 lakh rupees across Four offers, and 53 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-23-KK",
-     "kicker": "Offer 1 of 4 · Revenue boost",
-     "title": "Happy Hour (Zero Hangover, All Glutes)",
-     "text": "Offer 1 of 4. Happy Hour, Zero Hangover, All Glutes. Revenue boost. 16 buyers at 6,594 rupees, that is 1.06 lakh rupees, with 20 per cent off. A sale with a spine. Spend it fast, or it spends you."
-    },
-    {
-     "id": "offer-O27-24-KK",
-     "kicker": "Offer 2 of 4 · Revenue boost",
-     "title": "Private Practice",
-     "text": "Offer 2 of 4. Private Practice. Revenue boost. 2 buyers at 30,909 rupees, that is 61,818 rupees, with 25 per cent off. The kind of deal that makes people ask, wait, is this real?"
-    },
-    {
-     "id": "offer-O27-26-KK",
-     "kicker": "Offer 3 of 4 · New clients",
-     "title": "Shy Girl Starter Pack",
-     "text": "Offer 3 of 4. Shy Girl Starter Pack. New clients. 3 buyers at 11,657 rupees, that is 34,971 rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
-    },
-    {
-     "id": "offer-O27-25-KK",
-     "kicker": "Offer 4 of 4 · Renewals",
-     "title": "Auto-Reply: Out of Office, Still Squatting",
-     "text": "Offer 4 of 4. Auto-Reply: Out of Office, Still Squatting. Renewals. 7 buyers at 42,210 rupees, that is 2.95 lakh rupees, with 8 per cent off. The easiest sale is the member already in the building."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 10.53 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "June 2027",
-     "title": "That is the plan",
-     "text": "That's June at Kenkere House: 10.53 lakh rupees across Four offers, and 53 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "June 2027",
+   "title": "That's the plan",
+   "text": "That's June at Kenkere House. 10.5 lakh rupees, four offers, and 53 buyers to welcome. Members on holiday, memberships on track. Lovely.",
+   "signoff": "Members on holiday, memberships on track. Lovely."
   }
- }
+ ]
 }

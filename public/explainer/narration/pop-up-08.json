@@ -4,82 +4,85 @@
  "month": 8,
  "monthName": "August",
  "year": 2027,
+ "theme": "The Amazing Race 2.0",
  "target": 205003,
  "lastYear": 142852,
  "yoy": 0.4350726626158541,
  "offers": 3,
  "buyers": 54,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "August 2027 at Pop-up. The theme is The Amazing Race 2.0. August. Half the city is on holiday. The other half is on our waitlist. The target is 2.05 lakh rupees. That is 44 per cent above the 1.43 lakh rupees of last August. Up on last year. The plan has a plan for that. New clients lead at 1.13 lakh rupees, 55 per cent. Then renewals at 90,201 rupees, 44 per cent, other at 2,050 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them. 631 leads, 164 trials, 54 buyers, and 32.9 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Three offers carry 76,724 rupees, 37 per cent of the 2.05 lakh rupees target. The other 1.28 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Pop-up · 2027",
-     "title": "August",
-     "text": "August 2027 at Pop-up. The theme is The Amazing Race 2.0. August. Half the city is on holiday. The other half is on our waitlist."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹2.05L",
-     "text": "The target is 2.05 lakh rupees. That is 44 per cent above the 1.43 lakh rupees of last August. Up on last year. The plan has a plan for that."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "3 streams",
-     "text": "New clients lead at 1.13 lakh rupees, 55 per cent. Then renewals at 90,201 rupees, 44 per cent, other at 2,050 rupees, 1 per cent. Existing members are doing the heavy lifting. Be nice to them."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "54 buyers",
-     "text": "631 leads, 164 trials, 54 buyers, and 32.9 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "37%",
-     "text": "Three offers carry 76,724 rupees, 37 per cent of the 2.05 lakh rupees target. The other 1.28 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 387,
+ "estSeconds": 160,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Pop-up · 2027",
+   "title": "August",
+   "text": "Hello Pop-up! August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹2.05L",
+   "text": "So, the number. Our August target for Pop-up is 2.05 lakh rupees. That's 44 per cent above last August. We're growing, and the plan knows exactly how."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "3 streams",
+   "text": "Where does it come from? New clients lead the way with 1.13 lakh rupees. That's 6 of every 10 rupees. Then renewals 90,200, and everything else 2,000. New clients carry this month, so every trial is a first impression worth getting right."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "54 buyers",
+   "text": "Behind the number are people: 631 leads, 164 trials, and 54 buyers, with about 33 per cent of trials converting. Roughly one in five trials becomes a member. Our job is to make it one in four."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "37%",
+   "text": "Here's where the offers come in. Three offers carry 76,700 rupees, which is 37 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them."
+  },
+  {
+   "id": "offer-O27-33-POP",
+   "kicker": "Offer 1 of 3 · Revenue boost",
+   "title": "Friends With Benefits (Strictly Fitness)",
+   "text": "First up, Friends With Benefits. Strictly fitness. Bring a friend who's never been, and they get two classes on us. If they join, you both get race tees, and you get bonus days and double points. The plan is 2 buyers at about 5,900, so 11,800 rupees.",
+   "notes": "Current members bringing a guest."
+  },
+  {
+   "id": "offer-O27-31-POP",
+   "kicker": "Offer 2 of 3 · New clients",
+   "title": "Rookie Mistake (The Only Good One)",
+   "text": "Next, for newcomers, Rookie Mistake, the only good one. Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. The only rookie mistake is not starting. The plan is 4 buyers at about 5,400, so 21,600 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-34-POP",
+   "kicker": "Offer 3 of 3 · Renewals",
+   "title": "Medal Detector",
+   "text": "And finally, for race finishers, the Medal Detector. Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, or three months at fifteen per cent off plus bonus days. The plan is 6 buyers at about 7,200, so 43,400 rupees.",
+   "notes": "6M ≈24% effective with private, inside the cap for 6M+ plans"
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, Friendship Day, and every friend gets two classes on us. Week two, check sell-through every Monday and follow up every trial within a day. Week three, the rookie leaderboard heats up, so celebrate newcomers by name. Week four, race finishers get their Medal Detector renewal.",
+   "beats": [
+    "Friendship Day, and every friend gets two classes on us.",
+    "check sell-through every Monday and follow up every trial within a day.",
+    "the rookie leaderboard heats up, so celebrate newcomers by name.",
+    "race finishers get their Medal Detector renewal."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 3. Friends With Benefits, Strictly Fitness. Revenue boost. 2 buyers at 5,891 rupees, that is 11,782 rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 3. Rookie Mistake, The Only Good One. New clients. 4 buyers at 5,392 rupees, that is 21,568 rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 3. Medal Detector. Renewals. 6 buyers at 7,229 rupees, that is 43,374 rupees, with 18 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 2.05 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's August at Pop-up: 2.05 lakh rupees across Three offers, and 54 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-33-POP",
-     "kicker": "Offer 1 of 3 · Revenue boost",
-     "title": "Friends With Benefits (Strictly Fitness)",
-     "text": "Offer 1 of 3. Friends With Benefits, Strictly Fitness. Revenue boost. 2 buyers at 5,891 rupees, that is 11,782 rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real?"
-    },
-    {
-     "id": "offer-O27-31-POP",
-     "kicker": "Offer 2 of 3 · New clients",
-     "title": "Rookie Mistake (The Only Good One)",
-     "text": "Offer 2 of 3. Rookie Mistake, The Only Good One. New clients. 4 buyers at 5,392 rupees, that is 21,568 rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
-    },
-    {
-     "id": "offer-O27-34-POP",
-     "kicker": "Offer 3 of 3 · Renewals",
-     "title": "Medal Detector",
-     "text": "Offer 3 of 3. Medal Detector. Renewals. 6 buyers at 7,229 rupees, that is 43,374 rupees, with 18 per cent off. The easiest sale is the member already in the building."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 2.05 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "August 2027",
-     "title": "That is the plan",
-     "text": "That's August at Pop-up: 2.05 lakh rupees across Three offers, and 54 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "August 2027",
+   "title": "That's the plan",
+   "text": "That's August at Pop-up. 2.05 lakh rupees, three offers, and 54 buyers to welcome. On your marks. Get set. Sell.",
+   "signoff": "On your marks. Get set. Sell."
   }
- }
+ ]
 }

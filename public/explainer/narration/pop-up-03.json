@@ -4,76 +4,78 @@
  "month": 3,
  "monthName": "March",
  "year": 2027,
+ "theme": "Main Character Month",
  "target": 173586,
  "lastYear": 120960,
  "yoy": 0.4350694444444445,
  "offers": 2,
  "buyers": 46,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "March 2027 at Pop-up. The theme is Main Character Month. March. The month that starts with good intentions and ends with a playlist on repeat. The target is 1.74 lakh rupees. That is 44 per cent above the 1.21 lakh rupees of last March. A stretch, but a friendly one. New clients lead at 95,472 rupees, 55 per cent. Then renewals at 76,378 rupees, 44 per cent, other at 1,736 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 538 leads, 140 trials, 46 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Two offers carry 76,044 rupees, 44 per cent of the 1.74 lakh rupees target. The other 97,542 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Pop-up · 2027",
-     "title": "March",
-     "text": "March 2027 at Pop-up. The theme is Main Character Month. March. The month that starts with good intentions and ends with a playlist on repeat."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹1.74L",
-     "text": "The target is 1.74 lakh rupees. That is 44 per cent above the 1.21 lakh rupees of last March. A stretch, but a friendly one."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "3 streams",
-     "text": "New clients lead at 95,472 rupees, 55 per cent. Then renewals at 76,378 rupees, 44 per cent, other at 1,736 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "46 buyers",
-     "text": "538 leads, 140 trials, 46 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "44%",
-     "text": "Two offers carry 76,044 rupees, 44 per cent of the 1.74 lakh rupees target. The other 97,542 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 337,
+ "estSeconds": 139,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Pop-up · 2027",
+   "title": "March",
+   "text": "Hello Pop-up! March is Main Character Month. Women's Day, Holi, and a whole studio full of people who deserve the spotlight. This month we hand it to them, and gently suggest they renew while standing in it."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹1.74L",
+   "text": "So, the number. Our March target for Pop-up is 1.74 lakh rupees. That's 44 per cent more than last March. Ambitious, yes. Unreasonable, no."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "3 streams",
+   "text": "Where does it come from? New clients lead the way with 95,500 rupees. That's 5 of every 10 rupees. Then renewals 76,400, and everything else 1,700. New clients carry this month, so every trial is a first impression worth getting right."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "46 buyers",
+   "text": "Behind the number are people: 538 leads, 140 trials, and 46 buyers, with about 33 per cent of trials converting. Every five trials should become about one member. Make those first classes unforgettable."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "44%",
+   "text": "Here's where the offers come in. Two offers carry 76,000 rupees, which is 44 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-12-POP",
+   "kicker": "Offer 1 of 2 · New clients",
+   "title": "The Second Date's On Us",
+   "text": "First up, for newcomers, The Second Date's On Us. First class at half price, the second one free, and the third? That's a relationship, with fifteen per cent off the first month and an extra freeze. The plan is 8 buyers at about 5,900, so 47,100 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-51-POP-m3",
+   "kicker": "Offer 2 of 2 · Renewals",
+   "title": "Same Time Next Week",
+   "text": "And finally, for pack regulars, Same Time Next Week. Nearly out of classes? Take the same pack again at fifteen per cent off, plus an extra week of validity so nothing goes to waste. The plan is 4 buyers at about 7,200, so 28,900 rupees.",
+   "notes": "Pop-up clients whose class pack is running out."
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, every offer goes live and the team knows them by heart. Week two, check sell-through every Monday and follow up every trial within a day. Week three, a mid-month check against the target. Week four, no March expiry leaves without a conversation.",
+   "beats": [
+    "every offer goes live and the team knows them by heart.",
+    "check sell-through every Monday and follow up every trial within a day.",
+    "a mid-month check against the target.",
+    "no March expiry leaves without a conversation."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 2. The Second Date's On Us. New clients. 8 buyers at 5,891 rupees, that is 47,128 rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 2. Same Time Next Week. Renewals. 4 buyers at 7,229 rupees, that is 28,916 rupees, with 15 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.74 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's March at Pop-up: 1.74 lakh rupees across Two offers, and 46 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-12-POP",
-     "kicker": "Offer 1 of 2 · New clients",
-     "title": "The Second Date's On Us",
-     "text": "Offer 1 of 2. The Second Date's On Us. New clients. 8 buyers at 5,891 rupees, that is 47,128 rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
-    },
-    {
-     "id": "offer-O27-51-POP-m3",
-     "kicker": "Offer 2 of 2 · Renewals",
-     "title": "Same Time Next Week",
-     "text": "Offer 2 of 2. Same Time Next Week. Renewals. 4 buyers at 7,229 rupees, that is 28,916 rupees, with 15 per cent off. The easiest sale is the member already in the building."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.74 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "March 2027",
-     "title": "That is the plan",
-     "text": "That's March at Pop-up: 1.74 lakh rupees across Two offers, and 46 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "March 2027",
+   "title": "That's the plan",
+   "text": "That's March at Pop-up. 1.74 lakh rupees, two offers, and 46 buyers to welcome. Everyone gets to be the main character. Our job is the plot.",
+   "signoff": "Everyone gets to be the main character. Our job is the plot."
   }
- }
+ ]
 }

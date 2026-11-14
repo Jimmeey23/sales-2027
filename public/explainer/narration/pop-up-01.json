@@ -4,82 +4,85 @@
  "month": 1,
  "monthName": "January",
  "year": 2027,
+ "theme": "Resolutions with Receipts",
  "target": 193249,
  "lastYear": 134662,
  "yoy": 0.4350670567791952,
  "offers": 3,
  "buyers": 51,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "January 2027 at Pop-up. The theme is Resolutions with Receipts. New year, same you, better spreadsheet. Let's see what January wants from us. The target is 1.93 lakh rupees. That is 44 per cent above the 1.35 lakh rupees of last January. A stretch, but a friendly one. Renewals lead at 85,030 rupees, 44 per cent. Then new clients at 82,723 rupees, 42.8 per cent, comeback at 23,564 rupees, 12.2 per cent, other at 1,932 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 596 leads, 155 trials, 51 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Three offers carry 75,505 rupees, 39 per cent of the 1.93 lakh rupees target. The other 1.18 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Pop-up · 2027",
-     "title": "January",
-     "text": "January 2027 at Pop-up. The theme is Resolutions with Receipts. New year, same you, better spreadsheet. Let's see what January wants from us."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹1.93L",
-     "text": "The target is 1.93 lakh rupees. That is 44 per cent above the 1.35 lakh rupees of last January. A stretch, but a friendly one."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "4 streams",
-     "text": "Renewals lead at 85,030 rupees, 44 per cent. Then new clients at 82,723 rupees, 42.8 per cent, comeback at 23,564 rupees, 12.2 per cent, other at 1,932 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "51 buyers",
-     "text": "596 leads, 155 trials, 51 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "39%",
-     "text": "Three offers carry 75,505 rupees, 39 per cent of the 1.93 lakh rupees target. The other 1.18 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 379,
+ "estSeconds": 157,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Pop-up · 2027",
+   "title": "January",
+   "text": "Hello Pop-up! Happy New Year, team. January is the one month when people walk in already wanting to change. Our theme is Resolutions with Receipts: we help people keep the promise, not just make it."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹1.93L",
+   "text": "So, the number. Our January target for Pop-up is 1.93 lakh rupees. That's 44 per cent up on last January. A stretch, but a friendly one."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "4 streams",
+   "text": "Where does it come from? Renewals lead the way with 85,000 rupees. That's 4 of every 10 rupees. Then new clients 82,700, comebacks 23,600, and everything else 1,900. Our existing members carry this month, so every renewal conversation matters."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "51 buyers",
+   "text": "Behind the number are people: 596 leads, 155 trials, and 51 buyers, with about 33 per cent of trials converting. The trial class is where this month is won. Warm welcome, clear next step, every time."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "39%",
+   "text": "Here's where the offers come in. Three offers carry 75,500 rupees, which is 39 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-02-POP",
+   "kicker": "Offer 1 of 3 · New clients",
+   "title": "Third Time's the Charm",
+   "text": "First up, Third Time's the Charm. Three classes for the price of two. The first class is awkward, the second is better, the third, they're hooked. Book class two before they leave class one. The plan is 3 buyers at about 5,900, so 17,700 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-04-POP",
+   "kicker": "Offer 2 of 3 · Win-backs",
+   "title": "U Up? It's 2027.",
+   "text": "Next, for lapsed members, U Up? It's 2027. Fifteen per cent off to come back, and five bonus days for anyone who hits twelve classes in January. Their mat has been asking about them. The plan is 3 buyers at about 7,200, so 21,700 rupees.",
+   "notes": "Standard lapsed 15%, bonus earned (≈20% effective if earned)"
+  },
+  {
+   "id": "offer-O27-51-POP",
+   "kicker": "Offer 3 of 3 · Renewals",
+   "title": "Same Time Next Week",
+   "text": "And finally, for pack regulars, Same Time Next Week. Nearly out of classes? Take the same pack again at fifteen per cent off, plus an extra week of validity so nothing goes to waste. The plan is 5 buyers at about 7,200, so 36,100 rupees.",
+   "notes": "Pop-up clients whose class pack is running out."
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, every offer goes live and the team knows them by heart. Week two, every first-timer books class two before leaving class one. Week three, we personally call every lapsed member on the list. Week four, close the month, tag every redemption, and brief next month.",
+   "beats": [
+    "every offer goes live and the team knows them by heart.",
+    "every first-timer books class two before leaving class one.",
+    "we personally call every lapsed member on the list.",
+    "close the month, tag every redemption, and brief next month."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 3. Third Time's the Charm. New clients. 3 buyers at 5,891 rupees, that is 17,673 rupees, with 33 per cent off. Step one is the awkward class. Step two is the good one. Offer 2 of 3. U Up? It's 2027. Win-backs. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 20 per cent off. A gentle nudge, with a discount on the nudge. Offer 3 of 3. Same Time Next Week. Renewals. 5 buyers at 7,229 rupees, that is 36,145 rupees, with 15 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.93 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's January at Pop-up: 1.93 lakh rupees across Three offers, and 51 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-02-POP",
-     "kicker": "Offer 1 of 3 · New clients",
-     "title": "Third Time's the Charm",
-     "text": "Offer 1 of 3. Third Time's the Charm. New clients. 3 buyers at 5,891 rupees, that is 17,673 rupees, with 33 per cent off. Step one is the awkward class. Step two is the good one."
-    },
-    {
-     "id": "offer-O27-04-POP",
-     "kicker": "Offer 2 of 3 · Win-backs",
-     "title": "U Up? It's 2027.",
-     "text": "Offer 2 of 3. U Up? It's 2027. Win-backs. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 20 per cent off. A gentle nudge, with a discount on the nudge."
-    },
-    {
-     "id": "offer-O27-51-POP",
-     "kicker": "Offer 3 of 3 · Renewals",
-     "title": "Same Time Next Week",
-     "text": "Offer 3 of 3. Same Time Next Week. Renewals. 5 buyers at 7,229 rupees, that is 36,145 rupees, with 15 per cent off. This one rewards the people who already picked us. Respect."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.93 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "January 2027",
-     "title": "That is the plan",
-     "text": "That's January at Pop-up: 1.93 lakh rupees across Three offers, and 51 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "January 2027",
+   "title": "That's the plan",
+   "text": "That's January at Pop-up. 1.93 lakh rupees, three offers, and 51 buyers to welcome. Resolutions fade by February. Our receipts won't.",
+   "signoff": "Resolutions fade by February. Our receipts won't."
   }
- }
+ ]
 }

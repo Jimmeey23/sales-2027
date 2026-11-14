@@ -4,94 +4,99 @@
  "month": 12,
  "monthName": "December",
  "year": 2027,
+ "theme": "Wrapped",
  "target": 830000,
  "lastYear": 527555,
  "yoy": 0.5732956753324299,
  "offers": 5,
  "buyers": 42,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "December 2027 at Kenkere House. The theme is Wrapped. December. Gifts, goals and very festive sweat. Let's close the year properly. The target is 8.3 lakh rupees. That is 57 per cent above the 5.28 lakh rupees of last December. A stretch, but a friendly one. Renewals lead at 4.4 lakh rupees, 53 per cent. Then new clients at 2.82 lakh rupees, 34 per cent, other at 58,100 rupees, 7 per cent, comeback at 49,800 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 625 leads, 225 trials, 42 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Five offers carry 6.01 lakh rupees, 72 per cent of the 8.3 lakh rupees target. The other 2.29 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Kenkere House · 2027",
-     "title": "December",
-     "text": "December 2027 at Kenkere House. The theme is Wrapped. December. Gifts, goals and very festive sweat. Let's close the year properly."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹8.3L",
-     "text": "The target is 8.3 lakh rupees. That is 57 per cent above the 5.28 lakh rupees of last December. A stretch, but a friendly one."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "4 streams",
-     "text": "Renewals lead at 4.4 lakh rupees, 53 per cent. Then new clients at 2.82 lakh rupees, 34 per cent, other at 58,100 rupees, 7 per cent, comeback at 49,800 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "42 buyers",
-     "text": "625 leads, 225 trials, 42 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "72%",
-     "text": "Five offers carry 6.01 lakh rupees, 72 per cent of the 8.3 lakh rupees target. The other 2.29 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 415,
+ "estSeconds": 172,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Kenkere House · 2027",
+   "title": "December",
+   "text": "Hello Kenkere House! December is Wrapped. The year is ending, everyone is reflecting, and every member has a story told in classes, favourite trainers and peak hours. This month we show them that story, and help them write next year's."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹8.3L",
+   "text": "So, the number. Our December target for Kenkere House is 8.3 lakh rupees. That's 57 per cent up on last December. A stretch, but a friendly one."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "4 streams",
+   "text": "Where does it come from? Renewals lead the way with 4.4 lakh rupees. That's 5 of every 10 rupees. Then new clients 2.82 lakh, everything else 58,100, and comebacks 49,800. Our existing members carry this month, so every renewal conversation matters."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "42 buyers",
+   "text": "Behind the number are people: 625 leads, 225 trials, and 42 buyers, with about 19 per cent of trials converting. The trial class is where this month is won. Warm welcome, clear next step, every time."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "72%",
+   "text": "Here's where the offers come in. Five offers carry 6.01 lakh rupees, which is 72 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-48-KK",
+   "kicker": "Offer 1 of 5 · New clients",
+   "title": "Resolution Pre-Order (Ships 1 Jan)",
+   "text": "First up, the Resolution Pre-Order. Ships first of January. Buy now, start between the first and tenth of January, and a coach checks in during week one so it actually sticks. That's 4 buyers, for 49,600 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-49-KK",
+   "kicker": "Offer 2 of 5 · New clients",
+   "title": "Secret Santa Squats",
+   "text": "Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. That's 9 buyers, for 13,500 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-50-KK",
+   "kicker": "Offer 3 of 5 · Win-backs",
+   "title": "Last Seen: 2026 (We Noticed)",
+   "text": "Then, for long-lapsed members, Last Seen, 2026. We noticed. Fifteen per cent off, a free comeback class, and a spot on the Stronger in 30 comeback track, before the new year. That's 4 buyers, for 49,600 rupees.",
+   "notes": "Standard lapsed 15%; ≈19"
+  },
+  {
+   "id": "offer-O27-46-KK",
+   "kicker": "Offer 4 of 5 · Renewals",
+   "title": "Wrapped: Your Top Artist Was Your Trainer",
+   "text": "Also this month, Wrapped. Your top artist was your trainer. Every member gets their year in classes, trainers and peak hours, and next year's plan, priced for how they actually train. That's 8 buyers, for 3.2 lakh rupees.",
+   "notes": "Caps respected"
+  },
+  {
+   "id": "offer-O27-47-KK",
+   "kicker": "Offer 5 of 5 · Renewals",
+   "title": "12 Days of Shakemas",
+   "text": "And finally, the finale, Twelve Days of Shakemas. A new published deal every day from the thirteenth to the twenty-fourth. That's 8 buyers, for 1.68 lakh rupees.",
+   "notes": "One deal per person per day"
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, Wrapped cards go out to every member. Week two, twelve days of Shakemas begin on the thirteenth. Week three, gift vouchers and resolution pre-orders for the I'll start in January crowd. Week four, last-seen members get their invitation home.",
+   "beats": [
+    "Wrapped cards go out to every member.",
+    "twelve days of Shakemas begin on the thirteenth.",
+    "gift vouchers and resolution pre-orders for the I'll start in January crowd.",
+    "last-seen members get their invitation home."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 5. Resolution Pre-Order, Ships 1 Jan. New clients. 4 buyers at 12,406 rupees, that is 49,624 rupees, with 15 per cent off. Step one is the awkward class. Step two is the good one. Offer 2 of 5. Secret Santa Squats. New clients. 9 buyers at 1,499 rupees, that is 13,491 rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet. Offer 3 of 5. Last Seen: 2026, We Noticed. Win-backs. 4 buyers at 12,406 rupees, that is 49,624 rupees, with 15 per cent off. This one says we missed you, politely, with a discount attached. Offer 4 of 5. Wrapped: Your Top Artist Was Your Trainer. Renewals. 8 buyers at 40,000 rupees, that is 3.2 lakh rupees, with 18 per cent off. The easiest sale is the member already in the building. Offer 5 of 5. 12 Days of Shakemas. Renewals. 8 buyers at 21,000 rupees, that is 1.68 lakh rupees, with 18 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 8.3 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's December at Kenkere House: 8.3 lakh rupees across Five offers, and 42 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-48-KK",
-     "kicker": "Offer 1 of 5 · New clients",
-     "title": "Resolution Pre-Order (Ships 1 Jan)",
-     "text": "Offer 1 of 5. Resolution Pre-Order, Ships 1 Jan. New clients. 4 buyers at 12,406 rupees, that is 49,624 rupees, with 15 per cent off. Step one is the awkward class. Step two is the good one."
-    },
-    {
-     "id": "offer-O27-49-KK",
-     "kicker": "Offer 2 of 5 · New clients",
-     "title": "Secret Santa Squats",
-     "text": "Offer 2 of 5. Secret Santa Squats. New clients. 9 buyers at 1,499 rupees, that is 13,491 rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet."
-    },
-    {
-     "id": "offer-O27-50-KK",
-     "kicker": "Offer 3 of 5 · Win-backs",
-     "title": "Last Seen: 2026 (We Noticed)",
-     "text": "Offer 3 of 5. Last Seen: 2026, We Noticed. Win-backs. 4 buyers at 12,406 rupees, that is 49,624 rupees, with 15 per cent off. This one says we missed you, politely, with a discount attached."
-    },
-    {
-     "id": "offer-O27-46-KK",
-     "kicker": "Offer 4 of 5 · Renewals",
-     "title": "Wrapped: Your Top Artist Was Your Trainer",
-     "text": "Offer 4 of 5. Wrapped: Your Top Artist Was Your Trainer. Renewals. 8 buyers at 40,000 rupees, that is 3.2 lakh rupees, with 18 per cent off. The easiest sale is the member already in the building."
-    },
-    {
-     "id": "offer-O27-47-KK",
-     "kicker": "Offer 5 of 5 · Renewals",
-     "title": "12 Days of Shakemas",
-     "text": "Offer 5 of 5. 12 Days of Shakemas. Renewals. 8 buyers at 21,000 rupees, that is 1.68 lakh rupees, with 18 per cent off. Loyalty, but make it financially reasonable."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 8.3 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "December 2027",
-     "title": "That is the plan",
-     "text": "That's December at Kenkere House: 8.3 lakh rupees across Five offers, and 42 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "December 2027",
+   "title": "That's the plan",
+   "text": "That's December at Kenkere House. 8.3 lakh rupees, five offers, and 42 buyers to welcome. That's a wrap on 2027. See you on the mat in January.",
+   "signoff": "That's a wrap on 2027. See you on the mat in January."
   }
- }
+ ]
 }

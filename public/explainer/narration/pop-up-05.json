@@ -4,88 +4,92 @@
  "month": 5,
  "monthName": "May",
  "year": 2027,
+ "theme": "Home for the Holidays",
  "target": 154600,
  "lastYear": 107730,
  "yoy": 0.4350691543673999,
  "offers": 4,
  "buyers": 41,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "May 2027 at Pop-up. The theme is Home for the Holidays. May. Warm enough to skip the jacket, cool enough to skip nothing. The target is 1.55 lakh rupees. That is 44 per cent above the 1.08 lakh rupees of last May. A stretch, but a friendly one. New clients lead at 85,030 rupees, 55 per cent. Then renewals at 68,024 rupees, 44 per cent, other at 1,546 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 481 leads, 125 trials, 41 buyers, and 32.8 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 67,726 rupees, 44 per cent of the 1.55 lakh rupees target. The other 86,874 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Pop-up · 2027",
-     "title": "May",
-     "text": "May 2027 at Pop-up. The theme is Home for the Holidays. May. Warm enough to skip the jacket, cool enough to skip nothing."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹1.55L",
-     "text": "The target is 1.55 lakh rupees. That is 44 per cent above the 1.08 lakh rupees of last May. A stretch, but a friendly one."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "3 streams",
-     "text": "New clients lead at 85,030 rupees, 55 per cent. Then renewals at 68,024 rupees, 44 per cent, other at 1,546 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "41 buyers",
-     "text": "481 leads, 125 trials, 41 buyers, and 32.8 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "44%",
-     "text": "Four offers carry 67,726 rupees, 44 per cent of the 1.55 lakh rupees target. The other 86,874 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 428,
+ "estSeconds": 177,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Pop-up · 2027",
+   "title": "May",
+   "text": "Hello Pop-up! May is Home for the Holidays. Students are back, mums are celebrated, and the studio has afternoons that are suspiciously quiet. This month we fill those quiet hours, and keep April's party guests from turning into ghosts."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹1.55L",
+   "text": "So, the number. Our May target for Pop-up is 1.55 lakh rupees. That's 44 per cent above last May. We're growing, and the plan knows exactly how."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "3 streams",
+   "text": "Where does it come from? New clients lead the way with 85,000 rupees. That's 6 of every 10 rupees. Then renewals 68,000, and everything else 1,500. New clients carry this month, so every trial is a first impression worth getting right."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "41 buyers",
+   "text": "Behind the number are people: 481 leads, 125 trials, and 41 buyers, with about 33 per cent of trials converting. Roughly one in five trials becomes a member. Our job is to make it one in four."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "44%",
+   "text": "Here's where the offers come in. Four offers carry 67,700 rupees, which is 44 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-19-POP",
+   "kicker": "Offer 1 of 4 · New clients",
+   "title": "Mom Said Get Off the Couch",
+   "text": "First up, Mom Said Get Off the Couch. Students get eight classes at twenty per cent off, in the off-peak hours when the studio is practically theirs. Mum will be thrilled. The plan is 3 buyers at about 5,500, so 16,600 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-21-POP",
+   "kicker": "Offer 2 of 4 · New clients",
+   "title": "Mom-entum",
+   "text": "Next, for Mother's Day, Mom-entum. Mother and child duos get a duo private and a gift for mum, and newcomers get fifteen per cent off their first month. She carried you for nine months. You can carry her to class. The plan is 2 buyers at about 5,900, so 11,800 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-20-POP",
+   "kicker": "Offer 3 of 4 · New clients",
+   "title": "Group Project (Finally, Everyone Pulls Their Weight)",
+   "text": "Then, Group Project, where finally, everyone pulls their weight. Squads of four students buying together each get twenty-five per cent off, off-peak only. Free-loaders still have to do the planks. The plan is 2 buyers at about 5,200, so 10,400 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-22-POP",
+   "kicker": "Offer 4 of 4 · Renewals",
+   "title": "Don't Ghost Us After the Party",
+   "text": "And finally, for April's new friends, Don't Ghost Us After the Party. Show up eight times this month, and your next renewal costs less, plus a private on us. Great party. Now the real test. The plan is 4 buyers at about 7,200, so 28,900 rupees.",
+   "notes": "≈20% effective on 3M, ≈20% on 1M with the private"
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, student offers go live in the quiet afternoon hours. Week two, Mother's Day duos, gifts wrapped, tissues on standby. Week three, every April joiner is tracked towards eight classes. Week four, squads of four close their group buys.",
+   "beats": [
+    "student offers go live in the quiet afternoon hours.",
+    "Mother's Day duos, gifts wrapped, tissues on standby.",
+    "every April joiner is tracked towards eight classes.",
+    "squads of four close their group buys."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 4. Mom Said Get Off the Couch. New clients. 3 buyers at 5,544 rupees, that is 16,632 rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet. Offer 2 of 4. Mom-entum. New clients. 2 buyers at 5,891 rupees, that is 11,782 rupees, with 18 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Group Project, Finally, Everyone Pulls Their Weight. New clients. 2 buyers at 5,198 rupees, that is 10,396 rupees, with 25 per cent off. Step one is the awkward class. Step two is the good one. Offer 4 of 4. Don't Ghost Us After the Party. Renewals. 4 buyers at 7,229 rupees, that is 28,916 rupees, with 18 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.55 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's May at Pop-up: 1.55 lakh rupees across Four offers, and 41 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-19-POP",
-     "kicker": "Offer 1 of 4 · New clients",
-     "title": "Mom Said Get Off the Couch",
-     "text": "Offer 1 of 4. Mom Said Get Off the Couch. New clients. 3 buyers at 5,544 rupees, that is 16,632 rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet."
-    },
-    {
-     "id": "offer-O27-21-POP",
-     "kicker": "Offer 2 of 4 · New clients",
-     "title": "Mom-entum",
-     "text": "Offer 2 of 4. Mom-entum. New clients. 2 buyers at 5,891 rupees, that is 11,782 rupees, with 18 per cent off. Give first-timers a reason to come back for class two."
-    },
-    {
-     "id": "offer-O27-20-POP",
-     "kicker": "Offer 3 of 4 · New clients",
-     "title": "Group Project (Finally, Everyone Pulls Their Weight)",
-     "text": "Offer 3 of 4. Group Project, Finally, Everyone Pulls Their Weight. New clients. 2 buyers at 5,198 rupees, that is 10,396 rupees, with 25 per cent off. Step one is the awkward class. Step two is the good one."
-    },
-    {
-     "id": "offer-O27-22-POP",
-     "kicker": "Offer 4 of 4 · Renewals",
-     "title": "Don't Ghost Us After the Party",
-     "text": "Offer 4 of 4. Don't Ghost Us After the Party. Renewals. 4 buyers at 7,229 rupees, that is 28,916 rupees, with 18 per cent off. Loyalty, but make it financially reasonable."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 1.55 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "May 2027",
-     "title": "That is the plan",
-     "text": "That's May at Pop-up: 1.55 lakh rupees across Four offers, and 41 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "May 2027",
+   "title": "That's the plan",
+   "text": "That's May at Pop-up. 1.55 lakh rupees, four offers, and 41 buyers to welcome. Quiet hours, filled. Party guests, kept. That's a good May.",
+   "signoff": "Quiet hours, filled. Party guests, kept. That's a good May."
   }
- }
+ ]
 }

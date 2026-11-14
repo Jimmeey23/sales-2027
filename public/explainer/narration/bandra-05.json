@@ -4,88 +4,92 @@
  "month": 5,
  "monthName": "May",
  "year": 2027,
+ "theme": "Home for the Holidays",
  "target": 1870000,
  "lastYear": 1501790,
  "yoy": 0.24518075097050862,
  "offers": 4,
  "buyers": 60,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "May 2027 at Bandra. The theme is Home for the Holidays. May. Warm enough to skip the jacket, cool enough to skip nothing. The target is 18.7 lakh rupees. That is 25 per cent above the 15.02 lakh rupees of last May. A stretch, but a friendly one. Renewals lead at 9.54 lakh rupees, 51 per cent. Then new clients at 5.05 lakh rupees, 27 per cent, comeback at 3.37 lakh rupees, 18 per cent, other at 74,800 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 535 leads, 278 trials, 60 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 9.08 lakh rupees, 49 per cent of the 18.7 lakh rupees target. The other 9.62 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Bandra · 2027",
-     "title": "May",
-     "text": "May 2027 at Bandra. The theme is Home for the Holidays. May. Warm enough to skip the jacket, cool enough to skip nothing."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹18.7L",
-     "text": "The target is 18.7 lakh rupees. That is 25 per cent above the 15.02 lakh rupees of last May. A stretch, but a friendly one."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "4 streams",
-     "text": "Renewals lead at 9.54 lakh rupees, 51 per cent. Then new clients at 5.05 lakh rupees, 27 per cent, comeback at 3.37 lakh rupees, 18 per cent, other at 74,800 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "60 buyers",
-     "text": "535 leads, 278 trials, 60 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "49%",
-     "text": "Four offers carry 9.08 lakh rupees, 49 per cent of the 18.7 lakh rupees target. The other 9.62 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 433,
+ "estSeconds": 179,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Bandra · 2027",
+   "title": "May",
+   "text": "Hello Bandra! May is Home for the Holidays. Students are back, mums are celebrated, and the studio has afternoons that are suspiciously quiet. This month we fill those quiet hours, and keep April's party guests from turning into ghosts."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹18.7L",
+   "text": "So, the number. Our May target for Bandra is 18.7 lakh rupees. That's 25 per cent above last May. We're growing, and the plan knows exactly how."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "4 streams",
+   "text": "Where does it come from? Renewals lead the way with 9.54 lakh rupees. That's 5 of every 10 rupees. Then new clients 5.05 lakh, comebacks 3.37 lakh, and everything else 74,800. Our existing members carry this month, so every renewal conversation matters."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "60 buyers",
+   "text": "Behind the number are people: 535 leads, 278 trials, and 60 buyers, with about 22 per cent of trials converting. Roughly one in five trials becomes a member. Our job is to make it one in four."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "49%",
+   "text": "Here's where the offers come in. Four offers carry 9.08 lakh rupees, which is 49 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-19-BA",
+   "kicker": "Offer 1 of 4 · New clients",
+   "title": "Mom Said Get Off the Couch",
+   "text": "First up, Mom Said Get Off the Couch. Students get eight classes at twenty per cent off, in the off-peak hours when the studio is practically theirs. Mum will be thrilled. The plan is 12 buyers at about 10,500, so 1.26 lakh rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-21-BA",
+   "kicker": "Offer 2 of 4 · New clients",
+   "title": "Mom-entum",
+   "text": "Next, for Mother's Day, Mom-entum. Mother and child duos get a duo private and a gift for mum, and newcomers get fifteen per cent off their first month. She carried you for nine months. You can carry her to class. The plan is 6 buyers at about 17,200, so 1.03 lakh rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-20-BA",
+   "kicker": "Offer 3 of 4 · New clients",
+   "title": "Group Project (Finally, Everyone Pulls Their Weight)",
+   "text": "Then, Group Project, where finally, everyone pulls their weight. Squads of four students buying together each get twenty-five per cent off, off-peak only. Free-loaders still have to do the planks. The plan is 8 buyers at about 9,800, so 78,800 rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-22-BA",
+   "kicker": "Offer 4 of 4 · Renewals",
+   "title": "Don't Ghost Us After the Party",
+   "text": "And finally, for April's new friends, Don't Ghost Us After the Party. Show up eight times this month, and your next renewal costs less, plus a private on us. Great party. Now the real test. The plan is 20 buyers at about 30,000, so 6 lakh rupees.",
+   "notes": "≈20% effective on 3M, ≈20% on 1M with the private"
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, student offers go live in the quiet afternoon hours. Week two, Mother's Day duos, gifts wrapped, tissues on standby. Week three, every April joiner is tracked towards eight classes. Week four, squads of four close their group buys.",
+   "beats": [
+    "student offers go live in the quiet afternoon hours.",
+    "Mother's Day duos, gifts wrapped, tissues on standby.",
+    "every April joiner is tracked towards eight classes.",
+    "squads of four close their group buys."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 4. Mom Said Get Off the Couch. New clients. 12 buyers at 10,500 rupees, that is 1.26 lakh rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet. Offer 2 of 4. Mom-entum. New clients. 6 buyers at 17,203 rupees, that is 1.03 lakh rupees, with 18 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Group Project, Finally, Everyone Pulls Their Weight. New clients. 8 buyers at 9,844 rupees, that is 78,752 rupees, with 25 per cent off. Step one is the awkward class. Step two is the good one. Offer 4 of 4. Don't Ghost Us After the Party. Renewals. 20 buyers at 30,000 rupees, that is 6 lakh rupees, with 19.5 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 18.7 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's May at Bandra: 18.7 lakh rupees across Four offers, and 60 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-19-BA",
-     "kicker": "Offer 1 of 4 · New clients",
-     "title": "Mom Said Get Off the Couch",
-     "text": "Offer 1 of 4. Mom Said Get Off the Couch. New clients. 12 buyers at 10,500 rupees, that is 1.26 lakh rupees, with 20 per cent off. The welcome mat is out. Please wipe your feet."
-    },
-    {
-     "id": "offer-O27-21-BA",
-     "kicker": "Offer 2 of 4 · New clients",
-     "title": "Mom-entum",
-     "text": "Offer 2 of 4. Mom-entum. New clients. 6 buyers at 17,203 rupees, that is 1.03 lakh rupees, with 18 per cent off. Give first-timers a reason to come back for class two."
-    },
-    {
-     "id": "offer-O27-20-BA",
-     "kicker": "Offer 3 of 4 · New clients",
-     "title": "Group Project (Finally, Everyone Pulls Their Weight)",
-     "text": "Offer 3 of 4. Group Project, Finally, Everyone Pulls Their Weight. New clients. 8 buyers at 9,844 rupees, that is 78,752 rupees, with 25 per cent off. Step one is the awkward class. Step two is the good one."
-    },
-    {
-     "id": "offer-O27-22-BA",
-     "kicker": "Offer 4 of 4 · Renewals",
-     "title": "Don't Ghost Us After the Party",
-     "text": "Offer 4 of 4. Don't Ghost Us After the Party. Renewals. 20 buyers at 30,000 rupees, that is 6 lakh rupees, with 19.5 per cent off. Loyalty, but make it financially reasonable."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 18.7 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "May 2027",
-     "title": "That is the plan",
-     "text": "That's May at Bandra: 18.7 lakh rupees across Four offers, and 60 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "May 2027",
+   "title": "That's the plan",
+   "text": "That's May at Bandra. 18.7 lakh rupees, four offers, and 60 buyers to welcome. Quiet hours, filled. Party guests, kept. That's a good May.",
+   "signoff": "Quiet hours, filled. Party guests, kept. That's a good May."
   }
- }
+ ]
 }

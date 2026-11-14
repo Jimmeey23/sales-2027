@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Render all 48 month explainer videos (4 studios × 12 months), two at a time.
+# Render every month explainer that has a recording (4 studios × 12 months), two at a time.
+# Recordings: public/explainer/audio/<studio>-<MM>.mp3  (scripts to read: docs/explainer-scripts/)
 # Usage: ./scripts/render-all.sh
 set -euo pipefail
 
@@ -14,8 +15,12 @@ jobs=()
 for studio in "${studios[@]}"; do
   for mm in "${months[@]}"; do
     slug="${studio}-${mm}"
-    if [ ! -f "$ROOT/public/explainer/audio/${slug}-a.mp3" ] || [ ! -f "$ROOT/public/explainer/audio/${slug}-b.mp3" ]; then
-      echo "skip $slug: audio missing"
+    found=""
+    for ext in mp3 m4a wav aac; do
+      [ -f "$ROOT/public/explainer/audio/${slug}.${ext}" ] && found=1
+    done
+    if [ -z "$found" ]; then
+      echo "skip $slug: no recording yet"
       continue
     fi
     $PY "$ROOT/scripts/render-video.py" "$studio" "$mm" &

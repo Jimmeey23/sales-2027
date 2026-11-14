@@ -4,94 +4,99 @@
  "month": 7,
  "monthName": "July",
  "year": 2027,
+ "theme": "Book the Studio + Rain Check",
  "target": 2140000,
  "lastYear": 1889427,
  "yoy": 0.13261851344349362,
  "offers": 5,
  "buyers": 69,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "July 2027 at Bandra. The theme is Book the Studio + Rain Check. July. The monsoon is here to test your willpower. The plan brought an umbrella. The target is 21.4 lakh rupees. That is 13 per cent above the 18.89 lakh rupees of last July. A stretch, but a friendly one. Renewals lead at 10.91 lakh rupees, 51 per cent. Then new clients at 5.78 lakh rupees, 27 per cent, comeback at 3.85 lakh rupees, 18 per cent, other at 85,600 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 613 leads, 319 trials, 69 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Five offers carry 9.45 lakh rupees, 44 per cent of the 21.4 lakh rupees target. The other 11.95 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Bandra · 2027",
-     "title": "July",
-     "text": "July 2027 at Bandra. The theme is Book the Studio + Rain Check. July. The monsoon is here to test your willpower. The plan brought an umbrella."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹21.4L",
-     "text": "The target is 21.4 lakh rupees. That is 13 per cent above the 18.89 lakh rupees of last July. A stretch, but a friendly one."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "4 streams",
-     "text": "Renewals lead at 10.91 lakh rupees, 51 per cent. Then new clients at 5.78 lakh rupees, 27 per cent, comeback at 3.85 lakh rupees, 18 per cent, other at 85,600 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "69 buyers",
-     "text": "613 leads, 319 trials, 69 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "44%",
-     "text": "Five offers carry 9.45 lakh rupees, 44 per cent of the 21.4 lakh rupees target. The other 11.95 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 409,
+ "estSeconds": 169,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Bandra · 2027",
+   "title": "July",
+   "text": "Hello Bandra! July. The monsoon is here to test everyone's willpower. Our theme is Book the Studio plus Rain Check. We bring groups in together, make it easy to come back after the summer, and take the guilt out of rainy cancellations. The plan, thankfully, brought an umbrella."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹21.4L",
+   "text": "So, the number. Our July target for Bandra is 21.4 lakh rupees. That's 13 per cent up on last July. A stretch, but a friendly one."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "4 streams",
+   "text": "Where does it come from? Renewals lead the way with 10.9 lakh rupees. That's 5 of every 10 rupees. Then new clients 5.78 lakh, comebacks 3.85 lakh, and everything else 85,600. Our existing members carry this month, so every renewal conversation matters."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "69 buyers",
+   "text": "Behind the number are people: 613 leads, 319 trials, and 69 buyers, with about 22 per cent of trials converting. The trial class is where this month is won. Warm welcome, clear next step, every time."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "44%",
+   "text": "Here's where the offers come in. Five offers carry 9.45 lakh rupees, which is 44 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-28-BA",
+   "kicker": "Offer 1 of 5 · Revenue boost",
+   "title": "Team Building Without the Trust Falls",
+   "text": "First up, Team Building Without the Trust Falls. Offices buying ten or more memberships save twenty-five per cent each. That's 10 buyers, for 1.52 lakh rupees.",
+   "notes": "Offices, HR and team leads; 10+ units on one invoice."
+  },
+  {
+   "id": "offer-O27-27-BA",
+   "kicker": "Offer 2 of 5 · Revenue boost",
+   "title": "Kitty Party, But Make It Cardio",
+   "text": "Next, Kitty Party, But Make It Cardio. Book out the studio for up to twelve friends, your playlist, our instructor. That's 3 buyers, for 75,000 rupees.",
+   "notes": "Anyone booking the studio for a private group of up to 12."
+  },
+  {
+   "id": "offer-O27-26-SHQ-m7",
+   "kicker": "Offer 3 of 5 · New clients",
+   "title": "Shy Girl Starter Pack",
+   "text": "Then, for the nervous newcomer, the Shy Girl Starter Pack. Start with a thirty-minute private, then join class with a trainer who already knows your name. That's 7 buyers, for 1.13 lakh rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-30-BA",
+   "kicker": "Offer 4 of 5 · Win-backs",
+   "title": "Gone With the Wind, Back With the Rain",
+   "text": "Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race. That's 14 buyers, for 2.41 lakh rupees.",
+   "notes": "Standard lapsed 15% only"
+  },
+  {
+   "id": "offer-O27-29-BA",
+   "kicker": "Offer 5 of 5 · Renewals",
+   "title": "Rain Check (Literally)",
+   "text": "And finally, for renewals, Rain Check, literally. Renew in July for ten per cent off and three Rain Check tokens, with classes credited back on red-alert days. That's 20 buyers, for 3.64 lakh rupees.",
+   "notes": "≈15% effective"
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members sign up for The Amazing Race.",
+   "beats": [
+    "corporate and kitty party bookings open.",
+    "we call everyone who left in the summer heat.",
+    "the Rain Check renewal does the heavy lifting.",
+    "returning members sign up for The Amazing Race."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 5. Team Building Without the Trust Falls. Revenue boost. 10 buyers at 15,179 rupees, that is 1.52 lakh rupees, with 25 per cent off. A sale with a spine. Spend it fast, or it spends you. Offer 2 of 5. Kitty Party, But Make It Cardio. Revenue boost. 3 buyers at 24,999 rupees, that is 74,997 rupees. The kind of deal that makes people ask, wait, is this real? Offer 3 of 5. Shy Girl Starter Pack. New clients. 7 buyers at 16,204 rupees, that is 1.13 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 4 of 5. Gone With the Wind, Back With the Rain. Win-backs. 14 buyers at 17,203 rupees, that is 2.41 lakh rupees, with 15 per cent off. The mat has been waiting. Be kind, come back. Offer 5 of 5. Rain Check, Literally. Renewals. 20 buyers at 18,215 rupees, that is 3.64 lakh rupees, with 15 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 21.4 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's July at Bandra: 21.4 lakh rupees across Five offers, and 69 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-28-BA",
-     "kicker": "Offer 1 of 5 · Revenue boost",
-     "title": "Team Building Without the Trust Falls",
-     "text": "Offer 1 of 5. Team Building Without the Trust Falls. Revenue boost. 10 buyers at 15,179 rupees, that is 1.52 lakh rupees, with 25 per cent off. A sale with a spine. Spend it fast, or it spends you."
-    },
-    {
-     "id": "offer-O27-27-BA",
-     "kicker": "Offer 2 of 5 · Revenue boost",
-     "title": "Kitty Party, But Make It Cardio",
-     "text": "Offer 2 of 5. Kitty Party, But Make It Cardio. Revenue boost. 3 buyers at 24,999 rupees, that is 74,997 rupees. The kind of deal that makes people ask, wait, is this real?"
-    },
-    {
-     "id": "offer-O27-26-SHQ-m7",
-     "kicker": "Offer 3 of 5 · New clients",
-     "title": "Shy Girl Starter Pack",
-     "text": "Offer 3 of 5. Shy Girl Starter Pack. New clients. 7 buyers at 16,204 rupees, that is 1.13 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
-    },
-    {
-     "id": "offer-O27-30-BA",
-     "kicker": "Offer 4 of 5 · Win-backs",
-     "title": "Gone With the Wind, Back With the Rain",
-     "text": "Offer 4 of 5. Gone With the Wind, Back With the Rain. Win-backs. 14 buyers at 17,203 rupees, that is 2.41 lakh rupees, with 15 per cent off. The mat has been waiting. Be kind, come back."
-    },
-    {
-     "id": "offer-O27-29-BA",
-     "kicker": "Offer 5 of 5 · Renewals",
-     "title": "Rain Check (Literally)",
-     "text": "Offer 5 of 5. Rain Check, Literally. Renewals. 20 buyers at 18,215 rupees, that is 3.64 lakh rupees, with 15 per cent off. Loyalty, but make it financially reasonable."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 21.4 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "July 2027",
-     "title": "That is the plan",
-     "text": "That's July at Bandra: 21.4 lakh rupees across Five offers, and 69 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "July 2027",
+   "title": "That's the plan",
+   "text": "That's July at Bandra. 21.4 lakh rupees, five offers, and 69 buyers to welcome. It's raining offers. Hallelujah.",
+   "signoff": "It's raining offers. Hallelujah."
   }
- }
+ ]
 }

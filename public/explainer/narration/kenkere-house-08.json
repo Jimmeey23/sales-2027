@@ -4,88 +4,92 @@
  "month": 8,
  "monthName": "August",
  "year": 2027,
+ "theme": "The Amazing Race 2.0",
  "target": 1101334,
  "lastYear": 959985,
  "yoy": 0.1472408423048277,
  "offers": 4,
  "buyers": 55,
  "targetTrend": "up",
- "blocks": {
-  "a": {
-   "text": "August 2027 at Kenkere House. The theme is The Amazing Race 2.0. August. Half the city is on holiday. The other half is on our waitlist. The target is 11.01 lakh rupees. That is 15 per cent above the 9.6 lakh rupees of last August. A stretch, but a friendly one. Renewals lead at 5.84 lakh rupees, 53 per cent. Then new clients at 3.74 lakh rupees, 34 per cent, other at 77,093 rupees, 7 per cent, comeback at 66,080 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 817 leads, 294 trials, 55 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 7.22 lakh rupees, 66 per cent of the 11.01 lakh rupees target. The other 3.8 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
-   "segments": [
-    {
-     "id": "open",
-     "kicker": "Kenkere House · 2027",
-     "title": "August",
-     "text": "August 2027 at Kenkere House. The theme is The Amazing Race 2.0. August. Half the city is on holiday. The other half is on our waitlist."
-    },
-    {
-     "id": "target",
-     "kicker": "What the month has to do",
-     "title": "₹11.01L",
-     "text": "The target is 11.01 lakh rupees. That is 15 per cent above the 9.6 lakh rupees of last August. A stretch, but a friendly one."
-    },
-    {
-     "id": "streams",
-     "kicker": "Where it comes from",
-     "title": "4 streams",
-     "text": "Renewals lead at 5.84 lakh rupees, 53 per cent. Then new clients at 3.74 lakh rupees, 34 per cent, other at 77,093 rupees, 7 per cent, comeback at 66,080 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
-    },
-    {
-     "id": "funnel",
-     "kicker": "Who has to walk in",
-     "title": "55 buyers",
-     "text": "817 leads, 294 trials, 55 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
-    },
-    {
-     "id": "coverage",
-     "kicker": "What the offers carry",
-     "title": "66%",
-     "text": "Four offers carry 7.22 lakh rupees, 66 per cent of the 11.01 lakh rupees target. The other 3.8 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
-    }
+ "words": 431,
+ "estSeconds": 178,
+ "segments": [
+  {
+   "id": "open",
+   "kicker": "Kenkere House · 2027",
+   "title": "August",
+   "text": "Hello Kenkere House! August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard."
+  },
+  {
+   "id": "target",
+   "kicker": "The number",
+   "title": "₹11.01L",
+   "text": "So, the number. Our August target for Kenkere House is 11 lakh rupees. That's 15 per cent more than last August. Ambitious, yes. Unreasonable, no."
+  },
+  {
+   "id": "streams",
+   "kicker": "Where it comes from",
+   "title": "4 streams",
+   "text": "Where does it come from? Renewals lead the way with 5.84 lakh rupees. That's 5 of every 10 rupees. Then new clients 3.74 lakh, everything else 77,100, and comebacks 66,100. Our existing members carry this month, so every renewal conversation matters."
+  },
+  {
+   "id": "funnel",
+   "kicker": "Who has to walk in",
+   "title": "55 buyers",
+   "text": "Behind the number are people: 817 leads, 294 trials, and 55 buyers, with about 19 per cent of trials converting. Every five trials should become about one member. Make those first classes unforgettable."
+  },
+  {
+   "id": "coverage",
+   "kicker": "What the offers carry",
+   "title": "66%",
+   "text": "Here's where the offers come in. Four offers carry 7.22 lakh rupees, which is 66 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-33-KK",
+   "kicker": "Offer 1 of 4 · Revenue boost",
+   "title": "Friends With Benefits (Strictly Fitness)",
+   "text": "First up, Friends With Benefits. Strictly fitness. Bring a friend who's never been, and they get two classes on us. If they join, you both get race tees, and you get bonus days and double points. The plan is 4 buyers at about 12,400, so 49,600 rupees.",
+   "notes": "Current members bringing a guest."
+  },
+  {
+   "id": "offer-O27-31-KK",
+   "kicker": "Offer 2 of 4 · New clients",
+   "title": "Rookie Mistake (The Only Good One)",
+   "text": "Next, for newcomers, Rookie Mistake, the only good one. Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. The only rookie mistake is not starting. The plan is 9 buyers at about 11,700, so 1.05 lakh rupees.",
+   "notes": "First-time clients (phone verified)."
+  },
+  {
+   "id": "offer-O27-34-KK",
+   "kicker": "Offer 3 of 4 · Renewals",
+   "title": "Medal Detector",
+   "text": "Then, for race finishers, the Medal Detector. Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, or three months at fifteen per cent off plus bonus days. The plan is 15 buyers at about 30,000, so 4.5 lakh rupees.",
+   "notes": "6M ≈24% effective with private, inside the cap for 6M+ plans"
+  },
+  {
+   "id": "offer-O27-32-KK",
+   "kicker": "Offer 4 of 4 · Renewals",
+   "title": "At the Stroke of the Midnight Hour",
+   "text": "And finally, on Independence Day, At the Stroke of the Midnight Hour. Annual memberships at twenty-five per cent off, for the fifteenth of August only, with a strictly limited count. When the world sleeps, our members renew. The plan is 1 buyer at about 1.17 lakh, so 1.17 lakh rupees.",
+   "notes": "Annual cap 25%"
+  },
+  {
+   "id": "plan",
+   "kicker": "How the month runs",
+   "title": "4 weeks",
+   "text": "How does the month run? Week one, Friendship Day, and every friend gets two classes on us. Week two, Independence Day, and the midnight annual sale for one day only. Week three, the rookie leaderboard heats up, so celebrate newcomers by name. Week four, race finishers get their Medal Detector renewal.",
+   "beats": [
+    "Friendship Day, and every friend gets two classes on us.",
+    "Independence Day, and the midnight annual sale for one day only.",
+    "the rookie leaderboard heats up, so celebrate newcomers by name.",
+    "race finishers get their Medal Detector renewal."
    ]
   },
-  "b": {
-   "text": "Offer 1 of 4. Friends With Benefits, Strictly Fitness. Revenue boost. 4 buyers at 12,406 rupees, that is 49,624 rupees, with 15 per cent off. Flash energy, zero fake countdown timers. Well, almost. Offer 2 of 4. Rookie Mistake, The Only Good One. New clients. 9 buyers at 11,657 rupees, that is 1.05 lakh rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one. Offer 3 of 4. Medal Detector. Renewals. 15 buyers at 30,000 rupees, that is 4.5 lakh rupees, with 20 per cent off. Loyalty, but make it financially reasonable. Offer 4 of 4. At the Stroke of the Midnight Hour. Renewals. 1 buyers at 117,180 rupees, that is 1.17 lakh rupees, with 25 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.01 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's August at Kenkere House: 11.01 lakh rupees across Four offers, and 55 buyers to find. Go find them.",
-   "segments": [
-    {
-     "id": "offer-O27-33-KK",
-     "kicker": "Offer 1 of 4 · Revenue boost",
-     "title": "Friends With Benefits (Strictly Fitness)",
-     "text": "Offer 1 of 4. Friends With Benefits, Strictly Fitness. Revenue boost. 4 buyers at 12,406 rupees, that is 49,624 rupees, with 15 per cent off. Flash energy, zero fake countdown timers. Well, almost."
-    },
-    {
-     "id": "offer-O27-31-KK",
-     "kicker": "Offer 2 of 4 · New clients",
-     "title": "Rookie Mistake (The Only Good One)",
-     "text": "Offer 2 of 4. Rookie Mistake, The Only Good One. New clients. 9 buyers at 11,657 rupees, that is 1.05 lakh rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one."
-    },
-    {
-     "id": "offer-O27-34-KK",
-     "kicker": "Offer 3 of 4 · Renewals",
-     "title": "Medal Detector",
-     "text": "Offer 3 of 4. Medal Detector. Renewals. 15 buyers at 30,000 rupees, that is 4.5 lakh rupees, with 20 per cent off. Loyalty, but make it financially reasonable."
-    },
-    {
-     "id": "offer-O27-32-KK",
-     "kicker": "Offer 4 of 4 · Renewals",
-     "title": "At the Stroke of the Midnight Hour",
-     "text": "Offer 4 of 4. At the Stroke of the Midnight Hour. Renewals. 1 buyers at 117,180 rupees, that is 1.17 lakh rupees, with 25 per cent off. This one rewards the people who already picked us. Respect."
-    },
-    {
-     "id": "plan",
-     "kicker": "How the month runs",
-     "title": "4 moves",
-     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.01 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
-    },
-    {
-     "id": "close",
-     "kicker": "August 2027",
-     "title": "That is the plan",
-     "text": "That's August at Kenkere House: 11.01 lakh rupees across Four offers, and 55 buyers to find. Go find them."
-    }
-   ]
+  {
+   "id": "close",
+   "kicker": "August 2027",
+   "title": "That's the plan",
+   "text": "That's August at Kenkere House. 11 lakh rupees, four offers, and 55 buyers to welcome. On your marks. Get set. Sell.",
+   "signoff": "On your marks. Get set. Sell."
   }
- }
+ ]
 }
