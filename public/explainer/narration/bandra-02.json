@@ -1,0 +1,91 @@
+{
+ "slug": "bandra-02",
+ "studio": "Bandra",
+ "month": 2,
+ "monthName": "February",
+ "year": 2027,
+ "target": 1620000,
+ "lastYear": 1539479,
+ "yoy": 0.052304058710771706,
+ "offers": 4,
+ "buyers": 52,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "February 2027 at Bandra. The theme is Valentine's + Stronger in 30 2.0. February is short, so the plan is short on drama and long on follow-through. The target is 16.2 lakh rupees. That is 5 per cent above the 15.39 lakh rupees of last February. Up on last year. The plan has a plan for that. Renewals lead at 8.26 lakh rupees, 51 per cent. Then new clients at 4.37 lakh rupees, 27 per cent, comeback at 2.92 lakh rupees, 18 per cent, other at 64,800 rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them. 463 leads, 241 trials, 52 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 12.7 lakh rupees, 78 per cent of the 16.2 lakh rupees target. The other 3.5 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "February",
+     "text": "February 2027 at Bandra. The theme is Valentine's + Stronger in 30 2.0. February is short, so the plan is short on drama and long on follow-through."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹16.2L",
+     "text": "The target is 16.2 lakh rupees. That is 5 per cent above the 15.39 lakh rupees of last February. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 8.26 lakh rupees, 51 per cent. Then new clients at 4.37 lakh rupees, 27 per cent, comeback at 2.92 lakh rupees, 18 per cent, other at 64,800 rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "52 buyers",
+     "text": "463 leads, 241 trials, 52 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "78%",
+     "text": "Four offers carry 12.7 lakh rupees, 78 per cent of the 16.2 lakh rupees target. The other 3.5 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Couples Therapy, Cheaper Than the Real Thing. Revenue boost. 8 buyers at 18,215 rupees, that is 1.46 lakh rupees, with 16 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Situationship to Relationship. New clients. 14 buyers at 17,203 rupees, that is 2.41 lakh rupees, with 18 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Galentine's Gone Ghost. Win-backs. 6 buyers at 17,203 rupees, that is 1.03 lakh rupees, with 20 per cent off. The mat has been waiting. Be kind, come back. Offer 4 of 4. Proof of Work. Renewals. 13 buyers at 60,000 rupees, that is 7.8 lakh rupees, with 20 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 16.2 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's February at Bandra: 16.2 lakh rupees across Four offers, and 52 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-06-BA",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Couples Therapy (Cheaper Than the Real Thing)",
+     "text": "Offer 1 of 4. Couples Therapy, Cheaper Than the Real Thing. Revenue boost. 8 buyers at 18,215 rupees, that is 1.46 lakh rupees, with 16 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-05-BA",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Situationship → Relationship",
+     "text": "Offer 2 of 4. Situationship to Relationship. New clients. 14 buyers at 17,203 rupees, that is 2.41 lakh rupees, with 18 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-08-BA",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "Galentine's Gone Ghost",
+     "text": "Offer 3 of 4. Galentine's Gone Ghost. Win-backs. 6 buyers at 17,203 rupees, that is 1.03 lakh rupees, with 20 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-07-BA",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Proof of Work",
+     "text": "Offer 4 of 4. Proof of Work. Renewals. 13 buyers at 60,000 rupees, that is 7.8 lakh rupees, with 20 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 16.2 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "February 2027",
+     "title": "That is the plan",
+     "text": "That's February at Bandra: 16.2 lakh rupees across Four offers, and 52 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

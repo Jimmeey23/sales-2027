@@ -1,0 +1,91 @@
+{
+ "slug": "bandra-09",
+ "studio": "Bandra",
+ "month": 9,
+ "monthName": "September",
+ "year": 2027,
+ "target": 1800000,
+ "lastYear": 1529410,
+ "yoy": 0.17692443491280962,
+ "offers": 4,
+ "buyers": 58,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "September 2027 at Bandra. The theme is The Comeback + 57 Days to Diwali. September. Back to routine, and the routine is the product. The target is 18 lakh rupees. That is 18 per cent above the 15.29 lakh rupees of last September. A stretch, but a friendly one. Renewals lead at 9.18 lakh rupees, 51 per cent. Then new clients at 4.86 lakh rupees, 27 per cent, comeback at 3.24 lakh rupees, 18 per cent, other at 72,000 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 517 leads, 269 trials, 58 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 13.49 lakh rupees, 75 per cent of the 18 lakh rupees target. The other 4.51 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "September",
+     "text": "September 2027 at Bandra. The theme is The Comeback + 57 Days to Diwali. September. Back to routine, and the routine is the product."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹18L",
+     "text": "The target is 18 lakh rupees. That is 18 per cent above the 15.29 lakh rupees of last September. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 9.18 lakh rupees, 51 per cent. Then new clients at 4.86 lakh rupees, 27 per cent, comeback at 3.24 lakh rupees, 18 per cent, other at 72,000 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "58 buyers",
+     "text": "517 leads, 269 trials, 58 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "75%",
+     "text": "Four offers carry 13.49 lakh rupees, 75 per cent of the 18 lakh rupees target. The other 4.51 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Glow-Up or Give Back. New clients. 6 buyers at 34,406 rupees, that is 2.06 lakh rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 4. We Need to Talk. Win-backs. 4 buyers at 70,000 rupees, that is 2.8 lakh rupees, with 22 per cent off. The mat has been waiting. Be kind, come back. Offer 3 of 4. New Phone, Who Dis?. Win-backs. 13 buyers at 17,203 rupees, that is 2.24 lakh rupees, with 15 per cent off. A gentle nudge, with a discount on the nudge. Offer 4 of 4. Lock It Before the Laddoos. Renewals. 13 buyers at 49,177 rupees, that is 6.39 lakh rupees, with 18.5 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 18 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's September at Bandra: 18 lakh rupees across Four offers, and 58 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-37-BA",
+     "kicker": "Offer 1 of 4 · New clients",
+     "title": "Glow-Up or Give Back",
+     "text": "Offer 1 of 4. Glow-Up or Give Back. New clients. 6 buyers at 34,406 rupees, that is 2.06 lakh rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-35-BA",
+     "kicker": "Offer 2 of 4 · Win-backs",
+     "title": "We Need to Talk",
+     "text": "Offer 2 of 4. We Need to Talk. Win-backs. 4 buyers at 70,000 rupees, that is 2.8 lakh rupees, with 22 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-36-BA",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "New Phone, Who Dis?",
+     "text": "Offer 3 of 4. New Phone, Who Dis?. Win-backs. 13 buyers at 17,203 rupees, that is 2.24 lakh rupees, with 15 per cent off. A gentle nudge, with a discount on the nudge."
+    },
+    {
+     "id": "offer-O27-38-BA",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Lock It Before the Laddoos",
+     "text": "Offer 4 of 4. Lock It Before the Laddoos. Renewals. 13 buyers at 49,177 rupees, that is 6.39 lakh rupees, with 18.5 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 18 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "September 2027",
+     "title": "That is the plan",
+     "text": "That's September at Bandra: 18 lakh rupees across Four offers, and 58 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

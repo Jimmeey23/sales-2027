@@ -51,12 +51,15 @@ function wordStarts(text: string): number[] {
 export default function MonthExplainer({
   script,
   audioUrl = null,
+  videoUrl = null,
   onClose,
   onOpenPlan,
 }: {
   script: ExplainerScript;
   /** Pre-rendered narration for the whole month. When present it drives the voice. */
   audioUrl?: string | null;
+  /** A rendered explainer video (MP4). When present it replaces the slide player. */
+  videoUrl?: string | null;
   onClose: () => void;
   onOpenPlan?: () => void;
 }) {
@@ -286,6 +289,17 @@ export default function MonthExplainer({
   const words = useMemo(() => scene.narration.split(/(\s+)/), [scene.narration]);
   const reduce =
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+
+  if (videoUrl) {
+    return (
+      <div className="explainer ex-video-host" role="dialog" aria-modal="true" aria-label={`${script.title} — explainer video`}>
+        <video className="ex-video" src={videoUrl} controls autoPlay playsInline preload="auto" aria-label={script.title} />
+        <button type="button" className="ex-icon ex-video-close" onClick={onClose} aria-label="Close the explainer">
+          <X size={17} />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div

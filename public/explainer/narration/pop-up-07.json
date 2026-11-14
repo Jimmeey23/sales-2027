@@ -1,0 +1,91 @@
+{
+ "slug": "pop-up-07",
+ "studio": "Pop-up",
+ "month": 7,
+ "monthName": "July",
+ "year": 2027,
+ "target": 209413,
+ "lastYear": 145925,
+ "yoy": 0.43507281137570675,
+ "offers": 4,
+ "buyers": 55,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "July 2027 at Pop-up. The theme is Book the Studio + Rain Check. July. The monsoon is here to test your willpower. The plan brought an umbrella. The target is 2.09 lakh rupees. That is 44 per cent above the 1.46 lakh rupees of last July. A stretch, but a friendly one. Renewals lead at 92,142 rupees, 44 per cent. Then new clients at 91,613 rupees, 43.7 per cent, comeback at 23,564 rupees, 11.3 per cent, other at 2,094 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 642 leads, 167 trials, 55 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 1.19 lakh rupees, 57 per cent of the 2.09 lakh rupees target. The other 89,980 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Pop-up · 2027",
+     "title": "July",
+     "text": "July 2027 at Pop-up. The theme is Book the Studio + Rain Check. July. The monsoon is here to test your willpower. The plan brought an umbrella."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹2.09L",
+     "text": "The target is 2.09 lakh rupees. That is 44 per cent above the 1.46 lakh rupees of last July. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 92,142 rupees, 44 per cent. Then new clients at 91,613 rupees, 43.7 per cent, comeback at 23,564 rupees, 11.3 per cent, other at 2,094 rupees, 1 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "55 buyers",
+     "text": "642 leads, 167 trials, 55 buyers, and 32.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "57%",
+     "text": "Four offers carry 1.19 lakh rupees, 57 per cent of the 2.09 lakh rupees target. The other 89,980 rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Kitty Party, But Make It Cardio. Revenue boost. 2 buyers at 9,999 rupees, that is 19,998 rupees. A sale with a spine. Spend it fast, or it spends you. Offer 2 of 4. The Second Date's On Us. New clients. 8 buyers at 5,891 rupees, that is 47,128 rupees, with 15 per cent off. The welcome mat is out. Please wipe your feet. Offer 3 of 4. Gone With the Wind, Back With the Rain. Win-backs. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 15 per cent off. This one says we missed you, politely, with a discount attached. Offer 4 of 4. Rain Check, Literally. Renewals. 4 buyers at 7,655 rupees, that is 30,620 rupees, with 12 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 2.09 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's July at Pop-up: 2.09 lakh rupees across Four offers, and 55 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-27-POP",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Kitty Party, But Make It Cardio",
+     "text": "Offer 1 of 4. Kitty Party, But Make It Cardio. Revenue boost. 2 buyers at 9,999 rupees, that is 19,998 rupees. A sale with a spine. Spend it fast, or it spends you."
+    },
+    {
+     "id": "offer-O27-12-POP-m7",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "The Second Date's On Us",
+     "text": "Offer 2 of 4. The Second Date's On Us. New clients. 8 buyers at 5,891 rupees, that is 47,128 rupees, with 15 per cent off. The welcome mat is out. Please wipe your feet."
+    },
+    {
+     "id": "offer-O27-30-POP",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "Gone With the Wind, Back With the Rain",
+     "text": "Offer 3 of 4. Gone With the Wind, Back With the Rain. Win-backs. 3 buyers at 7,229 rupees, that is 21,687 rupees, with 15 per cent off. This one says we missed you, politely, with a discount attached."
+    },
+    {
+     "id": "offer-O27-29-POP",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Rain Check (Literally)",
+     "text": "Offer 4 of 4. Rain Check, Literally. Renewals. 4 buyers at 7,655 rupees, that is 30,620 rupees, with 12 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 2.09 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "July 2027",
+     "title": "That is the plan",
+     "text": "That's July at Pop-up: 2.09 lakh rupees across Four offers, and 55 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

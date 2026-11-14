@@ -4,13 +4,8 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Needs pillow + numpy; ffmpeg comes from the imageio-ffmpeg wheel unless FFMPEG is set.
 PY="${PY:-python3}"
-FFMPEG="${FFMPEG:-$ROOT/.ffmpeg-build/bin/ffmpeg}"
-
-if ! command -v "$FFMPEG" >/dev/null 2>&1; then
-  echo "ffmpeg not found at $FFMPEG" >&2
-  exit 1
-fi
 
 studios=(bandra kemps-corner kenkere-house pop-up)
 months=(01 02 03 04 05 06 07 08 09 10 11 12)

@@ -1,0 +1,103 @@
+{
+ "slug": "kenkere-house-04",
+ "studio": "Kenkere House",
+ "month": 4,
+ "monthName": "April",
+ "year": 2027,
+ "target": 1510000,
+ "lastYear": 1216947,
+ "yoy": 0.24080999419037963,
+ "offers": 6,
+ "buyers": 76,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "April 2027 at Kenkere House. The theme is Cloud Nine — 9 Years of Physique 57. April, the anniversary month. The confetti budget has been approved. The target is 15.1 lakh rupees. That is 24 per cent above the 12.17 lakh rupees of last April. A stretch, but a friendly one. Renewals lead at 8 lakh rupees, 53 per cent. Then new clients at 5.13 lakh rupees, 34 per cent, other at 1.06 lakh rupees, 7 per cent, comeback at 90,600 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 1128 leads, 406 trials, 76 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Six offers carry 9.59 lakh rupees, 63 per cent of the 15.1 lakh rupees target. The other 5.51 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kenkere House · 2027",
+     "title": "April",
+     "text": "April 2027 at Kenkere House. The theme is Cloud Nine — 9 Years of Physique 57. April, the anniversary month. The confetti budget has been approved."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹15.1L",
+     "text": "The target is 15.1 lakh rupees. That is 24 per cent above the 12.17 lakh rupees of last April. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 8 lakh rupees, 53 per cent. Then new clients at 5.13 lakh rupees, 34 per cent, other at 1.06 lakh rupees, 7 per cent, comeback at 90,600 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "76 buyers",
+     "text": "1128 leads, 406 trials, 76 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "63%",
+     "text": "Six offers carry 9.59 lakh rupees, 63 per cent of the 15.1 lakh rupees target. The other 5.51 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 6. Cloud Nine Limited Edition. Revenue boost. 2 buyers at 119,999 rupees, that is 2.4 lakh rupees, with 17.8 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 6. Plus One, Plus Nine. Revenue boost. 5 buyers at 12,406 rupees, that is 62,030 rupees, with 15 per cent off. Flash energy, zero fake countdown timers. Well, almost. Offer 3 of 6. Party Crasher Pass. New clients. 9 buyers at 11,707 rupees, that is 1.05 lakh rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one. Offer 4 of 6. Where Are They Now?. Win-backs. 10 buyers at 12,406 rupees, that is 1.24 lakh rupees, with 20 per cent off. A gentle nudge, with a discount on the nudge. Offer 5 of 6. Spin Class, Literally. Renewals. 23 buyers at 13,136 rupees, that is 3.02 lakh rupees, with 19.3 per cent off. This one rewards the people who already picked us. Respect. Offer 6 of 6. Club Nine: The Founders' Table. Renewals. 1 buyers at 124,992 rupees, that is 1.25 lakh rupees, with 25 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 15.1 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's April at Kenkere House: 15.1 lakh rupees across Six offers, and 76 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-13-KK",
+     "kicker": "Offer 1 of 6 · Revenue boost",
+     "title": "Cloud Nine Limited Edition",
+     "text": "Offer 1 of 6. Cloud Nine Limited Edition. Revenue boost. 2 buyers at 119,999 rupees, that is 2.4 lakh rupees, with 17.8 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-18-KK",
+     "kicker": "Offer 2 of 6 · Revenue boost",
+     "title": "Plus One, Plus Nine",
+     "text": "Offer 2 of 6. Plus One, Plus Nine. Revenue boost. 5 buyers at 12,406 rupees, that is 62,030 rupees, with 15 per cent off. Flash energy, zero fake countdown timers. Well, almost."
+    },
+    {
+     "id": "offer-O27-16-KK",
+     "kicker": "Offer 3 of 6 · New clients",
+     "title": "Party Crasher Pass",
+     "text": "Offer 3 of 6. Party Crasher Pass. New clients. 9 buyers at 11,707 rupees, that is 1.05 lakh rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-17-KK",
+     "kicker": "Offer 4 of 6 · Win-backs",
+     "title": "Where Are They Now?",
+     "text": "Offer 4 of 6. Where Are They Now?. Win-backs. 10 buyers at 12,406 rupees, that is 1.24 lakh rupees, with 20 per cent off. A gentle nudge, with a discount on the nudge."
+    },
+    {
+     "id": "offer-O27-15-KK",
+     "kicker": "Offer 5 of 6 · Renewals",
+     "title": "Spin Class (Literally)",
+     "text": "Offer 5 of 6. Spin Class, Literally. Renewals. 23 buyers at 13,136 rupees, that is 3.02 lakh rupees, with 19.3 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "offer-O27-14-KK",
+     "kicker": "Offer 6 of 6 · Renewals",
+     "title": "Club Nine: The Founders' Table",
+     "text": "Offer 6 of 6. Club Nine: The Founders' Table. Renewals. 1 buyers at 124,992 rupees, that is 1.25 lakh rupees, with 25 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 15.1 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "April 2027",
+     "title": "That is the plan",
+     "text": "That's April at Kenkere House: 15.1 lakh rupees across Six offers, and 76 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "slug": "kenkere-house-10",
+ "studio": "Kenkere House",
+ "month": 10,
+ "monthName": "October",
+ "year": 2027,
+ "target": 556773,
+ "lastYear": 485315,
+ "yoy": 0.14724045207751657,
+ "offers": 4,
+ "buyers": 28,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "October 2027 at Kenkere House. The theme is Festival of Lights. October. Festive season is knocking, with gifting questions behind it. The target is 5.57 lakh rupees. That is 15 per cent above the 4.85 lakh rupees of last October. A stretch, but a friendly one. Renewals lead at 2.95 lakh rupees, 53 per cent. Then new clients at 1.89 lakh rupees, 34 per cent, other at 38,974 rupees, 7 per cent, comeback at 33,406 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 417 leads, 150 trials, 28 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 4.54 lakh rupees, 82 per cent of the 5.57 lakh rupees target. The other 1.03 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kenkere House · 2027",
+     "title": "October",
+     "text": "October 2027 at Kenkere House. The theme is Festival of Lights. October. Festive season is knocking, with gifting questions behind it."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹5.57L",
+     "text": "The target is 5.57 lakh rupees. That is 15 per cent above the 4.85 lakh rupees of last October. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 2.95 lakh rupees, 53 per cent. Then new clients at 1.89 lakh rupees, 34 per cent, other at 38,974 rupees, 7 per cent, comeback at 33,406 rupees, 6 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "28 buyers",
+     "text": "417 leads, 150 trials, 28 buyers, and 18.7 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "82%",
+     "text": "Four offers carry 4.54 lakh rupees, 82 per cent of the 5.57 lakh rupees target. The other 1.03 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. From Phuljhadi to Anaar. Revenue boost. 5 buyers at 47,000 rupees, that is 2.35 lakh rupees, with 20 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Diwali Gifting, Minus the Dry-Fruit Box. New clients. 8 buyers at 2,835 rupees, that is 22,680 rupees, with 33 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Diwali Cleaning: Found Your Old Grip Socks?. Win-backs. 6 buyers at 12,406 rupees, that is 74,436 rupees, with 20 per cent off. The mat has been waiting. Be kind, come back. Offer 4 of 4. Gold Rush, Dhanteras Edition. Renewals. 1 buyers at 121,867 rupees, that is 1.22 lakh rupees, with 24.2 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 5.57 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's October at Kenkere House: 5.57 lakh rupees across Four offers, and 28 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-40-KK",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "From Phuljhadi to Anaar",
+     "text": "Offer 1 of 4. From Phuljhadi to Anaar. Revenue boost. 5 buyers at 47,000 rupees, that is 2.35 lakh rupees, with 20 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-39-KK",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Diwali Gifting, Minus the Dry-Fruit Box",
+     "text": "Offer 2 of 4. Diwali Gifting, Minus the Dry-Fruit Box. New clients. 8 buyers at 2,835 rupees, that is 22,680 rupees, with 33 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-42-KK",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "Diwali Cleaning: Found Your Old Grip Socks?",
+     "text": "Offer 3 of 4. Diwali Cleaning: Found Your Old Grip Socks?. Win-backs. 6 buyers at 12,406 rupees, that is 74,436 rupees, with 20 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-41-KK",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "Gold Rush (Dhanteras Edition)",
+     "text": "Offer 4 of 4. Gold Rush, Dhanteras Edition. Renewals. 1 buyers at 121,867 rupees, that is 1.22 lakh rupees, with 24.2 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 5.57 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "October 2027",
+     "title": "That is the plan",
+     "text": "That's October at Kenkere House: 5.57 lakh rupees across Four offers, and 28 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

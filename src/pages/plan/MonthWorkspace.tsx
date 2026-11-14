@@ -155,6 +155,9 @@ export default function MonthWorkspace({
   const [narratedMonths, setNarratedMonths] = useState<number[]>([]);
   // Fingerprint of the words each recorded track speaks, by month.
   const [narratedHashes, setNarratedHashes] = useState<Record<string, string>>({});
+  // Rendered explainer videos for this location, by month number. When a month has one, the
+  // cover's explainer button plays the video instead of the slide player.
+  const [explainerVideos, setExplainerVideos] = useState<Record<string, string>>({});
   // Editing is turned on one section at a time, from the pencil in that section's header.
   // Being able to edit never changes how a section is drawn — only what its pencil unlocks.
   const [editSection, setEditSection] = useState<string | null>(null);
@@ -209,10 +212,12 @@ export default function MonthWorkspace({
       .then((data: any) => {
         setNarratedMonths(Array.isArray(data?.studios?.[slug]) ? data.studios[slug] : []);
         setNarratedHashes(data?.hashes?.[slug] && typeof data.hashes[slug] === 'object' ? data.hashes[slug] : {});
+        setExplainerVideos(data?.videos?.[slug] && typeof data.videos[slug] === 'object' ? data.videos[slug] : {});
       })
       .catch(() => {
         setNarratedMonths([]);
         setNarratedHashes({});
+        setExplainerVideos({});
       });
   }, [studio.name]);
 
@@ -4413,6 +4418,7 @@ export default function MonthWorkspace({
       {explainerOpen && (
         <MonthExplainer
           script={explainerScript}
+          videoUrl={explainerVideos[String(month)] ?? null}
           audioUrl={
             // A recording is only used while it still says what the slides show. Once the
             // month is edited, the browser voice reads the live numbers instead.

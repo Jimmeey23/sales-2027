@@ -1,0 +1,91 @@
+{
+ "slug": "bandra-01",
+ "studio": "Bandra",
+ "month": 1,
+ "monthName": "January",
+ "year": 2027,
+ "target": 1760000,
+ "lastYear": 2003539,
+ "yoy": -0.12155440947243856,
+ "offers": 4,
+ "buyers": 56,
+ "targetTrend": "down",
+ "blocks": {
+  "a": {
+   "text": "January 2027 at Bandra. The theme is Resolutions with Receipts. New year, same you, better spreadsheet. Let's see what January wants from us. The target is 17.6 lakh rupees. That is 12 per cent below the 20.04 lakh rupees of last January. Lower than last year, and the plan says that's fine. Let's make it count. Renewals lead at 8.98 lakh rupees, 51 per cent. Then new clients at 4.75 lakh rupees, 27 per cent, comeback at 3.17 lakh rupees, 18 per cent, other at 70,400 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 498 leads, 259 trials, 56 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Four offers carry 12.68 lakh rupees, 72 per cent of the 17.6 lakh rupees target. The other 4.92 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "January",
+     "text": "January 2027 at Bandra. The theme is Resolutions with Receipts. New year, same you, better spreadsheet. Let's see what January wants from us."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹17.6L",
+     "text": "The target is 17.6 lakh rupees. That is 12 per cent below the 20.04 lakh rupees of last January. Lower than last year, and the plan says that's fine. Let's make it count."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 8.98 lakh rupees, 51 per cent. Then new clients at 4.75 lakh rupees, 27 per cent, comeback at 3.17 lakh rupees, 18 per cent, other at 70,400 rupees, 4 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "56 buyers",
+     "text": "498 leads, 259 trials, 56 buyers, and 21.6 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "72%",
+     "text": "Four offers carry 12.68 lakh rupees, 72 per cent of the 17.6 lakh rupees target. The other 4.92 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. The 57-Hour Hangover Sale. Revenue boost. 14 buyers at 15,000 rupees, that is 2.1 lakh rupees, with 26 per cent off. A sale with a spine. Spend it fast, or it spends you. Offer 2 of 4. Third Time's the Charm. New clients. 18 buyers at 17,203 rupees, that is 3.1 lakh rupees, with 33 per cent off. The welcome mat is out. Please wipe your feet. Offer 3 of 4. U Up? It's 2027. Win-backs. 11 buyers at 17,203 rupees, that is 1.89 lakh rupees, with 20 per cent off. This one says we missed you, politely, with a discount attached. Offer 4 of 4. The Baker's Dozen. Renewals. 3 buyers at 186,533 rupees, that is 5.6 lakh rupees, with 21.5 per cent off. The easiest sale is the member already in the building. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 17.6 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's January at Bandra: 17.6 lakh rupees across Four offers, and 56 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-01-BA",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "The 57-Hour Hangover Sale",
+     "text": "Offer 1 of 4. The 57-Hour Hangover Sale. Revenue boost. 14 buyers at 15,000 rupees, that is 2.1 lakh rupees, with 26 per cent off. A sale with a spine. Spend it fast, or it spends you."
+    },
+    {
+     "id": "offer-O27-02-BA",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Third Time's the Charm",
+     "text": "Offer 2 of 4. Third Time's the Charm. New clients. 18 buyers at 17,203 rupees, that is 3.1 lakh rupees, with 33 per cent off. The welcome mat is out. Please wipe your feet."
+    },
+    {
+     "id": "offer-O27-04-BA",
+     "kicker": "Offer 3 of 4 · Win-backs",
+     "title": "U Up? It's 2027.",
+     "text": "Offer 3 of 4. U Up? It's 2027. Win-backs. 11 buyers at 17,203 rupees, that is 1.89 lakh rupees, with 20 per cent off. This one says we missed you, politely, with a discount attached."
+    },
+    {
+     "id": "offer-O27-03-BA",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "The Baker's Dozen",
+     "text": "Offer 4 of 4. The Baker's Dozen. Renewals. 3 buyers at 186,533 rupees, that is 5.6 lakh rupees, with 21.5 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 17.6 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "January 2027",
+     "title": "That is the plan",
+     "text": "That's January at Bandra: 17.6 lakh rupees across Four offers, and 56 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "slug": "kenkere-house-11",
+ "studio": "Kenkere House",
+ "month": 11,
+ "monthName": "November",
+ "year": 2027,
+ "target": 1123201,
+ "lastYear": 979046,
+ "yoy": 0.14724027267360262,
+ "offers": 3,
+ "buyers": 57,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "November 2027 at Kenkere House. The theme is Black Friday + Thank U, Next. November. Black Friday, Diwali leftovers, and a lot of good resolutions. The target is 11.23 lakh rupees. That is 15 per cent above the 9.79 lakh rupees of last November. Up on last year. The plan has a plan for that. Renewals lead at 5.95 lakh rupees, 53 per cent. Then new clients at 3.82 lakh rupees, 34 per cent, other at 78,624 rupees, 7 per cent, comeback at 67,392 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them. 847 leads, 305 trials, 57 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Three offers carry 3.79 lakh rupees, 34 per cent of the 11.23 lakh rupees target. The other 7.44 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kenkere House · 2027",
+     "title": "November",
+     "text": "November 2027 at Kenkere House. The theme is Black Friday + Thank U, Next. November. Black Friday, Diwali leftovers, and a lot of good resolutions."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹11.23L",
+     "text": "The target is 11.23 lakh rupees. That is 15 per cent above the 9.79 lakh rupees of last November. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 5.95 lakh rupees, 53 per cent. Then new clients at 3.82 lakh rupees, 34 per cent, other at 78,624 rupees, 7 per cent, comeback at 67,392 rupees, 6 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "57 buyers",
+     "text": "847 leads, 305 trials, 57 buyers, and 18.7 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "34%",
+     "text": "Three offers carry 3.79 lakh rupees, 34 per cent of the 11.23 lakh rupees target. The other 7.44 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 3. Thank U, Next, Year. Revenue boost. 3 buyers at 12,406 rupees, that is 37,218 rupees. Flash energy, zero fake countdown timers. Well, almost. Offer 2 of 3. Secret Santa Squats. New clients. 12 buyers at 1,499 rupees, that is 17,988 rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one. Offer 3 of 3. Black Friday, Strong Monday, Sore Tuesday. Renewals. 6 buyers at 54,000 rupees, that is 3.24 lakh rupees, with 21 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.23 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's November at Kenkere House: 11.23 lakh rupees across Three offers, and 57 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-44-KK",
+     "kicker": "Offer 1 of 3 · Revenue boost",
+     "title": "Thank U, Next (Year)",
+     "text": "Offer 1 of 3. Thank U, Next, Year. Revenue boost. 3 buyers at 12,406 rupees, that is 37,218 rupees. Flash energy, zero fake countdown timers. Well, almost."
+    },
+    {
+     "id": "offer-O27-49-KK-m11",
+     "kicker": "Offer 2 of 3 · New clients",
+     "title": "Secret Santa Squats",
+     "text": "Offer 2 of 3. Secret Santa Squats. New clients. 12 buyers at 1,499 rupees, that is 17,988 rupees, with 20 per cent off. Step one is the awkward class. Step two is the good one."
+    },
+    {
+     "id": "offer-O27-43-KK",
+     "kicker": "Offer 3 of 3 · Renewals",
+     "title": "Black Friday, Strong Monday, Sore Tuesday",
+     "text": "Offer 3 of 3. Black Friday, Strong Monday, Sore Tuesday. Renewals. 6 buyers at 54,000 rupees, that is 3.24 lakh rupees, with 21 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 11.23 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "November 2027",
+     "title": "That is the plan",
+     "text": "That's November at Kenkere House: 11.23 lakh rupees across Three offers, and 57 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

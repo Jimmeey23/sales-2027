@@ -1,0 +1,97 @@
+{
+ "slug": "kemps-corner-07",
+ "studio": "Kemps Corner",
+ "month": 7,
+ "monthName": "July",
+ "year": 2027,
+ "target": 3360000,
+ "lastYear": 2580030,
+ "yoy": 0.302310438250718,
+ "offers": 5,
+ "buyers": 72,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "July 2027 at Kemps Corner. The theme is Book the Studio + Rain Check. July. The monsoon is here to test your willpower. The plan brought an umbrella. The target is 33.6 lakh rupees. That is 30 per cent above the 25.8 lakh rupees of last July. A stretch, but a friendly one. Renewals lead at 18.48 lakh rupees, 55 per cent. Then new clients at 8.06 lakh rupees, 24 per cent, comeback at 4.03 lakh rupees, 12 per cent, other at 3.02 lakh rupees, 9 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 525 leads, 268 trials, 72 buyers, and 26.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Five offers carry 13.23 lakh rupees, 39 per cent of the 33.6 lakh rupees target. The other 20.37 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kemps Corner · 2027",
+     "title": "July",
+     "text": "July 2027 at Kemps Corner. The theme is Book the Studio + Rain Check. July. The monsoon is here to test your willpower. The plan brought an umbrella."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹33.6L",
+     "text": "The target is 33.6 lakh rupees. That is 30 per cent above the 25.8 lakh rupees of last July. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 18.48 lakh rupees, 55 per cent. Then new clients at 8.06 lakh rupees, 24 per cent, comeback at 4.03 lakh rupees, 12 per cent, other at 3.02 lakh rupees, 9 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "72 buyers",
+     "text": "525 leads, 268 trials, 72 buyers, and 26.9 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "39%",
+     "text": "Five offers carry 13.23 lakh rupees, 39 per cent of the 33.6 lakh rupees target. The other 20.37 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 5. Team Building Without the Trust Falls. Revenue boost. 10 buyers at 15,179 rupees, that is 1.52 lakh rupees, with 25 per cent off. A sale with a spine. Spend it fast, or it spends you. Offer 2 of 5. Kitty Party, But Make It Cardio. Revenue boost. 4 buyers at 24,999 rupees, that is 99,996 rupees. The kind of deal that makes people ask, wait, is this real? Offer 3 of 5. Shy Girl Starter Pack. New clients. 9 buyers at 16,204 rupees, that is 1.46 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 4 of 5. Gone With the Wind, Back With the Rain. Win-backs. 22 buyers at 17,203 rupees, that is 3.78 lakh rupees, with 15 per cent off. The mat has been waiting. Be kind, come back. Offer 5 of 5. Rain Check, Literally. Renewals. 30 buyers at 18,215 rupees, that is 5.46 lakh rupees, with 15 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 33.6 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's July at Kemps Corner: 33.6 lakh rupees across Five offers, and 72 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-28-KC",
+     "kicker": "Offer 1 of 5 · Revenue boost",
+     "title": "Team Building Without the Trust Falls",
+     "text": "Offer 1 of 5. Team Building Without the Trust Falls. Revenue boost. 10 buyers at 15,179 rupees, that is 1.52 lakh rupees, with 25 per cent off. A sale with a spine. Spend it fast, or it spends you."
+    },
+    {
+     "id": "offer-O27-27-KC",
+     "kicker": "Offer 2 of 5 · Revenue boost",
+     "title": "Kitty Party, But Make It Cardio",
+     "text": "Offer 2 of 5. Kitty Party, But Make It Cardio. Revenue boost. 4 buyers at 24,999 rupees, that is 99,996 rupees. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-26-KH-m7",
+     "kicker": "Offer 3 of 5 · New clients",
+     "title": "Shy Girl Starter Pack",
+     "text": "Offer 3 of 5. Shy Girl Starter Pack. New clients. 9 buyers at 16,204 rupees, that is 1.46 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-30-KC",
+     "kicker": "Offer 4 of 5 · Win-backs",
+     "title": "Gone With the Wind, Back With the Rain",
+     "text": "Offer 4 of 5. Gone With the Wind, Back With the Rain. Win-backs. 22 buyers at 17,203 rupees, that is 3.78 lakh rupees, with 15 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-29-KC",
+     "kicker": "Offer 5 of 5 · Renewals",
+     "title": "Rain Check (Literally)",
+     "text": "Offer 5 of 5. Rain Check, Literally. Renewals. 30 buyers at 18,215 rupees, that is 5.46 lakh rupees, with 15 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 33.6 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "July 2027",
+     "title": "That is the plan",
+     "text": "That's July at Kemps Corner: 33.6 lakh rupees across Five offers, and 72 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

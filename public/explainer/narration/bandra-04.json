@@ -1,0 +1,103 @@
+{
+ "slug": "bandra-04",
+ "studio": "Bandra",
+ "month": 4,
+ "monthName": "April",
+ "year": 2027,
+ "target": 3300000,
+ "lastYear": 2744837,
+ "yoy": 0.20225718321342945,
+ "offers": 6,
+ "buyers": 106,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "April 2027 at Bandra. The theme is Cloud Nine — 9 Years of Physique 57. April, the anniversary month. The confetti budget has been approved. The target is 33 lakh rupees. That is 20 per cent above the 27.45 lakh rupees of last April. Up on last year. The plan has a plan for that. Renewals lead at 16.83 lakh rupees, 51 per cent. Then new clients at 8.91 lakh rupees, 27 per cent, comeback at 5.94 lakh rupees, 18 per cent, other at 1.32 lakh rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them. 944 leads, 491 trials, 106 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Six offers carry 24.28 lakh rupees, 74 per cent of the 33 lakh rupees target. The other 8.72 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "April",
+     "text": "April 2027 at Bandra. The theme is Cloud Nine — 9 Years of Physique 57. April, the anniversary month. The confetti budget has been approved."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹33L",
+     "text": "The target is 33 lakh rupees. That is 20 per cent above the 27.45 lakh rupees of last April. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 16.83 lakh rupees, 51 per cent. Then new clients at 8.91 lakh rupees, 27 per cent, comeback at 5.94 lakh rupees, 18 per cent, other at 1.32 lakh rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "106 buyers",
+     "text": "944 leads, 491 trials, 106 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "74%",
+     "text": "Six offers carry 24.28 lakh rupees, 74 per cent of the 33 lakh rupees target. The other 8.72 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 6. Cloud Nine Limited Edition. Revenue boost. 4 buyers at 164,999 rupees, that is 6.6 lakh rupees, with 18.5 per cent off. A sale with a spine. Spend it fast, or it spends you. Offer 2 of 6. Plus One, Plus Nine. Revenue boost. 7 buyers at 17,203 rupees, that is 1.2 lakh rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 3 of 6. Party Crasher Pass. New clients. 15 buyers at 16,204 rupees, that is 2.43 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 4 of 6. Where Are They Now?. Win-backs. 15 buyers at 17,203 rupees, that is 2.58 lakh rupees, with 20 per cent off. The mat has been waiting. Be kind, come back. Offer 5 of 6. Spin Class, Literally. Renewals. 34 buyers at 18,215 rupees, that is 6.19 lakh rupees, with 19.5 per cent off. Loyalty, but make it financially reasonable. Offer 6 of 6. Club Nine: The Founders' Table. Renewals. 3 buyers at 175,560 rupees, that is 5.27 lakh rupees, with 25 per cent off. This one rewards the people who already picked us. Respect. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 33 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's April at Bandra: 33 lakh rupees across Six offers, and 106 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-13-BA",
+     "kicker": "Offer 1 of 6 · Revenue boost",
+     "title": "Cloud Nine Limited Edition",
+     "text": "Offer 1 of 6. Cloud Nine Limited Edition. Revenue boost. 4 buyers at 164,999 rupees, that is 6.6 lakh rupees, with 18.5 per cent off. A sale with a spine. Spend it fast, or it spends you."
+    },
+    {
+     "id": "offer-O27-18-BA",
+     "kicker": "Offer 2 of 6 · Revenue boost",
+     "title": "Plus One, Plus Nine",
+     "text": "Offer 2 of 6. Plus One, Plus Nine. Revenue boost. 7 buyers at 17,203 rupees, that is 1.2 lakh rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-16-BA",
+     "kicker": "Offer 3 of 6 · New clients",
+     "title": "Party Crasher Pass",
+     "text": "Offer 3 of 6. Party Crasher Pass. New clients. 15 buyers at 16,204 rupees, that is 2.43 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-17-BA",
+     "kicker": "Offer 4 of 6 · Win-backs",
+     "title": "Where Are They Now?",
+     "text": "Offer 4 of 6. Where Are They Now?. Win-backs. 15 buyers at 17,203 rupees, that is 2.58 lakh rupees, with 20 per cent off. The mat has been waiting. Be kind, come back."
+    },
+    {
+     "id": "offer-O27-15-BA",
+     "kicker": "Offer 5 of 6 · Renewals",
+     "title": "Spin Class (Literally)",
+     "text": "Offer 5 of 6. Spin Class, Literally. Renewals. 34 buyers at 18,215 rupees, that is 6.19 lakh rupees, with 19.5 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "offer-O27-14-BA",
+     "kicker": "Offer 6 of 6 · Renewals",
+     "title": "Club Nine: The Founders' Table",
+     "text": "Offer 6 of 6. Club Nine: The Founders' Table. Renewals. 3 buyers at 175,560 rupees, that is 5.27 lakh rupees, with 25 per cent off. This one rewards the people who already picked us. Respect."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 33 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "April 2027",
+     "title": "That is the plan",
+     "text": "That's April at Bandra: 33 lakh rupees across Six offers, and 106 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

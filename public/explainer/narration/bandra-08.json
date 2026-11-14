@@ -1,0 +1,91 @@
+{
+ "slug": "bandra-08",
+ "studio": "Bandra",
+ "month": 8,
+ "monthName": "August",
+ "year": 2027,
+ "target": 2550000,
+ "lastYear": 2280685,
+ "yoy": 0.11808513670235032,
+ "offers": 4,
+ "buyers": 82,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "August 2027 at Bandra. The theme is The Amazing Race 2.0. August. Half the city is on holiday. The other half is on our waitlist. The target is 25.5 lakh rupees. That is 12 per cent above the 22.81 lakh rupees of last August. Up on last year. The plan has a plan for that. Renewals lead at 13.01 lakh rupees, 51 per cent. Then new clients at 6.88 lakh rupees, 27 per cent, comeback at 4.59 lakh rupees, 18 per cent, other at 1.02 lakh rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them. 731 leads, 380 trials, 82 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently. Four offers carry 18.65 lakh rupees, 73 per cent of the 25.5 lakh rupees target. The other 6.85 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Bandra · 2027",
+     "title": "August",
+     "text": "August 2027 at Bandra. The theme is The Amazing Race 2.0. August. Half the city is on holiday. The other half is on our waitlist."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹25.5L",
+     "text": "The target is 25.5 lakh rupees. That is 12 per cent above the 22.81 lakh rupees of last August. Up on last year. The plan has a plan for that."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 13.01 lakh rupees, 51 per cent. Then new clients at 6.88 lakh rupees, 27 per cent, comeback at 4.59 lakh rupees, 18 per cent, other at 1.02 lakh rupees, 4 per cent. Existing members are doing the heavy lifting. Be nice to them."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "82 buyers",
+     "text": "731 leads, 380 trials, 82 buyers, and 21.6 per cent of trials convert. Every trial is a person who showed up. Welcome them, then sell gently."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "73%",
+     "text": "Four offers carry 18.65 lakh rupees, 73 per cent of the 25.5 lakh rupees target. The other 6.85 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 4. Friends With Benefits, Strictly Fitness. Revenue boost. 7 buyers at 17,203 rupees, that is 1.2 lakh rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real? Offer 2 of 4. Rookie Mistake, The Only Good One. New clients. 15 buyers at 16,204 rupees, that is 2.43 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two. Offer 3 of 4. Medal Detector. Renewals. 24 buyers at 42,000 rupees, that is 10.08 lakh rupees, with 20 per cent off. The easiest sale is the member already in the building. Offer 4 of 4. At the Stroke of the Midnight Hour. Renewals. 3 buyers at 164,588 rupees, that is 4.94 lakh rupees, with 25 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 25.5 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's August at Bandra: 25.5 lakh rupees across Four offers, and 82 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-33-BA",
+     "kicker": "Offer 1 of 4 · Revenue boost",
+     "title": "Friends With Benefits (Strictly Fitness)",
+     "text": "Offer 1 of 4. Friends With Benefits, Strictly Fitness. Revenue boost. 7 buyers at 17,203 rupees, that is 1.2 lakh rupees, with 15 per cent off. The kind of deal that makes people ask, wait, is this real?"
+    },
+    {
+     "id": "offer-O27-31-BA",
+     "kicker": "Offer 2 of 4 · New clients",
+     "title": "Rookie Mistake (The Only Good One)",
+     "text": "Offer 2 of 4. Rookie Mistake, The Only Good One. New clients. 15 buyers at 16,204 rupees, that is 2.43 lakh rupees, with 20 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-34-BA",
+     "kicker": "Offer 3 of 4 · Renewals",
+     "title": "Medal Detector",
+     "text": "Offer 3 of 4. Medal Detector. Renewals. 24 buyers at 42,000 rupees, that is 10.08 lakh rupees, with 20 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "offer-O27-32-BA",
+     "kicker": "Offer 4 of 4 · Renewals",
+     "title": "At the Stroke of the Midnight Hour",
+     "text": "Offer 4 of 4. At the Stroke of the Midnight Hour. Renewals. 3 buyers at 164,588 rupees, that is 4.94 lakh rupees, with 25 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 25.5 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "August 2027",
+     "title": "That is the plan",
+     "text": "That's August at Bandra: 25.5 lakh rupees across Four offers, and 82 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}

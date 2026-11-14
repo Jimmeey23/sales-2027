@@ -1,0 +1,85 @@
+{
+ "slug": "kemps-corner-03",
+ "studio": "Kemps Corner",
+ "month": 3,
+ "monthName": "March",
+ "year": 2027,
+ "target": 2570000,
+ "lastYear": 2018321,
+ "yoy": 0.27333560915235977,
+ "offers": 3,
+ "buyers": 55,
+ "targetTrend": "up",
+ "blocks": {
+  "a": {
+   "text": "March 2027 at Kemps Corner. The theme is Main Character Month. March. The month that starts with good intentions and ends with a playlist on repeat. The target is 25.7 lakh rupees. That is 27 per cent above the 20.18 lakh rupees of last March. A stretch, but a friendly one. Renewals lead at 14.13 lakh rupees, 55 per cent. Then new clients at 6.17 lakh rupees, 24 per cent, comeback at 3.08 lakh rupees, 12 per cent, other at 2.31 lakh rupees, 9 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely. 400 leads, 204 trials, 55 buyers, and 27 per cent of trials convert. Trials are the warm-up. Buyers are the main set. Three offers carry 15.72 lakh rupees, 61 per cent of the 25.7 lakh rupees target. The other 9.98 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore.",
+   "segments": [
+    {
+     "id": "open",
+     "kicker": "Kemps Corner · 2027",
+     "title": "March",
+     "text": "March 2027 at Kemps Corner. The theme is Main Character Month. March. The month that starts with good intentions and ends with a playlist on repeat."
+    },
+    {
+     "id": "target",
+     "kicker": "What the month has to do",
+     "title": "₹25.7L",
+     "text": "The target is 25.7 lakh rupees. That is 27 per cent above the 20.18 lakh rupees of last March. A stretch, but a friendly one."
+    },
+    {
+     "id": "streams",
+     "kicker": "Where it comes from",
+     "title": "4 streams",
+     "text": "Renewals lead at 14.13 lakh rupees, 55 per cent. Then new clients at 6.17 lakh rupees, 24 per cent, comeback at 3.08 lakh rupees, 12 per cent, other at 2.31 lakh rupees, 9 per cent. The loyal crowd carries this month. Thank them, then sell them something lovely."
+    },
+    {
+     "id": "funnel",
+     "kicker": "Who has to walk in",
+     "title": "55 buyers",
+     "text": "400 leads, 204 trials, 55 buyers, and 27 per cent of trials convert. Trials are the warm-up. Buyers are the main set."
+    },
+    {
+     "id": "coverage",
+     "kicker": "What the offers carry",
+     "title": "61%",
+     "text": "Three offers carry 15.72 lakh rupees, 61 per cent of the 25.7 lakh rupees target. The other 9.98 lakh rupees is expected at full price. Offers do the heavy lifting. Full-price sales do the encore."
+    }
+   ]
+  },
+  "b": {
+   "text": "Offer 1 of 3. Lift Like a Girl. New clients. 17 buyers at 17,203 rupees, that is 2.92 lakh rupees, with 15 per cent off. Give first-timers a reason to come back for class two. Offer 2 of 3. Bura Na Mano, Renewal Hai. Renewals. 14 buyers at 49,177 rupees, that is 6.88 lakh rupees, with 18.5 per cent off. The easiest sale is the member already in the building. Offer 3 of 3. Monogamy Is Overrated. Renewals. 30 buyers at 19,688 rupees, that is 5.91 lakh rupees, with 17 per cent off. Loyalty, but make it financially reasonable. How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 25.7 lakh rupees. Week four, close the month, tag every redemption, and brief next month. That's March at Kemps Corner: 25.7 lakh rupees across Three offers, and 55 buyers to find. Go find them.",
+   "segments": [
+    {
+     "id": "offer-O27-10-KH",
+     "kicker": "Offer 1 of 3 · New clients",
+     "title": "Lift Like a Girl",
+     "text": "Offer 1 of 3. Lift Like a Girl. New clients. 17 buyers at 17,203 rupees, that is 2.92 lakh rupees, with 15 per cent off. Give first-timers a reason to come back for class two."
+    },
+    {
+     "id": "offer-O27-11-KC",
+     "kicker": "Offer 2 of 3 · Renewals",
+     "title": "Bura Na Mano, Renewal Hai",
+     "text": "Offer 2 of 3. Bura Na Mano, Renewal Hai. Renewals. 14 buyers at 49,177 rupees, that is 6.88 lakh rupees, with 18.5 per cent off. The easiest sale is the member already in the building."
+    },
+    {
+     "id": "offer-O27-09-KC",
+     "kicker": "Offer 3 of 3 · Renewals",
+     "title": "Monogamy Is Overrated",
+     "text": "Offer 3 of 3. Monogamy Is Overrated. Renewals. 30 buyers at 19,688 rupees, that is 5.91 lakh rupees, with 17 per cent off. Loyalty, but make it financially reasonable."
+    },
+    {
+     "id": "plan",
+     "kicker": "How the month runs",
+     "title": "4 moves",
+     "text": "How the month runs. Week one, launch the offers. Week two, check sell-out and redemptions every week. Week three, a mid-month review against 25.7 lakh rupees. Week four, close the month, tag every redemption, and brief next month."
+    },
+    {
+     "id": "close",
+     "kicker": "March 2027",
+     "title": "That is the plan",
+     "text": "That's March at Kemps Corner: 25.7 lakh rupees across Three offers, and 55 buyers to find. Go find them."
+    }
+   ]
+  }
+ }
+}
