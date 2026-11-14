@@ -1,5 +1,63 @@
 {
   "generatedAt": "2026-11-05T12:51:56Z",
   "studios": {},
-  "hashes": {}
+  "hashes": {},
+  "videos": {
+    "bandra": {
+      "1": "/explainer/video/bandra-01.mp4",
+      "2": "/explainer/video/bandra-02.mp4",
+      "3": "/explainer/video/bandra-03.mp4",
+      "4": "/explainer/video/bandra-04.mp4",
+      "5": "/explainer/video/bandra-05.mp4",
+      "6": "/explainer/video/bandra-06.mp4",
+      "7": "/explainer/video/bandra-07.mp4",
+      "8": "/explainer/video/bandra-08.mp4",
+      "9": "/explainer/video/bandra-09.mp4",
+      "10": "/explainer/video/bandra-10.mp4",
+      "11": "/explainer/video/bandra-11.mp4",
+      "12": "/explainer/video/bandra-12.mp4"
+    },
+    "kemps-corner": {
+      "1": "/explainer/video/kemps-corner-01.mp4",
+      "2": "/explainer/video/kemps-corner-02.mp4",
+      "3": "/explainer/video/kemps-corner-03.mp4",
+      "4": "/explainer/video/kemps-corner-04.mp4",
+      "5": "/explainer/video/kemps-corner-05.mp4",
+      "6": "/explainer/video/kemps-corner-06.mp4",
+      "7": "/explainer/video/kemps-corner-07.mp4",
+      "8": "/explainer/video/kemps-corner-08.mp4",
+      "9": "/explainer/video/kemps-corner-09.mp4",
+      "10": "/explainer/video/kemps-corner-10.mp4",
+      "11": "/explainer/video/kemps-corner-11.mp4",
+      "12": "/explainer/video/kemps-corner-12.mp4"
+    },
+    "kenkere-house": {
+      "1": "/explainer/video/kenkere-house-01.mp4",
+      "2": "/explainer/video/kenkere-house-02.mp4",
+      "3": "/explainer/video/kenkere-house-03.mp4",
+      "4": "/explainer/video/kenkere-house-04.mp4",
+      "5": "/explainer/video/kenkere-house-05.mp4",
+      "6": "/explainer/video/kenkere-house-06.mp4",
+      "7": "/explainer/video/kenkere-house-07.mp4",
+      "8": "/explainer/video/kenkere-house-08.mp4",
+      "9": "/explainer/video/kenkere-house-09.mp4",
+      "10": "/explainer/video/kenkere-house-10.mp4",
+      "11": "/explainer/video/kenkere-house-11.mp4",
+      "12": "/explainer/video/kenkere-house-12.mp4"
+    },
+    "pop-up": {
+      "1": "/explainer/video/pop-up-01.mp4",
+      "2": "/explainer/video/pop-up-02.mp4",
+      "3": "/explainer/video/pop-up-03.mp4",
+      "4": "/explainer/video/pop-up-04.mp4",
+      "5": "/explainer/video/pop-up-05.mp4",
+      "6": "/explainer/video/pop-up-06.mp4",
+      "7": "/explainer/video/pop-up-07.mp4",
+      "8": "/explainer/video/pop-up-08.mp4",
+      "9": "/explainer/video/pop-up-09.mp4",
+      "10": "/explainer/video/pop-up-10.mp4",
+      "11": "/explainer/video/pop-up-11.mp4",
+      "12": "/explainer/video/pop-up-12.mp4"
+    }
+  }
 }
