@@ -32,6 +32,9 @@ import sys
 from pathlib import Path
 
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / "explainer"))
+import visuals as V  # noqa: E402
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -923,26 +926,40 @@ def build_timeline(script, narr):
         sfx.append((max(0.0, s_ - 0.15), "whoosh", 0.3))
     scenes.append(dict(kind="endcard", s=T_END, e=T_TOTAL, seg=None, sc=None))
     sfx.append((T_END + 0.2, "ding", 0.6))
-    # light sound cues; kept quiet so they sit under a real voice
+    # meme cue sheet: big moments get big sounds (ducked under the voice in the mix)
     for sc in scenes:
         k, s_, e_ = sc["kind"], sc["s"], sc["e"]
         D = e_ - s_
-        if k == "target":
-            sfx.append((s_ + 1.2, "cha_ching" if narr["targetTrend"] == "up" else "boing", 0.45))
+        if k == "open":
+            sfx.append((s_ + 0.3, "record_scratch", 0.7))
+        elif k == "target":
+            sfx.append((s_ + 0.2, "drum_roll", 0.55))
+            if narr["targetTrend"] == "up":
+                sfx += [(s_ + 1.4, "airhorn", 0.75), (s_ + 1.5, "cha_ching", 0.7)]
+            else:
+                sfx.append((s_ + 1.4, "sad_trombone", 0.9))
         elif k == "streams":
             for i in range(4):
-                sfx.append((s_ + 1.0 + 0.35 * i, "pop", 0.3))
+                sfx.append((s_ + 0.9 + 0.3 * i, "pop", 0.55))
+            sfx.append((s_ + 2.6, "ding", 0.5))
+        elif k == "funnel":
+            sfx.append((s_ + 0.3, "drum_roll", 0.6))
+            sfx.append((s_ + 1.8, "rimshot", 0.9))
         elif k == "coverage":
-            sfx.append((s_ + 1.6, "ding", 0.4))
+            sfx.append((s_ + 1.8, "cha_ching", 0.75))
         elif k == "offer":
-            sfx.append((s_ + 0.5, "pop", 0.4))
+            sfx.append((s_ + 0.15, "whoosh", 0.5))
+            if sc["sc"] and sc["sc"]["data"].get("discount"):
+                sfx.append((s_ + 0.65, "boing", 0.6))
             if sc["sc"] and sc["sc"]["data"]["revenue"] == max_rev:
-                sfx.append((s_ + 1.6, "cha_ching", 0.45))
+                sfx.append((s_ + 1.8, "vine_boom", 1.0))
+            else:
+                sfx.append((s_ + 1.4, "cha_ching", 0.5))
         elif k == "plan":
             for i in range(4):
-                sfx.append((s_ + 0.4 + D * (0.12 + 0.22 * i), "ding", 0.3))
+                sfx.append((s_ + 0.6 + D * (0.1 + 0.22 * i), "ding", 0.5))
         elif k == "close":
-            sfx.append((s_ + 0.3, "tada", 0.5))
+            sfx += [(s_ + 0.2, "airhorn", 0.85), (s_ + 0.9, "tada", 0.7)]
     ctx["maxRevenue"] = max_rev
     print(f"  timing: scenes matched to {method} ({len(segs)} scenes, {len(voice)/SR:.0f}s of voice)")
     return dict(ctx=ctx, scenes=scenes, sfx=sfx, voice=voice, T_V=T_V, T_TOTAL=T_TOTAL, T_END=T_END,
@@ -1066,7 +1083,7 @@ def write_audio(path, tl):
     k = int(SR * 0.25)
     env = np.convolve(env, np.ones(k) / k, mode="same")
     duck = 1.0 - 0.6 * np.clip(env / 0.05, 0, 1)
-    mono = voice * 1.0 + bed * 0.9 * duck + fx * (0.5 + 0.5 * duck)
+    mono = voice * 1.0 + bed * 0.8 * duck + fx * (0.65 + 0.35 * duck)
     mono = np.tanh(mono * 1.1).astype(np.float32)
     stereo = np.stack([mono, mono], axis=1).astype("<f4")
     path.write_bytes(stereo.tobytes())
@@ -1087,46 +1104,21 @@ def render_month(slug, mm):
     out = VIDEO / f"{slug}-{mm}.mp4"
     tmp_audio = VIDEO / f".{slug}-{mm}.f32"
     write_audio(tmp_audio, tl)
-    bg = make_background()
-    band = make_band()
-    # The caption band is static: bake it into the background once instead of compositing per frame.
-    bottom = Image.alpha_composite(bg.crop((0, H - 300, W, H)).convert("RGBA"), band).convert("RGB")
-    bg.paste(bottom, (0, H - 300))
+    R = V.Renderer(ctx)
     cmd = [FFMPEG, "-y", "-v", "error",
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
            "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", str(tmp_audio),
-           "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
-           "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-c:a", "aac", "-b:a", "160k",
+           "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21",
+           "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-c:a", "aac", "-b:a", "192k",
            "-t", f"{tl['T_TOTAL']:.2f}", str(out)]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     limit = float(os.environ.get("RENDER_LIMIT", tl["T_TOTAL"]))
-    total = int(min(tl["T_TOTAL"], limit) * FPS)
+    start = float(os.environ.get("RENDER_FROM", 0))
     scenes = tl["scenes"]
-    strip_key, strip_img = None, None
-    for fi in range(total):
+    for fi in range(int(start * FPS), int(min(tl["T_TOTAL"], limit) * FPS)):
         t = fi / FPS
         sc = next((s for s in scenes if s["s"] <= t < s["e"]), scenes[-1])
-        dur = sc["e"] - sc["s"]
-        lt = t - sc["s"]
-        img = bg.copy()
-        draw_particles(img, t)
-        fade_from = img.copy() if lt < 0.35 else None
-        render_scene(img, ImageDraw.Draw(img), sc, lt, dur, ctx, t, tl["T_TOTAL"])
-        if fade_from is not None:
-            img = Image.blend(fade_from, img, eo(lt / 0.35))
-        hd = ImageDraw.Draw(img)
-        header(hd, ctx, t / tl["T_TOTAL"])
-        chapter_rail(hd, scenes, sc, t)
-        caption = caption_for(sc)
-        if caption:
-            prog = lt / dur if dur > 0 else 1
-            key = (id(sc), caption_shown(caption, prog))
-            if key != strip_key:
-                strip_img = bottom.copy()
-                draw_caption(strip_img, ImageDraw.Draw(strip_img), caption, prog, oy=H - 300)
-                strip_key = key
-            img.paste(strip_img, (0, H - 300))
-        proc.stdin.write(img.tobytes())
+        proc.stdin.write(R.frame(t, sc, scenes, tl["T_TOTAL"]).tobytes())
     proc.stdin.close()
     rc = proc.wait()
     tmp_audio.unlink(missing_ok=True)
