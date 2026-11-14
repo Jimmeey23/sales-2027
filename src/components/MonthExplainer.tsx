@@ -48,13 +48,7 @@ function wordStarts(text: string): number[] {
   return starts;
 }
 
-export default function MonthExplainer({
-  script,
-  audioUrl = null,
-  videoUrl = null,
-  onClose,
-  onOpenPlan,
-}: {
+type ExplainerProps = {
   script: ExplainerScript;
   /** Pre-rendered narration for the whole month. When present it drives the voice. */
   audioUrl?: string | null;
@@ -62,7 +56,39 @@ export default function MonthExplainer({
   videoUrl?: string | null;
   onClose: () => void;
   onOpenPlan?: () => void;
-}) {
+};
+
+/** A rendered video replaces the slide player entirely. The slide player is not mounted at all,
+ *  so its browser voice and narration track can never play underneath the video. */
+export default function MonthExplainer(props: ExplainerProps) {
+  const { videoUrl, script, onClose } = props;
+  useEffect(() => {
+    if (!videoUrl) return;
+    // Stop anything the browser was still saying from an earlier slide session.
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [videoUrl, onClose]);
+  if (videoUrl) {
+    return (
+      <div className="explainer ex-video-host" role="dialog" aria-modal="true" aria-label={`${script.title} — explainer video`}>
+        <video className="ex-video" src={videoUrl} controls autoPlay playsInline preload="auto" aria-label={script.title} />
+        <button type="button" className="ex-icon ex-video-close" onClick={onClose} aria-label="Close the explainer">
+          <X size={17} />
+        </button>
+      </div>
+    );
+  }
+  return <SlideExplainer {...props} />;
+}
+
+function SlideExplainer({ script, audioUrl = null, onClose, onOpenPlan }: ExplainerProps) {
   const { supported, voices, speak, cancel, bestVoiceUri } = useNarration();
 
   const [index, setIndex] = useState(0);
@@ -290,16 +316,6 @@ export default function MonthExplainer({
   const reduce =
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
 
-  if (videoUrl) {
-    return (
-      <div className="explainer ex-video-host" role="dialog" aria-modal="true" aria-label={`${script.title} — explainer video`}>
-        <video className="ex-video" src={videoUrl} controls autoPlay playsInline preload="auto" aria-label={script.title} />
-        <button type="button" className="ex-icon ex-video-close" onClick={onClose} aria-label="Close the explainer">
-          <X size={17} />
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div
