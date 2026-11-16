@@ -473,7 +473,7 @@ export default function MonthCover({
                   />
                 </span>
                 <span className="mc-renew-copy">
-                  {int(renewalsDue)} expiring · {pct(renewalCoverage)} covered
+                  {int(renewalsDue)} expiring · book = {pct(renewalCoverage)} of renewal target
                 </span>
               </div>
             )}

@@ -36,9 +36,34 @@ export function packInsights(names: string[]) {
   };
 }
 
+/* The 2027 targets come from the plan of record, not the pack workbook: the workbook was an
+   earlier draft whose monthly targets and stream split no longer match Target Metrics. History
+   (last 12 months, prior year, streams, categories) stays the pack's own. */
+const PLAN_CODE: Record<string, string> = {
+  'Kemps Corner': 'KH',
+  Bandra: 'SHQ',
+  'Kenkere House': 'KK',
+  'Pop-up': 'POP',
+};
+let planCache: any | undefined;
+function planMonths(name: string): Array<{ target: number; streams: Record<string, number>; funnel: any }> | null {
+  if (planCache === undefined) {
+    try {
+      planCache = JSON.parse(
+        fs.readFileSync(new URL('../data/portfolio-2027/v5-portfolio.json', import.meta.url), 'utf8'),
+      );
+    } catch {
+      planCache = null;
+    }
+  }
+  return planCache?.studios?.find((s: any) => s.studio?.code === PLAN_CODE[name])?.months || null;
+}
+
 const num = (s: unknown) => {
   if (typeof s === 'number') return s;
-  const m = String(s ?? '').replace(/[₹,\s]/g, '').match(/-?[\d.]+/);
+  const m = String(s ?? '')
+    .replace(/[₹,\s]/g, '')
+    .match(/-?[\d.]+/);
   return m ? Number(m[0]) : null;
 };
 
@@ -87,12 +112,27 @@ export function packHistory(names: string[]) {
     for (let i = 0; i < 12; i++) {
       const r = mt[head + 1 + i];
       monthly[i].actual += Number(r[ix('2026 actual')] || 0);
-      monthly[i].target += Number(r[ix('2027 target')] || 0);
+      const planned = planMonths(n)?.[i]?.target;
+      const t = planned ?? Number(r[ix('2027 target')] || 0);
+      monthly[i].target += t;
       sL += Number(r[ix('2026 actual')] || 0);
-      sT += Number(r[ix('2027 target')] || 0);
+      sT += t;
     }
     const total = mt[head + 13] || mt.find(r => String(r[0]).includes('total'));
-    if (total) {
+    const pm = planMonths(n);
+    if (pm) {
+      const f = (k: string) => pm.reduce((a, m) => a + Number(m.funnel?.[k] || 0), 0);
+      funnelXlsx.leads += f('leads');
+      funnelXlsx.firstVisits += f('trials');
+      funnelXlsx.newClients += f('newBuyers');
+      funnelXlsx.renewals += f('existingPayingRenewals');
+      funnelXlsx.renewalsDue += pm.reduce(
+        (a, m) =>
+          a + (m.funnel?.renewalRate ? Math.round((m.funnel.existingPayingRenewals || 0) / m.funnel.renewalRate) : 0),
+        0,
+      );
+      funnelXlsx.winbacks += f('winbacksNeeded');
+    } else if (total) {
       funnelXlsx.leads += Number(total[ix('Leads needed')] || 0);
       funnelXlsx.firstVisits += Number(total[ix('First visits needed')] || 0);
       funnelXlsx.newClients += Number(total[ix('New paying clients')] || 0);
@@ -108,7 +148,17 @@ export function packHistory(names: string[]) {
     for (const r of hs.slice(hh + 1)) {
       if (typeof r[0] !== 'string' || !/^\d{4}-\d{2}/.test(r[0])) continue;
       const key = r[0].slice(0, 7);
-      const rec = h14.get(key) || { month: key, revenue: 0, prior: 0, payers: 0, priorPayers: 0, paidVisits: 0, visits: 0, leads: 0, firstVisits: 0 };
+      const rec = h14.get(key) || {
+        month: key,
+        revenue: 0,
+        prior: 0,
+        payers: 0,
+        priorPayers: 0,
+        paidVisits: 0,
+        visits: 0,
+        leads: 0,
+        firstVisits: 0,
+      };
       rec.revenue += Number(r[1] || 0);
       rec.prior += Number(r[2] || 0);
       rec.payers += Number(r[4] || 0);
@@ -161,7 +211,13 @@ export function packHistory(names: string[]) {
     }
     // 2027 stream targets from the workbook's 'Stream plan for the year' block.
     const sp = mt.findIndex(r => String(r[0]).startsWith('Stream plan'));
-    if (sp >= 0)
+    if (pm) {
+      const by = (k: string) => pm.reduce((a, m) => a + Number(m.streams?.[k] || 0), 0);
+      streams.newClient.target += by('newClient');
+      streams.renewal.target += by('renewal');
+      streams.reactivation.target += by('reactivation');
+      streams.additional.target += by('other');
+    } else if (sp >= 0)
       for (const r of mt.slice(sp + 2, sp + 8)) {
         const key = STREAM_KEYS.find(([, p]) => String(r[0]).startsWith(p));
         if (key) streams[key[0]].target += Number(r[2] || 0);
@@ -169,7 +225,15 @@ export function packHistory(names: string[]) {
     l12 += sL;
     prior12 += sPrior;
     target += sT;
-    perStudio.push({ name: n, l12: sL, prior12: sPrior, yoy: sPrior >= 500000 ? (sL / sPrior - 1) * 100 : null, isNew: sPrior < 500000, target2027: sT, growth2027: sL ? (sT / sL - 1) * 100 : null });
+    perStudio.push({
+      name: n,
+      l12: sL,
+      prior12: sPrior,
+      yoy: sPrior >= 500000 ? (sL / sPrior - 1) * 100 : null,
+      isNew: sPrior < 500000,
+      target2027: sT,
+      growth2027: sL ? (sT / sL - 1) * 100 : null,
+    });
   }
 
   const allPriorOk = monthly.every(m => m.priorOk);
@@ -181,7 +245,7 @@ export function packHistory(names: string[]) {
   const pct = (a: number, b: number) => (b && !isNew ? (a / b - 1) * 100 : null);
   return {
     isNew,
-    source: 'P57 2027 Sales Plan Pack: 1_Insights and 2_Targets workbooks',
+    source: 'History: P57 2027 Sales Plan Pack (1_Insights, 2_Targets). 2027 targets: the plan of record.',
     studios: have,
     period: { current: 'Nov-25 to Oct-26', prior: 'Nov-24 to Oct-25' },
     l12,
@@ -229,7 +293,9 @@ export function packHistory(names: string[]) {
         name: n,
         lead: intro?.lead ?? null,
         summary: intro?.text ?? null,
-        bullets: (data?.blocks || []).filter((b: any) => b.t === 'li').map((b: any) => ({ lead: b.lead, text: b.text })),
+        bullets: (data?.blocks || [])
+          .filter((b: any) => b.t === 'li')
+          .map((b: any) => ({ lead: b.lead, text: b.text })),
         opportunities: findTable(ins.studios[n].insights, 'Opportunity')?.rows ?? [],
         _o: !!opp,
       };

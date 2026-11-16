@@ -11,7 +11,6 @@ import {
   Target,
   Users,
 } from 'lucide-react';
-import { money } from '../../types';
 import pack from '../../data/anniversary2027.json';
 import '../../styles/anniversary-overview.css';
 
@@ -20,7 +19,8 @@ import '../../styles/anniversary-overview.css';
    count and revenue line comes from the April months of the plan of record, so this page shows
    the same numbers as the April month plan and Target Metrics. */
 
-const lakh = (v: number) => money(v, true);
+// One decimal in lakh everywhere on this page, so the hero, the tables and the summary agree.
+const lakh = (v: number) => `₹${(v / 100000).toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}L`;
 const pct = (part: number, whole: number) => (whole > 0 ? `${Math.round((part / whole) * 100)}%` : '—');
 const SLOT: Record<string, string> = {
   newcomer: 'Newcomer',

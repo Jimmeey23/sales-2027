@@ -832,7 +832,7 @@ plan.assumptions = plan.assumptions.map(a =>
     ? `Offers carry ${money(offersRevenue)} of the year (${Math.round((offersRevenue / plan.totals.target) * 100)}%); ${money(plan.totals.target - offersRevenue)} is expected at full price.`
     : a,
 );
-const NOTE = 'February and August offers rewritten with no challenge mechanics (Stronger in 30 and The Amazing Race retired); April rebuilt as one 9th-anniversary plan; November and December offers redesigned. Targets unchanged.';
+const NOTE = 'February and August offers rewritten so no reward depends on a class count; April rebuilt as one 9th-anniversary plan; November and December offers redesigned. Targets unchanged.';
 if (!plan.changesFromPrevious.includes(NOTE)) plan.changesFromPrevious.push(NOTE);
 plan.refreshedBy = 'scripts/refresh-plan-2027.mjs';
 

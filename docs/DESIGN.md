@@ -41,10 +41,10 @@ workspaces.
 
 | Location | Accent |
 | --- | --- |
-| Kemps Corner | `#1f6a57` emerald |
-| Bandra | `#2b5c85` sapphire |
-| Kenkere House | `#7a3b56` plum |
-| Pop-up | `#a2712f` bronze |
+| Kemps Corner | `#17795e` emerald |
+| Bandra | `#2c5da8` sapphire |
+| Kenkere House | `#a3305f` garnet |
+| Pop-up | `#9c6316` bronze |
 | All locations | `#3c3830` ink |
 
 Defined once in `src/data/locations.ts`.

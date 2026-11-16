@@ -31,7 +31,7 @@ for (const [studio, s] of Object.entries<any>(pb.studios)) {
     e.offers.reduce((t, o) => t + Number(/₹([\d.]+)L counted/.exec(field(o, 'Expected revenue'))?.[1] || 0) * 100000, 0);
   const planned = sum(offerRev);
   const names = (slot: ApprovedSlot) => [...new Set(months.flatMap(e => e.offers.filter(o => o.slot === slot).map(o => o.name)))];
-  const list = (slot: ApprovedSlot) => names(slot).join(', ');
+  const list = (slot: ApprovedSlot) => names(slot).map(n => n.replace(/\.$/, '')).join(', ');
   const f = {
     renewal: sum(e => e.figures.renewalPlan), newClient: sum(e => e.figures.newClientPlan), reactivation: sum(e => e.figures.reactivationPlan),
     leads: sum(e => e.figures.leadsTrials[0]), trials: sum(e => e.figures.leadsTrials[1]), buyers: sum(e => e.figures.newBuyers),
@@ -40,6 +40,15 @@ for (const [studio, s] of Object.entries<any>(pb.studios)) {
   };
   const peak = months.reduce((a, b) => (b.figures.target > a.figures.target ? b : a));
 
+  // The snapshot's own 2026 forecast was a separate estimate that disagreed with the Target
+  // Breakdown and the Overview; the card shows the 2027 target against the measured TTM instead.
+  const ttm = s.snapshot.find((r: any[]) => r[0] === 'TTM revenue');
+  const ttmL = ttm ? Number(String(ttm[1]).replace(/[₹L,]/g, '')) * 100000 : 0;
+  s.snapshot = s.snapshot.map((r: any[]) =>
+    r[0] === '2026 forecast' || r[0] === '2027 target'
+      ? ['2027 target', L(target), ttmL ? `${target >= ttmL ? '+' : ''}${Math.round((target / ttmL - 1) * 100)}% on the last 12 months` : 'plan of record', true]
+      : r,
+  );
   s.headline = `2027 plan of record: ${L(target)} target across twelve themed months; ${L(planned)} is carried by named offers and the rest is full-price trade.`;
   s.diagnosis = [
     { title: 'Renewals carry the year', stat: `${Math.round((f.renewal / target) * 100)}%`, detail: `Renewal plan ${L(f.renewal)} of ${L(target)}; ${N(f.renewed)} renewal purchases planned from ${N(f.due)} due.`, implication: `Renewal offers: ${list('renewal')}.` },

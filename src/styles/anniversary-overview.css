@@ -28,7 +28,7 @@
 }
 .ao-hero::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, transparent, #e6c16a 25%, #fff3d6 50%, #e6c16a 75%, transparent); }
 .ao-eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #e6c16a; }
-.ao-hero h1 { font-size: 40px; line-height: 1.05; margin: 8px 0 6px; }
+.ao-hero h1 { font-size: 40px; line-height: 1.05; margin: 8px 0 6px; color: #fbf3e2; text-wrap: balance; }
 .ao-sub { color: rgba(246, 239, 226, 0.75); font-size: 14px; }
 .ao-summary { margin-top: 14px !important; font-size: 14px; color: rgba(246, 239, 226, 0.92); max-width: 70ch; }
 .ao-figs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0; align-content: start; }

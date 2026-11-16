@@ -40,7 +40,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         '2027 plan of record: ₹420.0L target across twelve themed months; ₹264.4L is carried by named offers and the rest is full-price trade.',
       snapshot: [
         ['TTM revenue', '₹322.5L', '+21% vs prior 12 months', true],
-        ['2026 forecast', '₹334.4L', 'Jan–Sep actual + Q4 at 2026 run-rate', true],
+        ['2027 target', '₹420.0L', '+30% on the last 12 months', true],
         ['Paying clients (TTM)', '1,132', '₹27,854 per client · ATV ₹9,669', true],
         ['New-client revenue', '15%', 'renewal 40% · return 24% · win-back 21%', true],
         ['Trial conversion', '33.1%', 'non-hosted · hosted 3.6%', false],
@@ -68,7 +68,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           stat: '440',
           detail: 'Reactivation plan ₹50.4L: 440 reactivated from 7,258 touches.',
           implication:
-            "Lapsed offers: U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
+            "Lapsed offers: U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
         },
         {
           title: 'Peak month: Apr',
@@ -110,7 +110,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Tiered win-back of dormant clients',
             value: 1872533,
             math: '370 loyal dormant (3+ purchases) × +10pts return + 476 light dormant × +5pts = +61 returners × ₹47,866 avg return spend (×0.8 / ×0.4)',
-            why: "Plan of record: carried by the lapsed offers — U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
+            why: "Plan of record: carried by the lapsed offers — U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
           },
           {
             id: 'discount',
@@ -1069,7 +1069,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         ],
         [
           'Lapsed journey',
-          "Offers: U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Offers: U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale. Watch each offer's “What to watch” measures and rate of sale monthly.",
         ],
         [
           'Renewal journey',
@@ -1138,7 +1138,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         '2027 plan of record: ₹228.2L target across twelve themed months; ₹156.3L is carried by named offers and the rest is full-price trade.',
       snapshot: [
         ['TTM revenue', '₹198.3L', '-3% vs prior 12 months', false],
-        ['2026 forecast', '₹197.7L', 'Jan–Sep actual + Q4 at 2026 run-rate', true],
+        ['2027 target', '₹228.2L', '+15% on the last 12 months', true],
         ['Paying clients (TTM)', '940', '₹20,484 per client · ATV ₹9,187', true],
         ['New-client revenue', '16%', 'renewal 36% · return 23% · win-back 25%', true],
         ['Trial conversion', '23.3%', 'non-hosted · hosted 3.7%', false],
@@ -1166,7 +1166,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           stat: '373',
           detail: 'Reactivation plan ₹41.1L: 373 reactivated from 4,612 touches.',
           implication:
-            "Lapsed offers: U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
+            "Lapsed offers: U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
         },
         {
           title: 'Peak month: Apr',
@@ -1208,7 +1208,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Tiered win-back of dormant clients',
             value: 932979,
             math: '234 loyal dormant (3+ purchases) × +10pts return + 446 light dormant × +5pts = +46 returners × ₹33,755 avg return spend (×0.8 / ×0.4)',
-            why: "Plan of record: carried by the lapsed offers — U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
+            why: "Plan of record: carried by the lapsed offers — U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
           },
           {
             id: 'discount',
@@ -2167,7 +2167,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         ],
         [
           'Lapsed journey',
-          "Offers: U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Offers: U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale. Watch each offer's “What to watch” measures and rate of sale monthly.",
         ],
         [
           'Renewal journey',
@@ -2233,7 +2233,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         '2027 plan of record: ₹125.9L target across twelve themed months; ₹68.8L is carried by named offers and the rest is full-price trade.',
       snapshot: [
         ['TTM revenue', '₹107.5L', '+15% vs prior 12 months', true],
-        ['2026 forecast', '₹111.5L', 'Jan–Sep actual + Q4 at 2026 run-rate', true],
+        ['2027 target', '₹125.9L', '+17% on the last 12 months', true],
         ['Paying clients (TTM)', '751', '₹13,877 per client · ATV ₹5,627', true],
         ['New-client revenue', '16%', 'renewal 46% · return 24% · win-back 15%', true],
         ['Trial conversion', '25.7%', 'non-hosted · hosted 3.3%', false],
@@ -2261,7 +2261,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           stat: '84',
           detail: 'Reactivation plan ₹7.6L: 84 reactivated from 3,207 touches.',
           implication:
-            "Lapsed offers: U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
+            "Lapsed offers: U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
         },
         {
           title: 'Peak month: Apr',
@@ -2303,7 +2303,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Tiered win-back of dormant clients',
             value: 390162,
             math: '177 loyal dormant (3+ purchases) × +10pts return + 350 light dormant × +5pts = +35 returners × ₹18,439 avg return spend (×0.8 / ×0.4)',
-            why: "Plan of record: carried by the lapsed offers — U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
+            why: "Plan of record: carried by the lapsed offers — U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale.",
           },
           {
             id: 'usage',
@@ -3225,7 +3225,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         ],
         [
           'Lapsed journey',
-          "Offers: U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Offers: U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, We Need to Talk, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, Shaadi Mein Zaroor Aana (Come Back Before the Baraat), The Ex-Files: Season Finale. Watch each offer's “What to watch” measures and rate of sale monthly.",
         ],
         [
           'Renewal journey',
@@ -3289,7 +3289,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         '2027 plan of record: ₹23.1L target across twelve themed months; ₹10.5L is carried by named offers and the rest is full-price trade.',
       snapshot: [
         ['TTM revenue', '₹15.4L', 'first full year', true],
-        ['2026 forecast', '₹15.4L', 'Jan–Sep actual + Q4 at 2026 run-rate', true],
+        ['2027 target', '₹23.1L', '+50% on the last 12 months', true],
         ['Paying clients (TTM)', '513', '₹3,003 per client · ATV ₹848', true],
         ['New-client revenue', '25%', 'renewal 62% · return 9% · win-back 4%', true],
         ['Trial conversion', '34.0%', 'non-hosted · hosted 5.2%', true],
@@ -3317,7 +3317,7 @@ export const PLAYBOOK_2027: PlaybookData = {
           stat: '24',
           detail: 'Reactivation plan ₹1.4L: 24 reactivated from 2,221 touches.',
           implication:
-            "Lapsed offers: U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, The Ex-Files: Season Finale.",
+            "Lapsed offers: U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, The Ex-Files: Season Finale.",
         },
         {
           title: 'Peak month: Sep',
@@ -3358,7 +3358,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Drop-in reactivation',
             value: 144000,
             math: '300 dormant drop-in clients × 12% return × ₹4,000 (≈ one 4-class pack)',
-            why: "Plan of record: carried by the lapsed offers — U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, The Ex-Files: Season Finale.",
+            why: "Plan of record: carried by the lapsed offers — U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, The Ex-Files: Season Finale.",
           },
           {
             id: 'packs',
@@ -4019,7 +4019,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         ],
         [
           'Lapsed journey',
-          "Offers: U Up? It's 2027., It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, The Ex-Files: Season Finale. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Offers: U Up? It's 2027, It’s Not You, It’s Your Schedule, Faking Your Own Death Didn’t Work, Gone With the Wind, Back With the Rain, New Phone, Who Dis?, Diwali Cleaning: Found Your Old Grip Socks?, The Ex-Files: Season Finale. Watch each offer's “What to watch” measures and rate of sale monthly.",
         ],
         [
           'Renewal journey',
