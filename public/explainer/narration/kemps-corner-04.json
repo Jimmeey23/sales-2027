@@ -8,17 +8,17 @@
  "target": 6000000,
  "lastYear": 5001388,
  "yoy": 0.19966697244844833,
- "offers": 6,
+ "offers": 8,
  "buyers": 129,
  "targetTrend": "up",
- "words": 427,
- "estSeconds": 177,
+ "words": 487,
+ "estSeconds": 202,
  "segments": [
   {
    "id": "open",
    "kicker": "Kemps Corner · 2027",
    "title": "April",
-   "text": "Hello Kemps Corner! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. The confetti budget has been approved. So has the target."
+   "text": "Hello Kemps Corner! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: a party in four acts, eight offers, and more confetti than is strictly sensible."
   },
   {
    "id": "target",
@@ -42,67 +42,81 @@
    "id": "coverage",
    "kicker": "What the offers carry",
    "title": "75%",
-   "text": "Here's where the offers come in. Six offers carry 45.1 lakh rupees, which is 75 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them."
+   "text": "Here's where the offers come in. Eight offers carry 45.1 lakh rupees, which is 75 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them."
   },
   {
    "id": "offer-O27-13-KC",
-   "kicker": "Offer 1 of 6 · Revenue boost",
-   "title": "Cloud Nine Limited Edition",
-   "text": "First up, the headliner, Cloud Nine Limited Edition. Nine months, nine freezes, plus one month on us. That's 11 buyers, for 18.1 lakh rupees.",
-   "notes": "Members on 1 Month or class packs."
+   "kicker": "Offer 1 of 8 · Revenue boost",
+   "title": "Moving In Together (The 9-Month Lease)",
+   "text": "First up, Moving In Together, the nine-month lease. Nine months unlimited, nine freezes, the anniversary hoodie and a numbered brass key. That's 11 buyers, for 15.9 lakh rupees.",
+   "notes": "Members ready for a long commitment and returning clients who want the best price of the year."
+  },
+  {
+   "id": "offer-O27-53-KC",
+   "kicker": "Offer 2 of 8 · Revenue boost",
+   "title": "The 9:09 Panic Attack",
+   "text": "Next, the nine-oh-nine panic attack. The limited nine-class pack. That's 20 buyers, for 2.3 lakh rupees.",
+   "notes": "Everyone: members, pack buyers and newcomers."
   },
   {
    "id": "offer-O27-18-KC",
-   "kicker": "Offer 2 of 6 · Revenue boost",
+   "kicker": "Offer 3 of 8 · Revenue boost",
    "title": "Plus One, Plus Nine",
-   "text": "Next, Plus One, Plus Nine. Bring a friend who joins and get nine bonus days. That's 11 buyers, for 1.89 lakh rupees.",
-   "notes": "Current members bringing a guest."
+   "text": "Then, Plus One, Plus Nine. Bring a friend who joins and get nine extra days. That's 10 buyers, for 1.72 lakh rupees.",
+   "notes": "Current members bringing a never-been friend."
+  },
+  {
+   "id": "offer-O27-54-KC",
+   "kicker": "Offer 4 of 8 · Revenue boost",
+   "title": "The Cloud Nine 90",
+   "text": "Also this month, for our heaviest users, the Cloud Nine ninety. Ninety classes, one year, about fifteen hundred rupees a class in Mumbai. That's 1 buyer, for 1.35 lakh rupees.",
+   "notes": "High-frequency pack buyers."
   },
   {
    "id": "offer-O27-16-KC",
-   "kicker": "Offer 3 of 6 · New clients",
+   "kicker": "Offer 5 of 8 · New clients",
    "title": "Party Crasher Pass",
-   "text": "Then, for newcomers, the Party Crasher Pass. Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. That's 21 buyers, for 3.4 lakh rupees.",
+   "text": "After that, for newcomers, the Party Crasher Pass. Three classes for nine ninety-nine, party class included, credited against a first month. That's 21 buyers, for 3.4 lakh rupees.",
    "notes": "First-time clients (phone verified)."
   },
   {
    "id": "offer-O27-17-KC",
-   "kicker": "Offer 4 of 6 · Win-backs",
-   "title": "Where Are They Now?",
-   "text": "Also this month, for old friends, Where Are They Now? Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. That's 23 buyers, for 3.96 lakh rupees.",
-   "notes": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack)"
-  },
-  {
-   "id": "offer-O27-15-KC",
-   "kicker": "Offer 5 of 6 · Renewals",
-   "title": "Spin Class (Literally)",
-   "text": "After that, Spin Class, literally. Renew in April for ten per cent off, then spin the Wheel of Nine. That's 49 buyers, for 8.93 lakh rupees.",
-   "notes": "One spin per renewal, ≈19"
+   "kicker": "Offer 6 of 8 · Win-backs",
+   "title": "Faking Your Own Death Didn’t Work",
+   "text": "Next, for lapsed members, Faking Your Own Death Didn't Work. They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. That's 20 buyers, for 3.44 lakh rupees.",
+   "notes": "Lapsed 61 days–3 years."
   },
   {
    "id": "offer-O27-14-KC",
-   "kicker": "Offer 6 of 6 · Renewals",
-   "title": "Club Nine: The Founders' Table",
-   "text": "And finally, Club Nine, The Founders' Table. Nine numbered annual seats per studio, with double the perks, a numbered jacket, and a name on the wall. That's 5 buyers, for 8.78 lakh rupees.",
-   "notes": "≈25% effective with perks (annual cap)"
+   "kicker": "Offer 7 of 8 · Renewals",
+   "title": "Club Nine: The Founders’ Table",
+   "text": "Then, Club Nine, the Founders' Table. Nine numbered annual seats per studio, with the perks doubled: four privates, eight guest passes, priority booking all year and a numbered jacket. That's 5 buyers, for 8.78 lakh rupees.",
+   "notes": "Members on 3-Month or longer plans; annual renewers."
+  },
+  {
+   "id": "offer-O27-15-KC",
+   "kicker": "Offer 8 of 8 · Renewals",
+   "title": "Spin Class (Literally)",
+   "text": "And finally, for renewals, Spin Class. Literally. Renew in April and spin the Wheel of Nine. That's 45 buyers, for 8.2 lakh rupees.",
+   "notes": "Members renewing 1 Month or a 12-class pack."
   },
   {
    "id": "plan",
    "kicker": "How the month runs",
    "title": "4 weeks",
-   "text": "How does the month run? Week one, the numbered memberships go live, with a public counter. Week two, the party class brings new faces in, and every guest gets a follow-up. Week three, the wheel spins and the Club Nine seats close. Week four, the Throwback Reunion brings old friends home.",
+   "text": "How does the month run? Week one, Platinum Hour, the launch film, and the numbered keys go live with a public counter. Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack. Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth. Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth.",
    "beats": [
-    "the numbered memberships go live, with a public counter.",
-    "the party class brings new faces in, and every guest gets a follow-up.",
-    "the wheel spins and the Club Nine seats close.",
-    "the Throwback Reunion brings old friends home."
+    "Platinum Hour, the launch film, and the numbered keys go live with a public counter.",
+    "anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack.",
+    "obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth.",
+    "the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth."
    ]
   },
   {
    "id": "close",
    "kicker": "April 2027",
    "title": "That's the plan",
-   "text": "That's April at Kemps Corner. 60 lakh rupees, six offers, and 129 buyers to welcome. Nine years in, and honestly? We've never looked better.",
+   "text": "That's April at Kemps Corner. 60 lakh rupees, eight offers, and 129 buyers to welcome. Nine years in, and honestly? We've never looked better.",
    "signoff": "Nine years in, and honestly? We've never looked better."
   }
  ]

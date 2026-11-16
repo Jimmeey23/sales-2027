@@ -160,7 +160,7 @@
           "buyers": 10,
           "revenue": 151790,
           "discount": 25,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "1 Jul – 31 Jul",
           "share": 0.16056368123365036
         }
       },
@@ -189,7 +189,7 @@
           "buyers": 3,
           "revenue": 74997,
           "discount": 0,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "1 Jul – 31 Jul",
           "share": 0.07933193491982395
         }
       },
@@ -218,7 +218,7 @@
           "buyers": 7,
           "revenue": 113428,
           "discount": 20,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "1 Jul – 31 Jul",
           "share": 0.11998430222656627
         }
       },
@@ -237,17 +237,17 @@
           "slot": "lapsed",
           "slotLabel": "Win-backs",
           "headline": "Left us in the summer heat? Come back for the monsoon.",
-          "benefit": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0.",
+          "benefit": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and first access to Freedom Weekend in August.",
           "rationale": "An event with a start date beats a generic reminder. Freezes answer the monsoon objection at no cash cost.",
           "audience": "Standard lapsed 15% only",
           "conditions": "Standard lapsed 15% only.",
-          "kpi": "Lapsed race entries; reactivations.",
-          "offerType": "Winback (pre-race)",
+          "kpi": "Reactivations; comeback assessments booked.",
+          "offerType": "Winback (monsoon)",
           "ticket": 17203,
           "buyers": 14,
           "revenue": 240842,
           "discount": 15,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "15 Jul – 31 Jul",
           "share": 0.2547630154534213
         }
       },
@@ -276,7 +276,7 @@
           "buyers": 20,
           "revenue": 364300,
           "discount": 15,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "1 Jul – 31 Jul",
           "share": 0.38535706616653814
         }
       },
@@ -295,7 +295,7 @@
             },
             {
               "label": "W2",
-              "text": "Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest → member (target 15%). | Team Building Without the Trust Falls: Corporate deals. | Rain Check (Literally): July 1M renewal yield (target 70%); tokens used. | Gone With the Wind, Back With the Rain: Lapsed race entries; reactivations."
+              "text": "Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest → member (target 15%). | Team Building Without the Trust Falls: Corporate deals. | Rain Check (Literally): July 1M renewal yield (target 70%); tokens used. | Gone With the Wind, Back With the Rain: Reactivations; comeback assessments booked."
             },
             {
               "label": "W3",

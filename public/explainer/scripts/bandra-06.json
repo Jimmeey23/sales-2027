@@ -159,7 +159,7 @@
           "buyers": 26,
           "revenue": 218400,
           "discount": 20,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "1 Jun – 30 Jun",
           "share": 0.1964373248906058
         }
       },
@@ -188,7 +188,7 @@
           "buyers": 3,
           "revenue": 118125,
           "discount": 25,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "1 Jun – 30 Jun",
           "share": 0.10624614927977478
         }
       },
@@ -217,7 +217,7 @@
           "buyers": 5,
           "revenue": 81020,
           "discount": 20,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "1 Jun – 30 Jun",
           "share": 0.07287249112928976
         }
       },
@@ -246,7 +246,7 @@
           "buyers": 12,
           "revenue": 694260,
           "discount": 9,
-          "validity": "Invalid Date – Invalid Date",
+          "validity": "1 Jun – 30 Jun",
           "share": 0.6244440347003296
         }
       },

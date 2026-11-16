@@ -1,7 +1,7 @@
 # July 2027 · Pop-up
 
 **Theme:** Book the Studio + Rain Check  
-**Read time:** about 2:56 (426 words at a relaxed pace)  
+**Read time:** about 2:57 (428 words at a relaxed pace)  
 **Save the recording as:** `public/explainer/audio/pop-up-07.mp3`
 
 > Read warmly, smile on the jokes, and pause for a full beat at every `· · ·`. Those pauses are how the video knows when to change scenes.
@@ -50,7 +50,7 @@ Next, for newcomers, The Second Date's On Us. First class at half price, the sec
 
 ### 8. Offer 3 of 4 · Win-backs — Gone With the Wind, Back With the Rain
 
-Then, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race. The plan is 3 buyers at about 7,200, so 21,700 rupees.
+Then, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and first access to Freedom Weekend in August. The plan is 3 buyers at about 7,200, so 21,700 rupees.
 
 · · ·
 
@@ -62,7 +62,7 @@ And finally, for renewals, Rain Check, literally. Renew in July for ten per cent
 
 ### 10. How the month runs — 4 weeks
 
-How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members sign up for The Amazing Race.
+How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members get first access to August's Freedom Weekend.
 
 · · ·
 

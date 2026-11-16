@@ -1,14 +1,14 @@
 # February 2027 · Pop-up
 
-**Theme:** Valentine's + Stronger in 30 2.0  
-**Read time:** about 3:03 (442 words at a relaxed pace)  
+**Theme:** Red Flags, Green Flags  
+**Read time:** about 3:11 (462 words at a relaxed pace)  
 **Save the recording as:** `public/explainer/audio/pop-up-02.mp3`
 
 > Read warmly, smile on the jokes, and pause for a full beat at every `· · ·`. Those pauses are how the video knows when to change scenes.
 
 ### 1. Pop-up · 2027 — February
 
-Hello Pop-up! February. The shortest month, and the most romantic. Our theme pairs Valentine's with Stronger in 30, round two. Love is in the air, and so are a lot of very committed glutes.
+Hello Pop-up! February. The shortest month, and the most romantic. Our theme is Red Flags, Green Flags: Valentine's, Galentine's and Singles Awareness Day, and a studio that is very much a green flag.
 
 · · ·
 
@@ -32,37 +32,37 @@ Behind the number are people: 562 leads, 146 trials, and 48 buyers, with about 3
 
 ### 5. What the offers carry — 35%
 
-Here's where the offers come in. Four offers carry 63,600 rupees, which is 35 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
+Here's where the offers come in. Four offers carry 64,200 rupees, which is 35 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-### 6. Offer 1 of 4 · Revenue boost — Couples Therapy (Cheaper Than the Real Thing)
+### 6. Offer 1 of 4 · Revenue boost — Love Bombing (The Healthy Kind)
 
-First up, Couples Therapy, cheaper than the real thing. Members bring someone new. The member gets ten per cent off, the guest gets fifteen, and both get a duo private. The only fight is over who holds the plank longer. The plan is 2 buyers at about 6,200, so 12,500 rupees.
-
-· · ·
-
-### 7. Offer 2 of 4 · New clients — Situationship → Relationship
-
-Next, Situationship to Relationship. First-timers get fifteen per cent off their first month and a spot on the Stronger in 30 rookie track. Finish it, and they earn an extra week. Commitment never looked this good. The plan is 3 buyers at about 5,900, so 17,700 rupees.
+First up, Love Bombing, the healthy kind. Every member writes a love letter to a friend: two free classes. If the friend joins, they get fifteen per cent off and grip socks, and the member gets five extra days. The plan is 2 buyers at about 5,900, so 11,800 rupees.
 
 · · ·
 
-### 8. Offer 3 of 4 · Win-backs — Galentine's Gone Ghost
+### 7. Offer 2 of 4 · New clients — Blind Date (No Catfishing)
 
-Then, for lapsed members, Galentine's Gone Ghost. Come back with your best friend. You get fifteen per cent off, she gets two classes on us, and if she joins, matching grip socks and bonus days. The plan is 2 buyers at about 5,900, so 11,800 rupees.
+Next, Blind Date, no catfishing. Two mystery classes for nine ninety-nine. The format and the trainer stay sealed until you walk in. Love it, and the whole fee comes off your first month. The plan is 3 buyers at about 5,900, so 17,700 rupees.
 
 · · ·
 
-### 9. Offer 4 of 4 · Renewals — Proof of Work
+### 8. Offer 3 of 4 · Win-backs — It’s Not You, It’s Your Schedule
 
-And finally, for the challengers, Proof of Work. Did thirty classes in thirty days? Your renewal price shows it. Six months at twenty per cent off, or an annual with an extra private. Receipts, not resolutions. The plan is 3 buyers at about 7,200, so 21,700 rupees.
+Then, for lapsed members, It's Not You, It's Your Schedule. They pick a relationship status: Exclusive is three months, Casual is a twelve-class pack, It's Complicated is one month with a free freeze. Fifteen per cent off whichever they choose. The plan is 2 buyers at about 5,900, so 11,800 rupees.
+
+· · ·
+
+### 9. Offer 4 of 4 · Renewals — Put a Ring On It
+
+And finally, for renewals, Put a Ring On It. Renew for three months and get the ring, which is a mini-band, relax. Six months comes with a private, and annual members go on the Wall of Commitment. Say yes at the desk and the bell rings. The plan is 3 buyers at about 7,700, so 23,000 rupees.
 
 · · ·
 
 ### 10. How the month runs — 4 weeks
 
-How does the month run? Week one, launch the couples offers and open Stronger in 30. Week two, Valentine's week, so every member hears about bringing someone new. Week three, cheer the challengers on, because attendance is the pitch. Week four, everyone who finished thirty classes gets their Proof of Work price.
+How does the month run? Week one, blind-date envelopes at every desk, and the love letters go out to members. Week two, Galentine's and Valentine's weekend, with Partner Barre on Sunday the fourteenth. Week three, the Hate-Squat Hour for the singles, and every renewal hears Put a Ring On It. Week four, last call for lapsed members to pick their relationship status.
 
 · · ·
 

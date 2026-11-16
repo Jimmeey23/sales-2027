@@ -1,7 +1,7 @@
 # July 2027 · Kemps Corner
 
 **Theme:** Book the Studio + Rain Check  
-**Read time:** about 2:51 (413 words at a relaxed pace)  
+**Read time:** about 2:52 (415 words at a relaxed pace)  
 **Save the recording as:** `public/explainer/audio/kemps-corner-07.mp3`
 
 > Read warmly, smile on the jokes, and pause for a full beat at every `· · ·`. Those pauses are how the video knows when to change scenes.
@@ -56,7 +56,7 @@ Then, for the nervous newcomer, the Shy Girl Starter Pack. Start with a thirty-m
 
 ### 9. Offer 4 of 5 · Win-backs — Gone With the Wind, Back With the Rain
 
-Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race. That's 22 buyers, for 3.78 lakh rupees.
+Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and first access to Freedom Weekend in August. That's 22 buyers, for 3.78 lakh rupees.
 
 · · ·
 
@@ -68,7 +68,7 @@ And finally, for renewals, Rain Check, literally. Renew in July for ten per cent
 
 ### 11. How the month runs — 4 weeks
 
-How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members sign up for The Amazing Race.
+How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members get first access to August's Freedom Weekend.
 
 · · ·
 

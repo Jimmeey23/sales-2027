@@ -1,14 +1,14 @@
 # December 2027 · Kemps Corner
 
-**Theme:** Wrapped  
-**Read time:** about 2:52 (416 words at a relaxed pace)  
+**Theme:** Party Season Survival Guide  
+**Read time:** about 3:03 (442 words at a relaxed pace)  
 **Save the recording as:** `public/explainer/audio/kemps-corner-12.mp3`
 
 > Read warmly, smile on the jokes, and pause for a full beat at every `· · ·`. Those pauses are how the video knows when to change scenes.
 
 ### 1. Kemps Corner · 2027 — December
 
-Hello Kemps Corner! December is Wrapped. The year is ending, everyone is reflecting, and every member has a story told in classes, favourite trainers and peak hours. This month we show them that story, and help them write next year's.
+Hello Kemps Corner! December is the Party Season Survival Guide. Office parties, family dinners, and a January that is coming whether we like it or not. This month we help members get through the season, and set up the new year before it starts.
 
 · · ·
 
@@ -30,45 +30,45 @@ Behind the number are people: 547 leads, 279 trials, and 75 buyers, with about 2
 
 · · ·
 
-### 5. What the offers carry — 78%
+### 5. What the offers carry — 74%
 
-Here's where the offers come in. Five offers carry 27.3 lakh rupees, which is 78 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-### 6. Offer 1 of 5 · New clients — Resolution Pre-Order (Ships 1 Jan)
-
-First up, the Resolution Pre-Order. Ships first of January. Buy now, start between the first and tenth of January, and a coach checks in during week one so it actually sticks. That's 13 buyers, for 2.24 lakh rupees.
+Here's where the offers come in. Five offers carry 26 lakh rupees, which is 74 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-### 7. Offer 2 of 5 · New clients — Secret Santa Squats
+### 6. Offer 1 of 5 · Revenue boost — Boxing Day (Gloves Optional)
 
-Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. That's 29 buyers, for 58,000 rupees.
-
-· · ·
-
-### 8. Offer 3 of 5 · Win-backs — Last Seen: 2026 (We Noticed)
-
-Then, for long-lapsed members, Last Seen, 2026. We noticed. Fifteen per cent off, a free comeback class, and a spot on the Stronger in 30 comeback track, before the new year. That's 14 buyers, for 2.41 lakh rupees.
+First up, Boxing Day. Gloves optional. Two days only, twelve-class packs at twenty per cent off. That's 36 buyers, for 5.67 lakh rupees.
 
 · · ·
 
-### 9. Offer 4 of 5 · Renewals — Wrapped: Your Top Artist Was Your Trainer
+### 7. Offer 2 of 5 · New clients — Resolution Insurance (Claim Approved)
 
-Also this month, Wrapped. Your top artist was your trainer. Every member gets their year in classes, trainers and peak hours, and next year's plan, priced for how they actually train. That's 27 buyers, for 14.8 lakh rupees.
+Next, for newcomers, Resolution Insurance. Claim approved. Buy your first month now, start any day from the first to the tenth of January, and January's late-cancel fees are on us, plus a freeze for when life happens. That's 13 buyers, for 2.24 lakh rupees.
 
 · · ·
 
-### 10. Offer 5 of 5 · Renewals — 12 Days of Shakemas
+### 8. Offer 3 of 5 · New clients — The Gift They Won’t Regift
 
-And finally, the finale, Twelve Days of Shakemas. A new published deal every day from the thirteenth to the twenty-fourth. That's 24 buyers, for 7.2 lakh rupees.
+Then, the Gift They Won't Regift. A boxed gift: two classes, grip socks, and a thousand rupees off a first membership. That's 29 buyers, for 72,500 rupees.
+
+· · ·
+
+### 9. Offer 4 of 5 · Win-backs — The Ex-Files: Season Finale
+
+Also this month, for lapsed members, The Ex-Files: Season Finale. Ten per cent off to come back, fifteen on three months, and a plus-one to the NYE Countdown Class. That's 14 buyers, for 2.55 lakh rupees.
+
+· · ·
+
+### 10. Offer 5 of 5 · Renewals — The Advent-ure Calendar (Opens in January)
+
+And finally, the Advent-ure Calendar, which opens in January. Renew in December and take home twelve doors of perks, one a week from the third of January: guest passes, a private, smoothies and a golden door. That's 27 buyers, for 14.8 lakh rupees.
 
 · · ·
 
 ### 11. How the month runs — 4 weeks
 
-How does the month run? Week one, Wrapped cards go out to every member. Week two, twelve days of Shakemas begin on the thirteenth. Week three, gift vouchers and resolution pre-orders for the I'll start in January crowd. Week four, last-seen members get their invitation home.
+How does the month run? Week one, Advent-ure Calendars and gift boxes go on sale. Week two, every December renewal hears the calendar pitch, and offices get their gift boxes. Week three, Ugly Sweater Barre, and Resolution Insurance for the I'll start in January crowd. Week four, Boxing Day packs, and the NYE Countdown Class for our comeback members.
 
 · · ·
 

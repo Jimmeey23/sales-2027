@@ -6,9 +6,9 @@
   "monthName": "April",
   "year": 2027,
   "title": "April 2027 · Pop-up",
-  "duration": 96733,
-  "scenes": 11,
-  "hash": "8e2fccf5",
+  "duration": 101341,
+  "scenes": 12,
+  "hash": "c63f6411",
   "scenesKinds": [
     "open",
     "target",
@@ -19,12 +19,13 @@
     "offer",
     "offer",
     "offer",
+    "offer",
     "plan",
     "close"
   ],
   "voiceBlocks": {
     "a": "April 2027 at Pop-up. The theme is Cloud Nine — 9 Years of Physique 57. The target is 1.52 lakh rupees — 44 per cent above the 1.06 lakh rupees of last April. Renewals lead at 66,831 rupees, 44 per cent. Then new clients 59,974 rupees, comeback 23,564 rupees, other 1,519 rupees. 469 leads, 122 trials, 40 buyers, and 33 per cent of trials convert.",
-    "b": "4 offers carry 1.03 lakh rupees, 68 per cent of the 1.52 lakh rupees target. The other 48,391 rupees is expected at full price. Revenue boost: Plus One, Plus Nine. It's our birthday, so we're giving presents for presents. 1 buyers at 5,891 rupees — 5,891 rupees. 15 per cent off. New clients: Party Crasher Pass. It's our 9th birthday and you're invited. 3 buyers at 4,893 rupees — 14,679 rupees. 15 per cent off. Win-backs: Where Are They Now? You joined us. A lot has changed we got. 3 buyers at 7,229 rupees — 21,687 rupees. 20 per cent off. Renewals: Spin Class (Literally). Renew in April, get 10% off, then spin the Wheel of Nine. 8 buyers at 7,655 rupees — 61,240 rupees. 18 per cent off. First, Set up Spin Class Literally in Momence. Then, Weekly check: Spin Class Literally: 1M average ticket target at least. That is April at Pop-up: 1.52 lakh rupees across 4 offers, and 40 buyers to find."
+    "b": "5 offers carry 1.02 lakh rupees, 67 per cent of the 1.52 lakh rupees target. The other 50,277 rupees is expected at full price. Revenue boost: The 9:09 Panic Attack. Plank for your price: hold it for 57 seconds and the 9-Class Pack. 2 buyers at 6,499 rupees — 12,998 rupees. 17.5 per cent off. Revenue boost: Plus One, Plus Nine. Bring a friend to the party. 1 buyers at 5,891 rupees — 5,891 rupees. 15 per cent off. New clients: Party Crasher Pass. It’s our 9th birthday and you’re invited. 3 buyers at 4,893 rupees — 14,679 rupees. 15 per cent off. Win-backs: Faking Your Own Death Didn’t Work. We wrote your obituary. 2 buyers at 7,229 rupees — 14,458 rupees. 20 per cent off.  First, Set up Spin Class Literally in Momence. Then, Weekly check: Spin Class Literally: April renewal yield vs April 2026. Also running: Spin Class (Literally) — 53,585 rupees between them. That is April at Pop-up: 1.52 lakh rupees across 5 offers, and 40 buyers to find."
   },
   "script": {
     "title": "April 2027 · Pop-up",
@@ -43,9 +44,9 @@
           "year": 2027,
           "studio": "Pop-up",
           "theme": "Cloud Nine — 9 Years of Physique 57",
-          "description": "Cloud Nine — 9th anniversary",
+          "description": "9th anniversary: limited editions, the wheel, the 9:09 flash and the Golden Glute Awards",
           "target": 151888,
-          "offers": 4
+          "offers": 5
         }
       },
       {
@@ -98,8 +99,8 @@
             }
           ],
           "total": 151888,
-          "standard": 48391,
-          "standardShare": 31.9
+          "standard": 50277,
+          "standardShare": 33.1
         }
       },
       {
@@ -123,131 +124,160 @@
         "id": "coverage",
         "kind": "coverage",
         "kicker": "What the offers carry",
-        "title": "68%",
-        "narration": "4 offers carry 1.03 lakh rupees, 68 per cent of the 1.52 lakh rupees target. The other 48,391 rupees is expected at full price.",
+        "title": "67%",
+        "narration": "5 offers carry 1.02 lakh rupees, 67 per cent of the 1.52 lakh rupees target. The other 50,277 rupees is expected at full price.",
         "duration": 9990,
         "data": {
           "target": 151888,
-          "offerRevenue": 103497,
-          "share": 0.6814034025071105,
-          "standard": 48391,
-          "offers": 4
+          "offerRevenue": 101611,
+          "share": 0.6689863583693247,
+          "standard": 50277,
+          "offers": 5
+        }
+      },
+      {
+        "id": "offer-O27-53-POP",
+        "kind": "offer",
+        "kicker": "Offer 1 of 5 · Revenue boost",
+        "title": "The 9:09 Panic Attack",
+        "narration": "Revenue boost: The 9:09 Panic Attack. Plank for your price: hold it for 57 seconds and the 9-Class Pack. 2 buyers at 6,499 rupees — 12,998 rupees. 17.5 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 0,
+          "count": 5,
+          "narrated": true,
+          "name": "The 9:09 Panic Attack",
+          "slot": "spot",
+          "slotLabel": "Revenue boost",
+          "headline": "Plank for your price. Or wait for 9:09 and panic with everyone else.",
+          "benefit": "Plank for your price: hold it for 57 seconds and the 9-Class Pack is ₹12,999; hold for 2:57 and it’s ₹11,499. Or wait for 9:09 on 9 April, when everyone gets the floor price for 99 minutes. Panic responsibly.",
+          "rationale": "A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. The floor price (23.7% / 24.0%) sits inside the 25% spot cap, and plan revenue is counted at the floor.",
+          "audience": "Everyone: members, pack buyers and newcomers.",
+          "conditions": "Spot offer, ≤25% effective at the floor price. Two packs per person. April only; no anniversary prices after 30 Apr.",
+          "kpi": "Packs sold in the two 9:09 windows; pack → membership by June.",
+          "offerType": "Flash sale (limited 9-Class Pack)",
+          "ticket": 6499,
+          "buyers": 2,
+          "revenue": 12998,
+          "discount": 17.5,
+          "validity": "1 Apr – 30 Apr",
+          "share": 0.12791922134414582
         }
       },
       {
         "id": "offer-O27-18-POP",
         "kind": "offer",
-        "kicker": "Offer 1 of 4 · Revenue boost",
+        "kicker": "Offer 2 of 5 · Revenue boost",
         "title": "Plus One, Plus Nine",
-        "narration": "Revenue boost: Plus One, Plus Nine. It's our birthday, so we're giving presents for presents. 1 buyers at 5,891 rupees — 5,891 rupees. 15 per cent off.",
-        "duration": 11152,
+        "narration": "Revenue boost: Plus One, Plus Nine. Bring a friend to the party. 1 buyers at 5,891 rupees — 5,891 rupees. 15 per cent off.",
+        "duration": 9990,
         "data": {
-          "index": 0,
-          "count": 4,
+          "index": 1,
+          "count": 5,
           "narrated": true,
           "name": "Plus One, Plus Nine",
           "slot": "referral",
           "slotLabel": "Revenue boost",
           "headline": "Bring a friend, get 9 days. Bring three, get a month.",
-          "benefit": "It's our birthday, so we're giving presents for presents. Bring a friend who joins: +9 days on us. Bring three: a whole free month. They get 15% off and a Cloud Nine tote.",
-          "rationale": "Referral is the best converting source in every studio (22.6–76.1%) and Kwality's third-largest lead source. The reward is only paid when a new client buys, so it is acquisition spend, not discount.",
-          "audience": "Current members bringing a guest.",
-          "conditions": "Friend must be new (phone verified). Max 1 free month per member.",
-          "kpi": "Referred buyers (target 2× Apr-26); members with 3 referrals.",
+          "benefit": "Bring a friend to the party: if they join, you get 9 extra days. Bring three and the next month is on us. They get 15% off and a Cloud Nine tote.",
+          "rationale": "Referrals convert at 22–76% against 3.8–5.7% for website leads. A tier at three friends gives the super-connectors a reason to keep going.",
+          "audience": "Current members bringing a never-been friend.",
+          "conditions": "Friend must be new to P57. Member reward is acquisition cost, paid only on a purchase.",
+          "kpi": "Referral buyers (target 2× April 2026); members reaching three.",
           "offerType": "Referral (tiered)",
           "ticket": 5891,
           "buyers": 1,
           "revenue": 5891,
           "discount": 15,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.05691952423741751
+          "validity": "1 Apr – 30 Apr",
+          "share": 0.05797600653472557
         }
       },
       {
         "id": "offer-O27-16-POP",
         "kind": "offer",
-        "kicker": "Offer 2 of 4 · New clients",
+        "kicker": "Offer 3 of 5 · New clients",
         "title": "Party Crasher Pass",
-        "narration": "New clients: Party Crasher Pass. It's our 9th birthday and you're invited. 3 buyers at 4,893 rupees — 14,679 rupees. 15 per cent off.",
+        "narration": "New clients: Party Crasher Pass. It’s our 9th birthday and you’re invited. 3 buyers at 4,893 rupees — 14,679 rupees. 15 per cent off.",
         "duration": 9990,
         "data": {
-          "index": 1,
-          "count": 4,
+          "index": 2,
+          "count": 5,
           "narrated": true,
           "name": "Party Crasher Pass",
           "slot": "newcomer",
           "slotLabel": "New clients",
-          "headline": "It's our 9th birthday and you're invited. 3 classes for ₹999.",
-          "benefit": "It's our 9th birthday and you're invited. 3 classes for ₹999 (Bengaluru ₹699) — including the party class. Love it? Your ₹999 comes off your first month.",
-          "rationale": "3+ visits convert 73–94%. A paid pass filters no-shows (free trials have no attendance data); crediting it plus the standard 15% lands exactly at a 20% effective discount.",
+          "headline": "It’s our 9th birthday and you’re invited. 3 classes for ₹999.",
+          "benefit": "It’s our 9th birthday and you’re invited: 3 classes for ₹999 (Kenkere ₹699), birthday party class included. Love it? The ₹999 comes off your first month. Decide fast and you get to hit the big red buzzer.",
+          "rationale": "A booked sequence of classes is what converts; the party class gives newcomers the best room of the year, and the buzzer turns a sale into a show for whoever is waiting.",
           "audience": "First-time clients (phone verified).",
-          "conditions": "One per person. Effective 20% on conversion.",
-          "kpi": "Passes sold; 3-visit completion (target 65%); pass → member (target 40%).",
-          "offerType": "Newcomer intro (credited)",
+          "conditions": "One per phone number. Credit valid 72 hours after class 3. Standard 15% only.",
+          "kpi": "Pass → member (target 35%); buzzer hits (bought within 9 hours).",
+          "offerType": "Newcomer intro (credited) + Impulse Buzzer",
           "ticket": 4893,
           "buyers": 3,
           "revenue": 14679,
           "discount": 15,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.14183019797675295
+          "validity": "1 Apr – 24 Apr",
+          "share": 0.1444627058094104
         }
       },
       {
         "id": "offer-O27-17-POP",
         "kind": "offer",
-        "kicker": "Offer 3 of 4 · Win-backs",
-        "title": "Where Are They Now?",
-        "narration": "Win-backs: Where Are They Now? You joined us. A lot has changed we got. 3 buyers at 7,229 rupees — 21,687 rupees. 20 per cent off.",
-        "duration": 10765,
+        "kicker": "Offer 4 of 5 · Win-backs",
+        "title": "Faking Your Own Death Didn’t Work",
+        "narration": "Win-backs: Faking Your Own Death Didn’t Work. We wrote your obituary. 2 buyers at 7,229 rupees — 14,458 rupees. 20 per cent off.",
+        "duration": 9603,
         "data": {
-          "index": 2,
-          "count": 4,
+          "index": 3,
+          "count": 5,
           "narrated": true,
-          "name": "Where Are They Now?",
+          "name": "Faking Your Own Death Didn’t Work",
           "slot": "lapsed",
           "slotLabel": "Win-backs",
-          "headline": "You joined us in {year}. A lot has changed (we got prettier).",
-          "benefit": "You joined us in {year}. A lot has changed (we got prettier). Come back for our 9th birthday: 15% off, a bonus class for every year you've known us, and a seat at the Throwback Reunion.",
-          "rationale": "A personal anniversary in the brand's anniversary month is a stronger trigger than a generic code. Bandra's reactivation pool is the largest; the reunion is a public attendance moment.",
-          "audience": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack)",
-          "conditions": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack).",
-          "kpi": "Personalised sends; reunion RSVPs; reactivations.",
-          "offerType": "Winback (reunion)",
+          "headline": "We wrote your obituary. You’re not getting out of it that easily.",
+          "benefit": "We wrote your obituary. It was moving. Unfortunately for you, you’re invited back: 15% off, a bonus for every year you’ve been with us, and a candle-lit Séance Class to rise from the dead.",
+          "rationale": "Lapsed clients already know the product; what they need is a moment and a reason that is not just a discount. A personal postcard with a dated class beats a generic reminder.",
+          "audience": "Lapsed 61 days–3 years.",
+          "conditions": "Lapsed 61 days–3 years. Standard lapsed 15% + loyalty-year bonus (max 3) = ≤20% effective.",
+          "kpi": "Postcards → Séance Class attendance; reactivations (target +30% vs Apr-26).",
+          "offerType": "Winback (obituary + Séance Class)",
           "ticket": 7229,
-          "buyers": 3,
-          "revenue": 21687,
+          "buyers": 2,
+          "revenue": 14458,
           "discount": 20,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.2095423055740746
+          "validity": "1 Apr – 30 Apr",
+          "share": 0.14228774443711803
         }
       },
       {
         "id": "offer-O27-15-POP",
         "kind": "offer",
-        "kicker": "Offer 4 of 4 · Renewals",
+        "kicker": "Offer 5 of 5 · Renewals",
         "title": "Spin Class (Literally)",
-        "narration": "Renewals: Spin Class (Literally). Renew in April, get 10% off, then spin the Wheel of Nine. 8 buyers at 7,655 rupees — 61,240 rupees. 18 per cent off.",
-        "duration": 11539,
+        "narration": "",
+        "duration": 2600,
         "data": {
-          "index": 3,
-          "count": 4,
-          "narrated": true,
+          "index": 4,
+          "count": 5,
+          "narrated": false,
           "name": "Spin Class (Literally)",
           "slot": "renewal",
           "slotLabel": "Renewals",
-          "headline": "Renew, then spin. Every spin wins.",
-          "benefit": "Renew in April, get 10% off, then spin the Wheel of Nine. Every spin wins — from smoothies to a free month. The odds are printed on the wall, because we're fit, not shady.",
-          "rationale": "April 2026 discount depth was 20.4% at Kwality and 20.6% at Bandra on blanket codes. A sure 10% plus a game worth ~9% keeps the average 1M ticket near ₹18,000 instead of ~₹14,000.",
-          "audience": "One spin per renewal, ≈19",
-          "conditions": "One spin per renewal, ≈19.5% effective at expected value.",
-          "kpi": "1M average ticket (target ≥₹18,000); spins filmed and shared.",
-          "offerType": "Gamified renewal",
+          "headline": "Renew, then spin. Every spin wins. Feeling brave? Double it.",
+          "benefit": "Renew in April and spin the Wheel of Nine: every spin wins. Then decide: keep your prize, double it, or gift it to a friend. Odds are on the wall, because we’re not that kind of casino.",
+          "rationale": "Clients who use 75%+ of their sessions renew at 80–86%. The doubling option pays the prize only when the member books the classes that make them renew again; the expected value of a spin is ≈₹1,900 Mumbai / ₹1,350 Bengaluru.",
+          "audience": "Members renewing 1 Month or a 12-class pack.",
+          "conditions": "One spin per renewal; published odds; doubled prizes credited only once the 9 classes are attended. ≈19.5% effective on the expected value.",
+          "kpi": "April renewal yield vs April 2026; share of spins doubled (target 35%).",
+          "offerType": "Gamified renewal (wheel + double-or-donate)",
           "ticket": 7655,
-          "buyers": 8,
-          "revenue": 61240,
+          "buyers": 7,
+          "revenue": 53585,
           "discount": 18,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.591707972211755
+          "validity": "1 Apr – 30 Apr",
+          "share": 0.5273543218746002
         }
       },
       {
@@ -255,17 +285,17 @@
         "kind": "plan",
         "kicker": "How the month runs",
         "title": "4 moves",
-        "narration": "First, Set up Spin Class Literally in Momence. Then, Weekly check: Spin Class Literally: 1M average ticket target at least.",
+        "narration": "First, Set up Spin Class Literally in Momence. Then, Weekly check: Spin Class Literally: April renewal yield vs April 2026.",
         "duration": 8442,
         "data": {
           "steps": [
             {
               "label": "W1",
-              "text": "Set up Spin Class (Literally) in Momence (2027-04-01 to 2027-04-30): Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Expected value ≈₹1,900 Mumbai / ₹1,350 Bengaluru."
+              "text": "Set up Spin Class (Literally) in Momence (2027-04-01 to 2027-04-30): Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Then choose: keep it, double it by booking 9 classes in your first 21 days, or donate it to a friend as a guest pass."
             },
             {
               "label": "W2",
-              "text": "Weekly check: Spin Class (Literally): 1M average ticket (target ≥₹18,000); spins filmed and shared. | Party Crasher Pass: Passes sold; 3-visit completion (target 65%); pass → member (target 40%). | Where Are They Now?: Personalised sends; reunion RSVPs; reactivations. | Plus One, Plus Nine: Referred buyers (target 2× Apr-26); members with 3 referrals."
+              "text": "Weekly check: Spin Class (Literally): April renewal yield vs April 2026; share of spins doubled (target 35%). | Party Crasher Pass: Pass → member (target 35%); buzzer hits (bought within 9 hours). | Faking Your Own Death Didn’t Work: Postcards → Séance Class attendance; reactivations (target +30% vs Apr-26). | Plus One, Plus Nine: Referral buyers (target 2× April 2026); members reaching three. | The 9:09 Panic Attack: Packs sold in the two 9:09 windows; pack → membership by June."
             },
             {
               "label": "W3",
@@ -283,18 +313,18 @@
         "kind": "close",
         "kicker": "April 2027",
         "title": "That is the plan",
-        "narration": "That is April at Pop-up: 1.52 lakh rupees across 4 offers, and 40 buyers to find.",
-        "duration": 6894,
+        "narration": "Also running: Spin Class (Literally) — 53,585 rupees between them. That is April at Pop-up: 1.52 lakh rupees across 5 offers, and 40 buyers to find.",
+        "duration": 10765,
         "data": {
           "target": 151888,
-          "offerRevenue": 103497,
-          "offers": 4,
+          "offerRevenue": 101611,
+          "offers": 5,
           "buyers": 40,
           "monthName": "April",
           "studio": "Pop-up"
         }
       }
     ],
-    "duration": 96733
+    "duration": 101341
   }
 }

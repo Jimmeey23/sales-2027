@@ -8,17 +8,17 @@
  "target": 151888,
  "lastYear": 105840,
  "yoy": 0.435071806500378,
- "offers": 4,
+ "offers": 5,
  "buyers": 40,
  "targetTrend": "up",
- "words": 418,
- "estSeconds": 173,
+ "words": 379,
+ "estSeconds": 157,
  "segments": [
   {
    "id": "open",
    "kicker": "Pop-up · 2027",
    "title": "April",
-   "text": "Hello Pop-up! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. The confetti budget has been approved. So has the target."
+   "text": "Hello Pop-up! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: a party in four acts, eight offers, and more confetti than is strictly sensible."
   },
   {
    "id": "target",
@@ -41,54 +41,61 @@
   {
    "id": "coverage",
    "kicker": "What the offers carry",
-   "title": "68%",
-   "text": "Here's where the offers come in. Four offers carry 1.03 lakh rupees, which is 68 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them."
+   "title": "67%",
+   "text": "Here's where the offers come in. Five offers carry 1.02 lakh rupees, which is 67 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them."
+  },
+  {
+   "id": "offer-O27-53-POP",
+   "kicker": "Offer 1 of 5 · Revenue boost",
+   "title": "The 9:09 Panic Attack",
+   "text": "First up, the nine-oh-nine panic attack. The limited nine-class pack. That's 2 buyers, for 13,000 rupees.",
+   "notes": "Everyone: members, pack buyers and newcomers."
   },
   {
    "id": "offer-O27-18-POP",
-   "kicker": "Offer 1 of 4 · Revenue boost",
+   "kicker": "Offer 2 of 5 · Revenue boost",
    "title": "Plus One, Plus Nine",
-   "text": "First up, Plus One, Plus Nine. Bring a friend who joins and get nine bonus days. Bring three, and get a whole month. Presents for presents, because it's our birthday. The plan is 1 buyer at about 5,900, so 5,900 rupees.",
-   "notes": "Current members bringing a guest."
+   "text": "Next, Plus One, Plus Nine. Bring a friend who joins and get nine extra days. That's 1 buyer, for 5,900 rupees.",
+   "notes": "Current members bringing a never-been friend."
   },
   {
    "id": "offer-O27-16-POP",
-   "kicker": "Offer 2 of 4 · New clients",
+   "kicker": "Offer 3 of 5 · New clients",
    "title": "Party Crasher Pass",
-   "text": "Next, for newcomers, the Party Crasher Pass. Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. Everyone's invited. The plan is 3 buyers at about 4,900, so 14,700 rupees.",
+   "text": "Then, for newcomers, the Party Crasher Pass. Three classes for nine ninety-nine, party class included, credited against a first month. That's 3 buyers, for 14,700 rupees.",
    "notes": "First-time clients (phone verified)."
   },
   {
    "id": "offer-O27-17-POP",
-   "kicker": "Offer 3 of 4 · Win-backs",
-   "title": "Where Are They Now?",
-   "text": "Then, for old friends, Where Are They Now? Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. A lot has changed. We got prettier. The plan is 3 buyers at about 7,200, so 21,700 rupees.",
-   "notes": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack)"
+   "kicker": "Offer 4 of 5 · Win-backs",
+   "title": "Faking Your Own Death Didn’t Work",
+   "text": "Also this month, for lapsed members, Faking Your Own Death Didn't Work. They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. That's 2 buyers, for 14,500 rupees.",
+   "notes": "Lapsed 61 days–3 years."
   },
   {
    "id": "offer-O27-15-POP",
-   "kicker": "Offer 4 of 4 · Renewals",
+   "kicker": "Offer 5 of 5 · Renewals",
    "title": "Spin Class (Literally)",
-   "text": "And finally, Spin Class, literally. Renew in April for ten per cent off, then spin the Wheel of Nine. Every spin wins, and the odds are on the wall, because we're fit, not shady. The plan is 8 buyers at about 7,700, so 61,200 rupees.",
-   "notes": "One spin per renewal, ≈19"
+   "text": "And finally, for renewals, Spin Class. Literally. Renew in April and spin the Wheel of Nine. That's 7 buyers, for 53,600 rupees.",
+   "notes": "Members renewing 1 Month or a 12-class pack."
   },
   {
    "id": "plan",
    "kicker": "How the month runs",
    "title": "4 weeks",
-   "text": "How does the month run? Week one, every offer goes live and the team knows them by heart. Week two, the party class brings new faces in, and every guest gets a follow-up. Week three, the wheel spins and the Club Nine seats close. Week four, the Throwback Reunion brings old friends home.",
+   "text": "How does the month run? Week one, every offer goes live and the team knows them by heart. Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack. Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth. Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth.",
    "beats": [
     "every offer goes live and the team knows them by heart.",
-    "the party class brings new faces in, and every guest gets a follow-up.",
-    "the wheel spins and the Club Nine seats close.",
-    "the Throwback Reunion brings old friends home."
+    "anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack.",
+    "obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth.",
+    "the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth."
    ]
   },
   {
    "id": "close",
    "kicker": "April 2027",
    "title": "That's the plan",
-   "text": "That's April at Pop-up. 1.52 lakh rupees, four offers, and 40 buyers to welcome. Nine years in, and honestly? We've never looked better.",
+   "text": "That's April at Pop-up. 1.52 lakh rupees, five offers, and 40 buyers to welcome. Nine years in, and honestly? We've never looked better.",
    "signoff": "Nine years in, and honestly? We've never looked better."
   }
  ]
