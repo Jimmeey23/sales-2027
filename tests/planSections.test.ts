@@ -65,7 +65,7 @@ describe('a month, assembled for the export', () => {
   const sections = monthSections(input as any);
 
   it('carries the cover write-ups the workspace opens with', () => {
-    expect(sections.cover.theme).toBe('Start Line');
+    expect(sections.cover.theme).toBe('Resolutions with Receipts');
     expect(sections.cover.kicker).toBeTruthy();
     expect(sections.cover.moment).toBeTruthy();
     expect(sections.cover.brief).toBeTruthy();
@@ -76,7 +76,7 @@ describe('a month, assembled for the export', () => {
   });
 
   it('carries the overview in the same three parts the month tab shows', () => {
-    expect(sections.overview.brief).toContain('Start Line');
+    expect(sections.overview.brief).toContain('Resolutions with Receipts');
     expect(sections.overview.leads).toContain('leads');
     expect(sections.overview.renewals).toContain('memberships expire');
     expect(sections.overview.renewals).toContain('renewal');
@@ -148,7 +148,7 @@ const doc = {
         {
           month: 2,
           name: 'February',
-          theme: 'Stronger in 30 2.0',
+          theme: 'Red Flags, Green Flags',
           status: 'draft',
           target: 2570000,
           priorYear: 1919110,
@@ -158,7 +158,7 @@ const doc = {
           offers,
           keyDates: [],
           sections: [],
-          cover: { theme: 'Stronger in 30 2.0' },
+          cover: { theme: 'Red Flags, Green Flags' },
           overview: {},
           execution: {},
           collateral: { pieces: [] },
@@ -192,7 +192,7 @@ describe('the print document', () => {
     const single = renderPlanDocument(scopePlanToMonth(doc as any, 2) as any);
     expect(single).toContain('February');
     expect(single).not.toContain('The year, month');
-    expect(single).toContain('Stronger in 30 2.0');
+    expect(single).toContain('Red Flags, Green Flags');
   });
 });
 

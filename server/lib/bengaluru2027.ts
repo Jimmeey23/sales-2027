@@ -81,7 +81,7 @@ export const CAMPAIGN_NOTES: Record<string, { studio: string; month: number; not
     {
       studio: 'Kenkere House',
       month: 7,
-      note: 'The Amazing Race runs as a July campaign alongside Monsoon Momentum. The source sheet names the format but gives no mechanic, price or units, so it is held here as a campaign to be specified rather than opened as an offer with no numbers.',
+      note: 'The source sheet names a July group format alongside Monsoon Momentum but gives no mechanic, price or units, so it is held here as a campaign to be specified rather than opened as an offer with no numbers.',
     },
   ],
 };
@@ -191,13 +191,13 @@ export const OFFERS: PlanOffer[] = [
   {
     month: 2,
     studio: 'Kenkere House',
-    name: 'Stronger in 30',
+    name: 'February Fresh Start',
     type: 'percentage',
     objective: 'acquisition',
     slot: 'newcomer',
     mechanic: 'Discount',
     baseProduct: '1 Month Unlimited',
-    gets: '1M Unlimited 10% off to take part in the challenge',
+    gets: '1M Unlimited 10% off for a mid-February start',
     audience: 'New Clients',
     window: '14–28 Feb',
     start: '2027-02-14',

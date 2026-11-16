@@ -850,7 +850,7 @@ export function bengaluruReference(studioName: string) {
     activations: months.map(m => ({
       Month: MONTH_ABBR[m.month - 1],
       Activation: m.theme,
-      Format: /challenge|race|countdown|cohort/i.test(`${m.hook} ${m.moment}`) ? 'Challenge' : 'Event',
+      Format: /countdown|cohort|flash|sale/i.test(`${m.hook} ${m.moment}`) ? 'Campaign' : 'Event',
       Mechanics: m.moment,
       'Primary KPI': m.offers.map((o: any) => `${o.name}: ${(o.fields['What to watch'] || []).join(' ')}`).join(' · '),
     })),
@@ -859,13 +859,13 @@ export function bengaluruReference(studioName: string) {
   };
 }
 
-const PLAN_SOURCE_FINAL = 'P57 2027 Annual Sales and Offer Plan (final, 29 Oct 2026)';
+const PLAN_SOURCE_FINAL = 'P57 2027 plan of record (v5 portfolio)';
 const STUDIO_ROLE: Record<string, string> = {
-  'Kemps Corner': 'Retention-led. Protect renewal economics; convert a growing trial base. 2027 target ₹398.0L.',
+  'Kemps Corner': 'Retention-led. Protect renewal economics; convert a growing trial base. 2027 target ₹420.0L.',
   Bandra:
-    'Reactivation-led. Turnaround: win back 1,248 lapsed clients and rebuild the renewal ticket. 2027 target ₹228.2L.',
-  'Kenkere House': 'Conversion-led. Fix the new-client engine; renewals already yield 0.86. 2027 target ₹135.1L.',
-  [POPUP_PARENT]: 'Reach-led. Turn drop-in regulars into pack buyers and feed Kenkere. 2027 target ₹19.4L.',
+    'Reactivation-led. Turnaround: win back lapsed clients and rebuild the renewal ticket. 2027 target ₹228.2L.',
+  'Kenkere House': 'Conversion-led. Fix the new-client engine; renewals already yield 0.86. 2027 target ₹125.9L.',
+  [POPUP_PARENT]: 'Reach-led. Turn drop-in regulars into pack buyers and feed Kenkere. 2027 target ₹23.1L.',
 };
 const JOURNEYS: Array<[string, string, string[]]> = [
   [

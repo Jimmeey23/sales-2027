@@ -71,8 +71,7 @@ const share = (part: number, total: number) => (total > 0 ? `${Math.round((Math.
 /** Trial → buyer rate, the number every month is actually judged on. */
 const conv = (input: MonthStoryInput) => P(input.trials > 0 ? input.buyers / input.trials : null);
 
-// A month can carry more than its three plan slots (February runs the challenge and the duo
-// route together). The cover speaks for the three that occupy the slots; the rest are the
+// A month can carry more than its three plan slots (April runs eight anniversary offers). The cover speaks for the three that occupy the slots; the rest are the
 // month's supporting plays and stay in the plan itself.
 const primaryOffers = (e: ApprovedEntry) => {
   const seen = new Set<string>();
@@ -108,7 +107,7 @@ for (const entry of APPROVED_PLAN_2027) {
 }
 
 /* True when a saved theme is not one the final plan gives *this* month, so the final chapter
-   leads. The month matters: "Stronger in 30 2.0" is a real 2027 theme, but it is February's,
+   leads. The month matters: "Red Flags, Green Flags" is a real 2027 theme, but it is February's,
    so a January row still carrying it is a leftover from the old calendar rather than a choice. */
 export function isLegacyTheme(theme: string | null | undefined, month?: number) {
   if (!theme) return false;
