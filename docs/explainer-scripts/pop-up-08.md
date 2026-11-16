@@ -1,14 +1,14 @@
 # August 2027 · Pop-up
 
-**Theme:** The Amazing Race 2.0  
-**Read time:** about 2:40 (387 words at a relaxed pace)  
+**Theme:** Azaadi From Average  
+**Read time:** about 2:43 (393 words at a relaxed pace)  
 **Save the recording as:** `public/explainer/audio/pop-up-08.mp3`
 
 > Read warmly, smile on the jokes, and pause for a full beat at every `· · ·`. Those pauses are how the video knows when to change scenes.
 
 ### 1. Pop-up · 2027 — August
 
-Hello Pop-up! August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard.
+Hello Pop-up! August is Azaadi From Average. Friendship Day, Independence Day and Raksha Bandhan, and a month about freedom: from commitment issues, from price hikes, and from quitting when life gets busy.
 
 · · ·
 
@@ -30,36 +30,36 @@ Behind the number are people: 631 leads, 164 trials, and 54 buyers, with about 3
 
 · · ·
 
-### 5. What the offers carry — 37%
+### 5. What the offers carry — 38%
 
-Here's where the offers come in. Three offers carry 76,700 rupees, which is 37 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-### 6. Offer 1 of 3 · Revenue boost — Friends With Benefits (Strictly Fitness)
-
-First up, Friends With Benefits. Strictly fitness. Bring a friend who's never been, and they get two classes on us. If they join, you both get race tees, and you get bonus days and double points. The plan is 2 buyers at about 5,900, so 11,800 rupees.
+Here's where the offers come in. Three offers carry 78,700 rupees, which is 38 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-### 7. Offer 2 of 3 · New clients — Rookie Mistake (The Only Good One)
+### 6. Offer 1 of 3 · Revenue boost — Squad Goals, Squat Goals
 
-Next, for newcomers, Rookie Mistake, the only good one. Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. The only rookie mistake is not starting. The plan is 4 buyers at about 5,400, so 21,600 rupees.
+First up, for Friendship Day, Squad Goals, Squat Goals. Members book a free Squad Class for up to four friends. Friends who join get fifteen per cent off and friendship-band grip socks. Siblings count, it's Rakhi month. The plan is 2 buyers at about 5,900, so 11,800 rupees.
 
 · · ·
 
-### 8. Offer 3 of 3 · Renewals — Medal Detector
+### 7. Offer 2 of 3 · New clients — No Strings Attached
 
-And finally, for race finishers, the Medal Detector. Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, or three months at fifteen per cent off plus bonus days. The plan is 6 buyers at about 7,200, so 43,400 rupees.
+Next, No Strings Attached. Two classes for nine ninety-nine, credited against a first month, and a break-up clause: if it's not for them after two weeks, what's left turns into a class pack. The plan is 4 buyers at about 5,900, so 23,600 rupees.
+
+· · ·
+
+### 8. Offer 3 of 3 · Renewals — Freedom to Pause (Not Quit)
+
+And finally, for renewals, Freedom to Pause, not quit. Renew for three months and get two Freedom Freezes for Ganpati and Diwali travel, or six months with a private and three freezes. The plan is 6 buyers at about 7,200, so 43,400 rupees.
 
 · · ·
 
 ### 9. How the month runs — 4 weeks
 
-How does the month run? Week one, Friendship Day, and every friend gets two classes on us. Week two, check sell-through every Monday and follow up every trial within a day. Week three, the rookie leaderboard heats up, so celebrate newcomers by name. Week four, race finishers get their Medal Detector renewal.
+How does the month run? Week one, Friendship Day, and members book free Squad Classes for their friends. Week two, check sell-through every Monday and follow up every trial within a day. Week three, Independence Day and Sibling Barre, and every trial hears about the break-up clause. Week four, every renewal leaves with Freedom Freezes for the festive season.
 
 · · ·
 
 ### 10. August 2027 — That's the plan
 
-That's August at Pop-up. 2.05 lakh rupees, three offers, and 54 buyers to welcome. On your marks. Get set. Sell.
+That's August at Pop-up. 2.05 lakh rupees, three offers, and 54 buyers to welcome. Freedom looks good on you. So does a longer plan.

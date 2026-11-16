@@ -20,13 +20,12 @@ MONTHS = {
               "Week four, February expiries get their Baker's Dozen conversation."],
         close="Resolutions fade by February. Our receipts won't."),
     2: dict(
-        open=("February. The shortest month, and the most romantic. "
-              "Our theme pairs Valentine's with Stronger in 30, round two. Love is in the air, "
-              "and so are a lot of very committed glutes."),
-        plan=["Week one, launch the couples offers and open Stronger in 30.",
-              "Week two, Valentine's week, so every member hears about bringing someone new.",
-              "Week three, cheer the challengers on, because attendance is the pitch.",
-              "Week four, everyone who finished thirty classes gets their Proof of Work price."],
+        open=("February. The shortest month, and the most romantic. Our theme is Red Flags, Green Flags: "
+              "Valentine's, Galentine's and Singles Awareness Day, and a studio that is very much a green flag."),
+        plan=["Week one, blind-date envelopes at every desk, and the love letters go out to members.",
+              "Week two, Galentine's and Valentine's weekend, with Partner Barre on Sunday the fourteenth.",
+              "Week three, the Hate-Squat Hour for the singles, and every renewal hears Put a Ring On It.",
+              "Week four, last call for lapsed members to pick their relationship status."],
         close="Short month, long commitments. That's the dream."),
     3: dict(
         open=("March is Main Character Month. Women's Day, Holi, and a whole studio full of people "
@@ -37,12 +36,12 @@ MONTHS = {
               "Week four, no March expiry leaves without a conversation."],
         close="Everyone gets to be the main character. Our job is the plot."),
     4: dict(
-        open=("April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. "
-              "The confetti budget has been approved. So has the target."),
-        plan=["Week one, the numbered memberships go live, with a public counter.",
-              "Week two, the party class brings new faces in, and every guest gets a follow-up.",
-              "Week three, the wheel spins and the Club Nine seats close.",
-              "Week four, the Throwback Reunion brings old friends home."],
+        open=("April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: "
+              "a party in four acts, eight offers, and more confetti than is strictly sensible."),
+        plan=["Week one, Platinum Hour, the launch film, and the numbered keys go live with a public counter.",
+              "Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack.",
+              "Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth.",
+              "Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth."],
         close="Nine years in, and honestly? We've never looked better."),
     5: dict(
         open=("May is Home for the Holidays. Students are back, mums are celebrated, "
@@ -68,16 +67,16 @@ MONTHS = {
         plan=["Week one, corporate and kitty party bookings open.",
               "Week two, we call everyone who left in the summer heat.",
               "Week three, the Rain Check renewal does the heavy lifting.",
-              "Week four, returning members sign up for The Amazing Race."],
+              "Week four, returning members get first access to August's Freedom Weekend."],
         close="It's raining offers. Hallelujah."),
     8: dict(
-        open=("August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race "
-              "that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard."),
-        plan=["Week one, Friendship Day, and every friend gets two classes on us.",
-              "Week two, Independence Day, and the midnight annual sale for one day only.",
-              "Week three, the rookie leaderboard heats up, so celebrate newcomers by name.",
-              "Week four, race finishers get their Medal Detector renewal."],
-        close="On your marks. Get set. Sell."),
+        open=("August is Azaadi From Average. Friendship Day, Independence Day and Raksha Bandhan, "
+              "and a month about freedom: from commitment issues, from price hikes, and from quitting when life gets busy."),
+        plan=["Week one, Friendship Day, and members book free Squad Classes for their friends.",
+              "Week two, Freedom Weekend from the thirteenth, with annuals and a 2028 price lock.",
+              "Week three, Independence Day and Sibling Barre, and every trial hears about the break-up clause.",
+              "Week four, every renewal leaves with Freedom Freezes for the festive season."],
+        close="Freedom looks good on you. So does a longer plan."),
     9: dict(
         open=("September is The Comeback, plus fifty-seven days to Diwali. Routines are back, festive photos are coming, "
               "and everyone suddenly remembers they wanted to feel great in October. We're here to help, with a deadline."),
@@ -95,20 +94,20 @@ MONTHS = {
               "Week four, Diwali cleaning brings old members home."],
         close="Lights on, targets lit. Happy Diwali."),
     11: dict(
-        open=("November is Black Friday, plus Thank U, Next. This month starts with gratitude and ends with the best "
-              "long-plan prices of the year. First we say thank you. Then we say, sincerely, have you seen this annual?"),
-        plan=["Week one, appreciation week, with guest passes and hundred-class gifts.",
-              "Week two, Secret Santa vouchers reach every office and group chat.",
-              "Week three, members get the Black Friday dates first.",
-              "Week four, four days of Black Friday, long plans only."],
-        close="Grateful, gorgeous, and fully booked. That's November."),
+        open=("November is Shaadi Season, and a very Black Friday. Half our members have a wedding to dance at, "
+              "and the other half have a sale to wait for. We have something for both."),
+        plan=["Week one, bride squads and wedding parties get their group rate.",
+              "Week two, eleven eleven: eleven hours of pack prices, and no exes invited.",
+              "Week three, the Sangeet Choreo Barre on the twentieth, and lapsed members come back before the baraat.",
+              "Week four, the Black Friday Blind Box, four days, long plans only, and no duds."],
+        close="Wedding-ready and fully booked. That's November."),
     12: dict(
-        open=("December is Wrapped. The year is ending, everyone is reflecting, and every member has a story told in classes, "
-              "favourite trainers and peak hours. This month we show them that story, and help them write next year's."),
-        plan=["Week one, Wrapped cards go out to every member.",
-              "Week two, twelve days of Shakemas begin on the thirteenth.",
-              "Week three, gift vouchers and resolution pre-orders for the I'll start in January crowd.",
-              "Week four, last-seen members get their invitation home."],
+        open=("December is the Party Season Survival Guide. Office parties, family dinners, and a January that is coming whether we like it or not. "
+              "This month we help members get through the season, and set up the new year before it starts."),
+        plan=["Week one, Advent-ure Calendars and gift boxes go on sale.",
+              "Week two, every December renewal hears the calendar pitch, and offices get their gift boxes.",
+              "Week three, Ugly Sweater Barre, and Resolution Insurance for the I'll start in January crowd.",
+              "Week four, Boxing Day packs, and the NYE Countdown Class for our comeback members."],
         close="That's a wrap on 2027. See you on the mat in January."),
 }
 
@@ -132,22 +131,6 @@ OFFERS = {
         hook="And for our loyal annual members, The Baker's Dozen.",
         how="Renew your annual and get a thirteenth month, plus privates, guest passes and monthly trainer check-ins. "
             "Twelve months is so last year."),
-    "Couples Therapy (Cheaper Than the Real Thing)": dict(
-        hook="First, Couples Therapy, cheaper than the real thing.",
-        how="Members bring someone new. The member gets ten per cent off, the guest gets fifteen, and both get a duo private. "
-            "The only fight is over who holds the plank longer."),
-    "Situationship → Relationship": dict(
-        hook="Next, Situationship to Relationship.",
-        how="First-timers get fifteen per cent off their first month and a spot on the Stronger in 30 rookie track. "
-            "Finish it, and they earn an extra week. Commitment never looked this good."),
-    "Galentine's Gone Ghost": dict(
-        hook="For lapsed members, Galentine's Gone Ghost.",
-        how="Come back with your best friend. You get fifteen per cent off, she gets two classes on us, "
-            "and if she joins, matching grip socks and bonus days."),
-    "Proof of Work": dict(
-        hook="And for the challengers, Proof of Work.",
-        how="Did thirty classes in thirty days? Your renewal price shows it. Six months at twenty per cent off, "
-            "or an annual with an extra private. Receipts, not resolutions."),
     "Lift Like a Girl": dict(
         hook="For Women's Day, Lift Like a Girl.",
         how="A free first Strength Lab class for newcomers, eighth to fourteenth of March. "
@@ -164,10 +147,6 @@ OFFERS = {
         hook="Then, Monogamy Is Overrated.",
         how="Renew this month and we pay for two classes in formats you've never tried. "
             "Members who play the field stay longer. That's data, not gossip."),
-    "Cloud Nine Limited Edition": dict(
-        hook="The headliner, Cloud Nine Limited Edition.",
-        how="Nine months, nine freezes, plus one month on us. The memberships are numbered and capped, "
-            "and when they're gone, they're gone."),
     "Plus One, Plus Nine": dict(
         hook="Next, Plus One, Plus Nine.",
         how="Bring a friend who joins and get nine bonus days. Bring three, and get a whole month. "
@@ -176,15 +155,11 @@ OFFERS = {
         hook="For newcomers, the Party Crasher Pass.",
         how="Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. "
             "Everyone's invited."),
-    "Where Are They Now?": dict(
-        hook="For old friends, Where Are They Now?",
-        how="Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. "
-            "A lot has changed. We got prettier."),
     "Spin Class (Literally)": dict(
         hook="Then, Spin Class, literally.",
         how="Renew in April for ten per cent off, then spin the Wheel of Nine. Every spin wins, "
             "and the odds are on the wall, because we're fit, not shady."),
-    "Club Nine: The Founders' Table": dict(
+    "Club Nine: The Founders’ Table": dict(
         hook="And finally, Club Nine, The Founders' Table.",
         how="Nine numbered annual seats per studio, with double the perks, a numbered jacket, and a name on the wall. "
             "No seat is ever added."),
@@ -229,27 +204,11 @@ OFFERS = {
             "Every first-timer in the room then gets three classes for the price of two."),
     "Gone With the Wind, Back With the Rain": dict(
         hook="For lapsed members, Gone With the Wind, Back With the Rain.",
-        how="Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race."),
+        how="Fifteen per cent off to return, two extra freezes for flooded days, and first access to Freedom Weekend in August."),
     "Rain Check (Literally)": dict(
         hook="And for renewals, Rain Check, literally.",
         how="Renew in July for ten per cent off and three Rain Check tokens, with classes credited back on red-alert days. "
             "Monsoon happens. Late-cancel fees don't have to."),
-    "Friends With Benefits (Strictly Fitness)": dict(
-        hook="First, Friends With Benefits. Strictly fitness.",
-        how="Bring a friend who's never been, and they get two classes on us. If they join, "
-            "you both get race tees, and you get bonus days and double points."),
-    "Rookie Mistake (The Only Good One)": dict(
-        hook="For newcomers, Rookie Mistake, the only good one.",
-        how="Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. "
-            "The only rookie mistake is not starting."),
-    "Medal Detector": dict(
-        hook="For race finishers, the Medal Detector.",
-        how="Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, "
-            "or three months at fifteen per cent off plus bonus days."),
-    "At the Stroke of the Midnight Hour": dict(
-        hook="And on Independence Day, At the Stroke of the Midnight Hour.",
-        how="Annual memberships at twenty-five per cent off, for the fifteenth of August only, with a strictly limited count. "
-            "When the world sleeps, our members renew."),
     "Glow-Up or Give Back": dict(
         hook="For newcomers, Glow-Up or Give Back.",
         how="We measure on day one and again before the festive photos. Do thirty classes and don't improve? "
@@ -279,33 +238,99 @@ OFFERS = {
         hook="And for Dhanteras, Gold Rush.",
         how="An annual at twenty-two per cent off, an extra private, and a gold-foil card, for seventy-two hours only. "
             "Gold that actually lifts."),
-    "Thank U, Next (Year)": dict(
-        hook="First, Thank U, Next Year.",
-        how="Appreciation week. A guest pass to share, a members-only night, and a gift for anyone who's hit a hundred classes. "
-            "No catch. Just gratitude, and glutes."),
-    "Pop-Up, Don't Drop Out": dict(
-        hook="For pop-up trialists, Pop-Up, Don't Drop Out.",
-        how="Buy a pack within seventy-two hours of the trial for fifteen per cent off, fifteen extra days, and a class to bring a friend."),
-    "Secret Santa Squats": dict(
-        hook="For gifting, Secret Santa Squats.",
-        how="Two classes and grip socks, sized for a Secret Santa budget. If the recipient loves it, half comes off their first month."),
-    "Black Friday, Strong Monday, Sore Tuesday": dict(
-        hook="And the big one, Black Friday, Strong Monday, Sore Tuesday.",
-        how="Four days of the year's best long-plan prices, plus the last Club Nine seats. "
-            "No one-month discounts. We're not that kind of studio."),
-    "Resolution Pre-Order (Ships 1 Jan)": dict(
-        hook="First, the Resolution Pre-Order. Ships first of January.",
-        how="Buy now, start between the first and tenth of January, and a coach checks in during week one so it actually sticks."),
-    "Last Seen: 2026 (We Noticed)": dict(
-        hook="For long-lapsed members, Last Seen, 2026. We noticed.",
-        how="Fifteen per cent off, a free comeback class, and a spot on the Stronger in 30 comeback track, before the new year."),
-    "Wrapped: Your Top Artist Was Your Trainer": dict(
-        hook="Then, Wrapped. Your top artist was your trainer.",
-        how="Every member gets their year in classes, trainers and peak hours, and next year's plan, priced for how they actually train."),
-    "12 Days of Shakemas": dict(
-        hook="And the finale, Twelve Days of Shakemas.",
-        how="A new published deal every day from the thirteenth to the twenty-fourth. No hidden prizes, no tricks. "
-            "Day twelve is the big one."),
+    "Blind Date (No Catfishing)": dict(
+        hook="First up, Blind Date, no catfishing.",
+        how="Two mystery classes for nine ninety-nine. The format and the trainer stay sealed until you walk in. "
+            "Love it, and the whole fee comes off your first month."),
+    "Love Bombing (The Healthy Kind)": dict(
+        hook="Then, Love Bombing, the healthy kind.",
+        how="Every member writes a love letter to a friend: two free classes. If the friend joins, they get fifteen per cent off "
+            "and grip socks, and the member gets five extra days."),
+    "Put a Ring On It": dict(
+        hook="For renewals, Put a Ring On It.",
+        how="Renew for three months and get the ring, which is a mini-band, relax. Six months comes with a private, "
+            "and annual members go on the Wall of Commitment. Say yes at the desk and the bell rings."),
+    "It’s Not You, It’s Your Schedule": dict(
+        hook="And for lapsed members, It's Not You, It's Your Schedule.",
+        how="They pick a relationship status: Exclusive is three months, Casual is a twelve-class pack, "
+            "It's Complicated is one month with a free freeze. Fifteen per cent off whichever they choose."),
+    "Moving In Together (The 9-Month Lease)": dict(
+        hook="First up, Moving In Together, the nine-month lease.",
+        how="Nine months unlimited, nine freezes, the anniversary hoodie and a numbered brass key. "
+            "Ninety-nine keys in Mumbai, thirty-nine in Bengaluru, and no second batch."),
+    "Club Nine: The Founders’ Table": dict(
+        hook="Then, Club Nine, the Founders' Table.",
+        how="Nine numbered annual seats per studio, with the perks doubled: four privates, eight guest passes, "
+            "priority booking all year and a numbered jacket."),
+    "Spin Class (Literally)": dict(
+        hook="For renewals, Spin Class. Literally.",
+        how="Renew in April and spin the Wheel of Nine. Every spin wins. Then keep it, double it by booking nine classes, "
+            "or give it to a friend."),
+    "Party Crasher Pass": dict(
+        hook="For newcomers, the Party Crasher Pass.",
+        how="Three classes for nine ninety-nine, party class included, credited against a first month. "
+            "Decide within nine hours and you get to hit the big red buzzer."),
+    "Faking Your Own Death Didn’t Work": dict(
+        hook="For lapsed members, Faking Your Own Death Didn't Work.",
+        how="They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. "
+            "Fifteen per cent off to rise from the dead, plus a bonus for every year they've been with us."),
+    "Plus One, Plus Nine": dict(
+        hook="Then, Plus One, Plus Nine.",
+        how="Bring a friend who joins and get nine extra days. Bring three and the next month is on us."),
+    "The 9:09 Panic Attack": dict(
+        hook="Then, the nine-oh-nine panic attack.",
+        how="The limited nine-class pack. Plank for your price at the desk, or wait for nine-oh-nine on the ninth, "
+            "when everyone gets the floor price for ninety-nine minutes."),
+    "The Cloud Nine 90": dict(
+        hook="And for our heaviest users, the Cloud Nine ninety.",
+        how="Ninety classes, one year, about fifteen hundred rupees a class in Mumbai. Zero commitment issues."),
+    "No Strings Attached": dict(
+        hook="First up, No Strings Attached.",
+        how="Two classes for nine ninety-nine, credited against a first month, and a break-up clause: "
+            "if it's not for them after two weeks, what's left turns into a class pack."),
+    "Price Ki Azaadi (Freedom From Price Hikes)": dict(
+        hook="Then, Price Ki Azaadi, freedom from price hikes.",
+        how="Over Freedom Weekend, the annual at twenty per cent off with fifteen extra days, "
+            "and next year's renewal locked at this year's price."),
+    "Squad Goals, Squat Goals": dict(
+        hook="For Friendship Day, Squad Goals, Squat Goals.",
+        how="Members book a free Squad Class for up to four friends. Friends who join get fifteen per cent off and "
+            "friendship-band grip socks. Siblings count, it's Rakhi month."),
+    "Freedom to Pause (Not Quit)": dict(
+        hook="And for renewals, Freedom to Pause, not quit.",
+        how="Renew for three months and get two Freedom Freezes for Ganpati and Diwali travel, "
+            "or six months with a private and three freezes."),
+    "Bride Squad, Assemble (Groom Can Come Too)": dict(
+        hook="First up, Bride Squad, Assemble. The groom can come too.",
+        how="Four or more of you, at least two new, buy twelve-class packs together at twelve per cent off "
+            "and get a private Squad Class that ends on a Sangeet routine."),
+    "Shaadi Mein Zaroor Aana (Come Back Before the Baraat)": dict(
+        hook="For lapsed members, Shaadi Mein Zaroor Aana.",
+        how="Fifteen per cent off to come back, matching Bride Tribe socks, and a seat at the Sangeet Choreo Barre."),
+    "11.11: Treat Yourself, Not Your Ex": dict(
+        hook="Then, eleven eleven: treat yourself, not your ex.",
+        how="Eleven hours only, eight-class packs at twenty per cent off. One per person."),
+    "Black Friday Blind Box (No Duds)": dict(
+        hook="And finally, the Black Friday Blind Box. No duds.",
+        how="Renew for three, six or twelve months and pick a sealed box: extra days, guest passes, a private. "
+            "Every box wins, and one annual box per studio hides the hoodie."),
+    "The Advent-ure Calendar (Opens in January)": dict(
+        hook="First up, the Advent-ure Calendar, which opens in January.",
+        how="Renew in December and take home twelve doors of perks, one a week from the third of January: "
+            "guest passes, a private, smoothies and a golden door. Perfect for the hardest quarter."),
+    "Boxing Day (Gloves Optional)": dict(
+        hook="Then, Boxing Day. Gloves optional.",
+        how="Two days only, twelve-class packs at twenty per cent off. Stock up before January."),
+    "Resolution Insurance (Claim Approved)": dict(
+        hook="For newcomers, Resolution Insurance. Claim approved.",
+        how="Buy your first month now, start any day from the first to the tenth of January, "
+            "and January's late-cancel fees are on us, plus a freeze for when life happens."),
+    "The Gift They Won’t Regift": dict(
+        hook="Then, The Gift They Won't Regift.",
+        how="A boxed gift: two classes, grip socks, and a thousand rupees off a first membership. Offices buying ten get a team class."),
+    "The Ex-Files: Season Finale": dict(
+        hook="And for lapsed members, The Ex-Files: Season Finale.",
+        how="Ten per cent off to come back, fifteen on three months, and a plus-one to the NYE Countdown Class."),
     "Same Time Next Week": dict(
         hook="For pack regulars, Same Time Next Week.",
         how="Nearly out of classes? Take the same pack again at fifteen per cent off, plus an extra week of validity so nothing goes to waste."),
@@ -341,22 +366,22 @@ COVER_TAIL = [
 # A week beat that names an offer is only read when the studio runs that offer.
 PLAN_NEEDS = {
     1: ["The 57-Hour Hangover Sale", "Third Time's the Charm", "U Up? It's 2027.", "The Baker's Dozen"],
-    2: [None, "Couples Therapy (Cheaper Than the Real Thing)", None, "Proof of Work"],
+    2: ["Blind Date (No Catfishing)", None, "Put a Ring On It", "It’s Not You, It’s Your Schedule"],
     3: ["Lift Like a Girl", "Bura Na Mano, Renewal Hai", "Monogamy Is Overrated", None],
-    4: ["Cloud Nine Limited Edition", "Party Crasher Pass", "Spin Class (Literally)", "Where Are They Now?"],
+    4: ["Moving In Together (The 9-Month Lease)", "Spin Class (Literally)", "Faking Your Own Death Didn’t Work", None],
     5: ["Mom Said Get Off the Couch", "Mom-entum", "Don't Ghost Us After the Party",
         "Group Project (Finally, Everyone Pulls Their Weight)"],
     6: ["Private Practice", "Happy Hour (Zero Hangover, All Glutes)", "Auto-Reply: Out of Office, Still Squatting", None],
     7: ["Kitty Party, But Make It Cardio", "Gone With the Wind, Back With the Rain", "Rain Check (Literally)", None],
-    8: ["Friends With Benefits (Strictly Fitness)", "At the Stroke of the Midnight Hour",
-        "Rookie Mistake (The Only Good One)", "Medal Detector"],
+    8: ["Squad Goals, Squat Goals", "Price Ki Azaadi (Freedom From Price Hikes)", "No Strings Attached",
+        "Freedom to Pause (Not Quit)"],
     9: ["Glow-Up or Give Back", "We Need to Talk", "New Phone, Who Dis?", "Lock It Before the Laddoos"],
     10: ["From Phuljhadi to Anaar", "Diwali Gifting, Minus the Dry-Fruit Box", "Gold Rush (Dhanteras Edition)",
          "Diwali Cleaning: Found Your Old Grip Socks?"],
-    11: ["Thank U, Next (Year)", "Secret Santa Squats", "Black Friday, Strong Monday, Sore Tuesday",
-         "Black Friday, Strong Monday, Sore Tuesday"],
-    12: ["Wrapped: Your Top Artist Was Your Trainer", "12 Days of Shakemas", "Secret Santa Squats",
-         "Last Seen: 2026 (We Noticed)"],
+    11: ["Bride Squad, Assemble (Groom Can Come Too)", "11.11: Treat Yourself, Not Your Ex",
+         "Shaadi Mein Zaroor Aana (Come Back Before the Baraat)", "Black Friday Blind Box (No Duds)"],
+    12: ["The Advent-ure Calendar (Opens in January)", "The Gift They Won’t Regift", "Resolution Insurance (Claim Approved)",
+         "Boxing Day (Gloves Optional)"],
 }
 PLAN_FALLBACK = [
     "Week one, every offer goes live and the team knows them by heart.",

@@ -1,14 +1,14 @@
 # April 2027 · Bandra
 
 **Theme:** Cloud Nine — 9 Years of Physique 57  
-**Read time:** about 2:55 (424 words at a relaxed pace)  
+**Read time:** about 3:20 (484 words at a relaxed pace)  
 **Save the recording as:** `public/explainer/audio/bandra-04.mp3`
 
 > Read warmly, smile on the jokes, and pause for a full beat at every `· · ·`. Those pauses are how the video knows when to change scenes.
 
 ### 1. Bandra · 2027 — April
 
-Hello Bandra! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. The confetti budget has been approved. So has the target.
+Hello Bandra! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: a party in four acts, eight offers, and more confetti than is strictly sensible.
 
 · · ·
 
@@ -30,54 +30,66 @@ Behind the number are people: 944 leads, 491 trials, and 106 buyers, with about 
 
 · · ·
 
-### 5. What the offers carry — 74%
+### 5. What the offers carry — 76%
 
-Here's where the offers come in. Six offers carry 24.3 lakh rupees, which is 74 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-### 6. Offer 1 of 6 · Revenue boost — Cloud Nine Limited Edition
-
-First up, the headliner, Cloud Nine Limited Edition. Nine months, nine freezes, plus one month on us. That's 4 buyers, for 6.6 lakh rupees.
+Here's where the offers come in. Eight offers carry 25 lakh rupees, which is 76 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-### 7. Offer 2 of 6 · Revenue boost — Plus One, Plus Nine
+### 6. Offer 1 of 8 · Revenue boost — Moving In Together (The 9-Month Lease)
 
-Next, Plus One, Plus Nine. Bring a friend who joins and get nine bonus days. That's 7 buyers, for 1.2 lakh rupees.
-
-· · ·
-
-### 8. Offer 3 of 6 · New clients — Party Crasher Pass
-
-Then, for newcomers, the Party Crasher Pass. Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. That's 15 buyers, for 2.43 lakh rupees.
+First up, Moving In Together, the nine-month lease. Nine months unlimited, nine freezes, the anniversary hoodie and a numbered brass key. That's 4 buyers, for 5.8 lakh rupees.
 
 · · ·
 
-### 9. Offer 4 of 6 · Win-backs — Where Are They Now?
+### 7. Offer 2 of 8 · Revenue boost — The 9:09 Panic Attack
 
-Also this month, for old friends, Where Are They Now? Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. That's 15 buyers, for 2.58 lakh rupees.
-
-· · ·
-
-### 10. Offer 5 of 6 · Renewals — Spin Class (Literally)
-
-After that, Spin Class, literally. Renew in April for ten per cent off, then spin the Wheel of Nine. That's 34 buyers, for 6.19 lakh rupees.
+Next, the nine-oh-nine panic attack. The limited nine-class pack. That's 12 buyers, for 1.38 lakh rupees.
 
 · · ·
 
-### 11. Offer 6 of 6 · Renewals — Club Nine: The Founders' Table
+### 8. Offer 3 of 8 · Revenue boost — The Cloud Nine 90
 
-And finally, Club Nine, The Founders' Table. Nine numbered annual seats per studio, with double the perks, a numbered jacket, and a name on the wall. That's 3 buyers, for 5.27 lakh rupees.
-
-· · ·
-
-### 12. How the month runs — 4 weeks
-
-How does the month run? Week one, the numbered memberships go live, with a public counter. Week two, the party class brings new faces in, and every guest gets a follow-up. Week three, the wheel spins and the Club Nine seats close. Week four, the Throwback Reunion brings old friends home.
+Then, for our heaviest users, the Cloud Nine ninety. Ninety classes, one year, about fifteen hundred rupees a class in Mumbai. That's 1 buyer, for 1.35 lakh rupees.
 
 · · ·
 
-### 13. April 2027 — That's the plan
+### 9. Offer 4 of 8 · Revenue boost — Plus One, Plus Nine
 
-That's April at Bandra. 33 lakh rupees, six offers, and 106 buyers to welcome. Nine years in, and honestly? We've never looked better.
+Also this month, Plus One, Plus Nine. Bring a friend who joins and get nine extra days. That's 6 buyers, for 1.03 lakh rupees.
+
+· · ·
+
+### 10. Offer 5 of 8 · New clients — Party Crasher Pass
+
+After that, for newcomers, the Party Crasher Pass. Three classes for nine ninety-nine, party class included, credited against a first month. That's 15 buyers, for 2.43 lakh rupees.
+
+· · ·
+
+### 11. Offer 6 of 8 · Win-backs — Faking Your Own Death Didn’t Work
+
+Next, for lapsed members, Faking Your Own Death Didn't Work. They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. That's 13 buyers, for 2.24 lakh rupees.
+
+· · ·
+
+### 12. Offer 7 of 8 · Renewals — Spin Class (Literally)
+
+Then, for renewals, Spin Class. Literally. Renew in April and spin the Wheel of Nine. That's 30 buyers, for 5.46 lakh rupees.
+
+· · ·
+
+### 13. Offer 8 of 8 · Renewals — Club Nine: The Founders’ Table
+
+And finally, Club Nine, the Founders' Table. Nine numbered annual seats per studio, with the perks doubled: four privates, eight guest passes, priority booking all year and a numbered jacket. That's 3 buyers, for 5.27 lakh rupees.
+
+· · ·
+
+### 14. How the month runs — 4 weeks
+
+How does the month run? Week one, Platinum Hour, the launch film, and the numbered keys go live with a public counter. Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack. Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth. Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth.
+
+· · ·
+
+### 15. April 2027 — That's the plan
+
+That's April at Bandra. 33 lakh rupees, eight offers, and 106 buyers to welcome. Nine years in, and honestly? We've never looked better.

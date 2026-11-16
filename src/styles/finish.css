@@ -1,0 +1,39 @@
+/* Finishing pass, loaded last. Small, targeted fixes on top of the Atelier language. */
+
+/* Plan pages stacked three paddings (content 30 + page 22 + strip 22) above the header strip,
+   leaving a blank band under the location bar. The strip now sits where Overview's title does. */
+.ws-page:has(> .ws-strip:first-child) {
+  padding-top: 0;
+}
+.ws-page > .ws-strip:first-child {
+  padding-top: 4px;
+}
+
+/* Figures read as figures everywhere: tabular, no jitter between rows. */
+.ws-strip-figures dd,
+.ao-figs dd,
+.ao-table td,
+.ao-offer td {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Keyboard focus is always visible, in the location's accent. */
+:where(button, a, [role='button'], input, select, textarea):focus-visible {
+  outline: 2px solid var(--a1, #3c3830);
+  outline-offset: 2px;
+}
+
+/* Long offer names wrap cleanly instead of overflowing their chips and cards. */
+.ao-offer h3,
+.ao-mech-card h3,
+.ao-studio h3 {
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ao-nav button,
+  .ao-section {
+    scroll-behavior: auto;
+  }
+}

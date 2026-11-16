@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T20:28:14.579Z",
+  "generatedAt": "2026-11-16T10:34:20.691Z",
   "year": 2027,
   "count": 48,
   "scripts": [
@@ -18,9 +18,9 @@
       "month": 2,
       "studio": "Bandra",
       "title": "February 2027 · Bandra",
-      "duration": 99591,
+      "duration": 99203,
       "scenes": 11,
-      "hash": "827843b4",
+      "hash": "5c1be5fc",
       "file": "bandra-02.json"
     },
     {
@@ -38,9 +38,9 @@
       "month": 4,
       "studio": "Bandra",
       "title": "April 2027 · Bandra",
-      "duration": 110522,
-      "scenes": 13,
-      "hash": "0d9e9ecf",
+      "duration": 118192,
+      "scenes": 15,
+      "hash": "e01b3026",
       "file": "bandra-04.json"
     },
     {
@@ -78,9 +78,9 @@
       "month": 8,
       "studio": "Bandra",
       "title": "August 2027 · Bandra",
-      "duration": 98041,
+      "duration": 92474,
       "scenes": 11,
-      "hash": "bda4faca",
+      "hash": "cc4fac55",
       "file": "bandra-08.json"
     },
     {
@@ -108,9 +108,9 @@
       "month": 11,
       "studio": "Bandra",
       "title": "November 2027 · Bandra",
-      "duration": 86042,
-      "scenes": 10,
-      "hash": "c6eef503",
+      "duration": 103922,
+      "scenes": 11,
+      "hash": "2c0fecf6",
       "file": "bandra-11.json"
     },
     {
@@ -118,9 +118,9 @@
       "month": 12,
       "studio": "Bandra",
       "title": "December 2027 · Bandra",
-      "duration": 106909,
+      "duration": 100954,
       "scenes": 12,
-      "hash": "1a7b426a",
+      "hash": "48e03bc7",
       "file": "bandra-12.json"
     },
     {
@@ -138,9 +138,9 @@
       "month": 2,
       "studio": "Kemps Corner",
       "title": "February 2027 · Kemps Corner",
-      "duration": 100752,
+      "duration": 100364,
       "scenes": 11,
-      "hash": "05599554",
+      "hash": "37d4b5cb",
       "file": "kemps-corner-02.json"
     },
     {
@@ -158,9 +158,9 @@
       "month": 4,
       "studio": "Kemps Corner",
       "title": "April 2027 · Kemps Corner",
-      "duration": 110910,
-      "scenes": 13,
-      "hash": "c159b1b7",
+      "duration": 118580,
+      "scenes": 15,
+      "hash": "2a1c75ee",
       "file": "kemps-corner-04.json"
     },
     {
@@ -198,9 +198,9 @@
       "month": 8,
       "studio": "Kemps Corner",
       "title": "August 2027 · Kemps Corner",
-      "duration": 98815,
+      "duration": 93248,
       "scenes": 11,
-      "hash": "5a8868f1",
+      "hash": "d3b6253f",
       "file": "kemps-corner-08.json"
     },
     {
@@ -228,9 +228,9 @@
       "month": 11,
       "studio": "Kemps Corner",
       "title": "November 2027 · Kemps Corner",
-      "duration": 87590,
-      "scenes": 10,
-      "hash": "20103be4",
+      "duration": 105157,
+      "scenes": 11,
+      "hash": "da595251",
       "file": "kemps-corner-11.json"
     },
     {
@@ -238,9 +238,9 @@
       "month": 12,
       "studio": "Kemps Corner",
       "title": "December 2027 · Kemps Corner",
-      "duration": 108070,
+      "duration": 101728,
       "scenes": 12,
-      "hash": "79163238",
+      "hash": "35a82256",
       "file": "kemps-corner-12.json"
     },
     {
@@ -258,9 +258,9 @@
       "month": 2,
       "studio": "Kenkere House",
       "title": "February 2027 · Kenkere House",
-      "duration": 99591,
+      "duration": 99203,
       "scenes": 11,
-      "hash": "fca70685",
+      "hash": "c577af98",
       "file": "kenkere-house-02.json"
     },
     {
@@ -278,9 +278,9 @@
       "month": 4,
       "studio": "Kenkere House",
       "title": "April 2027 · Kenkere House",
-      "duration": 110136,
-      "scenes": 13,
-      "hash": "e70434a0",
+      "duration": 114431,
+      "scenes": 14,
+      "hash": "3517f192",
       "file": "kenkere-house-04.json"
     },
     {
@@ -318,9 +318,9 @@
       "month": 8,
       "studio": "Kenkere House",
       "title": "August 2027 · Kenkere House",
-      "duration": 97654,
+      "duration": 92087,
       "scenes": 11,
-      "hash": "b77cd689",
+      "hash": "da9601bf",
       "file": "kenkere-house-08.json"
     },
     {
@@ -348,9 +348,9 @@
       "month": 11,
       "studio": "Kenkere House",
       "title": "November 2027 · Kenkere House",
-      "duration": 86429,
-      "scenes": 10,
-      "hash": "fae25e84",
+      "duration": 104309,
+      "scenes": 11,
+      "hash": "8e71d34d",
       "file": "kenkere-house-11.json"
     },
     {
@@ -358,9 +358,9 @@
       "month": 12,
       "studio": "Kenkere House",
       "title": "December 2027 · Kenkere House",
-      "duration": 106909,
+      "duration": 100179,
       "scenes": 12,
-      "hash": "103eca00",
+      "hash": "a8f39f65",
       "file": "kenkere-house-12.json"
     },
     {
@@ -378,9 +378,9 @@
       "month": 2,
       "studio": "Pop-up",
       "title": "February 2027 · Pop-up",
-      "duration": 97195,
+      "duration": 96807,
       "scenes": 11,
-      "hash": "b683771c",
+      "hash": "9a3fb031",
       "file": "pop-up-02.json"
     },
     {
@@ -398,9 +398,9 @@
       "month": 4,
       "studio": "Pop-up",
       "title": "April 2027 · Pop-up",
-      "duration": 96733,
-      "scenes": 11,
-      "hash": "8e2fccf5",
+      "duration": 101341,
+      "scenes": 12,
+      "hash": "c63f6411",
       "file": "pop-up-04.json"
     },
     {
@@ -438,9 +438,9 @@
       "month": 8,
       "studio": "Pop-up",
       "title": "August 2027 · Pop-up",
-      "duration": 82484,
+      "duration": 77452,
       "scenes": 10,
-      "hash": "a231c00f",
+      "hash": "af0a4bb9",
       "file": "pop-up-08.json"
     },
     {
@@ -468,9 +468,9 @@
       "month": 11,
       "studio": "Pop-up",
       "title": "November 2027 · Pop-up",
-      "duration": 94945,
-      "scenes": 11,
-      "hash": "8aa90899",
+      "duration": 89213,
+      "scenes": 10,
+      "hash": "6ba4111d",
       "file": "pop-up-11.json"
     },
     {
@@ -478,9 +478,9 @@
       "month": 12,
       "studio": "Pop-up",
       "title": "December 2027 · Pop-up",
-      "duration": 98891,
+      "duration": 91774,
       "scenes": 11,
-      "hash": "73aec4fe",
+      "hash": "e9006f35",
       "file": "pop-up-12.json"
     }
   ]

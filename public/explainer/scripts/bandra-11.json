@@ -6,9 +6,9 @@
   "monthName": "November",
   "year": 2027,
   "title": "November 2027 · Bandra",
-  "duration": 86042,
-  "scenes": 10,
-  "hash": "c6eef503",
+  "duration": 103922,
+  "scenes": 11,
+  "hash": "2c0fecf6",
   "scenesKinds": [
     "open",
     "target",
@@ -18,12 +18,13 @@
     "offer",
     "offer",
     "offer",
+    "offer",
     "plan",
     "close"
   ],
   "voiceBlocks": {
-    "a": "November 2027 at Bandra. The theme is Black Friday + Thank U, Next. The target is 13.6 lakh rupees — 3 per cent above the 13.2 lakh rupees of last November. Renewals lead at 6.94 lakh rupees, 51 per cent. Then new clients 3.67 lakh rupees, comeback 2.45 lakh rupees, other 54,400 rupees. 392 leads, 204 trials, 44 buyers, and 22 per cent of trials convert.",
-    "b": "3 offers carry 8.6 lakh rupees, 63 per cent of the 13.6 lakh rupees target. The other 5 lakh rupees is expected at full price. Revenue boost: Thank U, Next (Year). Thank u, next year. This week is just for you. 5 buyers at 17,203 rupees — 86,015 rupees. New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 12 buyers at 1,999 rupees — 23,988 rupees. 20 per cent off. Renewals: Black Friday, Strong Monday, Sore Tuesday. Black Friday, Strong Monday, sore Tuesday. 10 buyers at 75,000 rupees — 7.5 lakh rupees. 21 per cent off. First, Set up Black Friday, Strong Monday, Sore Tuesday in Momence. Then, Weekly check: Black Friday, Strong Monday. That is November at Bandra: 13.6 lakh rupees across 3 offers, and 44 buyers to find."
+    "a": "November 2027 at Bandra. The theme is Shaadi Season (and a Very Black Friday). The target is 13.6 lakh rupees — 3 per cent above the 13.2 lakh rupees of last November. Renewals lead at 6.94 lakh rupees, 51 per cent. Then new clients 3.67 lakh rupees, comeback 2.45 lakh rupees, other 54,400 rupees. 392 leads, 204 trials, 44 buyers, and 22 per cent of trials convert.",
+    "b": "4 offers carry 8.82 lakh rupees, 65 per cent of the 13.6 lakh rupees target. The other 4.78 lakh rupees is expected at full price. Revenue boost: 11.11: Treat Yourself, Not Your Ex. 11.11: for eleven hours, treat yourself, not your ex. 6 buyers at 10,500 rupees — 63,000 rupees. 20 per cent off. New clients: Bride Squad, Assemble (Groom Can Come Too). Bride squad, assemble: get 4 or more of you together. 12 buyers at 17,325 rupees — 2.08 lakh rupees. 18.7 per cent off. Win-backs: Shaadi Mein Zaroor Aana (Come Back Before the Baraat). Shaadi mein zaroor aana… and to class before that. 5 buyers at 17,203 rupees — 86,015 rupees. 18.5 per cent off. Renewals: Black Friday Blind Box (No Duds). Black Friday Blind Box: renew for 3, 6 or 12 months and pick a sealed. 7 buyers at 75,000 rupees — 5.25 lakh rupees. 19.6 per cent off. First, Set up Bride Squad, Assemble Groom Can Come Too in Momence. Then, Weekly check: Bride Squad, Assemble Groom Can Come Too: Squads formed. That is November at Bandra: 13.6 lakh rupees across 4 offers, and 44 buyers to find."
   },
   "script": {
     "title": "November 2027 · Bandra",
@@ -34,17 +35,17 @@
         "kind": "open",
         "kicker": "Bandra · 2027",
         "title": "November",
-        "narration": "November 2027 at Bandra. The theme is Black Friday + Thank U, Next.",
-        "duration": 5732,
+        "narration": "November 2027 at Bandra. The theme is Shaadi Season (and a Very Black Friday).",
+        "duration": 6119,
         "data": {
           "month": 11,
           "monthName": "November",
           "year": 2027,
           "studio": "Bandra",
-          "theme": "Black Friday + Thank U, Next",
-          "description": "Black Friday + member appreciation",
+          "theme": "Shaadi Season (and a Very Black Friday)",
+          "description": "Wedding season + 11.11 + Black Friday",
           "target": 1360000,
-          "offers": 3
+          "offers": 4
         }
       },
       {
@@ -97,8 +98,8 @@
             }
           ],
           "total": 1360000,
-          "standard": 499997,
-          "standardShare": 36.8
+          "standard": 478085,
+          "standardShare": 35.2
         }
       },
       {
@@ -122,102 +123,131 @@
         "id": "coverage",
         "kind": "coverage",
         "kicker": "What the offers carry",
-        "title": "63%",
-        "narration": "3 offers carry 8.6 lakh rupees, 63 per cent of the 13.6 lakh rupees target. The other 5 lakh rupees is expected at full price.",
+        "title": "65%",
+        "narration": "4 offers carry 8.82 lakh rupees, 65 per cent of the 13.6 lakh rupees target. The other 4.78 lakh rupees is expected at full price.",
         "duration": 10377,
         "data": {
           "target": 1360000,
-          "offerRevenue": 860003,
-          "share": 0.6323551470588236,
-          "standard": 499997,
-          "offers": 3
+          "offerRevenue": 881915,
+          "share": 0.6484669117647058,
+          "standard": 478085,
+          "offers": 4
+        }
+      },
+      {
+        "id": "offer-O27-49-BA",
+        "kind": "offer",
+        "kicker": "Offer 1 of 4 · Revenue boost",
+        "title": "11.11: Treat Yourself, Not Your Ex",
+        "narration": "Revenue boost: 11.11: Treat Yourself, Not Your Ex. 11.11: for eleven hours, treat yourself, not your ex. 6 buyers at 10,500 rupees — 63,000 rupees. 20 per cent off.",
+        "duration": 11926,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "11.11: Treat Yourself, Not Your Ex",
+          "slot": "spot",
+          "slotLabel": "Revenue boost",
+          "headline": "11.11. Eleven hours. Treat yourself, not your ex.",
+          "benefit": "11.11: for eleven hours, treat yourself, not your ex. 8-class packs at 20% off from 11:11 am to 10:11 pm. One per person. Your ex isn’t invited.",
+          "rationale": "Singles’ Day is now a shopping date in India. A one-day pack price brings in fence-sitters and members topping up, at a discount that never reaches memberships.",
+          "audience": "Everyone: newcomers, pack buyers and members.",
+          "conditions": "Spot offer, 20% cash. One per person. 11:11 am–10:11 pm on 11 Nov only.",
+          "kpi": "Packs sold in 11 hours; pack buyers → membership by January.",
+          "offerType": "11-hour flash (Singles’ Day)",
+          "ticket": 10500,
+          "buyers": 6,
+          "revenue": 63000,
+          "discount": 20,
+          "validity": "11 Nov – 11 Nov",
+          "share": 0.07143545579789436
+        }
+      },
+      {
+        "id": "offer-O27-45-BA",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · New clients",
+        "title": "Bride Squad, Assemble (Groom Can Come Too)",
+        "narration": "New clients: Bride Squad, Assemble (Groom Can Come Too). Bride squad, assemble: get 4 or more of you together. 12 buyers at 17,325 rupees — 2.08 lakh rupees. 18.7 per cent off.",
+        "duration": 12000,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Bride Squad, Assemble (Groom Can Come Too)",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Four of you, one wedding, zero excuses. Squad rates inside.",
+          "benefit": "Bride squad, assemble: get 4 or more of you together and your 12-class packs are 12% off each, plus a private Squad Class that ends on a Sangeet routine. Groom can come too. We don’t judge.",
+          "rationale": "November–December is shaadi season: brides, bridesmaids and families are motivated and arrive in groups. A group rate recruits several newcomers in one conversation, and the hosted class is time we already have, not cash.",
+          "audience": "Wedding parties and friend groups (min 4, at least 2 new).",
+          "conditions": "4+ buyers on the same day, at least 2 new to P57. 12% cash + hosted class at list ≈ 18.7% (Kenkere 19.8%). No stacking.",
+          "kpi": "Squads formed; new buyers from squads (target 50% of squad members).",
+          "offerType": "Group buy (wedding party)",
+          "ticket": 17325,
+          "buyers": 12,
+          "revenue": 207900,
+          "discount": 18.7,
+          "validity": "1 Nov – 30 Nov",
+          "share": 0.23573700413305138
         }
       },
       {
         "id": "offer-O27-44-BA",
         "kind": "offer",
-        "kicker": "Offer 1 of 3 · Revenue boost",
-        "title": "Thank U, Next (Year)",
-        "narration": "Revenue boost: Thank U, Next (Year). Thank u, next year. This week is just for you. 5 buyers at 17,203 rupees — 86,015 rupees.",
-        "duration": 9990,
+        "kicker": "Offer 3 of 4 · Win-backs",
+        "title": "Shaadi Mein Zaroor Aana (Come Back Before the Baraat)",
+        "narration": "Win-backs: Shaadi Mein Zaroor Aana (Come Back Before the Baraat). Shaadi mein zaroor aana… and to class before that. 5 buyers at 17,203 rupees — 86,015 rupees. 18.5 per cent off.",
+        "duration": 12000,
         "data": {
-          "index": 0,
-          "count": 3,
+          "index": 2,
+          "count": 4,
           "narrated": true,
-          "name": "Thank U, Next (Year)",
-          "slot": "goodwill",
-          "slotLabel": "Revenue boost",
-          "headline": "Thank u, next (year).",
-          "benefit": "Thank u, next (year). This week is just for you: a guest pass to share, a members-only night, and a gift if you've hit 100 classes this year. No catch. Just gratitude (and glutes).",
-          "rationale": "Each guest pass is a referral-quality lead (referrals convert 22–76%). Goodwill before December renewals lifts renewal yield.",
-          "audience": "Current members; no purchase needed.",
-          "conditions": "No discount. Guest pass for someone new.",
-          "kpi": "Guest passes used; guest → member (target 20%); December renewal yield.",
-          "offerType": "Member appreciation",
+          "name": "Shaadi Mein Zaroor Aana (Come Back Before the Baraat)",
+          "slot": "lapsed",
+          "slotLabel": "Win-backs",
+          "headline": "Shaadi mein zaroor aana. And to class before that.",
+          "benefit": "Shaadi mein zaroor aana… and to class before that. Come back for 15% off, matching grip socks and our Sangeet Choreo Barre on 20 Nov: you’ll leave with a routine for the dance floor.",
+          "rationale": "An event with a date beats a generic reminder, and the wedding season is the date. The socks and the class cost little and give a returner a reason to post.",
+          "audience": "Lapsed 61–365 days.",
+          "conditions": "Lapsed 61–365 days. Standard lapsed 15% + socks at list ≈ 18.5% (Kenkere 19.8%).",
+          "kpi": "Reactivations; Sangeet Choreo attendance → purchase.",
+          "offerType": "Wedding-season winback",
           "ticket": 17203,
           "buyers": 5,
           "revenue": 86015,
-          "discount": 0,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.10001709296362919
-        }
-      },
-      {
-        "id": "offer-O27-49-SHQ-m11",
-        "kind": "offer",
-        "kicker": "Offer 2 of 3 · New clients",
-        "title": "Secret Santa Squats",
-        "narration": "New clients: Secret Santa Squats. Secret Santa budget 2,000 rupees and no idea? Gift 2 classes and grip. 12 buyers at 1,999 rupees — 23,988 rupees. 20 per cent off.",
-        "duration": 12000,
-        "data": {
-          "index": 1,
-          "count": 3,
-          "narrated": true,
-          "name": "Secret Santa Squats",
-          "slot": "newcomer",
-          "slotLabel": "New clients",
-          "headline": "Secret Santa budget ₹2,000? Gift squats.",
-          "benefit": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
-          "rationale": "Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.",
-          "audience": "First-time clients (phone verified).",
-          "conditions": "Recipient must be new.",
-          "kpi": "Vouchers sold; redemption; voucher → member.",
-          "offerType": "Gift voucher",
-          "ticket": 1999,
-          "buyers": 12,
-          "revenue": 23988,
-          "discount": 20,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.02789292595490946
+          "discount": 18.5,
+          "validity": "1 Nov – 24 Nov",
+          "share": 0.09753207508660132
         }
       },
       {
         "id": "offer-O27-43-BA",
         "kind": "offer",
-        "kicker": "Offer 3 of 3 · Renewals",
-        "title": "Black Friday, Strong Monday, Sore Tuesday",
-        "narration": "Renewals: Black Friday, Strong Monday, Sore Tuesday. Black Friday, Strong Monday, sore Tuesday. 10 buyers at 75,000 rupees — 7.5 lakh rupees. 21 per cent off.",
-        "duration": 10765,
+        "kicker": "Offer 4 of 4 · Renewals",
+        "title": "Black Friday Blind Box (No Duds)",
+        "narration": "Renewals: Black Friday Blind Box (No Duds). Black Friday Blind Box: renew for 3, 6 or 12 months and pick a sealed. 7 buyers at 75,000 rupees — 5.25 lakh rupees. 19.6 per cent off.",
+        "duration": 12000,
         "data": {
-          "index": 2,
-          "count": 3,
+          "index": 3,
+          "count": 4,
           "narrated": true,
-          "name": "Black Friday, Strong Monday, Sore Tuesday",
+          "name": "Black Friday Blind Box (No Duds)",
           "slot": "renewal",
           "slotLabel": "Renewals",
-          "headline": "Black Friday, Strong Monday, sore Tuesday.",
-          "benefit": "Black Friday, Strong Monday, sore Tuesday. Four days of the year's best long-plan prices — and the last Club Nine seats. No one-month discounts; we're not that kind of studio.",
-          "rationale": "November is the trough (Kwality ₹18.5L, Bandra ₹13.2L in Nov-25). Long-plan pricing brings cash forward without discounting 1 Month.",
-          "audience": "Annual 25% and bulk packs (allowed); 6M ≤20%",
-          "conditions": "Annual 25% and bulk packs (allowed); 6M ≤20%.",
-          "kpi": "Long-plan units; Club Nine seats closed out.",
-          "offerType": "4-day long-plan sale",
+          "headline": "Black Friday, but every box is a winner. We checked.",
+          "benefit": "Black Friday Blind Box: renew for 3, 6 or 12 months and pick a sealed box. Every box wins (extra days, guest passes, a private), and there are no duds. 26–29 Nov only.",
+          "rationale": "Black Friday discounts train members to wait. A mystery bonus keeps the cash discount at the standard ladder (10/15/20%) and makes opening the box the content.",
+          "audience": "Members renewing or upgrading; annual renewers due Nov–Jan.",
+          "conditions": "3M ≤19.1%, 6M ≤19.6% effective with the largest box; annual ≤24% with the Black Box. One box per plan. No discount on 1 Month.",
+          "kpi": "3M+ share of November renewal value; boxes opened on camera.",
+          "offerType": "Long-plan sale + mystery bonus",
           "ticket": 75000,
-          "buyers": 10,
-          "revenue": 750000,
-          "discount": 21,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.8720899810814613
+          "buyers": 7,
+          "revenue": 525000,
+          "discount": 19.6,
+          "validity": "26 Nov – 29 Nov",
+          "share": 0.595295464982453
         }
       },
       {
@@ -225,17 +255,17 @@
         "kind": "plan",
         "kicker": "How the month runs",
         "title": "4 moves",
-        "narration": "First, Set up Black Friday, Strong Monday, Sore Tuesday in Momence. Then, Weekly check: Black Friday, Strong Monday.",
-        "duration": 7668,
+        "narration": "First, Set up Bride Squad, Assemble Groom Can Come Too in Momence. Then, Weekly check: Bride Squad, Assemble Groom Can Come Too: Squads formed.",
+        "duration": 9990,
         "data": {
           "steps": [
             {
               "label": "W1",
-              "text": "Set up Black Friday, Strong Monday, Sore Tuesday in Momence (2027-11-26 to 2027-11-29): Fri 26–Mon 29 Nov: 6 Months at 20% (₹90,972 / ₹65,772), Annual at 25% (₹1,64,588 / ₹1,17,180, including leftover Club Nine numbered seats), 20- and 30-class packs at 20% (bulk). No discount on 1 Month. Pop-ups: 10-class pack at 15%."
+              "text": "Set up Bride Squad, Assemble (Groom Can Come Too) in Momence (2027-11-01 to 2027-11-30): Wedding season: a group of 4+ (at least 2 new to P57) buy 12-class packs together at 12% off each (Mumbai ₹17,325, Kenkere ₹11,550; packs valid 60 days) and get one hosted private Squad Class for the group, that ends on a choreographed Sangeet routine. Pop-ups: 8-class packs at 5% (₹6,584) + a hosted Pilates squad class. Grooms, cousins and the friend who “doesn’t do group fitness” all count."
             },
             {
               "label": "W2",
-              "text": "Weekly check: Black Friday, Strong Monday, Sore Tuesday: Long-plan units; Club Nine seats closed out. | Thank U, Next (Year): Guest passes used; guest → member (target 20%); December renewal yield."
+              "text": "Weekly check: Bride Squad, Assemble (Groom Can Come Too): Squads formed; new buyers from squads (target 50% of squad members). | Shaadi Mein Zaroor Aana (Come Back Before the Baraat): Reactivations; Sangeet Choreo attendance → purchase. | 11.11: Treat Yourself, Not Your Ex: Packs sold in 11 hours; pack buyers → membership by January. | Black Friday Blind Box (No Duds): 3M+ share of November renewal value; boxes opened on camera."
             },
             {
               "label": "W3",
@@ -253,18 +283,18 @@
         "kind": "close",
         "kicker": "November 2027",
         "title": "That is the plan",
-        "narration": "That is November at Bandra: 13.6 lakh rupees across 3 offers, and 44 buyers to find.",
+        "narration": "That is November at Bandra: 13.6 lakh rupees across 4 offers, and 44 buyers to find.",
         "duration": 6894,
         "data": {
           "target": 1360000,
-          "offerRevenue": 860003,
-          "offers": 3,
+          "offerRevenue": 881915,
+          "offers": 4,
           "buyers": 44,
           "monthName": "November",
           "studio": "Bandra"
         }
       }
     ],
-    "duration": 86042
+    "duration": 103922
   }
 }

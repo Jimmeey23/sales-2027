@@ -4,21 +4,21 @@ import type { Studio } from '../types';
 export const LOCATION_NAMES = ['Kemps Corner', 'Bandra', 'Kenkere House', 'Pop-up'] as const;
 export const POPUP_VENUES = ['Copper + Cloves', 'Plash Pilates'];
 // Each location's accent; the whole workspace takes on the selected location's colour.
-// Four hues far enough apart to be told apart at 6px (a dot in a list, a bar in a
-// chart): a bright red for Kemps, indigo for Bandra, raspberry for Kenkere, ochre for
-// the Pop-up. Every one is dark enough to carry white text at AA.
+// Jewel tones, to sit with the ivory, ink and gold of the Atelier design language (docs/DESIGN.md)
+// while staying far enough apart to be told apart at 6px (a dot in a list, a bar in a chart).
+// Every one carries white text at WCAG AA (≥4.5:1).
 export const LOCATION_COLORS: Record<string, string> = {
-  'Kemps Corner': '#e0261a', // Kemps: a bright red — the flagship should be the loudest thing in the room
-  Bandra: '#2f5ce0', // Bandra: a bright cobalt — the loudest room in the portfolio
-  'Kenkere House': '#c9226b', // Kenkere: a bright raspberry — Bengaluru, warmer and newer
-  'Pop-up': '#c2760a', // Pop-up: a bright amber — small, seasonal, all about the moment
+  'Kemps Corner': '#17795e', // emerald — the flagship
+  Bandra: '#2c5da8', // sapphire
+  'Kenkere House': '#a3305f', // garnet — Bengaluru, warmer and newer
+  'Pop-up': '#9c6316', // bronze — small, seasonal
 };
 // A lighter partner for each accent, for fills behind dark text and for map pins.
 export const LOCATION_SOFT: Record<string, string> = {
-  'Kemps Corner': '#fde5e2',
-  Bandra: '#e4ebfd',
-  'Kenkere House': '#fbe3ee',
-  'Pop-up': '#fdefd8',
+  'Kemps Corner': '#e1f1ea',
+  Bandra: '#e3ebf7',
+  'Kenkere House': '#f7e4ec',
+  'Pop-up': '#f5ead9',
 };
 export const ALL_LOCATIONS_COLOR = '#3c3830';
 export const softFor = (name?: string | null) => (name && LOCATION_SOFT[name]) || '#f1ede4';

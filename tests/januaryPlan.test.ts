@@ -4,9 +4,8 @@ import { isChallengeOffer } from '../server/lib/planSync2027.js';
 import { isLegacyTheme } from '../src/data/monthNarrative.js';
 import { PLAYBOOK_2027 } from '../src/data/playbook2027.js';
 
-/* Stronger in 30 is a February moment. January sells its own three offers, and nothing in
-   its plan may lean on the challenge — not the theme, not the moment, not a line of offer
-   copy, and not the journey an offer is filed under. */
+/* January sells its own offers, and nothing in its plan may lean on a challenge — not the
+   theme, not the moment, not a line of offer copy, and not the journey an offer is filed under. */
 
 type Entry = {
   studio: string;
@@ -59,26 +58,40 @@ describe('January', () => {
 
   it('keeps its own three offers', () => {
     for (const entry of january) {
-      expect(entry.offers.map(offer => offer.slot).sort()).toEqual(['lapsed', 'newcomer', 'renewal']);
-      expect(entry.theme).toBe('Start Line');
+      expect(new Set(entry.offers.map(offer => offer.slot))).toEqual(new Set(['lapsed', 'newcomer', 'renewal']));
+      expect(entry.theme).toBe('Resolutions with Receipts');
     }
   });
 });
 
-describe('February', () => {
-  it('still runs the challenge, with the offers that carry it', () => {
-    const february = plan.filter(entry => entry.month === 2);
-    expect(february.every(entry => entry.theme === 'Stronger in 30 2.0')).toBe(true);
-    for (const studio of ['Kemps Corner', 'Bandra', 'Kenkere House']) {
-      const names = february.find(entry => entry.studio === studio)!.offers.map(offer => offer.name);
-      expect(names).toEqual(expect.arrayContaining(['Week Zero', 'Back for Stronger', 'Finish Line Renewal']));
-    }
+/* February and August used to run challenges (Stronger in 30, The Amazing Race). Both were
+   retired: no offer, theme or line of copy in either month may lean on a challenge. */
+describe.each([
+  [2, 'February', 'Red Flags, Green Flags'],
+  [8, 'August', 'Azaadi From Average'],
+])('month %i (%s)', (month, _name, theme) => {
+  const entries = plan.filter(entry => entry.month === month);
+  const RETIRED = /challenge|stronger in 30|amazing race|leaderboard|finisher|race\b/i;
+
+  it('has its own theme at every studio', () => {
+    expect(entries).toHaveLength(4);
+    expect(entries.every(entry => entry.theme === theme)).toBe(true);
   });
 
-  it('keeps the Valentine’s and duo offers alongside it', () => {
-    const kemps = plan.find(entry => entry.studio === 'Kemps Corner' && entry.month === 2)!;
-    const names = kemps.offers.map(offer => offer.name);
-    expect(names).toEqual(expect.arrayContaining(['The Second Date for Two', 'Partners in Crime']));
+  it('never mentions a challenge, in any field of any offer', () => {
+    const leaks: string[] = [];
+    for (const entry of entries)
+      for (const [where, text] of strings(entry))
+        if (RETIRED.test(text)) leaks.push(`${entry.studio} · ${where}: ${text}`);
+    expect(leaks).toEqual([]);
+  });
+
+  it('still covers new clients and renewals at every studio', () => {
+    for (const entry of entries) {
+      const slots = entry.offers.map(o => o.slot);
+      expect(slots).toContain('newcomer');
+      expect(slots).toContain('renewal');
+    }
   });
 });
 
@@ -87,7 +100,7 @@ describe('the 2027 sales playbook', () => {
     const leaks: string[] = [];
     for (const location of Object.values(PLAYBOOK_2027.studios)) {
       const january = location.months.find(row => row.month === 'Jan')!;
-      expect(january.theme).toBe('Start Line');
+      expect(january.theme).toBe('Resolutions with Receipts');
       for (const text of [january.focus, january.why, ...january.actions, ...january.offers])
         if (CHALLENGE.test(text)) leaks.push(`${location.name}: ${text.slice(0, 80)}`);
       for (const offer of location.offers)
@@ -112,13 +125,15 @@ describe('offer months', () => {
 
 describe('a stored theme', () => {
   it('is judged against its own month, so February’s theme cannot sit in January', () => {
-    expect(isLegacyTheme('Stronger in 30 2.0', 1)).toBe(true);
-    expect(isLegacyTheme('Start Line', 1)).toBe(false);
-    expect(isLegacyTheme('Stronger in 30 2.0', 2)).toBe(false);
+    expect(isLegacyTheme('Red Flags, Green Flags', 1)).toBe(true);
+    expect(isLegacyTheme('Resolutions with Receipts', 1)).toBe(false);
+    expect(isLegacyTheme('Red Flags, Green Flags', 2)).toBe(false);
+    expect(isLegacyTheme('Stronger in 30 2.0', 2)).toBe(true);
   });
 
   it('still accepts any final-plan theme when the month is unknown', () => {
-    expect(isLegacyTheme('Stronger in 30 2.0')).toBe(false);
-    expect(isLegacyTheme('Start Line')).toBe(false);
+    expect(isLegacyTheme('Azaadi From Average')).toBe(false);
+    expect(isLegacyTheme('Resolutions with Receipts')).toBe(false);
+    expect(isLegacyTheme('The Amazing Race 2.0')).toBe(true);
   });
 });

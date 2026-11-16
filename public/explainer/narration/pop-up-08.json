@@ -4,21 +4,21 @@
  "month": 8,
  "monthName": "August",
  "year": 2027,
- "theme": "The Amazing Race 2.0",
+ "theme": "Azaadi From Average",
  "target": 205003,
  "lastYear": 142852,
  "yoy": 0.4350726626158541,
  "offers": 3,
  "buyers": 54,
  "targetTrend": "up",
- "words": 387,
- "estSeconds": 160,
+ "words": 393,
+ "estSeconds": 163,
  "segments": [
   {
    "id": "open",
    "kicker": "Pop-up · 2027",
    "title": "August",
-   "text": "Hello Pop-up! August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard."
+   "text": "Hello Pop-up! August is Azaadi From Average. Friendship Day, Independence Day and Raksha Bandhan, and a month about freedom: from commitment issues, from price hikes, and from quitting when life gets busy."
   },
   {
    "id": "target",
@@ -41,48 +41,48 @@
   {
    "id": "coverage",
    "kicker": "What the offers carry",
-   "title": "37%",
-   "text": "Here's where the offers come in. Three offers carry 76,700 rupees, which is 37 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them."
+   "title": "38%",
+   "text": "Here's where the offers come in. Three offers carry 78,700 rupees, which is 38 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them."
   },
   {
    "id": "offer-O27-33-POP",
    "kicker": "Offer 1 of 3 · Revenue boost",
-   "title": "Friends With Benefits (Strictly Fitness)",
-   "text": "First up, Friends With Benefits. Strictly fitness. Bring a friend who's never been, and they get two classes on us. If they join, you both get race tees, and you get bonus days and double points. The plan is 2 buyers at about 5,900, so 11,800 rupees.",
-   "notes": "Current members bringing a guest."
+   "title": "Squad Goals, Squat Goals",
+   "text": "First up, for Friendship Day, Squad Goals, Squat Goals. Members book a free Squad Class for up to four friends. Friends who join get fifteen per cent off and friendship-band grip socks. Siblings count, it's Rakhi month. The plan is 2 buyers at about 5,900, so 11,800 rupees.",
+   "notes": "Current members bringing 2–4 never-been friends."
   },
   {
    "id": "offer-O27-31-POP",
    "kicker": "Offer 2 of 3 · New clients",
-   "title": "Rookie Mistake (The Only Good One)",
-   "text": "Next, for newcomers, Rookie Mistake, the only good one. Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. The only rookie mistake is not starting. The plan is 4 buyers at about 5,400, so 21,600 rupees.",
+   "title": "No Strings Attached",
+   "text": "Next, No Strings Attached. Two classes for nine ninety-nine, credited against a first month, and a break-up clause: if it's not for them after two weeks, what's left turns into a class pack. The plan is 4 buyers at about 5,900, so 23,600 rupees.",
    "notes": "First-time clients (phone verified)."
   },
   {
    "id": "offer-O27-34-POP",
    "kicker": "Offer 3 of 3 · Renewals",
-   "title": "Medal Detector",
-   "text": "And finally, for race finishers, the Medal Detector. Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, or three months at fifteen per cent off plus bonus days. The plan is 6 buyers at about 7,200, so 43,400 rupees.",
-   "notes": "6M ≈24% effective with private, inside the cap for 6M+ plans"
+   "title": "Freedom to Pause (Not Quit)",
+   "text": "And finally, for renewals, Freedom to Pause, not quit. Renew for three months and get two Freedom Freezes for Ganpati and Diwali travel, or six months with a private and three freezes. The plan is 6 buyers at about 7,200, so 43,400 rupees.",
+   "notes": "Members renewing in August."
   },
   {
    "id": "plan",
    "kicker": "How the month runs",
    "title": "4 weeks",
-   "text": "How does the month run? Week one, Friendship Day, and every friend gets two classes on us. Week two, check sell-through every Monday and follow up every trial within a day. Week three, the rookie leaderboard heats up, so celebrate newcomers by name. Week four, race finishers get their Medal Detector renewal.",
+   "text": "How does the month run? Week one, Friendship Day, and members book free Squad Classes for their friends. Week two, check sell-through every Monday and follow up every trial within a day. Week three, Independence Day and Sibling Barre, and every trial hears about the break-up clause. Week four, every renewal leaves with Freedom Freezes for the festive season.",
    "beats": [
-    "Friendship Day, and every friend gets two classes on us.",
+    "Friendship Day, and members book free Squad Classes for their friends.",
     "check sell-through every Monday and follow up every trial within a day.",
-    "the rookie leaderboard heats up, so celebrate newcomers by name.",
-    "race finishers get their Medal Detector renewal."
+    "Independence Day and Sibling Barre, and every trial hears about the break-up clause.",
+    "every renewal leaves with Freedom Freezes for the festive season."
    ]
   },
   {
    "id": "close",
    "kicker": "August 2027",
    "title": "That's the plan",
-   "text": "That's August at Pop-up. 2.05 lakh rupees, three offers, and 54 buyers to welcome. On your marks. Get set. Sell.",
-   "signoff": "On your marks. Get set. Sell."
+   "text": "That's August at Pop-up. 2.05 lakh rupees, three offers, and 54 buyers to welcome. Freedom looks good on you. So does a longer plan.",
+   "signoff": "Freedom looks good on you. So does a longer plan."
   }
  ]
 }

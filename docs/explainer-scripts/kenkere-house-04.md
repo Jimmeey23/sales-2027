@@ -1,14 +1,14 @@
 # April 2027 · Kenkere House
 
 **Theme:** Cloud Nine — 9 Years of Physique 57  
-**Read time:** about 2:56 (425 words at a relaxed pace)  
+**Read time:** about 3:08 (455 words at a relaxed pace)  
 **Save the recording as:** `public/explainer/audio/kenkere-house-04.mp3`
 
 > Read warmly, smile on the jokes, and pause for a full beat at every `· · ·`. Those pauses are how the video knows when to change scenes.
 
 ### 1. Kenkere House · 2027 — April
 
-Hello Kenkere House! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. The confetti budget has been approved. So has the target.
+Hello Kenkere House! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: a party in four acts, eight offers, and more confetti than is strictly sensible.
 
 · · ·
 
@@ -30,54 +30,60 @@ Behind the number are people: 1128 leads, 406 trials, and 76 buyers, with about 
 
 · · ·
 
-### 5. What the offers carry — 63%
+### 5. What the offers carry — 62%
 
-Here's where the offers come in. Six offers carry 9.59 lakh rupees, which is 63 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
-
-· · ·
-
-### 6. Offer 1 of 6 · Revenue boost — Cloud Nine Limited Edition
-
-First up, the headliner, Cloud Nine Limited Edition. Nine months, nine freezes, plus one month on us. That's 2 buyers, for 2.4 lakh rupees.
+Here's where the offers come in. Seven offers carry 9.36 lakh rupees, which is 62 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
 
 · · ·
 
-### 7. Offer 2 of 6 · Revenue boost — Plus One, Plus Nine
+### 6. Offer 1 of 7 · Revenue boost — Moving In Together (The 9-Month Lease)
 
-Next, Plus One, Plus Nine. Bring a friend who joins and get nine bonus days. That's 5 buyers, for 62,000 rupees.
-
-· · ·
-
-### 8. Offer 3 of 6 · New clients — Party Crasher Pass
-
-Then, for newcomers, the Party Crasher Pass. Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. That's 9 buyers, for 1.05 lakh rupees.
+First up, Moving In Together, the nine-month lease. Nine months unlimited, nine freezes, the anniversary hoodie and a numbered brass key. That's 2 buyers, for 2.06 lakh rupees.
 
 · · ·
 
-### 9. Offer 4 of 6 · Win-backs — Where Are They Now?
+### 7. Offer 2 of 7 · Revenue boost — The 9:09 Panic Attack
 
-Also this month, for old friends, Where Are They Now? Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. That's 10 buyers, for 1.24 lakh rupees.
-
-· · ·
-
-### 10. Offer 5 of 6 · Renewals — Spin Class (Literally)
-
-After that, Spin Class, literally. Renew in April for ten per cent off, then spin the Wheel of Nine. That's 23 buyers, for 3.02 lakh rupees.
+Next, the nine-oh-nine panic attack. The limited nine-class pack. That's 8 buyers, for 61,600 rupees.
 
 · · ·
 
-### 11. Offer 6 of 6 · Renewals — Club Nine: The Founders' Table
+### 8. Offer 3 of 7 · Revenue boost — Plus One, Plus Nine
 
-And finally, Club Nine, The Founders' Table. Nine numbered annual seats per studio, with double the perks, a numbered jacket, and a name on the wall. That's 1 buyer, for 1.25 lakh rupees.
-
-· · ·
-
-### 12. How the month runs — 4 weeks
-
-How does the month run? Week one, the numbered memberships go live, with a public counter. Week two, the party class brings new faces in, and every guest gets a follow-up. Week three, the wheel spins and the Club Nine seats close. Week four, the Throwback Reunion brings old friends home.
+Then, Plus One, Plus Nine. Bring a friend who joins and get nine extra days. That's 4 buyers, for 49,600 rupees.
 
 · · ·
 
-### 13. April 2027 — That's the plan
+### 9. Offer 4 of 7 · New clients — Party Crasher Pass
 
-That's April at Kenkere House. 15.1 lakh rupees, six offers, and 76 buyers to welcome. Nine years in, and honestly? We've never looked better.
+Also this month, for newcomers, the Party Crasher Pass. Three classes for nine ninety-nine, party class included, credited against a first month. That's 9 buyers, for 1.05 lakh rupees.
+
+· · ·
+
+### 10. Offer 5 of 7 · Win-backs — Faking Your Own Death Didn’t Work
+
+After that, for lapsed members, Faking Your Own Death Didn't Work. They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. That's 8 buyers, for 99,200 rupees.
+
+· · ·
+
+### 11. Offer 6 of 7 · Renewals — Spin Class (Literally)
+
+Next, for renewals, Spin Class. Literally. Renew in April and spin the Wheel of Nine. That's 22 buyers, for 2.89 lakh rupees.
+
+· · ·
+
+### 12. Offer 7 of 7 · Renewals — Club Nine: The Founders’ Table
+
+And finally, Club Nine, the Founders' Table. Nine numbered annual seats per studio, with the perks doubled: four privates, eight guest passes, priority booking all year and a numbered jacket. That's 1 buyer, for 1.25 lakh rupees.
+
+· · ·
+
+### 13. How the month runs — 4 weeks
+
+How does the month run? Week one, Platinum Hour, the launch film, and the numbered keys go live with a public counter. Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack. Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth. Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth.
+
+· · ·
+
+### 14. April 2027 — That's the plan
+
+That's April at Kenkere House. 15.1 lakh rupees, seven offers, and 76 buyers to welcome. Nine years in, and honestly? We've never looked better.

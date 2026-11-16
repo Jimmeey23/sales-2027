@@ -4,21 +4,21 @@
  "month": 11,
  "monthName": "November",
  "year": 2027,
- "theme": "Black Friday + Thank U, Next",
+ "theme": "Shaadi Season (and a Very Black Friday)",
  "target": 1360000,
  "lastYear": 1319884,
  "yoy": 0.030393580041882418,
- "offers": 3,
+ "offers": 4,
  "buyers": 44,
  "targetTrend": "up",
- "words": 375,
- "estSeconds": 155,
+ "words": 431,
+ "estSeconds": 178,
  "segments": [
   {
    "id": "open",
    "kicker": "Bandra · 2027",
    "title": "November",
-   "text": "Hello Bandra! November is Black Friday, plus Thank U, Next. This month starts with gratitude and ends with the best long-plan prices of the year. First we say thank you. Then we say, sincerely, have you seen this annual?"
+   "text": "Hello Bandra! November is Shaadi Season, and a very Black Friday. Half our members have a wedding to dance at, and the other half have a sale to wait for. We have something for both."
   },
   {
    "id": "target",
@@ -41,48 +41,55 @@
   {
    "id": "coverage",
    "kicker": "What the offers carry",
-   "title": "63%",
-   "text": "Here's where the offers come in. Three offers carry 8.6 lakh rupees, which is 63 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+   "title": "65%",
+   "text": "Here's where the offers come in. Four offers carry 8.82 lakh rupees, which is 65 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them."
+  },
+  {
+   "id": "offer-O27-49-BA",
+   "kicker": "Offer 1 of 4 · Revenue boost",
+   "title": "11.11: Treat Yourself, Not Your Ex",
+   "text": "First up, eleven eleven: treat yourself, not your ex. Eleven hours only, eight-class packs at twenty per cent off. One per person. The plan is 6 buyers at about 10,500, so 63,000 rupees.",
+   "notes": "Everyone: newcomers, pack buyers and members."
+  },
+  {
+   "id": "offer-O27-45-BA",
+   "kicker": "Offer 2 of 4 · New clients",
+   "title": "Bride Squad, Assemble (Groom Can Come Too)",
+   "text": "Next, Bride Squad, Assemble. The groom can come too. Four or more of you, at least two new, buy twelve-class packs together at twelve per cent off and get a private Squad Class that ends on a Sangeet routine. The plan is 12 buyers at about 17,300, so 2.08 lakh rupees.",
+   "notes": "Wedding parties and friend groups (min 4, at least 2 new)."
   },
   {
    "id": "offer-O27-44-BA",
-   "kicker": "Offer 1 of 3 · Revenue boost",
-   "title": "Thank U, Next (Year)",
-   "text": "First up, Thank U, Next Year. Appreciation week. A guest pass to share, a members-only night, and a gift for anyone who's hit a hundred classes. No catch. Just gratitude, and glutes. The plan is 5 buyers at about 17,200, so 86,000 rupees.",
-   "notes": "Current members; no purchase needed."
-  },
-  {
-   "id": "offer-O27-49-SHQ-m11",
-   "kicker": "Offer 2 of 3 · New clients",
-   "title": "Secret Santa Squats",
-   "text": "Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. If the recipient loves it, half comes off their first month. The plan is 12 buyers at about 2,000, so 24,000 rupees.",
-   "notes": "First-time clients (phone verified)."
+   "kicker": "Offer 3 of 4 · Win-backs",
+   "title": "Shaadi Mein Zaroor Aana (Come Back Before the Baraat)",
+   "text": "Then, for lapsed members, Shaadi Mein Zaroor Aana. Fifteen per cent off to come back, matching Bride Tribe socks, and a seat at the Sangeet Choreo Barre. The plan is 5 buyers at about 17,200, so 86,000 rupees.",
+   "notes": "Lapsed 61–365 days."
   },
   {
    "id": "offer-O27-43-BA",
-   "kicker": "Offer 3 of 3 · Renewals",
-   "title": "Black Friday, Strong Monday, Sore Tuesday",
-   "text": "And finally, the big one, Black Friday, Strong Monday, Sore Tuesday. Four days of the year's best long-plan prices, plus the last Club Nine seats. No one-month discounts. We're not that kind of studio. The plan is 10 buyers at about 75,000, so 7.5 lakh rupees.",
-   "notes": "Annual 25% and bulk packs (allowed); 6M ≤20%"
+   "kicker": "Offer 4 of 4 · Renewals",
+   "title": "Black Friday Blind Box (No Duds)",
+   "text": "And finally, the Black Friday Blind Box. No duds. Renew for three, six or twelve months and pick a sealed box: extra days, guest passes, a private. Every box wins, and one annual box per studio hides the hoodie. The plan is 7 buyers at about 75,000, so 5.25 lakh rupees.",
+   "notes": "Members renewing or upgrading; annual renewers due Nov–Jan."
   },
   {
    "id": "plan",
    "kicker": "How the month runs",
    "title": "4 weeks",
-   "text": "How does the month run? Week one, appreciation week, with guest passes and hundred-class gifts. Week two, Secret Santa vouchers reach every office and group chat. Week three, members get the Black Friday dates first. Week four, four days of Black Friday, long plans only.",
+   "text": "How does the month run? Week one, bride squads and wedding parties get their group rate. Week two, eleven eleven: eleven hours of pack prices, and no exes invited. Week three, the Sangeet Choreo Barre on the twentieth, and lapsed members come back before the baraat. Week four, the Black Friday Blind Box, four days, long plans only, and no duds.",
    "beats": [
-    "appreciation week, with guest passes and hundred-class gifts.",
-    "Secret Santa vouchers reach every office and group chat.",
-    "members get the Black Friday dates first.",
-    "four days of Black Friday, long plans only."
+    "bride squads and wedding parties get their group rate.",
+    "eleven eleven: eleven hours of pack prices, and no exes invited.",
+    "the Sangeet Choreo Barre on the twentieth, and lapsed members come back before the baraat.",
+    "the Black Friday Blind Box, four days, long plans only, and no duds."
    ]
   },
   {
    "id": "close",
    "kicker": "November 2027",
    "title": "That's the plan",
-   "text": "That's November at Bandra. 13.6 lakh rupees, three offers, and 44 buyers to welcome. Grateful, gorgeous, and fully booked. That's November.",
-   "signoff": "Grateful, gorgeous, and fully booked. That's November."
+   "text": "That's November at Bandra. 13.6 lakh rupees, four offers, and 44 buyers to welcome. Wedding-ready and fully booked. That's November.",
+   "signoff": "Wedding-ready and fully booked. That's November."
   }
  ]
 }

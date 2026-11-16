@@ -11,8 +11,8 @@
  "offers": 5,
  "buyers": 72,
  "targetTrend": "up",
- "words": 413,
- "estSeconds": 171,
+ "words": 415,
+ "estSeconds": 172,
  "segments": [
   {
    "id": "open",
@@ -69,7 +69,7 @@
    "id": "offer-O27-30-KC",
    "kicker": "Offer 4 of 5 · Win-backs",
    "title": "Gone With the Wind, Back With the Rain",
-   "text": "Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race. That's 22 buyers, for 3.78 lakh rupees.",
+   "text": "Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and first access to Freedom Weekend in August. That's 22 buyers, for 3.78 lakh rupees.",
    "notes": "Standard lapsed 15% only"
   },
   {
@@ -83,12 +83,12 @@
    "id": "plan",
    "kicker": "How the month runs",
    "title": "4 weeks",
-   "text": "How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members sign up for The Amazing Race.",
+   "text": "How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members get first access to August's Freedom Weekend.",
    "beats": [
     "corporate and kitty party bookings open.",
     "we call everyone who left in the summer heat.",
     "the Rain Check renewal does the heavy lifting.",
-    "returning members sign up for The Amazing Race."
+    "returning members get first access to August's Freedom Weekend."
    ]
   },
   {

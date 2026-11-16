@@ -6,9 +6,9 @@
   "monthName": "August",
   "year": 2027,
   "title": "August 2027 · Bandra",
-  "duration": 98041,
+  "duration": 92474,
   "scenes": 11,
-  "hash": "bda4faca",
+  "hash": "cc4fac55",
   "scenesKinds": [
     "open",
     "target",
@@ -23,8 +23,8 @@
     "close"
   ],
   "voiceBlocks": {
-    "a": "August 2027 at Bandra. The theme is The Amazing Race 2.0. The target is 25.5 lakh rupees — 12 per cent above the 22.8 lakh rupees of last August. Renewals lead at 13 lakh rupees, 51 per cent. Then new clients 6.88 lakh rupees, comeback 4.59 lakh rupees, other 1.02 lakh rupees. 731 leads, 380 trials, 82 buyers, and 22 per cent of trials convert.",
-    "b": "4 offers carry 18.7 lakh rupees, 73 per cent of the 25.5 lakh rupees target. The other 6.85 lakh rupees is expected at full price. Revenue boost: Friends With Benefits (Strictly Fitness). Friends with benefits. 7 buyers at 17,203 rupees — 1.2 lakh rupees. 15 per cent off. New clients: Rookie Mistake (The Only Good One). Two weeks unlimited for 3,999 rupees Bengaluru 2,999 rupees. 15 buyers at 16,204 rupees — 2.43 lakh rupees. 20 per cent off. Renewals: Medal Detector. Finished the race? Our medal detector just beeped. 24 buyers at 42,000 rupees — 10.1 lakh rupees. 20 per cent off. Renewals: At the Stroke of the Midnight Hour. At the stroke of the midnight hour, when the world. 3 buyers at 1.65 lakh rupees — 4.94 lakh rupees. 25 per cent off. First, Set up Rookie Mistake The Only Good One in Momence. Then, Weekly check: Rookie Mistake The Only Good One: Average visits. That is August at Bandra: 25.5 lakh rupees across 4 offers, and 82 buyers to find."
+    "a": "August 2027 at Bandra. The theme is Azaadi From Average. The target is 25.5 lakh rupees — 12 per cent above the 22.8 lakh rupees of last August. Renewals lead at 13 lakh rupees, 51 per cent. Then new clients 6.88 lakh rupees, comeback 4.59 lakh rupees, other 1.02 lakh rupees. 731 leads, 380 trials, 82 buyers, and 22 per cent of trials convert.",
+    "b": "4 offers carry 19 lakh rupees, 74 per cent of the 25.5 lakh rupees target. The other 6.52 lakh rupees is expected at full price. Revenue boost: Price Ki Azaadi (Freedom From Price Hikes). Freedom from price hikes. 3 buyers at 1.76 lakh rupees — 5.27 lakh rupees. 24.1 per cent off. Revenue boost: Squad Goals, Squat Goals. Squad goals, squat goals. 7 buyers at 17,203 rupees — 1.2 lakh rupees. 18.5 per cent off. New clients: No Strings Attached. Commitment issues? Same. 15 buyers at 16,204 rupees — 2.43 lakh rupees. 20 per cent off. Renewals: Freedom to Pause (Not Quit). Freedom to pause, not quit. 24 buyers at 42,000 rupees — 10.1 lakh rupees. 19.6 per cent off. First, Set up No Strings Attached in Momence. Then, Weekly check: No Strings Attached: Trial to member target 35%. That is August at Bandra: 25.5 lakh rupees across 4 offers, and 82 buyers to find."
   },
   "script": {
     "title": "August 2027 · Bandra",
@@ -35,15 +35,15 @@
         "kind": "open",
         "kicker": "Bandra · 2027",
         "title": "August",
-        "narration": "August 2027 at Bandra. The theme is The Amazing Race 2.0.",
-        "duration": 4958,
+        "narration": "August 2027 at Bandra. The theme is Azaadi From Average.",
+        "duration": 4571,
         "data": {
           "month": 8,
           "monthName": "August",
           "year": 2027,
           "studio": "Bandra",
-          "theme": "The Amazing Race 2.0",
-          "description": "The Amazing Race 2.0 + Friendship Day + Independence Day",
+          "theme": "Azaadi From Average",
+          "description": "Friendship Day + Freedom Weekend + Raksha Bandhan",
           "target": 2550000,
           "offers": 4
         }
@@ -98,8 +98,8 @@
             }
           ],
           "total": 2550000,
-          "standard": 684755,
-          "standardShare": 26.9
+          "standard": 651839,
+          "standardShare": 25.6
         }
       },
       {
@@ -123,131 +123,131 @@
         "id": "coverage",
         "kind": "coverage",
         "kicker": "What the offers carry",
-        "title": "73%",
-        "narration": "4 offers carry 18.7 lakh rupees, 73 per cent of the 25.5 lakh rupees target. The other 6.85 lakh rupees is expected at full price.",
+        "title": "74%",
+        "narration": "4 offers carry 19 lakh rupees, 74 per cent of the 25.5 lakh rupees target. The other 6.52 lakh rupees is expected at full price.",
         "duration": 10377,
         "data": {
           "target": 2550000,
-          "offerRevenue": 1865245,
-          "share": 0.7314686274509804,
-          "standard": 684755,
+          "offerRevenue": 1898161,
+          "share": 0.7443768627450981,
+          "standard": 651839,
           "offers": 4
-        }
-      },
-      {
-        "id": "offer-O27-33-BA",
-        "kind": "offer",
-        "kicker": "Offer 1 of 4 · Revenue boost",
-        "title": "Friends With Benefits (Strictly Fitness)",
-        "narration": "Revenue boost: Friends With Benefits (Strictly Fitness). Friends with benefits. 7 buyers at 17,203 rupees — 1.2 lakh rupees. 15 per cent off.",
-        "duration": 9603,
-        "data": {
-          "index": 0,
-          "count": 4,
-          "narrated": true,
-          "name": "Friends With Benefits (Strictly Fitness)",
-          "slot": "referral",
-          "slotLabel": "Revenue boost",
-          "headline": "Friends with benefits. Strictly fitness.",
-          "benefit": "Friends with benefits. Strictly fitness. Bring a friend who's never been — 2 classes on us — and if they join, you both get race tees and you get 7 bonus days and double points.",
-          "rationale": "Friendship Day falls on race day one. Referred friends convert 22–76% vs 4–6% for website leads.",
-          "audience": "Current members bringing a guest.",
-          "conditions": "Friend must be new.",
-          "kpi": "Tag Teams formed; friend → member (target 35%).",
-          "offerType": "Referral (Friendship Day)",
-          "ticket": 17203,
-          "buyers": 7,
-          "revenue": 120421,
-          "discount": 15,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.06456041967677169
-        }
-      },
-      {
-        "id": "offer-O27-31-BA",
-        "kind": "offer",
-        "kicker": "Offer 2 of 4 · New clients",
-        "title": "Rookie Mistake (The Only Good One)",
-        "narration": "New clients: Rookie Mistake (The Only Good One). Two weeks unlimited for 3,999 rupees Bengaluru 2,999 rupees. 15 buyers at 16,204 rupees — 2.43 lakh rupees. 20 per cent off.",
-        "duration": 12000,
-        "data": {
-          "index": 1,
-          "count": 4,
-          "narrated": true,
-          "name": "Rookie Mistake (The Only Good One)",
-          "slot": "newcomer",
-          "slotLabel": "New clients",
-          "headline": "Two weeks unlimited. The only rookie mistake is not trying.",
-          "benefit": "Two weeks unlimited for ₹3,999 (Bengaluru ₹2,999) and a spot on the Rookie leaderboard. The only rookie mistake is not starting.",
-          "rationale": "Clients with 5+ visits in month one buy at 93.5%. A 14-day window lets newcomers reach 5+ visits; the race gives them a reason. Effective 20% on conversion.",
-          "audience": "First-time clients (phone verified).",
-          "conditions": "One per person. Effective 20% on conversion.",
-          "kpi": "Average visits in 14 days (target 6); intro → member (target 45%).",
-          "offerType": "Newcomer experiment (14-day intro)",
-          "ticket": 16204,
-          "buyers": 15,
-          "revenue": 243060,
-          "discount": 20,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.1303099592814885
-        }
-      },
-      {
-        "id": "offer-O27-34-BA",
-        "kind": "offer",
-        "kicker": "Offer 3 of 4 · Renewals",
-        "title": "Medal Detector",
-        "narration": "Renewals: Medal Detector. Finished the race? Our medal detector just beeped. 24 buyers at 42,000 rupees — 10.1 lakh rupees. 20 per cent off.",
-        "duration": 9990,
-        "data": {
-          "index": 2,
-          "count": 4,
-          "narrated": true,
-          "name": "Medal Detector",
-          "slot": "renewal",
-          "slotLabel": "Renewals",
-          "headline": "Finished the race? Your renewal just found gold.",
-          "benefit": "Finished the race? Our medal detector just beeped: 6 months at 20% off plus a private, or 3 months at 15% off plus 5 days.",
-          "rationale": "Race attendance lifts usage into the 75%+ band where renewal is 82–88%. August is Mumbai's second peak (Kwality ₹30.0L, Bandra ₹22.8L in Aug-26).",
-          "audience": "6M ≈24% effective with private, inside the cap for 6M+ plans",
-          "conditions": "6M ≈24% effective with private, inside the cap for 6M+ plans. Claim by 2027-09-05.",
-          "kpi": "Race finish rate; 3M+ share of August renewals (target 45%).",
-          "offerType": "Race finisher renewal",
-          "ticket": 42000,
-          "buyers": 24,
-          "revenue": 1008000,
-          "discount": 20,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.5404115813204163
         }
       },
       {
         "id": "offer-O27-32-BA",
         "kind": "offer",
+        "kicker": "Offer 1 of 4 · Revenue boost",
+        "title": "Price Ki Azaadi (Freedom From Price Hikes)",
+        "narration": "Revenue boost: Price Ki Azaadi (Freedom From Price Hikes). Freedom from price hikes. 3 buyers at 1.76 lakh rupees — 5.27 lakh rupees. 24.1 per cent off.",
+        "duration": 11152,
+        "data": {
+          "index": 0,
+          "count": 4,
+          "narrated": true,
+          "name": "Price Ki Azaadi (Freedom From Price Hikes)",
+          "slot": "spot",
+          "slotLabel": "Revenue boost",
+          "headline": "Freedom from price hikes. Lock your 2028 renewal at 2027 prices.",
+          "benefit": "Freedom from price hikes: buy an annual over Freedom Weekend (13–17 Aug) and get 20% off, 15 extra days, and your 2028 renewal locked at 2027 prices. Only 47 in Mumbai, 19 in Bengaluru.",
+          "rationale": "A price lock costs nothing in 2027 and answers the renewal-price objection a year early. It sells the annual on certainty, not depth, and every lock is a 2028 renewal already in the book.",
+          "audience": "Members and returning clients; annual renewers due Aug–Nov.",
+          "conditions": "Annual cap 25% (20% cash + 15 days ≈ 24.1%). Price lock applies to the next annual renewal only. 47 / 19 memberships.",
+          "kpi": "Annuals sold (target 8 Mumbai, 1 Bengaluru); 2028 locks.",
+          "offerType": "Freedom Weekend annual + 2028 price lock",
+          "ticket": 175560,
+          "buyers": 3,
+          "revenue": 526680,
+          "discount": 24.1,
+          "validity": "13 Aug – 17 Aug",
+          "share": 0.27746856035921086
+        }
+      },
+      {
+        "id": "offer-O27-33-BA",
+        "kind": "offer",
+        "kicker": "Offer 2 of 4 · Revenue boost",
+        "title": "Squad Goals, Squat Goals",
+        "narration": "Revenue boost: Squad Goals, Squat Goals. Squad goals, squat goals. 7 buyers at 17,203 rupees — 1.2 lakh rupees. 18.5 per cent off.",
+        "duration": 9603,
+        "data": {
+          "index": 1,
+          "count": 4,
+          "narrated": true,
+          "name": "Squad Goals, Squat Goals",
+          "slot": "referral",
+          "slotLabel": "Revenue boost",
+          "headline": "Your squad. Our studio. Matching socks, obviously.",
+          "benefit": "Squad goals, squat goals: book a free Squad Class for up to 4 friends who’ve never been. If they join, they get 15% off and friendship-band grip socks, and you get 5 extra days for each one.",
+          "rationale": "Referrals convert at 22–76%; friends who start together come together. A free group class lowers the bar for the nervous friend, and the member is paid only when someone buys.",
+          "audience": "Current members bringing 2–4 never-been friends.",
+          "conditions": "Friends must be new to P57 (phone verified). Member reward max 15 days. Standard 15% for friends only.",
+          "kpi": "Squad Classes booked; friend → purchase (target 30%).",
+          "offerType": "Friendship Day squad referral",
+          "ticket": 17203,
+          "buyers": 7,
+          "revenue": 120421,
+          "discount": 18.5,
+          "validity": "1 Aug – 15 Aug",
+          "share": 0.06344087777591047
+        }
+      },
+      {
+        "id": "offer-O27-31-BA",
+        "kind": "offer",
+        "kicker": "Offer 3 of 4 · New clients",
+        "title": "No Strings Attached",
+        "narration": "New clients: No Strings Attached. Commitment issues? Same. 15 buyers at 16,204 rupees — 2.43 lakh rupees. 20 per cent off.",
+        "duration": 8829,
+        "data": {
+          "index": 2,
+          "count": 4,
+          "narrated": true,
+          "name": "No Strings Attached",
+          "slot": "newcomer",
+          "slotLabel": "New clients",
+          "headline": "Commitment issues? Same. Here’s a membership with a break-up clause.",
+          "benefit": "Commitment issues? Same. Try 2 classes for ₹999, and if you join, the ₹999 comes off your first month. And if it’s not for you after two weeks, we turn what’s left into a class pack. No strings. Well, one: show up.",
+          "rationale": "Clients with 5+ visits in month one buy again at 93.5%. A break-up clause costs almost nothing (few use it) and answers the objection the desk hears most: “what if I can’t keep it up?”.",
+          "audience": "First-time clients (phone verified).",
+          "conditions": "One per phone number. Credit within 72 hours of class 2; the switch must be requested within 14 days of the start date. Standard 15% only.",
+          "kpi": "Trial → member (target 35%); No-Strings switches (expect <10%).",
+          "offerType": "Newcomer intro with a break-up clause",
+          "ticket": 16204,
+          "buyers": 15,
+          "revenue": 243060,
+          "discount": 20,
+          "validity": "1 Aug – 21 Aug",
+          "share": 0.12805025495729813
+        }
+      },
+      {
+        "id": "offer-O27-34-BA",
+        "kind": "offer",
         "kicker": "Offer 4 of 4 · Renewals",
-        "title": "At the Stroke of the Midnight Hour",
-        "narration": "Renewals: At the Stroke of the Midnight Hour. At the stroke of the midnight hour, when the world. 3 buyers at 1.65 lakh rupees — 4.94 lakh rupees. 25 per cent off.",
-        "duration": 12000,
+        "title": "Freedom to Pause (Not Quit)",
+        "narration": "Renewals: Freedom to Pause (Not Quit). Freedom to pause, not quit. 24 buyers at 42,000 rupees — 10.1 lakh rupees. 19.6 per cent off.",
+        "duration": 9990,
         "data": {
           "index": 3,
           "count": 4,
           "narrated": true,
-          "name": "At the Stroke of the Midnight Hour",
+          "name": "Freedom to Pause (Not Quit)",
           "slot": "renewal",
           "slotLabel": "Renewals",
-          "headline": "At the stroke of the midnight hour, your annual goes 25% off.",
-          "benefit": "At the stroke of the midnight hour, when the world sleeps, your annual goes 25% off. 15 August only. 47 memberships in Mumbai, for 1947.",
-          "rationale": "Annual is the only membership where 25% is allowed. One day and a cap keep it an event, not a price.",
-          "audience": "Annual cap 25%",
-          "conditions": "Annual cap 25%.",
-          "kpi": "Annuals sold.",
-          "offerType": "One-day annual (25%)",
-          "ticket": 164588,
-          "buyers": 3,
-          "revenue": 493764,
-          "discount": 25,
-          "validity": "Invalid Date – Invalid Date",
-          "share": 0.26471803972132346
+          "headline": "Pause for Ganpati. Pause for Diwali. Just don’t quit.",
+          "benefit": "Freedom to pause, not quit: renew for 3 months at 15% and get 2 Freedom Freezes for festive travel, or 6 months with a private and 3 freezes. Go home for Ganpati. Come back to your spot.",
+          "rationale": "Members lapse in Sep–Nov when travel breaks the habit. A freeze keeps them paying and coming back instead of cancelling; freezes have no cash cost, so the cash discount stays at the standard 15%.",
+          "audience": "Members renewing in August.",
+          "conditions": "3M 15% / 6M 19.6% effective (private at list; freezes have no cash value). Freezes expire 30 Nov.",
+          "kpi": "Renewal yield vs Aug-26; Sep–Nov lapse rate of August renewers.",
+          "offerType": "Flexible renewal (festive freezes)",
+          "ticket": 42000,
+          "buyers": 24,
+          "revenue": 1008000,
+          "discount": 19.6,
+          "validity": "1 Aug – 31 Aug",
+          "share": 0.5310403069075805
         }
       },
       {
@@ -255,17 +255,17 @@
         "kind": "plan",
         "kicker": "How the month runs",
         "title": "4 moves",
-        "narration": "First, Set up Rookie Mistake The Only Good One in Momence. Then, Weekly check: Rookie Mistake The Only Good One: Average visits.",
-        "duration": 9216,
+        "narration": "First, Set up No Strings Attached in Momence. Then, Weekly check: No Strings Attached: Trial to member target 35%.",
+        "duration": 8055,
         "data": {
           "steps": [
             {
               "label": "W1",
-              "text": "Set up Rookie Mistake (The Only Good One) in Momence (2027-08-01 to 2027-08-20): 14 days unlimited: Mumbai ₹3,999 (barre + powerCycle, 1 Lab induction at Supreme HQ), Kenkere ₹2,999 (barre), pop-ups ₹1,999 for 4 classes in 14 days. Every class counts on the Rookie leaderboard. ₹999 (Kenkere ₹749, pop-up ₹499) credited against a first membership within 72 hours of day 14, with the standard 15%."
+              "text": "Set up No Strings Attached in Momence (2027-08-01 to 2027-08-21): Mumbai: 2 classes in 7 days for ₹999 (any format), credited against 1 Month at the standard 15% bought within 72 hours (₹16,204 net). Kenkere: 2 Barre classes for ₹709, credited the same way (₹11,697 net). Pop-ups: paid trial (≈₹945) → 8-class pack at 15% (₹5,891). The No-Strings clause: in the first 14 days of the month, if it is not for you, the desk converts what is left into an 8-class pack (60 days). No break-up fee, no awkwa"
             },
             {
               "label": "W2",
-              "text": "Weekly check: Rookie Mistake (The Only Good One): Average visits in 14 days (target 6); intro → member (target 45%). | At the Stroke of the Midnight Hour: Annuals sold. | Friends With Benefits (Strictly Fitness): Tag Teams formed; friend → member (target 35%). | Medal Detector: Race finish rate; 3M+ share of August renewals (target 45%)."
+              "text": "Weekly check: No Strings Attached: Trial → member (target 35%); No-Strings switches (expect <10%). | Price Ki Azaadi (Freedom From Price Hikes): Annuals sold (target 8 Mumbai, 1 Bengaluru); 2028 locks. | Squad Goals, Squat Goals: Squad Classes booked; friend → purchase (target 30%). | Freedom to Pause (Not Quit): Renewal yield vs Aug-26; Sep–Nov lapse rate of August renewers."
             },
             {
               "label": "W3",
@@ -287,7 +287,7 @@
         "duration": 6894,
         "data": {
           "target": 2550000,
-          "offerRevenue": 1865245,
+          "offerRevenue": 1898161,
           "offers": 4,
           "buyers": 82,
           "monthName": "August",
@@ -295,6 +295,6 @@
         }
       }
     ],
-    "duration": 98041
+    "duration": 92474
   }
 }

@@ -4,9 +4,9 @@
   "status": "draft",
   "theme": "Book the Studio + Rain Check",
   "focus": "Studio bookouts + monsoon",
-  "objective": "Studio bookouts and corporate bulk as new channels; protect monsoon renewals; bring lapsed clients back before the race.",
+  "objective": "Studio bookouts and corporate bulk as new channels; protect monsoon renewals; bring lapsed clients back before August.",
   "studioRole": "Retention-led",
-  "strategy": "Book the Studio + Rain Check.\n\nCommercial job: Studio bookouts and corporate bulk as new channels; protect monsoon renewals; bring lapsed clients back before the race.\n\nBookout: Kitty Party, But Make It Cardio (“Kitty party, but make it cardio.”). Hosted classes are a top lead source (Kwality 394, Bandra 353, Kenkere 281 leads) but convert only 4.6–6.1%. A paid bookout has a host who brings warm friends and pays for the room.\n\nCorporate: Team Building Without the Trust Falls (“Team building without the trust falls.”). Bulk purchase is an allowed 25% case. Corporate buyers bring 10+ new members per sale and fit the monsoon trough.\n\nRenewal: Rain Check (Literally) (“Monsoon happens. Your late-cancel fee doesn't have to.”). Average late cancels per membership: Bandra 1.18, Kenkere 1.36. Late-cancel fees in the monsoon make members feel they 'wasted' a month and lapse.\n\nLapsed: Gone With the Wind, Back With the Rain (“Left us in the summer heat? Come back for the monsoon.”). An event with a start date beats a generic reminder. Freezes answer the monsoon objection at no cash cost.",
+  "strategy": "Book the Studio + Rain Check.\n\nCommercial job: Studio bookouts and corporate bulk as new channels; protect monsoon renewals; bring lapsed clients back before August.\n\nBookout: Kitty Party, But Make It Cardio (“Kitty party, but make it cardio.”). Hosted classes are a top lead source (Kwality 394, Bandra 353, Kenkere 281 leads) but convert only 4.6–6.1%. A paid bookout has a host who brings warm friends and pays for the room.\n\nCorporate: Team Building Without the Trust Falls (“Team building without the trust falls.”). Bulk purchase is an allowed 25% case. Corporate buyers bring 10+ new members per sale and fit the monsoon trough.\n\nRenewal: Rain Check (Literally) (“Monsoon happens. Your late-cancel fee doesn't have to.”). Average late cancels per membership: Bandra 1.18, Kenkere 1.36. Late-cancel fees in the monsoon make members feel they 'wasted' a month and lapse.\n\nLapsed: Gone With the Wind, Back With the Rain (“Left us in the summer heat? Come back for the monsoon.”). An event with a start date beats a generic reminder. Freezes answer the monsoon objection at no cash cost.",
   "notes": "Build: 72 new buyers × ₹11,150 first-60-day spend = ₹8.1L; 79 renewals × ₹23,384 = ₹18.5L; 35 winbacks = ₹4.0L; privates/retail/drop-ins ₹3.0L. Offers carry ₹11.8L (35% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
   "target": 3360000,
   "priorYear": 2580030,
@@ -161,17 +161,17 @@
       "slot": "lapsed",
       "name": "Gone With the Wind, Back With the Rain",
       "headline": "Left us in the summer heat? Come back for the monsoon.",
-      "benefit": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min race-prep assessment + entry to The Amazing Race 2.0.",
-      "customerCopy": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0.",
-      "description": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min race-prep assessment + entry to The Amazing Race 2.0.",
+      "benefit": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min comeback assessment + first access to August’s Freedom Weekend.",
+      "customerCopy": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and first access to Freedom Weekend in August.",
+      "description": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min comeback assessment + first access to August’s Freedom Weekend.",
       "internalDescription": "Plan: 22 buyers × ₹17,203 = ₹378,466 (Mumbai pricing).",
       "rationale": "An event with a start date beats a generic reminder. Freezes answer the monsoon objection at no cash cost.",
-      "objective": "Bring lapsed clients back before the August race.",
-      "type": "Winback (pre-race)",
+      "objective": "Bring lapsed clients back before August.",
+      "type": "Winback (monsoon)",
       "mechanicTags": [
         "standard 15% lapsed",
         "extra freezes",
-        "race entry"
+        "freedom weekend early access"
       ],
       "audience": "Standard lapsed 15% only",
       "excludedAudience": null,
@@ -184,7 +184,7 @@
       "expectedRevenue": 378466,
       "buyers": 22,
       "effectiveDiscountPercent": 15,
-      "kpi": "Lapsed race entries; reactivations.",
+      "kpi": "Reactivations; comeback assessments booked.",
       "validity": {
         "start": "2027-07-15",
         "end": "2027-07-31"
@@ -242,7 +242,7 @@
     {
       "day": 15,
       "date": "2027-07-15",
-      "name": "Amazing Race 2.0 registrations open",
+      "name": "Freedom Weekend early-access list opens (for August)",
       "kind": "brand",
       "approx": false
     }
@@ -269,7 +269,7 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Gone With the Wind, Back With the Rain in Momence (2027-07-15 to 2027-07-31): Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min race-prep assessment + entry to The Amazing Race 2.0."
+          "detail": "Set up Gone With the Wind, Back With the Rain in Momence (2027-07-15 to 2027-07-31): Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min comeback assessment + first access to August’s Freedom Weekend."
         },
         {
           "label": "",
@@ -294,7 +294,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Gone With the Wind, Back With the Rain: Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0."
+          "detail": "Launch Gone With the Wind, Back With the Rain: Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and first access to Freedom Weekend in August."
         }
       ]
     },
@@ -304,7 +304,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest → member (target 15%). | Team Building Without the Trust Falls: Corporate deals. | Rain Check (Literally): July 1M renewal yield (target 70%); tokens used. | Gone With the Wind, Back With the Rain: Lapsed race entries; reactivations."
+          "detail": "Weekly check: Kitty Party, But Make It Cardio: Bookouts sold; guest → member (target 15%). | Team Building Without the Trust Falls: Corporate deals. | Rain Check (Literally): July 1M renewal yield (target 70%); tokens used. | Gone With the Wind, Back With the Rain: Reactivations; comeback assessments booked."
         }
       ]
     },
@@ -368,8 +368,8 @@
       {
         "offerId": "O27-30-KC",
         "headline": "Left us in the summer heat? Come back for the monsoon.",
-        "copy": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0.",
-        "detail": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min race-prep assessment + entry to The Amazing Race 2.0.",
+        "copy": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and first access to Freedom Weekend in August.",
+        "detail": "Lapsed 61–365 days, 15–31 Jul: the standard 15% on 1 Month or a 12-class pack + 2 extra freezes + a 15-min comeback assessment + first access to August’s Freedom Weekend.",
         "channels": [
           "WhatsApp",
           "Email",
@@ -405,7 +405,7 @@
       {
         "offerId": "O27-30-KC",
         "audience": "Standard lapsed 15% only",
-        "message": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and a lane in The Amazing Race 2.0."
+        "message": "Left us in the summer heat? Come back for the monsoon: 15% off, 2 extra freezes for flooded days, and first access to Freedom Weekend in August."
       },
       {
         "offerId": "O27-26-KH-m7",

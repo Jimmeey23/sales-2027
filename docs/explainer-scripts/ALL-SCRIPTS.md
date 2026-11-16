@@ -276,15 +276,15 @@ That's January at Pop-up. 1.93 lakh rupees, three offers, and 51 buyers to welco
 
 ---
 
-# February — Valentine's + Stronger in 30 2.0
+# February — Red Flags, Green Flags
 
 ## February · Bandra
 
-*Read time ≈ 3:05 · 446 words · save as `bandra-02.mp3`*
+*Read time ≈ 3:13 · 466 words · save as `bandra-02.mp3`*
 
 **Bandra · 2027 — February**
 
-Hello Bandra! February. The shortest month, and the most romantic. Our theme pairs Valentine's with Stronger in 30, round two. Love is in the air, and so are a lot of very committed glutes.
+Hello Bandra! February. The shortest month, and the most romantic. Our theme is Red Flags, Green Flags: Valentine's, Galentine's and Singles Awareness Day, and a studio that is very much a green flag.
 
 · · ·
 
@@ -306,39 +306,39 @@ Behind the number are people: 463 leads, 241 trials, and 52 buyers, with about 2
 
 · · ·
 
-**What the offers carry — 78%**
+**What the offers carry — 77%**
 
-Here's where the offers come in. Four offers carry 12.7 lakh rupees, which is 78 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 4 · Revenue boost — Couples Therapy (Cheaper Than the Real Thing)**
-
-First up, Couples Therapy, cheaper than the real thing. Members bring someone new. The member gets ten per cent off, the guest gets fifteen, and both get a duo private. The only fight is over who holds the plank longer. The plan is 8 buyers at about 18,200, so 1.46 lakh rupees.
+Here's where the offers come in. Four offers carry 12.5 lakh rupees, which is 77 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 4 · New clients — Situationship → Relationship**
+**Offer 1 of 4 · Revenue boost — Love Bombing (The Healthy Kind)**
 
-Next, Situationship to Relationship. First-timers get fifteen per cent off their first month and a spot on the Stronger in 30 rookie track. Finish it, and they earn an extra week. Commitment never looked this good. The plan is 14 buyers at about 17,200, so 2.41 lakh rupees.
-
-· · ·
-
-**Offer 3 of 4 · Win-backs — Galentine's Gone Ghost**
-
-Then, for lapsed members, Galentine's Gone Ghost. Come back with your best friend. You get fifteen per cent off, she gets two classes on us, and if she joins, matching grip socks and bonus days. The plan is 6 buyers at about 17,200, so 1.03 lakh rupees.
+First up, Love Bombing, the healthy kind. Every member writes a love letter to a friend: two free classes. If the friend joins, they get fifteen per cent off and grip socks, and the member gets five extra days. The plan is 8 buyers at about 17,200, so 1.38 lakh rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — Proof of Work**
+**Offer 2 of 4 · New clients — Blind Date (No Catfishing)**
 
-And finally, for the challengers, Proof of Work. Did thirty classes in thirty days? Your renewal price shows it. Six months at twenty per cent off, or an annual with an extra private. Receipts, not resolutions. The plan is 13 buyers at about 60,000, so 7.8 lakh rupees.
+Next, Blind Date, no catfishing. Two mystery classes for nine ninety-nine. The format and the trainer stay sealed until you walk in. Love it, and the whole fee comes off your first month. The plan is 14 buyers at about 16,200, so 2.27 lakh rupees.
+
+· · ·
+
+**Offer 3 of 4 · Win-backs — It’s Not You, It’s Your Schedule**
+
+Then, for lapsed members, It's Not You, It's Your Schedule. They pick a relationship status: Exclusive is three months, Casual is a twelve-class pack, It's Complicated is one month with a free freeze. Fifteen per cent off whichever they choose. The plan is 6 buyers at about 17,200, so 1.03 lakh rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Put a Ring On It**
+
+And finally, for renewals, Put a Ring On It. Renew for three months and get the ring, which is a mini-band, relax. Six months comes with a private, and annual members go on the Wall of Commitment. Say yes at the desk and the bell rings. The plan is 13 buyers at about 60,000, so 7.8 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, launch the couples offers and open Stronger in 30. Week two, Valentine's week, so every member hears about bringing someone new. Week three, cheer the challengers on, because attendance is the pitch. Week four, everyone who finished thirty classes gets their Proof of Work price.
+How does the month run? Week one, blind-date envelopes at every desk, and the love letters go out to members. Week two, Galentine's and Valentine's weekend, with Partner Barre on Sunday the fourteenth. Week three, the Hate-Squat Hour for the singles, and every renewal hears Put a Ring On It. Week four, last call for lapsed members to pick their relationship status.
 
 · · ·
 
@@ -348,11 +348,11 @@ That's February at Bandra. 16.2 lakh rupees, four offers, and 52 buyers to welco
 
 ## February · Kemps Corner
 
-*Read time ≈ 3:06 · 450 words · save as `kemps-corner-02.mp3`*
+*Read time ≈ 3:14 · 470 words · save as `kemps-corner-02.mp3`*
 
 **Kemps Corner · 2027 — February**
 
-Hello Kemps Corner! February. The shortest month, and the most romantic. Our theme pairs Valentine's with Stronger in 30, round two. Love is in the air, and so are a lot of very committed glutes.
+Hello Kemps Corner! February. The shortest month, and the most romantic. Our theme is Red Flags, Green Flags: Valentine's, Galentine's and Singles Awareness Day, and a studio that is very much a green flag.
 
 · · ·
 
@@ -374,39 +374,39 @@ Behind the number are people: 400 leads, 204 trials, and 55 buyers, with about 2
 
 · · ·
 
-**What the offers carry — 77%**
+**What the offers carry — 75%**
 
-Here's where the offers come in. Four offers carry 19.7 lakh rupees, which is 77 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 4 · Revenue boost — Couples Therapy (Cheaper Than the Real Thing)**
-
-First up, Couples Therapy, cheaper than the real thing. Members bring someone new. The member gets ten per cent off, the guest gets fifteen, and both get a duo private. The only fight is over who holds the plank longer. The plan is 12 buyers at about 18,200, so 2.19 lakh rupees.
+Here's where the offers come in. Four offers carry 19.3 lakh rupees, which is 75 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 4 · New clients — Situationship → Relationship**
+**Offer 1 of 4 · Revenue boost — Love Bombing (The Healthy Kind)**
 
-Next, Situationship to Relationship. First-timers get fifteen per cent off their first month and a spot on the Stronger in 30 rookie track. Finish it, and they earn an extra week. Commitment never looked this good. The plan is 22 buyers at about 17,200, so 3.78 lakh rupees.
-
-· · ·
-
-**Offer 3 of 4 · Win-backs — Galentine's Gone Ghost**
-
-Then, for lapsed members, Galentine's Gone Ghost. Come back with your best friend. You get fifteen per cent off, she gets two classes on us, and if she joins, matching grip socks and bonus days. The plan is 10 buyers at about 17,200, so 1.72 lakh rupees.
+First up, Love Bombing, the healthy kind. Every member writes a love letter to a friend: two free classes. If the friend joins, they get fifteen per cent off and grip socks, and the member gets five extra days. The plan is 12 buyers at about 17,200, so 2.06 lakh rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — Proof of Work**
+**Offer 2 of 4 · New clients — Blind Date (No Catfishing)**
 
-And finally, for the challengers, Proof of Work. Did thirty classes in thirty days? Your renewal price shows it. Six months at twenty per cent off, or an annual with an extra private. Receipts, not resolutions. The plan is 20 buyers at about 60,000, so 12 lakh rupees.
+Next, Blind Date, no catfishing. Two mystery classes for nine ninety-nine. The format and the trainer stay sealed until you walk in. Love it, and the whole fee comes off your first month. The plan is 22 buyers at about 16,200, so 3.56 lakh rupees.
+
+· · ·
+
+**Offer 3 of 4 · Win-backs — It’s Not You, It’s Your Schedule**
+
+Then, for lapsed members, It's Not You, It's Your Schedule. They pick a relationship status: Exclusive is three months, Casual is a twelve-class pack, It's Complicated is one month with a free freeze. Fifteen per cent off whichever they choose. The plan is 10 buyers at about 17,200, so 1.72 lakh rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Put a Ring On It**
+
+And finally, for renewals, Put a Ring On It. Renew for three months and get the ring, which is a mini-band, relax. Six months comes with a private, and annual members go on the Wall of Commitment. Say yes at the desk and the bell rings. The plan is 20 buyers at about 60,000, so 12 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, launch the couples offers and open Stronger in 30. Week two, Valentine's week, so every member hears about bringing someone new. Week three, cheer the challengers on, because attendance is the pitch. Week four, everyone who finished thirty classes gets their Proof of Work price.
+How does the month run? Week one, blind-date envelopes at every desk, and the love letters go out to members. Week two, Galentine's and Valentine's weekend, with Partner Barre on Sunday the fourteenth. Week three, the Hate-Squat Hour for the singles, and every renewal hears Put a Ring On It. Week four, last call for lapsed members to pick their relationship status.
 
 · · ·
 
@@ -416,11 +416,11 @@ That's February at Kemps Corner. 25.7 lakh rupees, four offers, and 55 buyers to
 
 ## February · Kenkere House
 
-*Read time ≈ 3:01 · 437 words · save as `kenkere-house-02.mp3`*
+*Read time ≈ 3:09 · 457 words · save as `kenkere-house-02.mp3`*
 
 **Kenkere House · 2027 — February**
 
-Hello Kenkere House! February. The shortest month, and the most romantic. Our theme pairs Valentine's with Stronger in 30, round two. Love is in the air, and so are a lot of very committed glutes.
+Hello Kenkere House! February. The shortest month, and the most romantic. Our theme is Red Flags, Green Flags: Valentine's, Galentine's and Singles Awareness Day, and a studio that is very much a green flag.
 
 · · ·
 
@@ -442,39 +442,39 @@ Behind the number are people: 714 leads, 257 trials, and 48 buyers, with about 1
 
 · · ·
 
-**What the offers carry — 60%**
+**What the offers carry — 59%**
 
-Here's where the offers come in. Four offers carry 5.71 lakh rupees, which is 60 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
-
-· · ·
-
-**Offer 1 of 4 · Revenue boost — Couples Therapy (Cheaper Than the Real Thing)**
-
-First up, Couples Therapy, cheaper than the real thing. Members bring someone new. The member gets ten per cent off, the guest gets fifteen, and both get a duo private. The only fight is over who holds the plank longer. The plan is 5 buyers at about 13,100, so 65,700 rupees.
+Here's where the offers come in. Four offers carry 5.61 lakh rupees, which is 59 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
 
 · · ·
 
-**Offer 2 of 4 · New clients — Situationship → Relationship**
+**Offer 1 of 4 · Revenue boost — Love Bombing (The Healthy Kind)**
 
-Next, Situationship to Relationship. First-timers get fifteen per cent off their first month and a spot on the Stronger in 30 rookie track. Finish it, and they earn an extra week. Commitment never looked this good. The plan is 9 buyers at about 12,400, so 1.12 lakh rupees.
-
-· · ·
-
-**Offer 3 of 4 · Win-backs — Galentine's Gone Ghost**
-
-Then, for lapsed members, Galentine's Gone Ghost. Come back with your best friend. You get fifteen per cent off, she gets two classes on us, and if she joins, matching grip socks and bonus days. The plan is 4 buyers at about 12,400, so 49,600 rupees.
+First up, Love Bombing, the healthy kind. Every member writes a love letter to a friend: two free classes. If the friend joins, they get fifteen per cent off and grip socks, and the member gets five extra days. The plan is 5 buyers at about 12,400, so 62,000 rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — Proof of Work**
+**Offer 2 of 4 · New clients — Blind Date (No Catfishing)**
 
-And finally, for the challengers, Proof of Work. Did thirty classes in thirty days? Your renewal price shows it. Six months at twenty per cent off, or an annual with an extra private. Receipts, not resolutions. The plan is 8 buyers at about 43,000, so 3.44 lakh rupees.
+Next, Blind Date, no catfishing. Two mystery classes for nine ninety-nine. The format and the trainer stay sealed until you walk in. Love it, and the whole fee comes off your first month. The plan is 9 buyers at about 11,700, so 1.05 lakh rupees.
+
+· · ·
+
+**Offer 3 of 4 · Win-backs — It’s Not You, It’s Your Schedule**
+
+Then, for lapsed members, It's Not You, It's Your Schedule. They pick a relationship status: Exclusive is three months, Casual is a twelve-class pack, It's Complicated is one month with a free freeze. Fifteen per cent off whichever they choose. The plan is 4 buyers at about 12,400, so 49,600 rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Put a Ring On It**
+
+And finally, for renewals, Put a Ring On It. Renew for three months and get the ring, which is a mini-band, relax. Six months comes with a private, and annual members go on the Wall of Commitment. Say yes at the desk and the bell rings. The plan is 8 buyers at about 43,000, so 3.44 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, launch the couples offers and open Stronger in 30. Week two, Valentine's week, so every member hears about bringing someone new. Week three, cheer the challengers on, because attendance is the pitch. Week four, everyone who finished thirty classes gets their Proof of Work price.
+How does the month run? Week one, blind-date envelopes at every desk, and the love letters go out to members. Week two, Galentine's and Valentine's weekend, with Partner Barre on Sunday the fourteenth. Week three, the Hate-Squat Hour for the singles, and every renewal hears Put a Ring On It. Week four, last call for lapsed members to pick their relationship status.
 
 · · ·
 
@@ -484,11 +484,11 @@ That's February at Kenkere House. 9.57 lakh rupees, four offers, and 48 buyers t
 
 ## February · Pop-up
 
-*Read time ≈ 3:03 · 442 words · save as `pop-up-02.mp3`*
+*Read time ≈ 3:11 · 462 words · save as `pop-up-02.mp3`*
 
 **Pop-up · 2027 — February**
 
-Hello Pop-up! February. The shortest month, and the most romantic. Our theme pairs Valentine's with Stronger in 30, round two. Love is in the air, and so are a lot of very committed glutes.
+Hello Pop-up! February. The shortest month, and the most romantic. Our theme is Red Flags, Green Flags: Valentine's, Galentine's and Singles Awareness Day, and a studio that is very much a green flag.
 
 · · ·
 
@@ -512,37 +512,37 @@ Behind the number are people: 562 leads, 146 trials, and 48 buyers, with about 3
 
 **What the offers carry — 35%**
 
-Here's where the offers come in. Four offers carry 63,600 rupees, which is 35 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
+Here's where the offers come in. Four offers carry 64,200 rupees, which is 35 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 1 of 4 · Revenue boost — Couples Therapy (Cheaper Than the Real Thing)**
+**Offer 1 of 4 · Revenue boost — Love Bombing (The Healthy Kind)**
 
-First up, Couples Therapy, cheaper than the real thing. Members bring someone new. The member gets ten per cent off, the guest gets fifteen, and both get a duo private. The only fight is over who holds the plank longer. The plan is 2 buyers at about 6,200, so 12,500 rupees.
-
-· · ·
-
-**Offer 2 of 4 · New clients — Situationship → Relationship**
-
-Next, Situationship to Relationship. First-timers get fifteen per cent off their first month and a spot on the Stronger in 30 rookie track. Finish it, and they earn an extra week. Commitment never looked this good. The plan is 3 buyers at about 5,900, so 17,700 rupees.
+First up, Love Bombing, the healthy kind. Every member writes a love letter to a friend: two free classes. If the friend joins, they get fifteen per cent off and grip socks, and the member gets five extra days. The plan is 2 buyers at about 5,900, so 11,800 rupees.
 
 · · ·
 
-**Offer 3 of 4 · Win-backs — Galentine's Gone Ghost**
+**Offer 2 of 4 · New clients — Blind Date (No Catfishing)**
 
-Then, for lapsed members, Galentine's Gone Ghost. Come back with your best friend. You get fifteen per cent off, she gets two classes on us, and if she joins, matching grip socks and bonus days. The plan is 2 buyers at about 5,900, so 11,800 rupees.
+Next, Blind Date, no catfishing. Two mystery classes for nine ninety-nine. The format and the trainer stay sealed until you walk in. Love it, and the whole fee comes off your first month. The plan is 3 buyers at about 5,900, so 17,700 rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — Proof of Work**
+**Offer 3 of 4 · Win-backs — It’s Not You, It’s Your Schedule**
 
-And finally, for the challengers, Proof of Work. Did thirty classes in thirty days? Your renewal price shows it. Six months at twenty per cent off, or an annual with an extra private. Receipts, not resolutions. The plan is 3 buyers at about 7,200, so 21,700 rupees.
+Then, for lapsed members, It's Not You, It's Your Schedule. They pick a relationship status: Exclusive is three months, Casual is a twelve-class pack, It's Complicated is one month with a free freeze. Fifteen per cent off whichever they choose. The plan is 2 buyers at about 5,900, so 11,800 rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Put a Ring On It**
+
+And finally, for renewals, Put a Ring On It. Renew for three months and get the ring, which is a mini-band, relax. Six months comes with a private, and annual members go on the Wall of Commitment. Say yes at the desk and the bell rings. The plan is 3 buyers at about 7,700, so 23,000 rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, launch the couples offers and open Stronger in 30. Week two, Valentine's week, so every member hears about bringing someone new. Week three, cheer the challengers on, because attendance is the pitch. Week four, everyone who finished thirty classes gets their Proof of Work price.
+How does the month run? Week one, blind-date envelopes at every desk, and the love letters go out to members. Week two, Galentine's and Valentine's weekend, with Partner Barre on Sunday the fourteenth. Week three, the Hate-Squat Hour for the singles, and every renewal hears Put a Ring On It. Week four, last call for lapsed members to pick their relationship status.
 
 · · ·
 
@@ -802,11 +802,11 @@ That's March at Pop-up. 1.74 lakh rupees, two offers, and 46 buyers to welcome. 
 
 ## April · Bandra
 
-*Read time ≈ 2:55 · 424 words · save as `bandra-04.mp3`*
+*Read time ≈ 3:20 · 484 words · save as `bandra-04.mp3`*
 
 **Bandra · 2027 — April**
 
-Hello Bandra! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. The confetti budget has been approved. So has the target.
+Hello Bandra! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: a party in four acts, eight offers, and more confetti than is strictly sensible.
 
 · · ·
 
@@ -828,65 +828,77 @@ Behind the number are people: 944 leads, 491 trials, and 106 buyers, with about 
 
 · · ·
 
-**What the offers carry — 74%**
+**What the offers carry — 76%**
 
-Here's where the offers come in. Six offers carry 24.3 lakh rupees, which is 74 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 6 · Revenue boost — Cloud Nine Limited Edition**
-
-First up, the headliner, Cloud Nine Limited Edition. Nine months, nine freezes, plus one month on us. That's 4 buyers, for 6.6 lakh rupees.
+Here's where the offers come in. Eight offers carry 25 lakh rupees, which is 76 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 6 · Revenue boost — Plus One, Plus Nine**
+**Offer 1 of 8 · Revenue boost — Moving In Together (The 9-Month Lease)**
 
-Next, Plus One, Plus Nine. Bring a friend who joins and get nine bonus days. That's 7 buyers, for 1.2 lakh rupees.
-
-· · ·
-
-**Offer 3 of 6 · New clients — Party Crasher Pass**
-
-Then, for newcomers, the Party Crasher Pass. Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. That's 15 buyers, for 2.43 lakh rupees.
+First up, Moving In Together, the nine-month lease. Nine months unlimited, nine freezes, the anniversary hoodie and a numbered brass key. That's 4 buyers, for 5.8 lakh rupees.
 
 · · ·
 
-**Offer 4 of 6 · Win-backs — Where Are They Now?**
+**Offer 2 of 8 · Revenue boost — The 9:09 Panic Attack**
 
-Also this month, for old friends, Where Are They Now? Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. That's 15 buyers, for 2.58 lakh rupees.
-
-· · ·
-
-**Offer 5 of 6 · Renewals — Spin Class (Literally)**
-
-After that, Spin Class, literally. Renew in April for ten per cent off, then spin the Wheel of Nine. That's 34 buyers, for 6.19 lakh rupees.
+Next, the nine-oh-nine panic attack. The limited nine-class pack. That's 12 buyers, for 1.38 lakh rupees.
 
 · · ·
 
-**Offer 6 of 6 · Renewals — Club Nine: The Founders' Table**
+**Offer 3 of 8 · Revenue boost — The Cloud Nine 90**
 
-And finally, Club Nine, The Founders' Table. Nine numbered annual seats per studio, with double the perks, a numbered jacket, and a name on the wall. That's 3 buyers, for 5.27 lakh rupees.
+Then, for our heaviest users, the Cloud Nine ninety. Ninety classes, one year, about fifteen hundred rupees a class in Mumbai. That's 1 buyer, for 1.35 lakh rupees.
+
+· · ·
+
+**Offer 4 of 8 · Revenue boost — Plus One, Plus Nine**
+
+Also this month, Plus One, Plus Nine. Bring a friend who joins and get nine extra days. That's 6 buyers, for 1.03 lakh rupees.
+
+· · ·
+
+**Offer 5 of 8 · New clients — Party Crasher Pass**
+
+After that, for newcomers, the Party Crasher Pass. Three classes for nine ninety-nine, party class included, credited against a first month. That's 15 buyers, for 2.43 lakh rupees.
+
+· · ·
+
+**Offer 6 of 8 · Win-backs — Faking Your Own Death Didn’t Work**
+
+Next, for lapsed members, Faking Your Own Death Didn't Work. They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. That's 13 buyers, for 2.24 lakh rupees.
+
+· · ·
+
+**Offer 7 of 8 · Renewals — Spin Class (Literally)**
+
+Then, for renewals, Spin Class. Literally. Renew in April and spin the Wheel of Nine. That's 30 buyers, for 5.46 lakh rupees.
+
+· · ·
+
+**Offer 8 of 8 · Renewals — Club Nine: The Founders’ Table**
+
+And finally, Club Nine, the Founders' Table. Nine numbered annual seats per studio, with the perks doubled: four privates, eight guest passes, priority booking all year and a numbered jacket. That's 3 buyers, for 5.27 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, the numbered memberships go live, with a public counter. Week two, the party class brings new faces in, and every guest gets a follow-up. Week three, the wheel spins and the Club Nine seats close. Week four, the Throwback Reunion brings old friends home.
+How does the month run? Week one, Platinum Hour, the launch film, and the numbered keys go live with a public counter. Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack. Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth. Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth.
 
 · · ·
 
 **April 2027 — That's the plan**
 
-That's April at Bandra. 33 lakh rupees, six offers, and 106 buyers to welcome. Nine years in, and honestly? We've never looked better.
+That's April at Bandra. 33 lakh rupees, eight offers, and 106 buyers to welcome. Nine years in, and honestly? We've never looked better.
 
 ## April · Kemps Corner
 
-*Read time ≈ 2:57 · 427 words · save as `kemps-corner-04.mp3`*
+*Read time ≈ 3:22 · 487 words · save as `kemps-corner-04.mp3`*
 
 **Kemps Corner · 2027 — April**
 
-Hello Kemps Corner! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. The confetti budget has been approved. So has the target.
+Hello Kemps Corner! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: a party in four acts, eight offers, and more confetti than is strictly sensible.
 
 · · ·
 
@@ -910,63 +922,75 @@ Behind the number are people: 941 leads, 480 trials, and 129 buyers, with about 
 
 **What the offers carry — 75%**
 
-Here's where the offers come in. Six offers carry 45.1 lakh rupees, which is 75 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
+Here's where the offers come in. Eight offers carry 45.1 lakh rupees, which is 75 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 1 of 6 · Revenue boost — Cloud Nine Limited Edition**
+**Offer 1 of 8 · Revenue boost — Moving In Together (The 9-Month Lease)**
 
-First up, the headliner, Cloud Nine Limited Edition. Nine months, nine freezes, plus one month on us. That's 11 buyers, for 18.1 lakh rupees.
-
-· · ·
-
-**Offer 2 of 6 · Revenue boost — Plus One, Plus Nine**
-
-Next, Plus One, Plus Nine. Bring a friend who joins and get nine bonus days. That's 11 buyers, for 1.89 lakh rupees.
+First up, Moving In Together, the nine-month lease. Nine months unlimited, nine freezes, the anniversary hoodie and a numbered brass key. That's 11 buyers, for 15.9 lakh rupees.
 
 · · ·
 
-**Offer 3 of 6 · New clients — Party Crasher Pass**
+**Offer 2 of 8 · Revenue boost — The 9:09 Panic Attack**
 
-Then, for newcomers, the Party Crasher Pass. Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. That's 21 buyers, for 3.4 lakh rupees.
-
-· · ·
-
-**Offer 4 of 6 · Win-backs — Where Are They Now?**
-
-Also this month, for old friends, Where Are They Now? Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. That's 23 buyers, for 3.96 lakh rupees.
+Next, the nine-oh-nine panic attack. The limited nine-class pack. That's 20 buyers, for 2.3 lakh rupees.
 
 · · ·
 
-**Offer 5 of 6 · Renewals — Spin Class (Literally)**
+**Offer 3 of 8 · Revenue boost — Plus One, Plus Nine**
 
-After that, Spin Class, literally. Renew in April for ten per cent off, then spin the Wheel of Nine. That's 49 buyers, for 8.93 lakh rupees.
+Then, Plus One, Plus Nine. Bring a friend who joins and get nine extra days. That's 10 buyers, for 1.72 lakh rupees.
 
 · · ·
 
-**Offer 6 of 6 · Renewals — Club Nine: The Founders' Table**
+**Offer 4 of 8 · Revenue boost — The Cloud Nine 90**
 
-And finally, Club Nine, The Founders' Table. Nine numbered annual seats per studio, with double the perks, a numbered jacket, and a name on the wall. That's 5 buyers, for 8.78 lakh rupees.
+Also this month, for our heaviest users, the Cloud Nine ninety. Ninety classes, one year, about fifteen hundred rupees a class in Mumbai. That's 1 buyer, for 1.35 lakh rupees.
+
+· · ·
+
+**Offer 5 of 8 · New clients — Party Crasher Pass**
+
+After that, for newcomers, the Party Crasher Pass. Three classes for nine ninety-nine, party class included, credited against a first month. That's 21 buyers, for 3.4 lakh rupees.
+
+· · ·
+
+**Offer 6 of 8 · Win-backs — Faking Your Own Death Didn’t Work**
+
+Next, for lapsed members, Faking Your Own Death Didn't Work. They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. That's 20 buyers, for 3.44 lakh rupees.
+
+· · ·
+
+**Offer 7 of 8 · Renewals — Club Nine: The Founders’ Table**
+
+Then, Club Nine, the Founders' Table. Nine numbered annual seats per studio, with the perks doubled: four privates, eight guest passes, priority booking all year and a numbered jacket. That's 5 buyers, for 8.78 lakh rupees.
+
+· · ·
+
+**Offer 8 of 8 · Renewals — Spin Class (Literally)**
+
+And finally, for renewals, Spin Class. Literally. Renew in April and spin the Wheel of Nine. That's 45 buyers, for 8.2 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, the numbered memberships go live, with a public counter. Week two, the party class brings new faces in, and every guest gets a follow-up. Week three, the wheel spins and the Club Nine seats close. Week four, the Throwback Reunion brings old friends home.
+How does the month run? Week one, Platinum Hour, the launch film, and the numbered keys go live with a public counter. Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack. Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth. Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth.
 
 · · ·
 
 **April 2027 — That's the plan**
 
-That's April at Kemps Corner. 60 lakh rupees, six offers, and 129 buyers to welcome. Nine years in, and honestly? We've never looked better.
+That's April at Kemps Corner. 60 lakh rupees, eight offers, and 129 buyers to welcome. Nine years in, and honestly? We've never looked better.
 
 ## April · Kenkere House
 
-*Read time ≈ 2:56 · 425 words · save as `kenkere-house-04.mp3`*
+*Read time ≈ 3:08 · 455 words · save as `kenkere-house-04.mp3`*
 
 **Kenkere House · 2027 — April**
 
-Hello Kenkere House! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. The confetti budget has been approved. So has the target.
+Hello Kenkere House! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: a party in four acts, eight offers, and more confetti than is strictly sensible.
 
 · · ·
 
@@ -988,65 +1012,71 @@ Behind the number are people: 1128 leads, 406 trials, and 76 buyers, with about 
 
 · · ·
 
-**What the offers carry — 63%**
+**What the offers carry — 62%**
 
-Here's where the offers come in. Six offers carry 9.59 lakh rupees, which is 63 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
-
-· · ·
-
-**Offer 1 of 6 · Revenue boost — Cloud Nine Limited Edition**
-
-First up, the headliner, Cloud Nine Limited Edition. Nine months, nine freezes, plus one month on us. That's 2 buyers, for 2.4 lakh rupees.
+Here's where the offers come in. Seven offers carry 9.36 lakh rupees, which is 62 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
 
 · · ·
 
-**Offer 2 of 6 · Revenue boost — Plus One, Plus Nine**
+**Offer 1 of 7 · Revenue boost — Moving In Together (The 9-Month Lease)**
 
-Next, Plus One, Plus Nine. Bring a friend who joins and get nine bonus days. That's 5 buyers, for 62,000 rupees.
-
-· · ·
-
-**Offer 3 of 6 · New clients — Party Crasher Pass**
-
-Then, for newcomers, the Party Crasher Pass. Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. That's 9 buyers, for 1.05 lakh rupees.
+First up, Moving In Together, the nine-month lease. Nine months unlimited, nine freezes, the anniversary hoodie and a numbered brass key. That's 2 buyers, for 2.06 lakh rupees.
 
 · · ·
 
-**Offer 4 of 6 · Win-backs — Where Are They Now?**
+**Offer 2 of 7 · Revenue boost — The 9:09 Panic Attack**
 
-Also this month, for old friends, Where Are They Now? Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. That's 10 buyers, for 1.24 lakh rupees.
-
-· · ·
-
-**Offer 5 of 6 · Renewals — Spin Class (Literally)**
-
-After that, Spin Class, literally. Renew in April for ten per cent off, then spin the Wheel of Nine. That's 23 buyers, for 3.02 lakh rupees.
+Next, the nine-oh-nine panic attack. The limited nine-class pack. That's 8 buyers, for 61,600 rupees.
 
 · · ·
 
-**Offer 6 of 6 · Renewals — Club Nine: The Founders' Table**
+**Offer 3 of 7 · Revenue boost — Plus One, Plus Nine**
 
-And finally, Club Nine, The Founders' Table. Nine numbered annual seats per studio, with double the perks, a numbered jacket, and a name on the wall. That's 1 buyer, for 1.25 lakh rupees.
+Then, Plus One, Plus Nine. Bring a friend who joins and get nine extra days. That's 4 buyers, for 49,600 rupees.
+
+· · ·
+
+**Offer 4 of 7 · New clients — Party Crasher Pass**
+
+Also this month, for newcomers, the Party Crasher Pass. Three classes for nine ninety-nine, party class included, credited against a first month. That's 9 buyers, for 1.05 lakh rupees.
+
+· · ·
+
+**Offer 5 of 7 · Win-backs — Faking Your Own Death Didn’t Work**
+
+After that, for lapsed members, Faking Your Own Death Didn't Work. They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. That's 8 buyers, for 99,200 rupees.
+
+· · ·
+
+**Offer 6 of 7 · Renewals — Spin Class (Literally)**
+
+Next, for renewals, Spin Class. Literally. Renew in April and spin the Wheel of Nine. That's 22 buyers, for 2.89 lakh rupees.
+
+· · ·
+
+**Offer 7 of 7 · Renewals — Club Nine: The Founders’ Table**
+
+And finally, Club Nine, the Founders' Table. Nine numbered annual seats per studio, with the perks doubled: four privates, eight guest passes, priority booking all year and a numbered jacket. That's 1 buyer, for 1.25 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, the numbered memberships go live, with a public counter. Week two, the party class brings new faces in, and every guest gets a follow-up. Week three, the wheel spins and the Club Nine seats close. Week four, the Throwback Reunion brings old friends home.
+How does the month run? Week one, Platinum Hour, the launch film, and the numbered keys go live with a public counter. Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack. Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth. Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth.
 
 · · ·
 
 **April 2027 — That's the plan**
 
-That's April at Kenkere House. 15.1 lakh rupees, six offers, and 76 buyers to welcome. Nine years in, and honestly? We've never looked better.
+That's April at Kenkere House. 15.1 lakh rupees, seven offers, and 76 buyers to welcome. Nine years in, and honestly? We've never looked better.
 
 ## April · Pop-up
 
-*Read time ≈ 2:53 · 418 words · save as `pop-up-04.mp3`*
+*Read time ≈ 2:37 · 379 words · save as `pop-up-04.mp3`*
 
 **Pop-up · 2027 — April**
 
-Hello Pop-up! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine. The confetti budget has been approved. So has the target.
+Hello Pop-up! April is our birthday month. Nine years of Physique 57, and the theme is Cloud Nine: a party in four acts, eight offers, and more confetti than is strictly sensible.
 
 · · ·
 
@@ -1068,45 +1098,51 @@ Behind the number are people: 469 leads, 122 trials, and 40 buyers, with about 3
 
 · · ·
 
-**What the offers carry — 68%**
+**What the offers carry — 67%**
 
-Here's where the offers come in. Four offers carry 1.03 lakh rupees, which is 68 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 4 · Revenue boost — Plus One, Plus Nine**
-
-First up, Plus One, Plus Nine. Bring a friend who joins and get nine bonus days. Bring three, and get a whole month. Presents for presents, because it's our birthday. The plan is 1 buyer at about 5,900, so 5,900 rupees.
+Here's where the offers come in. Five offers carry 1.02 lakh rupees, which is 67 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 4 · New clients — Party Crasher Pass**
+**Offer 1 of 5 · Revenue boost — The 9:09 Panic Attack**
 
-Next, for newcomers, the Party Crasher Pass. Three classes, including the birthday party class, at a tiny price that comes off their first month if they join. Everyone's invited. The plan is 3 buyers at about 4,900, so 14,700 rupees.
-
-· · ·
-
-**Offer 3 of 4 · Win-backs — Where Are They Now?**
-
-Then, for old friends, Where Are They Now? Fifteen per cent off to come back, a bonus class for every year they've known us, and a seat at the Throwback Reunion. A lot has changed. We got prettier. The plan is 3 buyers at about 7,200, so 21,700 rupees.
+First up, the nine-oh-nine panic attack. The limited nine-class pack. That's 2 buyers, for 13,000 rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — Spin Class (Literally)**
+**Offer 2 of 5 · Revenue boost — Plus One, Plus Nine**
 
-And finally, Spin Class, literally. Renew in April for ten per cent off, then spin the Wheel of Nine. Every spin wins, and the odds are on the wall, because we're fit, not shady. The plan is 8 buyers at about 7,700, so 61,200 rupees.
+Next, Plus One, Plus Nine. Bring a friend who joins and get nine extra days. That's 1 buyer, for 5,900 rupees.
+
+· · ·
+
+**Offer 3 of 5 · New clients — Party Crasher Pass**
+
+Then, for newcomers, the Party Crasher Pass. Three classes for nine ninety-nine, party class included, credited against a first month. That's 3 buyers, for 14,700 rupees.
+
+· · ·
+
+**Offer 4 of 5 · Win-backs — Faking Your Own Death Didn’t Work**
+
+Also this month, for lapsed members, Faking Your Own Death Didn't Work. They get an obituary postcard, which is also their ticket to the candle-lit Séance Class. That's 2 buyers, for 14,500 rupees.
+
+· · ·
+
+**Offer 5 of 5 · Renewals — Spin Class (Literally)**
+
+And finally, for renewals, Spin Class. Literally. Renew in April and spin the Wheel of Nine. That's 7 buyers, for 53,600 rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, every offer goes live and the team knows them by heart. Week two, the party class brings new faces in, and every guest gets a follow-up. Week three, the wheel spins and the Club Nine seats close. Week four, the Throwback Reunion brings old friends home.
+How does the month run? Week one, every offer goes live and the team knows them by heart. Week two, anniversary week: the wheel, the plank-off, Barre-stie day and the nine-oh-nine panic attack. Week three, obituary postcards, the Séance Class, the Club Nine unveiling and nine at nine on the eighteenth. Week four, the Throwback Reunion, the Golden Glute Awards, and a midnight lock-in on the thirtieth.
 
 · · ·
 
 **April 2027 — That's the plan**
 
-That's April at Pop-up. 1.52 lakh rupees, four offers, and 40 buyers to welcome. Nine years in, and honestly? We've never looked better.
+That's April at Pop-up. 1.52 lakh rupees, five offers, and 40 buyers to welcome. Nine years in, and honestly? We've never looked better.
 
 ---
 
@@ -1654,7 +1690,7 @@ That's June at Pop-up. 2.25 lakh rupees, two offers, and 59 buyers to welcome. M
 
 ## July · Bandra
 
-*Read time ≈ 2:49 · 409 words · save as `bandra-07.mp3`*
+*Read time ≈ 2:50 · 411 words · save as `bandra-07.mp3`*
 
 **Bandra · 2027 — July**
 
@@ -1706,7 +1742,7 @@ Then, for the nervous newcomer, the Shy Girl Starter Pack. Start with a thirty-m
 
 **Offer 4 of 5 · Win-backs — Gone With the Wind, Back With the Rain**
 
-Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race. That's 14 buyers, for 2.41 lakh rupees.
+Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and first access to Freedom Weekend in August. That's 14 buyers, for 2.41 lakh rupees.
 
 · · ·
 
@@ -1718,7 +1754,7 @@ And finally, for renewals, Rain Check, literally. Renew in July for ten per cent
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members sign up for The Amazing Race.
+How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members get first access to August's Freedom Weekend.
 
 · · ·
 
@@ -1728,7 +1764,7 @@ That's July at Bandra. 21.4 lakh rupees, five offers, and 69 buyers to welcome. 
 
 ## July · Kemps Corner
 
-*Read time ≈ 2:51 · 413 words · save as `kemps-corner-07.mp3`*
+*Read time ≈ 2:52 · 415 words · save as `kemps-corner-07.mp3`*
 
 **Kemps Corner · 2027 — July**
 
@@ -1780,7 +1816,7 @@ Then, for the nervous newcomer, the Shy Girl Starter Pack. Start with a thirty-m
 
 **Offer 4 of 5 · Win-backs — Gone With the Wind, Back With the Rain**
 
-Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race. That's 22 buyers, for 3.78 lakh rupees.
+Also this month, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and first access to Freedom Weekend in August. That's 22 buyers, for 3.78 lakh rupees.
 
 · · ·
 
@@ -1792,7 +1828,7 @@ And finally, for renewals, Rain Check, literally. Renew in July for ten per cent
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members sign up for The Amazing Race.
+How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members get first access to August's Freedom Weekend.
 
 · · ·
 
@@ -1802,7 +1838,7 @@ That's July at Kemps Corner. 33.6 lakh rupees, five offers, and 72 buyers to wel
 
 ## July · Kenkere House
 
-*Read time ≈ 3:01 · 437 words · save as `kenkere-house-07.mp3`*
+*Read time ≈ 3:02 · 439 words · save as `kenkere-house-07.mp3`*
 
 **Kenkere House · 2027 — July**
 
@@ -1848,7 +1884,7 @@ Next, for the nervous newcomer, the Shy Girl Starter Pack. Start with a thirty-m
 
 **Offer 3 of 4 · Win-backs — Gone With the Wind, Back With the Rain**
 
-Then, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race. The plan is 9 buyers at about 12,400, so 1.12 lakh rupees.
+Then, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and first access to Freedom Weekend in August. The plan is 9 buyers at about 12,400, so 1.12 lakh rupees.
 
 · · ·
 
@@ -1860,7 +1896,7 @@ And finally, for renewals, Rain Check, literally. Renew in July for ten per cent
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members sign up for The Amazing Race.
+How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members get first access to August's Freedom Weekend.
 
 · · ·
 
@@ -1870,7 +1906,7 @@ That's July at Kenkere House. 12.5 lakh rupees, four offers, and 63 buyers to we
 
 ## July · Pop-up
 
-*Read time ≈ 2:56 · 426 words · save as `pop-up-07.mp3`*
+*Read time ≈ 2:57 · 428 words · save as `pop-up-07.mp3`*
 
 **Pop-up · 2027 — July**
 
@@ -1916,7 +1952,7 @@ Next, for newcomers, The Second Date's On Us. First class at half price, the sec
 
 **Offer 3 of 4 · Win-backs — Gone With the Wind, Back With the Rain**
 
-Then, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and a lane in The Amazing Race. The plan is 3 buyers at about 7,200, so 21,700 rupees.
+Then, for lapsed members, Gone With the Wind, Back With the Rain. Fifteen per cent off to return, two extra freezes for flooded days, and first access to Freedom Weekend in August. The plan is 3 buyers at about 7,200, so 21,700 rupees.
 
 · · ·
 
@@ -1928,7 +1964,7 @@ And finally, for renewals, Rain Check, literally. Renew in July for ten per cent
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members sign up for The Amazing Race.
+How does the month run? Week one, corporate and kitty party bookings open. Week two, we call everyone who left in the summer heat. Week three, the Rain Check renewal does the heavy lifting. Week four, returning members get first access to August's Freedom Weekend.
 
 · · ·
 
@@ -1938,15 +1974,15 @@ That's July at Pop-up. 2.09 lakh rupees, four offers, and 55 buyers to welcome. 
 
 ---
 
-# August — The Amazing Race 2.0
+# August — Azaadi From Average
 
 ## August · Bandra
 
-*Read time ≈ 3:02 · 440 words · save as `bandra-08.mp3`*
+*Read time ≈ 3:03 · 442 words · save as `bandra-08.mp3`*
 
 **Bandra · 2027 — August**
 
-Hello Bandra! August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard.
+Hello Bandra! August is Azaadi From Average. Friendship Day, Independence Day and Raksha Bandhan, and a month about freedom: from commitment issues, from price hikes, and from quitting when life gets busy.
 
 · · ·
 
@@ -1968,53 +2004,53 @@ Behind the number are people: 731 leads, 380 trials, and 82 buyers, with about 2
 
 · · ·
 
-**What the offers carry — 73%**
+**What the offers carry — 74%**
 
-Here's where the offers come in. Four offers carry 18.7 lakh rupees, which is 73 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 4 · Revenue boost — Friends With Benefits (Strictly Fitness)**
-
-First up, Friends With Benefits. Strictly fitness. Bring a friend who's never been, and they get two classes on us. If they join, you both get race tees, and you get bonus days and double points. The plan is 7 buyers at about 17,200, so 1.2 lakh rupees.
+Here's where the offers come in. Four offers carry 19 lakh rupees, which is 74 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 4 · New clients — Rookie Mistake (The Only Good One)**
+**Offer 1 of 4 · Revenue boost — Price Ki Azaadi (Freedom From Price Hikes)**
 
-Next, for newcomers, Rookie Mistake, the only good one. Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. The only rookie mistake is not starting. The plan is 15 buyers at about 16,200, so 2.43 lakh rupees.
-
-· · ·
-
-**Offer 3 of 4 · Renewals — Medal Detector**
-
-Then, for race finishers, the Medal Detector. Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, or three months at fifteen per cent off plus bonus days. The plan is 24 buyers at about 42,000, so 10.1 lakh rupees.
+First up, Price Ki Azaadi, freedom from price hikes. Over Freedom Weekend, the annual at twenty per cent off with fifteen extra days, and next year's renewal locked at this year's price. The plan is 3 buyers at about 1.76 lakh, so 5.27 lakh rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — At the Stroke of the Midnight Hour**
+**Offer 2 of 4 · Revenue boost — Squad Goals, Squat Goals**
 
-And finally, on Independence Day, At the Stroke of the Midnight Hour. Annual memberships at twenty-five per cent off, for the fifteenth of August only, with a strictly limited count. When the world sleeps, our members renew. The plan is 3 buyers at about 1.65 lakh, so 4.94 lakh rupees.
+Next, for Friendship Day, Squad Goals, Squat Goals. Members book a free Squad Class for up to four friends. Friends who join get fifteen per cent off and friendship-band grip socks. Siblings count, it's Rakhi month. The plan is 7 buyers at about 17,200, so 1.2 lakh rupees.
+
+· · ·
+
+**Offer 3 of 4 · New clients — No Strings Attached**
+
+Then, No Strings Attached. Two classes for nine ninety-nine, credited against a first month, and a break-up clause: if it's not for them after two weeks, what's left turns into a class pack. The plan is 15 buyers at about 16,200, so 2.43 lakh rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Freedom to Pause (Not Quit)**
+
+And finally, for renewals, Freedom to Pause, not quit. Renew for three months and get two Freedom Freezes for Ganpati and Diwali travel, or six months with a private and three freezes. The plan is 24 buyers at about 42,000, so 10.1 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, Friendship Day, and every friend gets two classes on us. Week two, Independence Day, and the midnight annual sale for one day only. Week three, the rookie leaderboard heats up, so celebrate newcomers by name. Week four, race finishers get their Medal Detector renewal.
+How does the month run? Week one, Friendship Day, and members book free Squad Classes for their friends. Week two, Freedom Weekend from the thirteenth, with annuals and a 2028 price lock. Week three, Independence Day and Sibling Barre, and every trial hears about the break-up clause. Week four, every renewal leaves with Freedom Freezes for the festive season.
 
 · · ·
 
 **August 2027 — That's the plan**
 
-That's August at Bandra. 25.5 lakh rupees, four offers, and 82 buyers to welcome. On your marks. Get set. Sell.
+That's August at Bandra. 25.5 lakh rupees, four offers, and 82 buyers to welcome. Freedom looks good on you. So does a longer plan.
 
 ## August · Kemps Corner
 
-*Read time ≈ 3:03 · 443 words · save as `kemps-corner-08.mp3`*
+*Read time ≈ 3:04 · 445 words · save as `kemps-corner-08.mp3`*
 
 **Kemps Corner · 2027 — August**
 
-Hello Kemps Corner! August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard.
+Hello Kemps Corner! August is Azaadi From Average. Friendship Day, Independence Day and Raksha Bandhan, and a month about freedom: from commitment issues, from price hikes, and from quitting when life gets busy.
 
 · · ·
 
@@ -2036,53 +2072,53 @@ Behind the number are people: 598 leads, 305 trials, and 82 buyers, with about 2
 
 · · ·
 
-**What the offers carry — 77%**
+**What the offers carry — 78%**
 
-Here's where the offers come in. Four offers carry 29.2 lakh rupees, which is 77 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 4 · Revenue boost — Friends With Benefits (Strictly Fitness)**
-
-First up, Friends With Benefits. Strictly fitness. Bring a friend who's never been, and they get two classes on us. If they join, you both get race tees, and you get bonus days and double points. The plan is 11 buyers at about 17,200, so 1.89 lakh rupees.
+Here's where the offers come in. Four offers carry 29.8 lakh rupees, which is 78 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 4 · New clients — Rookie Mistake (The Only Good One)**
+**Offer 1 of 4 · Revenue boost — Price Ki Azaadi (Freedom From Price Hikes)**
 
-Next, for newcomers, Rookie Mistake, the only good one. Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. The only rookie mistake is not starting. The plan is 22 buyers at about 16,200, so 3.56 lakh rupees.
-
-· · ·
-
-**Offer 3 of 4 · Renewals — Medal Detector**
-
-Then, for race finishers, the Medal Detector. Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, or three months at fifteen per cent off plus bonus days. The plan is 37 buyers at about 42,000, so 15.5 lakh rupees.
+First up, Price Ki Azaadi, freedom from price hikes. Over Freedom Weekend, the annual at twenty per cent off with fifteen extra days, and next year's renewal locked at this year's price. The plan is 5 buyers at about 1.76 lakh, so 8.78 lakh rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — At the Stroke of the Midnight Hour**
+**Offer 2 of 4 · Revenue boost — Squad Goals, Squat Goals**
 
-And finally, on Independence Day, At the Stroke of the Midnight Hour. Annual memberships at twenty-five per cent off, for the fifteenth of August only, with a strictly limited count. When the world sleeps, our members renew. The plan is 5 buyers at about 1.65 lakh, so 8.23 lakh rupees.
+Next, for Friendship Day, Squad Goals, Squat Goals. Members book a free Squad Class for up to four friends. Friends who join get fifteen per cent off and friendship-band grip socks. Siblings count, it's Rakhi month. The plan is 11 buyers at about 17,200, so 1.89 lakh rupees.
+
+· · ·
+
+**Offer 3 of 4 · New clients — No Strings Attached**
+
+Then, No Strings Attached. Two classes for nine ninety-nine, credited against a first month, and a break-up clause: if it's not for them after two weeks, what's left turns into a class pack. The plan is 22 buyers at about 16,200, so 3.56 lakh rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Freedom to Pause (Not Quit)**
+
+And finally, for renewals, Freedom to Pause, not quit. Renew for three months and get two Freedom Freezes for Ganpati and Diwali travel, or six months with a private and three freezes. The plan is 37 buyers at about 42,000, so 15.5 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, Friendship Day, and every friend gets two classes on us. Week two, Independence Day, and the midnight annual sale for one day only. Week three, the rookie leaderboard heats up, so celebrate newcomers by name. Week four, race finishers get their Medal Detector renewal.
+How does the month run? Week one, Friendship Day, and members book free Squad Classes for their friends. Week two, Freedom Weekend from the thirteenth, with annuals and a 2028 price lock. Week three, Independence Day and Sibling Barre, and every trial hears about the break-up clause. Week four, every renewal leaves with Freedom Freezes for the festive season.
 
 · · ·
 
 **August 2027 — That's the plan**
 
-That's August at Kemps Corner. 38.1 lakh rupees, four offers, and 82 buyers to welcome. On your marks. Get set. Sell.
+That's August at Kemps Corner. 38.1 lakh rupees, four offers, and 82 buyers to welcome. Freedom looks good on you. So does a longer plan.
 
 ## August · Kenkere House
 
-*Read time ≈ 2:58 · 431 words · save as `kenkere-house-08.mp3`*
+*Read time ≈ 2:59 · 433 words · save as `kenkere-house-08.mp3`*
 
 **Kenkere House · 2027 — August**
 
-Hello Kenkere House! August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard.
+Hello Kenkere House! August is Azaadi From Average. Friendship Day, Independence Day and Raksha Bandhan, and a month about freedom: from commitment issues, from price hikes, and from quitting when life gets busy.
 
 · · ·
 
@@ -2106,51 +2142,51 @@ Behind the number are people: 817 leads, 294 trials, and 55 buyers, with about 1
 
 **What the offers carry — 66%**
 
-Here's where the offers come in. Four offers carry 7.22 lakh rupees, which is 66 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
+Here's where the offers come in. Four offers carry 7.3 lakh rupees, which is 66 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
 
 · · ·
 
-**Offer 1 of 4 · Revenue boost — Friends With Benefits (Strictly Fitness)**
+**Offer 1 of 4 · Revenue boost — Price Ki Azaadi (Freedom From Price Hikes)**
 
-First up, Friends With Benefits. Strictly fitness. Bring a friend who's never been, and they get two classes on us. If they join, you both get race tees, and you get bonus days and double points. The plan is 4 buyers at about 12,400, so 49,600 rupees.
-
-· · ·
-
-**Offer 2 of 4 · New clients — Rookie Mistake (The Only Good One)**
-
-Next, for newcomers, Rookie Mistake, the only good one. Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. The only rookie mistake is not starting. The plan is 9 buyers at about 11,700, so 1.05 lakh rupees.
+First up, Price Ki Azaadi, freedom from price hikes. Over Freedom Weekend, the annual at twenty per cent off with fifteen extra days, and next year's renewal locked at this year's price. The plan is 1 buyer at about 1.25 lakh, so 1.25 lakh rupees.
 
 · · ·
 
-**Offer 3 of 4 · Renewals — Medal Detector**
+**Offer 2 of 4 · Revenue boost — Squad Goals, Squat Goals**
 
-Then, for race finishers, the Medal Detector. Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, or three months at fifteen per cent off plus bonus days. The plan is 15 buyers at about 30,000, so 4.5 lakh rupees.
+Next, for Friendship Day, Squad Goals, Squat Goals. Members book a free Squad Class for up to four friends. Friends who join get fifteen per cent off and friendship-band grip socks. Siblings count, it's Rakhi month. The plan is 4 buyers at about 12,400, so 49,600 rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — At the Stroke of the Midnight Hour**
+**Offer 3 of 4 · New clients — No Strings Attached**
 
-And finally, on Independence Day, At the Stroke of the Midnight Hour. Annual memberships at twenty-five per cent off, for the fifteenth of August only, with a strictly limited count. When the world sleeps, our members renew. The plan is 1 buyer at about 1.17 lakh, so 1.17 lakh rupees.
+Then, No Strings Attached. Two classes for nine ninety-nine, credited against a first month, and a break-up clause: if it's not for them after two weeks, what's left turns into a class pack. The plan is 9 buyers at about 11,700, so 1.05 lakh rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Freedom to Pause (Not Quit)**
+
+And finally, for renewals, Freedom to Pause, not quit. Renew for three months and get two Freedom Freezes for Ganpati and Diwali travel, or six months with a private and three freezes. The plan is 15 buyers at about 30,000, so 4.5 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, Friendship Day, and every friend gets two classes on us. Week two, Independence Day, and the midnight annual sale for one day only. Week three, the rookie leaderboard heats up, so celebrate newcomers by name. Week four, race finishers get their Medal Detector renewal.
+How does the month run? Week one, Friendship Day, and members book free Squad Classes for their friends. Week two, Freedom Weekend from the thirteenth, with annuals and a 2028 price lock. Week three, Independence Day and Sibling Barre, and every trial hears about the break-up clause. Week four, every renewal leaves with Freedom Freezes for the festive season.
 
 · · ·
 
 **August 2027 — That's the plan**
 
-That's August at Kenkere House. 11 lakh rupees, four offers, and 55 buyers to welcome. On your marks. Get set. Sell.
+That's August at Kenkere House. 11 lakh rupees, four offers, and 55 buyers to welcome. Freedom looks good on you. So does a longer plan.
 
 ## August · Pop-up
 
-*Read time ≈ 2:40 · 387 words · save as `pop-up-08.mp3`*
+*Read time ≈ 2:43 · 393 words · save as `pop-up-08.mp3`*
 
 **Pop-up · 2027 — August**
 
-Hello Pop-up! August is The Amazing Race, version two. Friendship Day, Independence Day, and a studio-wide race that turns attendance into a sport. Half the city is on holiday. The other half is on our leaderboard.
+Hello Pop-up! August is Azaadi From Average. Friendship Day, Independence Day and Raksha Bandhan, and a month about freedom: from commitment issues, from price hikes, and from quitting when life gets busy.
 
 · · ·
 
@@ -2172,39 +2208,39 @@ Behind the number are people: 631 leads, 164 trials, and 54 buyers, with about 3
 
 · · ·
 
-**What the offers carry — 37%**
+**What the offers carry — 38%**
 
-Here's where the offers come in. Three offers carry 76,700 rupees, which is 37 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 3 · Revenue boost — Friends With Benefits (Strictly Fitness)**
-
-First up, Friends With Benefits. Strictly fitness. Bring a friend who's never been, and they get two classes on us. If they join, you both get race tees, and you get bonus days and double points. The plan is 2 buyers at about 5,900, so 11,800 rupees.
+Here's where the offers come in. Three offers carry 78,700 rupees, which is 38 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 3 · New clients — Rookie Mistake (The Only Good One)**
+**Offer 1 of 3 · Revenue boost — Squad Goals, Squat Goals**
 
-Next, for newcomers, Rookie Mistake, the only good one. Two weeks unlimited at an intro price, plus a spot on the rookie leaderboard. The only rookie mistake is not starting. The plan is 4 buyers at about 5,400, so 21,600 rupees.
+First up, for Friendship Day, Squad Goals, Squat Goals. Members book a free Squad Class for up to four friends. Friends who join get fifteen per cent off and friendship-band grip socks. Siblings count, it's Rakhi month. The plan is 2 buyers at about 5,900, so 11,800 rupees.
 
 · · ·
 
-**Offer 3 of 3 · Renewals — Medal Detector**
+**Offer 2 of 3 · New clients — No Strings Attached**
 
-And finally, for race finishers, the Medal Detector. Finish the race and your renewal finds gold. Six months at twenty per cent off plus a private, or three months at fifteen per cent off plus bonus days. The plan is 6 buyers at about 7,200, so 43,400 rupees.
+Next, No Strings Attached. Two classes for nine ninety-nine, credited against a first month, and a break-up clause: if it's not for them after two weeks, what's left turns into a class pack. The plan is 4 buyers at about 5,900, so 23,600 rupees.
+
+· · ·
+
+**Offer 3 of 3 · Renewals — Freedom to Pause (Not Quit)**
+
+And finally, for renewals, Freedom to Pause, not quit. Renew for three months and get two Freedom Freezes for Ganpati and Diwali travel, or six months with a private and three freezes. The plan is 6 buyers at about 7,200, so 43,400 rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, Friendship Day, and every friend gets two classes on us. Week two, check sell-through every Monday and follow up every trial within a day. Week three, the rookie leaderboard heats up, so celebrate newcomers by name. Week four, race finishers get their Medal Detector renewal.
+How does the month run? Week one, Friendship Day, and members book free Squad Classes for their friends. Week two, check sell-through every Monday and follow up every trial within a day. Week three, Independence Day and Sibling Barre, and every trial hears about the break-up clause. Week four, every renewal leaves with Freedom Freezes for the festive season.
 
 · · ·
 
 **August 2027 — That's the plan**
 
-That's August at Pop-up. 2.05 lakh rupees, three offers, and 54 buyers to welcome. On your marks. Get set. Sell.
+That's August at Pop-up. 2.05 lakh rupees, three offers, and 54 buyers to welcome. Freedom looks good on you. So does a longer plan.
 
 ---
 
@@ -2748,15 +2784,15 @@ That's October at Pop-up. 1.87 lakh rupees, three offers, and 49 buyers to welco
 
 ---
 
-# November — Black Friday + Thank U, Next
+# November — Shaadi Season (and a Very Black Friday)
 
 ## November · Bandra
 
-*Read time ≈ 2:35 · 375 words · save as `bandra-11.mp3`*
+*Read time ≈ 2:58 · 431 words · save as `bandra-11.mp3`*
 
 **Bandra · 2027 — November**
 
-Hello Bandra! November is Black Friday, plus Thank U, Next. This month starts with gratitude and ends with the best long-plan prices of the year. First we say thank you. Then we say, sincerely, have you seen this annual?
+Hello Bandra! November is Shaadi Season, and a very Black Friday. Half our members have a wedding to dance at, and the other half have a sale to wait for. We have something for both.
 
 · · ·
 
@@ -2778,47 +2814,53 @@ Behind the number are people: 392 leads, 204 trials, and 44 buyers, with about 2
 
 · · ·
 
-**What the offers carry — 63%**
+**What the offers carry — 65%**
 
-Here's where the offers come in. Three offers carry 8.6 lakh rupees, which is 63 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
-
-· · ·
-
-**Offer 1 of 3 · Revenue boost — Thank U, Next (Year)**
-
-First up, Thank U, Next Year. Appreciation week. A guest pass to share, a members-only night, and a gift for anyone who's hit a hundred classes. No catch. Just gratitude, and glutes. The plan is 5 buyers at about 17,200, so 86,000 rupees.
+Here's where the offers come in. Four offers carry 8.82 lakh rupees, which is 65 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
 
 · · ·
 
-**Offer 2 of 3 · New clients — Secret Santa Squats**
+**Offer 1 of 4 · Revenue boost — 11.11: Treat Yourself, Not Your Ex**
 
-Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. If the recipient loves it, half comes off their first month. The plan is 12 buyers at about 2,000, so 24,000 rupees.
+First up, eleven eleven: treat yourself, not your ex. Eleven hours only, eight-class packs at twenty per cent off. One per person. The plan is 6 buyers at about 10,500, so 63,000 rupees.
 
 · · ·
 
-**Offer 3 of 3 · Renewals — Black Friday, Strong Monday, Sore Tuesday**
+**Offer 2 of 4 · New clients — Bride Squad, Assemble (Groom Can Come Too)**
 
-And finally, the big one, Black Friday, Strong Monday, Sore Tuesday. Four days of the year's best long-plan prices, plus the last Club Nine seats. No one-month discounts. We're not that kind of studio. The plan is 10 buyers at about 75,000, so 7.5 lakh rupees.
+Next, Bride Squad, Assemble. The groom can come too. Four or more of you, at least two new, buy twelve-class packs together at twelve per cent off and get a private Squad Class that ends on a Sangeet routine. The plan is 12 buyers at about 17,300, so 2.08 lakh rupees.
+
+· · ·
+
+**Offer 3 of 4 · Win-backs — Shaadi Mein Zaroor Aana (Come Back Before the Baraat)**
+
+Then, for lapsed members, Shaadi Mein Zaroor Aana. Fifteen per cent off to come back, matching Bride Tribe socks, and a seat at the Sangeet Choreo Barre. The plan is 5 buyers at about 17,200, so 86,000 rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Black Friday Blind Box (No Duds)**
+
+And finally, the Black Friday Blind Box. No duds. Renew for three, six or twelve months and pick a sealed box: extra days, guest passes, a private. Every box wins, and one annual box per studio hides the hoodie. The plan is 7 buyers at about 75,000, so 5.25 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, appreciation week, with guest passes and hundred-class gifts. Week two, Secret Santa vouchers reach every office and group chat. Week three, members get the Black Friday dates first. Week four, four days of Black Friday, long plans only.
+How does the month run? Week one, bride squads and wedding parties get their group rate. Week two, eleven eleven: eleven hours of pack prices, and no exes invited. Week three, the Sangeet Choreo Barre on the twentieth, and lapsed members come back before the baraat. Week four, the Black Friday Blind Box, four days, long plans only, and no duds.
 
 · · ·
 
 **November 2027 — That's the plan**
 
-That's November at Bandra. 13.6 lakh rupees, three offers, and 44 buyers to welcome. Grateful, gorgeous, and fully booked. That's November.
+That's November at Bandra. 13.6 lakh rupees, four offers, and 44 buyers to welcome. Wedding-ready and fully booked. That's November.
 
 ## November · Kemps Corner
 
-*Read time ≈ 2:37 · 380 words · save as `kemps-corner-11.mp3`*
+*Read time ≈ 3:01 · 437 words · save as `kemps-corner-11.mp3`*
 
 **Kemps Corner · 2027 — November**
 
-Hello Kemps Corner! November is Black Friday, plus Thank U, Next. This month starts with gratitude and ends with the best long-plan prices of the year. First we say thank you. Then we say, sincerely, have you seen this annual?
+Hello Kemps Corner! November is Shaadi Season, and a very Black Friday. Half our members have a wedding to dance at, and the other half have a sale to wait for. We have something for both.
 
 · · ·
 
@@ -2842,45 +2884,51 @@ Behind the number are people: 335 leads, 171 trials, and 46 buyers, with about 2
 
 **What the offers carry — 64%**
 
-Here's where the offers come in. Three offers carry 13.7 lakh rupees, which is 64 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
+Here's where the offers come in. Four offers carry 13.8 lakh rupees, which is 64 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
 
 · · ·
 
-**Offer 1 of 3 · Revenue boost — Thank U, Next (Year)**
+**Offer 1 of 4 · Revenue boost — 11.11: Treat Yourself, Not Your Ex**
 
-First up, Thank U, Next Year. Appreciation week. A guest pass to share, a members-only night, and a gift for anyone who's hit a hundred classes. No catch. Just gratitude, and glutes. The plan is 8 buyers at about 17,200, so 1.38 lakh rupees.
-
-· · ·
-
-**Offer 2 of 3 · New clients — Secret Santa Squats**
-
-Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. If the recipient loves it, half comes off their first month. The plan is 18 buyers at about 2,000, so 36,000 rupees.
+First up, eleven eleven: treat yourself, not your ex. Eleven hours only, eight-class packs at twenty per cent off. One per person. The plan is 10 buyers at about 10,500, so 1.05 lakh rupees.
 
 · · ·
 
-**Offer 3 of 3 · Renewals — Black Friday, Strong Monday, Sore Tuesday**
+**Offer 2 of 4 · New clients — Bride Squad, Assemble (Groom Can Come Too)**
 
-And finally, the big one, Black Friday, Strong Monday, Sore Tuesday. Four days of the year's best long-plan prices, plus the last Club Nine seats. No one-month discounts. We're not that kind of studio. The plan is 16 buyers at about 75,000, so 12 lakh rupees.
+Next, Bride Squad, Assemble. The groom can come too. Four or more of you, at least two new, buy twelve-class packs together at twelve per cent off and get a private Squad Class that ends on a Sangeet routine. The plan is 18 buyers at about 17,300, so 3.12 lakh rupees.
+
+· · ·
+
+**Offer 3 of 4 · Win-backs — Shaadi Mein Zaroor Aana (Come Back Before the Baraat)**
+
+Then, for lapsed members, Shaadi Mein Zaroor Aana. Fifteen per cent off to come back, matching Bride Tribe socks, and a seat at the Sangeet Choreo Barre. The plan is 8 buyers at about 17,200, so 1.38 lakh rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Black Friday Blind Box (No Duds)**
+
+And finally, the Black Friday Blind Box. No duds. Renew for three, six or twelve months and pick a sealed box: extra days, guest passes, a private. Every box wins, and one annual box per studio hides the hoodie. The plan is 11 buyers at about 75,000, so 8.25 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, appreciation week, with guest passes and hundred-class gifts. Week two, Secret Santa vouchers reach every office and group chat. Week three, members get the Black Friday dates first. Week four, four days of Black Friday, long plans only.
+How does the month run? Week one, bride squads and wedding parties get their group rate. Week two, eleven eleven: eleven hours of pack prices, and no exes invited. Week three, the Sangeet Choreo Barre on the twentieth, and lapsed members come back before the baraat. Week four, the Black Friday Blind Box, four days, long plans only, and no duds.
 
 · · ·
 
 **November 2027 — That's the plan**
 
-That's November at Kemps Corner. 21.4 lakh rupees, three offers, and 46 buyers to welcome. Grateful, gorgeous, and fully booked. That's November.
+That's November at Kemps Corner. 21.4 lakh rupees, four offers, and 46 buyers to welcome. Wedding-ready and fully booked. That's November.
 
 ## November · Kenkere House
 
-*Read time ≈ 2:34 · 372 words · save as `kenkere-house-11.mp3`*
+*Read time ≈ 2:57 · 427 words · save as `kenkere-house-11.mp3`*
 
 **Kenkere House · 2027 — November**
 
-Hello Kenkere House! November is Black Friday, plus Thank U, Next. This month starts with gratitude and ends with the best long-plan prices of the year. First we say thank you. Then we say, sincerely, have you seen this annual?
+Hello Kenkere House! November is Shaadi Season, and a very Black Friday. Half our members have a wedding to dance at, and the other half have a sale to wait for. We have something for both.
 
 · · ·
 
@@ -2902,47 +2950,53 @@ Behind the number are people: 847 leads, 305 trials, and 57 buyers, with about 1
 
 · · ·
 
-**What the offers carry — 34%**
+**What the offers carry — 41%**
 
-Here's where the offers come in. Three offers carry 3.79 lakh rupees, which is 34 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 3 · Revenue boost — Thank U, Next (Year)**
-
-First up, Thank U, Next Year. Appreciation week. A guest pass to share, a members-only night, and a gift for anyone who's hit a hundred classes. No catch. Just gratitude, and glutes. The plan is 3 buyers at about 12,400, so 37,200 rupees.
+Here's where the offers come in. Four offers carry 4.55 lakh rupees, which is 41 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 3 · New clients — Secret Santa Squats**
+**Offer 1 of 4 · Revenue boost — 11.11: Treat Yourself, Not Your Ex**
 
-Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. If the recipient loves it, half comes off their first month. The plan is 12 buyers at about 1,500, so 18,000 rupees.
+First up, eleven eleven: treat yourself, not your ex. Eleven hours only, eight-class packs at twenty per cent off. One per person. The plan is 8 buyers at about 7,000, so 55,800 rupees.
 
 · · ·
 
-**Offer 3 of 3 · Renewals — Black Friday, Strong Monday, Sore Tuesday**
+**Offer 2 of 4 · New clients — Bride Squad, Assemble (Groom Can Come Too)**
 
-And finally, the big one, Black Friday, Strong Monday, Sore Tuesday. Four days of the year's best long-plan prices, plus the last Club Nine seats. No one-month discounts. We're not that kind of studio. The plan is 6 buyers at about 54,000, so 3.24 lakh rupees.
+Next, Bride Squad, Assemble. The groom can come too. Four or more of you, at least two new, buy twelve-class packs together at twelve per cent off and get a private Squad Class that ends on a Sangeet routine. The plan is 8 buyers at about 11,600, so 92,400 rupees.
+
+· · ·
+
+**Offer 3 of 4 · Win-backs — Shaadi Mein Zaroor Aana (Come Back Before the Baraat)**
+
+Then, for lapsed members, Shaadi Mein Zaroor Aana. Fifteen per cent off to come back, matching Bride Tribe socks, and a seat at the Sangeet Choreo Barre. The plan is 3 buyers at about 12,400, so 37,200 rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — Black Friday Blind Box (No Duds)**
+
+And finally, the Black Friday Blind Box. No duds. Renew for three, six or twelve months and pick a sealed box: extra days, guest passes, a private. Every box wins, and one annual box per studio hides the hoodie. The plan is 5 buyers at about 54,000, so 2.7 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, appreciation week, with guest passes and hundred-class gifts. Week two, Secret Santa vouchers reach every office and group chat. Week three, members get the Black Friday dates first. Week four, four days of Black Friday, long plans only.
+How does the month run? Week one, bride squads and wedding parties get their group rate. Week two, eleven eleven: eleven hours of pack prices, and no exes invited. Week three, the Sangeet Choreo Barre on the twentieth, and lapsed members come back before the baraat. Week four, the Black Friday Blind Box, four days, long plans only, and no duds.
 
 · · ·
 
 **November 2027 — That's the plan**
 
-That's November at Kenkere House. 11.2 lakh rupees, three offers, and 57 buyers to welcome. Grateful, gorgeous, and fully booked. That's November.
+That's November at Kenkere House. 11.2 lakh rupees, four offers, and 57 buyers to welcome. Wedding-ready and fully booked. That's November.
 
 ## November · Pop-up
 
-*Read time ≈ 2:52 · 416 words · save as `pop-up-11.mp3`*
+*Read time ≈ 2:38 · 381 words · save as `pop-up-11.mp3`*
 
 **Pop-up · 2027 — November**
 
-Hello Pop-up! November is Black Friday, plus Thank U, Next. This month starts with gratitude and ends with the best long-plan prices of the year. First we say thank you. Then we say, sincerely, have you seen this annual?
+Hello Pop-up! November is Shaadi Season, and a very Black Friday. Half our members have a wedding to dance at, and the other half have a sale to wait for. We have something for both.
 
 · · ·
 
@@ -2964,57 +3018,51 @@ Behind the number are people: 562 leads, 146 trials, and 48 buyers, with about 3
 
 · · ·
 
-**What the offers carry — 62%**
+**What the offers carry — 57%**
 
-Here's where the offers come in. Four offers carry 1.12 lakh rupees, which is 62 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
-
-· · ·
-
-**Offer 1 of 4 · Revenue boost — Thank U, Next (Year)**
-
-First up, Thank U, Next Year. Appreciation week. A guest pass to share, a members-only night, and a gift for anyone who's hit a hundred classes. No catch. Just gratitude, and glutes. The plan is 1 buyer at about 5,900, so 5,900 rupees.
+Here's where the offers come in. Three offers carry 1.03 lakh rupees, which is 57 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
 
 · · ·
 
-**Offer 2 of 4 · New clients — Pop-Up, Don't Drop Out**
+**Offer 1 of 3 · Revenue boost — 11.11: Treat Yourself, Not Your Ex**
 
-Next, for pop-up trialists, Pop-Up, Don't Drop Out. Buy a pack within seventy-two hours of the trial for fifteen per cent off, fifteen extra days, and a class to bring a friend. The plan is 12 buyers at about 7,200, so 86,700 rupees.
-
-· · ·
-
-**Offer 3 of 4 · New clients — Secret Santa Squats**
-
-Then, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. If the recipient loves it, half comes off their first month. The plan is 5 buyers at about 1,000, so 5,000 rupees.
+First up, eleven eleven: treat yourself, not your ex. Eleven hours only, eight-class packs at twenty per cent off. One per person. The plan is 4 buyers at about 5,500, so 22,200 rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — Black Friday, Strong Monday, Sore Tuesday**
+**Offer 2 of 3 · New clients — Bride Squad, Assemble (Groom Can Come Too)**
 
-And finally, the big one, Black Friday, Strong Monday, Sore Tuesday. Four days of the year's best long-plan prices, plus the last Club Nine seats. No one-month discounts. We're not that kind of studio. The plan is 2 buyers at about 7,200, so 14,500 rupees.
+Next, Bride Squad, Assemble. The groom can come too. Four or more of you, at least two new, buy twelve-class packs together at twelve per cent off and get a private Squad Class that ends on a Sangeet routine. The plan is 10 buyers at about 6,600, so 65,800 rupees.
+
+· · ·
+
+**Offer 3 of 3 · Renewals — Black Friday Blind Box (No Duds)**
+
+And finally, the Black Friday Blind Box. No duds. Renew for three, six or twelve months and pick a sealed box: extra days, guest passes, a private. Every box wins, and one annual box per studio hides the hoodie. The plan is 2 buyers at about 7,700, so 15,300 rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, appreciation week, with guest passes and hundred-class gifts. Week two, Secret Santa vouchers reach every office and group chat. Week three, members get the Black Friday dates first. Week four, four days of Black Friday, long plans only.
+How does the month run? Week one, bride squads and wedding parties get their group rate. Week two, eleven eleven: eleven hours of pack prices, and no exes invited. Week three, a mid-month check against the target. Week four, the Black Friday Blind Box, four days, long plans only, and no duds.
 
 · · ·
 
 **November 2027 — That's the plan**
 
-That's November at Pop-up. 1.81 lakh rupees, four offers, and 48 buyers to welcome. Grateful, gorgeous, and fully booked. That's November.
+That's November at Pop-up. 1.81 lakh rupees, three offers, and 48 buyers to welcome. Wedding-ready and fully booked. That's November.
 
 ---
 
-# December — Wrapped
+# December — Party Season Survival Guide
 
 ## December · Bandra
 
-*Read time ≈ 2:50 · 412 words · save as `bandra-12.mp3`*
+*Read time ≈ 3:01 · 438 words · save as `bandra-12.mp3`*
 
 **Bandra · 2027 — December**
 
-Hello Bandra! December is Wrapped. The year is ending, everyone is reflecting, and every member has a story told in classes, favourite trainers and peak hours. This month we show them that story, and help them write next year's.
+Hello Bandra! December is the Party Season Survival Guide. Office parties, family dinners, and a January that is coming whether we like it or not. This month we help members get through the season, and set up the new year before it starts.
 
 · · ·
 
@@ -3036,45 +3084,45 @@ Behind the number are people: 525 leads, 273 trials, and 59 buyers, with about 2
 
 · · ·
 
-**What the offers carry — 77%**
+**What the offers carry — 73%**
 
-Here's where the offers come in. Five offers carry 14.2 lakh rupees, which is 77 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 5 · New clients — Resolution Pre-Order (Ships 1 Jan)**
-
-First up, the Resolution Pre-Order. Ships first of January. Buy now, start between the first and tenth of January, and a coach checks in during week one so it actually sticks. That's 7 buyers, for 1.2 lakh rupees.
+Here's where the offers come in. Five offers carry 13.6 lakh rupees, which is 73 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 5 · New clients — Secret Santa Squats**
+**Offer 1 of 5 · Revenue boost — Boxing Day (Gloves Optional)**
 
-Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. That's 16 buyers, for 32,000 rupees.
-
-· · ·
-
-**Offer 3 of 5 · Win-backs — Last Seen: 2026 (We Noticed)**
-
-Then, for long-lapsed members, Last Seen, 2026. We noticed. Fifteen per cent off, a free comeback class, and a spot on the Stronger in 30 comeback track, before the new year. That's 8 buyers, for 1.38 lakh rupees.
+First up, Boxing Day. Gloves optional. Two days only, twelve-class packs at twenty per cent off. That's 18 buyers, for 2.83 lakh rupees.
 
 · · ·
 
-**Offer 4 of 5 · Renewals — Wrapped: Your Top Artist Was Your Trainer**
+**Offer 2 of 5 · New clients — Resolution Insurance (Claim Approved)**
 
-Also this month, Wrapped. Your top artist was your trainer. Every member gets their year in classes, trainers and peak hours, and next year's plan, priced for how they actually train. That's 14 buyers, for 7.7 lakh rupees.
+Next, for newcomers, Resolution Insurance. Claim approved. Buy your first month now, start any day from the first to the tenth of January, and January's late-cancel fees are on us, plus a freeze for when life happens. That's 7 buyers, for 1.2 lakh rupees.
 
 · · ·
 
-**Offer 5 of 5 · Renewals — 12 Days of Shakemas**
+**Offer 3 of 5 · New clients — The Gift They Won’t Regift**
 
-And finally, the finale, Twelve Days of Shakemas. A new published deal every day from the thirteenth to the twenty-fourth. That's 12 buyers, for 3.6 lakh rupees.
+Then, the Gift They Won't Regift. A boxed gift: two classes, grip socks, and a thousand rupees off a first membership. That's 16 buyers, for 40,000 rupees.
+
+· · ·
+
+**Offer 4 of 5 · Win-backs — The Ex-Files: Season Finale**
+
+Also this month, for lapsed members, The Ex-Files: Season Finale. Ten per cent off to come back, fifteen on three months, and a plus-one to the NYE Countdown Class. That's 8 buyers, for 1.46 lakh rupees.
+
+· · ·
+
+**Offer 5 of 5 · Renewals — The Advent-ure Calendar (Opens in January)**
+
+And finally, the Advent-ure Calendar, which opens in January. Renew in December and take home twelve doors of perks, one a week from the third of January: guest passes, a private, smoothies and a golden door. That's 14 buyers, for 7.7 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, Wrapped cards go out to every member. Week two, twelve days of Shakemas begin on the thirteenth. Week three, gift vouchers and resolution pre-orders for the I'll start in January crowd. Week four, last-seen members get their invitation home.
+How does the month run? Week one, Advent-ure Calendars and gift boxes go on sale. Week two, every December renewal hears the calendar pitch, and offices get their gift boxes. Week three, Ugly Sweater Barre, and Resolution Insurance for the I'll start in January crowd. Week four, Boxing Day packs, and the NYE Countdown Class for our comeback members.
 
 · · ·
 
@@ -3084,11 +3132,11 @@ That's December at Bandra. 18.5 lakh rupees, five offers, and 59 buyers to welco
 
 ## December · Kemps Corner
 
-*Read time ≈ 2:52 · 416 words · save as `kemps-corner-12.mp3`*
+*Read time ≈ 3:03 · 442 words · save as `kemps-corner-12.mp3`*
 
 **Kemps Corner · 2027 — December**
 
-Hello Kemps Corner! December is Wrapped. The year is ending, everyone is reflecting, and every member has a story told in classes, favourite trainers and peak hours. This month we show them that story, and help them write next year's.
+Hello Kemps Corner! December is the Party Season Survival Guide. Office parties, family dinners, and a January that is coming whether we like it or not. This month we help members get through the season, and set up the new year before it starts.
 
 · · ·
 
@@ -3110,45 +3158,45 @@ Behind the number are people: 547 leads, 279 trials, and 75 buyers, with about 2
 
 · · ·
 
-**What the offers carry — 78%**
+**What the offers carry — 74%**
 
-Here's where the offers come in. Five offers carry 27.3 lakh rupees, which is 78 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 5 · New clients — Resolution Pre-Order (Ships 1 Jan)**
-
-First up, the Resolution Pre-Order. Ships first of January. Buy now, start between the first and tenth of January, and a coach checks in during week one so it actually sticks. That's 13 buyers, for 2.24 lakh rupees.
+Here's where the offers come in. Five offers carry 26 lakh rupees, which is 74 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 5 · New clients — Secret Santa Squats**
+**Offer 1 of 5 · Revenue boost — Boxing Day (Gloves Optional)**
 
-Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. That's 29 buyers, for 58,000 rupees.
-
-· · ·
-
-**Offer 3 of 5 · Win-backs — Last Seen: 2026 (We Noticed)**
-
-Then, for long-lapsed members, Last Seen, 2026. We noticed. Fifteen per cent off, a free comeback class, and a spot on the Stronger in 30 comeback track, before the new year. That's 14 buyers, for 2.41 lakh rupees.
+First up, Boxing Day. Gloves optional. Two days only, twelve-class packs at twenty per cent off. That's 36 buyers, for 5.67 lakh rupees.
 
 · · ·
 
-**Offer 4 of 5 · Renewals — Wrapped: Your Top Artist Was Your Trainer**
+**Offer 2 of 5 · New clients — Resolution Insurance (Claim Approved)**
 
-Also this month, Wrapped. Your top artist was your trainer. Every member gets their year in classes, trainers and peak hours, and next year's plan, priced for how they actually train. That's 27 buyers, for 14.8 lakh rupees.
+Next, for newcomers, Resolution Insurance. Claim approved. Buy your first month now, start any day from the first to the tenth of January, and January's late-cancel fees are on us, plus a freeze for when life happens. That's 13 buyers, for 2.24 lakh rupees.
 
 · · ·
 
-**Offer 5 of 5 · Renewals — 12 Days of Shakemas**
+**Offer 3 of 5 · New clients — The Gift They Won’t Regift**
 
-And finally, the finale, Twelve Days of Shakemas. A new published deal every day from the thirteenth to the twenty-fourth. That's 24 buyers, for 7.2 lakh rupees.
+Then, the Gift They Won't Regift. A boxed gift: two classes, grip socks, and a thousand rupees off a first membership. That's 29 buyers, for 72,500 rupees.
+
+· · ·
+
+**Offer 4 of 5 · Win-backs — The Ex-Files: Season Finale**
+
+Also this month, for lapsed members, The Ex-Files: Season Finale. Ten per cent off to come back, fifteen on three months, and a plus-one to the NYE Countdown Class. That's 14 buyers, for 2.55 lakh rupees.
+
+· · ·
+
+**Offer 5 of 5 · Renewals — The Advent-ure Calendar (Opens in January)**
+
+And finally, the Advent-ure Calendar, which opens in January. Renew in December and take home twelve doors of perks, one a week from the third of January: guest passes, a private, smoothies and a golden door. That's 27 buyers, for 14.8 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, Wrapped cards go out to every member. Week two, twelve days of Shakemas begin on the thirteenth. Week three, gift vouchers and resolution pre-orders for the I'll start in January crowd. Week four, last-seen members get their invitation home.
+How does the month run? Week one, Advent-ure Calendars and gift boxes go on sale. Week two, every December renewal hears the calendar pitch, and offices get their gift boxes. Week three, Ugly Sweater Barre, and Resolution Insurance for the I'll start in January crowd. Week four, Boxing Day packs, and the NYE Countdown Class for our comeback members.
 
 · · ·
 
@@ -3158,11 +3206,11 @@ That's December at Kemps Corner. 35 lakh rupees, five offers, and 75 buyers to w
 
 ## December · Kenkere House
 
-*Read time ≈ 2:52 · 415 words · save as `kenkere-house-12.mp3`*
+*Read time ≈ 3:02 · 441 words · save as `kenkere-house-12.mp3`*
 
 **Kenkere House · 2027 — December**
 
-Hello Kenkere House! December is Wrapped. The year is ending, everyone is reflecting, and every member has a story told in classes, favourite trainers and peak hours. This month we show them that story, and help them write next year's.
+Hello Kenkere House! December is the Party Season Survival Guide. Office parties, family dinners, and a January that is coming whether we like it or not. This month we help members get through the season, and set up the new year before it starts.
 
 · · ·
 
@@ -3184,45 +3232,45 @@ Behind the number are people: 625 leads, 225 trials, and 42 buyers, with about 1
 
 · · ·
 
-**What the offers carry — 72%**
+**What the offers carry — 71%**
 
-Here's where the offers come in. Five offers carry 6.01 lakh rupees, which is 72 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
-
-· · ·
-
-**Offer 1 of 5 · New clients — Resolution Pre-Order (Ships 1 Jan)**
-
-First up, the Resolution Pre-Order. Ships first of January. Buy now, start between the first and tenth of January, and a coach checks in during week one so it actually sticks. That's 4 buyers, for 49,600 rupees.
+Here's where the offers come in. Five offers carry 5.85 lakh rupees, which is 71 per cent of our target. The rest is full-price. Offers open the door. Great classes keep it open. Let's meet them.
 
 · · ·
 
-**Offer 2 of 5 · New clients — Secret Santa Squats**
+**Offer 1 of 5 · Revenue boost — Boxing Day (Gloves Optional)**
 
-Next, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. That's 9 buyers, for 13,500 rupees.
-
-· · ·
-
-**Offer 3 of 5 · Win-backs — Last Seen: 2026 (We Noticed)**
-
-Then, for long-lapsed members, Last Seen, 2026. We noticed. Fifteen per cent off, a free comeback class, and a spot on the Stronger in 30 comeback track, before the new year. That's 4 buyers, for 49,600 rupees.
+First up, Boxing Day. Gloves optional. Two days only, twelve-class packs at twenty per cent off. That's 14 buyers, for 1.47 lakh rupees.
 
 · · ·
 
-**Offer 4 of 5 · Renewals — Wrapped: Your Top Artist Was Your Trainer**
+**Offer 2 of 5 · New clients — Resolution Insurance (Claim Approved)**
 
-Also this month, Wrapped. Your top artist was your trainer. Every member gets their year in classes, trainers and peak hours, and next year's plan, priced for how they actually train. That's 8 buyers, for 3.2 lakh rupees.
+Next, for newcomers, Resolution Insurance. Claim approved. Buy your first month now, start any day from the first to the tenth of January, and January's late-cancel fees are on us, plus a freeze for when life happens. That's 4 buyers, for 49,600 rupees.
 
 · · ·
 
-**Offer 5 of 5 · Renewals — 12 Days of Shakemas**
+**Offer 3 of 5 · New clients — The Gift They Won’t Regift**
 
-And finally, the finale, Twelve Days of Shakemas. A new published deal every day from the thirteenth to the twenty-fourth. That's 8 buyers, for 1.68 lakh rupees.
+Then, the Gift They Won't Regift. A boxed gift: two classes, grip socks, and a thousand rupees off a first membership. That's 9 buyers, for 16,200 rupees.
+
+· · ·
+
+**Offer 4 of 5 · Win-backs — The Ex-Files: Season Finale**
+
+Also this month, for lapsed members, The Ex-Files: Season Finale. Ten per cent off to come back, fifteen on three months, and a plus-one to the NYE Countdown Class. That's 4 buyers, for 52,500 rupees.
+
+· · ·
+
+**Offer 5 of 5 · Renewals — The Advent-ure Calendar (Opens in January)**
+
+And finally, the Advent-ure Calendar, which opens in January. Renew in December and take home twelve doors of perks, one a week from the third of January: guest passes, a private, smoothies and a golden door. That's 8 buyers, for 3.2 lakh rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, Wrapped cards go out to every member. Week two, twelve days of Shakemas begin on the thirteenth. Week three, gift vouchers and resolution pre-orders for the I'll start in January crowd. Week four, last-seen members get their invitation home.
+How does the month run? Week one, Advent-ure Calendars and gift boxes go on sale. Week two, every December renewal hears the calendar pitch, and offices get their gift boxes. Week three, Ugly Sweater Barre, and Resolution Insurance for the I'll start in January crowd. Week four, Boxing Day packs, and the NYE Countdown Class for our comeback members.
 
 · · ·
 
@@ -3232,11 +3280,11 @@ That's December at Kenkere House. 8.3 lakh rupees, five offers, and 42 buyers to
 
 ## December · Pop-up
 
-*Read time ≈ 2:50 · 412 words · save as `pop-up-12.mp3`*
+*Read time ≈ 2:53 · 418 words · save as `pop-up-12.mp3`*
 
 **Pop-up · 2027 — December**
 
-Hello Pop-up! December is Wrapped. The year is ending, everyone is reflecting, and every member has a story told in classes, favourite trainers and peak hours. This month we show them that story, and help them write next year's.
+Hello Pop-up! December is the Party Season Survival Guide. Office parties, family dinners, and a January that is coming whether we like it or not. This month we help members get through the season, and set up the new year before it starts.
 
 · · ·
 
@@ -3258,39 +3306,39 @@ Behind the number are people: 527 leads, 137 trials, and 45 buyers, with about 3
 
 · · ·
 
-**What the offers carry — 45%**
+**What the offers carry — 49%**
 
-Here's where the offers come in. Four offers carry 76,300 rupees, which is 45 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
-
-· · ·
-
-**Offer 1 of 4 · New clients — Secret Santa Squats**
-
-First up, for gifting, Secret Santa Squats. Two classes and grip socks, sized for a Secret Santa budget. If the recipient loves it, half comes off their first month. The plan is 4 buyers at about 1,000, so 4,000 rupees.
+Here's where the offers come in. Four offers carry 82,600 rupees, which is 49 per cent of our target. The rest comes from full-price sales, so the offers are a boost, not a crutch. Let's meet them.
 
 · · ·
 
-**Offer 2 of 4 · Win-backs — Last Seen: 2026 (We Noticed)**
+**Offer 1 of 4 · Revenue boost — Boxing Day (Gloves Optional)**
 
-Next, for long-lapsed members, Last Seen, 2026. We noticed. Fifteen per cent off, a free comeback class, and a spot on the Stronger in 30 comeback track, before the new year. The plan is 2 buyers at about 7,200, so 14,500 rupees.
-
-· · ·
-
-**Offer 3 of 4 · Renewals — Wrapped: Your Top Artist Was Your Trainer**
-
-Then, Wrapped. Your top artist was your trainer. Every member gets their year in classes, trainers and peak hours, and next year's plan, priced for how they actually train. The plan is 4 buyers at about 7,200, so 28,900 rupees.
+First up, Boxing Day. Gloves optional. Two days only, twelve-class packs at twenty per cent off. Stock up before January. The plan is 5 buyers at about 6,800, so 34,000 rupees.
 
 · · ·
 
-**Offer 4 of 4 · Renewals — 12 Days of Shakemas**
+**Offer 2 of 4 · New clients — The Gift They Won’t Regift**
 
-And finally, the finale, Twelve Days of Shakemas. A new published deal every day from the thirteenth to the twenty-fourth. No hidden prizes, no tricks. Day twelve is the big one. The plan is 4 buyers at about 7,200, so 28,900 rupees.
+Next, the Gift They Won't Regift. A boxed gift: two classes, grip socks, and a thousand rupees off a first membership. Offices buying ten get a team class. The plan is 4 buyers at about 1,200, so 4,800 rupees.
+
+· · ·
+
+**Offer 3 of 4 · Win-backs — The Ex-Files: Season Finale**
+
+Then, for lapsed members, The Ex-Files: Season Finale. Ten per cent off to come back, fifteen on three months, and a plus-one to the NYE Countdown Class. The plan is 2 buyers at about 6,600, so 13,200 rupees.
+
+· · ·
+
+**Offer 4 of 4 · Renewals — The Advent-ure Calendar (Opens in January)**
+
+And finally, the Advent-ure Calendar, which opens in January. Renew in December and take home twelve doors of perks, one a week from the third of January: guest passes, a private, smoothies and a golden door. Perfect for the hardest quarter. The plan is 4 buyers at about 7,700, so 30,600 rupees.
 
 · · ·
 
 **How the month runs — 4 weeks**
 
-How does the month run? Week one, Wrapped cards go out to every member. Week two, twelve days of Shakemas begin on the thirteenth. Week three, gift vouchers and resolution pre-orders for the I'll start in January crowd. Week four, last-seen members get their invitation home.
+How does the month run? Week one, Advent-ure Calendars and gift boxes go on sale. Week two, every December renewal hears the calendar pitch, and offices get their gift boxes. Week three, a mid-month check against the target. Week four, Boxing Day packs, and the NYE Countdown Class for our comeback members.
 
 · · ·
 

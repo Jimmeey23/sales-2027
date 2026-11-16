@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react';
      4  Anniversary   Cloud Nine: gold confetti, floating balloons, a glowing 9 and sparkles
      6  Pride         a waving rainbow ribbon, a sweeping prism of light, rainbow hearts and confetti
      5  Midsummer     a breathing sun with counter-turning rays and lens flare, mirage, bokeh, embers, cool droplets
-     8  Amazing Race  speed lines, a route drawn across the map with racers, a checkered flag
+     8  Azaadi        kites on strings, saffron/white/green bands of light, friendship bands
     10  Halloween     harvest moon, bats, ghosts, a dangling spider, fog, jack-o'-lanterns, lightning
     11  Diwali        a row of diyas with living flames, and fireworks over them
     12  Christmas     snow in three depths, a string of fairy lights, soft starbursts
@@ -711,91 +711,103 @@ const halloween: Scene = {
   },
 };
 
-/* ── August: The Amazing Race 2.0 ─────────────────────────────────────── */
-const race: Scene = {
+/* ── August: Azaadi From Average ─────────────────────────────────────────
+   Friendship Day and Independence Day: kites on long strings, three slow bands of saffron,
+   white and green light, and friendship bands drifting up. */
+const KITE_COLORS = ['#f59e0b', '#f97316', '#22c55e', '#ffffff', '#ec4899', '#38bdf8'];
+const azaadi: Scene = {
   init: (w, h) => ({
-    lines: Array.from({ length: 60 }, () => ({ x: rand(0, w), y: rand(0, h), len: rand(60, 220), v: rand(500, 1200), a: rand(0.05, 0.25) })),
-    route: Array.from({ length: 7 }, (_, i) => ({ x: w * (0.5 + i * 0.075), y: h * (0.18 + 0.3 * Math.abs(Math.sin(i * 1.7))) })),
+    kites: Array.from({ length: 7 }, (_, i) => ({
+      ax: w * (0.32 + i * 0.1) + rand(-20, 20),
+      y: h * rand(0.1, 0.42),
+      s: rand(16, 30),
+      ph: rand(0, TAU),
+      c: KITE_COLORS[i % KITE_COLORS.length],
+    })),
+    bands: Array.from({ length: 16 }, () => ({ x: rand(0, w), y: rand(0, h), r: rand(6, 13), v: rand(10, 26), ph: rand(0, TAU), c: KITE_COLORS[Math.floor(rand(0, 6))] })),
+    sparks: Array.from({ length: 40 }, () => ({ x: rand(0, w), y: rand(0, h), a: rand(0, TAU), s: rand(0.6, 1.8) })),
   }),
   draw(ctx, w, h, t, dt, s) {
-    glow(ctx, w * 0.75, h * 0.35, Math.max(w, h) * 0.5, 'rgba(250, 196, 40, A)', 0.14);
-    // Speed lines.
-    for (const l of s.lines) {
-      l.x -= l.v * dt;
-      if (l.x + l.len < 0) Object.assign(l, { x: w + rand(0, 200), y: rand(0, h) });
-      const g = ctx.createLinearGradient(l.x, 0, l.x + l.len, 0);
-      g.addColorStop(0, `rgba(255, 230, 160, ${l.a})`);
-      g.addColorStop(1, 'rgba(255, 230, 160, 0)');
-      ctx.strokeStyle = g;
-      ctx.lineWidth = 1.4;
+    glow(ctx, w * 0.72, h * 0.3, Math.max(w, h) * 0.55, 'rgba(251, 191, 36, A)', 0.12);
+    // Three soft bands of light, saffron over white over green, rolling like cloth.
+    const bands: [string, number][] = [
+      ['rgba(249, 115, 22, A)', 0.52],
+      ['rgba(255, 255, 255, A)', 0.62],
+      ['rgba(34, 197, 94, A)', 0.72],
+    ];
+    for (const [c, base] of bands) {
+      ctx.fillStyle = c.replace('A', '0.10');
       ctx.beginPath();
-      ctx.moveTo(l.x, l.y);
-      ctx.lineTo(l.x + l.len, l.y);
-      ctx.stroke();
+      ctx.moveTo(0, h);
+      for (let x = 0; x <= w; x += 16) ctx.lineTo(x, h * base + Math.sin(x / 140 + t * 0.7 + base * 9) * h * 0.035);
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      ctx.fill();
     }
-    // The route: dashed path between checkpoints, drawn on progressively.
-    const pts = s.route;
-    ctx.save();
-    ctx.setLineDash([10, 8]);
-    ctx.lineDashOffset = -t * 30;
-    ctx.strokeStyle = 'rgba(250, 204, 21, 0.75)';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    pts.forEach((p: any, i: number) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
-    ctx.stroke();
-    ctx.restore();
-    pts.forEach((p: any, i: number) => {
-      ctx.fillStyle = i === pts.length - 1 ? '#fff' : 'rgba(250, 204, 21, 0.95)';
+    // Sparkles.
+    for (const p of s.sparks) {
+      const a = 0.15 + 0.35 * (0.5 + 0.5 * Math.sin(t * 2 * p.s + p.a));
+      ctx.fillStyle = `rgba(255, 244, 214, ${a})`;
+      ctx.fillRect(p.x, p.y, p.s * 1.6, p.s * 1.6);
+    }
+    // Friendship bands: small woven loops drifting upward.
+    for (const b of s.bands) {
+      b.y -= b.v * dt;
+      if (b.y < -20) Object.assign(b, { y: h + 20, x: rand(0, w) });
+      const x = b.x + Math.sin(t * 0.8 + b.ph) * 12;
+      ctx.strokeStyle = b.c;
+      ctx.globalAlpha = 0.45;
+      ctx.lineWidth = 2.4;
+      ctx.setLineDash([4, 3]);
       ctx.beginPath();
-      ctx.arc(p.x, p.y, 7, 0, TAU);
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(20, 20, 20, 0.6)';
-      ctx.lineWidth = 2;
+      ctx.ellipse(x, b.y, b.r, b.r * 0.62, Math.sin(t + b.ph) * 0.6, 0, TAU);
       ctx.stroke();
-      ctx.fillStyle = 'rgba(20, 20, 20, 0.85)';
-      ctx.font = '700 9px Instrument Sans, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(String(i + 1), p.x, p.y + 0.5);
-    });
-    // Racers travelling the route.
-    const along = (u: number) => {
-      const seg = Math.min(pts.length - 2, Math.floor(u * (pts.length - 1)));
-      const f = u * (pts.length - 1) - seg;
-      return { x: pts[seg].x + (pts[seg + 1].x - pts[seg].x) * f, y: pts[seg].y + (pts[seg + 1].y - pts[seg].y) * f };
-    };
-    ['#ef4444', '#3b82f6', '#22c55e'].forEach((c, i) => {
-      const p = along((t * 0.06 + i * 0.13) % 1);
-      glow(ctx, p.x, p.y, 22, 'rgba(255, 255, 255, A)', 0.35);
-      ctx.fillStyle = c;
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+    }
+    // Kites on strings from the bottom left, each tugging on its own rhythm.
+    const ox = w * 0.06;
+    const oy = h * 1.02;
+    for (const k of s.kites) {
+      const x = k.ax + Math.sin(t * 0.9 + k.ph) * 18;
+      const y = k.y + Math.cos(t * 1.3 + k.ph) * 10;
+      const tilt = Math.sin(t * 1.1 + k.ph) * 0.35;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.28)';
+      ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.arc(p.x, p.y, 5.5, 0, TAU);
+      ctx.moveTo(ox, oy);
+      ctx.quadraticCurveTo((ox + x) / 2, y + (oy - y) * 0.75, x, y + k.s);
+      ctx.stroke();
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(tilt);
+      ctx.fillStyle = k.c;
+      ctx.globalAlpha = 0.85;
+      ctx.beginPath();
+      ctx.moveTo(0, -k.s);
+      ctx.lineTo(k.s * 0.75, 0);
+      ctx.lineTo(0, k.s);
+      ctx.lineTo(-k.s * 0.75, 0);
+      ctx.closePath();
       ctx.fill();
-    });
-    // Checkered flag waving at the finish.
-    const f = pts[pts.length - 1];
-    const fx = f.x + 4;
-    const fy = f.y - 62;
-    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(f.x, f.y - 8);
-    ctx.lineTo(f.x, fy);
-    ctx.stroke();
-    const cell = 7;
-    for (let cx = 0; cx < 6; cx++)
-      for (let cy = 0; cy < 4; cy++) {
-        const wave = Math.sin(t * 5 + cx * 0.7) * 3;
-        ctx.fillStyle = (cx + cy) % 2 ? 'rgba(20,20,20,0.9)' : 'rgba(255,255,255,0.92)';
-        ctx.fillRect(fx + cx * cell, fy + cy * cell + wave, cell, cell);
-      }
-    // "2.0" badge.
-    ctx.save();
-    ctx.font = `800 italic ${Math.round(h * 0.17)}px Instrument Sans, sans-serif`;
-    ctx.textAlign = 'right';
-    ctx.fillStyle = 'rgba(250, 204, 21, 0.16)';
-    ctx.fillText('2.0', w * 0.97, h * 0.5);
-    ctx.restore();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = 'rgba(20, 20, 20, 0.35)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, -k.s);
+      ctx.lineTo(0, k.s);
+      ctx.moveTo(-k.s * 0.75, 0);
+      ctx.lineTo(k.s * 0.75, 0);
+      ctx.stroke();
+      // Tail.
+      ctx.strokeStyle = k.c;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, k.s);
+      for (let j = 1; j <= 6; j++) ctx.lineTo(Math.sin(t * 4 + j + k.ph) * 5, k.s + j * 6);
+      ctx.stroke();
+      ctx.restore();
+    }
   },
 };
 
@@ -1368,148 +1380,6 @@ const yuleExtra: Scene = {
 };
 const k0 = (t: number) => Math.sin(t * 4) > 0; // Rudolph's nose blinks
 
-// August: a map grid, spinning compass, a plane with a contrail, a ticking stopwatch,
-// and confetti whenever a racer crosses the line.
-const raceExtra: Scene = {
-  init: () => ({ pops: [] as any[], last: 0 }),
-  draw(ctx, w, h, t, dt, s) {
-    // Faint map grid.
-    ctx.strokeStyle = 'rgba(255, 230, 160, 0.06)';
-    ctx.lineWidth = 1;
-    for (let x = (t * 6) % 48; x < w; x += 48) ctx.beginPath(), ctx.moveTo(x, 0), ctx.lineTo(x, h), ctx.stroke();
-    for (let y = 0; y < h; y += 48) ctx.beginPath(), ctx.moveTo(0, y), ctx.lineTo(w, y), ctx.stroke();
-    // Compass rose, top left of the route, needle hunting for north.
-    const cx = w * 0.42;
-    const cy = h * 0.16;
-    const R = 34;
-    ctx.strokeStyle = 'rgba(250, 204, 21, 0.55)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.arc(cx, cy, R, 0, TAU);
-    ctx.stroke();
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(t * 0.15);
-    for (let k = 0; k < 8; k++) {
-      ctx.rotate(TAU / 8);
-      ctx.fillStyle = k % 2 ? 'rgba(250, 204, 21, 0.25)' : 'rgba(250, 204, 21, 0.5)';
-      ctx.beginPath();
-      ctx.moveTo(0, -R * (k % 2 ? 0.6 : 0.95));
-      ctx.lineTo(4, 0);
-      ctx.lineTo(-4, 0);
-      ctx.fill();
-    }
-    ctx.restore();
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(Math.sin(t * 1.3) * 0.5 + Math.sin(t * 3.1) * 0.15);
-    ctx.fillStyle = '#ef4444';
-    ctx.beginPath();
-    ctx.moveTo(0, -R * 0.8);
-    ctx.lineTo(4, 0);
-    ctx.lineTo(-4, 0);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,0.8)';
-    ctx.beginPath();
-    ctx.moveTo(0, R * 0.8);
-    ctx.lineTo(4, 0);
-    ctx.lineTo(-4, 0);
-    ctx.fill();
-    ctx.restore();
-
-    // Plane on a long loop, contrail behind.
-    const u = (t % 11) / 11;
-    const px = -80 + u * (w + 160);
-    const py = h * 0.08 + Math.sin(u * Math.PI) * h * 0.06;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
-    ctx.setLineDash([6, 6]);
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(px - 10, py);
-    for (let k = 1; k < 30; k++) {
-      const uu = u - k * 0.006;
-      ctx.lineTo(-80 + uu * (w + 160), h * 0.08 + Math.sin(uu * Math.PI) * h * 0.06);
-    }
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.save();
-    ctx.translate(px, py);
-    ctx.rotate(Math.cos(u * Math.PI) * 0.15 * -1);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 14, 3.5, 0, 0, TAU);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(2, 0);
-    ctx.lineTo(-4, -12);
-    ctx.lineTo(-8, -12);
-    ctx.lineTo(-4, 0);
-    ctx.lineTo(-8, 12);
-    ctx.lineTo(-4, 12);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(-11, 0);
-    ctx.lineTo(-15, -6);
-    ctx.lineTo(-13, 0);
-    ctx.fill();
-    ctx.restore();
-
-    // Stopwatch, bottom left of the route.
-    const wx = w * 0.46;
-    const wy = h * 0.8;
-    const WR = 28;
-    ctx.fillStyle = 'rgba(20, 20, 20, 0.55)';
-    ctx.beginPath();
-    ctx.arc(wx, wy, WR, 0, TAU);
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(250, 204, 21, 0.85)';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    ctx.fillStyle = 'rgba(250, 204, 21, 0.85)';
-    ctx.fillRect(wx - 4, wy - WR - 8, 8, 6);
-    for (let k = 0; k < 12; k++) {
-      const a = (k / 12) * TAU;
-      ctx.fillRect(wx + Math.cos(a) * (WR - 6) - 1, wy + Math.sin(a) * (WR - 6) - 1, 2, 2);
-    }
-    const sec = Math.floor(t * 4) / 4; // ticks
-    const ha = -Math.PI / 2 + (sec / 15) * TAU;
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(wx, wy);
-    ctx.lineTo(wx + Math.cos(ha) * (WR - 8), wy + Math.sin(ha) * (WR - 8));
-    ctx.stroke();
-
-    // Confetti pops near the finish every few seconds.
-    if (Math.floor(t / 3) !== s.last) {
-      s.last = Math.floor(t / 3);
-      const fx = w * 0.95;
-      const fy = h * 0.3;
-      const cols = ['#ef4444', '#3b82f6', '#22c55e', '#facc15', '#ffffff'];
-      for (let k = 0; k < 40; k++)
-        s.pops.push({ x: fx, y: fy, vx: rand(-220, 60), vy: rand(-260, -60), r: rand(0, TAU), c: cols[k % 5], life: 1 });
-    }
-    for (let i = s.pops.length - 1; i >= 0; i--) {
-      const p = s.pops[i];
-      p.vy += 400 * dt;
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-      p.r += dt * 8;
-      p.life -= dt * 0.6;
-      if (p.life <= 0) {
-        s.pops.splice(i, 1);
-        continue;
-      }
-      ctx.save();
-      ctx.globalAlpha = p.life;
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.r);
-      ctx.fillStyle = p.c;
-      ctx.fillRect(-3, -1.5, 6, 3);
-      ctx.restore();
-    }
-  },
-};
 
 export const SEASON_SCENES: Record<number, Scene> = {
   2: valentine,
@@ -1517,7 +1387,7 @@ export const SEASON_SCENES: Record<number, Scene> = {
   4: layered(anniversary, galaExtra),
   5: heat,
   6: pride,
-  8: layered(race, raceExtra),
+  8: azaadi,
   10: halloween,
   11: diwali,
   12: layered(christmas, yuleExtra),
