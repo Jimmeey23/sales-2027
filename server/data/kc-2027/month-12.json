@@ -2,12 +2,12 @@
   "month": 12,
   "name": "December",
   "status": "draft",
-  "theme": "Wrapped",
-  "focus": "Wrapped + gifting + pre-sell January",
-  "objective": "Renew on personal usage data, pre-sell January, and turn Christmas gifting into new clients.",
+  "theme": "Party Season Survival Guide",
+  "focus": "Gifting + Christmas + Boxing Day + NYE",
+  "objective": "Renew December’s book onto long plans with perks spread across Q1; sell January starts now with Resolution Insurance; turn gifting into January newcomers; bank pack demand on Boxing Day; win back long-lapsed clients with a plus-one to the NYE Countdown Class.",
   "studioRole": "Retention-led",
-  "strategy": "Wrapped.\n\nCommercial job: Renew on personal usage data, pre-sell January, and turn Christmas gifting into new clients.\n\nRenewal: Wrapped: Your Top Artist Was Your Trainer (“Your top artist this year? Your trainer.”). A usage-based recommendation renews members onto plans that fit; year-in-review pages get shared.\n\nRenewal: 12 Days of Shakemas (“Twelve days, twelve published deals. Day 12 is the big one.”). Published, rotating deals create daily traffic; the best prices sit on the longest plans and bulk privates (the allowed 25% cases).\n\nNewcomer: Resolution Pre-Order (Ships 1 Jan) (“Your resolution, pre-ordered. Ships 1 January.”). December is softer than January in Mumbai; pre-selling lands buyers ready for Stronger in 30 2028.\n\nNewcomer: Secret Santa Squats (“Secret Santa budget ₹2,000? Gift squats.”). Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.\n\nLapsed: Last Seen: 2026 (We Noticed) (“Last seen: 2026. We noticed.”). Long-lapsed clients need a fresh start, not a bigger discount; the challenge gives a dated goal.",
-  "notes": "Build: 75 new buyers × ₹11,150 first-60-day spend = ₹8.4L; 82 renewals × ₹23,384 = ₹19.2L; 37 winbacks = ₹4.2L; privates/retail/drop-ins ₹3.1L. Offers carry ₹27.3L (78% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
+  "strategy": "Party Season Survival Guide.\n\nCommercial job: Renew December’s book onto long plans with perks spread across Q1; sell January starts now with Resolution Insurance; turn gifting into January newcomers; bank pack demand on Boxing Day; win back long-lapsed clients with a plus-one to the NYE Countdown Class.\n\nRenewal: The Advent-ure Calendar (Opens in January) (“An advent calendar you open in January, when you actually need it.”). January drop-off is when renewals are lost. Spreading the perks across Jan–Mar gives members a reason to show up every week of the hardest quarter, which is what keeps them renewing.\n\nSpot: Boxing Day (Gloves Optional) (“Boxing Day. No gloves, just a 12-class pack at 20% off.”). The week after Christmas is empty in studio but busy on phones. A two-day pack price pulls January purchases forward without touching membership prices.\n\nNewcomer: Resolution Insurance (Claim Approved) (“Insure your resolution before you make it. Claim approved.”). Most January resolutions fail in week two. Cover for the usual excuses (late cancels, a bad week) costs little and is exactly what a nervous December buyer needs to hear.\n\nNewcomer: The Gift They Won’t Regift (“The one gift that doesn’t end up in next year’s Secret Santa.”). A gift arrives with a friend’s endorsement, which is why gifted and referred clients convert far better than ad leads. The credit only pays out when the recipient buys.\n\nLapsed: The Ex-Files: Season Finale (“Every great series needs a finale. Yours is a comeback.”). People who come back in December arrive in January already in the habit. The plus-one turns a returner into a referral at the busiest social week of the year.",
+  "notes": "Build: 75 new buyers × ₹11,150 first-60-day spend = ₹8.4L; 82 renewals × ₹23,384 = ₹19.2L; 37 winbacks = ₹4.2L; privates/retail/drop-ins ₹3.1L. Offers carry ₹26.0L (74% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
   "target": 3500000,
   "priorYear": 2685743,
   "growthPercent": 30.3,
@@ -37,32 +37,32 @@
       "id": "O27-46-KC",
       "bankId": "O27-46",
       "slot": "renewal",
-      "name": "Wrapped: Your Top Artist Was Your Trainer",
-      "headline": "Your top artist this year? Your trainer.",
-      "benefit": "Each member gets a personal 2027 Wrapped (classes, top trainer, favourite time, best month) and a recommended plan: 3 Months at 15% (₹49,177 / ₹35,879), 6 Months at 20% (₹90,972 / ₹65,772) or Annual at 22% (₹1,71,171 / ₹1,21,867) + Stronger in 30 2028 early-entry kit. Staying on 1 Month: list + 3 days.",
-      "customerCopy": "Your 2027 Wrapped is in: {n} classes, top artist {trainer}, peak hour {time}. Next year's plan, priced for how you actually train.",
-      "description": "Each member gets a personal 2027 Wrapped (classes, top trainer, favourite time, best month) and a recommended plan: 3 Months at 15% (₹49,177 / ₹35,879), 6 Months at 20% (₹90,972 / ₹65,772) or Annual at 22% (₹1,71,171 / ₹1,21,867) + Stronger in 30 2028 early-entry kit. Staying on 1 Month: list + 3 days.",
-      "internalDescription": "Plan: 27 buyers × ₹55,000 = ₹1,485,000 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "A usage-based recommendation renews members onto plans that fit; year-in-review pages get shared.",
-      "objective": "Renew Dec–Jan expiries onto the right (longer) product.",
-      "type": "Data-led renewal",
+      "name": "The Advent-ure Calendar (Opens in January)",
+      "headline": "An advent calendar you open in January, when you actually need it.",
+      "benefit": "Renew in December, 3 Months at 12% (₹50,912 / ₹37,145), 6 Months at 15% (₹96,658 / ₹69,883) or Annual at the standard 20%, and take home a 12-door P57 Advent-ure Calendar. One door a week from 3 Jan 2028: 3 guest passes, 2 smoothies, a 30-min virtual private, 2 extra days, a freeze, grip socks, a front-row reservation, a playlist pick and one golden door. Worth ≈₹4,000 Mumbai / ₹3,000 Bengaluru at list. Pop-ups: 10-class pack at 10% + a 3-door mini calendar (₹7,655).",
+      "customerCopy": "An advent calendar you open in January, when you need it most: renew for 3, 6 or 12 months in December and get 12 doors of perks, one a week from 3 Jan. Guest passes, a private, smoothies and a golden door.",
+      "description": "Renew in December, 3 Months at 12% (₹50,912 / ₹37,145), 6 Months at 15% (₹96,658 / ₹69,883) or Annual at the standard 20%, and take home a 12-door P57 Advent-ure Calendar. One door a week from 3 Jan 2028: 3 guest passes, 2 smoothies, a 30-min virtual private, 2 extra days, a freeze, grip socks, a front-row reservation, a playlist pick and one golden door. Worth ≈₹4,000 Mumbai / ₹3,000 Bengaluru at list. Pop-ups: 10-class pack at 10% + a 3-door mini calendar (₹7,655).",
+      "internalDescription": "Plan: 27 buyers × ₹55,000 = ₹14,85,000 (Mumbai pricing).",
+      "rationale": "January drop-off is when renewals are lost. Spreading the perks across Jan–Mar gives members a reason to show up every week of the hardest quarter, which is what keeps them renewing.",
+      "objective": "Renew December’s book onto long plans and get Q1 attendance built in.",
+      "type": "Renewal + 12-door perk calendar",
       "mechanicTags": [
-        "personal stats",
-        "recommended plan",
-        "challenge early entry"
+        "12-door calendar",
+        "perks redeemed Jan–Mar",
+        "renewal ladder"
       ],
-      "audience": "Caps respected",
+      "audience": "Members renewing in December.",
       "excludedAudience": null,
-      "conditions": "Caps respected.",
+      "conditions": "3M 18.9% / 6M 18.5% / annual 21.8% effective (calendar at list). Doors expire 31 Mar 2028; one calendar per renewal.",
       "cta": "2027-12-01 to 2027-12-31",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 49177,
+      "price": 50912,
       "expectedRevenue": 1485000,
       "buyers": 27,
-      "effectiveDiscountPercent": 18,
-      "kpi": "Renewal yield on Dec–Jan expiries; 3M+ share.",
+      "effectiveDiscountPercent": 18.9,
+      "kpi": "December renewal yield; Q1 2028 visits of calendar holders vs others.",
       "validity": {
         "start": "2027-12-01",
         "end": "2027-12-31"
@@ -77,64 +77,65 @@
     {
       "id": "O27-47-KC",
       "bankId": "O27-47",
-      "slot": "renewal",
-      "name": "12 Days of Shakemas",
-      "headline": "Twelve days, twelve published deals. Day 12 is the big one.",
-      "benefit": "Mon 13–Fri 24 Dec, one deal per day, all published on 1 Dec. D1 12-class 10% + 1 class · D2 3M 15% + tee · D3 10 privates 25% · D4 buy any plan, get 2 guest passes · D5 6M 20% · D6 8-class 15% + grip socks · D7 retail 20% · D8 3M 15% + 2 freezes · D9 free virtual private with any plan · D10 1M 10% + 3 days · D11 6M 20% + private · D12 Annual 25%.",
-      "customerCopy": "12 Days of Shakemas: a new deal every day from 13 to 24 December, all published upfront — no hidden prizes, no FOMO tricks. Day 12 is the big one.",
-      "description": "Mon 13–Fri 24 Dec, one deal per day, all published on 1 Dec. D1 12-class 10% + 1 class · D2 3M 15% + tee · D3 10 privates 25% · D4 buy any plan, get 2 guest passes · D5 6M 20% · D6 8-class 15% + grip socks · D7 retail 20% · D8 3M 15% + 2 freezes · D9 free virtual private with any plan · D10 1M 10% + 3 days · D11 6M 20% + private · D12 Annual 25%.",
-      "internalDescription": "Plan: 24 buyers × ₹30,000 = ₹720,000 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "Published, rotating deals create daily traffic; the best prices sit on the longest plans and bulk privates (the allowed 25% cases).",
-      "objective": "A daily reason to buy in the year's last selling fortnight.",
-      "type": "Published daily calendar",
+      "slot": "spot",
+      "name": "Boxing Day (Gloves Optional)",
+      "headline": "Boxing Day. No gloves, just a 12-class pack at 20% off.",
+      "benefit": "Sun 26–Mon 27 Dec only: 12-class packs at 20% off: Mumbai ₹15,750 (list ₹19,688), Kenkere ₹10,500 (₹13,125); pop-ups 10-class pack at 20% (₹6,804). Two per person; buy now, start whenever January starts for you.",
+      "customerCopy": "Boxing Day, gloves optional: 12-class packs are 20% off on 26–27 Dec only. Stock up before the January rush. Two per person.",
+      "description": "Sun 26–Mon 27 Dec only: 12-class packs at 20% off: Mumbai ₹15,750 (list ₹19,688), Kenkere ₹10,500 (₹13,125); pop-ups 10-class pack at 20% (₹6,804). Two per person; buy now, start whenever January starts for you.",
+      "internalDescription": "Plan: 36 buyers × ₹15,750 = ₹5,67,000 (Mumbai pricing).",
+      "rationale": "The week after Christmas is empty in studio but busy on phones. A two-day pack price pulls January purchases forward without touching membership prices.",
+      "objective": "Bank January’s pack demand in the quietest week of the year.",
+      "type": "2-day pack sale",
       "mechanicTags": [
-        "daily deal",
-        "published calendar"
+        "2-day flash",
+        "12-class pack",
+        "stock up for January"
       ],
-      "audience": "One deal per person per day",
+      "audience": "Everyone: pack buyers, members topping up, newcomers.",
       "excludedAudience": null,
-      "conditions": "One deal per person per day. 25% only on annual and bulk privates.",
-      "cta": "2027-12-13 to 2027-12-24",
+      "conditions": "Spot offer, 20% cash. Two per person. 26–27 Dec only.",
+      "cta": "2027-12-26 to 2027-12-27",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 30000,
-      "expectedRevenue": 720000,
-      "buyers": 24,
-      "effectiveDiscountPercent": 18,
-      "kpi": "Sales per Shakemas day; long-plan share.",
+      "price": 15750,
+      "expectedRevenue": 567000,
+      "buyers": 36,
+      "effectiveDiscountPercent": 20,
+      "kpi": "Packs sold in 48 hours; January visits on Boxing Day packs.",
       "validity": {
-        "start": "2027-12-13",
-        "end": "2027-12-24"
+        "start": "2027-12-26",
+        "end": "2027-12-27"
       },
       "mechanics": {
         "city": "Mumbai",
         "stream": "renewal",
-        "discountRule": "OK: ≤20% effective"
+        "discountRule": "OK: spot offer (≤25%)"
       },
-      "ticket": 30000
+      "ticket": 15750
     },
     {
       "id": "O27-48-KC",
       "bankId": "O27-48",
       "slot": "newcomer",
-      "name": "Resolution Pre-Order (Ships 1 Jan)",
-      "headline": "Your resolution, pre-ordered. Ships 1 January.",
-      "benefit": "Buy in December, start any day 1–10 Jan 2028. Newcomers: 1 Month at the standard 15% (₹17,203 / ₹12,406) + a coach check-in in week one. Members: 3 Months at 15% starting in January.",
-      "customerCopy": "Your resolution, pre-ordered. Buy now, start 1–10 January, and a coach checks in during week one so it actually sticks.",
-      "description": "Buy in December, start any day 1–10 Jan 2028. Newcomers: 1 Month at the standard 15% (₹17,203 / ₹12,406) + a coach check-in in week one. Members: 3 Months at 15% starting in January.",
-      "internalDescription": "Plan: 13 buyers × ₹17,203 = ₹223,639 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "December is softer than January in Mumbai; pre-selling lands buyers ready for Stronger in 30 2028.",
-      "objective": "Move January demand into December cash.",
-      "type": "Pre-sale",
+      "name": "Resolution Insurance (Claim Approved)",
+      "headline": "Insure your resolution before you make it. Claim approved.",
+      "benefit": "Buy in December, start any day 1–10 Jan 2028. Newcomers: 1 Month at the standard 15% (₹17,203 / ₹12,406) with Resolution Insurance: no late-cancel fees all January, one “life happens” freeze, and a trainer call if you miss 3 booked classes, to rebuild your week. Members can gift the same plan or buy 3 Months at 15% starting in January.",
+      "customerCopy": "Insure your resolution before you make it: buy your first month now, start any day 1–10 January, and January’s late-cancel fees are on us. Plus a freeze for when life happens. Claim approved.",
+      "description": "Buy in December, start any day 1–10 Jan 2028. Newcomers: 1 Month at the standard 15% (₹17,203 / ₹12,406) with Resolution Insurance: no late-cancel fees all January, one “life happens” freeze, and a trainer call if you miss 3 booked classes, to rebuild your week. Members can gift the same plan or buy 3 Months at 15% starting in January.",
+      "internalDescription": "Plan: 13 buyers × ₹17,203 = ₹2,23,639 (Mumbai pricing).",
+      "rationale": "Most January resolutions fail in week two. Cover for the usual excuses (late cancels, a bad week) costs little and is exactly what a nervous December buyer needs to hear.",
+      "objective": "Sell January memberships in December and protect the first month.",
+      "type": "Pre-sale with first-month cover",
       "mechanicTags": [
-        "pre-sale",
-        "deferred start",
-        "coach check-in"
+        "buy now, start 1–10 Jan",
+        "late-cancel cover",
+        "life-happens freeze"
       ],
-      "audience": "First-time clients (phone verified).",
+      "audience": "First-time clients (phone verified); members buying for a January start.",
       "excludedAudience": null,
-      "conditions": "Standard 15% only.",
+      "conditions": "Standard 15% only. Start date 1–10 Jan 2028. Cover applies to January only.",
       "cta": "2027-12-01 to 2027-12-31",
       "status": "draft",
       "approval": "pending",
@@ -143,7 +144,7 @@
       "expectedRevenue": 223639,
       "buyers": 13,
       "effectiveDiscountPercent": 15,
-      "kpi": "Pre-orders; January activation rate.",
+      "kpi": "Pre-sold January starts; January attendance of insured buyers.",
       "validity": {
         "start": "2027-12-01",
         "end": "2027-12-31"
@@ -156,35 +157,35 @@
       "ticket": 17203
     },
     {
-      "id": "O27-49-KC",
-      "bankId": "O27-49",
+      "id": "O27-52-KC",
+      "bankId": "O27-52",
       "slot": "newcomer",
-      "name": "Secret Santa Squats",
-      "headline": "Secret Santa budget ₹2,000? Gift squats.",
-      "benefit": "Office Secret Santa voucher: Mumbai ₹1,999 (2 classes + grip socks), Kenkere ₹1,499, pop-ups ₹999. The recipient gets ₹999 / ₹749 / ₹499 credited against a first membership within 72 hours of class 2, with the standard 15%.",
-      "customerCopy": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
-      "description": "Office Secret Santa voucher: Mumbai ₹1,999 (2 classes + grip socks), Kenkere ₹1,499, pop-ups ₹999. The recipient gets ₹999 / ₹749 / ₹499 credited against a first membership within 72 hours of class 2, with the standard 15%.",
-      "internalDescription": "Plan: 29 buyers × ₹1,999 = ₹57,971 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "Secret Santa budgets cluster at ₹1–2k; a voucher at that price reaches new people through colleagues. Effective 20% on conversion.",
-      "objective": "Christmas-gifting acquisition at office price points.",
-      "type": "Gift voucher",
+      "name": "The Gift They Won’t Regift",
+      "headline": "The one gift that doesn’t end up in next year’s Secret Santa.",
+      "benefit": "A boxed gift for someone new: Mumbai ₹2,499 (2 classes in any format + grip socks + ₹1,000 off a first membership), Kenkere ₹1,799 (2 Barre classes + socks + ₹750 off), pop-ups ₹1,199 (1 class + socks + ₹400 off). The credit is valid within 14 days of class 2, on top of the standard 15%. Offices buying 10+ boxes get 10% off the boxes and a hosted team class.",
+      "customerCopy": "The gift they won’t regift: 2 classes, grip socks and ₹1,000 off their first membership, in a box that looks expensive. Buying for the office? 10+ boxes get 10% off and a team class.",
+      "description": "A boxed gift for someone new: Mumbai ₹2,499 (2 classes in any format + grip socks + ₹1,000 off a first membership), Kenkere ₹1,799 (2 Barre classes + socks + ₹750 off), pop-ups ₹1,199 (1 class + socks + ₹400 off). The credit is valid within 14 days of class 2, on top of the standard 15%. Offices buying 10+ boxes get 10% off the boxes and a hosted team class.",
+      "internalDescription": "Plan: 29 buyers × ₹2,499 = ₹72,471 (Mumbai pricing).",
+      "rationale": "A gift arrives with a friend’s endorsement, which is why gifted and referred clients convert far better than ad leads. The credit only pays out when the recipient buys.",
+      "objective": "Turn December gifting into January newcomers.",
+      "type": "Gift box (credited on conversion)",
       "mechanicTags": [
-        "gift voucher",
-        "retail",
-        "partial credit"
+        "gift box",
+        "credit on first membership",
+        "office bundles"
       ],
-      "audience": "First-time clients (phone verified).",
+      "audience": "Members and non-members buying for someone new; offices.",
       "excludedAudience": null,
-      "conditions": "Recipient must be new.",
+      "conditions": "Credited intro product (acquisition cost). On conversion: 1 Month at 15% less the credit ≈ 20% effective. Recipient must be new to P57.",
       "cta": "2027-12-01 to 2027-12-24",
       "status": "draft",
       "approval": "pending",
-      "runAds": true,
-      "price": 1999,
-      "expectedRevenue": 57971,
+      "runAds": false,
+      "price": 2499,
+      "expectedRevenue": 72471,
       "buyers": 29,
       "effectiveDiscountPercent": 20,
-      "kpi": "Vouchers sold; redemption; voucher → member.",
+      "kpi": "Boxes sold; boxes redeemed by 31 Jan; recipient → member (target 30%).",
       "validity": {
         "start": "2027-12-01",
         "end": "2027-12-24"
@@ -194,38 +195,38 @@
         "stream": "newClient",
         "discountRule": "OK: ≤20% effective"
       },
-      "ticket": 1999
+      "ticket": 2499
     },
     {
       "id": "O27-50-KC",
       "bankId": "O27-50",
       "slot": "lapsed",
-      "name": "Last Seen: 2026 (We Noticed)",
-      "headline": "Last seen: 2026. We noticed.",
-      "benefit": "Lapsed 365+ days: the standard 15% on 1 Month, a 12-class pack or 3 Months. 3 Months buyers also get a 30-min re-onboarding private; 1 Month / pack buyers get a free comeback class. Everyone gets a Comeback-track entry for Stronger in 30 2028.",
-      "customerCopy": "Last seen: 2026. We noticed. Come back before the new year: 15% off, a free comeback class, and a spot on the Stronger in 30 Comeback track.",
-      "description": "Lapsed 365+ days: the standard 15% on 1 Month, a 12-class pack or 3 Months. 3 Months buyers also get a 30-min re-onboarding private; 1 Month / pack buyers get a free comeback class. Everyone gets a Comeback-track entry for Stronger in 30 2028.",
-      "internalDescription": "Plan: 14 buyers × ₹17,203 = ₹240,842 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "Long-lapsed clients need a fresh start, not a bigger discount; the challenge gives a dated goal.",
-      "objective": "Reach the long-lapsed pool before January.",
-      "type": "Long-lapsed winback",
+      "name": "The Ex-Files: Season Finale",
+      "headline": "Every great series needs a finale. Yours is a comeback.",
+      "benefit": "Lapsed 90+ days: 1 Month or a 12-class pack at 10% (₹18,215 / ₹13,136), or 3 Months at 15% (₹49,177 / ₹35,879), plus a plus-one guest pass to the NYE Countdown Class (Fri 31 Dec, 11 am). Pop-ups: 8-class pack at 5% + a plus-one class (₹6,584).",
+      "customerCopy": "The Ex-Files: Season Finale. Before 2027 ends, one last episode: come back for 10% off (15% on 3 months) and bring a plus-one to our NYE Countdown Class.",
+      "description": "Lapsed 90+ days: 1 Month or a 12-class pack at 10% (₹18,215 / ₹13,136), or 3 Months at 15% (₹49,177 / ₹35,879), plus a plus-one guest pass to the NYE Countdown Class (Fri 31 Dec, 11 am). Pop-ups: 8-class pack at 5% + a plus-one class (₹6,584).",
+      "internalDescription": "Plan: 14 buyers × ₹18,215 = ₹2,55,010 (Mumbai pricing).",
+      "rationale": "People who come back in December arrive in January already in the habit. The plus-one turns a returner into a referral at the busiest social week of the year.",
+      "objective": "Reactivate long-lapsed clients before the January price of a fresh start.",
+      "type": "Year-end winback + NYE plus-one",
       "mechanicTags": [
-        "standard 15% lapsed",
-        "re-onboarding private",
-        "challenge entry"
+        "year-end winback",
+        "NYE countdown class",
+        "plus-one guest pass"
       ],
-      "audience": "Standard lapsed 15%; ≈19",
+      "audience": "Lapsed 90+ days.",
       "excludedAudience": null,
-      "conditions": "Standard lapsed 15%; ≈19.5% effective on 3M.",
+      "conditions": "Lapsed 90+ days. 1M 19.6% / 3M 18.4% effective with the guest pass at list.",
       "cta": "2027-12-01 to 2027-12-31",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
-      "price": 17203,
-      "expectedRevenue": 240842,
+      "price": 18215,
+      "expectedRevenue": 255010,
       "buyers": 14,
-      "effectiveDiscountPercent": 15,
-      "kpi": "Long-lapsed reactivations.",
+      "effectiveDiscountPercent": 19.6,
+      "kpi": "Reactivations; plus-ones who buy in January.",
       "validity": {
         "start": "2027-12-01",
         "end": "2027-12-31"
@@ -235,23 +236,44 @@
         "stream": "reactivation",
         "discountRule": "OK: ≤20% effective"
       },
-      "ticket": 17203
+      "ticket": 18215
     }
   ],
-  "offersPlannedRevenue": 2727452,
+  "offersPlannedRevenue": 2603120,
   "keyDates": [
     {
-      "day": 13,
-      "date": "2027-12-13",
-      "name": "12 Days of Shakemas (13–24 Dec)",
+      "day": 1,
+      "date": "2027-12-01",
+      "name": "Advent-ure Calendars and gift boxes on sale",
+      "kind": "retail",
+      "approx": false
+    },
+    {
+      "day": 18,
+      "date": "2027-12-18",
+      "name": "Ugly Sweater Barre",
       "kind": "brand",
       "approx": false
     },
     {
-      "day": 25,
-      "date": "2027-12-25",
-      "name": "Christmas",
-      "kind": "holiday",
+      "day": 24,
+      "date": "2027-12-24",
+      "name": "Christmas Eve candle-lit class",
+      "kind": "festival",
+      "approx": false
+    },
+    {
+      "day": 26,
+      "date": "2027-12-26",
+      "name": "Boxing Day (Gloves Optional): 26–27 Dec",
+      "kind": "retail",
+      "approx": false
+    },
+    {
+      "day": 31,
+      "date": "2027-12-31",
+      "name": "NYE Countdown Class (11 am)",
+      "kind": "brand",
       "approx": false
     }
   ],
@@ -262,27 +284,27 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Wrapped: Your Top Artist Was Your Trainer in Momence (2027-12-01 to 2027-12-31): Each member gets a personal 2027 Wrapped (classes, top trainer, favourite time, best month) and a recommended plan: 3 Months at 15% (₹49,177 / ₹35,879), 6 Months at 20% (₹90,972 / ₹65,772) or Annual at 22% (₹1,71,171 / ₹1,21,867) + Stronger in 30 2028 early-entry kit. Staying on 1 Month: list + 3 days."
+          "detail": "Set up The Advent-ure Calendar (Opens in January) in Momence (2027-12-01 to 2027-12-31): Renew in December, 3 Months at 12% (₹50,912 / ₹37,145), 6 Months at 15% (₹96,658 / ₹69,883) or Annual at the standard 20%, and take home a 12-door P57 Advent-ure Calendar. One door a week from 3 Jan 2028: 3 guest passes, 2 smoothies, a 30-min virtual private, 2 extra days, a freeze, grip socks, a front-row reservation, a playlist pick and one golden door. Worth ≈₹4,000 Mumbai / ₹3,000 Bengaluru at list. Pop-ups: 10-class pack at 10% + a 3-door mini calendar (₹7,655)."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up 12 Days of Shakemas in Momence (2027-12-13 to 2027-12-24): Mon 13–Fri 24 Dec, one deal per day, all published on 1 Dec. D1 12-class 10% + 1 class · D2 3M 15% + tee · D3 10 privates 25% · D4 buy any plan, get 2 guest passes · D5 6M 20% · D6 8-class 15% + grip socks · D7 retail 20% · D8 3M 15% + 2 freezes · D9 free virtual private with any plan · D10 1M 10% + 3 days · D11 6M 20% + private · D12 Annual 25%."
+          "detail": "Set up Boxing Day (Gloves Optional) in Momence (2027-12-26 to 2027-12-27): Sun 26–Mon 27 Dec only: 12-class packs at 20% off: Mumbai ₹15,750 (list ₹19,688), Kenkere ₹10,500 (₹13,125); pop-ups 10-class pack at 20% (₹6,804). Two per person; buy now, start whenever January starts for you."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Resolution Pre-Order (Ships 1 Jan) in Momence (2027-12-01 to 2027-12-31): Buy in December, start any day 1–10 Jan 2028. Newcomers: 1 Month at the standard 15% (₹17,203 / ₹12,406) + a coach check-in in week one. Members: 3 Months at 15% starting in January."
+          "detail": "Set up Resolution Insurance (Claim Approved) in Momence (2027-12-01 to 2027-12-31): Buy in December, start any day 1–10 Jan 2028. Newcomers: 1 Month at the standard 15% (₹17,203 / ₹12,406) with Resolution Insurance: no late-cancel fees all January, one “life happens” freeze, and a trainer call if you miss 3 booked classes, to rebuild your week. Members can gift the same plan or buy 3 Months at 15% starting in January."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Secret Santa Squats in Momence (2027-12-01 to 2027-12-24): Office Secret Santa voucher: Mumbai ₹1,999 (2 classes + grip socks), Kenkere ₹1,499, pop-ups ₹999. The recipient gets ₹999 / ₹749 / ₹499 credited against a first membership within 72 hours of class 2, with the standard 15%."
+          "detail": "Set up The Gift They Won’t Regift in Momence (2027-12-01 to 2027-12-24): A boxed gift for someone new: Mumbai ₹2,499 (2 classes in any format + grip socks + ₹1,000 off a first membership), Kenkere ₹1,799 (2 Barre classes + socks + ₹750 off), pop-ups ₹1,199 (1 class + socks + ₹400 off). The credit is valid within 14 days of class 2, on top of the standard 15%. Offices buying 10+ boxes get 10% off the boxes and a hosted team class."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Last Seen: 2026 (We Noticed) in Momence (2027-12-01 to 2027-12-31): Lapsed 365+ days: the standard 15% on 1 Month, a 12-class pack or 3 Months. 3 Months buyers also get a 30-min re-onboarding private; 1 Month / pack buyers get a free comeback class. Everyone gets a Comeback-track entry for Stronger in 30 2028."
+          "detail": "Set up The Ex-Files: Season Finale in Momence (2027-12-01 to 2027-12-31): Lapsed 90+ days: 1 Month or a 12-class pack at 10% (₹18,215 / ₹13,136), or 3 Months at 15% (₹49,177 / ₹35,879), plus a plus-one guest pass to the NYE Countdown Class (Fri 31 Dec, 11 am). Pop-ups: 8-class pack at 5% + a plus-one class (₹6,584)."
         },
         {
           "label": "",
@@ -292,27 +314,32 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Wrapped: Your Top Artist Was Your Trainer: Your 2027 Wrapped is in: {n} classes, top artist {trainer}, peak hour {time}. Next year's plan, priced for how you actually train."
+          "detail": "Launch The Advent-ure Calendar (Opens in January): An advent calendar you open in January, when you need it most: renew for 3, 6 or 12 months in December and get 12 doors of perks, one a week from 3 Jan. Guest passes, a private, smoothies and a golden door."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch 12 Days of Shakemas: 12 Days of Shakemas: a new deal every day from 13 to 24 December, all published upfront — no hidden prizes, no FOMO tricks. Day 12 is the big one."
+          "detail": "Launch Boxing Day (Gloves Optional): Boxing Day, gloves optional: 12-class packs are 20% off on 26–27 Dec only. Stock up before the January rush. Two per person."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Resolution Pre-Order (Ships 1 Jan): Your resolution, pre-ordered. Buy now, start 1–10 January, and a coach checks in during week one so it actually sticks."
+          "detail": "Launch Resolution Insurance (Claim Approved): Insure your resolution before you make it: buy your first month now, start any day 1–10 January, and January’s late-cancel fees are on us. Plus a freeze for when life happens. Claim approved."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Secret Santa Squats: Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month."
+          "detail": "Launch The Gift They Won’t Regift: The gift they won’t regift: 2 classes, grip socks and ₹1,000 off their first membership, in a box that looks expensive. Buying for the office? 10+ boxes get 10% off and a team class."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Last Seen: 2026 (We Noticed): Last seen: 2026. We noticed. Come back before the new year: 15% off, a free comeback class, and a spot on the Stronger in 30 Comeback track."
+          "detail": "Launch The Ex-Files: Season Finale: The Ex-Files: Season Finale. Before 2027 ends, one last episode: come back for 10% off (15% on 3 months) and bring a plus-one to our NYE Countdown Class."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Advent-ure Calendars and gift boxes on sale (2027-12-01): brief trainers, book the room, post the Story the day before."
         }
       ]
     },
@@ -322,7 +349,7 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Wrapped: Your Top Artist Was Your Trainer: Renewal yield on Dec–Jan expiries; 3M+ share. | 12 Days of Shakemas: Sales per Shakemas day; long-plan share. | Resolution Pre-Order (Ships 1 Jan): Pre-orders; January activation rate. | Secret Santa Squats: Vouchers sold; redemption; voucher → member. | Last Seen: 2026 (We Noticed): Long-lapsed reactivations."
+          "detail": "Weekly check: The Advent-ure Calendar (Opens in January): December renewal yield; Q1 2028 visits of calendar holders vs others. | Boxing Day (Gloves Optional): Packs sold in 48 hours; January visits on Boxing Day packs. | Resolution Insurance (Claim Approved): Pre-sold January starts; January attendance of insured buyers. | The Gift They Won’t Regift: Boxes sold; boxes redeemed by 31 Jan; recipient → member (target 30%). | The Ex-Files: Season Finale: Reactivations; plus-ones who buy in January."
         }
       ]
     },
@@ -333,6 +360,11 @@
           "label": "",
           "value": "Sales lead",
           "detail": "Mid-month review against ₹35.0L: by the 15th aim for ~half of 75 new buyers (279 first visits), 82 renewals and 37 winbacks. Push the lists, not a deeper discount."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Ugly Sweater Barre (2027-12-18): brief trainers, book the room, post the Story the day before."
         }
       ]
     },
@@ -343,18 +375,33 @@
           "label": "",
           "value": "Studio manager",
           "detail": "Close December: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Christmas Eve candle-lit class (2027-12-24): brief trainers, book the room, post the Story the day before."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Boxing Day (Gloves Optional): 26–27 Dec (2027-12-26): brief trainers, book the room, post the Story the day before."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run NYE Countdown Class (11 am) (2027-12-31): brief trainers, book the room, post the Story the day before."
         }
       ]
     }
   ],
   "collateral": {
-    "title": "Wrapped",
+    "title": "Party Season Survival Guide",
     "pieces": [
       {
         "offerId": "O27-46-KC",
-        "headline": "Your top artist this year? Your trainer.",
-        "copy": "Your 2027 Wrapped is in: {n} classes, top artist {trainer}, peak hour {time}. Next year's plan, priced for how you actually train.",
-        "detail": "Each member gets a personal 2027 Wrapped (classes, top trainer, favourite time, best month) and a recommended plan: 3 Months at 15% (₹49,177 / ₹35,879), 6 Months at 20% (₹90,972 / ₹65,772) or Annual at 22% (₹1,71,171 / ₹1,21,867) + Stronger in 30 2028 early-entry kit. Staying on 1 Month: list + 3 days.",
+        "headline": "An advent calendar you open in January, when you actually need it.",
+        "copy": "An advent calendar you open in January, when you need it most: renew for 3, 6 or 12 months in December and get 12 doors of perks, one a week from 3 Jan. Guest passes, a private, smoothies and a golden door.",
+        "detail": "Renew in December, 3 Months at 12% (₹50,912 / ₹37,145), 6 Months at 15% (₹96,658 / ₹69,883) or Annual at the standard 20%, and take home a 12-door P57 Advent-ure Calendar. One door a week from 3 Jan 2028: 3 guest passes, 2 smoothies, a 30-min virtual private, 2 extra days, a freeze, grip socks, a front-row reservation, a playlist pick and one golden door. Worth ≈₹4,000 Mumbai / ₹3,000 Bengaluru at list. Pop-ups: 10-class pack at 10% + a 3-door mini calendar (₹7,655).",
         "channels": [
           "WhatsApp",
           "Email",
@@ -363,9 +410,9 @@
       },
       {
         "offerId": "O27-47-KC",
-        "headline": "Twelve days, twelve published deals. Day 12 is the big one.",
-        "copy": "12 Days of Shakemas: a new deal every day from 13 to 24 December, all published upfront — no hidden prizes, no FOMO tricks. Day 12 is the big one.",
-        "detail": "Mon 13–Fri 24 Dec, one deal per day, all published on 1 Dec. D1 12-class 10% + 1 class · D2 3M 15% + tee · D3 10 privates 25% · D4 buy any plan, get 2 guest passes · D5 6M 20% · D6 8-class 15% + grip socks · D7 retail 20% · D8 3M 15% + 2 freezes · D9 free virtual private with any plan · D10 1M 10% + 3 days · D11 6M 20% + private · D12 Annual 25%.",
+        "headline": "Boxing Day. No gloves, just a 12-class pack at 20% off.",
+        "copy": "Boxing Day, gloves optional: 12-class packs are 20% off on 26–27 Dec only. Stock up before the January rush. Two per person.",
+        "detail": "Sun 26–Mon 27 Dec only: 12-class packs at 20% off: Mumbai ₹15,750 (list ₹19,688), Kenkere ₹10,500 (₹13,125); pop-ups 10-class pack at 20% (₹6,804). Two per person; buy now, start whenever January starts for you.",
         "channels": [
           "WhatsApp",
           "Email",
@@ -374,9 +421,9 @@
       },
       {
         "offerId": "O27-48-KC",
-        "headline": "Your resolution, pre-ordered. Ships 1 January.",
-        "copy": "Your resolution, pre-ordered. Buy now, start 1–10 January, and a coach checks in during week one so it actually sticks.",
-        "detail": "Buy in December, start any day 1–10 Jan 2028. Newcomers: 1 Month at the standard 15% (₹17,203 / ₹12,406) + a coach check-in in week one. Members: 3 Months at 15% starting in January.",
+        "headline": "Insure your resolution before you make it. Claim approved.",
+        "copy": "Insure your resolution before you make it: buy your first month now, start any day 1–10 January, and January’s late-cancel fees are on us. Plus a freeze for when life happens. Claim approved.",
+        "detail": "Buy in December, start any day 1–10 Jan 2028. Newcomers: 1 Month at the standard 15% (₹17,203 / ₹12,406) with Resolution Insurance: no late-cancel fees all January, one “life happens” freeze, and a trainer call if you miss 3 booked classes, to rebuild your week. Members can gift the same plan or buy 3 Months at 15% starting in January.",
         "channels": [
           "WhatsApp",
           "Instagram",
@@ -385,22 +432,21 @@
         ]
       },
       {
-        "offerId": "O27-49-KC",
-        "headline": "Secret Santa budget ₹2,000? Gift squats.",
-        "copy": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month.",
-        "detail": "Office Secret Santa voucher: Mumbai ₹1,999 (2 classes + grip socks), Kenkere ₹1,499, pop-ups ₹999. The recipient gets ₹999 / ₹749 / ₹499 credited against a first membership within 72 hours of class 2, with the standard 15%.",
+        "offerId": "O27-52-KC",
+        "headline": "The one gift that doesn’t end up in next year’s Secret Santa.",
+        "copy": "The gift they won’t regift: 2 classes, grip socks and ₹1,000 off their first membership, in a box that looks expensive. Buying for the office? 10+ boxes get 10% off and a team class.",
+        "detail": "A boxed gift for someone new: Mumbai ₹2,499 (2 classes in any format + grip socks + ₹1,000 off a first membership), Kenkere ₹1,799 (2 Barre classes + socks + ₹750 off), pop-ups ₹1,199 (1 class + socks + ₹400 off). The credit is valid within 14 days of class 2, on top of the standard 15%. Offices buying 10+ boxes get 10% off the boxes and a hosted team class.",
         "channels": [
           "WhatsApp",
-          "Instagram",
           "Email",
           "Desk card"
         ]
       },
       {
         "offerId": "O27-50-KC",
-        "headline": "Last seen: 2026. We noticed.",
-        "copy": "Last seen: 2026. We noticed. Come back before the new year: 15% off, a free comeback class, and a spot on the Stronger in 30 Comeback track.",
-        "detail": "Lapsed 365+ days: the standard 15% on 1 Month, a 12-class pack or 3 Months. 3 Months buyers also get a 30-min re-onboarding private; 1 Month / pack buyers get a free comeback class. Everyone gets a Comeback-track entry for Stronger in 30 2028.",
+        "headline": "Every great series needs a finale. Yours is a comeback.",
+        "copy": "The Ex-Files: Season Finale. Before 2027 ends, one last episode: come back for 10% off (15% on 3 months) and bring a plus-one to our NYE Countdown Class.",
+        "detail": "Lapsed 90+ days: 1 Month or a 12-class pack at 10% (₹18,215 / ₹13,136), or 3 Months at 15% (₹49,177 / ₹35,879), plus a plus-one guest pass to the NYE Countdown Class (Fri 31 Dec, 11 am). Pop-ups: 8-class pack at 5% + a plus-one class (₹6,584).",
         "channels": [
           "WhatsApp",
           "Email",
@@ -414,35 +460,35 @@
     "sends": [
       {
         "offerId": "O27-46-KC",
-        "audience": "Caps respected",
-        "message": "Your 2027 Wrapped is in: {n} classes, top artist {trainer}, peak hour {time}. Next year's plan, priced for how you actually train."
+        "audience": "Members renewing in December.",
+        "message": "An advent calendar you open in January, when you need it most: renew for 3, 6 or 12 months in December and get 12 doors of perks, one a week from 3 Jan. Guest passes, a private, smoothies and a golden door."
       },
       {
         "offerId": "O27-47-KC",
-        "audience": "One deal per person per day",
-        "message": "12 Days of Shakemas: a new deal every day from 13 to 24 December, all published upfront — no hidden prizes, no FOMO tricks. Day 12 is the big one."
+        "audience": "Everyone: pack buyers, members topping up, newcomers.",
+        "message": "Boxing Day, gloves optional: 12-class packs are 20% off on 26–27 Dec only. Stock up before the January rush. Two per person."
       },
       {
         "offerId": "O27-48-KC",
-        "audience": "First-time clients (phone verified).",
-        "message": "Your resolution, pre-ordered. Buy now, start 1–10 January, and a coach checks in during week one so it actually sticks."
+        "audience": "First-time clients (phone verified); members buying for a January start.",
+        "message": "Insure your resolution before you make it: buy your first month now, start any day 1–10 January, and January’s late-cancel fees are on us. Plus a freeze for when life happens. Claim approved."
       },
       {
-        "offerId": "O27-49-KC",
-        "audience": "First-time clients (phone verified).",
-        "message": "Secret Santa budget ₹2,000 and no idea? Gift 2 classes and grip socks. If they love it, half comes off their first month."
+        "offerId": "O27-52-KC",
+        "audience": "Members and non-members buying for someone new; offices.",
+        "message": "The gift they won’t regift: 2 classes, grip socks and ₹1,000 off their first membership, in a box that looks expensive. Buying for the office? 10+ boxes get 10% off and a team class."
       },
       {
         "offerId": "O27-50-KC",
-        "audience": "Standard lapsed 15%; ≈19",
-        "message": "Last seen: 2026. We noticed. Come back before the new year: 15% off, a free comeback class, and a spot on the Stronger in 30 Comeback track."
+        "audience": "Lapsed 90+ days.",
+        "message": "The Ex-Files: Season Finale. Before 2027 ends, one last episode: come back for 10% off (15% on 3 months) and bring a plus-one to our NYE Countdown Class."
       }
     ],
     "sendsCount": 5
   },
   "standardTrade": {
-    "revenue": 772548,
-    "shareOfMonth": 22.1,
+    "revenue": 896880,
+    "shareOfMonth": 25.6,
     "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
   },
   "targetBasis": "hand_set"

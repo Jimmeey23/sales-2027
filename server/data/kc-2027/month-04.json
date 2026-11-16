@@ -3,10 +3,10 @@
   "name": "April",
   "status": "draft",
   "theme": "Cloud Nine — 9 Years of Physique 57",
-  "focus": "Cloud Nine — 9th anniversary",
-  "objective": "Flagship month: win on excitement and economics. Every offer is tied to a game or event, cash discounts stay ≤20% (25% only on annuals), and value comes from upgrades (Cloud Nine 9-month, Club Nine annuals) and buyers who stay after April.",
+  "focus": "9th anniversary: limited editions, the wheel, the 9:09 flash and the Golden Glute Awards",
+  "objective": "Flagship month: win on excitement and economics. Two products that exist only in April (the 9-Month Lease and the 9-Class Pack), a 9:09 flash, a wheel you can double, numbered Club Nine annuals and a month of events, with no offer above 25% effective (cash ≤20% except annuals, the flash and the bulk pack). Every April buyer leaves with a reason to come back in May.",
   "studioRole": "Retention-led",
-  "strategy": "Cloud Nine — 9 Years of Physique 57.\n\nCommercial job: Flagship month: win on excitement and economics. Every offer is tied to a game or event, cash discounts stay ≤20% (25% only on annuals), and value comes from upgrades (Cloud Nine 9-month, Club Nine annuals) and buyers who stay after April.\n\nUpgrade: Cloud Nine Limited Edition (“Nine years. Nine months. Nine freezes. Plus one month on us.”). Kwality's 1M average ticket is ₹16,030; this is ₹1.65L upfront. At ₹16,500/month it sits between 6M list (₹18,953/month) and an annual at 20% (₹14,630/month), so it upsells 1M/3M members without cannibalising annuals. Effective discount vs 10× 1M list: 18.5% Mumbai, 17.8% Bengaluru.\n\nRenewal: Club Nine: The Founders' Table (“Nine numbered seats. Founder perks for a year.”). Kwality sold 34 annuals on a flat 25% code in 2026 (₹9.7L given away). Numbered scarcity, a public counter and perks deliver ≈25% value at a 20% cash discount.\n\nRenewal: Spin Class (Literally) (“Renew, then spin. Every spin wins.”). April 2026 discount depth was 20.4% at Kwality and 20.6% at Bandra on blanket codes. A sure 10% plus a game worth ~9% keeps the average 1M ticket near ₹18,000 instead of ~₹14,000.\n\nNewcomer: Party Crasher Pass (“It's our 9th birthday and you're invited. 3 classes for ₹999.”). 3+ visits convert 73–94%. A paid pass filters no-shows (free trials have no attendance data); crediting it plus the standard 15% lands exactly at a 20% effective discount.\n\nLapsed: Where Are They Now? (“You joined us in {year}. A lot has changed (we got prettier).”). A personal anniversary in the brand's anniversary month is a stronger trigger than a generic code. Bandra's reactivation pool is the largest; the reunion is a public attendance moment.\n\nReferral: Plus One, Plus Nine (“Bring a friend, get 9 days. Bring three, get a month.”). Referral is the best converting source in every studio (22.6–76.1%) and Kwality's third-largest lead source. The reward is only paid when a new client buys, so it is acquisition spend, not discount.",
+  "strategy": "Cloud Nine — 9 Years of Physique 57.\n\nCommercial job: Flagship month: win on excitement and economics. Two products that exist only in April (the 9-Month Lease and the 9-Class Pack), a 9:09 flash, a wheel you can double, numbered Club Nine annuals and a month of events, with no offer above 25% effective (cash ≤20% except annuals, the flash and the bulk pack). Every April buyer leaves with a reason to come back in May.\n\nUpgrade: Moving In Together (The 9-Month Lease) (“Nine years in, we’re ready to move in together. 99 keys. No second batch.”). A numbered, one-month-only product gives people a reason to buy now without cutting the price of the core memberships. April 2026 was bought with 40–48% codes; scarcity sells the long plan at 17.5–20% instead.\n\nRenewal: Club Nine: The Founders’ Table (“Nine numbered seats per studio. Founder perks for a year.”). Annual buyers are the most valuable members in the book; a numbered seat with doubled perks costs less than a deeper price and gives them something to show off.\n\nRenewal: Spin Class (Literally) (“Renew, then spin. Every spin wins. Feeling brave? Double it.”). Clients who use 75%+ of their sessions renew at 80–86%. The doubling option pays the prize only when the member books the classes that make them renew again; the expected value of a spin is ≈₹1,900 Mumbai / ₹1,350 Bengaluru.\n\nNewcomer: Party Crasher Pass (“It’s our 9th birthday and you’re invited. 3 classes for ₹999.”). A booked sequence of classes is what converts; the party class gives newcomers the best room of the year, and the buzzer turns a sale into a show for whoever is waiting.\n\nLapsed: Faking Your Own Death Didn’t Work (“We wrote your obituary. You’re not getting out of it that easily.”). Lapsed clients already know the product; what they need is a moment and a reason that is not just a discount. A personal postcard with a dated class beats a generic reminder.\n\nReferral: Plus One, Plus Nine (“Bring a friend, get 9 days. Bring three, get a month.”). Referrals convert at 22–76% against 3.8–5.7% for website leads. A tier at three friends gives the super-connectors a reason to keep going.\n\nSpot: The 9:09 Panic Attack (“Plank for your price. Or wait for 9:09 and panic with everyone else.”). A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. The floor price (23.7% / 24.0%) sits inside the 25% spot cap, and plan revenue is counted at the floor.\n\nUpgrade: The Cloud Nine 90 (“Ninety classes. One year. Zero commitment issues.”). The Anniversary Big 85 Flex sold 4 times at Kemps Corner and once at Kenkere House in April 2026; this replaces it at a price inside the bulk cap.",
   "notes": "Build: 129 new buyers × ₹11,150 first-60-day spend = ₹14.4L; 141 renewals × ₹23,384 = ₹33.0L; 63 winbacks = ₹7.2L; privates/retail/drop-ins ₹5.4L. Offers carry ₹45.1L (75% of target); the rest is business-as-usual. Funnel uses measured rates (lead→trial 51% CRM status, trial→member 26.9%) — not invented lifts.",
   "target": 6000000,
   "priorYear": 5001388,
@@ -37,33 +37,32 @@
       "id": "O27-13-KC",
       "bankId": "O27-13",
       "slot": "upgrade",
-      "name": "Cloud Nine Limited Edition",
-      "headline": "Nine years. Nine months. Nine freezes. Plus one month on us.",
-      "benefit": "9 Months Unlimited + 1 complimentary month (10 months) + 9 freezes (min 3 days each). Mumbai ₹1,64,999 — 99 numbered memberships across Kwality and Supreme HQ. Kenkere ₹1,19,999 — 39 numbered. Works out to ₹16,500 / ₹12,000 a month.",
-      "customerCopy": "Nine years. Nine months. Nine freezes. Plus one month on us — because we're feeling generous on our birthday. Only 99 numbered memberships in Mumbai and 39 in Bengaluru. When they're gone, they're gone (like your 2018 resolutions).",
-      "description": "9 Months Unlimited + 1 complimentary month (10 months) + 9 freezes (min 3 days each). Mumbai ₹1,64,999 — 99 numbered memberships across Kwality and Supreme HQ. Kenkere ₹1,19,999 — 39 numbered. Works out to ₹16,500 / ₹12,000 a month.",
-      "internalDescription": "Plan: 11 buyers × ₹164,999 = ₹1,814,989 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "Kwality's 1M average ticket is ₹16,030; this is ₹1.65L upfront. At ₹16,500/month it sits between 6M list (₹18,953/month) and an annual at 20% (₹14,630/month), so it upsells 1M/3M members without cannibalising annuals. Effective discount vs 10× 1M list: 18.5% Mumbai, 17.8% Bengaluru.",
-      "objective": "Raise average selling price and lock members past the June–July trough.",
-      "type": "Limited-edition long plan",
+      "name": "Moving In Together (The 9-Month Lease)",
+      "headline": "Nine years in, we’re ready to move in together. 99 keys. No second batch.",
+      "benefit": "A 9-Month Unlimited that exists only in April: Mumbai ₹1,44,999 (a 6-Month plus a 3-Month cost ₹1,71,570), Kenkere ₹1,02,999 (₹1,24,425). 9 freezes (min 3 days each), the anniversary hoodie, a numbered brass studio key and your name on the Lease Wall. 99 numbered keys across Kwality and Supreme HQ, 39 at Kenkere; a live counter on the studio screens.",
+      "customerCopy": "Nine years in, we’re ready to move in together. The 9-Month Lease: 9 months unlimited, 9 freezes, the anniversary hoodie and a numbered brass key. 99 keys in Mumbai, 39 in Bengaluru. When they’re gone, they’re gone.",
+      "description": "A 9-Month Unlimited that exists only in April: Mumbai ₹1,44,999 (a 6-Month plus a 3-Month cost ₹1,71,570), Kenkere ₹1,02,999 (₹1,24,425). 9 freezes (min 3 days each), the anniversary hoodie, a numbered brass studio key and your name on the Lease Wall. 99 numbered keys across Kwality and Supreme HQ, 39 at Kenkere; a live counter on the studio screens.",
+      "internalDescription": "Plan: 11 buyers × ₹1,44,999 = ₹15,94,989 (Mumbai pricing).",
+      "rationale": "A numbered, one-month-only product gives people a reason to buy now without cutting the price of the core memberships. April 2026 was bought with 40–48% codes; scarcity sells the long plan at 17.5–20% instead.",
+      "objective": "The biggest ticket of the month, carrying members to January 2028.",
+      "type": "Limited-edition long plan (numbered)",
       "mechanicTags": [
-        "9-month unlimited",
-        "1 complimentary month",
-        "9 freezes",
-        "numbered scarcity"
+        "limited edition",
+        "numbered brass key",
+        "9 freezes"
       ],
-      "audience": "Members on 1 Month or class packs.",
+      "audience": "Members ready for a long commitment and returning clients who want the best price of the year.",
       "excludedAudience": null,
-      "conditions": "Long-plan purchase ≤20% effective. Numbered, no extra units added. 15% newcomer/lapsed perks don't stack.",
+      "conditions": "17.5% Mumbai / 20.0% Bengaluru effective (hoodie at list; freezes have no cash value). 99 / 39 numbered keys, no second batch. April only.",
       "cta": "2027-04-01 to 2027-04-30",
       "status": "draft",
       "approval": "pending",
-      "runAds": false,
-      "price": 164999,
-      "expectedRevenue": 1814989,
+      "runAds": true,
+      "price": 144999,
+      "expectedRevenue": 1594989,
       "buyers": 11,
-      "effectiveDiscountPercent": 18.5,
-      "kpi": "Units sold; repeat purchase at expiry.",
+      "effectiveDiscountPercent": 17.5,
+      "kpi": "Keys sold vs 99 / 39; 6M+ share of April membership revenue (target 50%).",
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
@@ -73,29 +72,29 @@
         "stream": "renewal",
         "discountRule": "OK: ≤20% effective"
       },
-      "ticket": 164999
+      "ticket": 144999
     },
     {
       "id": "O27-14-KC",
       "bankId": "O27-14",
       "slot": "renewal",
-      "name": "Club Nine: The Founders' Table",
-      "headline": "Nine numbered seats. Founder perks for a year.",
-      "benefit": "9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, name on the Club Nine wall and 48-hour priority booking all year.",
-      "customerCopy": "Nine numbered annual seats per studio. Twice the perks: 4 privates, 8 guest passes, 2 hosted classes, a numbered jacket and your name on the Club Nine wall. Public seat counter. No seat ever added.",
-      "description": "9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, name on the Club Nine wall and 48-hour priority booking all year.",
-      "internalDescription": "Plan: 5 buyers × ₹175,560 = ₹877,800 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "Kwality sold 34 annuals on a flat 25% code in 2026 (₹9.7L given away). Numbered scarcity, a public counter and perks deliver ≈25% value at a 20% cash discount.",
-      "objective": "Sell annuals at the standard rate by adding status instead of extra discount.",
+      "name": "Club Nine: The Founders’ Table",
+      "headline": "Nine numbered seats per studio. Founder perks for a year.",
+      "benefit": "9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, your name on the Club Nine wall and 48-hour priority booking all year. Unveiled at the Birthday Bash on Sat 17 Apr.",
+      "customerCopy": "Nine seats. Nine years. Club Nine is an annual membership with the perks doubled: 4 privates, 8 guest passes, priority booking all year and a numbered jacket. Nine per studio, and then the table is full.",
+      "description": "9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, your name on the Club Nine wall and 48-hour priority booking all year. Unveiled at the Birthday Bash on Sat 17 Apr.",
+      "internalDescription": "Plan: 5 buyers × ₹1,75,560 = ₹8,77,800 (Mumbai pricing).",
+      "rationale": "Annual buyers are the most valuable members in the book; a numbered seat with doubled perks costs less than a deeper price and gives them something to show off.",
+      "objective": "Sell annuals at list-minus-20% by making them a status, not a discount.",
       "type": "Numbered annual (status)",
       "mechanicTags": [
-        "annual 20%",
+        "numbered annual",
         "doubled perks",
-        "numbered seats"
+        "priority booking"
       ],
-      "audience": "≈25% effective with perks (annual cap)",
+      "audience": "Members on 3-Month or longer plans; annual renewers.",
       "excludedAudience": null,
-      "conditions": "≈25% effective with perks (annual cap). Leftover seats return on Black Friday.",
+      "conditions": "Annual cap 25% (doubled perks at list). 9 seats per studio.",
       "cta": "2027-04-01 to 2027-04-30",
       "status": "draft",
       "approval": "pending",
@@ -104,7 +103,7 @@
       "expectedRevenue": 877800,
       "buyers": 5,
       "effectiveDiscountPercent": 25,
-      "kpi": "Seats sold out of 9 per studio; guest-pass → new buyer conversion.",
+      "kpi": "Seats sold (9 per studio); annual share of April renewals.",
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
@@ -121,31 +120,31 @@
       "bankId": "O27-15",
       "slot": "renewal",
       "name": "Spin Class (Literally)",
-      "headline": "Renew, then spin. Every spin wins.",
-      "benefit": "Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Expected value ≈₹1,900 Mumbai / ₹1,350 Bengaluru.",
-      "customerCopy": "Renew in April, get 10% off, then spin the Wheel of Nine. Every spin wins — from smoothies to a free month. The odds are printed on the wall, because we're fit, not shady.",
-      "description": "Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Expected value ≈₹1,900 Mumbai / ₹1,350 Bengaluru.",
-      "internalDescription": "Plan: 49 buyers × ₹18,215 = ₹892,535 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "April 2026 discount depth was 20.4% at Kwality and 20.6% at Bandra on blanket codes. A sure 10% plus a game worth ~9% keeps the average 1M ticket near ₹18,000 instead of ~₹14,000.",
-      "objective": "Protect the April 1M/pack ticket while keeping the month exciting.",
-      "type": "Gamified renewal",
+      "headline": "Renew, then spin. Every spin wins. Feeling brave? Double it.",
+      "benefit": "Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Then choose: keep it, double it by booking 9 classes in your first 21 days, or donate it to a friend as a guest pass.",
+      "customerCopy": "Renew in April and spin the Wheel of Nine: every spin wins. Then decide: keep your prize, double it, or gift it to a friend. Odds are on the wall, because we’re not that kind of casino.",
+      "description": "Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Then choose: keep it, double it by booking 9 classes in your first 21 days, or donate it to a friend as a guest pass.",
+      "internalDescription": "Plan: 45 buyers × ₹18,215 = ₹8,19,675 (Mumbai pricing).",
+      "rationale": "Clients who use 75%+ of their sessions renew at 80–86%. The doubling option pays the prize only when the member books the classes that make them renew again; the expected value of a spin is ≈₹1,900 Mumbai / ₹1,350 Bengaluru.",
+      "objective": "Full-price-adjacent renewals with a prize everyone talks about.",
+      "type": "Gamified renewal (wheel + double-or-donate)",
       "mechanicTags": [
-        "10% renewal",
-        "Wheel of Nine",
-        "published odds"
+        "wheel of nine",
+        "published odds",
+        "double-or-donate"
       ],
-      "audience": "One spin per renewal, ≈19",
+      "audience": "Members renewing 1 Month or a 12-class pack.",
       "excludedAudience": null,
-      "conditions": "One spin per renewal, ≈19.5% effective at expected value.",
+      "conditions": "One spin per renewal; published odds; doubled prizes credited only once the 9 classes are attended. ≈19.5% effective on the expected value.",
       "cta": "2027-04-01 to 2027-04-30",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
       "price": 18215,
-      "expectedRevenue": 892535,
-      "buyers": 49,
+      "expectedRevenue": 819675,
+      "buyers": 45,
       "effectiveDiscountPercent": 19.5,
-      "kpi": "1M average ticket (target ≥₹18,000); spins filmed and shared.",
+      "kpi": "April renewal yield vs April 2026; share of spins doubled (target 35%).",
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
@@ -162,22 +161,22 @@
       "bankId": "O27-16",
       "slot": "newcomer",
       "name": "Party Crasher Pass",
-      "headline": "It's our 9th birthday and you're invited. 3 classes for ₹999.",
-      "benefit": "Mumbai: 3 classes in 9 days for ₹999, any formats, including a Birthday Bash party class (17–18 Apr); Lab seat at Supreme HQ only. Kenkere: 3 barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% — 1 Month nets ₹16,204 / ₹11,707.",
-      "customerCopy": "It's our 9th birthday and you're invited. 3 classes for ₹999 (Bengaluru ₹699) — including the party class. Love it? Your ₹999 comes off your first month.",
-      "description": "Mumbai: 3 classes in 9 days for ₹999, any formats, including a Birthday Bash party class (17–18 Apr); Lab seat at Supreme HQ only. Kenkere: 3 barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% — 1 Month nets ₹16,204 / ₹11,707.",
-      "internalDescription": "Plan: 21 buyers × ₹16,204 = ₹340,284 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "3+ visits convert 73–94%. A paid pass filters no-shows (free trials have no attendance data); crediting it plus the standard 15% lands exactly at a 20% effective discount.",
-      "objective": "Fill April's trial pipeline with high-intent newcomers at a 20% effective cap.",
-      "type": "Newcomer intro (credited)",
+      "headline": "It’s our 9th birthday and you’re invited. 3 classes for ₹999.",
+      "benefit": "Mumbai: 3 classes in 9 days for ₹999, any format, including a Birthday Bash party class (17–18 Apr). Kenkere: 3 Barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% (1 Month nets ₹16,204 / ₹11,707). Buy within 9 hours of class 3 and you hit the Impulse Buzzer: confetti, applause, name on the Reckless Decisions board.",
+      "customerCopy": "It’s our 9th birthday and you’re invited: 3 classes for ₹999 (Kenkere ₹699), birthday party class included. Love it? The ₹999 comes off your first month. Decide fast and you get to hit the big red buzzer.",
+      "description": "Mumbai: 3 classes in 9 days for ₹999, any format, including a Birthday Bash party class (17–18 Apr). Kenkere: 3 Barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% (1 Month nets ₹16,204 / ₹11,707). Buy within 9 hours of class 3 and you hit the Impulse Buzzer: confetti, applause, name on the Reckless Decisions board.",
+      "internalDescription": "Plan: 21 buyers × ₹16,204 = ₹3,40,284 (Mumbai pricing).",
+      "rationale": "A booked sequence of classes is what converts; the party class gives newcomers the best room of the year, and the buzzer turns a sale into a show for whoever is waiting.",
+      "objective": "Bring April’s traffic in through a party, and convert it inside 72 hours.",
+      "type": "Newcomer intro (credited) + Impulse Buzzer",
       "mechanicTags": [
         "credited intro",
-        "party class",
-        "3 visits"
+        "birthday party class",
+        "impulse buzzer"
       ],
       "audience": "First-time clients (phone verified).",
       "excludedAudience": null,
-      "conditions": "One per person. Effective 20% on conversion.",
+      "conditions": "One per phone number. Credit valid 72 hours after class 3. Standard 15% only.",
       "cta": "2027-04-01 to 2027-04-24",
       "status": "draft",
       "approval": "pending",
@@ -186,7 +185,7 @@
       "expectedRevenue": 340284,
       "buyers": 21,
       "effectiveDiscountPercent": 20,
-      "kpi": "Passes sold; 3-visit completion (target 65%); pass → member (target 40%).",
+      "kpi": "Pass → member (target 35%); buzzer hits (bought within 9 hours).",
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-24"
@@ -202,32 +201,32 @@
       "id": "O27-17-KC",
       "bankId": "O27-17",
       "slot": "lapsed",
-      "name": "Where Are They Now?",
-      "headline": "You joined us in {year}. A lot has changed (we got prettier).",
-      "benefit": "Lapsed 61 days–3 years: the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Seat at the Throwback Reunion (Sat 24 Apr): a class with a row for every cohort, Class of 2018 to Class of 2026.",
-      "customerCopy": "You joined us in {year}. A lot has changed (we got prettier). Come back for our 9th birthday: 15% off, a bonus class for every year you've known us, and a seat at the Throwback Reunion.",
-      "description": "Lapsed 61 days–3 years: the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Seat at the Throwback Reunion (Sat 24 Apr): a class with a row for every cohort, Class of 2018 to Class of 2026.",
-      "internalDescription": "Plan: 23 buyers × ₹17,203 = ₹395,669 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "A personal anniversary in the brand's anniversary month is a stronger trigger than a generic code. Bandra's reactivation pool is the largest; the reunion is a public attendance moment.",
-      "objective": "Reactivate lapsed clients using the most personal reason in the brand's anniversary month.",
-      "type": "Winback (reunion)",
+      "name": "Faking Your Own Death Didn’t Work",
+      "headline": "We wrote your obituary. You’re not getting out of it that easily.",
+      "benefit": "Lapsed 61 days–3 years get an obituary postcard (“Here lies a perfectly good plank”). It is the ticket to the candle-lit Séance Class on Thu 15 Apr. Come back on the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Photo at the Back From the Dead frame; your row at the Throwback Reunion (Sat 24 Apr).",
+      "customerCopy": "We wrote your obituary. It was moving. Unfortunately for you, you’re invited back: 15% off, a bonus for every year you’ve been with us, and a candle-lit Séance Class to rise from the dead.",
+      "description": "Lapsed 61 days–3 years get an obituary postcard (“Here lies a perfectly good plank”). It is the ticket to the candle-lit Séance Class on Thu 15 Apr. Come back on the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Photo at the Back From the Dead frame; your row at the Throwback Reunion (Sat 24 Apr).",
+      "internalDescription": "Plan: 20 buyers × ₹17,203 = ₹3,44,060 (Mumbai pricing).",
+      "rationale": "Lapsed clients already know the product; what they need is a moment and a reason that is not just a discount. A personal postcard with a dated class beats a generic reminder.",
+      "objective": "Win back lapsed clients with a story they want to post.",
+      "type": "Winback (obituary + Séance Class)",
       "mechanicTags": [
-        "standard 15% lapsed",
-        "years-based bonus",
-        "reunion event"
+        "obituary postcard",
+        "séance class",
+        "loyalty-year bonus"
       ],
-      "audience": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack)",
+      "audience": "Lapsed 61 days–3 years.",
       "excludedAudience": null,
-      "conditions": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack).",
+      "conditions": "Lapsed 61 days–3 years. Standard lapsed 15% + loyalty-year bonus (max 3) = ≤20% effective.",
       "cta": "2027-04-01 to 2027-04-30",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
       "price": 17203,
-      "expectedRevenue": 395669,
-      "buyers": 23,
+      "expectedRevenue": 344060,
+      "buyers": 20,
       "effectiveDiscountPercent": 20,
-      "kpi": "Personalised sends; reunion RSVPs; reactivations.",
+      "kpi": "Postcards → Séance Class attendance; reactivations (target +30% vs Apr-26).",
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
@@ -245,30 +244,30 @@
       "slot": "referral",
       "name": "Plus One, Plus Nine",
       "headline": "Bring a friend, get 9 days. Bring three, get a month.",
-      "benefit": "Any active member whose new friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote.",
-      "customerCopy": "It's our birthday, so we're giving presents for presents. Bring a friend who joins: +9 days on us. Bring three: a whole free month. They get 15% off and a Cloud Nine tote.",
-      "description": "Any active member whose new friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote.",
-      "internalDescription": "Plan: 11 buyers × ₹17,203 = ₹189,233 (Mumbai pricing; scaled so offers carry ≤80% of the month).",
-      "rationale": "Referral is the best converting source in every studio (22.6–76.1%) and Kwality's third-largest lead source. The reward is only paid when a new client buys, so it is acquisition spend, not discount.",
-      "objective": "Make April the referral peak of the year.",
+      "benefit": "Any active member whose never-been friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote. Bring Your Barre-stie day (Thu 8 Apr): every member gets a free guest pass.",
+      "customerCopy": "Bring a friend to the party: if they join, you get 9 extra days. Bring three and the next month is on us. They get 15% off and a Cloud Nine tote.",
+      "description": "Any active member whose never-been friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote. Bring Your Barre-stie day (Thu 8 Apr): every member gets a free guest pass.",
+      "internalDescription": "Plan: 10 buyers × ₹17,203 = ₹1,72,030 (Mumbai pricing).",
+      "rationale": "Referrals convert at 22–76% against 3.8–5.7% for website leads. A tier at three friends gives the super-connectors a reason to keep going.",
+      "objective": "Turn the anniversary into the year’s biggest referral month.",
       "type": "Referral (tiered)",
       "mechanicTags": [
-        "referral reward",
-        "tiered bulk reward",
-        "retail for friend"
+        "tiered referral",
+        "+9 days",
+        "cloud nine tote"
       ],
-      "audience": "Current members bringing a guest.",
+      "audience": "Current members bringing a never-been friend.",
       "excludedAudience": null,
-      "conditions": "Friend must be new (phone verified). Max 1 free month per member.",
+      "conditions": "Friend must be new to P57. Member reward is acquisition cost, paid only on a purchase.",
       "cta": "2027-04-01 to 2027-04-30",
       "status": "draft",
       "approval": "pending",
       "runAds": false,
       "price": 17203,
-      "expectedRevenue": 189233,
-      "buyers": 11,
+      "expectedRevenue": 172030,
+      "buyers": 10,
       "effectiveDiscountPercent": 15,
-      "kpi": "Referred buyers (target 2× Apr-26); members with 3 referrals.",
+      "kpi": "Referral buyers (target 2× April 2026); members reaching three.",
       "validity": {
         "start": "2027-04-01",
         "end": "2027-04-30"
@@ -279,10 +278,134 @@
         "discountRule": "OK: ≤20% effective"
       },
       "ticket": 17203
+    },
+    {
+      "id": "O27-53-KC",
+      "bankId": "O27-53",
+      "slot": "spot",
+      "name": "The 9:09 Panic Attack",
+      "headline": "Plank for your price. Or wait for 9:09 and panic with everyone else.",
+      "benefit": "The Limited Edition 9-Class Pack (99 days to use it) exists only in April. Plank Your Price at the desk: hold 57 seconds and it is ₹12,999 (Kenkere ₹8,699), 1:57 for ₹12,249 (₹8,199), 2:57 for the floor, ₹11,499 (₹7,699). On Fri 9 Apr, two 99-minute windows from 9:09 am and 9:09 pm give everyone the floor price, no plank needed: siren in studio, countdown on Instagram. Pop-ups: a 9-class pack at ₹6,499 in the same windows.",
+      "customerCopy": "Plank for your price: hold it for 57 seconds and the 9-Class Pack is ₹12,999; hold for 2:57 and it’s ₹11,499. Or wait for 9:09 on 9 April, when everyone gets the floor price for 99 minutes. Panic responsibly.",
+      "description": "The Limited Edition 9-Class Pack (99 days to use it) exists only in April. Plank Your Price at the desk: hold 57 seconds and it is ₹12,999 (Kenkere ₹8,699), 1:57 for ₹12,249 (₹8,199), 2:57 for the floor, ₹11,499 (₹7,699). On Fri 9 Apr, two 99-minute windows from 9:09 am and 9:09 pm give everyone the floor price, no plank needed: siren in studio, countdown on Instagram. Pop-ups: a 9-class pack at ₹6,499 in the same windows.",
+      "internalDescription": "Plan: 20 buyers × ₹11,499 = ₹2,29,980 (Mumbai pricing).",
+      "rationale": "A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. The floor price (23.7% / 24.0%) sits inside the 25% spot cap, and plan revenue is counted at the floor.",
+      "objective": "The anniversary’s entry product and its loudest moment.",
+      "type": "Flash sale (limited 9-Class Pack)",
+      "mechanicTags": [
+        "limited 9-class pack",
+        "plank your price",
+        "9:09 flash"
+      ],
+      "audience": "Everyone: members, pack buyers and newcomers.",
+      "excludedAudience": null,
+      "conditions": "Spot offer, ≤25% effective at the floor price. Two packs per person. April only; no anniversary prices after 30 Apr.",
+      "cta": "2027-04-01 to 2027-04-30",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": true,
+      "price": 11499,
+      "expectedRevenue": 229980,
+      "buyers": 20,
+      "effectiveDiscountPercent": 23.7,
+      "kpi": "Packs sold in the two 9:09 windows; pack → membership by June.",
+      "validity": {
+        "start": "2027-04-01",
+        "end": "2027-04-30"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "newClient",
+        "discountRule": "OK: spot offer (≤25%)"
+      },
+      "ticket": 11499
+    },
+    {
+      "id": "O27-54-KC",
+      "bankId": "O27-54",
+      "slot": "upgrade",
+      "name": "The Cloud Nine 90",
+      "headline": "Ninety classes. One year. Zero commitment issues.",
+      "benefit": "90 classes valid for 12 months: Mumbai ₹1,34,999 (₹1,500 a class; 90 singles cost ₹1,74,825 at list, so 22.8% off), Bengaluru ₹99,999 (₹1,111 a class against ₹1,27,575, 21.6% off). April only, any format.",
+      "customerCopy": "Ninety classes, one year, zero commitment issues: the Cloud Nine 90 works out to ₹1,500 a class. April only.",
+      "description": "90 classes valid for 12 months: Mumbai ₹1,34,999 (₹1,500 a class; 90 singles cost ₹1,74,825 at list, so 22.8% off), Bengaluru ₹99,999 (₹1,111 a class against ₹1,27,575, 21.6% off). April only, any format.",
+      "internalDescription": "Plan: 1 buyers × ₹1,34,999 = ₹1,34,999 (Mumbai pricing).",
+      "rationale": "The Anniversary Big 85 Flex sold 4 times at Kemps Corner and once at Kenkere House in April 2026; this replaces it at a price inside the bulk cap.",
+      "objective": "Lock in a year of revenue from the heaviest pack buyers.",
+      "type": "Bulk class pack (12 months)",
+      "mechanicTags": [
+        "bulk pack",
+        "90 classes",
+        "12-month validity"
+      ],
+      "audience": "High-frequency pack buyers.",
+      "excludedAudience": null,
+      "conditions": "Bulk purchase, ≤25% effective. Non-transferable; 12-month validity.",
+      "cta": "2027-04-01 to 2027-04-30",
+      "status": "draft",
+      "approval": "pending",
+      "runAds": false,
+      "price": 134999,
+      "expectedRevenue": 134999,
+      "buyers": 1,
+      "effectiveDiscountPercent": 22.8,
+      "kpi": "Packs sold; classes used per month of the pack.",
+      "validity": {
+        "start": "2027-04-01",
+        "end": "2027-04-30"
+      },
+      "mechanics": {
+        "city": "Mumbai",
+        "stream": "renewal",
+        "discountRule": "OK: bulk purchase (≤25%)"
+      },
+      "ticket": 134999
     }
   ],
-  "offersPlannedRevenue": 4510510,
+  "offersPlannedRevenue": 4513817,
   "keyDates": [
+    {
+      "day": 1,
+      "date": "2027-04-01",
+      "name": "Launch: “Nine Years in Ninety Seconds” film; 9-Month Lease and 9-Class Pack on sale",
+      "kind": "brand",
+      "approx": false
+    },
+    {
+      "day": 3,
+      "date": "2027-04-03",
+      "name": "Blind Date With a Class (format and trainer secret until you walk in)",
+      "kind": "brand",
+      "approx": false
+    },
+    {
+      "day": 6,
+      "date": "2027-04-06",
+      "name": "Throwback Class: the 2018 playlist and original choreography",
+      "kind": "brand",
+      "approx": false
+    },
+    {
+      "day": 8,
+      "date": "2027-04-08",
+      "name": "Bring Your Barre-stie: free guest pass for every member",
+      "kind": "brand",
+      "approx": false
+    },
+    {
+      "day": 9,
+      "date": "2027-04-09",
+      "name": "The 9:09 Panic Attack: two 99-minute flash windows",
+      "kind": "retail",
+      "approx": false
+    },
+    {
+      "day": 15,
+      "date": "2027-04-15",
+      "name": "Séance Class (candle-lit winback class)",
+      "kind": "brand",
+      "approx": false
+    },
     {
       "day": 17,
       "date": "2027-04-17",
@@ -293,15 +416,22 @@
     {
       "day": 18,
       "date": "2027-04-18",
-      "name": "Physique 57 India 9th anniversary — '9 at 9' class",
+      "name": "Physique 57 India 9th anniversary: ‘9 at 9’ class, cake and the Time Capsule",
       "kind": "brand",
       "approx": false
     },
     {
       "day": 24,
       "date": "2027-04-24",
-      "name": "Throwback Reunion",
+      "name": "Throwback Reunion + Golden Glute Awards",
       "kind": "brand",
+      "approx": false
+    },
+    {
+      "day": 30,
+      "date": "2027-04-30",
+      "name": "Lock-In: last keys, midnight close of anniversary prices",
+      "kind": "retail",
       "approx": false
     }
   ],
@@ -312,67 +442,102 @@
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Cloud Nine Limited Edition in Momence (2027-04-01 to 2027-04-30): 9 Months Unlimited + 1 complimentary month (10 months) + 9 freezes (min 3 days each). Mumbai ₹1,64,999 — 99 numbered memberships across Kwality and Supreme HQ. Kenkere ₹1,19,999 — 39 numbered. Works out to ₹16,500 / ₹12,000 a month."
+          "detail": "Set up Moving In Together (The 9-Month Lease) in Momence (2027-04-01 to 2027-04-30): A 9-Month Unlimited that exists only in April: Mumbai ₹1,44,999 (a 6-Month plus a 3-Month cost ₹1,71,570), Kenkere ₹1,02,999 (₹1,24,425). 9 freezes (min 3 days each), the anniversary hoodie, a numbered brass studio key and your name on the Lease Wall. 99 numbered keys across Kwality and Supreme HQ, 39 at Kenkere; a live counter on the studio screens."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Club Nine: The Founders' Table in Momence (2027-04-01 to 2027-04-30): 9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, name on the Club Nine wall and 48-hour priority booking all year."
+          "detail": "Set up Club Nine: The Founders’ Table in Momence (2027-04-01 to 2027-04-30): 9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, your name on the Club Nine wall and 48-hour priority booking all year. Unveiled at the Birthday Bash on Sat 17 Apr."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Spin Class (Literally) in Momence (2027-04-01 to 2027-04-30): Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Expected value ≈₹1,900 Mumbai / ₹1,350 Bengaluru."
+          "detail": "Set up Spin Class (Literally) in Momence (2027-04-01 to 2027-04-30): Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Then choose: keep it, double it by booking 9 classes in your first 21 days, or donate it to a friend as a guest pass."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Party Crasher Pass in Momence (2027-04-01 to 2027-04-24): Mumbai: 3 classes in 9 days for ₹999, any formats, including a Birthday Bash party class (17–18 Apr); Lab seat at Supreme HQ only. Kenkere: 3 barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% — 1 Month nets ₹16,204 / ₹11,707."
+          "detail": "Set up Party Crasher Pass in Momence (2027-04-01 to 2027-04-24): Mumbai: 3 classes in 9 days for ₹999, any format, including a Birthday Bash party class (17–18 Apr). Kenkere: 3 Barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% (1 Month nets ₹16,204 / ₹11,707). Buy within 9 hours of class 3 and you hit the Impulse Buzzer: confetti, applause, name on the Reckless Decisions board."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Where Are They Now? in Momence (2027-04-01 to 2027-04-30): Lapsed 61 days–3 years: the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Seat at the Throwback Reunion (Sat 24 Apr): a class with a row for every cohort, Class of 2018 to Class of 2026."
+          "detail": "Set up Faking Your Own Death Didn’t Work in Momence (2027-04-01 to 2027-04-30): Lapsed 61 days–3 years get an obituary postcard (“Here lies a perfectly good plank”). It is the ticket to the candle-lit Séance Class on Thu 15 Apr. Come back on the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Photo at the Back From the Dead frame; your row at the Throwback Reunion (Sat 24 Apr)."
         },
         {
           "label": "",
           "value": "Studio manager",
-          "detail": "Set up Plus One, Plus Nine in Momence (2027-04-01 to 2027-04-30): Any active member whose new friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote."
+          "detail": "Set up Plus One, Plus Nine in Momence (2027-04-01 to 2027-04-30): Any active member whose never-been friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote. Bring Your Barre-stie day (Thu 8 Apr): every member gets a free guest pass."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The 9:09 Panic Attack in Momence (2027-04-01 to 2027-04-30): The Limited Edition 9-Class Pack (99 days to use it) exists only in April. Plank Your Price at the desk: hold 57 seconds and it is ₹12,999 (Kenkere ₹8,699), 1:57 for ₹12,249 (₹8,199), 2:57 for the floor, ₹11,499 (₹7,699). On Fri 9 Apr, two 99-minute windows from 9:09 am and 9:09 pm give everyone the floor price, no plank needed: siren in studio, countdown on Instagram. Pop-ups: a 9-class pack at ₹6,499 in the same windows."
+        },
+        {
+          "label": "",
+          "value": "Studio manager",
+          "detail": "Set up The Cloud Nine 90 in Momence (2027-04-01 to 2027-04-30): 90 classes valid for 12 months: Mumbai ₹1,34,999 (₹1,500 a class; 90 singles cost ₹1,74,825 at list, so 22.8% off), Bengaluru ₹99,999 (₹1,111 a class against ₹1,27,575, 21.6% off). April only, any format."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Brief the team on the 6 April offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
+          "detail": "Brief the team on the 8 April offers, who each is for, the discount caps and the no-stacking rule; print the offer cards."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Cloud Nine Limited Edition: Nine years. Nine months. Nine freezes. Plus one month on us — because we're feeling generous on our birthday. Only 99 numbered memberships in Mumbai and 39 in Bengaluru. When they're gone, they're gone (like your 2018 resolutions)."
+          "detail": "Launch Moving In Together (The 9-Month Lease): Nine years in, we’re ready to move in together. The 9-Month Lease: 9 months unlimited, 9 freezes, the anniversary hoodie and a numbered brass key. 99 keys in Mumbai, 39 in Bengaluru. When they’re gone, they’re gone."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Club Nine: The Founders' Table: Nine numbered annual seats per studio. Twice the perks: 4 privates, 8 guest passes, 2 hosted classes, a numbered jacket and your name on the Club Nine wall. Public seat counter. No seat ever added."
+          "detail": "Launch Club Nine: The Founders’ Table: Nine seats. Nine years. Club Nine is an annual membership with the perks doubled: 4 privates, 8 guest passes, priority booking all year and a numbered jacket. Nine per studio, and then the table is full."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Spin Class (Literally): Renew in April, get 10% off, then spin the Wheel of Nine. Every spin wins — from smoothies to a free month. The odds are printed on the wall, because we're fit, not shady."
+          "detail": "Launch Spin Class (Literally): Renew in April and spin the Wheel of Nine: every spin wins. Then decide: keep your prize, double it, or gift it to a friend. Odds are on the wall, because we’re not that kind of casino."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Party Crasher Pass: It's our 9th birthday and you're invited. 3 classes for ₹999 (Bengaluru ₹699) — including the party class. Love it? Your ₹999 comes off your first month."
+          "detail": "Launch Party Crasher Pass: It’s our 9th birthday and you’re invited: 3 classes for ₹999 (Kenkere ₹699), birthday party class included. Love it? The ₹999 comes off your first month. Decide fast and you get to hit the big red buzzer."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Where Are They Now?: You joined us in {year}. A lot has changed (we got prettier). Come back for our 9th birthday: 15% off, a bonus class for every year you've known us, and a seat at the Throwback Reunion."
+          "detail": "Launch Faking Your Own Death Didn’t Work: We wrote your obituary. It was moving. Unfortunately for you, you’re invited back: 15% off, a bonus for every year you’ve been with us, and a candle-lit Séance Class to rise from the dead."
         },
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Launch Plus One, Plus Nine: It's our birthday, so we're giving presents for presents. Bring a friend who joins: +9 days on us. Bring three: a whole free month. They get 15% off and a Cloud Nine tote."
+          "detail": "Launch Plus One, Plus Nine: Bring a friend to the party: if they join, you get 9 extra days. Bring three and the next month is on us. They get 15% off and a Cloud Nine tote."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The 9:09 Panic Attack: Plank for your price: hold it for 57 seconds and the 9-Class Pack is ₹12,999; hold for 2:57 and it’s ₹11,499. Or wait for 9:09 on 9 April, when everyone gets the floor price for 99 minutes. Panic responsibly."
+        },
+        {
+          "label": "",
+          "value": "Sales lead",
+          "detail": "Launch The Cloud Nine 90: Ninety classes, one year, zero commitment issues: the Cloud Nine 90 works out to ₹1,500 a class. April only."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Launch: “Nine Years in Ninety Seconds” film; 9-Month Lease and 9-Class Pack on sale (2027-04-01): brief trainers, book the room, post the Story the day before."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Blind Date With a Class (format and trainer secret until you walk in) (2027-04-03): brief trainers, book the room, post the Story the day before."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Throwback Class: the 2018 playlist and original choreography (2027-04-06): brief trainers, book the room, post the Story the day before."
         }
       ]
     },
@@ -382,7 +547,17 @@
         {
           "label": "",
           "value": "Sales lead",
-          "detail": "Weekly check: Cloud Nine Limited Edition: Units sold; repeat purchase at expiry. | Club Nine: The Founders' Table: Seats sold out of 9 per studio; guest-pass → new buyer conversion. | Spin Class (Literally): 1M average ticket (target ≥₹18,000); spins filmed and shared. | Party Crasher Pass: Passes sold; 3-visit completion (target 65%); pass → member (target 40%). | Where Are They Now?: Personalised sends; reunion RSVPs; reactivations. | Plus One, Plus Nine: Referred buyers (target 2× Apr-26); members with 3 referrals."
+          "detail": "Weekly check: Moving In Together (The 9-Month Lease): Keys sold vs 99 / 39; 6M+ share of April membership revenue (target 50%). | Club Nine: The Founders’ Table: Seats sold (9 per studio); annual share of April renewals. | Spin Class (Literally): April renewal yield vs April 2026; share of spins doubled (target 35%). | Party Crasher Pass: Pass → member (target 35%); buzzer hits (bought within 9 hours). | Faking Your Own Death Didn’t Work: Postcards → Séance Class attendance; reactivations (target +30% vs Apr-26). | Plus One, Plus Nine: Referral buyers (target 2× April 2026); members reaching three. | The 9:09 Panic Attack: Packs sold in the two 9:09 windows; pack → membership by June. | The Cloud Nine 90: Packs sold; classes used per month of the pack."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Bring Your Barre-stie: free guest pass for every member (2027-04-08): brief trainers, book the room, post the Story the day before."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run The 9:09 Panic Attack: two 99-minute flash windows (2027-04-09): brief trainers, book the room, post the Story the day before."
         }
       ]
     },
@@ -393,6 +568,21 @@
           "label": "",
           "value": "Sales lead",
           "detail": "Mid-month review against ₹60.0L: by the 15th aim for ~half of 129 new buyers (480 first visits), 141 renewals and 63 winbacks. Push the lists, not a deeper discount."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Séance Class (candle-lit winback class) (2027-04-15): brief trainers, book the room, post the Story the day before."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Club Nine Unveiling + Birthday Bash (17–18 Apr) (2027-04-17): brief trainers, book the room, post the Story the day before."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Physique 57 India 9th anniversary: ‘9 at 9’ class, cake and the Time Capsule (2027-04-18): brief trainers, book the room, post the Story the day before."
         }
       ]
     },
@@ -403,6 +593,16 @@
           "label": "",
           "value": "Studio manager",
           "detail": "Close April: tag every redemption by offer ID (O27-xx), log trial attendance and trial→purchase per offer, brief next month."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Throwback Reunion + Golden Glute Awards (2027-04-24): brief trainers, book the room, post the Story the day before."
+        },
+        {
+          "label": "",
+          "value": "Head trainer",
+          "detail": "Run Lock-In: last keys, midnight close of anniversary prices (2027-04-30): brief trainers, book the room, post the Story the day before."
         }
       ]
     }
@@ -412,20 +612,21 @@
     "pieces": [
       {
         "offerId": "O27-13-KC",
-        "headline": "Nine years. Nine months. Nine freezes. Plus one month on us.",
-        "copy": "Nine years. Nine months. Nine freezes. Plus one month on us — because we're feeling generous on our birthday. Only 99 numbered memberships in Mumbai and 39 in Bengaluru. When they're gone, they're gone (like your 2018 resolutions).",
-        "detail": "9 Months Unlimited + 1 complimentary month (10 months) + 9 freezes (min 3 days each). Mumbai ₹1,64,999 — 99 numbered memberships across Kwality and Supreme HQ. Kenkere ₹1,19,999 — 39 numbered. Works out to ₹16,500 / ₹12,000 a month.",
+        "headline": "Nine years in, we’re ready to move in together. 99 keys. No second batch.",
+        "copy": "Nine years in, we’re ready to move in together. The 9-Month Lease: 9 months unlimited, 9 freezes, the anniversary hoodie and a numbered brass key. 99 keys in Mumbai, 39 in Bengaluru. When they’re gone, they’re gone.",
+        "detail": "A 9-Month Unlimited that exists only in April: Mumbai ₹1,44,999 (a 6-Month plus a 3-Month cost ₹1,71,570), Kenkere ₹1,02,999 (₹1,24,425). 9 freezes (min 3 days each), the anniversary hoodie, a numbered brass studio key and your name on the Lease Wall. 99 numbered keys across Kwality and Supreme HQ, 39 at Kenkere; a live counter on the studio screens.",
         "channels": [
           "WhatsApp",
+          "Instagram",
           "Email",
           "Desk card"
         ]
       },
       {
         "offerId": "O27-14-KC",
-        "headline": "Nine numbered seats. Founder perks for a year.",
-        "copy": "Nine numbered annual seats per studio. Twice the perks: 4 privates, 8 guest passes, 2 hosted classes, a numbered jacket and your name on the Club Nine wall. Public seat counter. No seat ever added.",
-        "detail": "9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, name on the Club Nine wall and 48-hour priority booking all year.",
+        "headline": "Nine numbered seats per studio. Founder perks for a year.",
+        "copy": "Nine seats. Nine years. Club Nine is an annual membership with the perks doubled: 4 privates, 8 guest passes, priority booking all year and a numbered jacket. Nine per studio, and then the table is full.",
+        "detail": "9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, your name on the Club Nine wall and 48-hour priority booking all year. Unveiled at the Birthday Bash on Sat 17 Apr.",
         "channels": [
           "WhatsApp",
           "Email",
@@ -434,9 +635,9 @@
       },
       {
         "offerId": "O27-15-KC",
-        "headline": "Renew, then spin. Every spin wins.",
-        "copy": "Renew in April, get 10% off, then spin the Wheel of Nine. Every spin wins — from smoothies to a free month. The odds are printed on the wall, because we're fit, not shady.",
-        "detail": "Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Expected value ≈₹1,900 Mumbai / ₹1,350 Bengaluru.",
+        "headline": "Renew, then spin. Every spin wins. Feeling brave? Double it.",
+        "copy": "Renew in April and spin the Wheel of Nine: every spin wins. Then decide: keep your prize, double it, or gift it to a friend. Odds are on the wall, because we’re not that kind of casino.",
+        "detail": "Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Then choose: keep it, double it by booking 9 classes in your first 21 days, or donate it to a friend as a guest pass.",
         "channels": [
           "WhatsApp",
           "Email",
@@ -445,9 +646,9 @@
       },
       {
         "offerId": "O27-16-KC",
-        "headline": "It's our 9th birthday and you're invited. 3 classes for ₹999.",
-        "copy": "It's our 9th birthday and you're invited. 3 classes for ₹999 (Bengaluru ₹699) — including the party class. Love it? Your ₹999 comes off your first month.",
-        "detail": "Mumbai: 3 classes in 9 days for ₹999, any formats, including a Birthday Bash party class (17–18 Apr); Lab seat at Supreme HQ only. Kenkere: 3 barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% — 1 Month nets ₹16,204 / ₹11,707.",
+        "headline": "It’s our 9th birthday and you’re invited. 3 classes for ₹999.",
+        "copy": "It’s our 9th birthday and you’re invited: 3 classes for ₹999 (Kenkere ₹699), birthday party class included. Love it? The ₹999 comes off your first month. Decide fast and you get to hit the big red buzzer.",
+        "detail": "Mumbai: 3 classes in 9 days for ₹999, any format, including a Birthday Bash party class (17–18 Apr). Kenkere: 3 Barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% (1 Month nets ₹16,204 / ₹11,707). Buy within 9 hours of class 3 and you hit the Impulse Buzzer: confetti, applause, name on the Reckless Decisions board.",
         "channels": [
           "WhatsApp",
           "Instagram",
@@ -457,9 +658,9 @@
       },
       {
         "offerId": "O27-17-KC",
-        "headline": "You joined us in {year}. A lot has changed (we got prettier).",
-        "copy": "You joined us in {year}. A lot has changed (we got prettier). Come back for our 9th birthday: 15% off, a bonus class for every year you've known us, and a seat at the Throwback Reunion.",
-        "detail": "Lapsed 61 days–3 years: the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Seat at the Throwback Reunion (Sat 24 Apr): a class with a row for every cohort, Class of 2018 to Class of 2026.",
+        "headline": "We wrote your obituary. You’re not getting out of it that easily.",
+        "copy": "We wrote your obituary. It was moving. Unfortunately for you, you’re invited back: 15% off, a bonus for every year you’ve been with us, and a candle-lit Séance Class to rise from the dead.",
+        "detail": "Lapsed 61 days–3 years get an obituary postcard (“Here lies a perfectly good plank”). It is the ticket to the candle-lit Séance Class on Thu 15 Apr. Come back on the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Photo at the Back From the Dead frame; your row at the Throwback Reunion (Sat 24 Apr).",
         "channels": [
           "WhatsApp",
           "Email",
@@ -469,8 +670,31 @@
       {
         "offerId": "O27-18-KC",
         "headline": "Bring a friend, get 9 days. Bring three, get a month.",
-        "copy": "It's our birthday, so we're giving presents for presents. Bring a friend who joins: +9 days on us. Bring three: a whole free month. They get 15% off and a Cloud Nine tote.",
-        "detail": "Any active member whose new friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote.",
+        "copy": "Bring a friend to the party: if they join, you get 9 extra days. Bring three and the next month is on us. They get 15% off and a Cloud Nine tote.",
+        "detail": "Any active member whose never-been friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote. Bring Your Barre-stie day (Thu 8 Apr): every member gets a free guest pass.",
+        "channels": [
+          "WhatsApp",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-53-KC",
+        "headline": "Plank for your price. Or wait for 9:09 and panic with everyone else.",
+        "copy": "Plank for your price: hold it for 57 seconds and the 9-Class Pack is ₹12,999; hold for 2:57 and it’s ₹11,499. Or wait for 9:09 on 9 April, when everyone gets the floor price for 99 minutes. Panic responsibly.",
+        "detail": "The Limited Edition 9-Class Pack (99 days to use it) exists only in April. Plank Your Price at the desk: hold 57 seconds and it is ₹12,999 (Kenkere ₹8,699), 1:57 for ₹12,249 (₹8,199), 2:57 for the floor, ₹11,499 (₹7,699). On Fri 9 Apr, two 99-minute windows from 9:09 am and 9:09 pm give everyone the floor price, no plank needed: siren in studio, countdown on Instagram. Pop-ups: a 9-class pack at ₹6,499 in the same windows.",
+        "channels": [
+          "WhatsApp",
+          "Instagram",
+          "Email",
+          "Desk card"
+        ]
+      },
+      {
+        "offerId": "O27-54-KC",
+        "headline": "Ninety classes. One year. Zero commitment issues.",
+        "copy": "Ninety classes, one year, zero commitment issues: the Cloud Nine 90 works out to ₹1,500 a class. April only.",
+        "detail": "90 classes valid for 12 months: Mumbai ₹1,34,999 (₹1,500 a class; 90 singles cost ₹1,74,825 at list, so 22.8% off), Bengaluru ₹99,999 (₹1,111 a class against ₹1,27,575, 21.6% off). April only, any format.",
         "channels": [
           "WhatsApp",
           "Email",
@@ -484,39 +708,49 @@
     "sends": [
       {
         "offerId": "O27-13-KC",
-        "audience": "Members on 1 Month or class packs.",
-        "message": "Nine years. Nine months. Nine freezes. Plus one month on us — because we're feeling generous on our birthday. Only 99 numbered memberships in Mumbai and 39 in Bengaluru. When they're gone, they're gone (like your 2018 resolutions)."
+        "audience": "Members ready for a long commitment and returning clients who want the best price of the year.",
+        "message": "Nine years in, we’re ready to move in together. The 9-Month Lease: 9 months unlimited, 9 freezes, the anniversary hoodie and a numbered brass key. 99 keys in Mumbai, 39 in Bengaluru. When they’re gone, they’re gone."
       },
       {
         "offerId": "O27-14-KC",
-        "audience": "≈25% effective with perks (annual cap)",
-        "message": "Nine numbered annual seats per studio. Twice the perks: 4 privates, 8 guest passes, 2 hosted classes, a numbered jacket and your name on the Club Nine wall. Public seat counter. No seat ever added."
+        "audience": "Members on 3-Month or longer plans; annual renewers.",
+        "message": "Nine seats. Nine years. Club Nine is an annual membership with the perks doubled: 4 privates, 8 guest passes, priority booking all year and a numbered jacket. Nine per studio, and then the table is full."
       },
       {
         "offerId": "O27-15-KC",
-        "audience": "One spin per renewal, ≈19",
-        "message": "Renew in April, get 10% off, then spin the Wheel of Nine. Every spin wins — from smoothies to a free month. The odds are printed on the wall, because we're fit, not shady."
+        "audience": "Members renewing 1 Month or a 12-class pack.",
+        "message": "Renew in April and spin the Wheel of Nine: every spin wins. Then decide: keep your prize, double it, or gift it to a friend. Odds are on the wall, because we’re not that kind of casino."
       },
       {
         "offerId": "O27-16-KC",
         "audience": "First-time clients (phone verified).",
-        "message": "It's our 9th birthday and you're invited. 3 classes for ₹999 (Bengaluru ₹699) — including the party class. Love it? Your ₹999 comes off your first month."
+        "message": "It’s our 9th birthday and you’re invited: 3 classes for ₹999 (Kenkere ₹699), birthday party class included. Love it? The ₹999 comes off your first month. Decide fast and you get to hit the big red buzzer."
       },
       {
         "offerId": "O27-17-KC",
-        "audience": "Standard lapsed 15% + max 3 bonus classes (≤20% effective on a 12-class pack)",
-        "message": "You joined us in {year}. A lot has changed (we got prettier). Come back for our 9th birthday: 15% off, a bonus class for every year you've known us, and a seat at the Throwback Reunion."
+        "audience": "Lapsed 61 days–3 years.",
+        "message": "We wrote your obituary. It was moving. Unfortunately for you, you’re invited back: 15% off, a bonus for every year you’ve been with us, and a candle-lit Séance Class to rise from the dead."
       },
       {
         "offerId": "O27-18-KC",
-        "audience": "Current members bringing a guest.",
-        "message": "It's our birthday, so we're giving presents for presents. Bring a friend who joins: +9 days on us. Bring three: a whole free month. They get 15% off and a Cloud Nine tote."
+        "audience": "Current members bringing a never-been friend.",
+        "message": "Bring a friend to the party: if they join, you get 9 extra days. Bring three and the next month is on us. They get 15% off and a Cloud Nine tote."
+      },
+      {
+        "offerId": "O27-53-KC",
+        "audience": "Everyone: members, pack buyers and newcomers.",
+        "message": "Plank for your price: hold it for 57 seconds and the 9-Class Pack is ₹12,999; hold for 2:57 and it’s ₹11,499. Or wait for 9:09 on 9 April, when everyone gets the floor price for 99 minutes. Panic responsibly."
+      },
+      {
+        "offerId": "O27-54-KC",
+        "audience": "High-frequency pack buyers.",
+        "message": "Ninety classes, one year, zero commitment issues: the Cloud Nine 90 works out to ₹1,500 a class. April only."
       }
     ],
-    "sendsCount": 6
+    "sendsCount": 8
   },
   "standardTrade": {
-    "revenue": 1489490,
+    "revenue": 1486183,
     "shareOfMonth": 24.8,
     "note": "Full-price trade: memberships, packs and privates sold at list with no offer behind them. Owned by the studio manager and the front desk, not by a campaign. The plan does not model it offer by offer."
   },
