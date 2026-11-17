@@ -150,7 +150,7 @@ const doc = {
         {
           month: 2,
           name: 'February',
-          theme: 'Stronger in 30 2.0',
+          theme: 'Red Flags, Green Flags',
           status: 'draft',
           target: 2570000,
           priorYear: 1919110,
@@ -160,7 +160,7 @@ const doc = {
           offers,
           keyDates: [],
           sections: [],
-          cover: { theme: 'Stronger in 30 2.0' },
+          cover: { theme: 'Red Flags, Green Flags' },
           overview: {},
           execution: {},
           collateral: { pieces: [] },
@@ -194,7 +194,7 @@ describe('the print document', () => {
     const single = renderPlanDocument(scopePlanToMonth(doc as any, 2) as any);
     expect(single).toContain('February');
     expect(single).not.toContain('The year, month');
-    expect(single).toContain('Stronger in 30 2.0');
+    expect(single).toContain('Red Flags, Green Flags');
   });
 });
 

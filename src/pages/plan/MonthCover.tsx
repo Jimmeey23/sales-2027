@@ -226,7 +226,7 @@ export default function MonthCover({
       <div className="mc-scrim" aria-hidden="true" />
       {/* July is monsoon month: rain and rising floodwater behind the cover. */}
       {month === 7 && <MonsoonScene />}
-      {/* Feb, Mar, Apr, May, Jun, Aug, Oct, Nov, Dec: seasonal scenes (Valentine's, Women's Day, Pride, anniversary, heat, Amazing Race, Diwali, Christmas). */}
+      {/* Feb, Mar, Apr, May, Jun, Aug, Oct, Nov, Dec: seasonal scenes (Valentine's, Women's Day, Pride, anniversary, heat, Azaadi kites, Diwali, Christmas). */}
       <SeasonScene month={month} />
 
       <div className="mc-scroll">
@@ -473,7 +473,7 @@ export default function MonthCover({
                   />
                 </span>
                 <span className="mc-renew-copy">
-                  {int(renewalsDue)} expiring · {pct(renewalCoverage)} covered
+                  {int(renewalsDue)} expiring · book = {pct(renewalCoverage)} of renewal target
                 </span>
               </div>
             )}

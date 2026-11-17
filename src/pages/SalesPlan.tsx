@@ -2,6 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Download, Upload } from 'lucide-react';
 import { useApp } from '../App';
+import { api } from '../api';
+import { useLoad } from '../hooks';
 import { ErrorState, Loading } from '../components/ui';
 import { lakh, usePlanData } from './plan/usePlanData';
 import TargetsTab from './plan/TargetsTab';
@@ -28,7 +30,15 @@ export default function SalesPlan() {
     { boot, studioId, year } = useApp();
   const { data, loading, error, reload } = usePlanData();
   const studio = boot.studios.find(s => s.id === studioId);
-  const growth = data && data.lastYear ? data.annual / data.lastYear - 1 : null;
+  // Growth is quoted on the same base as the Target Breakdown table below and the Overview:
+  // measured last-year revenue, with the months not yet closed estimated from the year's run.
+  const { data: breakdown } = useLoad<any>(
+    () => api(`/targets/breakdown?year=${year}${studioId ? `&studio=${studioId}` : ''}`),
+    [studioId, year],
+  );
+  const measuredLastYear = (breakdown?.locations || []).reduce((n: number, l: any) => n + Number(l.total?.lastYear || 0), 0);
+  const lastYear = measuredLastYear || data?.lastYear || 0;
+  const growth = data && lastYear ? data.annual / lastYear - 1 : null;
   const peak = data ? [...data.months].sort((a, b) => b.target - a.target)[0] : null;
   // Export and import belong to the plan as a whole, so they sit in its head rather than
   // inside one tab: the same two files serve the review and the next edit of the year.
@@ -51,7 +61,7 @@ export default function SalesPlan() {
               <dt>Target</dt>
               <dd>{lakh(data.annual)}</dd>
             </div>
-            <div>
+            <div title={`Against ${year - 1} revenue (${lakh(lastYear)}): measured months plus an estimate for the months not yet closed — the same base as the Target Breakdown and the Overview.`}>
               <dt>vs {year - 1}</dt>
               <dd className={growth !== null && growth < 0 ? 'neg' : 'pos'}>
                 {growth === null ? '—' : `${growth >= 0 ? '+' : ''}${(growth * 100).toFixed(0)}%`}

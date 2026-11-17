@@ -269,7 +269,7 @@ export default function MonthOverview({
               <i style={{ ['--w' as string]: `${coveragePct}%` } as React.CSSProperties} />
             </div>
             <p className="mo2-renew-note">
-              {pct(renewalCoverage)} covered by planned renewals
+              Expected renewals = {pct(renewalCoverage)} of the renewal target
               {coveragePct < 60 ? ' — the biggest risk in the month.' : '.'}
             </p>
             <button type="button" className="mo2-link" onClick={onOpenOffers}>
