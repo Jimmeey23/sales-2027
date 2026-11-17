@@ -1,7 +1,9 @@
 // Runs `npm run dev` after predev cleanup: picks the first free API port from PORT (default 3001)
 // and hands it to both the API server and the Vite proxy. Vite picks its own free port (strictPort: false).
 import 'dotenv/config';
+import fs from 'node:fs';
 import net from 'node:net';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import concurrently from 'concurrently';
@@ -21,8 +23,16 @@ if (port !== preferred) console.log(`API port ${preferred} is busy, using ${port
 // its own path as a command. Put the project's bin folder on PATH so tsx and vite resolve even
 // when this file is run with plain `node` rather than through npm.
 const bin = fileURLToPath(new URL('../node_modules/.bin', import.meta.url));
+// The database driver (better-sqlite3) is built for the Node version in .nvmrc. Terminals inside
+// VS Code can put another Node first on PATH (e.g. VS Code's own v24), which crashes the API with
+// NODE_MODULE_VERSION errors, so put the .nvmrc Node from nvm first when it is installed.
+const wanted = fs.readFileSync(new URL('../.nvmrc', import.meta.url), 'utf8').trim().replace(/^v/, '');
+const nvmBin = path.join(process.env.NVM_DIR || path.join(os.homedir(), '.nvm'), 'versions', 'node', `v${wanted}`, 'bin');
+const pinned = fs.existsSync(path.join(nvmBin, 'node')) ? `${nvmBin}${path.delimiter}` : '';
+if (!pinned && process.versions.node !== wanted)
+  console.warn(`Node ${wanted} (from .nvmrc) is not installed via nvm; the API may fail. Run: nvm install ${wanted}`);
 const env = {
-  PATH: `${bin}${path.delimiter}${process.env.PATH ?? ''}`,
+  PATH: `${pinned}${bin}${path.delimiter}${process.env.PATH ?? ''}`,
   PORT: String(port),
   API_PORT: String(port),
 };
