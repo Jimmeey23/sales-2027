@@ -70,7 +70,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         {
           title: 'Peak month: Apr',
           stat: '₹57.6L',
-          detail: 'Cloud Nine (9th anniversary) · 9 years of Physique 57 India · first ₹1 Cr month.',
+          detail: 'Nine Years. We Kept The Receipts. (9th anniversary) · every client’s record printed at the desk · ₹119.6L across four locations.',
           implication:
             "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
         },
@@ -287,7 +287,7 @@ export const PLAYBOOK_2027: PlaybookData = {
         {
           title: 'Peak month: Apr',
           stat: '₹33.0L',
-          detail: 'Cloud Nine (9th anniversary) · 9 years of Physique 57 India · first ₹1 Cr month.',
+          detail: 'Nine Years. We Kept The Receipts. (9th anniversary) · every client’s record printed at the desk · ₹119.6L across four locations.',
           implication:
             "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
         },

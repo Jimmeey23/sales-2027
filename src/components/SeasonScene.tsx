@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
      2  Valentine's   hearts rising like bokeh, drifting petals, a warm rose glow
      3  Women's Day   purple/green/white ribbons, rising Venus symbols, mimosa, sparkle bursts
-     4  Anniversary   Cloud Nine: gold confetti, floating balloons, a glowing 9 and sparkles
+     4  Anniversary   Nine Years, We Kept The Receipts: gold confetti, floating balloons, a glowing 9 and sparkles
      6  Pride         a waving rainbow ribbon, a sweeping prism of light, rainbow hearts and confetti
      5  Midsummer     a breathing sun with counter-turning rays and lens flare, mirage, bokeh, embers, cool droplets
      8  Azaadi        kites on strings, saffron/white/green bands of light, friendship bands
@@ -214,7 +214,7 @@ const valentine: Scene = {
   },
 };
 
-/* ── April: 9th anniversary, Cloud Nine ───────────────────────────────── */
+/* ── April: 9th anniversary, We Kept The Receipts ───────────────────────────────── */
 const GOLDS = ['#f3dc9b', '#e6c06a', '#c9a15a', '#fff1c8', '#d9b46d'];
 const anniversary: Scene = {
   init: (w, h) => ({

@@ -4,15 +4,15 @@
 **Month:** April 2027  
 **Plan year:** 2027. Every target here is for April 2027; "last year" means April 2026.
 
-This is the complete, approved sales plan for this studio and month. It has exactly 5 offers; there are no others.
+This is the complete, approved sales plan for this studio and month. It has exactly 7 offers; there are no others.
 
 ## Theme and focus
 
-**Theme:** Cloud Nine Fest: the 9th Anniversary
+**Theme:** Nine Years. We Kept The Receipts.
 
-**Objective:** Deliver the first ₹1 crore month: every offer earned through play, two limited editions, one awards night. At Kemps Corner: Biggest month of the year (₹63.8L). Annual and 6-Month carry the month.
+**Objective:** Nine years of records, read back with a straight face: the studio doesn’t joke about you, it prints your file. At Kemps Corner: April target ₹63.8L; seven offers, one mechanic, no procurement beyond keys and a printer.
 
-**Strategy:** April is the year's biggest month. It runs as a four-act festival peaking on the real anniversary (Sun 18 Apr). No offer is sent as a code: newcomers crack a fortune cookie, renewers play the claw machine, lapsed clients come to a séance, the 9-Class Pack price drops with a plank, and 99 numbered 9-Month keys rise in price as they sell. None goes above 25% effective discount. Full detail is in the Anniversary Plan.
+**Strategy:** One mechanic, every location, every segment: a thermal printer at each front desk prints anyone’s record on receipt paper — on file since, classes taken, longest streak, longest silence — with the April offer at the bottom. Status tiers are the collectible (NO RECORD FOUND → PROVISIONAL → ESTABLISHED → CERTIFIED INSUFFERABLE → INSUFFERABLE, PLATINUM; on file since 2018 prints FOUNDING WITNESS in gold). Booked-not-attended and late-cancel rows print only for clients with 100+ classes taken; newcomers get a three-line receipt and a clean slate; lapsed clients get the dates, never the skip count. Voice: flat declaratives, no exclamation marks, never explain the joke. Renewal and early renewal held at 15–18% value-back; the full 25% is kept for the flash day and the win-back, so there is discount left to pull if week three is soft. Build: Momence export → n8n → receipt template → desk printer, with the same payload sent as an image over respond.io for anyone who doesn’t come in. Full detail is in the Anniversary Plan.
 
 ## The revenue target
 
@@ -36,82 +36,113 @@ This is the complete, approved sales plan for this studio and month. It has exac
 - Renewals due this month: 177; renewals planned: 138 (78% of those due)
 - Lapsed clients to win back: 65
 
-## The offers (5)
+## The offers (7)
 
-Together the offers are planned to bring in ₹40.2L (₹40,15,174), 63% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹58.1L (₹58,11,569), 91% of the target. The rest comes from full-price sales.
 
-### Offer 1 of 5: Reckless Impulse Decision
+### Offer 1 of 7: Suspiciously Clean Record
 
-- **Type:** New clients
+- **Type:** Newcomer
 - **Who it's for:** First-time clients, within 9 hours of their first class
-- **Headline:** Bad decisions make good stories. This one comes out of a fortune cookie.
-- **What they get:** Earned, not handed over: after the first class the newcomer hits the Impulse Buzzer at the front desk (confetti, the class applauds, name on the Reckless Decisions board) and cracks a giant fortune cookie. Every cookie unlocks a 3-Month Unlimited at 15% off (₹49,177) with the anniversary tee, plus one fortune: a trainer consult, a virtual private, the hoodie, or 2 guest passes. The cookie only opens within 9 hours of the first class.
-- **Price:** ₹49,177 (list ₹57,855)
-- **When:** 1–30 Apr
-- **Why we're running it:** Sell newcomers a 3-month first purchase on the day they feel best.
-- **Target:** 11 sales at about ₹49,177 each, ₹5.4L (₹5,40,944) in total
-- **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** The hours after a first class are the highest-intent moment there is, and a 3-Month first purchase renews far better than a 1-Month. The buzzer and the cookie turn a sales conversation into a moment the whole room sees. Cap checked on the most valuable fortune.
-
-### Offer 2 of 5: Faking Your Own Death Didn’t Work
-
-- **Type:** Win-back
-- **Who it's for:** Clients lapsed 60+ days
-- **Headline:** We found you. We always find you. Come to the séance.
-- **What they get:** Earned, not handed over: every lapsed client gets a mock obituary postcard ("Here lie the glutes of …") that doubles as a ticket to the candle-lit Séance Class on 15 April, or to any class that week. Take the class, pose in the Back From the Dead frame at the Resurrection Booth, and unlock a 3-Month Unlimited at 18% off (₹47,441) plus 1 private to rebuild form.
+- **Headline:** Nine years of records and not one of them has your name on it.
+- **What they get:** The receipt prints NO RECORD FOUND and the offer underneath. Buy the 3-Month Unlimited within 9 hours of the first class: ₹47,441 (list ₹57,855). The record is opened in front of them — the desk stamps the receipt ACCOUNT OPENED, it goes on the board, that's the photo. No confetti cannon, no fortune cookie, nothing to source.
 - **Price:** ₹47,441 (list ₹57,855)
-- **When:** 12–30 Apr; Séance Class on Thu 15 Apr
-- **Why we're running it:** Peak-month winback on a 3-month product instead of a pack.
-- **Target:** 5 sales at about ₹47,441 each, ₹2.4L (₹2,37,206) in total
+- **When:** 1–30 Apr; price valid 9 hours from the first class
+- **Why we're running it:** Sell newcomers a committed first purchase on the day the body feels best.
+- **Target:** 11 sales at about ₹47,441 each, ₹5.2L (₹5,21,851) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** A free class with a story is easier to say yes to than a discount code, and the client buys after training, not before. The booth photo becomes content.
+- **The data behind it:** The 9-hour window is the strongest mechanic in the slot: it buys on the day the body feels best and it makes the price obviously a one-day price rather than the price. Booked-not-attended and late-cancel rows print only for clients with 100+ classes taken; newcomers get a three-line receipt and a clean slate; lapsed clients get the dates, never the skip count.
 
-### Offer 3 of 5: Recreational Gambling (For Hamstrings)
+### Offer 2 of 7: Last Seen Wearing Leggings
+
+- **Type:** Winback
+- **Who it's for:** Clients lapsed 60+ days (suppression list applied first)
+- **Headline:** Last seen 14 August. Muttering about next week.
+- **What they get:** A personalised respond.io message: the client's own record as an image — last class date, days elapsed, their old regular slot, their best streak. Missing-persons voice, no death: "Last seen 14 August, 7am Signature, third barre from the window. Reward offered." Then the 3-Month Unlimited at ₹47,441 (list ₹57,855), plus one private to rebuild form. Zero print run, zero staffing.
+- **Price:** ₹47,441 (list ₹57,855)
+- **When:** 12–30 Apr; sent Mon 12 Apr
+- **Why we're running it:** Win back lapsed clients with their own record, not a joke that can land on the wrong person.
+- **Target:** 5 sales at about ₹47,441 each, ₹2.4L (₹2,37,205) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** People lapse for injury, pregnancy, illness and bereavement; a mock obituary posted to someone who buried a parent is a brand problem you cannot apologise your way out of. Their own record is more personal than anything you could have posted. Suppression list applied before anything sends; lapsed clients get the dates, never the skip count.
+
+### Offer 3 of 7: Certified Insufferable
 
 - **Type:** Renewal
-- **Who it's for:** Members renewing or upgrading to 3-Month, 6-Month or Annual
-- **Headline:** Renew. Grab the claw. Then decide: keep it, double it, or give it away.
-- **What they get:** Earned, not handed over: renew or upgrade at the standard price (₹57,855 for a 3-Month) and play The Claw, a real arcade claw machine at the front desk filled with capsules. A 3-Month gets 3 tries, a 6-Month 5, an Annual 9; you keep your best capsule. Capsules hold 2 or 3 bonus classes, a private, a virtual private, 7 extra days, 2 extra freezes, the hoodie, or the golden jackpot (a private and 2 bonus classes). Then the twist: keep it, double it by completing a dare card (9 classes in 14 days; a 7 am class every week of May), or donate it to a friend as guest passes.
-- **Price:** ₹57,855 (list ₹57,855)
+- **Who it's for:** Members renewing or upgrading in April
+- **Headline:** You’ve earned the smugness. Here’s the paperwork.
+- **What they get:** Renew or upgrade at list price (₹57,855 for a 3-Month) — no percentage off — with the reward scaled to the receipt, not a machine: up to 30 classes in the last 12 months earns 2 bonus classes + 7 days; 31–75 earns 3 bonus classes + 7 days + 1 virtual private; 76–150 adds 1 private + 2 freezes; 150+ gets all of it plus the hoodie, and the receipt prints in gold. Settle Your Account dare card: keep the reward, double it by completing a dare (9 classes in 14 days; a 7am every week of May), or donate it as guest passes.
+- **Price:** ₹57,855 (list price)
 - **When:** 5–30 Apr
-- **Why we're running it:** The anniversary renewal offer: higher-value renewals with no percentage off.
+- **Why we're running it:** Hold list price in the month when the most people are buying.
 - **Target:** 34 sales at about ₹57,855 each, ₹19.7L (₹19,67,070) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** More tries for longer plans makes the upgrade the fun choice. The dare turns the prize into attendance in May, the month April buyers drift. Cap checked on the doubled jackpot.
+- **The data behind it:** Structurally the best offer in the month: list price, value back, no discount. The reward tier is a lookup, not a machine to buy, fill and staff in four studios. Extras cost less than their face value, so value-back is held at 15–18%, leaving discount to pull if week three is soft. The dare card buys May attendance with April’s money.
 
-### Offer 4 of 5: Moving In & Changing The Locks
+### Offer 4 of 7: Nine Month Sentence
 
-- **Type:** Revenue boost
-- **Who it's for:** Members and returning clients; 99 numbered memberships per city
-- **Headline:** Nine months. One brass key. The rent goes up every 33 keys.
-- **What they get:** Earned at the Lease Signing: the buyer signs a giant lease on the Lease Wall, rings the studio bell and is handed a numbered brass key. Limited Edition 9-Month Unlimited (a 6-Month plus a 3-Month cost ₹1,71,570 at list), with 9 freeze attempts and the anniversary hoodie. The rent rises as keys go: keys 001–033 ₹1,34,999, keys 034–066 ₹1,39,999, keys 067–099 ₹1,44,999, and the price also steps up at midnight on 18 April, the anniversary. A live key counter runs on the studio screens.
+- **Type:** Upsell
+- **Who it's for:** Members and returning clients ready for a long commitment; 99 numbered keys per city
+- **Headline:** Nine months. No parole. Good behaviour earns freezes.
+- **What they get:** The 9-Month Unlimited with numbered brass keys: ₹1,34,999 for keys 001–033, ₹1,39,999 for 034–066, ₹1,44,999 for 067–099, with a step at midnight on the 18th. Good behaviour earns freezes (9), the key is your release date, your name goes on the Lease Wall and a live key counter runs on the studio screens. Platinum holders from 30 March.
 - **Price:** ₹1,34,999 (list ₹1,71,570)
-- **When:** 1–30 Apr (Platinum holders from 30 Mar)
-- **Why we're running it:** The anniversary's biggest-ticket product: lock in long commitments in the month with the highest target.
+- **When:** 30 Mar – 30 Apr; price steps at midnight 18 Apr
+- **Why we're running it:** The biggest ticket of the month: real scarcity, a rising price, nothing to buy but keys and a counter.
 - **Target:** 6 sales at about ₹1,34,999 each, ₹8.1L (₹8,09,994) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** A rising price rewards deciding early and makes every sale visible to everyone else. The cap is checked at the lowest key price; the unit target also uses the lowest price, so revenue is conservative.
+- **The data behind it:** The best mechanic in the draft, kept whole. A rising price rewards deciding early and makes every sale visible. Runs at all studios: the upsell slot no longer sits at ₹0 outside Kemps Corner.
 
-### Offer 5 of 5: The 9:09 Panic Attack
+### Offer 5 of 7: Your Future Self Is Unreliable
+
+- **Type:** Early renewal
+- **Who it's for:** Members whose membership expires May–July
+- **Headline:** Your membership ends in June. You, historically, do not.
+- **What they get:** Anyone whose membership expires in May, June or July renews during April at list price (₹57,855 for a 3-Month equivalent) and gets the full Certified Insufferable value-back plus 9 bonus days on the back of their current term. No discount — the incentive is access to anniversary terms early, and nine days.
+- **Price:** ₹57,855 (list price)
+- **When:** 5–30 Apr; the early-renewal list goes out the morning of 5 Apr
+- **Why we're running it:** Pull May–July renewals into April: every location needs more renewals than it has expiring.
+- **Target:** 24 sales at about ₹57,855 each, ₹13.9L (₹13,88,520) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** Arithmetic, not optional: roughly half the April renewal line has to be pulled forward from May–July or it doesn’t exist. Costs nothing, moves revenue into the month that needs it, and it’s a clean WhatsApp campaign off a Momence expiry query.
+
+### Offer 6 of 7: Plank Or Pay
 
 - **Type:** Flash sale
 - **Who it's for:** Everyone: members, packs and newcomers
-- **Headline:** Plank for your price. Or wait for 9:09 and panic with everyone else.
-- **What they get:** Earned at the front desk with Plank Your Price: hold a plank for 57 seconds and the Limited Edition 9-Class Pack (valid 99 days; an 8-class pack plus a single cost ₹15,067.50) is ₹12,999; hold 1:57 and it is ₹12,249; hold 2:57 and it is ₹11,499, the floor. On 9 April, during two 99-minute windows from 9:09 am and 9:09 pm, everyone gets the floor price, no plank needed, with a siren in studio and a countdown on Instagram.
+- **Headline:** Hold the plank, drop the price. Or wait for 9:09 and panic with everyone else.
+- **What they get:** The Limited Edition 9-Class Pack (99 days validity), all April. Hold a plank at the desk and the price drops: 57 seconds ₹12,999, 1:57 ₹12,249, 2:57 ₹11,499 — the floor. On Fri 9 Apr, two 99-minute windows from 9:09am and 9:09pm give everyone the floor price with no plank: siren in studio, countdown on Instagram.
 - **Price:** ₹11,499 (list ₹15,068)
-- **When:** Limited Edition 9-Class Pack all April; Plank Your Price at every front desk; floor price for everyone on 9 Apr from 9:09 am and 9:09 pm, 99 minutes each
-- **Why we're running it:** The anniversary's entry product and its loudest moment: a flash sale everyone talks about.
+- **When:** 1–30 Apr; floor price for all on 9 Apr, 9:09am and 9:09pm windows
+- **Why we're running it:** The anniversary’s entry product and the loudest day of the month — entirely free to run.
 - **Target:** 40 sales at about ₹11,499 each, ₹4.6L (₹4,59,960) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. The floor price is inside the cap; the unit target uses the floor price.
+- **The data behind it:** A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. The floor price sits inside the 25% spot cap and plan revenue is counted at the floor.
+
+### Offer 7 of 7: Prove It
+
+- **Type:** Referral
+- **Who it's for:** Current members bringing a guest with no record on file (cap 3 per member)
+- **Headline:** For nine years you’ve told her she’d love this. Bring her.
+- **What they get:** A member brings someone with no record on file. The guest’s first class is free, the guest unlocks Suspiciously Clean Record (₹47,441), and if they buy anything in April the member gets 2 bonus classes and 7 days. Cap 3 per member. The receipt handles the pitch: the member’s own record prints with one line at the bottom — REFERRALS ON FILE: 0. For nine years. Interesting.
+- **Price:** ₹47,441 (list ₹57,855)
+- **When:** 1–30 Apr; referral push on 18 Apr
+- **Why we're running it:** The cheapest new-client revenue available and the only lever that doesn’t erode price.
+- **Target:** 9 sales at about ₹47,441 each, ₹4.3L (₹4,26,969) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** Nine years, four locations, and the old draft had no referral offer. Most needed where growth is steepest (Kenkere +65%, Pop-up +183%). The member reward is acquisition cost, paid only on a purchase.
 
 ## Week by week
 
-- **Week 1:** Act I (30 Mar–7 Apr): Platinum Hour; launch on 1 Apr; buzzer, claw, plank timer and Lease Wall live; Blind Date With a Class (3 Apr); claw opens for renewals (5 Apr).
-- **Week 2:** Act II (8–14 Apr): Bring Your Barre-stie (8 Apr); the 9:09 Panic Attack (9 Apr); Throwback Class (10 Apr); Plank of Fame (14 Apr).
-- **Week 3:** Act III (15–21 Apr): obituary postcards out; Séance Class (15 Apr); Birthday Bash on the real anniversary (18 Apr), key prices step up at midnight; Hidden 9s.
-- **Week 4:** Act IV (22–30 Apr): Golden Glute Awards, Trainer Roast and Nine Coins Auction (24 Apr); Time Capsule (25 Apr); The Lock-In (30 Apr).
+- **Week 1:** Act I (29 Mar–4 Apr): Platinum holders get first access to Nine Month Sentence, keys 001 upward (29–30 Mar). Live Thu 1 Apr: receipts start printing at all four desks; Suspiciously Clean Record, Plank Or Pay and Nine Month Sentence open.
+- **Week 2:** Act II (5–11 Apr): Certified Insufferable and Your Future Self Is Unreliable open Mon 5 Apr; the early-renewal list goes out the same morning. Fri 9 Apr: floor price for everyone, two 99-minute windows from 9:09am and 9:09pm — siren in studio, countdown on Instagram.
+- **Week 3:** Act III (12–18 Apr): Last Seen Wearing Leggings goes out Mon 12 Apr to everyone lapsed 60+ days, suppression list applied first. Sun 18 Apr, the actual anniversary: key prices step at midnight, Founding Witness receipts print in gold, Prove It referral push.
+- **Week 4:** Act IV (19–30 Apr): mid-month read against the seven offer lines (19–25 Apr) — this is when the held-back discount gets spent, if needed. Fri 30 Apr: close; Settle Your Account dare cards carry attendance into May.
 
 ## Activation and channels
 
-- Activation: Cloud Nine Fest: Impulse Buzzer and fortune cookies, The Claw, Plank Your Price, the Lease Wall and numbered keys, the Séance Class (15 Apr), the Birthday Bash (18 Apr), Nine Coins and the auction, Golden Glute Awards (24 Apr). See the Anniversary Plan.
+- Activation: The Receipt — a thermal printer (≈₹4,000; under ₹20,000 for the month across four studios) prints the client’s nine-year record with the April offer at the bottom. People photograph it themselves; the status line is the collectible.
+- ACCOUNT OPENED stamp and desk bell for newcomers; one receipt per client per month, logged.
+- Cut: arcade claw machine, prize wheel, giant fortune cookies, obituary postcards, séance class, Resurrection Booth, confetti cannons — eleven mechanics down to five, no procurement beyond keys and a printer.
+- Kept because free: 99 numbered brass keys and the rising price, the Lease Wall, Plank Your Price, the twin 9:09 windows, the dare cards, and the 9-hour newcomer window.
+- March is build month: receipt engine live, Momence queries written, keys ordered, printers in. Test receipts on staff first — the tone has to be checked against a real record.
+- The receipt engine outlives April: it becomes the annual "your year on record" send in January.

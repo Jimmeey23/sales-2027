@@ -1,507 +1,463 @@
 {
-  "generated": "2026-11-16",
-  "source": "scripts/build-anniversary-plan.mjs (numbers from server/data/portfolio-2027/v5-portfolio.json, April)",
-  "title": "Cloud Nine: the 9th Anniversary",
-  "subtitle": "Physique 57 India · April 2027 · four acts, eight offers, twelve activations and a midnight close",
-  "summary": "April 2027 target: ₹109.6L across the four locations, against ₹90.7L in April 2026 — the first ₹1 crore month in Physique 57 India’s history. Named offers carry ₹80.5L (73%); the rest is full-price trade. April has to win on excitement and on economics: two products that exist only this month, a flash pack you can earn with a plank, a wheel you can double, numbered annual seats, a month of events, and no offer above 25% effective.",
-  "idea": "Cloud Nine: nine years, one month, no chill. April is a party in four acts. The pre-party rewards March renewers with first pick; anniversary week runs a moment a day; the haunting sends the lapsed list its own obituary; and the month closes with the Golden Glute Awards and a midnight Lock-In. Every reward is something to do or to show off — a key, a seat, a stamp, a spin — which costs less than a discount and brings clients into the studio, which is what makes them renew.",
+  "generated": "2026-11-17",
+  "source": "Nine Years. We Kept The Receipts. (17 Nov 2026 plan); numbers from monthly_targets, monthly_plans and the April 2027 offers in p57-data/studio.db",
+  "title": "Nine Years. We Kept The Receipts.",
+  "subtitle": "Physique 57 India · April 2027 · one mechanic, seven offers, five things to run and nothing to procure but keys and a printer",
+  "summary": "April 2027 target: ₹119.6L across the four locations, against ₹90.7L in April 2026. Seven offers carry ₹103.5L of it (87%); the rest is full-price trade. Nine years of a studio means nine years of a file on every person who walked in — classes taken, classes skipped, longest streak, longest disappearance. The studio doesn't joke about you. It just reads your record back to you, on receipt paper, with the April offer printed at the bottom. No offer above 25% effective; renewal and early renewal held at 15–18% value-back so there is discount left to pull if week three is soft.",
+  "idea": "Nine years. Every rep logged. Every excuse filed. One mechanic at every location for every segment: a thermal printer at each front desk prints anyone's record — on file since, classes taken, longest streak, longest silence — and the month's offer prints underneath. It's savage in the only way that lands, which is specific and true: \"Booked 41 classes. Attended 24.\" is a joke the client wrote themselves over nine years. People photograph it, which is free reach, and nobody has to be handed a prop for it to work. The status line is the collectible; clients will compare them, which is the point. Voice rules: flat declaratives, no exclamation marks, never explain the joke. The studio is not excited for you — it is a bureaucrat with a grudge and a nine-year memory. Nothing in the copy says \"celebrate\", \"journey\" or \"family\".",
   "nines": [
     {
-      "name": "9-Month Lease",
-      "line": "99 numbered keys in Mumbai, 39 in Bengaluru"
+      "name": "The Receipt",
+      "line": "your nine-year record, printed at the desk; the offer at the bottom"
     },
     {
-      "name": "Club Nine",
-      "line": "9 numbered annual seats per studio"
+      "name": "Status tiers",
+      "line": "NO RECORD FOUND → PROVISIONAL → ESTABLISHED → CERTIFIED INSUFFERABLE → INSUFFERABLE, PLATINUM"
     },
     {
-      "name": "Wheel of Nine",
-      "line": "every spin wins; double or donate"
+      "name": "Founding Witness",
+      "line": "on file since 2018 prints on gold stock"
     },
     {
-      "name": "9-Class Pack",
-      "line": "plank for your price; 99 days to use it"
+      "name": "The guardrail",
+      "line": "skip counts print only at 100+ classes; newcomers get a clean slate"
+    },
+    {
+      "name": "99 keys",
+      "line": "Nine Month Sentence; the price steps at midnight on the 18th"
+    },
+    {
+      "name": "Plank Or Pay",
+      "line": "57s, 1:57 or 2:57 sets your price; 99 days to use it"
     },
     {
       "name": "9:09",
-      "line": "two 99-minute flash windows on 9 April"
+      "line": "two 99-minute floor-price windows on 9 April"
     },
     {
-      "name": "Plus Nine",
-      "line": "+9 days for every friend who joins"
+      "name": "9 bonus days",
+      "line": "for renewing a May–July expiry during April"
     },
     {
-      "name": "Nine Lives",
-      "line": "a passport of nine April experiences"
-    },
-    {
-      "name": "Hidden 9s",
-      "line": "nine gold envelopes a week per studio"
-    },
-    {
-      "name": "9 at 9",
-      "line": "nine trainers, one class, 9 am on 18 April"
+      "name": "9-hour window",
+      "line": "the newcomer price is a one-day price, not the price"
     }
   ],
   "why": [
     {
-      "head": "April 2026 was bought with discount",
-      "body": "Kemps Corner’s April 2026 was a record ₹50.0L, but its average discount was 30.1% (April 2025: 14.1%) and anniversary codes ran at 40–48% effective. Bandra discounted more (25.3%) and still earned less than in April 2025."
+      "head": "One idea, repeatable in a sentence",
+      "body": "They printed my whole history and it was brutal. That is the only test a theme has to pass: something a client can repeat to a friend. The old draft had five unrelated jokes — death, a casino, a lease signing, a panic attack, a fortune cookie."
     },
     {
-      "head": "April buyers do not all come back",
-      "body": "Between May and October 2026, 57% of Kemps Corner’s April buyers bought again, 51% at Bandra, 68% at Kenkere House and 41% at the pop-ups. The doubled wheel, the passports and the May follow-ups are built to fix this."
+      "head": "The studio has standing",
+      "body": "Most boutique studios in this city don't see nine years. Smugness is earned, so the brand gets to be insufferable on purpose."
     },
     {
-      "head": "Usage drives renewal",
-      "body": "Clients who use 75% or more of their sessions renew at around 80–86%; those under a quarter renew at 30–40%. Events that make people book classes are the best retention tool there is."
+      "head": "It personalises at scale without staffing",
+      "body": "A séance can't scale to hundreds of new buyers, renewers and win-backs; a print job can. Momence holds the data, n8n builds the receipt, respond.io delivers the lapsed version."
     },
     {
-      "head": "Scarcity beats discount",
-      "body": "A numbered, one-month-only product gives people a reason to buy now without cutting the price of the core memberships."
+      "head": "It costs a thermal printer per studio",
+      "body": "Roughly ₹4,000 each; four studios plus spare rolls lands under ₹20,000 for the month — against an arcade claw machine per studio, giant custom fortune cookies, a postcard print run and a built photo booth."
     },
     {
-      "head": "March waits for April",
-      "body": "March is one of the weakest months at every studio. Platinum Hour makes renewing in March the way to get the anniversary first."
+      "head": "It covers the Pop-up",
+      "body": "A Pop-up client's receipt is short and that's the joke: \"On file since Feb. Classes: 6. Still calling it 'that pilates thing'.\" The Pop-up finally runs inside the anniversary instead of beside it."
+    },
+    {
+      "head": "The renewal math is arithmetic, not ambition",
+      "body": "Every location needs more renewals in April than it has memberships expiring in April. Roughly half the renewal line has to be pulled forward from May–July or it doesn't exist — that is why Your Future Self Is Unreliable is in the plan."
     }
   ],
   "targets": [
     {
       "studio": "Kemps Corner",
       "apr26": 5001388,
-      "apr27": 6000000,
-      "newClient": 1440000,
-      "renewal": 3300000,
-      "reactivation": 720000,
-      "other": 540000,
-      "offers": 4513817
+      "apr27": 6380000,
+      "newClient": 1244539,
+      "renewal": 3971274,
+      "reactivation": 480620,
+      "other": 681145,
+      "offers": 5811569
     },
     {
       "studio": "Bandra",
       "apr26": 2744837,
-      "apr27": 3300000,
-      "newClient": 891000,
-      "renewal": 1683000,
-      "reactivation": 594000,
-      "other": 132000,
-      "offers": 2496030
+      "apr27": 3270000,
+      "newClient": 850994,
+      "renewal": 1984358,
+      "reactivation": 347418,
+      "other": 110760,
+      "offers": 3007988
     },
     {
       "studio": "Kenkere House",
       "apr26": 1216947,
-      "apr27": 1510000,
-      "newClient": 513400,
-      "renewal": 800300,
-      "reactivation": 90600,
-      "other": 105700,
-      "offers": 935809
+      "apr27": 2010000,
+      "newClient": 534704,
+      "renewal": 632589,
+      "reactivation": 130552,
+      "other": 162394,
+      "offers": 1433300
     },
     {
       "studio": "Pop-ups",
       "apr26": 105840,
-      "apr27": 151888,
-      "newClient": 59974,
-      "renewal": 66831,
-      "reactivation": 23564,
-      "other": 1519,
-      "offers": 101611
+      "apr27": 300000,
+      "newClient": 79441,
+      "renewal": 18412,
+      "reactivation": 6165,
+      "other": 33601,
+      "offers": 95260
     },
     {
       "studio": "Total",
       "apr26": 9069012,
-      "apr27": 10961888,
-      "newClient": 2904374,
-      "renewal": 5850131,
-      "reactivation": 1428164,
-      "other": 779219,
-      "offers": 8047267
+      "apr27": 11960000,
+      "newClient": 2709678,
+      "renewal": 6606633,
+      "reactivation": 964755,
+      "other": 987900,
+      "offers": 10348117
     }
   ],
   "funnel": [
     {
       "studio": "Kemps Corner",
-      "leads": 941,
-      "trials": 480,
-      "newBuyers": 129,
-      "renewals": 141,
-      "winbacks": 63,
-      "trialToMember": 0.269
+      "leads": 214,
+      "trials": 165,
+      "newBuyers": 38,
+      "renewals": 138,
+      "winbacks": 65,
+      "trialToMember": 0.23
     },
     {
       "studio": "Bandra",
-      "leads": 944,
-      "trials": 491,
-      "newBuyers": 106,
-      "renewals": 77,
-      "winbacks": 54,
-      "trialToMember": 0.216
+      "leads": 271,
+      "trials": 172,
+      "newBuyers": 31,
+      "renewals": 76,
+      "winbacks": 58,
+      "trialToMember": 0.18
     },
     {
       "studio": "Kenkere House",
-      "leads": 1128,
-      "trials": 406,
-      "newBuyers": 76,
-      "renewals": 52,
-      "winbacks": 10,
-      "trialToMember": 0.187
+      "leads": 341,
+      "trials": 150,
+      "newBuyers": 21,
+      "renewals": 39,
+      "winbacks": 30,
+      "trialToMember": 0.14
     },
     {
       "studio": "Pop-ups",
-      "leads": 469,
-      "trials": 122,
-      "newBuyers": 40,
-      "renewals": 9,
-      "winbacks": 4,
-      "trialToMember": 0.329
+      "leads": 123,
+      "trials": 43,
+      "newBuyers": 2,
+      "renewals": 3,
+      "winbacks": 7,
+      "trialToMember": 0.05
     }
   ],
   "offers": [
     {
-      "id": "O27-13",
-      "name": "Moving In Together (The 9-Month Lease)",
-      "slot": "upgrade",
-      "type": "Limited-edition long plan (numbered)",
-      "headline": "Nine years in, we’re ready to move in together. 99 keys. No second batch.",
-      "details": "A 9-Month Unlimited that exists only in April: Mumbai ₹1,44,999 (a 6-Month plus a 3-Month cost ₹1,71,570), Kenkere ₹1,02,999 (₹1,24,425). 9 freezes (min 3 days each), the anniversary hoodie, a numbered brass studio key and your name on the Lease Wall. 99 numbered keys across Kwality and Supreme HQ, 39 at Kenkere; a live counter on the studio screens.",
-      "message": "Nine years in, we’re ready to move in together. The 9-Month Lease: 9 months unlimited, 9 freezes, the anniversary hoodie and a numbered brass key. 99 keys in Mumbai, 39 in Bengaluru. When they’re gone, they’re gone.",
-      "job": "The biggest ticket of the month, carrying members to January 2028.",
-      "why": "A numbered, one-month-only product gives people a reason to buy now without cutting the price of the core memberships. April 2026 was bought with 40–48% codes; scarcity sells the long plan at 17.5–20% instead.",
-      "audience": "Members ready for a long commitment and returning clients who want the best price of the year.",
-      "rules": "17.5% Mumbai / 20.0% Bengaluru effective (hoodie at list; freezes have no cash value). 99 / 39 numbered keys, no second batch. April only.",
-      "kpi": "Keys sold vs 99 / 39; 6M+ share of April membership revenue (target 50%).",
+      "id": "R27-1",
+      "name": "Suspiciously Clean Record",
+      "slot": "newcomer",
+      "type": "Newcomer (9-hour window)",
+      "headline": "Nine years of records and not one of them has your name on it.",
+      "details": "The receipt prints NO RECORD FOUND and the offer underneath. Buy the 3-Month Unlimited within 9 hours of the first class: ₹47,441 in Mumbai, ₹34,612 at Kenkere (Pop-up: the 10-class pack at ₹7,229). The record is opened in front of them — the desk stamps the receipt ACCOUNT OPENED, it goes on the board, that's the photo. No confetti cannon, no fortune cookie, nothing to source.",
+      "message": "NO RECORD FOUND. Nine years of records and not one of them has your name on it. Fix that within 9 hours of your first class and the 3-Month is ₹47,441.",
+      "job": "Bring April's traffic in and convert it on the day the body feels best.",
+      "why": "The 9-hour window is the strongest mechanic in the slot: it buys on the day the body feels best and makes the price obviously a one-day price rather than the price.",
+      "audience": "First-time clients, within 9 hours of their first class.",
+      "rules": "One per phone number. 18% effective. Newcomers get a three-line receipt and a clean slate — no skip counts.",
+      "kpi": "Pass → member conversion; ACCOUNT OPENED stamps on the board.",
       "window": "2027-04-01 → 2027-04-30",
       "tags": [
-        "limited edition",
-        "numbered brass key",
-        "9 freezes"
+        "no record found",
+        "9-hour window",
+        "account opened stamp"
       ],
       "studios": [
         {
           "studio": "Kemps Corner",
-          "price": 144999,
-          "effectiveDiscount": 17.5,
+          "price": 47441,
+          "effectiveDiscount": 18,
           "buyers": 11,
-          "revenue": 1594989,
+          "revenue": 521851,
           "rule": "OK: ≤20% effective"
         },
         {
           "studio": "Bandra",
-          "price": 144999,
-          "effectiveDiscount": 17.5,
-          "buyers": 4,
-          "revenue": 579996,
-          "rule": "OK: ≤20% effective"
-        },
-        {
-          "studio": "Kenkere House",
-          "price": 102999,
-          "effectiveDiscount": 20,
-          "buyers": 2,
-          "revenue": 205998,
-          "rule": "OK: ≤20% effective"
-        }
-      ],
-      "revenue": 2380983,
-      "buyers": 17
-    },
-    {
-      "id": "O27-14",
-      "name": "Club Nine: The Founders’ Table",
-      "slot": "renewal",
-      "type": "Numbered annual (status)",
-      "headline": "Nine numbered seats per studio. Founder perks for a year.",
-      "details": "9 numbered Annual Unlimited seats per studio at the standard 20% (₹1,75,560 / ₹1,24,992) with the annual perks doubled: 4 privates, 8 guest passes, 2 hosted classes, monthly trainer check-ins, a numbered jacket, your name on the Club Nine wall and 48-hour priority booking all year. Unveiled at the Birthday Bash on Sat 17 Apr.",
-      "message": "Nine seats. Nine years. Club Nine is an annual membership with the perks doubled: 4 privates, 8 guest passes, priority booking all year and a numbered jacket. Nine per studio, and then the table is full.",
-      "job": "Sell annuals at list-minus-20% by making them a status, not a discount.",
-      "why": "Annual buyers are the most valuable members in the book; a numbered seat with doubled perks costs less than a deeper price and gives them something to show off.",
-      "audience": "Members on 3-Month or longer plans; annual renewers.",
-      "rules": "Annual cap 25% (doubled perks at list). 9 seats per studio.",
-      "kpi": "Seats sold (9 per studio); annual share of April renewals.",
-      "window": "2027-04-01 → 2027-04-30",
-      "tags": [
-        "numbered annual",
-        "doubled perks",
-        "priority booking"
-      ],
-      "studios": [
-        {
-          "studio": "Kemps Corner",
-          "price": 175560,
-          "effectiveDiscount": 25,
-          "buyers": 5,
-          "revenue": 877800,
-          "rule": "OK: annual (≤25%)"
-        },
-        {
-          "studio": "Bandra",
-          "price": 175560,
-          "effectiveDiscount": 25,
-          "buyers": 3,
-          "revenue": 526680,
-          "rule": "OK: annual (≤25%)"
-        },
-        {
-          "studio": "Kenkere House",
-          "price": 124992,
-          "effectiveDiscount": 25,
-          "buyers": 1,
-          "revenue": 124992,
-          "rule": "OK: annual (≤25%)"
-        }
-      ],
-      "revenue": 1529472,
-      "buyers": 9
-    },
-    {
-      "id": "O27-15",
-      "name": "Spin Class (Literally)",
-      "slot": "renewal",
-      "type": "Gamified renewal (wheel + double-or-donate)",
-      "headline": "Renew, then spin. Every spin wins. Feeling brave? Double it.",
-      "details": "Renew 1 Month or a 12-class pack in April at 10% off (₹18,215 / ₹17,719; Kenkere ₹13,136 / ₹11,813; pop-up 10-pack ₹7,655) and spin the Wheel of Nine. Published odds: +1 class 30%, smoothie 20%, guest pass 15%, grip socks 10%, +3 days 10%, extra freeze 8%, 30-min private 5%, P57 tote 1.5%, a free month 0.5%. Then choose: keep it, double it by booking 9 classes in your first 21 days, or donate it to a friend as a guest pass.",
-      "message": "Renew in April and spin the Wheel of Nine: every spin wins. Then decide: keep your prize, double it, or gift it to a friend. Odds are on the wall, because we’re not that kind of casino.",
-      "job": "Full-price-adjacent renewals with a prize everyone talks about.",
-      "why": "Clients who use 75%+ of their sessions renew at 80–86%. The doubling option pays the prize only when the member books the classes that make them renew again; the expected value of a spin is ≈₹1,900 Mumbai / ₹1,350 Bengaluru.",
-      "audience": "Members renewing 1 Month or a 12-class pack.",
-      "rules": "One spin per renewal; published odds; doubled prizes credited only once the 9 classes are attended. ≈19.5% effective on the expected value.",
-      "kpi": "April renewal yield vs April 2026; share of spins doubled (target 35%).",
-      "window": "2027-04-01 → 2027-04-30",
-      "tags": [
-        "wheel of nine",
-        "published odds",
-        "double-or-donate"
-      ],
-      "studios": [
-        {
-          "studio": "Kemps Corner",
-          "price": 18215,
-          "effectiveDiscount": 19.5,
-          "buyers": 45,
-          "revenue": 819675,
-          "rule": "OK: ≤20% effective"
-        },
-        {
-          "studio": "Bandra",
-          "price": 18215,
-          "effectiveDiscount": 19.5,
-          "buyers": 30,
-          "revenue": 546450,
-          "rule": "OK: ≤20% effective"
-        },
-        {
-          "studio": "Kenkere House",
-          "price": 13136,
-          "effectiveDiscount": 19.3,
-          "buyers": 22,
-          "revenue": 288992,
-          "rule": "OK: ≤20% effective"
-        },
-        {
-          "studio": "Pop-ups",
-          "price": 7655,
+          "price": 47441,
           "effectiveDiscount": 18,
           "buyers": 7,
-          "revenue": 53585,
-          "rule": "OK: ≤20% effective"
-        }
-      ],
-      "revenue": 1708702,
-      "buyers": 104
-    },
-    {
-      "id": "O27-16",
-      "name": "Party Crasher Pass",
-      "slot": "newcomer",
-      "type": "Newcomer intro (credited) + Impulse Buzzer",
-      "headline": "It’s our 9th birthday and you’re invited. 3 classes for ₹999.",
-      "details": "Mumbai: 3 classes in 9 days for ₹999, any format, including a Birthday Bash party class (17–18 Apr). Kenkere: 3 Barre classes for ₹699 (replaces the 50% intro in April; counts as the once-in-a-lifetime 2-for-1). Pop-ups: 2 classes for ₹999. The pass price is credited against a first 1 Month or 12-class pack bought within 72 hours of class 3, on top of the standard 15% (1 Month nets ₹16,204 / ₹11,707). Buy within 9 hours of class 3 and you hit the Impulse Buzzer: confetti, applause, name on the Reckless Decisions board.",
-      "message": "It’s our 9th birthday and you’re invited: 3 classes for ₹999 (Kenkere ₹699), birthday party class included. Love it? The ₹999 comes off your first month. Decide fast and you get to hit the big red buzzer.",
-      "job": "Bring April’s traffic in through a party, and convert it inside 72 hours.",
-      "why": "A booked sequence of classes is what converts; the party class gives newcomers the best room of the year, and the buzzer turns a sale into a show for whoever is waiting.",
-      "audience": "First-time clients (phone verified).",
-      "rules": "One per phone number. Credit valid 72 hours after class 3. Standard 15% only.",
-      "kpi": "Pass → member (target 35%); buzzer hits (bought within 9 hours).",
-      "window": "2027-04-01 → 2027-04-24",
-      "tags": [
-        "credited intro",
-        "birthday party class",
-        "impulse buzzer"
-      ],
-      "studios": [
-        {
-          "studio": "Kemps Corner",
-          "price": 16204,
-          "effectiveDiscount": 20,
-          "buyers": 21,
-          "revenue": 340284,
-          "rule": "OK: ≤20% effective"
-        },
-        {
-          "studio": "Bandra",
-          "price": 16204,
-          "effectiveDiscount": 20,
-          "buyers": 15,
-          "revenue": 243060,
+          "revenue": 332087,
           "rule": "OK: ≤20% effective"
         },
         {
           "studio": "Kenkere House",
-          "price": 11707,
-          "effectiveDiscount": 20,
-          "buyers": 9,
-          "revenue": 105363,
-          "rule": "OK: ≤20% effective"
-        },
-        {
-          "studio": "Pop-ups",
-          "price": 4893,
-          "effectiveDiscount": 15,
-          "buyers": 3,
-          "revenue": 14679,
-          "rule": "OK: ≤20% effective"
-        }
-      ],
-      "revenue": 703386,
-      "buyers": 48
-    },
-    {
-      "id": "O27-17",
-      "name": "Faking Your Own Death Didn’t Work",
-      "slot": "lapsed",
-      "type": "Winback (obituary + Séance Class)",
-      "headline": "We wrote your obituary. You’re not getting out of it that easily.",
-      "details": "Lapsed 61 days–3 years get an obituary postcard (“Here lies a perfectly good plank”). It is the ticket to the candle-lit Séance Class on Thu 15 Apr. Come back on the standard 15% on 1 Month, a 12-class pack or 3 Months, plus a bonus for every year since your first class (max 3): +1 class on packs, +1 day on unlimited. Photo at the Back From the Dead frame; your row at the Throwback Reunion (Sat 24 Apr).",
-      "message": "We wrote your obituary. It was moving. Unfortunately for you, you’re invited back: 15% off, a bonus for every year you’ve been with us, and a candle-lit Séance Class to rise from the dead.",
-      "job": "Win back lapsed clients with a story they want to post.",
-      "why": "Lapsed clients already know the product; what they need is a moment and a reason that is not just a discount. A personal postcard with a dated class beats a generic reminder.",
-      "audience": "Lapsed 61 days–3 years.",
-      "rules": "Lapsed 61 days–3 years. Standard lapsed 15% + loyalty-year bonus (max 3) = ≤20% effective.",
-      "kpi": "Postcards → Séance Class attendance; reactivations (target +30% vs Apr-26).",
-      "window": "2027-04-01 → 2027-04-30",
-      "tags": [
-        "obituary postcard",
-        "séance class",
-        "loyalty-year bonus"
-      ],
-      "studios": [
-        {
-          "studio": "Kemps Corner",
-          "price": 17203,
-          "effectiveDiscount": 20,
-          "buyers": 20,
-          "revenue": 344060,
-          "rule": "OK: ≤20% effective"
-        },
-        {
-          "studio": "Bandra",
-          "price": 17203,
-          "effectiveDiscount": 20,
-          "buyers": 13,
-          "revenue": 223639,
-          "rule": "OK: ≤20% effective"
-        },
-        {
-          "studio": "Kenkere House",
-          "price": 12406,
-          "effectiveDiscount": 20,
-          "buyers": 8,
-          "revenue": 99248,
+          "price": 34612,
+          "effectiveDiscount": 18,
+          "buyers": 6,
+          "revenue": 207672,
           "rule": "OK: ≤20% effective"
         },
         {
           "studio": "Pop-ups",
           "price": 7229,
-          "effectiveDiscount": 20,
-          "buyers": 2,
-          "revenue": 14458,
-          "rule": "OK: ≤20% effective"
+          "effectiveDiscount": 23.5,
+          "buyers": 3,
+          "revenue": 21687,
+          "rule": "OK: ≤25% effective"
         }
       ],
-      "revenue": 681405,
-      "buyers": 43
+      "revenue": 1083297,
+      "buyers": 27
     },
     {
-      "id": "O27-18",
-      "name": "Plus One, Plus Nine",
-      "slot": "referral",
-      "type": "Referral (tiered)",
-      "headline": "Bring a friend, get 9 days. Bring three, get a month.",
-      "details": "Any active member whose never-been friend buys in April gets +9 days (pack members: +2 classes). Three buying friends = a free month. The friend gets the standard 15% and a Cloud Nine tote. Bring Your Barre-stie day (Thu 8 Apr): every member gets a free guest pass.",
-      "message": "Bring a friend to the party: if they join, you get 9 extra days. Bring three and the next month is on us. They get 15% off and a Cloud Nine tote.",
-      "job": "Turn the anniversary into the year’s biggest referral month.",
-      "why": "Referrals convert at 22–76% against 3.8–5.7% for website leads. A tier at three friends gives the super-connectors a reason to keep going.",
-      "audience": "Current members bringing a never-been friend.",
-      "rules": "Friend must be new to P57. Member reward is acquisition cost, paid only on a purchase.",
-      "kpi": "Referral buyers (target 2× April 2026); members reaching three.",
-      "window": "2027-04-01 → 2027-04-30",
+      "id": "R27-2",
+      "name": "Last Seen Wearing Leggings",
+      "slot": "winback",
+      "type": "Win-back (personal record card)",
+      "headline": "Last seen 14 August. Muttering about next week.",
+      "details": "Replaces the obituary postcards and the séance — not because the joke is too dark, but because of who it lands on: people lapse for injury, pregnancy, illness and bereavement, and a mock obituary posted to the wrong person is a brand problem you cannot apologise your way out of. Instead: a personalised respond.io message with their own record as an image — last class date, days elapsed, their old regular slot, their best streak. Missing-persons voice, no death. Then the 3-Month at ₹47,441 Mumbai / ₹35,034 Kenkere, plus one private to rebuild form.",
+      "message": "MISSING. Last seen 14 August, 7am Signature, third barre from the window. Reward offered: 3 months at ₹47,441 and a private to rebuild form.",
+      "job": "Win back the lapsed list with something more personal than anything you could have posted.",
+      "why": "Zero print run, zero staffing, and their own record is funnier and kinder than a joke a marketing team wrote. Suppression list applied before anything sends.",
+      "audience": "Clients lapsed 60+ days; suppression list applied first.",
+      "rules": "Full 25% kept for this slot. Lapsed clients get the dates, never the skip count.",
+      "kpi": "Record cards → returns; reactivations vs April 2026.",
+      "window": "2027-04-12 → 2027-04-30",
       "tags": [
-        "tiered referral",
-        "+9 days",
-        "cloud nine tote"
+        "respond.io record card",
+        "missing-persons voice",
+        "suppression list"
       ],
       "studios": [
         {
           "studio": "Kemps Corner",
-          "price": 17203,
-          "effectiveDiscount": 15,
-          "buyers": 10,
-          "revenue": 172030,
-          "rule": "OK: ≤20% effective"
+          "price": 47441,
+          "effectiveDiscount": 24.8,
+          "buyers": 5,
+          "revenue": 237205,
+          "rule": "OK: ≤25% effective"
         },
         {
           "studio": "Bandra",
-          "price": 17203,
-          "effectiveDiscount": 15,
-          "buyers": 6,
-          "revenue": 103218,
-          "rule": "OK: ≤20% effective"
+          "price": 47441,
+          "effectiveDiscount": 24.8,
+          "buyers": 4,
+          "revenue": 189764,
+          "rule": "OK: ≤25% effective"
         },
         {
           "studio": "Kenkere House",
-          "price": 12406,
-          "effectiveDiscount": 15,
-          "buyers": 4,
-          "revenue": 49624,
-          "rule": "OK: ≤20% effective"
+          "price": 35034,
+          "effectiveDiscount": 24.4,
+          "buyers": 2,
+          "revenue": 70068,
+          "rule": "OK: ≤25% effective"
         },
         {
           "studio": "Pop-ups",
-          "price": 5891,
-          "effectiveDiscount": 15,
+          "price": 5960,
+          "effectiveDiscount": 24.3,
           "buyers": 1,
-          "revenue": 5891,
-          "rule": "OK: ≤20% effective"
+          "revenue": 5960,
+          "rule": "OK: ≤25% effective"
         }
       ],
-      "revenue": 330763,
-      "buyers": 21
+      "revenue": 502997,
+      "buyers": 12
     },
     {
-      "id": "O27-53",
-      "name": "The 9:09 Panic Attack",
-      "slot": "spot",
-      "type": "Flash sale (limited 9-Class Pack)",
-      "headline": "Plank for your price. Or wait for 9:09 and panic with everyone else.",
-      "details": "The Limited Edition 9-Class Pack (99 days to use it) exists only in April. Plank Your Price at the desk: hold 57 seconds and it is ₹12,999 (Kenkere ₹8,699), 1:57 for ₹12,249 (₹8,199), 2:57 for the floor, ₹11,499 (₹7,699). On Fri 9 Apr, two 99-minute windows from 9:09 am and 9:09 pm give everyone the floor price, no plank needed: siren in studio, countdown on Instagram. Pop-ups: a 9-class pack at ₹6,499 in the same windows.",
-      "message": "Plank for your price: hold it for 57 seconds and the 9-Class Pack is ₹12,999; hold for 2:57 and it’s ₹11,499. Or wait for 9:09 on 9 April, when everyone gets the floor price for 99 minutes. Panic responsibly.",
-      "job": "The anniversary’s entry product and its loudest moment.",
-      "why": "A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. The floor price (23.7% / 24.0%) sits inside the 25% spot cap, and plan revenue is counted at the floor.",
+      "id": "R27-3",
+      "name": "Certified Insufferable",
+      "slot": "renewal",
+      "type": "Renewal (list price, value back)",
+      "headline": "You've earned the smugness. Here's the paperwork.",
+      "details": "Structurally the best offer in the month and it stays: renew or upgrade at list price — ₹57,855 Mumbai / ₹42,210 Kenkere — with no percentage off. The reward scales to the receipt, not a machine: classes in the last 12 months decide the tier. Up to 30: 2 bonus classes + 7 days. 31–75: 3 bonus classes + 7 days + 1 virtual private. 76–150: adds 1 private + 2 freezes. 150+: all of it plus the hoodie, and the receipt prints in gold. The dare card stays, renamed Settle Your Account: keep the reward, double it by completing a dare (9 classes in 14 days; a 7am every week of May), or donate it as guest passes.",
+      "message": "CERTIFIED INSUFFERABLE. You've earned the smugness; here's the paperwork. Renew at list price and the receipt decides your reward.",
+      "job": "Protect the price in the month when the most people are buying.",
+      "why": "The tier is a lookup, not a machine you have to buy, fill, maintain and find floor space for in four studios. Extras cost less than face value, so value-back is held at 15–18%, leaving discount to pull if week three is soft. The dare card buys May attendance with April's money.",
+      "audience": "Members renewing or upgrading in April.",
+      "rules": "List price only. Value-back 15–18%. Reward tier read off classes in the last 12 months.",
+      "kpi": "April renewal yield vs April 2026; Settle Your Account dares completed.",
+      "window": "2027-04-05 → 2027-04-30",
+      "tags": [
+        "list price",
+        "receipt-tiered rewards",
+        "settle your account"
+      ],
+      "studios": [
+        {
+          "studio": "Kemps Corner",
+          "price": 57855,
+          "effectiveDiscount": 16,
+          "buyers": 34,
+          "revenue": 1967070,
+          "rule": "OK: value-back 15–18%"
+        },
+        {
+          "studio": "Bandra",
+          "price": 57855,
+          "effectiveDiscount": 16,
+          "buyers": 17,
+          "revenue": 983535,
+          "rule": "OK: value-back 15–18%"
+        },
+        {
+          "studio": "Kenkere House",
+          "price": 42210,
+          "effectiveDiscount": 16,
+          "buyers": 7,
+          "revenue": 295470,
+          "rule": "OK: value-back 15–18%"
+        },
+        {
+          "studio": "Pop-ups",
+          "price": 8505,
+          "effectiveDiscount": 10,
+          "buyers": 1,
+          "revenue": 8505,
+          "rule": "OK: value-back ≤18%"
+        }
+      ],
+      "revenue": 3254580,
+      "buyers": 59
+    },
+    {
+      "id": "R27-4",
+      "name": "Your Future Self Is Unreliable",
+      "slot": "early renewal",
+      "type": "Early renewal (pull-forward) — new",
+      "headline": "Your membership ends in June. You, historically, do not.",
+      "details": "Not optional — arithmetic. Every location needs more renewals in April than it has memberships expiring in April, so roughly half the renewal line has to be pulled forward from May–July or it doesn't exist. Anyone whose membership expires May, June or July renews during April at list price, gets the full Certified Insufferable value-back plus 9 bonus days on the back of their current term. No discount — the incentive is access to anniversary terms early, and nine days.",
+      "message": "Your membership ends in June. You, historically, do not. Renew it during April at list price and take the anniversary terms early, plus 9 bonus days on the end of your current term.",
+      "job": "Move May–July renewal revenue into the month that needs it.",
+      "why": "Costs nothing, and it's a clean WhatsApp campaign off a Momence expiry query. Kenkere's line is blended at the 1-Month renewal price because most of its expiries are short plans.",
+      "audience": "Members whose membership expires May, June or July.",
+      "rules": "List price only; value-back 15–18% plus 9 bonus days. The list goes out the morning of 5 April.",
+      "kpi": "May–July expiries renewed in April vs the pull-forward needed per studio.",
+      "window": "2027-04-05 → 2027-04-30",
+      "tags": [
+        "pull-forward",
+        "9 bonus days",
+        "momence expiry query"
+      ],
+      "studios": [
+        {
+          "studio": "Kemps Corner",
+          "price": 57855,
+          "effectiveDiscount": 16,
+          "buyers": 24,
+          "revenue": 1388520,
+          "rule": "OK: value-back 15–18%"
+        },
+        {
+          "studio": "Bandra",
+          "price": 57855,
+          "effectiveDiscount": 16,
+          "buyers": 14,
+          "revenue": 809970,
+          "rule": "OK: value-back 15–18%"
+        },
+        {
+          "studio": "Kenkere House",
+          "price": 13136,
+          "effectiveDiscount": 16,
+          "buyers": 22,
+          "revenue": 288992,
+          "rule": "OK: blended at 1-Month price"
+        },
+        {
+          "studio": "Pop-ups",
+          "price": 8505,
+          "effectiveDiscount": 10,
+          "buyers": 1,
+          "revenue": 8505,
+          "rule": "OK: value-back ≤18%"
+        }
+      ],
+      "revenue": 2495987,
+      "buyers": 61
+    },
+    {
+      "id": "R27-5",
+      "name": "Nine Month Sentence",
+      "slot": "upsell",
+      "type": "Limited-edition 9-Month (numbered keys)",
+      "headline": "Nine months. No parole. Good behaviour earns freezes.",
+      "details": "The 9-Month Unlimited with the numbered keys is the best mechanic in the draft — real scarcity, a rising price, nothing to buy but keys and a counter — kept whole and renamed to fix the copy. Mumbai, 99 keys: ₹1,34,999 for 001–033, ₹1,39,999 for 034–066, ₹1,44,999 for 067–099, with a step at midnight on the 18th. 9 freezes (good behaviour earns them), the key is your release date, your name on the Lease Wall, a live counter on the studio screens. Platinum holders from 30 March. Now runs at Bandra and Kenkere too — the upsell slot no longer sits at ₹0 outside Kemps. Kenkere tiers ₹98,999 / ₹1,01,999 / ₹1,04,999 are inferred from the Mumbai ratio: confirm the Bengaluru 6-Month list price before this goes out.",
+      "message": "Nine months. No parole. Good behaviour earns freezes, and the key is your release date. 99 numbered keys in Mumbai; the rent goes up every 33 keys and again at midnight on the 18th.",
+      "job": "The biggest ticket of the month, carrying members to January 2028.",
+      "why": "A numbered, one-month-only product gives people a reason to buy now without cutting the price of the core memberships.",
+      "audience": "Members and returning clients ready for a long commitment; 99 numbered keys per city.",
+      "rules": "22.9% effective at the lowest key price. No second batch, no price cut. April only.",
+      "kpi": "Keys sold vs the plan per studio; 6M+ share of April membership revenue.",
+      "window": "2027-03-30 → 2027-04-30",
+      "tags": [
+        "99 numbered keys",
+        "rising price",
+        "lease wall"
+      ],
+      "studios": [
+        {
+          "studio": "Kemps Corner",
+          "price": 134999,
+          "effectiveDiscount": 22.9,
+          "buyers": 6,
+          "revenue": 809994,
+          "rule": "OK: ≤25% at the lowest key"
+        },
+        {
+          "studio": "Bandra",
+          "price": 134999,
+          "effectiveDiscount": 22.9,
+          "buyers": 2,
+          "revenue": 269998,
+          "rule": "OK: ≤25% at the lowest key"
+        },
+        {
+          "studio": "Kenkere House",
+          "price": 98999,
+          "effectiveDiscount": 20.4,
+          "buyers": 2,
+          "revenue": 197998,
+          "rule": "Confirm Bengaluru 6-Month list price"
+        }
+      ],
+      "revenue": 1277990,
+      "buyers": 10
+    },
+    {
+      "id": "R27-6",
+      "name": "Plank Or Pay",
+      "slot": "flash",
+      "type": "Flash + entry pack (plank ladder)",
+      "headline": "Hold the plank, drop the price. Or wait for 9:09 and panic with everyone else.",
+      "details": "The Limited Edition 9-Class Pack, 99 days validity, all April. Hold a plank at the desk and the price drops: 57 seconds ₹12,999, 1:57 ₹12,249, 2:57 ₹11,499 — Kenkere ₹8,699 / ₹8,199 / ₹7,699. On 9 April, two 99-minute windows from 9:09am and 9:09pm, everyone gets the floor price with no plank, siren in studio, countdown on Instagram. The Pop-up runs it on the 10-class pack at ₹7,229 with the same plank ladder scaled down — which finally puts the Pop-up inside the anniversary instead of beside it.",
+      "message": "Plank for your price: 57 seconds is ₹12,999, 2:57 is ₹11,499. Or wait for 9:09 on 9 April, when everyone gets the floor price for 99 minutes. Panic responsibly.",
+      "job": "The anniversary's entry product and the loudest day of the month — entirely free to run.",
+      "why": "A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. Plan revenue is counted at the floor.",
       "audience": "Everyone: members, pack buyers and newcomers.",
-      "rules": "Spot offer, ≤25% effective at the floor price. Two packs per person. April only; no anniversary prices after 30 Apr.",
+      "rules": "Spot offer, ≤25% effective at the floor. Two packs per person. No anniversary prices after 30 April.",
       "kpi": "Packs sold in the two 9:09 windows; pack → membership by June.",
       "window": "2027-04-01 → 2027-04-30",
       "tags": [
-        "limited 9-class pack",
-        "plank your price",
-        "9:09 flash"
+        "plank ladder",
+        "9:09 windows",
+        "99-day validity"
       ],
       "studios": [
         {
           "studio": "Kemps Corner",
           "price": 11499,
           "effectiveDiscount": 23.7,
-          "buyers": 20,
-          "revenue": 229980,
+          "buyers": 40,
+          "revenue": 459960,
           "rule": "OK: spot offer (≤25%)"
         },
         {
@@ -522,212 +478,156 @@
         },
         {
           "studio": "Pop-ups",
-          "price": 6499,
-          "effectiveDiscount": 17.5,
-          "buyers": 2,
-          "revenue": 12998,
-          "rule": "OK: ≤20% effective"
+          "price": 7229,
+          "effectiveDiscount": 23.5,
+          "buyers": 3,
+          "revenue": 21687,
+          "rule": "OK: spot offer (≤25%)"
         }
       ],
-      "revenue": 442558,
-      "buyers": 42
+      "revenue": 681227,
+      "buyers": 63
     },
     {
-      "id": "O27-54",
-      "name": "The Cloud Nine 90",
-      "slot": "upgrade",
-      "type": "Bulk class pack (12 months)",
-      "headline": "Ninety classes. One year. Zero commitment issues.",
-      "details": "90 classes valid for 12 months: Mumbai ₹1,34,999 (₹1,500 a class; 90 singles cost ₹1,74,825 at list, so 22.8% off), Bengaluru ₹99,999 (₹1,111 a class against ₹1,27,575, 21.6% off). April only, any format.",
-      "message": "Ninety classes, one year, zero commitment issues: the Cloud Nine 90 works out to ₹1,500 a class. April only.",
-      "job": "Lock in a year of revenue from the heaviest pack buyers.",
-      "why": "The Anniversary Big 85 Flex sold 4 times at Kemps Corner and once at Kenkere House in April 2026; this replaces it at a price inside the bulk cap.",
-      "audience": "High-frequency pack buyers.",
-      "rules": "Bulk purchase, ≤25% effective. Non-transferable; 12-month validity.",
-      "kpi": "Packs sold; classes used per month of the pack.",
+      "id": "R27-7",
+      "name": "Prove It",
+      "slot": "referral",
+      "type": "Referral — new",
+      "headline": "For nine years you've told her she'd love this. Bring her.",
+      "details": "Nine years, four locations, and the old draft had no referral offer. A member brings someone with no record on file. The guest's first class is free, the guest unlocks Suspiciously Clean Record, and if they buy anything in April the member gets 2 bonus classes and 7 days. Cap 3 per member. The receipt handles the pitch: the member's own record prints with one line at the bottom — REFERRALS ON FILE: 0. For nine years. Interesting.",
+      "message": "REFERRALS ON FILE: 0. For nine years. Interesting. Bring her: her first class is free, and if she buys anything in April you get 2 bonus classes and 7 days.",
+      "job": "The cheapest new-client revenue available and the only lever that doesn't erode price.",
+      "why": "Most needed where growth is steepest — Kenkere at +65% and the Pop-up at +183%. The member reward is acquisition cost, paid only on a purchase.",
+      "audience": "Current members bringing a guest with no record on file.",
+      "rules": "Guest must be new to P57. Cap 3 per member. Guest buys at the Suspiciously Clean Record price.",
+      "kpi": "Referred buyers per studio; members reaching the cap of three.",
       "window": "2027-04-01 → 2027-04-30",
       "tags": [
-        "bulk pack",
-        "90 classes",
-        "12-month validity"
+        "referrals on file: 0",
+        "free first class",
+        "cap 3 per member"
       ],
       "studios": [
         {
           "studio": "Kemps Corner",
-          "price": 134999,
-          "effectiveDiscount": 22.8,
-          "buyers": 1,
-          "revenue": 134999,
-          "rule": "OK: bulk purchase (≤25%)"
+          "price": 47441,
+          "effectiveDiscount": 18,
+          "buyers": 9,
+          "revenue": 426969,
+          "rule": "OK: guest at newcomer price"
         },
         {
           "studio": "Bandra",
-          "price": 134999,
-          "effectiveDiscount": 22.8,
-          "buyers": 1,
-          "revenue": 134999,
-          "rule": "OK: bulk purchase (≤25%)"
+          "price": 47441,
+          "effectiveDiscount": 18,
+          "buyers": 6,
+          "revenue": 284646,
+          "rule": "OK: guest at newcomer price"
+        },
+        {
+          "studio": "Kenkere House",
+          "price": 34612,
+          "effectiveDiscount": 18,
+          "buyers": 9,
+          "revenue": 311508,
+          "rule": "OK: guest at newcomer price"
+        },
+        {
+          "studio": "Pop-ups",
+          "price": 7229,
+          "effectiveDiscount": 23.5,
+          "buyers": 4,
+          "revenue": 28916,
+          "rule": "OK: guest at newcomer price"
         }
       ],
-      "revenue": 269998,
-      "buyers": 2
+      "revenue": 1052039,
+      "buyers": 28
     }
   ],
   "acts": [
     {
       "n": "I",
-      "name": "The pre-party",
-      "dates": "18 Mar – 4 Apr",
-      "line": "Tease it, reward March renewers with first pick, launch loud on 1 April, hand out the passports.",
+      "name": "Build & first keys",
+      "dates": "March – 4 Apr",
+      "line": "March is build month; Platinum holders get the first keys; receipts start printing on 1 April.",
       "events": [
         [
-          "Thu 18 Mar",
-          "Teaser: “Something’s turning 9.” Countdown sticker on every mirror; nothing else explained.",
-          "Curiosity before the price list exists.",
+          "March",
+          "Build month: receipt engine live (Momence export → n8n → template → desk printer), Momence queries written, 99 keys per city ordered, printers in. Test receipts on staff first — the tone has to be checked against a real record.",
+          "If procurement is slow, v1 is an A5 PDF from tomorrow's booking list: same joke, no hardware.",
           "All"
         ],
         [
-          "Tue 30 – Wed 31 Mar",
-          "Platinum Hour: 48-hour early access for everyone who renewed in March. First pick of numbered keys (001 goes to the first Platinum member through the door) and the first Club Nine seats.",
-          "Rewards March commitment; sells the first keys before launch.",
+          "Mon 29 – Tue 30 Mar",
+          "Platinum holders get first access to Nine Month Sentence. Keys 001 upward.",
+          "Rewards commitment; sells the first keys before launch.",
           "All"
         ],
         [
           "Thu 1 Apr",
-          "Launch: the “Nine Years in Ninety Seconds” film, then the April Fools’ price list (“₹57 lifetime membership”) that turns into the real one at noon. The 9-Month Lease and the 9-Class Pack go on sale; the Impulse Buzzer goes live at every desk.",
-          "The loudest first day of the year; explains how to play.",
-          "All"
-        ],
-        [
-          "Sat 3 Apr",
-          "Blind Date With a Class: format and trainer secret until you walk in.",
-          "Members try a class they would never book; first passport stamp.",
-          "All"
-        ],
-        [
-          "Sun 4 Apr",
-          "Nine Lives Passports handed out: nine experiences to collect in April (Throwback, Plank of Fame, a Lab or powerCycle class, Séance, Birthday Bash, Reunion, a new trainer, a friend, the Awards).",
-          "Attendance across the month: collect what you enjoy, no class count.",
+          "Live. Receipts start printing at all four desks. Suspiciously Clean Record, Plank Or Pay and Nine Month Sentence open.",
+          "The month opens with the mechanic, not a price list.",
           "All"
         ]
       ]
     },
     {
       "n": "II",
-      "name": "Anniversary week",
+      "name": "Renewals open",
       "dates": "5 – 11 Apr",
-      "line": "Seven days, seven moments: the wheel, the throwback, the plank-off, best friends, the 9:09 panic and the first birthday party.",
+      "line": "Certified Insufferable and the early-renewal pull-forward open; the 9:09 floor-price day is the loudest of the month.",
       "events": [
         [
           "Mon 5 Apr",
-          "The Wheel of Nine opens: renew, spin, keep, double or donate.",
-          "Renewals with a prize everyone talks about.",
-          "All"
-        ],
-        [
-          "Tue 6 Apr",
-          "Throwback Class: the 2018 playlist and the original choreography, taught by the longest-serving trainer.",
-          "Nostalgia for long-time members; the best content of the month.",
-          "All"
-        ],
-        [
-          "Wed 7 Apr",
-          "Plank of Fame: a studio plank-off. The top 9 at each studio win a private and a year on the wall; everyone gets their Plank Your Price time.",
-          "Bragging rights; introduces privates and the 9-Class Pack.",
-          "All"
-        ],
-        [
-          "Thu 8 Apr",
-          "Bring Your Barre-stie: a free guest pass for every member; Plus One, Plus Nine pays out on any friend who buys.",
-          "Referral acquisition at its warmest.",
+          "Certified Insufferable and Your Future Self Is Unreliable open. The early-renewal list goes out the same morning.",
+          "Half the renewal line is pulled forward from May–July; this is the day it starts.",
           "All"
         ],
         [
           "Fri 9 Apr",
-          "The 9:09 Panic Attack: siren, countdown and the floor price for 99 minutes from 9:09 am and again from 9:09 pm.",
-          "The month’s biggest sales spike, on the entry product.",
-          "All"
-        ],
-        [
-          "Sat 10 Apr",
-          "Kenkere Birthday Class with pop-up regulars invited from Copper + Cloves and Plash Pilates.",
-          "Bengaluru’s own party; turns pop-up regulars into Kenkere visitors.",
-          "Kenkere House · Pop-ups"
-        ],
-        [
-          "Sun 11 Apr",
-          "Trainer Swap Sunday: Mumbai trainers swap studios for the day; a Mumbai guest trainer at Kenkere.",
-          "A new face for every regular; cross-studio visits.",
+          "Floor price for everyone, two 99-minute windows from 9:09am and 9:09pm. Siren in studio, countdown on Instagram.",
+          "The loudest day of the month, on the entry product, entirely free to run.",
           "All"
         ]
       ]
     },
     {
       "n": "III",
-      "name": "The haunting",
-      "dates": "12 – 23 Apr",
-      "line": "The lapsed list gets its obituary, gold envelopes hide in the studios, and the birthday weekend arrives.",
+      "name": "The win-back & the anniversary",
+      "dates": "12 – 18 Apr",
+      "line": "The lapsed list gets its own record back; the 18th is the real anniversary — gold receipts and the referral push.",
       "events": [
         [
-          "12 – 25 Apr",
-          "Hidden 9s: nine gold envelopes hidden in each studio each week (guest passes, smoothies, grip socks, one private). Found it? Post it.",
-          "Footfall and Stories every day of the fortnight.",
-          "All"
-        ],
-        [
-          "Tue 13 Apr",
-          "Obituary postcards land with the lapsed list: “Here lies a perfectly good plank.” WhatsApp version the same day.",
-          "The winback with a story people screenshot.",
-          "All"
-        ],
-        [
-          "Thu 15 Apr",
-          "Séance Class: candle-lit, the postcard is the ticket; the Back From the Dead photo frame by the door.",
-          "Winback in person; the 15% comeback offer after class.",
-          "All"
-        ],
-        [
-          "Sat 17 Apr",
-          "Club Nine Unveiling + Birthday Bash: the nine numbered seats revealed, DJ class, cake; Party Crasher Pass holders get the party class.",
-          "Status for annual buyers; the best room of the year for newcomers.",
+          "Mon 12 Apr",
+          "Last Seen Wearing Leggings goes out to everyone lapsed 60+ days. Suppression list applied first.",
+          "The win-back that can't land on the wrong person.",
           "All"
         ],
         [
           "Sun 18 Apr",
-          "The anniversary: ‘9 at 9’ — nine trainers, one class at 9 am. Then the Time Capsule: members write a note to open in April 2028.",
-          "The emotional peak; a 2028 renewal conversation already booked.",
+          "The actual anniversary. Key prices step at midnight. Founding Witness receipts print in gold. Prove It referral push.",
+          "The scarcity is real and shown honestly; the oldest files get the gold stock.",
           "All"
-        ],
-        [
-          "Wed 21 Apr",
-          "Founders’ Hour: nine years in nine stories, live, with a trainer Q&A (studio and Instagram Live).",
-          "Brand story; keeps week three warm.",
-          "Mumbai · streamed"
         ]
       ]
     },
     {
       "n": "IV",
-      "name": "Awards & Lock-In",
-      "dates": "24 – 30 Apr",
-      "line": "The Throwback Reunion and the Golden Glute Awards, the last keys, and a midnight close with no extension.",
+      "name": "The read & the close",
+      "dates": "19 – 30 Apr",
+      "line": "A mid-month read against the seven offer lines, then a hard close with no extension.",
       "events": [
         [
-          "Sat 24 Apr",
-          "Throwback Reunion (a row for every cohort, Class of 2018 to Class of 2026), then the Golden Glute Awards: member-voted categories and a trainer roast.",
-          "Community and content; every winner is a renewal conversation.",
-          "All"
-        ],
-        [
-          "Tue 27 Apr",
-          "Last call: live key counter on every screen and Story; Club Nine seats left, by studio.",
-          "Real scarcity, shown honestly.",
+          "Mon 19 – Sun 25 Apr",
+          "Mid-month read against the seven offer lines. This is when the discount held back on renewal and early renewal gets spent, if it's needed.",
+          "Holding 15–18% on two offers is what makes week three recoverable.",
           "All"
         ],
         [
           "Fri 30 Apr",
-          "The Lock-In: last-day desk hours to 10 pm, the final keys, and anniversary prices close at midnight. No extension, no second batch.",
-          "Deadline pressure on the biggest tickets; price integrity for May.",
+          "Close. Settle Your Account dare cards carry the attendance into May. No anniversary prices after midnight.",
+          "Price integrity for May; attendance bought with April's money.",
           "All"
         ]
       ]
@@ -735,329 +635,274 @@
   ],
   "activations": [
     {
-      "name": "The Impulse Buzzer",
+      "name": "The Receipt",
+      "tag": "Everyone",
+      "drama": "A thermal printer at each front desk prints anyone's nine-year record — on file since, classes taken, longest streak, longest silence — with the April offer at the bottom. \"This is not a receipt. This is evidence.\" One per client per month, logged.",
+      "sells": "Every offer — it is the delivery mechanism"
+    },
+    {
+      "name": "Status tiers",
+      "tag": "Collectible",
+      "drama": "0 classes: NO RECORD FOUND. 1–24: PROVISIONAL. 25–99: ESTABLISHED. 100–299: CERTIFIED INSUFFERABLE. 300+: INSUFFERABLE, PLATINUM. On file since 2018: FOUNDING WITNESS, printed on gold stock. Clients will compare them, which is the point.",
+      "sells": "— (free reach)"
+    },
+    {
+      "name": "The guardrail",
+      "tag": "Tone",
+      "drama": "Booked-not-attended and late-cancel rows print only for clients with 100+ classes. People who've shown up 300 times will frame the ribbing; someone 11 classes in gets a three-line receipt and a clean slate. Lapsed clients get the dates, never the skip count.",
+      "sells": "— (brand protection)"
+    },
+    {
+      "name": "ACCOUNT OPENED stamp",
       "tag": "Newcomers",
-      "drama": "A big red buzzer at the desk. A newcomer who buys within 9 hours of their third Party Crasher class hits it: confetti, applause, name on the Reckless Decisions board.",
-      "sells": "Party Crasher Pass"
-    },
-    {
-      "name": "Wheel of Nine (double-or-donate)",
-      "tag": "Renewals",
-      "drama": "Spin after an April renewal. Keep the prize, double it by booking 9 classes in the first 21 days, or donate it to a friend as a guest pass. Published odds on the wall.",
-      "sells": "Spin Class (Literally)"
-    },
-    {
-      "name": "Plank Your Price",
-      "tag": "Entry pack",
-      "drama": "Hold a plank at the desk: 57 seconds, 1:57 or 2:57 sets the 9-Class Pack price. Every attempt is a show for whoever is waiting.",
-      "sells": "The 9:09 Panic Attack"
+      "drama": "The desk stamps a newcomer's NO RECORD FOUND receipt ACCOUNT OPENED, rings the bell, and it goes on the board. That's the photo — no confetti cannon, no fortune cookie, nothing to source.",
+      "sells": "Suspiciously Clean Record"
     },
     {
       "name": "Keys and the Lease Wall",
       "tag": "Biggest ticket",
-      "drama": "99 numbered brass keys in Mumbai, 39 in Bengaluru. Every buyer’s name goes on the Lease Wall; a live counter on the studio screens.",
-      "sells": "Moving In Together (The 9-Month Lease)"
+      "drama": "99 numbered brass keys in Mumbai. Every buyer's name on the Lease Wall; a live key counter on the studio screens; the price steps at midnight on the 18th.",
+      "sells": "Nine Month Sentence"
     },
     {
-      "name": "The Club Nine wall",
-      "tag": "Annuals",
-      "drama": "Nine numbered seats per studio, unveiled at the Birthday Bash; jackets numbered 1–9; priority booking all year.",
-      "sells": "Club Nine: The Founders’ Table"
+      "name": "Plank Your Price & the 9:09 windows",
+      "tag": "Flash",
+      "drama": "Hold a plank at the desk: 57 seconds, 1:57 or 2:57 sets the pack price, and every attempt is a show for whoever is waiting. On 9 April the siren goes and everyone gets the floor for 99 minutes, twice.",
+      "sells": "Plank Or Pay"
     },
     {
-      "name": "Obituaries, Séance & the Resurrection frame",
-      "tag": "Winback",
-      "drama": "Obituary postcards to the lapsed list, a candle-lit Séance Class, and a Back From the Dead photo frame for every returner (posted with permission).",
-      "sells": "Faking Your Own Death Didn’t Work"
+      "name": "Settle Your Account dare cards",
+      "tag": "Renewals",
+      "drama": "Keep the renewal reward, double it by completing a dare (9 classes in 14 days; a 7am every week of May), or donate it as guest passes. Buys May attendance with April's money.",
+      "sells": "Certified Insufferable"
     },
     {
-      "name": "Bring Your Barre-stie",
+      "name": "REFERRALS ON FILE: 0",
       "tag": "Referral",
-      "drama": "A free guest pass for every member on 8 April; three buying friends earn a free month.",
-      "sells": "Plus One, Plus Nine"
+      "drama": "The member's own receipt prints one extra line at the bottom: REFERRALS ON FILE: 0. For nine years. Interesting. The receipt makes the pitch so the desk doesn't have to.",
+      "sells": "Prove It"
     },
     {
-      "name": "The 9:09 Panic Attack",
-      "tag": "Flash sale",
-      "drama": "Siren, countdown, two 99-minute windows on 9 April. The floor price for everyone, no plank needed.",
-      "sells": "The 9:09 Panic Attack"
-    },
-    {
-      "name": "Nine Lives Passport",
-      "tag": "Attendance",
-      "drama": "Nine April experiences to collect. Five stamps enter the Awards draw; all nine get a passport pin. No purchase needed and nothing is unlocked by a class count.",
-      "sells": "— (marketing cost)"
-    },
-    {
-      "name": "Hidden 9s",
-      "tag": "Footfall",
-      "drama": "Gold envelopes hidden in each studio, nine a week, 12–25 April.",
-      "sells": "— (marketing cost)"
-    },
-    {
-      "name": "Golden Glute Awards",
-      "tag": "Community",
-      "drama": "Member-voted: Front Row Forever, Loudest Shaker, Grip Sock Icon, Comeback of the Year, Plank Champion, Best Studio Duo, Trainer of the Year, plus the trainer roast.",
-      "sells": "— (marketing cost)"
-    },
-    {
-      "name": "Time Capsule",
-      "tag": "Next year",
-      "drama": "A note from every member, sealed on 18 April and opened at the 10th anniversary, each one a renewal conversation in April 2028.",
-      "sells": "— (marketing cost)"
+      "name": "The January send",
+      "tag": "After April",
+      "drama": "The receipt engine outlives the month: the same template becomes the annual \"your year on record\" send every January.",
+      "sells": "— (retention asset)"
     }
   ],
   "studioPlays": [
     {
       "studio": "Kemps Corner",
-      "role": "Retention-led",
-      "target": 6000000,
+      "role": "Renewal-led",
+      "target": 6380000,
       "prior": 5001388,
-      "growth": 20,
-      "offersRevenue": 4513817,
-      "standardTrade": 1486183,
+      "growth": 27.6,
+      "offersRevenue": 5811569,
+      "standardTrade": 568431,
       "lead": [
-        "Moving In Together (The 9-Month Lease) (11 × ₹1,44,999 = ₹15.9L)",
-        "Club Nine: The Founders’ Table (5 × ₹1,75,560 = ₹8.8L)",
-        "Spin Class (Literally) (45 × ₹18,215 = ₹8.2L)"
+        "Certified Insufferable (34 × ₹57,855 = ₹19.7L)",
+        "Your Future Self Is Unreliable (24 × ₹57,855 = ₹13.9L)",
+        "Nine Month Sentence (6 × ₹1,34,999 = ₹8.1L)"
       ],
       "plays": [
-        "Sell the keys first: Platinum Hour and the first week carry the 9-Month Lease.",
-        "Club Nine at 5 seats, then stop; push 6-Month upgrades after.",
-        "Hold discount depth under 15% of gross (April 2026 ran at 30.1%)."
+        "The renewal month: 138 renewals planned against 177 expiring, plus 24 May–July expiries pulled forward.",
+        "Sell the keys first: Platinum access 29–30 Mar and week one carry the Nine Month Sentence.",
+        "Hold renewal and early renewal at 15–18% value-back; the held-back discount is week three's insurance."
       ]
     },
     {
       "studio": "Bandra",
-      "role": "Reactivation-led",
-      "target": 3300000,
+      "role": "Funnel-fix-led",
+      "target": 3270000,
       "prior": 2744837,
-      "growth": 20.2,
-      "offersRevenue": 2496030,
-      "standardTrade": 803970,
+      "growth": 19.1,
+      "offersRevenue": 3007988,
+      "standardTrade": 262012,
       "lead": [
-        "Moving In Together (The 9-Month Lease) (4 × ₹1,44,999 = ₹5.8L)",
-        "Spin Class (Literally) (30 × ₹18,215 = ₹5.5L)",
-        "Club Nine: The Founders’ Table (3 × ₹1,75,560 = ₹5.3L)"
+        "Certified Insufferable (17 × ₹57,855 = ₹9.8L)",
+        "Your Future Self Is Unreliable (14 × ₹57,855 = ₹8.1L)",
+        "Prove It + Suspiciously Clean Record (13 buyers = ₹6.2L)"
       ],
       "plays": [
-        "Obituary postcards to every 61-day-to-3-year lapser; Séance Class at Supreme HQ.",
-        "Lab seats on every Party Crasher Pass; Plank of Fame in the Lab.",
-        "Bandra discounted 25.3% in April 2026 and still earned less than 2025: no code above the plan."
+        "Bandra has Mumbai's most leads and its worst trial→member rate: the April fix is conversion discipline, not deeper discount.",
+        "Last Seen Wearing Leggings to every 60-day lapser on 12 Apr, suppression list first.",
+        "Nine Month Sentence now runs here too — the upsell slot no longer sits at ₹0."
       ]
     },
     {
       "studio": "Kenkere House",
-      "role": "Conversion-led",
-      "target": 1510000,
+      "role": "Funnel-led (+65%)",
+      "target": 2010000,
       "prior": 1216947,
-      "growth": 24.1,
-      "offersRevenue": 935809,
-      "standardTrade": 574191,
+      "growth": 65.2,
+      "offersRevenue": 1433300,
+      "standardTrade": 576700,
       "lead": [
-        "Spin Class (Literally) (22 × ₹13,136 = ₹2.9L)",
-        "Moving In Together (The 9-Month Lease) (2 × ₹1,02,999 = ₹2.1L)",
-        "Club Nine: The Founders’ Table (1 × ₹1,24,992 = ₹1.2L)"
+        "Prove It (9 × ₹34,612 = ₹3.1L)",
+        "Certified Insufferable (7 × ₹42,210 = ₹3.0L)",
+        "Your Future Self Is Unreliable (22 renewals = ₹2.9L)"
       ],
       "plays": [
-        "Party Crasher at ₹699 replaces the 50% intro for April; book class 3 at the desk.",
-        "The Birthday Class on 10 April with pop-up regulars as guests.",
-        "Two of the 39 Bengaluru keys; a Mumbai guest trainer on Trainer Swap Sunday."
+        "Kenkere's problem is its funnel, not its offer: it has more leads than anywhere and converts barely a fifth to a trial. Follow-up speed on existing leads is worth more than any offer in this plan.",
+        "Referral and the 9-hour newcomer window are the levers that don't erode price at +65% growth.",
+        "Nine Month Sentence tiers are inferred from the Mumbai ratio — confirm the Bengaluru 6-Month list price before launch."
       ]
     },
     {
       "studio": "Pop-ups",
-      "role": "Reach-led",
-      "target": 151888,
+      "role": "Reach-led (+183%)",
+      "target": 300000,
       "prior": 105840,
-      "growth": 43.5,
-      "offersRevenue": 101611,
-      "standardTrade": 50277,
+      "growth": 183.4,
+      "offersRevenue": 95260,
+      "standardTrade": 204740,
       "lead": [
-        "Spin Class (Literally) (7 × ₹7,655 = ₹0.5L)",
-        "Party Crasher Pass (3 × ₹4,893 = ₹0.1L)",
-        "Faking Your Own Death Didn’t Work (2 × ₹7,229 = ₹0.1L)"
+        "Prove It (4 × ₹7,229 = ₹0.3L)",
+        "Plank Or Pay + Suspiciously Clean Record (6 × ₹7,229 = ₹0.4L)",
+        "Last Seen Wearing Leggings (1 × ₹5,960)"
       ],
       "plays": [
-        "Wheel of Nine on the 10-class pack; the 9:09 pack at ₹6,499.",
-        "Every regular invited to the Kenkere Birthday Class.",
-        "One referral push: Plus One, Plus Nine with the Cloud Nine tote."
+        "Finally inside the anniversary instead of beside it: the same receipt, the same offers, scaled to the 10-class pack.",
+        "A Pop-up receipt is short and that's the joke: \"On file since Feb. Classes: 6. Still calling it 'that pilates thing'.\"",
+        "The +183% target reads as aspirational at 32% offer coverage — say so out loud before the team is held to it."
       ]
     }
   ],
   "comms": [
     {
-      "when": "T−14 · 18 Mar",
-      "what": "Teaser",
-      "channel": "Instagram, mirror stickers",
-      "message": "Something’s turning 9. (No dates, no prices.)"
+      "when": "March",
+      "what": "Staff test",
+      "channel": "Internal",
+      "message": "Test receipts printed against real staff records; the tone signed off before a client sees one."
     },
     {
-      "when": "T−2 · 30 Mar",
-      "what": "Platinum Hour",
-      "channel": "WhatsApp to March renewers",
-      "message": "You renewed in March, so you get first pick: keys 001–009 and the first Club Nine seats open now, 48 hours before everyone else."
+      "when": "29–30 Mar",
+      "what": "Platinum keys",
+      "channel": "WhatsApp to Platinum holders",
+      "message": "Nine Month Sentence opens for you first. Keys 001 upward. The rent goes up every 33 keys."
     },
     {
       "when": "1 Apr",
-      "what": "Launch",
-      "channel": "All channels + film",
-      "message": "Nine years in ninety seconds. The 9-Month Lease and the 9-Class Pack exist for 30 days only."
+      "what": "Live",
+      "channel": "All channels",
+      "message": "Nine years. Every rep logged. Every excuse filed. Receipts print from today."
     },
     {
       "when": "5 Apr",
-      "what": "Wheel opens",
-      "channel": "WhatsApp to renewals due in April",
-      "message": "Renew in April and spin the Wheel of Nine. Every spin wins."
-    },
-    {
-      "when": "8 Apr",
-      "what": "Barre-stie day",
-      "channel": "WhatsApp + Stories",
-      "message": "Bring your barre-stie free today. If they join, you get 9 days."
+      "what": "Renewals open",
+      "channel": "WhatsApp off the Momence expiry query",
+      "message": "Your membership ends in June. You, historically, do not. Renew in April at list and take the anniversary terms early, plus 9 days."
     },
     {
       "when": "9 Apr",
-      "what": "9:09 Panic Attack",
+      "what": "9:09 windows",
       "channel": "Stories countdown, push, WhatsApp at 8:55",
       "message": "The floor price is live for 99 minutes. Panic responsibly."
     },
     {
-      "when": "13 Apr",
-      "what": "Obituaries",
-      "channel": "Postcard + WhatsApp to the lapsed list",
-      "message": "We wrote your obituary. You’re invited to the Séance Class on 15 April."
+      "when": "12 Apr",
+      "what": "Win-back",
+      "channel": "respond.io, record as an image",
+      "message": "Last seen 14 August, 7am Signature, third barre from the window. Reward offered."
     },
     {
-      "when": "16 Apr",
-      "what": "Birthday weekend",
+      "when": "18 Apr",
+      "what": "The anniversary",
       "channel": "All channels",
-      "message": "Club Nine unveiling on Saturday, ‘9 at 9’ on Sunday. Cake is not optional."
+      "message": "Nine years today. Key prices step at midnight; Founding Witness receipts print in gold. REFERRALS ON FILE: 0. Interesting."
     },
     {
-      "when": "23 Apr",
-      "what": "Awards",
-      "channel": "Voting form + Stories",
-      "message": "Vote for the Golden Glute Awards: front row forever, loudest shaker, comeback of the year."
-    },
-    {
-      "when": "27 Apr",
-      "what": "Last keys",
-      "channel": "Live counter on screens + Stories",
-      "message": "Keys left: [live count]. When they’re gone, they’re gone."
+      "when": "19–25 Apr",
+      "what": "Mid-month read",
+      "channel": "Internal",
+      "message": "Seven offer lines read against plan; the held-back discount gets spent here if week three was soft."
     },
     {
       "when": "30 Apr",
-      "what": "Lock-In",
-      "channel": "WhatsApp + desk to 10 pm",
+      "what": "Close",
+      "channel": "WhatsApp + desk",
       "message": "Anniversary prices close at midnight. No extension."
     }
   ],
   "merch": [
     {
+      "item": "Thermal receipt printers + spare rolls",
+      "qty": "1 per studio, ≈₹4,000 each; under ₹20,000 for the month",
+      "for": "The Receipt — every offer"
+    },
+    {
+      "item": "Gold receipt stock",
+      "qty": "A roll per studio",
+      "for": "Founding Witness and 150+ gold receipts"
+    },
+    {
+      "item": "ACCOUNT OPENED stamp + desk bell",
+      "qty": "1 per studio",
+      "for": "Suspiciously Clean Record"
+    },
+    {
       "item": "Numbered brass keys",
-      "qty": "99 Mumbai · 39 Bengaluru",
-      "for": "Moving In Together (The 9-Month Lease)"
+      "qty": "99 Mumbai · Bengaluru set",
+      "for": "Nine Month Sentence"
     },
     {
-      "item": "Anniversary hoodies",
-      "qty": "≈ 20 (lease buyers) + trainers",
-      "for": "Moving In Together (The 9-Month Lease)"
+      "item": "Lease Wall + live key counter",
+      "qty": "One per studio running the 9-Month",
+      "for": "Nine Month Sentence"
     },
     {
-      "item": "Numbered Club Nine jackets",
-      "qty": "9 per studio",
-      "for": "Club Nine: The Founders’ Table"
+      "item": "Settle Your Account dare cards",
+      "qty": "One per April renewer",
+      "for": "Certified Insufferable"
     },
     {
-      "item": "Cloud Nine totes",
-      "qty": "≈ 25",
-      "for": "Plus One, Plus Nine"
-    },
-    {
-      "item": "Grip socks, smoothie vouchers, passport pins",
-      "qty": "Wheel, Hidden 9s and passports",
-      "for": "Spin Class (Literally); activations"
-    },
-    {
-      "item": "Obituary postcards",
-      "qty": "One per lapsed client on the list",
-      "for": "Faking Your Own Death Didn’t Work"
-    },
-    {
-      "item": "Wheel of Nine, Impulse Buzzer, confetti cannons",
-      "qty": "One set per studio",
-      "for": "Desk activations"
-    },
-    {
-      "item": "Lease Wall, Club Nine wall, Back From the Dead frame",
-      "qty": "One per studio",
-      "for": "In-studio"
-    },
-    {
-      "item": "Nine Lives Passports (print + digital)",
-      "qty": "All active members",
-      "for": "Attendance"
-    },
-    {
-      "item": "Time Capsule box",
-      "qty": "One per studio",
-      "for": "18 April"
+      "item": "Anniversary hoodie",
+      "qty": "150+ tier renewers only",
+      "for": "Certified Insufferable top tier"
     }
   ],
   "runSheet": [
     {
-      "what": "Platinum early-access list (March renewers) and desk script",
-      "owner": "Studio managers",
-      "by": "1 Mar"
+      "what": "Receipt engine: Momence export → n8n → template with the status logic → desk printer; respond.io image variant for the win-back",
+      "owner": "Systems (new hire; Jimmy if not)",
+      "by": "25 Mar"
     },
     {
-      "what": "All 8 April offers set up in Momence with offer IDs (O27-13…18, 53, 54); numbered keys as a capped product",
+      "what": "Test receipts on staff — the tone checked against real records before launch",
+      "owner": "Studio managers",
+      "by": "28 Mar"
+    },
+    {
+      "what": "All 7 offers set up in Momence with offer IDs; 99 keys per city ordered; printers in",
       "owner": "Sales head",
       "by": "15 Mar"
     },
     {
-      "what": "25% cap sign-off on every April price (Plank Your Price tiers, Club Nine perks, the 90-pack)",
+      "what": "Early-renewal list: Momence expiry query for May–July, per studio",
+      "owner": "Studio managers",
+      "by": "3 Apr"
+    },
+    {
+      "what": "Win-back suppression list: injury, pregnancy, medical and bereavement flagged in Momence before anything sends",
+      "owner": "Saachi",
+      "by": "8 Apr"
+    },
+    {
+      "what": "Bengaluru 6-Month list price confirmed; Kenkere Nine Month Sentence tiers re-done if it differs",
       "owner": "Sales head",
       "by": "20 Mar"
     },
     {
-      "what": "Teaser assets; film “Nine Years in Ninety Seconds”; 9:09 countdown; April Fools’ price list",
-      "owner": "Marketing",
-      "by": "15 Mar"
-    },
-    {
-      "what": "Keys, jackets, hoodies, totes, wheel, buzzer, confetti, walls and frame delivered",
-      "owner": "Marketing",
-      "by": "25 Mar"
-    },
-    {
-      "what": "Passports, Hidden 9s envelopes, awards categories and voting form",
-      "owner": "Marketing",
-      "by": "28 Mar"
-    },
-    {
-      "what": "Trainer roster for every event; head trainer owns each one; Trainer Swap Sunday pairs",
-      "owner": "Head trainers",
-      "by": "28 Mar"
-    },
-    {
-      "what": "Obituary postcards printed and addressed to the lapsed list",
-      "owner": "Marketing",
-      "by": "8 Apr"
-    },
-    {
-      "what": "Birthday Bash, ‘9 at 9’ and Awards line-up: DJ, cake, trophies, photographer",
-      "owner": "Head trainers",
-      "by": "10 Apr"
-    },
-    {
-      "what": "Daily tracker: sales, keys and seats vs April daily targets; 9:09 window results",
+      "what": "Daily tracker: sales, keys and the seven offer lines vs plan; 9:09 window results",
       "owner": "Studio managers",
       "by": "Daily from 30 Mar"
     },
     {
-      "what": "May follow-up lists: doubled-wheel members, passport holders under 3 stamps, Séance attendees who did not buy",
+      "what": "Mid-month read: decide whether the held-back renewal discount gets spent",
+      "owner": "Sales head",
+      "by": "19–25 Apr"
+    },
+    {
+      "what": "May follow-up lists: Settle Your Account dares in progress; win-back receivers who didn't buy",
       "owner": "Studio managers",
       "by": "3 May"
     }
@@ -1065,83 +910,88 @@
   "roles": [
     {
       "who": "Sales head",
-      "owns": "Prices, caps and the daily tracker; signs off every April offer; owns the revenue number."
+      "owns": "Prices, the 25% cap, the daily tracker and the mid-month read; owns the revenue number."
     },
     {
-      "who": "Studio managers",
-      "owns": "Momence set-up, the desk scripts, keys and seats inventory, the May follow-up lists."
+      "who": "Systems",
+      "owns": "The receipt engine: Momence query, n8n flow, print template, respond.io delivery. A good first shipped project for the new systems hire."
     },
     {
-      "who": "Head trainers",
-      "owns": "Every event, the trainer roster, the Throwback, the plank-off and the Awards."
+      "who": "Studio managers (Akshay, Shipra, Saachi)",
+      "owns": "Momence set-up, desk scripts, keys inventory, suppression and expiry lists, the May follow-ups — running offers, not staffing attractions."
     },
     {
       "who": "Marketing",
-      "owns": "Film, teaser, countdowns, print (postcards, passports), merch and the comms calendar."
+      "owns": "The launch, the 9:09 countdown, the 18 Apr push and the comms calendar. No print run beyond receipt rolls."
     },
     {
       "who": "Front desk",
-      "owns": "The buzzer, the wheel, Plank Your Price and the three-sentence pitch for each offer."
+      "owns": "The printer, the stamp, the bell, Plank Your Price and the three-sentence pitch for each offer."
     }
   ],
   "kpis": [
     {
       "kpi": "April revenue",
-      "target": "₹109.6L across the four locations (+21% on April 2026)"
+      "target": "₹119.6L across the four locations (+32% on April 2026's ₹90.7L)"
     },
     {
-      "kpi": "Average discount",
-      "target": "Under 15% of gross sales at every studio (April 2026: Kemps Corner 30.1%, Bandra 25.3%, Kenkere 8.8%)"
+      "kpi": "Offer coverage",
+      "target": "₹103.5L planned across the seven offers (87% of target); Kenkere lifted from 29% to 71% coverage, Pop-up from 12% to 32%"
     },
     {
-      "kpi": "Product mix",
-      "target": "At least half of April membership revenue from 3-Month, 6-Month, 9-Month and Annual plans"
+      "kpi": "Renewal pull-forward",
+      "target": "61 May–July expiries renewed during April — roughly half the renewal line"
     },
     {
-      "kpi": "Keys and seats",
-      "target": "17 of the 9-Month Leases sold (11 Kemps Corner, 4 Bandra, 2 Kenkere); 9 Club Nine seats"
+      "kpi": "Discount depth",
+      "target": "No offer above 25% effective; renewal and early renewal held at 15–18% value-back"
     },
     {
-      "kpi": "Newcomers",
-      "target": "351 new buyers; Party Crasher pass → member 35%"
+      "kpi": "Keys",
+      "target": "10 Nine Month Sentences sold (6 Kemps, 2 Bandra, 2 Kenkere)"
     },
     {
       "kpi": "Referrals",
-      "target": "Referral buyers at 2× April 2026"
+      "target": "28 referred buyers via Prove It; the first referral offer the anniversary has ever had"
     },
     {
-      "kpi": "Repeat purchase",
-      "target": "April 2027 buyers who buy again May–Oct: targets by studio below"
+      "kpi": "Receipts",
+      "target": "One per client per month, logged; photographed receipts are the month's content engine"
     }
   ],
   "risks": [
     {
-      "risk": "Discount creep at the desk",
-      "mitigation": "One reward per purchase; offers, the wheel and the flash price never combine; no desk overrides above the plan price."
+      "risk": "The receipt tone lands wrong on the wrong client",
+      "mitigation": "The 100-class guardrail on skip counts; newcomers get a three-line receipt and a clean slate; lapsed clients get dates, never the skip count; everything tested on staff records first."
     },
     {
-      "risk": "The keys do not sell out",
-      "mitigation": "No second batch and no price cut. Move the conversation to Club Nine or a 6-Month after 20 April."
+      "risk": "The win-back reaches someone it shouldn't",
+      "mitigation": "Saachi flags injury, pregnancy, medical and bereavement in Momence before anything sends. Missing-persons voice, no death, no obituary."
     },
     {
-      "risk": "Lead volume (Kemps Corner needs 941 April leads; its best month had far fewer)",
-      "mitigation": "Fund April paid media explicitly, push Barre-stie day and Plus One, Plus Nine; review leads weekly against the funnel."
+      "risk": "Kenkere's +65% doesn't live in any offer",
+      "mitigation": "Its binding constraint is lead→trial follow-up speed on leads that already exist — worth more than the whole offer set. Pull the follow-up timings and fix the leak; the offers are the floor, not the plan."
     },
     {
-      "risk": "April pulls May revenue forward",
-      "mitigation": "No anniversary price after 30 April; May offers reward April buyers who attend, they do not extend April pricing."
+      "risk": "Everything priced at the ceiling leaves nothing for week three",
+      "mitigation": "Renewal and early renewal held at 15–18% value-back; the full 25% reserved for the flash day and the win-back; the mid-month read (19–25 Apr) decides if it gets spent."
     },
     {
-      "risk": "Event fatigue and staff overload",
-      "mitigation": "A head trainer owns each event; no more than one event a day in week two; rota published by 28 March."
+      "risk": "No paid support where growth is steepest",
+      "mitigation": "offerRunAds is off on every row. Make it a deliberate decision, not a default — if it stays no, Kenkere's +65% needs a different source."
+    },
+    {
+      "risk": "The receipt engine has no owner",
+      "mitigation": "It's a Momence query, an n8n flow and a print template — the new systems hire's first shipped project. If it's not him, it's Jimmy, and that changes what else April can carry."
     }
   ],
   "guardrails": [
-    "Cap: no April offer goes above 25% effective, counting every bonus at list. Cash stays ≤20% except Club Nine (annual), the 9:09 floor price (spot) and the Cloud Nine 90 (bulk).",
-    "One reward per purchase: offers, the wheel and the flash price do not combine. Passport and game prizes are attendance rewards, not a discount on a sale.",
-    "Scarcity is real: 99 keys in Mumbai and 39 in Bengaluru means exactly that. No second batch.",
-    "Price integrity: no anniversary prices after 30 April.",
-    "Every redemption is tagged with its offer ID (O27-13…18, O27-53, O27-54) so April can be judged offer by offer."
+    "Cap: no April offer above 25% effective, counting every bonus at list. Renewal and early renewal held at 15–18% in value-back terms; the full 25% is kept for the flash day and the win-back.",
+    "Skip counts (booked-not-attended, late cancels) print only for clients with 100+ classes. Newcomers get three lines and a clean slate; lapsed clients get the dates, never the skip count.",
+    "Voice: flat declaratives, no exclamation marks, never explain the joke. Nothing says \"celebrate\", \"journey\" or \"family\".",
+    "Scarcity is real: 99 keys means 99 keys. No second batch, no price cut, no anniversary prices after 30 April.",
+    "One receipt per client per month, logged. Receipts are evidence, not spam.",
+    "Every redemption is tagged with its offer ID so April can be judged offer by offer."
   ],
   "repeat": [
     {
@@ -1167,24 +1017,24 @@
   ],
   "afterActions": [
     {
-      "head": "No Graceful Exit (May)",
-      "body": "April buyers who attend 12+ classes in their first 30 days are offered the upgrade to a 3-Month with a private session."
+      "head": "Settle Your Account (May)",
+      "body": "Dares bought with April's money pay out in May attendance: 9 classes in 14 days, or a 7am every week of May, doubles the renewal reward."
     },
     {
-      "head": "Doubled wheels",
-      "body": "Every member who chose to double gets a trainer check-in at day 10; doubled prizes are credited once the 9 classes are attended."
+      "head": "Win-back follow-up",
+      "body": "Everyone who received Last Seen Wearing Leggings but didn't buy gets a personal message within 7 days — no second record card."
     },
     {
-      "head": "Passport follow-up",
-      "body": "Members with fewer than 3 stamps get a trainer call in the first week of May."
+      "head": "The January send",
+      "body": "The receipt engine becomes the annual \"your year on record\" message every January — the asset that outlives April."
     },
     {
-      "head": "Resurrection follow-up",
-      "body": "Everyone who came to the Séance Class but did not buy gets a personal message within 7 days."
+      "head": "The Kenkere funnel work",
+      "body": "Pull the lead follow-up timings and find where enquiries leak before the first class. If Kenkere only matched Bandra's lead→trial rate, the extra buyers would be worth more than its entire offer plan."
     },
     {
-      "head": "Time Capsule",
-      "body": "Opened at the 10th anniversary in April 2028, with a renewal conversation for every member who wrote one."
+      "head": "Judge April offer by offer",
+      "body": "Every redemption is tagged; the mid-month read and the May post-mortem use the seven offer lines, not the month total."
     }
   ]
 }
