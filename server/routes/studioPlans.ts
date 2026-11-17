@@ -2,13 +2,7 @@ import { stringify } from 'csv-stringify/sync';
 import { z } from 'zod';
 import { db, audit } from '../db.js';
 import { permission } from '../lib/auth.js';
-import {
-  bengaluruReference,
-  ensurePlaybookItems,
-  PLAYBOOK_SECTIONS,
-  POPUP_CHILDREN,
-  POPUP_PARENT,
-} from '../lib/plan2027.js';
+import { planReference, PLAYBOOK_SECTIONS, POPUP_CHILDREN, POPUP_PARENT } from '../lib/plan2027.js';
 import { bodyError, id, studioFilter } from '../http.js';
 import type { Express } from 'express';
 import { focusRequestSchema, generateMonthFocus } from '../lib/monthFocus.js';
@@ -76,7 +70,6 @@ export function studioPlanDetail(studioId: number, year: number, userId: number)
         }).filter(Boolean)
       : [];
   const parentId = POPUP_CHILDREN.includes(studio.name) ? studioIdByName(POPUP_PARENT) : null;
-  ensurePlaybookItems(studioId, year, userId);
   const items = db
     .prepare('SELECT * FROM studio_playbook_items WHERE studio_id=? AND year=? ORDER BY section,sort,id')
     .all(studioId, year);
@@ -89,7 +82,7 @@ export function studioPlanDetail(studioId: number, year: number, userId: number)
     children,
     parent: parentId ? { id: parentId, name: POPUP_PARENT } : null,
     items,
-    ...bengaluruReference(studio.name),
+    ...planReference(studio.name, year),
   };
 }
 

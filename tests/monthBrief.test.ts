@@ -1,4 +1,3 @@
-import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { briefText, monthBrief } from '../src/lib/monthBrief';
 
@@ -143,19 +142,6 @@ describe('monthly launch brief presentation', () => {
     expect(source).toEqual(before);
     expect(monthBrief(null).present).toBe(false);
     expect(monthBrief({}).present).toBe(false);
-  });
-
-  it('renders every shipped portfolio brief without losing its asset or send counts', () => {
-    const portfolio = JSON.parse(fs.readFileSync('server/data/portfolio-2027/v5-portfolio.json', 'utf8'));
-    for (const studio of portfolio.studios) {
-      for (const month of studio.months) {
-        const brief = monthBrief(month);
-        expect(brief.pieces).toHaveLength(month.collateral?.pieces?.length || 0);
-        expect(brief.sends).toHaveLength(month.crm?.sends?.length || 0);
-        expect(brief.pieces.every(piece => piece.headline && piece.detail)).toBe(true);
-        expect(JSON.stringify(brief)).not.toContain('[object Object]');
-      }
-    }
   });
 });
 

@@ -13,9 +13,8 @@ import {
 } from 'lucide-react';
 import { api } from '../api';
 import { useApp } from '../App';
-import { APPROVED_STUDIOS } from '../data/approvedPlan2027';
-import { MONTH_CHAPTERS } from '../data/monthNarrative';
-import { moneyShort as lakh, number } from '../types';
+import { LOCATION_NAMES } from '../data/locations';
+import { MONTHS, moneyShort as lakh, number } from '../types';
 
 /* Exporting the year.
 
@@ -111,7 +110,7 @@ export default function PlanExportDialog({
 
   // Only these four carry a plan; the rest of the estate has no targets to export, so a
   // single-location file is always one of them.
-  const planning = boot.studios.filter(item => (APPROVED_STUDIOS as string[]).includes(item.name));
+  const planning = boot.studios.filter(item => (LOCATION_NAMES as readonly string[]).includes(item.name));
   const [studio, setStudio] = useState<number | null>(
     planning.some(item => item.id === studioId) ? (studioId as number) : (planning[0]?.id ?? null),
   );
@@ -304,9 +303,7 @@ export default function PlanExportDialog({
           <div className="pex-block">
             <span className="pex-label-row">
               <span className="pex-label">Period</span>
-              <span className="pex-label-actions">
-                {month ? `${MONTH_CHAPTERS[month - 1]?.theme || ''}` : 'the whole year'}
-              </span>
+              <span className="pex-label-actions">{month ? MONTHS[month - 1] : 'the whole year'}</span>
             </span>
             <div className="pex-scopes" role="group" aria-label="Period">
               <button
@@ -330,11 +327,11 @@ export default function PlanExportDialog({
             </div>
             {month && (
               <div className="pex-switch" role="group" aria-label="Which month">
-                {MONTH_CHAPTERS.map((chapter, index) => (
+                {MONTHS.map((name, index) => (
                   <button
-                    key={chapter.theme}
+                    key={name}
                     type="button"
-                    title={chapter.theme}
+                    title={name}
                     className={month === index + 1 ? 'is-on' : ''}
                     aria-pressed={month === index + 1}
                     onClick={() => setMonth(index + 1)}
@@ -460,7 +457,7 @@ export default function PlanExportDialog({
                     ? `${counts?.studios} locations · `
                     : `${preview.scope?.studios?.[0]?.name} · `}
                   {month
-                    ? `${MONTH_CHAPTERS[month - 1]?.theme} — cover, overview, execution, offers, collateral, CRM`
+                    ? `${MONTHS[month - 1]} — cover, overview, execution, offers, collateral, CRM`
                     : `${counts?.monthsWithOffers} months with offers — every section of every month`}
                 </span>
               </>

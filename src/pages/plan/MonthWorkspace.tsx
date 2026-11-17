@@ -44,8 +44,9 @@ import { LOCATION_COLORS, accentFor, locationStudioIds } from '../../data/locati
 import MarketingCollaterals from '../../components/MarketingCollaterals';
 import { KEY_DATE_LABELS, formatKeyDate, keyDatesFor } from '../../data/keyDates';
 import { MONTHS, money, number } from '../../types';
-import { locationPlaybook, type ActionItem } from '../../data/planDefaults';
-import { isLegacyTheme, monthChapter, monthStory } from '../../data/monthNarrative';
+import { type ActionItem } from '../../data/planDefaults';
+import { monthStory, type MonthChapter } from '../../data/monthNarrative';
+import { activationFor } from '../../data/activations';
 import { monthActivations } from './CampaignsTab';
 import MonthCover from './MonthCover';
 import MonthExplainer from '../../components/MonthExplainer';
@@ -551,7 +552,9 @@ export default function MonthWorkspace({
     const plan = JSON.stringify(planBody());
     const streamsChanged =
       !!targetRow &&
-      STREAMS.some(s => n(form.streams[s.key]) !== Math.round(n(approved ? initialStreams[s.key] : targetRow[s.field])));
+      STREAMS.some(
+        s => n(form.streams[s.key]) !== Math.round(n(approved ? initialStreams[s.key] : targetRow[s.field])),
+      );
     if (plan === lastSaved.current && !streamsChanged) return;
     pendingSave.current = streamsChanged
       ? {
@@ -1098,18 +1101,20 @@ export default function MonthWorkspace({
     { key: 'renewal', label: 'Renewals', value: n(form.streams.renewal) },
     { key: 'reactivation', label: 'Comeback', value: n(form.streams.reactivation) },
   ];
-  const chapter = monthChapter(month);
-  /* A month imported from a plan document carries its own theme, brief, risk and offers. The
-     shipped plan's chapter is a fallback for months that have not been through an import —
-     never a replacement for the words the studio actually filed. */
+  /* The month's headline content is the plan saved in the database: its theme, objective,
+     notes (with its "Activation:" line as the moment) and any risk the plan recorded. */
   const importedPlan = Boolean(form.content?.planImport);
-  const savedTheme = form.theme || row.theme || chapter.theme;
-  // Months planned before the narrative rewrite carry a generic label; the chapter names them now.
-  const displayTheme = importedPlan
-    ? savedTheme
-    : isLegacyTheme(form.theme, month) || isLegacyTheme(row.theme, month)
-      ? chapter.theme
-      : savedTheme;
+  const chapter: MonthChapter = {
+    theme: String(form.theme || row.theme || ''),
+    kicker: String(form.content?.kicker || ''),
+    moment: activationFor(form).challenge[1],
+    objective: String(form.objective || row.objective || ''),
+    brief: String(form.notes || form.objective || ''),
+    briefPoints: [],
+    risk: String(form.content?.ai?.risks?.[0] || ''),
+    signature: '',
+  };
+  const displayTheme = chapter.theme;
   // A different cover photograph every month, from a set the offer cards never draw on.
   const coverPhoto = coverPhotoFor(month);
 
@@ -1712,21 +1717,14 @@ export default function MonthWorkspace({
                 }}
                 theme={
                   // The headline is the month's saved theme; failing that, the live offers lead.
-                  importedPlan || !(isLegacyTheme(form.theme, month) || isLegacyTheme(row.theme, month))
-                    ? form.theme ||
-                      row.theme ||
-                      selected
-                        .map((o: any) => o.name)
-                        .filter(Boolean)
-                        .join(' · ') ||
-                      chapter.theme
-                    : selected
-                        .map((o: any) => o.name)
-                        .filter(Boolean)
-                        .join(' · ') || chapter.theme
+                  form.theme ||
+                  row.theme ||
+                  selected
+                    .map((o: any) => o.name)
+                    .filter(Boolean)
+                    .join(' · ')
                 }
                 studioName={studio.name}
-                roomAngle={locationPlaybook(studio.name).theme}
                 story={story}
                 target={effective}
                 lastYear={row.lastYear}
@@ -3440,7 +3438,9 @@ export default function MonthWorkspace({
                                         data-offer-category={g.key}
                                         className={`mw-offer-item${g.offers.length === 1 || editing === o.id ? ' is-wide' : ''}${
                                           editing !== o.id &&
-                                          (offerColumns !== 2 || g.offers.length === 1 || (g.offers.length % 2 === 1 && oi === g.offers.length - 1))
+                                          (offerColumns !== 2 ||
+                                            g.offers.length === 1 ||
+                                            (g.offers.length % 2 === 1 && oi === g.offers.length - 1))
                                             ? ' is-solo'
                                             : ''
                                         }`}

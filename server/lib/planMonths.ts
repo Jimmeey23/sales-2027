@@ -5,11 +5,11 @@
 // head actually needs in hand: the cover's argument, the brief, the week-by-week run, the
 // assets to make and the dates they go out. None of that is authored twice: the narrative and
 // the numbers come from the same modules the month workspace renders (monthNarrative,
-// ACTIVATIONS_2027), and the collateral copy and CRM calendar from the shared builders the
+// activations), all reading the month plan saved in the database, and the collateral copy and CRM calendar from the shared builders the
 // collateral screen uses.
 
-import { ACTIVATIONS_2027 } from '../../src/data/activations.js';
-import { isLegacyTheme, monthChapter, monthStory } from '../../src/data/monthNarrative.js';
+import { activationFor } from '../../src/data/activations.js';
+import { monthStory } from '../../src/data/monthNarrative.js';
 import { collateralChannels, collateralCopy, type CollateralCopy } from '../../src/lib/collateralPlan.js';
 import { commsPlan, COMMS_SLOTS, type CollateralCustomChannel } from '../../src/lib/commsPlan.js';
 
@@ -91,18 +91,20 @@ export interface MonthSections {
 /** Everything about one month that is not the target row or the offer list. */
 export function monthSections(input: MonthSectionInput): MonthSections {
   const { year, month, studioName, plan, offers, revenues, funnel } = input;
-  const chapter = monthChapter(month);
   const content = parseJson(plan?.content, {});
-  /* An imported plan owns its month: its theme, brief and risk print as filed. Only a row
-     that has not been through an import is judged against the shipped plan's chapters. */
   const imported = Boolean(content?.planImport);
   const savedTheme = plan?.theme || input.target?.theme || null;
-  // A saved theme the final plan does not give this month is a leftover, not a choice.
-  const theme = imported
-    ? savedTheme || chapter.theme
-    : savedTheme && !isLegacyTheme(savedTheme, month)
-      ? savedTheme
-      : chapter.theme;
+  const theme = savedTheme || '';
+  // The month's own words, from the database: the "Activation:" line of its notes is its moment.
+  const chapter = {
+    theme,
+    kicker: '',
+    moment: activationFor(plan, offers).challenge[1],
+    objective: String(plan?.objective || ''),
+    brief: String(plan?.notes || plan?.objective || ''),
+    risk: String(content?.ai?.risks?.[0] || ''),
+    signature: offers.map(offer => String(offer.name)).join(' · '),
+  };
   const status = plan?.status || input.target?.status || 'draft';
   const planOffers: Record<string, string> = {};
   for (const offer of offers) {
@@ -180,7 +182,7 @@ export function monthSections(input: MonthSectionInput): MonthSections {
     .filter(group => group.actions.length);
   // Activations print as the plan's own words, with any saved overrides winning.
   const activationEdits = parseJson(content?.activations, {});
-  const base = ACTIVATIONS_2027[Math.min(12, Math.max(1, month)) - 1] || null;
+  const base = activationFor(plan, offers);
   const activation = (key: string, title: string, text: string) => {
     const saved = activationEdits?.[key];
     return { title: String(saved?.title || title), text: String(saved?.text || text) };
@@ -193,8 +195,7 @@ export function monthSections(input: MonthSectionInput): MonthSections {
         { title: 'Retention', text: activation('retention', 'Retention', base.retention).text },
       ]
     : [];
-  // The approved plan files the month's moment under "challenge" and its commercial job under
-  // "event". Both already print as the cover, so reprinting them here would say the same thing
+  // The month's moment sits under "challenge" and its commercial job under "event". Both already print as the cover, so reprinting them here would say the same thing
   // twice on one page — only what is genuinely an extra activation survives.
   const coverText = new Set(
     [chapter.moment, chapter.brief, chapter.risk, chapter.signature, plan?.objective || chapter.objective]

@@ -1,36 +1,11 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { db } from '../db.js';
 import { calculateFunnel } from './calculations.js';
 import { studioScopeIds } from './studios.js';
 import { planEconomics } from './planEconomics.js';
-import { PLAYBOOKS_2027 } from '../../src/data/2027Playbooks.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const round = (n: number) => Math.round(n * 100) / 100;
 const scalar = (sql: string, ...params: unknown[]) => (db.prepare(sql).get(...params) as any)?.value;
 const monthKey = (year: number, month: number) => `${year}-${String(month).padStart(2, '0')}`;
-
-let cachedBengaluruInsights: Record<string, string[]> | null = null;
-function loadStudioEmpiricalInsights(): Record<string, string[]> {
-  if (cachedBengaluruInsights) return cachedBengaluruInsights;
-  cachedBengaluruInsights = {};
-  try {
-    const file = path.resolve(__dirname, '../data/bengaluru-plan-2027.json');
-    if (fs.existsSync(file)) {
-      const raw = JSON.parse(fs.readFileSync(file, 'utf8'));
-      for (const s of raw.studios || []) {
-        if (s?.studio && Array.isArray(s.insights)) {
-          cachedBengaluruInsights[String(s.studio)] = s.insights.map(String);
-        }
-      }
-    }
-  } catch {
-    cachedBengaluruInsights = {};
-  }
-  return cachedBengaluruInsights;
-}
 
 function scopeClause(studioId: number, col = 'studio_id') {
   const ids = studioScopeIds(db, studioId);
@@ -1013,33 +988,6 @@ function historicFindings(
       action: 'Attributed revenue is not incremental lift; use a controlled newcomer experiment for causal questions.',
     });
 
-  // Curated empirical commercial intelligence from studio playbooks & audited workbooks
-  const studioName = String(scalar('SELECT name value FROM studios WHERE id=?', studioId) || '');
-  const playbookKey = studioName === 'Copper + Cloves' || studioName === 'Plash Pilates' ? 'Pop-up' : studioName;
-  const playbook = PLAYBOOKS_2027[playbookKey];
-  if (playbook?.insight) {
-    findings.push({
-      type: 'commercial_playbook',
-      title: 'Commercial cohort structure & pricing insight',
-      finding: playbook.insight,
-      evidence: {
-        studio: studioName,
-        ttmGrowth: playbook.ttmGrowth,
-      },
-      action: playbook.priority,
-    });
-  }
-  const empiricalNotes = loadStudioEmpiricalInsights()[playbookKey] || [];
-  for (const [idx, note] of empiricalNotes.slice(0, 3).entries()) {
-    findings.push({
-      type: 'workbook_evidence',
-      title: `Historical cohort & pricing audit · #${idx + 1}`,
-      finding: note,
-      evidence: { studio: studioName, source: 'Audited 2025–2026 Sales & Cohort Workbook' },
-      action: 'Incorporate into 2027 monthly offer design and front-desk renewal scripts.',
-    });
-  }
-
   return {
     through,
     comparisons,
@@ -1054,8 +1002,6 @@ function historicFindings(
 function buildPlanBridge2027(studioId: number, studioName: string) {
   const scope = scopeClause(studioId);
   const through = latestCompleteMonth();
-  const playbookKey = studioName === 'Copper + Cloves' || studioName === 'Plash Pilates' ? 'Pop-up' : studioName;
-  const playbook = PLAYBOOKS_2027[playbookKey] || null;
   const econ = planEconomics(studioId, 2027);
 
   const actual2026Rows = Array.from({ length: 12 }, (_, idx) => {
@@ -1206,12 +1152,7 @@ function buildPlanBridge2027(studioId: number, studioName: string) {
           lapsedPool: Math.round(pickAssumption('lapsedPool')),
         }
       : null,
-    playbookSummary: playbook
-      ? {
-          priority: playbook.priority,
-          insight: playbook.insight,
-        }
-      : null,
+    playbookSummary: null as { priority: string; insight: string } | null,
     monthlyBridge,
   };
 }

@@ -128,7 +128,6 @@ let cachedActuals2026: Record<
   string,
   Record<string, { net: number; partial: number; clients: number; new: number }>
 > | null = null;
-let cachedSalesOfferPlan: any[] | null = null;
 function getActuals2026() {
   if (!cachedActuals2026) {
     try {
@@ -139,26 +138,6 @@ function getActuals2026() {
   }
   return cachedActuals2026!;
 }
-function getSalesOfferPlan() {
-  if (!cachedSalesOfferPlan) {
-    try {
-      cachedSalesOfferPlan = JSON.parse(
-        fs.readFileSync(path.resolve('server/data/sales-offer-plan-2027.json'), 'utf8'),
-      );
-    } catch {
-      cachedSalesOfferPlan = [];
-    }
-  }
-  return cachedSalesOfferPlan!;
-}
-
-const parseArrowPair = (raw: unknown): [number, number] => {
-  const parts = String(raw || '')
-    .split('→')
-    .map(s => Number(s.replace(/[^0-9.]/g, '').trim()));
-  return [Number.isFinite(parts[0]) ? parts[0] : 0, Number.isFinite(parts[1]) ? parts[1] : 0];
-};
-
 const ym = (d: Date) => d.toISOString().slice(0, 7);
 const shift = (month: string, by: number) => {
   const [y, m] = month.split('-').map(Number);
@@ -391,8 +370,6 @@ export function planEconomics(studioId: number, year: number) {
   };
 
   const actuals2026 = getActuals2026()[emp.actualKey] || {};
-  const sopAll = getSalesOfferPlan();
-  const sopStudioName = POPUP_CHILDREN.includes(meta.name) ? POPUP_PARENT : meta.name;
 
   const months = Array.from({ length: 12 }, (_, i) => {
     const month = i + 1,
@@ -407,12 +384,19 @@ export function planEconomics(studioId: number, year: number) {
       renewalRate: renewalRate(ids, season, season),
     };
 
-    const sopEntry = sopAll.find(x => x.studio === sopStudioName && Number(x.month) === month);
-    const sopPlan = sopEntry?.plan || {};
-    const [sopLeads, sopTrials] = parseArrowPair(sopPlan['Leads → completed trials']);
-    const [sopExpPool] = parseArrowPair(sopPlan['Renewals due → purchases'] ?? sopPlan['Regulars → pack buys']);
-    const [sopLapsedPool] = parseArrowPair(sopPlan['Lapsed touches → reactivated']);
-
+    // The month's saved funnel (monthly_targets.funnel) is the plan's own volume estimate.
+    const planFunnel = (() => {
+      const row = targets.find(x => x.month === month);
+      try {
+        return row?.funnel ? JSON.parse(row.funnel) : {};
+      } catch {
+        return {};
+      }
+    })();
+    const sopLeads = Number(planFunnel.leads) || 0;
+    const sopTrials = Number(planFunnel.trials) || 0;
+    const sopExpPool = Number(planFunnel.renewalsDue) || 0;
+    const sopLapsedPool = 0;
     const autoFirstSpend = blend(trailing.firstSpend.value, s.firstSpend.value, s.firstSpend.buyers) || emp.firstSpend;
     const autoTrialSpend = trailing.trialSpend.value ?? emp.trialSpend;
     const autoRenewalTicket =

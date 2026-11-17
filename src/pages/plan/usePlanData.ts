@@ -2,8 +2,6 @@ import { api } from '../../api';
 import { useApp } from '../../App';
 import { useLoad } from '../../hooks';
 import { planningLocations } from '../../data/locations';
-import { MONTH_THEMES, studioPlaybook } from '../../data/planDefaults';
-import { isLegacyTheme, monthChapter } from '../../data/monthNarrative';
 import type { Studio } from '../../types';
 
 export interface MonthRow {
@@ -125,15 +123,13 @@ export const lakh = (v: number | null | undefined, digits = 1) =>
     : `₹${(v / 100000).toLocaleString('en-IN', { maximumFractionDigits: digits })}L`;
 
 function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[] {
-  const playbook = studioPlaybook(studio.name);
   return Array.from({ length: 12 }, (_, i) => {
     const month = i + 1,
       t = detail.targets.find((x: any) => x.month === month),
       a = t?.assumptions || {},
       f = t?.funnel || {};
     const pb = a.playbook || {},
-      wb = a.workbook || {},
-      src = playbook?.months[i];
+      wb = a.workbook || {};
     const plan = detail.plans.find((p: any) => p.month === month);
     const target = targetOf(t),
       scale = t && num(t.proposed_target) ? target / num(t.proposed_target) : 1;
@@ -150,24 +146,17 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
     const newClient = Math.max(0, target - renewal - reactivation - other);
     // The lead offer is the month's first pick from the offer bank, never a written default.
     const leadOffer: string = plan?.offers?.[0]?.name || 'No offer picked yet';
-    // A month that came in through a plan import carries the studio's own words. Nothing in the
-    // shipped plan may overwrite them: the theme, the job and the offers on the card are the
-    // ones the studio filed, so the year plan and the month workspace name the month the same way.
-    const importedMonth = Boolean(plan?.content?.planImport);
-    const objective = importedMonth
-      ? String(plan?.objective || monthChapter(i + 1).objective)
-      : pb.objective || src?.objective || plan?.objective || monthChapter(i + 1).objective;
+    // The month's job is the one saved on its plan.
+    const objective = String(plan?.objective || pb.objective || '');
     // Bottom-up economics take priority when unit economics are resolved; fall back to stored funnel/playbook counts if ever zeroed.
     const e = economics.months[i];
-    const fallbackBuyers = num(f.requiredNewBuyers ?? pb.buyers ?? src?.buyers ?? wb.newPaying);
-    const fallbackTrials = num(f.requiredCompletedTrials ?? pb.trials ?? src?.trials ?? wb.trials);
-    const fallbackLeads = num(f.requiredLeads ?? pb.leads ?? src?.leads ?? wb.leads);
-    const fallbackRenDue = num(pb.renewalsDue ?? src?.renewalsDue ?? wb.renewalsDue);
-    const fallbackRenPurchases = num(
-      pb.renewalPurchases ?? src?.renewalPurchases ?? wb.renewalPurchases ?? wb.existingPaying,
-    );
-    const fallbackReactivated = num(pb.reactivated ?? src?.reactivated ?? wb.reactivated);
-    const fallbackLapsed = num(pb.lapsedTouches ?? src?.lapsedTouches ?? wb.lapsedTouches);
+    const fallbackBuyers = num(f.requiredNewBuyers ?? pb.buyers ?? wb.newPaying);
+    const fallbackTrials = num(f.requiredCompletedTrials ?? pb.trials ?? wb.trials);
+    const fallbackLeads = num(f.requiredLeads ?? pb.leads ?? wb.leads);
+    const fallbackRenDue = num(pb.renewalsDue ?? wb.renewalsDue);
+    const fallbackRenPurchases = num(pb.renewalPurchases ?? wb.renewalPurchases ?? wb.existingPaying);
+    const fallbackReactivated = num(pb.reactivated ?? wb.reactivated);
+    const fallbackLapsed = num(pb.lapsedTouches ?? wb.lapsedTouches);
     const hasNewEcon = Boolean(e && e.newClient.firstSpend > 0);
     const hasRenEcon = Boolean(e && e.renewal.ticket > 0);
     const hasReactEcon = Boolean(e && e.reactivation.ticket > 0);
@@ -194,16 +183,8 @@ function monthRows(studio: Studio, detail: any, economics: Economics): MonthRow[
       lapsedTouches: e && e.reactivation.lapsedPool > 0 ? e.reactivation.lapsedPool : fallbackLapsed,
       objective,
       leadOffer,
-      // Months planned before the narrative chapters carry a generic label ("Fresh Start",
-      // "Stronger Together"). Those fall back to the month's chapter theme, so the year plan
-      // cards, the cover and the workspace all name the month the same way. An imported month is
-      // never "legacy": its theme is the name the studio chose, even when the shipped plan has a
-      // different one.
-      theme: (() => {
-        const planned = plan?.theme || detail.themes?.[month];
-        if (importedMonth) return planned || MONTH_THEMES[i];
-        return planned && !isLegacyTheme(planned, i + 1) ? planned : MONTH_THEMES[i];
-      })(),
+      // The month's theme is the one saved on its plan (or the location's plan for that month).
+      theme: String(plan?.theme || detail.themes?.[month] || ''),
       renewalTarget: e?.renewal.target ?? renewal,
       expectedRenewal: e?.renewal.expected || 0,
       renewalGap: e?.renewal.gap || 0,

@@ -82,7 +82,6 @@ export default function MonthOverview({
   chapter,
   theme,
   studioName,
-  roomAngle,
   story,
   target,
   lastYear,
@@ -103,7 +102,6 @@ export default function MonthOverview({
   chapter: MonthChapter;
   theme: string;
   studioName: string;
-  roomAngle: string;
   story: MonthStory;
   target: number;
   lastYear: number;
@@ -280,7 +278,6 @@ export default function MonthOverview({
             </button>
           </article>
         </div>
-
       </div>
     </section>
   );

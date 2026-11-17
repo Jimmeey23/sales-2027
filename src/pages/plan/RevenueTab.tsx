@@ -3,11 +3,21 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { ArrowRight, Lightbulb, LifeBuoy, Repeat, Sparkles, UserPlus, UsersRound, Wallet } from 'lucide-react';
 import { MONTHS_SHORT, money, number } from '../../types';
 import { TableScroll } from '../../components/ui';
-import { EXECUTION_RHYTHM } from '../../data/2027Playbooks';
-import { studioPlaybook } from '../../data/planDefaults';
 import { LOCATION_COLORS } from '../../data/locations';
 import { lakh, type PlanData } from './usePlanData';
 import { useSources } from './TargetsTab';
+
+// How every month is run, week to week. Process only: the offers and numbers are the month's own.
+const EXECUTION_RHYTHM: Array<[string, string]> = [
+  [
+    'Newcomer journey',
+    "Track leads → trials → new buyers against the month's plan and the newcomer offer's rate of sale.",
+  ],
+  ['Lapsed journey', "Work the month's lapsed touches; count reactivations against the plan."],
+  ['Renewal journey', 'Work renewals due against planned purchases with the renewal offer, inside its window.'],
+  ['Weekly · what to watch', "Review each offer's success measures and record one corrective action."],
+  ['Rules', "Apply each offer's rules as written: who qualifies, when it runs and its credit windows."],
+];
 
 const sum = (rows: any[], key: string) => rows.reduce((n, r) => n + (Number(r[key]) || 0), 0);
 const rate = (a: number, b: number) => (b ? `${((a / b) * 100).toFixed(1)}%` : '—');
@@ -274,14 +284,11 @@ export default function RevenueTab({ data }: { data: PlanData }) {
 }
 
 function StudioReasoning({ plan }: { plan: any }) {
-  const pb = studioPlaybook(plan.studio.name),
-    a = plan.detail.targets[0]?.assumptions || {},
+  const a = plan.detail.targets[0]?.assumptions || {},
     cr = a.conversionRates || {};
-  const insights: string[] = pb
-    ? [pb.insight, pb.priority]
-    : (plan.detail.insights || [])
-        .filter((x: string) => (plan.studio.name === 'Pop-up') === /pop-up/i.test(x))
-        .slice(0, 3);
+  const insights: string[] = (plan.detail.insights || [])
+    .filter((x: string) => (plan.studio.name === 'Pop-up') === /pop-up/i.test(x))
+    .slice(0, 3);
   return (
     <div className="ws-reason" style={{ '--c': LOCATION_COLORS[plan.studio.name] } as React.CSSProperties}>
       <header>

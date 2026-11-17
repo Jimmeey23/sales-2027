@@ -1,6 +1,6 @@
-// 2027 activations from the final approved plan: each month's theme and moment, hook and commercial job,
-// and the renewal offer that holds the book.
-import { approvedMonth, approvedOffer, field } from './approvedPlan2027.js';
+/* A month's activations, read from that month's plan in the database: the theme and the
+   "Activation:" line of its notes, its commercial objective, and the renewal offer it picked.
+   Nothing here carries plan content of its own. */
 
 export interface MonthActivation {
   challenge: [string, string];
@@ -10,21 +10,46 @@ export interface MonthActivation {
   kpi: string;
 }
 
-export const ACTIVATIONS_2027: MonthActivation[] = Array.from({ length: 12 }, (_, i) => {
-  const e = approvedMonth(i + 1),
-    renewal = approvedOffer(e, 'renewal');
+type PlanLike = { theme?: string | null; objective?: string | null; notes?: string | null } | null | undefined;
+type OfferLike = {
+  name?: string | null;
+  headline?: string | null;
+  plan_slot?: string | null;
+  slot?: string | null;
+  success_metrics?: unknown;
+};
+
+const metricsOf = (value: unknown): string[] => {
+  if (Array.isArray(value)) return value.map(String);
+  if (typeof value === 'string' && value.trim().startsWith('[')) {
+    try {
+      return (JSON.parse(value) as unknown[]).map(String);
+    } catch {
+      return [];
+    }
+  }
+  return [];
+};
+
+export function activationFor(plan: PlanLike, offers: OfferLike[] = []): MonthActivation {
+  const activation =
+    String(plan?.notes || '')
+      .split('\n')
+      .map(line => line.trim())
+      .find(line => /^activation:/i.test(line))
+      ?.replace(/^activation:\s*/i, '') || '';
+  const renewal = offers.find(o => /renewal|retention/i.test(String(o.plan_slot || o.slot || '')));
   return {
-    challenge: [e.theme, e.moment],
-    event: [e.hook, e.job],
-    // The final plan names no partnerships.
+    challenge: [String(plan?.theme || ''), activation],
+    event: ['', String(plan?.objective || '')],
     partner: ['', ''],
-    retention: renewal ? `${renewal.name}: ${renewal.tagline}` : '',
-    kpi: e.offers
-      .map(o => field(o, 'What to watch'))
+    retention: renewal ? [renewal.name, renewal.headline].filter(Boolean).join(': ') : '',
+    kpi: offers
+      .map(o => metricsOf(o.success_metrics)[0])
       .filter(Boolean)
       .join(' '),
   };
-});
+}
 
 export const CHANNEL_LABELS: Record<string, string> = {
   meta_lead: 'Meta · lead gen',

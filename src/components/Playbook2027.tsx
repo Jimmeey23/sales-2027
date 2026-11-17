@@ -19,15 +19,8 @@ type Offer = {
   kpi: string;
   lever: string | null;
 };
-type MonthRow = {
-  month: string;
-  event: string;
-  theme: string;
-  focus: string;
-  offers: string[];
-  actions: string[];
-  why: string;
-};
+// Only the month label is stored; theme, focus, offers and actions are read from the month plans.
+type MonthRow = { month: string };
 export type StudioPlaybook = {
   name: string;
   city: string;
@@ -44,8 +37,7 @@ export type StudioPlaybook = {
     projection: number;
     appTargetAtBuild: number;
   };
-  // Written offers and month picks below were folded into the 2027 offer bank (server/lib/offerBank2027.ts);
-  // the page shows each month's picks from the plan instead.
+  // Offers are never stored here: the page shows each month's picks from its plan in the database.
   offers: Offer[];
   months: MonthRow[];
   rhythm: Array<[string, string]>;
@@ -88,8 +80,7 @@ const lakh = (v: number | null | undefined, d = 1) =>
 const crore = (v: number | null | undefined) => (v == null ? '—' : `₹${(v / 1e7).toFixed(2)} Cr`);
 // The playbook reads in lakh everywhere — targets, months, offers — so the build
 // section does too. A crore figure beside lakh rows reads as a different currency.
-const money = (v: number | null | undefined) =>
-  v == null ? '—' : `₹${(Math.abs(v) / 1e5).toFixed(1)}L`;
+const money = (v: number | null | undefined) => (v == null ? '—' : `₹${(Math.abs(v) / 1e5).toFixed(1)}L`);
 const int = (v: number) => Math.round(v).toLocaleString('en-IN');
 
 // The evidence line in the data is one long sentence naming the offers behind a lever:
@@ -98,7 +89,10 @@ const int = (v: number) => Math.round(v).toLocaleString('en-IN');
 const evidence = (why: string) => {
   if (!why) return null;
   const match = why.match(/carried by the (.+?) offers? — (.+)$/i);
-  const offers = (match ? match[2] : why).split(/,\s*/).map(o => o.replace(/\.$/, '').trim()).filter(Boolean);
+  const offers = (match ? match[2] : why)
+    .split(/,\s*/)
+    .map(o => o.replace(/\.$/, '').trim())
+    .filter(Boolean);
   if (!offers.length) return null;
   return { group: match ? match[1] : '', offers };
 };
@@ -132,11 +126,21 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
     () =>
       pb.months.map((m, i) => {
         const x = bd?.months?.[i];
+        const saved = (planDetail?.plans || []).find((p: any) => p.month === i + 1);
+        const activation =
+          String(saved?.notes || '')
+            .split('\n')
+            .map((line: string) => line.trim())
+            .find((line: string) => /^activation:/i.test(line))
+            ?.replace(/^activation:\s*/i, '') || '';
         return {
           ...m,
-          offers: ((planDetail?.plans || []).find((p: any) => p.month === i + 1)?.offers || []).map(
-            (o: any) => o.name,
-          ) as string[],
+          event: activation,
+          theme: String(saved?.theme || ''),
+          focus: String(saved?.objective || ''),
+          why: '',
+          actions: ((saved?.actions || []) as any[]).map(a => String(a?.text || '')).filter(Boolean),
+          offers: (saved?.offers || []).map((o: any) => o.name) as string[],
           target: Number(x?.target || 0),
           buyers: Number(x?.newPaying || 0),
           visits: Number(x?.firstVisits || 0),
@@ -292,10 +296,7 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
                   {/* The ghost is the running total, so a +₹11.1L step reads against the
                       ₹111.5L it is added to rather than floating on its own. */}
                   {step.kind !== 'base' && step.kind !== 'total' && (
-                    <em
-                      style={{ width: `${(Math.max(step.from, step.to) / maxBar) * 100}%` }}
-                      aria-hidden
-                    />
+                    <em style={{ width: `${(Math.max(step.from, step.to) / maxBar) * 100}%` }} aria-hidden />
                   )}
                   <i
                     style={{
@@ -303,11 +304,7 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
                       width: `${Math.max((width / maxBar) * 100, 0.6)}%`,
                     }}
                   />
-                  <span
-                    className="pb27-bs-target"
-                    style={{ left: `${(liveTarget / maxBar) * 100}%` }}
-                    aria-hidden
-                  />
+                  <span className="pb27-bs-target" style={{ left: `${(liveTarget / maxBar) * 100}%` }} aria-hidden />
                 </span>
                 <span className="pb27-bs-val">
                   {step.kind !== 'base' && step.kind !== 'total' && Math.abs(step.value) < 50000
@@ -334,8 +331,7 @@ export default function Playbook2027({ scope, showMonths = true }: { scope?: str
           ) : (
             <>
               One more step is needed: <strong>{money(-gap)}</strong> has to come from a new source — another venue,
-              corporate blocks or a pricing change — or the target comes down to{' '}
-              <strong>{money(b.projection)}</strong>.
+              corporate blocks or a pricing change — or the target comes down to <strong>{money(b.projection)}</strong>.
             </>
           )}
         </div>

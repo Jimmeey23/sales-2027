@@ -1,0 +1,117 @@
+# Physique 57 India · Kemps Corner · July 2027 Sales Plan
+
+**Studio:** Kemps Corner  
+**Month:** July 2027  
+**Plan year:** 2027. Every target here is for July 2027; "last year" means July 2026.
+
+This is the complete, approved sales plan for this studio and month. It has exactly 5 offers; there are no others.
+
+## Theme and focus
+
+**Theme:** Rain Check
+
+**Objective:** Protect attendance and renewals through the monsoon. At Kemps Corner: Strength Lab is full: use it as the reward for 3-Month upgrades.
+
+**Strategy:** July is a solid month, but the monsoon hurts attendance and late cancels are highest from June to September. Reward showing up, rebook rained-out trials, and use packs to bring lapsed clients back.
+
+## The revenue target
+
+- July 2027 target: **₹35L (₹35,00,000)**
+- July 2026 actual: ₹25.8L (₹25,80,030)
+- Growth on last year: 36%
+
+## Where the money comes from
+
+- Renewals: ₹17.7L (₹17,72,777) (51% of target)
+- New clients: ₹12L (₹12,02,719) (34% of target)
+- Comebacks (lapsed clients returning): ₹2.8L (₹2,82,405) (8% of target)
+- Privates, retail, drop-ins and other: ₹2.4L (₹2,42,099) (7% of target)
+
+## The funnel: who has to walk in
+
+- Leads: 210
+- Trials: 162
+- New buyers: 94
+- Trial-to-buyer conversion: 58%
+- Renewals due this month: 74; renewals planned: 58 (78% of those due)
+- Lapsed clients to win back: 38
+
+## The offers (5)
+
+Together the offers are planned to bring in ₹17.2L (₹17,19,827), 49% of the target. The rest comes from full-price sales.
+
+### Offer 1 of 5: Sweating Through Your Dignity for Cash
+
+- **Type:** New clients
+- **Who it's for:** New clients, bought within 7 days of the first class
+- **Headline:** Every class after your 9th pays you. Literally.
+- **What they get:** Your first 1-Month Unlimited at 20% off (₹16,191). From your 10th class in the 30 days, every class earns ₹800 in credit, up to ₹12,000 (15 classes), spent on a 3-Month Unlimited or bigger.
+- **Price:** ₹16,191 (list ₹20,239)
+- **When:** 1–31 Jul
+- **Why we're running it:** Monsoon kills attendance. This pays newcomers for every class they do in the wettest month and turns the habit into a 3-Month.
+- **Target:** 35 sales at about ₹16,191 each, ₹5.7L (₹5,66,685) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** A per-class reward makes every extra class count, not just the finish line, and the credit can only be spent on a 3-Month or bigger.
+
+### Offer 2 of 5: The Public Apology Tour
+
+- **Type:** Win-back
+- **Who it's for:** Clients lapsed 60+ days
+- **Headline:** We are sorry we let you go. Say sorry back and we will make it worth it.
+- **What they get:** Come-back 1-Month Unlimited at 15% off (₹17,203). Finish 12 classes and half of what you paid (₹8,601) comes off a 3-Month Unlimited or bigger. Post your "public apology" story tagging the studio and that 3-Month also gets 7 extra days.
+- **Price:** ₹17,203 (list ₹20,239)
+- **When:** 1–31 Jul
+- **Why we're running it:** Turn monsoon comebacks into 3-month renewals by rewarding the rebuilt habit.
+- **Target:** 9 sales at about ₹17,203 each, ₹1.5L (₹1,54,826) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** A client who finishes 12 classes in a month has rebuilt the habit; the refund pays out only if they then commit for 3 months. The optional story is free content from a real returning client.
+
+### Offer 3 of 5: Punctuality Is My Love Language
+
+- **Type:** Renewal
+- **Who it's for:** Members expiring in July and August
+- **Headline:** Show up on time and we will show up for you.
+- **What they get:** Renew on a 3-Month at full price (₹57,855) and get 7 extra days. Members with zero late cancels and no-shows in their current term get 14 extra days and the "On Time, Every Time" water bottle instead.
+- **Price:** ₹57,855 (list ₹57,855)
+- **When:** 1–31 Jul
+- **Why we're running it:** Cut monsoon late cancels and reward the members who show up.
+- **Target:** 12 sales at about ₹57,855 each, ₹6.9L (₹6,94,260) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** Late cancels are highest from June to September. Rewarding a clean record does more than penalties alone, and it costs nothing for members who would cancel anyway.
+
+### Offer 4 of 5: The Broke Baddie Bailout
+
+- **Type:** Revenue boost
+- **Who it's for:** 1-Month members and new members ready for 3 months
+- **Headline:** Champagne taste, monsoon budget. Pay in three, glow in full.
+- **What they get:** 3-Month Unlimited at 12% off (₹50,912) paid in 3 monthly instalments, plus 1 extra freeze attempt.
+- **Price:** ₹50,912 (list ₹57,855)
+- **When:** 1–31 Jul
+- **Why we're running it:** Remove the price objection to the 3-Month in a slow month.
+- **Target:** 4 sales at about ₹50,912 each, ₹2L (₹2,03,650) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** The 3-Month renews far better than the 1-Month; instalments make the ticket feel like a 1-Month while locking in three months.
+
+### Offer 5 of 5: Red Alert, Red Hot
+
+- **Type:** Flash sale
+- **Who it's for:** Everyone
+- **Headline:** The city floods. Our prices drop. You stay dry indoors.
+- **What they get:** 12-class pack at 15% off (₹16,734) plus 1 bonus class, valid 60 days longer than usual. Announced on the morning of the alert.
+- **Price:** ₹16,734 (list ₹19,688)
+- **When:** The first IMD red-alert day in July, 12 hours from 9 am
+- **Why we're running it:** Turn the worst attendance day of the monsoon into a sales day.
+- **Target:** 6 sales at about ₹16,734 each, ₹1L (₹1,00,406) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%. Runs on the first IMD red-alert day in July; dates shown are the whole month.
+- **The data behind it:** Clients are home and on their phones on red-alert days. The longer validity answers the "I cannot come in this weather" objection.
+
+## Week by week
+
+- **Week 1:** W1: Sweating Through Your Dignity for Cash live; rebook policy live.
+- **Week 2:** W2: lapsed outreach (The Public Apology Tour); Red Alert flash on the first red-alert day.
+- **Week 3:** W3: renewals with the punctuality reward (Punctuality Is My Love Language).
+- **Week 4:** W4: instalment 3-Month push (The Broke Baddie Bailout); race sign-ups open.
+
+## Activation and channels
+
+- Activation: Monsoon class-count board: every new member's credit total (₹800 a class from class 10) updated daily. Red-alert flash on the first red-alert day. Free rebook for rained-out trials.

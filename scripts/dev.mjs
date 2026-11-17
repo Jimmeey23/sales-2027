@@ -2,8 +2,9 @@
 // and hands it to both the API server and the Vite proxy. Vite picks its own free port (strictPort: false).
 import 'dotenv/config';
 import net from 'node:net';
-import { spawn } from 'node:child_process';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import concurrently from 'concurrently';
 
 const isFree = port => new Promise(resolve => {
   const server = net.createServer().once('error', () => resolve(false));
@@ -15,11 +16,21 @@ let port = preferred;
 while (!(await isFree(port))) port++;
 if (port !== preferred) console.log(`API port ${preferred} is busy, using ${port}.`);
 
-// Run concurrently's own entry with this node, no shell: the project path contains spaces
-// ("Sales Plan 2027"), and a shell splits it into separate words.
-const concurrently = fileURLToPath(new URL('../node_modules/concurrently/dist/bin/concurrently.js', import.meta.url));
-const child = spawn(process.execPath, [concurrently, '-k', 'tsx watch server/main.ts', 'vite --host 0.0.0.0 --open'], {
-  stdio: 'inherit',
-  env: { ...process.env, PORT: String(port), API_PORT: String(port) },
-});
-child.on('exit', code => process.exit(code ?? 0));
+// Use concurrently's API in this process rather than spawning its CLI: the project path contains
+// spaces ("Sales Plan 2027"), and some Node builds pass argv differently, which made the CLI treat
+// its own path as a command. Put the project's bin folder on PATH so tsx and vite resolve even
+// when this file is run with plain `node` rather than through npm.
+const bin = fileURLToPath(new URL('../node_modules/.bin', import.meta.url));
+const env = {
+  PATH: `${bin}${path.delimiter}${process.env.PATH ?? ''}`,
+  PORT: String(port),
+  API_PORT: String(port),
+};
+const { result } = concurrently(
+  [
+    { command: 'tsx watch server/main.ts', env },
+    { command: 'vite --host 0.0.0.0 --open', env },
+  ],
+  { killOthersOn: ['failure', 'success'] },
+);
+result.then(() => process.exit(0), () => process.exit(1));

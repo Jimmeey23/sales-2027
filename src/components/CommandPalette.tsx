@@ -5,7 +5,6 @@ import { useApp } from '../App';
 import { NAV } from '../app/navigation';
 import { ALL_LOCATIONS_COLOR, LOCATION_COLORS, planningLocations } from '../data/locations';
 import { keyDatesFor } from '../data/keyDates';
-import { MONTH_THEMES } from '../data/planDefaults';
 import { MONTHS } from '../types';
 
 interface CmdItem {
@@ -55,7 +54,6 @@ export default function CommandPalette({
 
     const monthItems: CmdItem[] = MONTHS.map((name, idx) => {
       const m = idx + 1;
-      const theme = MONTH_THEMES[idx] || '';
       const fests = keyDatesFor(year, m)
         .map(d => d.name)
         .join(' ');
@@ -63,8 +61,8 @@ export default function CommandPalette({
         id: `month-${m}`,
         group: `${year} Monthly Plans`,
         label: `${name} ${year}`,
-        sub: theme,
-        keywords: `${name} ${name.slice(0, 3)} q${Math.ceil(m / 3)} ${theme} ${fests} month plan offers`,
+        sub: keyDatesFor(year, m)[0]?.name || '',
+        keywords: `${name} ${name.slice(0, 3)} q${Math.ceil(m / 3)} ${fests} month plan offers`,
         badge: `Q${Math.ceil(m / 3)}`,
         icon: Calendar,
         run: closeAnd(() => navigate(`/sales-plan/targets?month=${m}`)),

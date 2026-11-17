@@ -328,7 +328,7 @@ const monthFor = (target: number, theme: string, offerName: string) => ({
 
 const portfolio = {
   schema: 'p57-sales-plan/1',
-  version: 'v5-portfolio',
+  version: 'fixture-portfolio',
   generatedAt: '2026-11-01T12:00:00+00:00',
   year: 2027,
   totals: { target: 9000000, priorYear: 7000000, offers: 2, offerBankSize: 1 },
@@ -401,7 +401,7 @@ describe('a document that describes several locations', () => {
 
   it('keeps the year-level material the file carries', () => {
     const set = parseSalesPlanSet(portfolio);
-    expect(set.version).toBe('v5-portfolio');
+    expect(set.version).toBe('fixture-portfolio');
     expect(set.offerBank).toHaveLength(1);
     expect(set.dataGaps).toEqual(['Trial attendance is unmeasured.']);
     expect(set.changesFromPrevious).toHaveLength(1);

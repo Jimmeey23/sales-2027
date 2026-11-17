@@ -15,11 +15,14 @@ import { MONTHS, MONTHS_SHORT, money } from '../../types';
 import { Badge, Button } from '../../components/ui';
 import { api } from '../../api';
 import { useApp } from '../../App';
-import { ACTIVATIONS_2027 } from '../../data/activations';
+import { activationFor } from '../../data/activations';
 import { lakh, type PlanData } from './usePlanData';
 
 export function monthActivations(data: PlanData, month: number) {
-  const base = ACTIVATIONS_2027[month - 1],
+  // The month's activations come from its saved plan and the offers it picked (one location),
+  // or from the first location's plan when several are in view.
+  const saved = data.plans.map(p => p.detail?.plans?.find((x: any) => x.month === month)).find(Boolean);
+  const base = activationFor(saved, saved?.offers || []),
     seen = new Set<string>();
   const local = data.activations.filter(
     a => String(a.Month).startsWith(MONTHS_SHORT[month - 1]) && !seen.has(a.Activation) && seen.add(a.Activation),

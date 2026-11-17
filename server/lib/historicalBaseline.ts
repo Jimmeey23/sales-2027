@@ -6,23 +6,12 @@ import { db, audit } from '../db.js';
 import { hashPassword } from './auth.js';
 import { seedCredentialPlan } from './credentialPolicy.js';
 import { writeCredentialReport } from './sharedCredentials.js';
-import { ensurePlanJanFebSync } from './planSync2027.js';
 import { STUDIO_DEFINITIONS } from './studios.js';
 import { ensureCommercialSeed } from './commercialSeed.js';
 import { generateYearTargets } from './intelligence.js';
 import { recalculateSegments } from './segments.js';
-import { applyPlanOffers, applyPlanTargets, POPUP_SPLIT } from './plan2027.js';
-import { applySlotOffers } from './offerCatalog.js';
-import { applySalesOfferPlan } from './salesOfferPlan2027.js';
-import { applyMembershipLibrary } from './membershipLibrary2027.js';
+import { POPUP_SPLIT } from './plan2027.js';
 import { captureStandardBase } from './targetScenarios.js';
-import {
-  applyApprovedAlternatives2027,
-  applyApprovedPlan2027,
-  unapproveImportedPlan2027,
-  curateFinalPlan2027,
-} from './approvedPlan2027.js';
-import { clearMonthPicks2027, resetMonthPlans2027, ensureOfferBank2027, offerBankReady } from './offerBank2027.js';
 
 const readJson = (file: string) => JSON.parse(fs.readFileSync(path.resolve('server/data', file), 'utf8'));
 
@@ -786,7 +775,6 @@ export function ensureHistoricalCohorts(adminId: number | null) {
     string,
     Record<string, { net: number; partial: number; clients: number; new: number }>
   >;
-  const blrWorkbook = readJson('bengaluru-plan-2027.json') as any;
 
   const studiosByName = new Map(
     (db.prepare('SELECT id, name, city FROM studios').all() as Array<{ id: number; name: string; city: string }>).map(
@@ -1237,23 +1225,14 @@ export function ensureHistoricalCohorts(adminId: number | null) {
 
       // Checkins: 2025-01 .. 2026-10-22 (pseudonymous BLOB keys, mutually exclusive checked_in / late_cancelled)
       const formats = CLASS_FORMATS[studio.city === 'Mumbai' ? 'Mumbai' : 'Bengaluru'];
-      const blrMonthlyCheckins =
-        spec.name === 'Kenkere House'
-          ? blrWorkbook.targets['Kenkere House']
-          : spec.actualKey === 'STU_POP'
-            ? blrWorkbook.targets['Pop-up']
-            : null;
       let chkSeq = 0;
       for (const p of periodMonths) {
-        const wbMonth = blrMonthlyCheckins?.[p.month - 1];
-        const targetAttended = wbMonth
-          ? Math.round(wbMonth.checkins * spec.share * (p.partial ? 0.72 : p.year === 2025 ? 0.91 : 1))
-          : Math.round(
-              spec.monthlyCheckinsBase *
-                (p.partial ? 0.72 : 1) *
-                (p.year === 2025 ? 1 / Math.sqrt(spec.yoyRatio2026vs2025) : 1) *
-                (p.month === 4 || p.month === 1 || p.month === 8 ? 1.12 : p.month === 6 || p.month === 11 ? 0.9 : 1),
-            );
+        const targetAttended = Math.round(
+          spec.monthlyCheckinsBase *
+            (p.partial ? 0.72 : 1) *
+            (p.year === 2025 ? 1 / Math.sqrt(spec.yoyRatio2026vs2025) : 1) *
+            (p.month === 4 || p.month === 1 || p.month === 8 ? 1.12 : p.month === 6 || p.month === 11 ? 0.9 : 1),
+        );
         const bookings = Math.max(30, Math.round(targetAttended / spec.checkinRate));
         const maxDay = p.partial ? 22 : new Date(Date.UTC(p.year, p.month, 0)).getUTCDate();
         const activePool = Math.max(45, Math.round(targetAttended / 7.4));
@@ -1412,91 +1391,12 @@ export function ensureBaselineData() {
   );
   if (targets2027 === 0) {
     generateYearTargets(2027, adminId ?? undefined);
-    applyPlanTargets(2027, adminId);
     captureStandardBase(2027);
   }
 
+  // Offers and month plans are never seeded: they exist only once someone builds or imports
+  // them into the database.
   ensureCommercialSeed();
-
-  const planOffers2027 = Number(
-    (db.prepare("SELECT COUNT(*) n FROM offers WHERE year=2027 AND generation_source='plan_2027'").get() as any)?.n ||
-      0,
-  );
-  // Once the 2027 offer bank exists it is the only offer source; the old plan imports must never re-run.
-  if (planOffers2027 === 0 && !offerBankReady()) {
-    applyPlanOffers(2027, adminId);
-    applySlotOffers(2027, adminId);
-    applySalesOfferPlan(2027, adminId);
-    applyMembershipLibrary(2027, adminId);
-  }
-  const bank = ensureOfferBank2027();
-  if (bank)
-    audit({
-      userId: adminId,
-      action: 'offer_bank_2027',
-      entityType: 'system',
-      after: bank,
-      reason: 'Merged all 2027 offer sources into one bank per location.',
-    });
-  const cleared = clearMonthPicks2027();
-  if (cleared)
-    audit({
-      userId: adminId,
-      action: 'offer_month_picks_cleared_2027',
-      entityType: 'system',
-      after: cleared,
-      reason: 'Cleared every 2027 month plan; previously picked bank offers marked recommended.',
-    });
-  const skeleton = resetMonthPlans2027();
-  if (skeleton)
-    audit({
-      userId: adminId,
-      action: 'month_plans_skeleton_2027',
-      entityType: 'system',
-      after: skeleton,
-      reason: 'Reset every 2027 month plan to an empty skeleton.',
-    });
-  const approved = applyApprovedPlan2027();
-  if (approved)
-    audit({
-      userId: adminId,
-      action: 'approved_plan_2027',
-      entityType: 'system',
-      after: approved,
-      reason: 'Loaded the final approved 2027 Sales and Offer Plan (export of 29 Oct 2026).',
-    });
-  const alternatives = applyApprovedAlternatives2027();
-  if (alternatives)
-    audit({
-      userId: adminId,
-      action: 'approved_plan_alternatives_2027',
-      entityType: 'system',
-      after: alternatives,
-      reason: 'Added the alternatives considered in the approved 2027 plan to the offer bank (not picked).',
-    });
-  const unapproved = unapproveImportedPlan2027();
-  if (unapproved)
-    audit({
-      userId: adminId,
-      action: 'approved_plan_unapproved_2027',
-      entityType: 'system',
-      after: unapproved,
-      reason: 'Imported 2027 plan set back to draft for manual approval.',
-    });
-  const curated = curateFinalPlan2027();
-  if (curated)
-    audit({
-      userId: adminId,
-      action: 'final_plan_curated_2027',
-      entityType: 'system',
-      after: curated,
-      reason: 'Replaced older 2027 campaigns and playbook content with the final plan.',
-    });
-
-  // The approved plan is stored, not only shipped: every seeded database keeps its own copy of
-  // the months. Walk those copies forward when the plan itself changes (January lost the
-  // Stronger in 30 challenge to February), once per plan version.
-  ensurePlanJanFebSync();
 
   if (history.seeded) {
     audit({

@@ -3,8 +3,8 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { CheckSquare, Image, Megaphone, Target } from 'lucide-react';
 import { MONTHS, MONTHS_SHORT, money, number } from '../../types';
 import { Badge, Input, TableScroll } from '../../components/ui';
-import { ACTIVATIONS_2027, AD_SPLIT, CHANNEL_LABELS, CPL_BY_CITY, collateralFor } from '../../data/activations';
-import { OFFER_LIBRARY } from '../../data/offerLibrary';
+import { AD_SPLIT, CHANNEL_LABELS, CPL_BY_CITY, collateralFor } from '../../data/activations';
+import { monthActivations } from './CampaignsTab';
 import { lakh, type PlanData } from './usePlanData';
 import { selectedInMonth } from './TargetsTab';
 
@@ -34,8 +34,9 @@ export default function MarketingTab({ data }: { data: PlanData }) {
   const annual = budget.reduce((n, b) => n + b.spend, 0),
     row = data.months[month - 1],
     spend = budget[month - 1];
-  const activation = ACTIVATIONS_2027[month - 1],
-    hook = OFFER_LIBRARY.find(o => o.name.toLowerCase().startsWith(row.leadOffer.toLowerCase().split(' (')[0]))?.hook;
+  const activation = monthActivations(data, month).base,
+    // The lead offer's hook is its own headline, from the database.
+    hook = data.offers.find((o: any) => o.name === row.leadOffer)?.headline as string | undefined;
   const promos = selectedInMonth(data, month);
   return (
     <>

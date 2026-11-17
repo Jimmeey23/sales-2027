@@ -25,3 +25,6 @@ backups/
 # Large binaries stay out of Git; the narration text (public/explainer/narration) is committed.
 /public/explainer/video/
 /public/explainer/audio/
+
+# NotebookLM video drop folder (large binaries)
+/docs/notebooklm/_finished/

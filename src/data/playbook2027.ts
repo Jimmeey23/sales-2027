@@ -1,7 +1,7 @@
 // 2027 location sales playbooks — generated from the uploaded P57 exports (Sales, Leads, New clients,
-// Lapsed/renewals, Sessions, Check-ins, Memberships). Regenerate with scripts/playbook2027 (see README there).
-// All money is ₹ incl. GST. Do not hand-edit numbers; edit gen.py and regenerate. Headlines, diagnosis,
-// offers, months, rhythm and scorecard text are from the final approved 2027 plan.
+// Lapsed/renewals, Sessions, Check-ins, Memberships). All money is ₹ incl. GST. Do not hand-edit numbers.
+// Offers, month themes and month actions are not stored here: the playbook page reads them from the
+// month plans in the database.
 import type { PlaybookData } from '../components/Playbook2027';
 
 export const PLAYBOOK_2027: PlaybookData = {
@@ -53,22 +53,19 @@ export const PLAYBOOK_2027: PlaybookData = {
           title: 'Renewals carry the year',
           stat: '61%',
           detail: 'Renewal plan ₹241.6L of ₹398.0L; 968 renewal purchases planned from 1,420 due.',
-          implication:
-            'Renewal offers: Finish Line Renewal, Partners in Crime, Lock In Early, Club Nine, The Afterparty, The Pause Button, Midyear Report Card, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal.',
+          implication: '',
         },
         {
           title: 'New clients',
           stat: '236',
           detail: 'New-client plan ₹58.2L: 1,425 leads → 1,096 trials → 236 new buyers.',
-          implication:
-            'Newcomer offers: Week Zero, The Second Date for Two, The Second Date, Cloud Nine Intro, Mother Shaker Second Date, Week Zero: Home for the Summer, Kickstart 21: Race Ready Cohort, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+          implication: '',
         },
         {
           title: 'Lapsed clients',
           stat: '580',
           detail: 'Reactivation plan ₹47.9L: 580 reactivated from 7,258 touches.',
-          implication:
-            "Lapsed offers: Back for Stronger, It's Not You, It's Our Schedule, Beat Your Best, Since Day One, A Class for Mum, Out of Office, Not Out of Shape, Warm-Up Lap, Back on Track, The Return Policy, Come Home for Diwali, High-Value Homecoming, Your 2027 Wrapped.",
+          implication: '',
         },
         {
           title: 'Peak month: Apr',
@@ -88,42 +85,42 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Trial-to-member conversion',
             value: 1556929,
             math: '952 non-hosted first visits × (33.1% → 40.2%) = +68 members × ₹31,356 first-year value × 0.73 in-year realisation',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, The Second Date for Two, The Second Date, Cloud Nine Intro, Mother Shaker Second Date, Week Zero: Home for the Summer, Kickstart 21: Race Ready Cohort, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'leads',
             name: 'Online-lead speed to trial',
             value: 239069,
             math: '774 online leads × trial rate 25.1% → 28.1% × 45% trial→member = +10 members × ₹31,356 × 0.73',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, The Second Date for Two, The Second Date, Cloud Nine Intro, Mother Shaker Second Date, Week Zero: Home for the Summer, Kickstart 21: Race Ready Cohort, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'referral',
             name: 'Paid-on-conversion referral engine',
             value: 1044613,
             math: '224 referral leads × +50% volume × 40.6% lead→member = +46 members × ₹31,356 × 0.73',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, The Second Date for Two, The Second Date, Cloud Nine Intro, Mother Shaker Second Date, Week Zero: Home for the Summer, Kickstart 21: Race Ready Cohort, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'winback',
             name: 'Tiered win-back of dormant clients',
             value: 1872533,
             math: '370 loyal dormant (3+ purchases) × +10pts return + 476 light dormant × +5pts = +61 returners × ₹47,866 avg return spend (×0.8 / ×0.4)',
-            why: "Final plan: carried by the lapsed offers — Back for Stronger, It's Not You, It's Our Schedule, Beat Your Best, Since Day One, A Class for Mum, Out of Office, Not Out of Shape, Warm-Up Lap, Back on Track, The Return Policy, Come Home for Diwali, High-Value Homecoming, Your 2027 Wrapped.",
+            why: '',
           },
           {
             id: 'discount',
             name: 'Swap % discounts for value-adds',
             value: 2186651,
             math: 'Price: ₹383L gross × (17.6% → 9.1% effective discount) × 50% kept = ₹16.3L. Renewal: 457 discounted membership/pack sales × 60% moved to value-add × half the 19-pt repurchase gap × ₹21,581 = ₹5.6L',
-            why: 'Final plan: carried by the renewal offers — Finish Line Renewal, Partners in Crime, Lock In Early, Club Nine, The Afterparty, The Pause Button, Midyear Report Card, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal.',
+            why: '',
           },
           {
             id: 'usage',
             name: 'First-30-day habit programme',
             value: 85959,
             math: '58 unlimited memberships ended at ≤4 visits/month × 30% moved to 5–8 visits × +20pt renewal = +4 renewals × ₹16,164 × 1.5 cycles',
-            why: 'Final plan: carried by the renewal offers — Finish Line Renewal, Partners in Crime, Lock In Early, Club Nine, The Afterparty, The Pause Button, Midyear Report Card, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal.',
+            why: '',
           },
           {
             id: 'capacity',
@@ -137,7 +134,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Long-plan renewal desk',
             value: 630843,
             math: '36 annual/6-month plans worth ₹52.6L expire in 2027 × +20pt renewal × 60% of original value (many step down to 3-month/1-month)',
-            why: 'Final plan: carried by the renewal offers — Finish Line Renewal, Partners in Crime, Lock In Early, Club Nine, The Afterparty, The Pause Button, Midyear Report Card, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal.',
+            why: '',
           },
         ],
         leverTotal: 8134436.67,
@@ -145,711 +142,57 @@ export const PLAYBOOK_2027: PlaybookData = {
         projection: 43125370.15,
         appTargetAtBuild: 42000000,
       },
-      offers: [
-        {
-          name: 'The Second Date',
-          tag: 'Acquisition',
-          months: 'Mar',
-          audience: 'First-time clients starting with Barre.',
-          mechanic:
-            'Then any pack or membership at 15% off list (the standing new-client perk). Free first Barre class; Class 2 free within 7 days, booked at the desk; 15% within 72 hours of class 2; 10% until day 14',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹33.2k vs the ₹3.7L stream plan) · 19 buyers',
-          logic: 'March is a trough; protecting the second visit protects conversion.',
-          kpi: 'Second-visit share.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Beat Your Best',
-          tag: 'Win-back',
-          months: 'Mar',
-          audience: 'Lapsed clients with a recorded best month.',
-          mechanic:
-            '1M unlimited at 15% off the list price. 1M unlimited at 15% off list; Match your best month\'s class count → 2 complimentary classes',
-          economics:
-            '18.0% effective = 15% cash + 3.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹3.9L counted (+₹42k vs the ₹3.5L stream plan) · 49 buyers',
-          logic: 'Personal data sets a goal. 15% off brings them back, and the complimentary classes are earned by beating their own best month.',
-          kpi: 'Data build needed.',
-          lever: 'winback',
-        },
-        {
-          name: 'Lock In Early',
-          tag: 'Renewal',
-          months: 'Mar',
-          audience: 'Members expiring 1 Mar–15 Apr.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list; First booking window for anniversary party classes',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹14.4L counted (+₹28.2k vs the ₹14.1L stream plan) · 70 buyers',
-          logic: 'In 2026, ₹36.7L of Kwality\'s April came from early renewals at 30%+. A capped 10% for renewing before the anniversary takes that demand without the deep code.',
-          kpi: 'March renewals vs due.',
-          lever: 'annual',
-        },
-        {
-          name: 'Cloud Nine Intro',
-          tag: 'Acquisition',
-          months: 'Apr',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹1k for the 9-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). Unlimited Barre and powerCycle for 9 days (max 2 a day) + a Lab Induction seat (Kwality/Bandra); Buy any pack or membership within 72 hours of day 9: intro fee credited + standing 15% + anniversary tote (≈₹1,000)',
-          economics:
-            '21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.3L counted (+₹1.1L vs the ₹5.2L stream plan) · 24 buyers',
-          logic:
-            'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
-          kpi: 'Intro volume vs spare seats; intro → purchase (target 40%).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Since Day One',
-          tag: 'Win-back',
-          months: 'Apr',
-          audience: 'Lapsed clients (first-class date known).',
-          mechanic:
-            '12-class pack at 15% off the list price. 12-class pack at 15% off list; 1 complimentary class for each year since your first class (max 2)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.0L counted (+₹67.9k vs the ₹7.3L stream plan) · 84 buyers',
-          logic: 'Anniversary month, personal anniversary. 15% off a pack plus classes for each year makes the comeback personal. First-visit dates are in the Day End – New export.',
-          kpi: 'Personalisation needs a mail-merge of first-class dates.',
-          lever: 'winback',
-        },
-        {
-          name: 'Club Nine',
-          tag: 'Renewal',
-          months: 'Apr',
-          audience: 'Active members (and lapsed high-value clients).',
-          mechanic:
-            'Annual unlimited: ₹2.2L (list price). Annual unlimited at full list price, numbered 1–9 at each studio; 2 extra privates (4 in total with the standing 2); Name on the Club Nine wall; 48-hour early booking all year; 4 extra guest passes and an anniversary box',
-          economics:
-            '5.7% effective = 0% cash + 5.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹40.9L counted (+₹3.1L vs the ₹37.8L stream plan) · 130 buyers',
-          logic:
-            'Scarcity replaces a price lock (no list-price change in 2027). Kwality sells about 3 annuals a month, so 9 in April is a stretch but credible.',
-          kpi: 'Seat counter by studio. Effective ≈5.7% (Mumbai) / 6.6% (Bengaluru).',
-          lever: 'annual',
-        },
-        {
-          name: 'Mother Shaker Second Date',
-          tag: 'Acquisition',
-          months: 'May',
-          audience: 'A mother and a family member, both new.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). Free first Barre class for both; Class 2 booked together, free within 7 days; Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private',
-          economics:
-            '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹5.5L counted (+₹40.8k vs the ₹5.0L stream plan) · 27 buyers',
-          logic: 'Duo + booked second class.',
-          kpi: 'Both new.',
-          lever: 'conversion',
-        },
-        {
-          name: 'A Class for Mum',
-          tag: 'Win-back',
-          months: 'May',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '12-class pack: ₹16.7k (15% off the ₹19.7k list price). 12-class pack at the standing 15%; A free class for their mother (or any mum)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.2L counted (+₹28.8k vs the ₹3.9L stream plan) · 51 buyers',
-          logic: 'On-theme, cash cost unchanged, gift class is a warm lead.',
-          kpi: 'Gift classes booked.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Afterparty',
-          tag: 'Renewal',
-          months: 'May',
-          audience: 'April buyers and May renewers.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Book 8 classes in May → a free hosted class + a trainer progress check; Renew at list",
-          economics:
-            '2.0% effective = 0% cash + 2.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹15.2L counted (+₹29.9k vs the ₹14.9L stream plan) · 68 buyers',
-          logic: 'Target ≥55% of April commitment buyers renewing at next expiry (2026 code buyers: 24.5% at Kwality).',
-          kpi: 'April cohort attendance in May.',
-          lever: 'annual',
-        },
-        {
-          name: 'Week Zero: Home for the Summer',
-          tag: 'Acquisition',
-          months: 'Jun',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 7 days unlimited (max 2 a day); Credited within 72 hours against any pack or membership + standing 15%; Buy 1M before you travel → 1 virtual private to use abroad',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹5.5L counted (+₹61.2k vs the ₹4.9L stream plan) · 30 buyers',
-          logic: 'Short-stay visitors need a short, intense entry.',
-          kpi: 'Intro conversion.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Out of Office, Not Out of Shape',
-          tag: 'Win-back',
-          months: 'Jun',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M at the standing 15%; 2 extra freezes; A written travel workout plan',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.6L counted (+₹28.7k vs the ₹3.3L stream plan) · 49 buyers',
-          logic: 'Answers "I\'ll be away" without cash.',
-          kpi: 'Freeze usage.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Pause Button',
-          tag: 'Renewal',
-          months: 'Jun',
-          audience: '1M and 3M renewers.',
-          mechanic: '3M unlimited: ₹57.9k (list price). 3M unlimited at list; Unlimited freezes (use within 6 months)',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹18.3L counted (+₹2.8L vs the ₹15.5L stream plan) · 78 buyers',
-          logic: 'The best time of year for this offer: travel is the main reason to let a membership lapse.',
-          kpi: 'June renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Kickstart 21: Race Ready Cohort',
-          tag: 'Acquisition',
-          months: 'Jul',
-          audience: 'First-time clients.',
-          mechanic:
-            'Kickstart 21 cohort: ₹10k (list price). Cohort Mon 12 Jul → graduates 1 Aug, race day one; 21 days unlimited + coach, WhatsApp, fitness checks; Graduates: standing 15% within 7 days and a Rookie leaderboard entry',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.9L counted (−₹10.8k vs the ₹5.0L stream plan) · 23 buyers',
-          logic: 'Gives July a goal and a date; graduation lands on the race start.',
-          kpi: 'Graduates entering the race.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Warm-Up Lap',
-          tag: 'Win-back',
-          months: 'Jul',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M at the standing 15%, start 15 Jul–1 Aug; Free race-prep assessment; Full race entry',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.5L counted (+₹49.5k vs the ₹4.0L stream plan) · 56 buyers',
-          logic: 'An event with a date beats a discount for lapsed clients.',
-          kpi: 'Lapsed race entries.',
-          lever: 'winback',
-        },
-        {
-          name: 'Midyear Report Card',
-          tag: 'Renewal',
-          months: 'Jul',
-          audience: 'July renewers.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Personal half-year stats and a trainer review; Renew the recommended product at list → 2 guest passes",
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹19.6L counted (+₹86.2k vs the ₹18.8L stream plan) · 81 buyers',
-          logic: 'A mid-year version of Wrapped that moves members to the right product.',
-          kpi: 'Needs stats export.',
-          lever: 'annual',
-        },
-        {
-          name: 'Starting Gun Week',
-          tag: 'Acquisition',
-          months: 'Aug',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 7 days unlimited (max 2 a day); classes count on the Rookie leaderboard; Credited within 72 hours against any pack or membership + standing 15%; Race kit (bib and tote, ≈₹1,000) with the purchase',
-          economics:
-            '21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹90.9k vs the ₹5.8L stream plan) · 30 buyers',
-          logic:
-            'An individual race is intimidating for beginners; a Rookie leaderboard and an unlimited week make it winnable.',
-          kpi: 'Rookie entries; intro conversion.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back on Track',
-          tag: 'Win-back',
-          months: 'Aug',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹17.8k (12% off the ₹20.2k list price). 1M at 12% off; Finish the race target → +3 days',
-          economics:
-            '22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹54.3k vs the ₹3.5L stream plan) · 51 buyers',
-          logic: 'Race + earned bonus; max effective 22%.',
-          kpi: 'Lapsed racers finishing.',
-          lever: 'winback',
-        },
-        {
-          name: 'Pit Stop',
-          tag: 'Renewal',
-          months: 'Aug',
-          audience: 'Members expiring in August or early September.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list; race progress carries over; Race finishers get 2 complimentary classes; Upgrade to 3M with unlimited freezes',
-          economics:
-            '12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹23.6L counted (+₹1.5L vs the ₹22.1L stream plan) · 107 buyers',
-          logic: 'The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing.',
-          kpi: 'Race finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: '57-Day Proof',
-          tag: 'Acquisition',
-          months: 'Sep',
-          audience: 'First-time clients.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M unlimited at the standing 15%; Fitness check on day 1, coach check-ins; Re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures → your next month free',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹6.0L counted (−₹4.1k vs the ₹6.1L stream plan) · 24 buyers',
-          logic:
-            "A finish line before Diwali and a results promise carry new clients into October, Kenkere's weakest month.",
-          kpi: 'October renewals of September joiners.',
-          lever: 'conversion',
-        },
-        {
-          name: 'The Return Policy',
-          tag: 'Win-back',
-          months: 'Sep',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            '12-class pack: ₹17.3k (12% off the ₹19.7k list price). Free comeback class; Buy 1M or a 12-class pack within 7 days at 12% off + 1 bonus class',
-          economics:
-            '21.9% effective = 12% cash + 9.9% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹4.7L counted (+₹20.3k vs the ₹4.5L stream plan) · 47 buyers',
-          logic: 'Time-limited to keep decisions fast.',
-          kpi: 'Reactivations vs plan.',
-          lever: 'winback',
-        },
-        {
-          name: 'Festive Pause Button',
-          tag: 'Renewal',
-          months: 'Sep',
-          audience: '1M and 3M renewers.',
-          mechanic:
-            '3M unlimited at 10% off the list price. 3M at 10% off list; Unlimited freezes (use within 6 months); Festive gift (≈₹1,000)',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹24.2L counted (+₹2.2L vs the ₹22.1L stream plan) · 81 buyers',
-          logic: 'October–December are troughs. 10% off 3M with freezes locks members in through the festive gaps.',
-          kpi: '3M renewals.',
-          lever: 'annual',
-        },
-        {
-          name: 'Gift a Flight',
-          tag: 'Acquisition',
-          months: 'Oct',
-          audience: 'Anyone buying for a friend who is new to P57.',
-          mechanic:
-            'Intro: ₹2.5k for the Tasting Flight gift (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). A Tasting Flight as a Diwali gift card; The recipient follows the Flight journey; the fee is credited if they buy within 72 hours of class 3; The giver gets 1 bonus class when the recipient buys',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.3L counted (+₹95.8k vs the ₹7.4L stream plan) · 29 buyers',
-          logic:
-            'Gifting is real Diwali spend, and a Flight is a better gift than cash credit because it leads into the best-converting journey.',
-          kpi: 'Gift activations; recipient conversion.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Come Home for Diwali',
-          tag: 'Win-back',
-          months: 'Oct',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '12-class pack: ₹16.7k (15% off the ₹19.7k list price). 12-class pack at the standing 15% + a comeback class in Diwali week',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹5.0L counted (+₹31.2k vs the ₹4.7L stream plan) · 48 buyers',
-          logic: 'Simple and on-theme.',
-          kpi: 'Reactivations.',
-          lever: 'winback',
-        },
-        {
-          name: 'Renew & Gift',
-          tag: 'Renewal',
-          months: 'Oct',
-          audience: 'October renewers.',
-          mechanic:
-            'Renewal at 8% off your product\'s list price. Renew at 8% off list; 1 complimentary guest class to gift a friend',
-          economics:
-            '10.0% effective = 8% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹30.0L counted (+₹44.3k vs the ₹29.5L stream plan) · 108 buyers',
-          logic: 'A real 8% on the renewal, plus a class to give away, turns every renewal into a referral.',
-          kpi: 'Credit used on gifts.',
-          lever: 'annual',
-        },
-        {
-          name: 'Black Friday Week Zero',
-          tag: 'Acquisition',
-          months: 'Nov',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 7 days unlimited (max 2 a day); Credited within 72 hours against any pack or membership + standing 15%; Upgrade to 3M before day 21 of a 1M: the 1M amount is credited and the 3M gets unlimited freezes (use within 6 months)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹54k vs the ₹3.5L stream plan) · 20 buyers',
-          logic: 'Black Friday urgency without a deeper %.',
-          kpi: 'Intro conversion; day-21 upgrades.',
-          lever: 'conversion',
-        },
-        {
-          name: 'High-Value Homecoming',
-          tag: 'Win-back',
-          months: 'Nov',
-          audience: 'Lapsed clients with ≥₹50k lifetime spend.',
-          mechanic:
-            '3M unlimited: ₹49.2k (15% off the ₹57.9k list price). Manager call; 3M at the standing 15% + unlimited freezes + one 30-minute private',
-          economics:
-            '19.5% effective = 15% cash + 4.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹2.8L counted (+₹51.7k vs the ₹2.3L stream plan) · 30 buyers',
-          logic: 'These clients bought big before; 3M fits them.',
-          kpi: 'Effective ≈19.5–20% (amber vs 15% 3M+ guardrail).',
-          lever: 'winback',
-        },
-        {
-          name: 'Club Nine: Last Seats',
-          tag: 'Renewal',
-          months: 'Nov',
-          audience: 'Active members.',
-          mechanic: 'Annual unlimited: ₹2.2L (list price). Only the Club Nine seats unsold in April, same perks',
-          economics:
-            '5.7% effective = 0% cash + 5.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹13.0L counted (+₹1.1L vs the ₹11.9L stream plan) · 55 buyers',
-          logic: 'Closes the scarcity story.',
-          kpi: 'Seats remaining.',
-          lever: 'annual',
-        },
-        {
-          name: 'Kickstart 21: Pre-Solution Cohort',
-          tag: 'Acquisition',
-          months: 'Dec',
-          audience: 'First-time clients.',
-          mechanic:
-            'Kickstart 21 cohort: ₹10k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join the February challenge (2028) with a scaled target',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.7L counted (−₹11.9k vs the ₹4.8L stream plan) · 22 buyers',
-          logic: 'Personal data sets a goal. 15% off brings them back, and the complimentary classes are earned by beating their own best month.',
-          kpi: 'Pre-sales; January graduation.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Your 2027 Wrapped',
-          tag: 'Win-back',
-          months: 'Dec',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '12-class pack: ₹16.7k (15% off the ₹19.7k list price). Personal stats page (classes, favourite trainer, best month); 12-class pack at the standing 15% + a comeback class',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹5.7L counted (+₹60.2k vs the ₹5.1L stream plan) · 67 buyers',
-          logic: 'Year-in-review pages get shared; it reminds lapsed clients of their own habit.',
-          kpi: 'Stats export needed.',
-          lever: 'winback',
-        },
-        {
-          name: 'Challenge-Ready Renewal',
-          tag: 'Renewal',
-          months: 'Dec',
-          audience: 'Members expiring Dec–Jan.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list so the membership covers January and February\'s challenge; February challenge kit (≈₹1,000)',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹19.5L counted (+₹47.5k vs the ₹19.0L stream plan) · 88 buyers',
-          logic: 'A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December.',
-          kpi: 'December renewals of January expiries.',
-          lever: 'annual',
-        },
-        {
-          name: 'The First Seven Days',
-          tag: 'Acquisition',
-          months: 'Jan',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            "Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹55.7k vs the ₹3.6L stream plan) · 18 buyers',
-          logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back to the Barre',
-          tag: 'Win-back',
-          months: 'Jan',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Come back in January and the desk books your first four classes of the year",
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹50.4k vs the ₹3.6L stream plan) · 48 buyers',
-          logic:
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
-          kpi: 'Lapsed clients buying before 24 Jan.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Annual Re-Up',
-          tag: 'Renewal',
-          months: 'Jan',
-          audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. 10% off the renewal when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 93 buyers',
-          logic:
-            'January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price.',
-          kpi: 'Annuals re-upped; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Week Zero',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹55.7k vs the ₹3.6L stream plan) · 18 buyers',
-          logic:
-            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back for Stronger',
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.1L counted (+₹50.4k vs the ₹3.6L stream plan) · 48 buyers',
-          logic:
-            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
-          kpi: 'Lapsed clients entering the challenge.',
-          lever: 'winback',
-        },
-        {
-          name: 'Finish Line Renewal',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Active members renewing in late February or early March.',
-          mechanic:
-            'Renewal at 12% off your product\'s list price. Challenge finishers renew at 12% off list; Members who reach 50% of the target renew at 8% off list',
-          economics:
-            '12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹20.7L counted (+₹50.4k vs the ₹20.1L stream plan) · 95 buyers',
-          logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
-          kpi: 'Challenge finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'The Second Date for Two',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'Two first-timers who trial together.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; Free first Barre class for both; Class 2 booked together before leaving, free within 7 days; Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private; Both enter Stronger in 30 2.0 on purchase; both count as finishers if they hit the target',
-          economics:
-            '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹3.5L counted (+₹34.1k vs the ₹3.2L stream plan) · 21 buyers',
-          logic:
-            'Replaces BOGO (mostly existing clients, 33–53% renewal). Pairs keep each other attending, and the booked second class is the lever. Pairing them into the challenge gives the second class a deadline.',
-          kpi: 'Both new (check in Momence).',
-          lever: 'conversion',
-        },
-        {
-          name: "It's Not You, It's Our Schedule",
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited at the standing 15% lapsed perk; 2 extra freezes so travel can't break it again; A free comeback class to book first; Entry to Stronger in 30 2.0, target scaled to the return date",
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.4L counted (+₹20.1k vs the ₹2.2L stream plan) · 36 buyers',
-          logic: "Valentine's gives a story without a deeper discount; freezes answer the most common lapse reason.",
-          kpi: 'Message open-to-buy rate.',
-          lever: 'winback',
-        },
-        {
-          name: 'Partners in Crime',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Two active members renewing in the same week.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Both partners renew at 10% off list when you renew together; Both enter Stronger in 30 2.0',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹16.1L counted (+₹23.8k vs the ₹15.8L stream plan) · 88 buyers',
-          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
-          kpi: 'Next-renewal rate of pairs vs singles.',
-          lever: 'annual',
-        },
-      ],
+      offers: [],
       months: [
         {
           month: 'Jan',
-          event: 'New Year · seven days unlimited · the annual re-up',
-          theme: 'Start Line',
-          focus:
-            'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
-          offers: ['The First Seven Days', 'Back to the Barre', 'The Annual Re-Up'],
-          actions: [
-            'The First Seven Days: Seven days unlimited. Then decide.',
-            'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
-            "The Annual Re-Up: The January annuals renew at list, and the rate for the year is settled in one sitting.",
-          ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. The month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
         },
         {
           month: 'Feb',
-          event: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-          theme: 'Stronger in 30 2.0',
-          focus:
-            "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
-          offers: [
-            'Week Zero',
-            'Back for Stronger',
-            'Finish Line Renewal',
-            'The Second Date for Two',
-            "It's Not You, It's Our Schedule",
-            'Partners in Crime',
-          ],
-          actions: [
-            'Week Zero: Seven days unlimited. Then the challenge clock starts.',
-            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Feb.",
-            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
-            'The Second Date for Two: Bring someone. You both join the challenge.',
-            "It's Not You, It's Our Schedule: Let's try again. This time with freezes — and a challenge to come back for.",
-            'Partners in Crime: Renew with your workout partner. You both finish the challenge.',
-          ],
-          why: "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
         },
         {
           month: 'Mar',
-          event: "International Women's Day (Mon 8 Mar)",
-          theme: 'She Moves',
-          focus: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
-          offers: ['The Second Date', 'Beat Your Best', 'Lock In Early'],
-          actions: [
-            'The Second Date: Your second class is booked before you leave.',
-            "Beat Your Best: Remember March 2025? 18 classes. Let's beat it.",
-            'Lock In Early: Renew in March, keep the anniversary perks.',
-          ],
-          why: 'Class of 2024 Reunion at Bandra (638 lapsed launch-cohort clients). Anniversary teaser from 16 Mar.',
         },
         {
           month: 'Apr',
-          event: '9 years of Physique 57 India · first ₹1 Cr month',
-          theme: 'Cloud Nine (9th anniversary)',
-          focus:
-            "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
-          offers: ['Cloud Nine Intro', 'Since Day One', 'Club Nine'],
-          actions: [
-            'Cloud Nine Intro: Nine days unlimited for less than one class.',
-            'Since Day One: You first shook with us on 12 Jun 2023. One class for every year.',
-            'Club Nine: Nine numbered memberships per studio. Full price. Founder perks.',
-          ],
-          why: 'Club Nine: 9 numbered annual memberships per studio at full price. Anniversary party classes in week 2. Hard close 30 Apr, 23:59.',
         },
         {
           month: 'May',
-          event: "Mother's Day (Sun 9 May)",
-          theme: 'The Afterparty',
-          focus:
-            'Retain the April cohort (target ≥55% renewal at next expiry vs 24.5% for 2026 anniversary-code buyers at Kwality); duo acquisition.',
-          offers: ['Mother Shaker Second Date', 'A Class for Mum', 'The Afterparty'],
-          actions: [
-            'Mother Shaker Second Date: Bring your mum. Both second classes are on us.',
-            'A Class for Mum: Come back, and bring your mother for free.',
-            'The Afterparty: Book 8 in May; get a hosted class and a progress check.',
-          ],
-          why: 'Every April buyer gets the 30-day Afterparty plan: week-1 call, 8 classes in May unlocks a hosted class and a progress check.',
         },
         {
           month: 'Jun',
-          event: "Summer travel · college holidays · Father's Day (Sun 20 Jun)",
-          theme: 'Out of Office',
-          focus: 'Stop summer lapses; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.',
-          offers: ['Week Zero: Home for the Summer', 'Out of Office, Not Out of Shape', 'The Pause Button'],
-          actions: [
-            'Week Zero: Home for the Summer: Back in town? A week unlimited, credited if you stay.',
-            "Out of Office, Not Out of Shape: Freeze when you fly. Train when you're home.",
-            'The Pause Button: Three months unlimited. Freeze it as often as you like.',
-          ],
-          why: 'Golden Hours launch for students and under-25s.',
         },
         {
           month: 'Jul',
-          event: 'Monsoon · Amazing Race warm-up',
-          theme: 'Monsoon I: Rain Check',
-          focus:
-            'Attendance and late cancels (Kenkere 21–30%); get people on a membership before the race starts on 1 Aug.',
-          offers: ['Kickstart 21: Race Ready Cohort', 'Warm-Up Lap', 'Midyear Report Card'],
-          actions: [
-            'Kickstart 21: Race Ready Cohort: 21 days that end on the Amazing Race start line.',
-            'Warm-Up Lap: Get race-fit before the gun goes on 1 August.',
-            'Midyear Report Card: Your half-year, in numbers.',
-          ],
-          why: 'Race registrations open 15 Jul. Monsoon Streak leaderboard by studio.',
         },
         {
           month: 'Aug',
-          event: 'Month-long individual race · Friendship Day (Sun 1 Aug)',
-          theme: 'The Amazing Race 2.0',
-          focus:
-            'Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; second seasonal peak in Mumbai.',
-          offers: ['Starting Gun Week', 'Back on Track', 'Pit Stop'],
-          actions: [
-            'Starting Gun Week: Seven days unlimited from the day the race starts.',
-            'Back on Track: Your lane is still open.',
-            'Pit Stop: Renew mid-race and keep your streak.',
-          ],
-          why: 'The Amazing Race 2.0: every client races on their own against a studio leaderboard, 1–31 Aug. Rookie leaderboard for first-timers.',
         },
         {
           month: 'Sep',
-          event: '57 days to Diwali (2 Sep → 28 Oct)',
-          theme: 'Monsoon III: The Comeback',
-          focus: 'Reactivate before the festive season; carry race momentum into a festive countdown.',
-          offers: ['57-Day Proof', 'The Return Policy', 'Festive Pause Button'],
-          actions: [
-            '57-Day Proof: Measure on day 1. Re-test before Diwali.',
-            'The Return Policy: Come back within 7 days of your comeback class and get a bonus.',
-            'Festive Pause Button: Renew 3 months; Diwali and year-end travel covered.',
-          ],
-          why: '57 Days to Diwali countdown starts 2 Sep; Bandra reunion repeat.',
         },
         {
           month: 'Oct',
-          event: 'Diwali (Fri 29 Oct) · Dasara week in Bengaluru',
-          theme: 'Festival of Lights',
-          focus: "Gift-led revenue; protect Kenkere's Dasara trough; catch Kwality's late-October surge without codes.",
-          offers: ['Gift a Flight', 'Come Home for Diwali', 'Renew & Gift'],
-          actions: [
-            'Gift a Flight: Give someone three classes and a reason to stay.',
-            "Come Home for Diwali: Your mat's still here.",
-            'Renew & Gift: Renew in October; 5% back to spend on a gift card.',
-          ],
-          why: 'Gift cards on sale from 1 Oct; candle-lit evening classes in Diwali week; limited-run format #3.',
         },
         {
           month: 'Nov',
-          event: 'Black Friday (Fri 26 Nov) → Cyber Monday (29 Nov)',
-          theme: 'Black Friday, Strong Monday',
-          focus: 'Long commitments in the softest Mumbai month.',
-          offers: ['Black Friday Week Zero', 'High-Value Homecoming', 'Club Nine: Last Seats'],
-          actions: [
-            'Black Friday Week Zero: Seven days unlimited, fully credited.',
-            'High-Value Homecoming: A manager call, three flexible months and a private.',
-            'Club Nine: Last Seats: The last numbered seats.',
-          ],
-          why: 'Club Nine last seats (only those unsold in April).',
         },
         {
           month: 'Dec',
-          event: 'Year-end · pre-sell January',
-          theme: 'Wrapped',
-          focus: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
-          offers: ['Kickstart 21: Pre-Solution Cohort', 'Your 2027 Wrapped', 'Challenge-Ready Renewal'],
-          actions: [
-            'Kickstart 21: Pre-Solution Cohort: Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
-            "Your 2027 Wrapped: You took 87 classes with us. Here's to the next year.",
-            "Challenge-Ready Renewal: Renew in December so you're covered for the whole February challenge.",
-          ],
-          why: '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
         },
       ],
       rhythm: [
         [
           'Newcomer journey',
-          "Offers: Week Zero, The Second Date for Two, The Second Date, Cloud Nine Intro, Mother Shaker Second Date, Week Zero: Home for the Summer, Kickstart 21: Race Ready Cohort, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
         [
           'Lapsed journey',
-          "Offers: Back for Stronger, It's Not You, It's Our Schedule, Beat Your Best, Since Day One, A Class for Mum, Out of Office, Not Out of Shape, Warm-Up Lap, Back on Track, The Return Policy, Come Home for Diwali, High-Value Homecoming, Your 2027 Wrapped. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
         [
           'Renewal journey',
-          "Offers: Finish Line Renewal, Partners in Crime, Lock In Early, Club Nine, The Afterparty, The Pause Button, Midyear Report Card, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
       ],
       scorecard: [
@@ -927,22 +270,19 @@ export const PLAYBOOK_2027: PlaybookData = {
           title: 'Renewals carry the year',
           stat: '66%',
           detail: 'Renewal plan ₹151.7L of ₹228.2L; 692 renewal purchases planned from 991 due.',
-          implication:
-            'Renewal offers: Finish Line Renewal, Partners in Crime, Lock In Early, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal.',
+          implication: '',
         },
         {
           title: 'New clients',
           stat: '217',
           detail: 'New-client plan ₹37.0L: 2,125 leads → 1,213 trials → 217 new buyers.',
-          implication:
-            'Newcomer offers: Week Zero, The 30-Day Proof, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Mother Shaker Second Date, Golden Hours Flight, Kickstart 21: Race Ready Cohort, Starting Gun Week, The Second Date, Festival of Lights Second Date, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+          implication: '',
         },
         {
           title: 'Lapsed clients',
           stat: '369',
           detail: 'Reactivation plan ₹23.3L: 369 reactivated from 4,612 touches.',
-          implication:
-            'Lapsed offers: Back for Stronger, Come Back as a Pair, Class of 2024 Reunion, Nine Years, Nine Reasons, The Comeback Squad, Pay-As-You-Return, Warm-Up Lap, Back on Track, We Kept Your Spot, Come Home for Diwali, Black Friday Comeback, Challenge Comeback Ticket.',
+          implication: '',
         },
         {
           title: 'Peak month: Apr',
@@ -962,42 +302,42 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Trial-to-member conversion',
             value: 1459188,
             math: '1,087 non-hosted first visits × (23.3% → 30.9%) = +83 members × ₹24,008 first-year value × 0.73 in-year realisation',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, The 30-Day Proof, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Mother Shaker Second Date, Golden Hours Flight, Kickstart 21: Race Ready Cohort, Starting Gun Week, The Second Date, Festival of Lights Second Date, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'leads',
             name: 'Online-lead speed to trial',
             value: 168333,
             math: '1,145 online leads × trial rate 28.8% → 31.8% × 28% trial→member = +10 members × ₹24,008 × 0.73',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, The 30-Day Proof, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Mother Shaker Second Date, Golden Hours Flight, Kickstart 21: Race Ready Cohort, Starting Gun Week, The Second Date, Festival of Lights Second Date, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'referral',
             name: 'Paid-on-conversion referral engine',
             value: 588862,
             math: '299 referral leads × +50% volume × 22.4% lead→member = +33 members × ₹24,008 × 0.73',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, The 30-Day Proof, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Mother Shaker Second Date, Golden Hours Flight, Kickstart 21: Race Ready Cohort, Starting Gun Week, The Second Date, Festival of Lights Second Date, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'winback',
             name: 'Tiered win-back of dormant clients',
             value: 932979,
             math: '234 loyal dormant (3+ purchases) × +10pts return + 446 light dormant × +5pts = +46 returners × ₹33,755 avg return spend (×0.8 / ×0.4)',
-            why: 'Final plan: carried by the lapsed offers — Back for Stronger, Come Back as a Pair, Class of 2024 Reunion, Nine Years, Nine Reasons, The Comeback Squad, Pay-As-You-Return, Warm-Up Lap, Back on Track, We Kept Your Spot, Come Home for Diwali, Black Friday Comeback, Challenge Comeback Ticket.',
+            why: '',
           },
           {
             id: 'discount',
             name: 'Swap % discounts for value-adds',
             value: 729228,
             math: 'Price: ₹220L gross × (12.7% → 9.3% effective discount) × 50% kept = ₹3.7L. Renewal: 446 discounted membership/pack sales × 60% moved to value-add × half the 14-pt repurchase gap × ₹19,617 = ₹3.6L',
-            why: 'Final plan: carried by the renewal offers — Finish Line Renewal, Partners in Crime, Lock In Early, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal.',
+            why: '',
           },
           {
             id: 'usage',
             name: 'First-30-day habit programme',
             value: 64195,
             math: '43 unlimited memberships ended at ≤4 visits/month × 30% moved to 5–8 visits × +20pt renewal = +3 renewals × ₹16,283 × 1.5 cycles',
-            why: 'Final plan: carried by the renewal offers — Finish Line Renewal, Partners in Crime, Lock In Early, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal.',
+            why: '',
           },
           {
             id: 'privates',
@@ -1011,7 +351,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Long-plan renewal desk',
             value: 335253,
             math: '20 annual/6-month plans worth ₹27.9L expire in 2027 × +20pt renewal × 60% of original value (many step down to 3-month/1-month)',
-            why: 'Final plan: carried by the renewal offers — Finish Line Renewal, Partners in Crime, Lock In Early, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal.',
+            why: '',
           },
         ],
         leverTotal: 4671226.32,
@@ -1019,711 +359,57 @@ export const PLAYBOOK_2027: PlaybookData = {
         projection: 23560223.23,
         appTargetAtBuild: 22820000,
       },
-      offers: [
-        {
-          name: 'Kickstart 21: She Moves Cohort',
-          tag: 'Acquisition',
-          months: 'Mar',
-          audience: 'First-time clients.',
-          mechanic:
-            "Kickstart 21 cohort: ₹10k (list price). Cohort starts Mon 8 Mar (Women's Day); second cohort Mon 22 Mar; 21 days unlimited + coach, WhatsApp group, fitness checks, graduation; Each member gets a free class to gift a woman she nominates; Graduates: standing 15% within 7 days",
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.7L counted (+₹1.9k vs the ₹2.6L stream plan) · 17 buyers',
-          logic: 'Purpose-led reach with the engagement of a cohort; the gift class creates warm leads.',
-          kpi: 'Nominee classes converted.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Class of 2024 Reunion',
-          tag: 'Win-back',
-          months: 'Mar',
-          audience: 'Clients lapsed 61 days–2 years (Bandra priority: 2024 opening cohort).',
-          mechanic:
-            '12-class pack: ₹17.3k (12% off the ₹19.7k list price). Free reunion class; Buy within 7 days: 12-class pack at 12% off + 1 bonus class',
-          economics:
-            '21.9% effective = 12% cash + 9.9% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹38.5k vs the ₹1.9L stream plan) · 42 buyers',
-          logic:
-            'In 2026, ₹36.7L of Kwality\'s April came from early renewals at 30%+. A capped 10% for renewing before the anniversary takes that demand without the deep code.',
-          kpi: 'RSVPs → attendance → purchase. Repeat in September.',
-          lever: 'winback',
-        },
-        {
-          name: 'Lock In Early',
-          tag: 'Renewal',
-          months: 'Mar',
-          audience: 'Members expiring 1 Mar–15 Apr.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list; First booking window for anniversary party classes',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.3L counted (+₹16.2k vs the ₹8.1L stream plan) · 37 buyers',
-          logic: "In 2026, ₹36.7L of Kwality's April came from early renewals at 30%+. Bonus time protects the ticket.",
-          kpi: 'March renewals vs due.',
-          lever: 'annual',
-        },
-        {
-          name: 'Cloud Nine Intro',
-          tag: 'Acquisition',
-          months: 'Apr',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹1k for the 9-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). Unlimited Barre and powerCycle for 9 days (max 2 a day) + a Lab Induction seat (Kwality/Bandra); Buy any pack or membership within 72 hours of day 9: intro fee credited + standing 15% + anniversary tote (≈₹1,000)',
-          economics:
-            '21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹5.7L counted (+₹98.1k vs the ₹4.7L stream plan) · 32 buyers',
-          logic:
-            'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
-          kpi: 'Intro volume vs spare seats; intro → purchase (target 40%).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Nine Years, Nine Reasons',
-          tag: 'Win-back',
-          months: 'Apr',
-          audience: 'Clients lapsed 61 days–2 years.',
-          mechanic:
-            '12-class pack: ₹16.7k (15% off the ₹19.7k list price). A personal note listing 9 things new at your studio (formats, trainers, schedule); 12-class pack at the standing 15% lapsed perk; Invite to an anniversary party class',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.5L counted (+₹62.4k vs the ₹3.8L stream plan) · 62 buyers',
-          logic:
-            'Lapsed clients left something that no longer exists; showing what\'s new answers "why go back". April has the most attention of the year.',
-          kpi: 'Bandra needs 54 reactivations in April from 673 touches.',
-          lever: 'winback',
-        },
-        {
-          name: 'Lock In Before You Clock Out',
-          tag: 'Renewal',
-          months: 'Apr',
-          audience: 'Members expiring 1 Apr–15 Jun only.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list; Packs also get 2 complimentary classes',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹23.0L counted (+₹88.3k vs the ₹22.1L stream plan) · 106 buyers',
-          logic:
-            '2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price, so the cut is capped at 10% and eligibility stays restricted to limit pull-forward.',
-          kpi: 'Renewal purchases vs due (plan KH 130 vs 120 due).',
-          lever: 'annual',
-        },
-        {
-          name: 'Mother Shaker Second Date',
-          tag: 'Acquisition',
-          months: 'May',
-          audience: 'A mother and a family member, both new.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). Free first Barre class for both; Class 2 booked together, free within 7 days; Both buy within 72 hours of class 2: standing 15% each + one shared 30-minute duo private',
-          economics:
-            '21.5% effective = 15% cash + 6.5% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹4.2L counted (+₹45.5k vs the ₹3.7L stream plan) · 30 buyers',
-          logic: 'A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December.',
-          kpi: 'Both new.',
-          lever: 'conversion',
-        },
-        {
-          name: 'The Comeback Squad',
-          tag: 'Win-back',
-          months: 'May',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M unlimited at the standing 15%; A fixed weekly squad class, trainer WhatsApp group, week-4 check-in',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.1L counted (+₹28.8k vs the ₹1.8L stream plan) · 32 buyers',
-          logic: 'Reactivations renew at only 37–47%; a squad builds the habit first.',
-          kpi: 'Squad members renewing at 1M end.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Afterparty',
-          tag: 'Renewal',
-          months: 'May',
-          audience: 'April buyers and May renewers.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Book 8 classes in May → a free hosted class + a trainer progress check; Renew at list",
-          economics:
-            '2.0% effective = 0% cash + 2.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹12.1L counted (+₹23.7k vs the ₹11.9L stream plan) · 65 buyers',
-          logic: 'A real 8% on the renewal, plus a class to give away, turns every renewal into a referral.',
-          kpi: 'April cohort attendance in May.',
-          lever: 'annual',
-        },
-        {
-          name: 'Golden Hours Flight',
-          tag: 'Acquisition',
-          months: 'Jun',
-          audience: 'Students or under-25s with ID.',
-          mechanic:
-            'Intro: ₹1.5k for the Student Tasting Flight (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. 8-class pack: ₹10.5k (20% off the ₹13.1k list price). 3 classes in 10 days in weekday 10–12 or weekend 4–7 pm classes; Full fee credited within 72 hours against the Golden Hours 8-class pack (20% off, valid in those slots only)',
-          economics:
-            '20.0% effective = 20% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.3L counted (+₹12.5k vs the ₹3.2L stream plan) · 24 buyers',
-          logic: 'Those slots run at 27–41% fill; students fill them without cannibalising peak classes.',
-          kpi: 'Golden Hours fill.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Pay-As-You-Return',
-          tag: 'Win-back',
-          months: 'Jun',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '4-class pack: ₹7.1k (list price). 4-class pack at list; Buy a 12-class pack within 14 days → the full 4-pack price is credited',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.2L counted (+₹14k vs the ₹1.1L stream plan) · 23 buyers',
-          logic: "Lowest barrier to return; Bandra's reactivation rate is the lowest in the group (2.8% a month).",
-          kpi: '4 → 12 ladder rate.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Pause Button',
-          tag: 'Renewal',
-          months: 'Jun',
-          audience: '1M and 3M renewers.',
-          mechanic: '3M unlimited: ₹57.9k (list price). 3M unlimited at list; Unlimited freezes (use within 6 months)',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹11.6L counted (+₹1.5L vs the ₹10.1L stream plan) · 52 buyers',
-          logic: 'The best time of year for this offer: travel is the main reason to let a membership lapse.',
-          kpi: 'June renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Kickstart 21: Race Ready Cohort',
-          tag: 'Acquisition',
-          months: 'Jul',
-          audience: 'First-time clients.',
-          mechanic:
-            'Kickstart 21 cohort: ₹10k (list price). Cohort Mon 12 Jul → graduates 1 Aug, race day one; 21 days unlimited + coach, WhatsApp, fitness checks; Graduates: standing 15% within 7 days and a Rookie leaderboard entry',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹2.5k vs the ₹3.9L stream plan) · 24 buyers',
-          logic: 'Gives July a goal and a date; graduation lands on the race start.',
-          kpi: 'Graduates entering the race.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Warm-Up Lap',
-          tag: 'Win-back',
-          months: 'Jul',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M at the standing 15%, start 15 Jul–1 Aug; Free race-prep assessment; Full race entry',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.0L counted (+₹26.7k vs the ₹1.8L stream plan) · 30 buyers',
-          logic: 'An event with a date beats a discount for lapsed clients.',
-          kpi: 'Lapsed race entries.',
-          lever: 'winback',
-        },
-        {
-          name: 'Monsoon Streak',
-          tag: 'Renewal',
-          months: 'Jul',
-          audience: 'July renewers.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Renew at list; 12+ classes and zero late cancels in July → +7 days (unlimited) or +1 class (packs)",
-          economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹14.5L counted (+₹28.4k vs the ₹14.2L stream plan) · 64 buyers',
-          logic:
-            "Fixes behaviour and revenue together; Bandra's 2025 late-cancel spike fell once the rule was enforced.",
-          kpi: 'Late-cancel rate (Kenkere target <15%).',
-          lever: 'annual',
-        },
-        {
-          name: 'Starting Gun Week',
-          tag: 'Acquisition',
-          months: 'Aug',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 7 days unlimited (max 2 a day); classes count on the Rookie leaderboard; Credited within 72 hours against any pack or membership + standing 15%; Race kit (bib and tote, ≈₹1,000) with the purchase',
-          economics:
-            '21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹3.7L counted (+₹50.1k vs the ₹3.2L stream plan) · 23 buyers',
-          logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
-          kpi: 'Rookie entries; intro conversion.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back on Track',
-          tag: 'Win-back',
-          months: 'Aug',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹17.8k (12% off the ₹20.2k list price). 1M at 12% off; Finish the race target → +3 days',
-          economics:
-            '22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹2.9L counted (+₹41.7k vs the ₹2.5L stream plan) · 39 buyers',
-          logic: 'Race + earned bonus; max effective 22%.',
-          kpi: 'Lapsed racers finishing.',
-          lever: 'winback',
-        },
-        {
-          name: 'Pit Stop',
-          tag: 'Renewal',
-          months: 'Aug',
-          audience: 'Members expiring in August or early September.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list; race progress carries over; Race finishers get 2 complimentary classes; Upgrade to 3M with unlimited freezes',
-          economics:
-            '12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹19.2L counted (+₹1.2L vs the ₹18.0L stream plan) · 83 buyers',
-          logic: 'The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing.',
-          kpi: 'Race finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'The Second Date',
-          tag: 'Acquisition',
-          months: 'Sep',
-          audience: 'First-time clients starting with Barre.',
-          mechanic:
-            'Then any pack or membership at 15% off list (the standing new-client perk). Free first Barre class; Class 2 free within 7 days, booked at the desk; 15% within 72 hours of class 2; 10% until day 14',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.5L counted (+₹28.6k vs the ₹3.2L stream plan) · 24 buyers',
-          logic: 'Core fix.',
-          kpi: 'Second-visit share.',
-          lever: 'conversion',
-        },
-        {
-          name: 'We Kept Your Spot',
-          tag: 'Win-back',
-          months: 'Sep',
-          audience: 'Lapsed clients with a most-booked trainer.',
-          mechanic:
-            '12-class pack: ₹16.7k (15% off the ₹19.7k list price). Message from that trainer with a reserved spot in their class; 12-class pack at the standing 15%',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.5L counted (+₹38.3k vs the ₹2.1L stream plan) · 41 buyers',
-          logic: 'Trainer relationships are what clients miss.',
-          kpi: 'Needs most-booked trainer per client.',
-          lever: 'winback',
-        },
-        {
-          name: 'Festive Pause Button',
-          tag: 'Renewal',
-          months: 'Sep',
-          audience: '1M and 3M renewers.',
-          mechanic:
-            '3M unlimited at 10% off the list price. 3M at 10% off list; Unlimited freezes (use within 6 months); Festive gift (≈₹1,000)',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹13.0L counted (+₹1.6L vs the ₹11.4L stream plan) · 64 buyers',
-          logic: '2026 anniversary-code buyers renewed at 24.5% at Kwality vs 61.6% at full price, so the cut is capped at 10% and eligibility stays restricted to limit pull-forward.',
-          kpi: '3M renewals.',
-          lever: 'annual',
-        },
-        {
-          name: 'Festival of Lights Second Date',
-          tag: 'Acquisition',
-          months: 'Oct',
-          audience: 'First-timers at candle-lit 7 pm classes in Diwali week.',
-          mechanic:
-            'Then any pack or membership at 15% off list (the standing new-client perk). Free candle-lit class; Class 2 booked at the door, free within 7 days; 15% within 72 hours of class 2',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.2L counted (+₹26.4k vs the ₹2.9L stream plan) · 24 buyers',
-          logic: 'Hosted first visits convert at 1–3% today; booking the second class at the door is the fix.',
-          kpi: 'Door bookings.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Come Home for Diwali',
-          tag: 'Win-back',
-          months: 'Oct',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '12-class pack: ₹16.7k (15% off the ₹19.7k list price). 12-class pack at the standing 15% + a comeback class in Diwali week',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.0L counted (+₹28.8k vs the ₹1.8L stream plan) · 35 buyers',
-          logic: 'Simple and on-theme.',
-          kpi: 'Reactivations.',
-          lever: 'winback',
-        },
-        {
-          name: 'Renew & Gift',
-          tag: 'Renewal',
-          months: 'Oct',
-          audience: 'October renewers.',
-          mechanic:
-            'Renewal at 8% off your product\'s list price. Renew at 8% off list; 1 complimentary guest class to gift a friend',
-          economics:
-            '10.0% effective = 8% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹10.9L counted (+₹16.1k vs the ₹10.7L stream plan) · 59 buyers',
-          logic: 'Turns renewal value into new-client acquisition.',
-          kpi: 'Credit used on gifts.',
-          lever: 'annual',
-        },
-        {
-          name: 'Black Friday Week Zero',
-          tag: 'Acquisition',
-          months: 'Nov',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 7 days unlimited (max 2 a day); Credited within 72 hours against any pack or membership + standing 15%; Upgrade to 3M before day 21 of a 1M: the 1M amount is credited and the 3M gets unlimited freezes (use within 6 months)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.3L counted (+₹31k vs the ₹2.0L stream plan) · 18 buyers',
-          logic: 'Black Friday urgency without a deeper %.',
-          kpi: 'Intro conversion; day-21 upgrades.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Black Friday Comeback',
-          tag: 'Win-back',
-          months: 'Nov',
-          audience: 'Lapsed clients.',
-          mechanic: '1M unlimited: ₹17.8k (12% off the ₹20.2k list price). 1M at 12% off + 3 days',
-          economics:
-            '22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹1.6L counted (+₹19.2k vs the ₹1.4L stream plan) · 27 buyers',
-          logic: 'Same window as the new-client offer.',
-          kpi: 'Effective 22%.',
-          lever: 'winback',
-        },
-        {
-          name: 'Club Nine: Last Seats',
-          tag: 'Renewal',
-          months: 'Nov',
-          audience: 'Active members.',
-          mechanic: 'Annual unlimited: ₹2.2L (list price). Only the Club Nine seats unsold in April, same perks',
-          economics:
-            '5.7% effective = 0% cash + 5.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹10.1L counted (+₹82.1k vs the ₹9.2L stream plan) · 51 buyers',
-          logic: 'Closes the scarcity story.',
-          kpi: 'Seats remaining.',
-          lever: 'annual',
-        },
-        {
-          name: 'Kickstart 21: Pre-Solution Cohort',
-          tag: 'Acquisition',
-          months: 'Dec',
-          audience: 'First-time clients.',
-          mechanic:
-            'Kickstart 21 cohort: ₹10k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join the February challenge (2028) with a scaled target',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.9L counted (+₹0.7k vs the ₹2.9L stream plan) · 17 buyers',
-          logic: 'Moves January demand into December cash and lands graduates in the members-only challenge.',
-          kpi: 'Pre-sales; January graduation.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Challenge Comeback Ticket',
-          tag: 'Win-back',
-          months: 'Dec',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price). 1M at the standing 15%, start any day until 1 Jan; Eligible for Stronger in 30 (Jan 2028)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.9L counted (+₹18.7k vs the ₹1.7L stream plan) · 29 buyers',
-          logic: 'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
-          kpi: 'January starts.',
-          lever: 'winback',
-        },
-        {
-          name: 'Challenge-Ready Renewal',
-          tag: 'Renewal',
-          months: 'Dec',
-          audience: 'Members expiring Dec–Jan.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list so the membership covers January and February\'s challenge; February challenge kit (≈₹1,000)',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹12.9L counted (+₹31.5k vs the ₹12.6L stream plan) · 60 buyers',
-          logic: 'A members-only challenge is a natural reason to renew before it starts, and 10% off closes the decision in December.',
-          kpi: 'December renewals of January expiries.',
-          lever: 'annual',
-        },
-        {
-          name: 'The First Seven Days',
-          tag: 'Acquisition',
-          months: 'Jan',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            "Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.1L counted (+₹42k vs the ₹2.7L stream plan) · 19 buyers',
-          logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back to the Barre',
-          tag: 'Win-back',
-          months: 'Jan',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            "1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Come back in January and the desk books your first four classes of the year",
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.5L counted (+₹38.9k vs the ₹2.2L stream plan) · 38 buyers',
-          logic:
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
-          kpi: 'Lapsed clients buying before 24 Jan.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Annual Re-Up',
-          tag: 'Renewal',
-          months: 'Jan',
-          audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. 10% off the renewal when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 59 buyers',
-          logic:
-            'January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price.',
-          kpi: 'Annuals re-upped; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Week Zero',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹2k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.1L counted (+₹42k vs the ₹2.7L stream plan) · 19 buyers',
-          logic:
-            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back for Stronger',
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.5L counted (+₹38.9k vs the ₹2.2L stream plan) · 38 buyers',
-          logic:
-            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
-          kpi: 'Lapsed clients entering the challenge.',
-          lever: 'winback',
-        },
-        {
-          name: 'Finish Line Renewal',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Active members renewing in late February or early March.',
-          mechanic:
-            'Renewal at 12% off your product\'s list price. Challenge finishers renew at 12% off list; Members who reach 50% of the target renew at 8% off list',
-          economics:
-            '12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹11.8L counted (+₹28.7k vs the ₹11.5L stream plan) · 61 buyers',
-          logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
-          kpi: 'Challenge finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'The 30-Day Proof',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'First-time clients.',
-          mechanic:
-            '1M unlimited: ₹17.2k (15% off the ₹20.2k list price).; 1M unlimited at the standing 15%; Day-1 fitness check (3 measures), coach check-ins on days 7 and 21; Day-30 re-test: 12+ classes and no improvement on 2 of 3 measures → next month free; Counts as your Stronger in 30 2.0 entry from day 1',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹23.6k vs the ₹2.0L stream plan) · 16 buyers',
-          logic:
-            'Bandra has the lowest new-client conversion (17–26%). A guarantee answers the core objection; 12 classes almost always produce improvement, so it rarely pays out.',
-          kpi: 'Guarantee claims; conversion vs other Bandra journeys.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Come Back as a Pair',
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Lapsed clients plus a friend who is new to P57.',
-          mechanic:
-            '12-class pack: ₹16.7k (15% off the ₹19.7k list price).; Lapsed client: 12-class pack at the standing 15%; Friend: free first class; If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month; Lapsed client and friend both enter Stronger in 30 2.0',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.4L counted (+₹24.1k vs the ₹1.2L stream plan) · 28 buyers',
-          logic: 'Pairs keep each other attending, and attendance predicts renewal. Renewing together for 10% off each makes the pair the reason to commit. Tag pairs to measure it.',
-          kpi: 'Friends who buy.',
-          lever: 'winback',
-        },
-        {
-          name: 'Partners in Crime',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Two active members renewing in the same week.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Both partners renew at 10% off list when you renew together; Both enter Stronger in 30 2.0',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹12.1L counted (+₹17.8k vs the ₹11.9L stream plan) · 68 buyers',
-          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
-          kpi: 'Next-renewal rate of pairs vs singles.',
-          lever: 'annual',
-        },
-      ],
+      offers: [],
       months: [
         {
           month: 'Jan',
-          event: 'New Year · seven days unlimited · the annual re-up',
-          theme: 'Start Line',
-          focus:
-            'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
-          offers: ['The First Seven Days', 'Back to the Barre', 'The Annual Re-Up'],
-          actions: [
-            'The First Seven Days: Seven days unlimited. Then decide.',
-            'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
-            "The Annual Re-Up: The January annuals renew at list, and the rate for the year is settled in one sitting.",
-          ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. The month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
         },
         {
           month: 'Feb',
-          event: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-          theme: 'Stronger in 30 2.0',
-          focus:
-            "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
-          offers: [
-            'Week Zero',
-            'Back for Stronger',
-            'Finish Line Renewal',
-            'The 30-Day Proof',
-            'Come Back as a Pair',
-            'Partners in Crime',
-          ],
-          actions: [
-            'Week Zero: Seven days unlimited. Then the challenge clock starts.',
-            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Feb.",
-            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
-            "The 30-Day Proof: Show up 12 times. If you don't get stronger, next month is free.",
-            'Come Back as a Pair: Return with a friend. Their first class is on us — and you both enter the challenge.',
-            'Partners in Crime: Renew with your workout partner. You both finish the challenge.',
-          ],
-          why: "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
         },
         {
           month: 'Mar',
-          event: "International Women's Day (Mon 8 Mar)",
-          theme: 'She Moves',
-          focus: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
-          offers: ['Kickstart 21: She Moves Cohort', 'Class of 2024 Reunion', 'Lock In Early'],
-          actions: [
-            "Kickstart 21: She Moves Cohort: Starting Women's Day. 21 days. Stronger together.",
-            'Class of 2024 Reunion: Where it all started. One class, the whole launch crew.',
-            'Lock In Early: Renew in March, keep the anniversary perks.',
-          ],
-          why: 'Class of 2024 Reunion at Bandra (638 lapsed launch-cohort clients). Anniversary teaser from 16 Mar.',
         },
         {
           month: 'Apr',
-          event: '9 years of Physique 57 India · first ₹1 Cr month',
-          theme: 'Cloud Nine (9th anniversary)',
-          focus:
-            "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
-          offers: ['Cloud Nine Intro', 'Nine Years, Nine Reasons', 'Lock In Before You Clock Out'],
-          actions: [
-            'Cloud Nine Intro: Nine days unlimited for less than one class.',
-            'Nine Years, Nine Reasons: Nine things changed while you were away.',
-            "Lock In Before You Clock Out: Renew in April at today's price, with bonus classes.",
-          ],
-          why: 'Club Nine: 9 numbered annual memberships per studio at full price. Anniversary party classes in week 2. Hard close 30 Apr, 23:59.',
         },
         {
           month: 'May',
-          event: "Mother's Day (Sun 9 May)",
-          theme: 'The Afterparty',
-          focus:
-            'Retain the April cohort (target ≥55% renewal at next expiry vs 24.5% for 2026 anniversary-code buyers at Kwality); duo acquisition.',
-          offers: ['Mother Shaker Second Date', 'The Comeback Squad', 'The Afterparty'],
-          actions: [
-            'Mother Shaker Second Date: Bring your mum. Both second classes are on us.',
-            'The Comeback Squad: Rejoin with a group that starts the same day.',
-            'The Afterparty: Book 8 in May; get a hosted class and a progress check.',
-          ],
-          why: 'Every April buyer gets the 30-day Afterparty plan: week-1 call, 8 classes in May unlocks a hosted class and a progress check.',
         },
         {
           month: 'Jun',
-          event: "Summer travel · college holidays · Father's Day (Sun 20 Jun)",
-          theme: 'Out of Office',
-          focus: 'Stop summer lapses; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.',
-          offers: ['Golden Hours Flight', 'Pay-As-You-Return', 'The Pause Button'],
-          actions: [
-            'Golden Hours Flight: Students: three classes in ten days, in the hours with room.',
-            "Pay-As-You-Return: Start with 4. If you're back, it all counts.",
-            'The Pause Button: Three months unlimited. Freeze it as often as you like.',
-          ],
-          why: 'Golden Hours launch for students and under-25s.',
         },
         {
           month: 'Jul',
-          event: 'Monsoon · Amazing Race warm-up',
-          theme: 'Monsoon I: Rain Check',
-          focus:
-            'Attendance and late cancels (Kenkere 21–30%); get people on a membership before the race starts on 1 Aug.',
-          offers: ['Kickstart 21: Race Ready Cohort', 'Warm-Up Lap', 'Monsoon Streak'],
-          actions: [
-            'Kickstart 21: Race Ready Cohort: 21 days that end on the Amazing Race start line.',
-            'Warm-Up Lap: Get race-fit before the gun goes on 1 August.',
-            'Monsoon Streak: 12+ classes, zero late cancels, +7 days.',
-          ],
-          why: 'Race registrations open 15 Jul. Monsoon Streak leaderboard by studio.',
         },
         {
           month: 'Aug',
-          event: 'Month-long individual race · Friendship Day (Sun 1 Aug)',
-          theme: 'The Amazing Race 2.0',
-          focus:
-            'Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; second seasonal peak in Mumbai.',
-          offers: ['Starting Gun Week', 'Back on Track', 'Pit Stop'],
-          actions: [
-            'Starting Gun Week: Seven days unlimited from the day the race starts.',
-            'Back on Track: Your lane is still open.',
-            'Pit Stop: Renew mid-race and keep your streak.',
-          ],
-          why: 'The Amazing Race 2.0: every client races on their own against a studio leaderboard, 1–31 Aug. Rookie leaderboard for first-timers.',
         },
         {
           month: 'Sep',
-          event: '57 days to Diwali (2 Sep → 28 Oct)',
-          theme: 'Monsoon III: The Comeback',
-          focus: 'Reactivate before the festive season; carry race momentum into a festive countdown.',
-          offers: ['The Second Date', 'We Kept Your Spot', 'Festive Pause Button'],
-          actions: [
-            'The Second Date: Your second class is booked before you leave.',
-            'We Kept Your Spot: A personal note from your favourite trainer.',
-            'Festive Pause Button: Renew 3 months; Diwali and year-end travel covered.',
-          ],
-          why: '57 Days to Diwali countdown starts 2 Sep; Bandra reunion repeat.',
         },
         {
           month: 'Oct',
-          event: 'Diwali (Fri 29 Oct) · Dasara week in Bengaluru',
-          theme: 'Festival of Lights',
-          focus: "Gift-led revenue; protect Kenkere's Dasara trough; catch Kwality's late-October surge without codes.",
-          offers: ['Festival of Lights Second Date', 'Come Home for Diwali', 'Renew & Gift'],
-          actions: [
-            'Festival of Lights Second Date: A candle-lit first class. Your second is booked at the door.',
-            "Come Home for Diwali: Your mat's still here.",
-            'Renew & Gift: Renew in October; 5% back to spend on a gift card.',
-          ],
-          why: 'Gift cards on sale from 1 Oct; candle-lit evening classes in Diwali week; limited-run format #3.',
         },
         {
           month: 'Nov',
-          event: 'Black Friday (Fri 26 Nov) → Cyber Monday (29 Nov)',
-          theme: 'Black Friday, Strong Monday',
-          focus: 'Long commitments in the softest Mumbai month.',
-          offers: ['Black Friday Week Zero', 'Black Friday Comeback', 'Club Nine: Last Seats'],
-          actions: [
-            'Black Friday Week Zero: Seven days unlimited, fully credited.',
-            'Black Friday Comeback: Back for a month, plus three days.',
-            'Club Nine: Last Seats: The last numbered seats.',
-          ],
-          why: 'Club Nine last seats (only those unsold in April).',
         },
         {
           month: 'Dec',
-          event: 'Year-end · pre-sell January',
-          theme: 'Wrapped',
-          focus: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
-          offers: ['Kickstart 21: Pre-Solution Cohort', 'Challenge Comeback Ticket', 'Challenge-Ready Renewal'],
-          actions: [
-            'Kickstart 21: Pre-Solution Cohort: Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
-            'Challenge Comeback Ticket: Buy now, start by 1 January, join the February challenge.',
-            "Challenge-Ready Renewal: Renew in December so you're covered for the whole February challenge.",
-          ],
-          why: '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
         },
       ],
       rhythm: [
         [
           'Newcomer journey',
-          "Offers: Week Zero, The 30-Day Proof, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Mother Shaker Second Date, Golden Hours Flight, Kickstart 21: Race Ready Cohort, Starting Gun Week, The Second Date, Festival of Lights Second Date, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
         [
           'Lapsed journey',
-          "Offers: Back for Stronger, Come Back as a Pair, Class of 2024 Reunion, Nine Years, Nine Reasons, The Comeback Squad, Pay-As-You-Return, Warm-Up Lap, Back on Track, We Kept Your Spot, Come Home for Diwali, Black Friday Comeback, Challenge Comeback Ticket. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
         [
           'Renewal journey',
-          "Offers: Finish Line Renewal, Partners in Crime, Lock In Early, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Festive Pause Button, Renew & Gift, Club Nine: Last Seats, Challenge-Ready Renewal. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
       ],
       scorecard: [
@@ -1798,22 +484,19 @@ export const PLAYBOOK_2027: PlaybookData = {
           title: 'Renewals carry the year',
           stat: '60%',
           detail: 'Renewal plan ₹81.6L of ₹135.0L; 573 renewal purchases planned from 662 due.',
-          implication:
-            'Renewal offers: Finish Line Renewal, Partners in Crime, Pre-Party Upgrade, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Challenge Captain, Festive Pause Pass, Strong Monday Ladder, Challenge-Ready Renewal.',
+          implication: '',
         },
         {
           title: 'New clients',
           stat: '154',
           detail: 'New-client plan ₹23.3L: 3,035 leads → 607 trials → 154 new buyers.',
-          implication:
-            'Newcomer offers: Week Zero, Swipe Right Flight, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Kickstart 21: Summer Cohort, Golden Hours Flight, Rain Check Second Date, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+          implication: '',
         },
         {
           title: 'Lapsed clients',
           stat: '257',
           detail: 'Reactivation plan ₹12.4L: 257 reactivated from 3,207 touches.',
-          implication:
-            'Lapsed offers: Back for Stronger, Come Back as a Pair, Beat Your Best, Nine Years, Nine Reasons, A Class for Mum, Out of Office, Not Out of Shape, Warm-Up Lap, Back on Track, The Return Policy, Light Up Your Streak, Black Friday Comeback, Your 2027 Wrapped.',
+          implication: '',
         },
         {
           title: 'Peak month: Sep',
@@ -1832,35 +515,35 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Trial-to-member conversion',
             value: 340304,
             math: '789 non-hosted first visits × (25.7% → 29.4%) = +29 members × ₹16,090 first-year value × 0.73 in-year realisation',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, Swipe Right Flight, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Kickstart 21: Summer Cohort, Golden Hours Flight, Rain Check Second Date, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'leads',
             name: 'Online-lead speed to trial',
             value: 1039195,
             math: '1,905 online leads × trial rate 12.4% → 20.6% × 57% trial→member = +88 members × ₹16,090 × 0.73',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, Swipe Right Flight, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Kickstart 21: Summer Cohort, Golden Hours Flight, Rain Check Second Date, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'referral',
             name: 'Paid-on-conversion referral engine',
             value: 777508,
             math: '455 referral leads × +50% volume × 29.0% lead→member = +66 members × ₹16,090 × 0.73',
-            why: 'Final plan: carried by the newcomer offers — Week Zero, Swipe Right Flight, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Kickstart 21: Summer Cohort, Golden Hours Flight, Rain Check Second Date, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort.',
+            why: '',
           },
           {
             id: 'winback',
             name: 'Tiered win-back of dormant clients',
             value: 390162,
             math: '177 loyal dormant (3+ purchases) × +10pts return + 350 light dormant × +5pts = +35 returners × ₹18,439 avg return spend (×0.8 / ×0.4)',
-            why: 'Final plan: carried by the lapsed offers — Back for Stronger, Come Back as a Pair, Beat Your Best, Nine Years, Nine Reasons, A Class for Mum, Out of Office, Not Out of Shape, Warm-Up Lap, Back on Track, The Return Policy, Light Up Your Streak, Black Friday Comeback, Your 2027 Wrapped.',
+            why: '',
           },
           {
             id: 'usage',
             name: 'First-30-day habit programme',
             value: 32599,
             math: '27 unlimited memberships ended at ≤4 visits/month × 30% moved to 5–8 visits × +20pt renewal = +2 renewals × ₹13,169 × 1.5 cycles',
-            why: 'Final plan: carried by the renewal offers — Finish Line Renewal, Partners in Crime, Pre-Party Upgrade, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Challenge Captain, Festive Pause Pass, Strong Monday Ladder, Challenge-Ready Renewal.',
+            why: '',
           },
           {
             id: 'capacity',
@@ -1874,7 +557,7 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Long-plan renewal desk',
             value: 63525,
             math: '5 annual/6-month plans worth ₹5.3L expire in 2027 × +20pt renewal × 60% of original value (many step down to 3-month/1-month)',
-            why: 'Final plan: carried by the renewal offers — Finish Line Renewal, Partners in Crime, Pre-Party Upgrade, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Challenge Captain, Festive Pause Pass, Strong Monday Ladder, Challenge-Ready Renewal.',
+            why: '',
           },
         ],
         leverTotal: 2962789.18,
@@ -1882,712 +565,57 @@ export const PLAYBOOK_2027: PlaybookData = {
         projection: 14776329.71,
         appTargetAtBuild: 12590000,
       },
-      offers: [
-        {
-          name: 'Kickstart 21: She Moves Cohort',
-          tag: 'Acquisition',
-          months: 'Mar',
-          audience: 'First-time clients.',
-          mechanic:
-            "Kickstart 21 cohort: ₹8k (list price). Cohort starts Mon 8 Mar (Women's Day); second cohort Mon 22 Mar; 21 days unlimited + coach, WhatsApp group, fitness checks, graduation; Each member gets a free class to gift a woman she nominates; Graduates: standing 15% within 7 days",
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.0L counted (+₹2.9k vs the ₹2.0L stream plan) · 14 buyers',
-          logic: 'Purpose-led reach with the engagement of a cohort; the gift class creates warm leads.',
-          kpi: 'Nominee classes converted.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Beat Your Best',
-          tag: 'Win-back',
-          months: 'Mar',
-          audience: 'Lapsed clients with a recorded best month.',
-          mechanic:
-            '1M unlimited at 15% off the list price. 1M unlimited at 15% off list; Match your best month\'s class count → 2 complimentary classes',
-          economics:
-            '18.0% effective = 15% cash + 3.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹1.1L counted (+₹14.2k vs the ₹1.0L stream plan) · 21 buyers',
-          logic: 'Personal data beats generic offers and sets a goal; the reward is earned.',
-          kpi: 'Data build needed.',
-          lever: 'winback',
-        },
-        {
-          name: 'Pre-Party Upgrade',
-          tag: 'Renewal',
-          months: 'Mar',
-          audience: '1M renewers with 8+ visits a month.',
-          mechanic:
-            '3M unlimited at 10% off the list price. 3M unlimited at 10% off list; Unlimited freezes (use within 6 months); Anniversary tote (≈₹1,000)',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹5.3L counted (+₹48.2k vs the ₹4.8L stream plan) · 34 buyers',
-          logic: '3M renews at 71% at Kenkere vs 59% for 1M. 10% off makes the step up from 1M easy before the anniversary.',
-          kpi: 'Tote stock.',
-          lever: 'annual',
-        },
-        {
-          name: 'Cloud Nine Intro',
-          tag: 'Acquisition',
-          months: 'Apr',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹0.8k for the 9-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). Unlimited Barre and powerCycle for 9 days (max 2 a day) + a Lab Induction seat (Kwality/Bandra); Buy any pack or membership within 72 hours of day 9: intro fee credited + standing 15% + anniversary tote (≈₹1,000)',
-          economics:
-            '21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹2.6L counted (+₹44.6k vs the ₹2.1L stream plan) · 17 buyers',
-          logic:
-            'The anniversary is worth an eye-catching price. Nine days builds the habit; the credited purchase protects the commitment price.',
-          kpi: 'Intro volume vs spare seats; intro → purchase (target 40%).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Nine Years, Nine Reasons',
-          tag: 'Win-back',
-          months: 'Apr',
-          audience: 'Clients lapsed 61 days–2 years.',
-          mechanic:
-            '12-class pack: ₹11.2k (15% off the ₹13.1k list price). A personal note listing 9 things new at your studio (formats, trainers, schedule); 12-class pack at the standing 15% lapsed perk; Invite to an anniversary party class',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.8L counted (+₹22.4k vs the ₹1.5L stream plan) · 33 buyers',
-          logic:
-            'Lapsed clients left something that no longer exists; showing what\'s new answers "why go back". April has the most attention of the year.',
-          kpi: 'Bandra needs 54 reactivations in April from 673 touches.',
-          lever: 'winback',
-        },
-        {
-          name: 'Lock In Before You Clock Out',
-          tag: 'Renewal',
-          months: 'Apr',
-          audience: 'Members expiring 1 Apr–15 Jun only.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list; Packs also get 2 complimentary classes',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.6L counted (+₹32.9k vs the ₹8.2L stream plan) · 64 buyers',
-          logic:
-            'The race lifts attendance, and attendance lifts renewals. 10% off for everyone renewing, with complimentary classes earned by finishing.',
-          kpi: 'Renewal purchases vs due (plan KH 130 vs 120 due).',
-          lever: 'annual',
-        },
-        {
-          name: 'Kickstart 21: Summer Cohort',
-          tag: 'Acquisition',
-          months: 'May',
-          audience: 'First-time clients.',
-          mechanic:
-            'Kickstart 21 cohort: ₹8k (list price). Cohorts start Mon 3 May and Mon 17 May; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates: standing 15% within 7 days',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.8L counted (+₹3.4k vs the ₹1.8L stream plan) · 14 buyers',
-          logic: 'Kenkere already sells a summer bootcamp; a cohort fixes its conversion problem with structure.',
-          kpi: 'Graduate → purchase.',
-          lever: 'conversion',
-        },
-        {
-          name: 'A Class for Mum',
-          tag: 'Win-back',
-          months: 'May',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '12-class pack: ₹11.2k (15% off the ₹13.1k list price). 12-class pack at the standing 15%; A free class for their mother (or any mum)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.1L counted (+₹9.5k vs the ₹1.0L stream plan) · 23 buyers',
-          logic: 'On-theme, cash cost unchanged, gift class is a warm lead.',
-          kpi: 'Gift classes booked.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Afterparty',
-          tag: 'Renewal',
-          months: 'May',
-          audience: 'April buyers and May renewers.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Book 8 classes in May → a free hosted class + a trainer progress check; Renew at list",
-          economics:
-            '2.0% effective = 0% cash + 2.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹6.9L counted (+₹13.5k vs the ₹6.8L stream plan) · 55 buyers',
-          logic: 'Target ≥55% of April commitment buyers renewing at next expiry (2026 code buyers: 24.5% at Kwality).',
-          kpi: 'April cohort attendance in May.',
-          lever: 'annual',
-        },
-        {
-          name: 'Golden Hours Flight',
-          tag: 'Acquisition',
-          months: 'Jun',
-          audience: 'Students or under-25s with ID.',
-          mechanic:
-            'Intro: ₹1k for the Student Tasting Flight (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. 8-class pack: ₹7k (20% off the ₹8.7k list price). 3 classes in 10 days in weekday 10–12 or weekend 4–7 pm classes; Full fee credited within 72 hours against the Golden Hours 8-class pack (20% off, valid in those slots only)',
-          economics:
-            '20.0% effective = 20% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.6L counted (+₹2.2k vs the ₹1.6L stream plan) · 14 buyers',
-          logic: 'Those slots run at 27–41% fill; students fill them without cannibalising peak classes.',
-          kpi: 'Golden Hours fill.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Out of Office, Not Out of Shape',
-          tag: 'Win-back',
-          months: 'Jun',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹12.4k (15% off the ₹14.6k list price). 1M at the standing 15%; 2 extra freezes; A written travel workout plan',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.1L counted (+₹10.8k vs the ₹1.0L stream plan) · 24 buyers',
-          logic: 'Answers "I\'ll be away" without cash.',
-          kpi: 'Freeze usage.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Pause Button',
-          tag: 'Renewal',
-          months: 'Jun',
-          audience: '1M and 3M renewers.',
-          mechanic: '3M unlimited: ₹42.2k (list price). 3M unlimited at list; Unlimited freezes (use within 6 months)',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹7.9L counted (+₹97.9k vs the ₹6.9L stream plan) · 56 buyers',
-          logic: 'The best time of year for this offer: travel is the main reason to let a membership lapse.',
-          kpi: 'June renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Rain Check Second Date',
-          tag: 'Acquisition',
-          months: 'Jul',
-          audience: 'First-time clients starting with Barre.',
-          mechanic:
-            'Then any pack or membership at 15% off list (the standing new-client perk). Free first Barre class; Class 2 free within 7 days, booked at the desk; on IMD orange/red-alert days the 7 days pause; 15% within 72 hours of class 2; 10% until day 14',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.7L counted (+₹13.9k vs the ₹1.5L stream plan) · 13 buyers',
-          logic: 'Rain breaks the second visit; pausing the window protects it.',
-          kpi: 'Second-visit share in July.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Warm-Up Lap',
-          tag: 'Win-back',
-          months: 'Jul',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹12.4k (15% off the ₹14.6k list price). 1M at the standing 15%, start 15 Jul–1 Aug; Free race-prep assessment; Full race entry',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.5L counted (+₹20.6k vs the ₹1.3L stream plan) · 32 buyers',
-          logic: 'An event with a date beats a discount for lapsed clients.',
-          kpi: 'Lapsed race entries.',
-          lever: 'winback',
-        },
-        {
-          name: 'Monsoon Streak',
-          tag: 'Renewal',
-          months: 'Jul',
-          audience: 'July renewers.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Renew at list; 12+ classes and zero late cancels in July → +7 days (unlimited) or +1 class (packs)",
-          economics:
-            '7.0% effective = 0% cash + 7.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹9.4L counted (+₹18.4k vs the ₹9.2L stream plan) · 70 buyers',
-          logic:
-            "Fixes behaviour and revenue together; Bandra's 2025 late-cancel spike fell once the rule was enforced.",
-          kpi: 'Late-cancel rate (Kenkere target <15%).',
-          lever: 'annual',
-        },
-        {
-          name: 'Starting Gun Week',
-          tag: 'Acquisition',
-          months: 'Aug',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 7 days unlimited (max 2 a day); classes count on the Rookie leaderboard; Credited within 72 hours against any pack or membership + standing 15%; Race kit (bib and tote, ≈₹1,000) with the purchase',
-          economics:
-            '21.0% effective = 15% cash + 6.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹2.1L counted (+₹29k vs the ₹1.9L stream plan) · 16 buyers',
-          logic:
-            'An individual race is intimidating for beginners; a Rookie leaderboard and an unlimited week make it winnable.',
-          kpi: 'Rookie entries; intro conversion.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back on Track',
-          tag: 'Win-back',
-          months: 'Aug',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹12.8k (12% off the ₹14.6k list price). 1M at 12% off; Finish the race target → +3 days',
-          economics:
-            '22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.9L counted (+₹14.1k vs the ₹0.7L stream plan) · 19 buyers',
-          logic: 'Race + earned bonus; max effective 22%.',
-          kpi: 'Lapsed racers finishing.',
-          lever: 'winback',
-        },
-        {
-          name: 'Pit Stop',
-          tag: 'Renewal',
-          months: 'Aug',
-          audience: 'Members expiring in August or early September.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list; race progress carries over; Race finishers get 2 complimentary classes; Upgrade to 3M with unlimited freezes',
-          economics:
-            '12.0% effective = 10% cash + 2.0% in extras (complimentary classes). Guest passes, consults, freezes and early booking are valued at zero. ₹7.9L counted (+₹49.9k vs the ₹7.4L stream plan) · 57 buyers',
-          logic: 'The race lifts attendance, and attendance lifts renewals; finisher bonuses are earned.',
-          kpi: 'Race finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: '57-Day Proof',
-          tag: 'Acquisition',
-          months: 'Sep',
-          audience: 'First-time clients.',
-          mechanic:
-            '1M unlimited: ₹12.4k (15% off the ₹14.6k list price). 1M unlimited at the standing 15%; Fitness check on day 1, coach check-ins; Re-test before 28 Oct: 20+ classes and no improvement on 2 of 3 measures → your next month free',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.8L counted (+₹1.9k vs the ₹1.8L stream plan) · 11 buyers',
-          logic:
-            "A finish line before Diwali and a results promise carry new clients into October, Kenkere's weakest month.",
-          kpi: 'October renewals of September joiners.',
-          lever: 'conversion',
-        },
-        {
-          name: 'The Return Policy',
-          tag: 'Win-back',
-          months: 'Sep',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            '12-class pack: ₹11.6k (12% off the ₹13.1k list price). Free comeback class; Buy 1M or a 12-class pack within 7 days at 12% off + 1 bonus class',
-          economics:
-            '22.8% effective = 12% cash + 10.8% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹1.3L counted (+₹6.8k vs the ₹1.3L stream plan) · 21 buyers',
-          logic: 'Time-limited to keep decisions fast.',
-          kpi: 'Reactivations vs plan.',
-          lever: 'winback',
-        },
-        {
-          name: 'Challenge Captain',
-          tag: 'Renewal',
-          months: 'Sep',
-          audience: 'September renewers.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Renew at list; Bring 2 friends who join → +14 days (unlimited) or +2 classes (packs)",
-          economics:
-            '4.0% effective = 0% cash + 4.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹9.5L counted (+₹9.5k vs the ₹9.5L stream plan) · 56 buyers',
-          logic: "Kenkere's strong renewal base can fix its weak acquisition.",
-          kpi: 'Captain-referred buyers.',
-          lever: 'annual',
-        },
-        {
-          name: 'Gift a Flight',
-          tag: 'Acquisition',
-          months: 'Oct',
-          audience: 'Anyone buying for a friend who is new to P57.',
-          mechanic:
-            'Intro: ₹1.8k for the Tasting Flight gift (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). A Tasting Flight as a Diwali gift card; The recipient follows the Flight journey; the fee is credited if they buy within 72 hours of class 3; The giver gets 1 bonus class when the recipient buys',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.3L counted (+₹14.8k vs the ₹1.1L stream plan) · 10 buyers',
-          logic:
-            'Gifting is real Diwali spend, and a Flight is a better gift than cash credit because it leads into the best-converting journey.',
-          kpi: 'Gift activations; recipient conversion.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Light Up Your Streak',
-          tag: 'Win-back',
-          months: 'Oct',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '1M unlimited: ₹12.8k (12% off the ₹14.6k list price). 1M at 12% off; 15 classes in 30 days → +3 days',
-          economics:
-            '22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹1.1L counted (+₹13.8k vs the ₹1.0L stream plan) · 24 buyers',
-          logic: "Kenkere's Dasara trough needs attendance as much as sales.",
-          kpi: 'Streak completion.',
-          lever: 'winback',
-        },
-        {
-          name: 'Festive Pause Pass',
-          tag: 'Renewal',
-          months: 'Oct',
-          audience: 'October renewers.',
-          mechanic:
-            "Renewal at your product's list price (no % off). Renew 1M or longer at list; 1 extra freeze for festive travel + 2 guest passes for family",
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.5L counted (+₹6.6k vs the ₹4.4L stream plan) · 40 buyers',
-          logic: 'Pairs keep each other attending, and attendance predicts renewal. Renewing together for 10% off each makes the pair the reason to commit. Tag pairs to measure it.',
-          kpi: 'October yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Black Friday Week Zero',
-          tag: 'Acquisition',
-          months: 'Nov',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk). 7 days unlimited (max 2 a day); Credited within 72 hours against any pack or membership + standing 15%; Upgrade to 3M before day 21 of a 1M: the 1M amount is credited and the 3M gets unlimited freezes (use within 6 months)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.7L counted (+₹37.1k vs the ₹2.4L stream plan) · 19 buyers',
-          logic: 'Black Friday urgency without a deeper %.',
-          kpi: 'Intro conversion; day-21 upgrades.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Black Friday Comeback',
-          tag: 'Win-back',
-          months: 'Nov',
-          audience: 'Lapsed clients.',
-          mechanic: '1M unlimited: ₹12.8k (12% off the ₹14.6k list price). 1M at 12% off + 3 days',
-          economics:
-            '22.0% effective = 12% cash + 10.0% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹1.0L counted (+₹7.9k vs the ₹0.9L stream plan) · 18 buyers',
-          logic: 'Same window as the new-client offer.',
-          kpi: 'Effective 22%.',
-          lever: 'winback',
-        },
-        {
-          name: 'Strong Monday Ladder',
-          tag: 'Renewal',
-          months: 'Nov',
-          audience: 'Members renewing 26–29 Nov.',
-          mechanic: 'Renewal at 8% off list on 3M, 12% on 6M, 15% on Annual. 3M 8% off, 6M 12% off, Annual 15% off list',
-          economics:
-            '12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹8.0L counted (+₹56.8k vs the ₹7.4L stream plan) · 58 buyers',
-          logic: 'The discount grows with the term, so the longest plans get the best rate.',
-          kpi: '3M+ share.',
-          lever: 'annual',
-        },
-        {
-          name: 'Kickstart 21: Pre-Solution Cohort',
-          tag: 'Acquisition',
-          months: 'Dec',
-          audience: 'First-time clients.',
-          mechanic:
-            'Kickstart 21 cohort: ₹8k (list price). Cohort starts Mon 3 Jan 2028; sold in December; 21 days unlimited + coach, WhatsApp, fitness checks, graduation; Graduates who buy a membership join the February challenge (2028) with a scaled target',
-          economics:
-            '0.0% effective = 0% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.6L counted (+₹2.5k vs the ₹1.6L stream plan) · 12 buyers',
-          logic: 'Moves January demand into December cash and lands graduates in the members-only challenge.',
-          kpi: 'Pre-sales; January graduation.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Your 2027 Wrapped',
-          tag: 'Win-back',
-          months: 'Dec',
-          audience: 'Lapsed clients.',
-          mechanic:
-            '12-class pack: ₹11.2k (15% off the ₹13.1k list price). Personal stats page (classes, favourite trainer, best month); 12-class pack at the standing 15% + a comeback class',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.9L counted (+₹10.8k vs the ₹0.8L stream plan) · 18 buyers',
-          logic: 'Year-in-review pages get shared; it reminds lapsed clients of their own habit.',
-          kpi: 'Stats export needed.',
-          lever: 'winback',
-        },
-        {
-          name: 'Challenge-Ready Renewal',
-          tag: 'Renewal',
-          months: 'Dec',
-          audience: 'Members expiring Dec–Jan.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Renew at 10% off list so the membership covers January and February\'s challenge; February challenge kit (≈₹1,000)',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹3.7L counted (+₹9.1k vs the ₹3.7L stream plan) · 27 buyers',
-          logic: 'Members-only challenge = a natural reason to renew before it starts.',
-          kpi: 'December renewals of January expiries.',
-          lever: 'annual',
-        },
-        {
-          name: 'The First Seven Days',
-          tag: 'Acquisition',
-          months: 'Jan',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            "Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; Buy within 72 hours of day 7 and the desk books your next four classes before you leave",
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹54.3k vs the ₹3.5L stream plan) · 26 buyers',
-          logic:
-            'January leads are the most motivated of the year. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the purchase lands while the intention is still fresh.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back to the Barre',
-          tag: 'Win-back',
-          months: 'Jan',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            "1M unlimited: ₹12.4k (15% off the ₹14.6k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; A free comeback class to book before buying; Come back in January and the desk books your first four classes of the year",
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.3L counted (+₹17.5k vs the ₹1.1L stream plan) · 23 buyers',
-          logic:
-            "Early January is the cheapest week of the year to win someone back: intent is high and the timetable is full. A free comeback class takes the risk out of the first visit, and a January purchase puts them back on the timetable while the resolution still holds.",
-          kpi: 'Lapsed clients buying before 24 Jan.',
-          lever: 'winback',
-        },
-        {
-          name: 'The Annual Re-Up',
-          tag: 'Renewal',
-          months: 'Jan',
-          audience: 'Annual members whose 2026 term started in January (8 annuals, ₹12.5L due).',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. 10% off the renewal when you re-up by 31 Jan; The 2027 rate locked for the whole term — no re-price mid-year',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 48 buyers',
-          logic:
-            'January is when the annuals fall due. A clean 10% for re-upping inside the month gives a reason to act now, and the rate lock removes the fear of a mid-year re-price.',
-          kpi: 'Annuals re-upped; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Week Zero',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'First-time clients (phone verified).',
-          mechanic:
-            'Intro: ₹1.5k for the 7-day unlimited intro, credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; Unlimited Barre and powerCycle for 7 days (max 2 classes a day); Goal-setting chat after class 1; owner check-in on day 3; Lab Induction seat at Kwality/Bandra; Buy any pack or membership within 72 hours of day 7: full intro fee credited + the standing 15%; A membership makes you eligible for Stronger in 30 2.0 from the week you join (target scaled)',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹4.0L counted (+₹54.3k vs the ₹3.5L stream plan) · 26 buyers',
-          logic:
-            'February leads arrive with a deadline attached. Clients with 5+ visits in month one convert at 94%; a credited week lets the habit form before the ask, and the challenge clock gives the month its reason to start now.',
-          kpi: 'Intro → purchase (target 45%); classes in the intro week (target 4+).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Back for Stronger',
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Clients lapsed 61–365 days.',
-          mechanic:
-            '1M unlimited: ₹12.4k (15% off the ₹14.6k list price).; 1M unlimited or a 12-class pack at the standing 15% lapsed perk; Full entry to Stronger in 30 2.0, including finisher rewards; A free comeback class to book before buying',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹1.3L counted (+₹17.5k vs the ₹1.1L stream plan) · 23 buyers',
-          logic:
-            'The challenge is for members and pack holders, so a lapsed client has to buy to take part. A deadline and a social event do more than a deeper discount.',
-          kpi: 'Lapsed clients entering the challenge.',
-          lever: 'winback',
-        },
-        {
-          name: 'Finish Line Renewal',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Active members renewing in late February or early March.',
-          mechanic:
-            'Renewal at 12% off your product\'s list price. Challenge finishers renew at 12% off list; Members who reach 50% of the target renew at 8% off list',
-          economics:
-            '12.0% effective = 12% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹6.7L counted (+₹16.4k vs the ₹6.6L stream plan) · 49 buyers',
-          logic:
-            'Renewers average 6.4 visits in the first half of a membership vs 2.6–3.4 for lapsers. A bigger cut for finishers rewards the attendance that produces renewals.',
-          kpi: 'Challenge finish rate; renewal yield.',
-          lever: 'annual',
-        },
-        {
-          name: 'Swipe Right Flight',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'First-time clients.',
-          mechanic:
-            'Intro: ₹1.8k for the Tasting Flight (3 classes in 10 days), credited in full against a qualifying purchase within 72 hours. Then any pack or membership at 15% off list (the standing new-client perk).; 3 classes in 10 days: Barre, powerCycle and Strength Lab (Kwality: held 6 am Lab seats; Kenkere: Barre, Mat, Cardio Barre/FIT); All 3 booked at purchase; "Match" within 72 hours of class 3: full fee credited + standing 15% on any pack or membership; All three classes count toward Stronger in 30 2.0',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹2.2L counted (+₹25.4k vs the ₹2.0L stream plan) · 17 buyers',
-          logic:
-            'The 2-for-1 converts at 21% into an ₹8k purchase; three visits sit in the 73–89% conversion zone and multi-format members renew at 85–87%.',
-          kpi: 'Flight → purchase (target 35–40%).',
-          lever: 'conversion',
-        },
-        {
-          name: 'Come Back as a Pair',
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Lapsed clients plus a friend who is new to P57.',
-          mechanic:
-            '12-class pack: ₹11.2k (15% off the ₹13.1k list price).; Lapsed client: 12-class pack at the standing 15%; Friend: free first class; If the friend buys, the lapsed client gets 2 guest passes and 48-hour priority booking for a month; Lapsed client and friend both enter Stronger in 30 2.0',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.9L counted (+₹12.3k vs the ₹0.8L stream plan) · 20 buyers',
-          logic: 'One message, two streams: reactivation and a warm new lead.',
-          kpi: 'Friends who buy.',
-          lever: 'winback',
-        },
-        {
-          name: 'Partners in Crime',
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Two active members renewing in the same week.',
-          mechanic:
-            'Renewal at 10% off your product\'s list price. Both partners renew at 10% off list when you renew together; Both enter Stronger in 30 2.0',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹6.8L counted (+₹10.1k vs the ₹6.7L stream plan) · 52 buyers',
-          logic: 'Pairs keep each other attending; attendance predicts renewal. Tag pairs to measure it.',
-          kpi: 'Next-renewal rate of pairs vs singles.',
-          lever: 'annual',
-        },
-      ],
+      offers: [],
       months: [
         {
           month: 'Jan',
-          event: 'New Year · seven days unlimited · the annual re-up',
-          theme: 'Start Line',
-          focus:
-            'Convert January trial demand and re-up the Jan-2026 annuals (8 annuals, ₹12.5L due). Nothing launches this month, so January sells the habit: a credited first week, a free comeback class and a re-up at list — and every January membership carries into February.',
-          offers: ['The First Seven Days', 'Back to the Barre', 'The Annual Re-Up'],
-          actions: [
-            'The First Seven Days: Seven days unlimited. Then decide.',
-            'Back to the Barre: Your barre is still here. A class on us, then the standing return price.',
-            "The Annual Re-Up: The January annuals renew at list, and the rate for the year is settled in one sitting.",
-          ],
-          why: 'Nothing to enter this month: January is the first week. A credited seven-day intro, a free comeback class for lapsed clients, and the annual re-up at list. The month is better spent starting the habit and filling the timetable, so February opens on a studio that is already busy.',
         },
         {
           month: 'Feb',
-          event: "The 30-day challenge (1–28 Feb) · Valentine's (Sun 14 Feb) · Galentine's (Sat 13 Feb)",
-          theme: 'Stronger in 30 2.0',
-          focus:
-            "Run the challenge as the month's engine: fill the opening week, hold the middle at Galentine's, and convert finishers into renewals at list. The duo and referral offers run on top (BOGO buyers were 79–94% existing clients and renewed at 33–53%).",
-          offers: [
-            'Week Zero',
-            'Back for Stronger',
-            'Finish Line Renewal',
-            'Swipe Right Flight',
-            'Come Back as a Pair',
-            'Partners in Crime',
-          ],
-          actions: [
-            'Week Zero: Seven days unlimited. Then the challenge clock starts.',
-            "Back for Stronger: The challenge starts without you. Unless you're back by 7 Feb.",
-            'Finish Line Renewal: Finish Stronger in 30 and your renewal gets a medal.',
-            'Swipe Right Flight: Three first dates, three formats, ten days.',
-            'Come Back as a Pair: Return with a friend. Their first class is on us — and you both enter the challenge.',
-            'Partners in Crime: Renew with your workout partner. You both finish the challenge.',
-          ],
-          why: "Stronger in 30 2.0 runs 1–28 Feb for active members and pack holders. The Galentine's hosted class on Sat 13 Feb — named associate, Encore QR at the door — is the mid-challenge event; Valentine's Sunday (14 Feb) is the partner class.",
         },
         {
           month: 'Mar',
-          event: "International Women's Day (Mon 8 Mar)",
-          theme: 'She Moves',
-          focus: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
-          offers: ['Kickstart 21: She Moves Cohort', 'Beat Your Best', 'Pre-Party Upgrade'],
-          actions: [
-            "Kickstart 21: She Moves Cohort: Starting Women's Day. 21 days. Stronger together.",
-            "Beat Your Best: Remember March 2025? 18 classes. Let's beat it.",
-            'Pre-Party Upgrade: Moving to 3 months? Freeze freely and grab your tote early.',
-          ],
-          why: 'Class of 2024 Reunion at Bandra (638 lapsed launch-cohort clients). Anniversary teaser from 16 Mar.',
         },
         {
           month: 'Apr',
-          event: '9 years of Physique 57 India · first ₹1 Cr month',
-          theme: 'Cloud Nine (9th anniversary)',
-          focus:
-            "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
-          offers: ['Cloud Nine Intro', 'Nine Years, Nine Reasons', 'Lock In Before You Clock Out'],
-          actions: [
-            'Cloud Nine Intro: Nine days unlimited for less than one class.',
-            'Nine Years, Nine Reasons: Nine things changed while you were away.',
-            "Lock In Before You Clock Out: Renew in April at today's price, with bonus classes.",
-          ],
-          why: 'Club Nine: 9 numbered annual memberships per studio at full price. Anniversary party classes in week 2. Hard close 30 Apr, 23:59.',
         },
         {
           month: 'May',
-          event: "Mother's Day (Sun 9 May)",
-          theme: 'The Afterparty',
-          focus:
-            'Retain the April cohort (target ≥55% renewal at next expiry vs 24.5% for 2026 anniversary-code buyers at Kwality); duo acquisition.',
-          offers: ['Kickstart 21: Summer Cohort', 'A Class for Mum', 'The Afterparty'],
-          actions: [
-            'Kickstart 21: Summer Cohort: 21 days to start summer strong.',
-            'A Class for Mum: Come back, and bring your mother for free.',
-            'The Afterparty: Book 8 in May; get a hosted class and a progress check.',
-          ],
-          why: 'Every April buyer gets the 30-day Afterparty plan: week-1 call, 8 classes in May unlocks a hosted class and a progress check.',
         },
         {
           month: 'Jun',
-          event: "Summer travel · college holidays · Father's Day (Sun 20 Jun)",
-          theme: 'Out of Office',
-          focus: 'Stop summer lapses; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.',
-          offers: ['Golden Hours Flight', 'Out of Office, Not Out of Shape', 'The Pause Button'],
-          actions: [
-            'Golden Hours Flight: Students: three classes in ten days, in the hours with room.',
-            "Out of Office, Not Out of Shape: Freeze when you fly. Train when you're home.",
-            'The Pause Button: Three months unlimited. Freeze it as often as you like.',
-          ],
-          why: 'Golden Hours launch for students and under-25s.',
         },
         {
           month: 'Jul',
-          event: 'Monsoon · Amazing Race warm-up',
-          theme: 'Monsoon I: Rain Check',
-          focus:
-            'Attendance and late cancels (Kenkere 21–30%); get people on a membership before the race starts on 1 Aug.',
-          offers: ['Rain Check Second Date', 'Warm-Up Lap', 'Monsoon Streak'],
-          actions: [
-            "Rain Check Second Date: Book your second class before you leave. Rain days don't count against you.",
-            'Warm-Up Lap: Get race-fit before the gun goes on 1 August.',
-            'Monsoon Streak: 12+ classes, zero late cancels, +7 days.',
-          ],
-          why: 'Race registrations open 15 Jul. Monsoon Streak leaderboard by studio.',
         },
         {
           month: 'Aug',
-          event: 'Month-long individual race · Friendship Day (Sun 1 Aug)',
-          theme: 'The Amazing Race 2.0',
-          focus:
-            'Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; second seasonal peak in Mumbai.',
-          offers: ['Starting Gun Week', 'Back on Track', 'Pit Stop'],
-          actions: [
-            'Starting Gun Week: Seven days unlimited from the day the race starts.',
-            'Back on Track: Your lane is still open.',
-            'Pit Stop: Renew mid-race and keep your streak.',
-          ],
-          why: 'The Amazing Race 2.0: every client races on their own against a studio leaderboard, 1–31 Aug. Rookie leaderboard for first-timers.',
         },
         {
           month: 'Sep',
-          event: '57 days to Diwali (2 Sep → 28 Oct)',
-          theme: 'Monsoon III: The Comeback',
-          focus: 'Reactivate before the festive season; carry race momentum into a festive countdown.',
-          offers: ['57-Day Proof', 'The Return Policy', 'Challenge Captain'],
-          actions: [
-            '57-Day Proof: Measure on day 1. Re-test before Diwali.',
-            'The Return Policy: Come back within 7 days of your comeback class and get a bonus.',
-            'Challenge Captain: Bring two friends into the countdown, get two weeks.',
-          ],
-          why: '57 Days to Diwali countdown starts 2 Sep; Bandra reunion repeat.',
         },
         {
           month: 'Oct',
-          event: 'Diwali (Fri 29 Oct) · Dasara week in Bengaluru',
-          theme: 'Festival of Lights',
-          focus: "Gift-led revenue; protect Kenkere's Dasara trough; catch Kwality's late-October surge without codes.",
-          offers: ['Gift a Flight', 'Light Up Your Streak', 'Festive Pause Pass'],
-          actions: [
-            'Gift a Flight: Give someone three classes and a reason to stay.',
-            'Light Up Your Streak: 15 classes in 30 days lights up 3 extra days.',
-            'Festive Pause Pass: Renew now; pause for the holidays.',
-          ],
-          why: 'Gift cards on sale from 1 Oct; candle-lit evening classes in Diwali week; limited-run format #3.',
         },
         {
           month: 'Nov',
-          event: 'Black Friday (Fri 26 Nov) → Cyber Monday (29 Nov)',
-          theme: 'Black Friday, Strong Monday',
-          focus: 'Long commitments in the softest Mumbai month.',
-          offers: ['Black Friday Week Zero', 'Black Friday Comeback', 'Strong Monday Ladder'],
-          actions: [
-            'Black Friday Week Zero: Seven days unlimited, fully credited.',
-            'Black Friday Comeback: Back for a month, plus three days.',
-            'Strong Monday Ladder: Renew long in the Black Friday window.',
-          ],
-          why: 'Club Nine last seats (only those unsold in April).',
         },
         {
           month: 'Dec',
-          event: 'Year-end · pre-sell January',
-          theme: 'Wrapped',
-          focus: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
-          offers: ['Kickstart 21: Pre-Solution Cohort', 'Your 2027 Wrapped', 'Challenge-Ready Renewal'],
-          actions: [
-            'Kickstart 21: Pre-Solution Cohort: Buy in December. Start Mon 3 Jan. Arrive in Stronger in 30.',
-            "Your 2027 Wrapped: You took 87 classes with us. Here's to the next year.",
-            "Challenge-Ready Renewal: Renew in December so you're covered for the whole February challenge.",
-          ],
-          why: '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
         },
       ],
       rhythm: [
         [
           'Newcomer journey',
-          "Offers: Week Zero, Swipe Right Flight, Kickstart 21: She Moves Cohort, Cloud Nine Intro, Kickstart 21: Summer Cohort, Golden Hours Flight, Rain Check Second Date, Starting Gun Week, 57-Day Proof, Gift a Flight, Black Friday Week Zero, Kickstart 21: Pre-Solution Cohort. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
         [
           'Lapsed journey',
-          "Offers: Back for Stronger, Come Back as a Pair, Beat Your Best, Nine Years, Nine Reasons, A Class for Mum, Out of Office, Not Out of Shape, Warm-Up Lap, Back on Track, The Return Policy, Light Up Your Streak, Black Friday Comeback, Your 2027 Wrapped. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
         [
           'Renewal journey',
-          "Offers: Finish Line Renewal, Partners in Crime, Pre-Party Upgrade, Lock In Before You Clock Out, The Afterparty, The Pause Button, Monsoon Streak, Pit Stop, Challenge Captain, Festive Pause Pass, Strong Monday Ladder, Challenge-Ready Renewal. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
       ],
       scorecard: [
@@ -2660,19 +688,19 @@ export const PLAYBOOK_2027: PlaybookData = {
           title: 'Renewals carry the year',
           stat: '22%',
           detail: 'Renewal plan ₹4.2L of ₹19.4L; 70 renewal purchases planned from 786 due.',
-          implication: "Renewal offers: Credit Where It's Due, Pack + Passport.",
+          implication: '',
         },
         {
           title: 'New clients',
           stat: '24',
           detail: 'New-client plan ₹2.0L: 1,385 leads → 295 trials → 24 new buyers.',
-          implication: 'Newcomer offers: First Drop-in Counts, Saturday Squad, Studio Passport.',
+          implication: '',
         },
         {
           title: 'Lapsed clients',
           stat: '317',
           detail: 'Reactivation plan ₹1.2L: 317 reactivated from 2,221 touches.',
-          implication: 'Lapsed offers: Missed You at the Pop-up, Neighbourhood Reunion, Move to Kenkere.',
+          implication: '',
         },
         {
           title: 'Peak month: Sep',
@@ -2691,35 +719,35 @@ export const PLAYBOOK_2027: PlaybookData = {
             name: 'Trial-to-member conversion',
             value: 35241,
             math: '444 non-hosted first visits × (34.0% → 39.4%) = +24 members × ₹2,000 first-year value × 0.73 in-year realisation',
-            why: 'Final plan: carried by the newcomer offers — First Drop-in Counts, Saturday Squad, Studio Passport.',
+            why: '',
           },
           {
             id: 'leads',
             name: 'Online-lead speed to trial',
             value: 107546,
             math: '997 online leads × trial rate 11.5% → 20.2% × 85% trial→member = +73 members × ₹2,000 × 0.73',
-            why: 'Final plan: carried by the newcomer offers — First Drop-in Counts, Saturday Squad, Studio Passport.',
+            why: '',
           },
           {
             id: 'referral',
             name: 'Paid-on-conversion referral engine',
             value: 39542,
             math: '71 referral leads × +50% volume × 76.1% lead→member = +27 members × ₹2,000 × 0.73',
-            why: 'Final plan: carried by the newcomer offers — First Drop-in Counts, Saturday Squad, Studio Passport.',
+            why: '',
           },
           {
             id: 'winback',
             name: 'Drop-in reactivation',
             value: 144000,
             math: '300 dormant drop-in clients × 12% return × ₹4,000 (≈ one 4-class pack)',
-            why: 'Final plan: carried by the lapsed offers — Missed You at the Pop-up, Neighbourhood Reunion, Move to Kenkere.',
+            why: '',
           },
           {
             id: 'packs',
             name: 'Credit-to-pack upgrades',
             value: 182400,
             math: '76 clients bought 3+ single credits × 30% upgrade to an 8/10-pack × 2 cycles × ~₹4,000 net uplift',
-            why: "Final plan: carried by the renewal offers — Credit Where It's Due, Pack + Passport.",
+            why: '',
           },
         ],
         leverTotal: 508728.37,
@@ -2727,362 +755,57 @@ export const PLAYBOOK_2027: PlaybookData = {
         projection: 1973303.96,
         appTargetAtBuild: 2310000,
       },
-      offers: [
-        {
-          name: 'First Drop-in Counts',
-          tag: 'Acquisition',
-          months: 'Jan, Apr, Jul, Oct',
-          audience: 'First-time pop-up clients.',
-          mechanic:
-            '8-class pack: ₹6.9k (list price). First drop-in fee credited toward a C+C 8-class pack bought within 7 days',
-          economics:
-            '13.6% effective = 0% cash + 13.6% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (+₹0.9k vs the ₹0.2L stream plan) · 2 buyers',
-          logic: 'Only 2.9% of first visits buy a pack, yet 63% buy something.',
-          kpi: 'Pack conversion of first visits.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Missed You at the Pop-up',
-          tag: 'Win-back',
-          months: 'Jan, Apr, Jul, Oct',
-          audience: 'Lapsed pop-up clients.',
-          mechanic:
-            '8-class pack: ₹5.9k (15% off the ₹6.9k list price). 8-class pack at the standing 15% + a free return class',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (+₹1.3k vs the ₹0.2L stream plan) · 13 buyers',
-          logic: 'Most pop-up reactivations are single credits.',
-          kpi: 'Pack share.',
-          lever: 'winback',
-        },
-        {
-          name: "Credit Where It's Due",
-          tag: 'Renewal',
-          months: 'Jan, Feb, Apr, May, Jul, Aug, Oct, Nov',
-          audience: 'Clients with 3+ drop-ins in 60 days.',
-          mechanic: '10-class pack: ₹8.5k (list price). Last 2 drop-ins credited toward a C+C 10-class pack',
-          economics:
-            '22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (−₹1.3k vs the ₹0.2L stream plan) · 2 buyers',
-          logic: '186 regulars spent ~₹4,000 each on drop-ins, already half a pack.',
-          kpi: 'Effective ≈22%.',
-          lever: null,
-        },
-        {
-          name: 'Saturday Squad',
-          tag: 'Acquisition',
-          months: 'Feb, May, Aug, Nov',
-          audience: 'First-timers on Saturdays.',
-          mechanic:
-            '4-class pack: ₹4k (15% off the ₹4.7k list price). Bring a friend free; Both buy a 4-class pack at the standing 15%',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.1L counted (+₹0.2k vs the ₹0.1L stream plan) · 1 buyers',
-          logic: 'Saturday fill is 43% vs 13–20% on weekdays.',
-          kpi: 'Saturday attendance.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Neighbourhood Reunion',
-          tag: 'Win-back',
-          months: 'Feb, May, Aug, Nov',
-          audience: 'Lapsed pop-up clients.',
-          mechanic:
-            '4-class pack: ₹4k (15% off the ₹4.7k list price). Monthly reunion class; At the door: 4-class pack at the standing 15%',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.1L counted (+₹1.1k vs the ₹0.1L stream plan) · 8 buyers',
-          logic: 'Saturday is the only day with real fill.',
-          kpi: 'Door conversion.',
-          lever: 'winback',
-        },
-        {
-          name: 'Studio Passport',
-          tag: 'Acquisition',
-          months: 'Mar, Jun, Sep, Dec',
-          audience: 'Pop-up clients.',
-          mechanic:
-            '10-class pack: ₹7.7k (10% off the ₹8.5k list price). 3 classes across Copper + Cloves / Plash → 1 free Kenkere class; 10-class pack at 10% off',
-          economics:
-            '10.0% effective = 10% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.1L counted (+₹0.1k vs the ₹0.1L stream plan) · 1 buyers',
-          logic: '8.8% of Kenkere leads are lost on proximity; the pop-ups are the bridge.',
-          kpi: 'Passport → Kenkere conversions.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Move to Kenkere',
-          tag: 'Win-back',
-          months: 'Mar, Jun, Sep, Dec',
-          audience: 'Lapsed pop-up clients living near Kenkere.',
-          mechanic: '8-class pack: ₹5.9k (15% off the ₹6.9k list price). Kenkere 8-class pack at the standing 15%',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.1L counted (+₹0.5k vs the ₹0.1L stream plan) · 8 buyers',
-          logic: 'Proximity-matched routing in both directions.',
-          kpi: 'Kenkere conversions.',
-          lever: 'winback',
-        },
-        {
-          name: 'Pack + Passport',
-          tag: 'Renewal',
-          months: 'Mar, Jun, Sep, Dec',
-          audience: 'Pop-up regulars.',
-          mechanic: '10-class pack: ₹8.5k (list price). 10-class pack at list + 1 Kenkere class',
-          economics:
-            '16.7% effective = 0% cash + 16.7% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.4L counted (+₹0.4k vs the ₹0.4L stream plan) · 5 buyers',
-          logic: 'Introduces regulars to the flagship.',
-          kpi: 'Kenkere visits.',
-          lever: null,
-        },
-        {
-          name: 'First Drop-in Counts',
-          tag: 'Acquisition',
-          months: 'Jan',
-          audience: 'First-time pop-up clients.',
-          mechanic:
-            '8-class pack: ₹6.9k (list price).; First drop-in fee credited toward a C+C 8-class pack bought within 7 days',
-          economics:
-            '13.6% effective = 0% cash + 13.6% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (+₹0.9k vs the ₹0.2L stream plan) · 2 buyers',
-          logic: 'Only 2.9% of first visits buy a pack, yet 63% buy something.',
-          kpi: 'Pack conversion of first visits.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Missed You at the Pop-up',
-          tag: 'Win-back',
-          months: 'Jan',
-          audience: 'Lapsed pop-up clients.',
-          mechanic:
-            '8-class pack: ₹5.9k (15% off the ₹6.9k list price).; 8-class pack at the standing 15% + a free return class',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (+₹1.3k vs the ₹0.2L stream plan) · 13 buyers',
-          logic: 'Most pop-up reactivations are single credits.',
-          kpi: 'Pack share.',
-          lever: 'winback',
-        },
-        {
-          name: "Credit Where It's Due",
-          tag: 'Renewal',
-          months: 'Jan',
-          audience: 'Clients with 3+ drop-ins in 60 days.',
-          mechanic: '10-class pack: ₹8.5k (list price).; Last 2 drop-ins credited toward a C+C 10-class pack',
-          economics:
-            '22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (−₹1.3k vs the ₹0.2L stream plan) · 2 buyers',
-          logic: '186 regulars spent ~₹4,000 each on drop-ins, already half a pack.',
-          kpi: 'Effective ≈22%.',
-          lever: 'annual',
-        },
-        {
-          name: 'Saturday Squad',
-          tag: 'Acquisition',
-          months: 'Feb',
-          audience: 'First-timers on Saturdays.',
-          mechanic:
-            '4-class pack: ₹4k (15% off the ₹4.7k list price).; Bring a friend free; Both buy a 4-class pack at the standing 15%; A February pack is your Stronger in 30 2.0 entry',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.1L counted (+₹0.2k vs the ₹0.1L stream plan) · 1 buyers',
-          logic: 'Saturday fill is 43% vs 13–20% on weekdays.',
-          kpi: 'Saturday attendance.',
-          lever: 'conversion',
-        },
-        {
-          name: 'Neighbourhood Reunion',
-          tag: 'Win-back',
-          months: 'Feb',
-          audience: 'Lapsed pop-up clients.',
-          mechanic:
-            '4-class pack: ₹4k (15% off the ₹4.7k list price).; Monthly reunion class; At the door: 4-class pack at the standing 15%; A February pack is your Stronger in 30 2.0 entry',
-          economics:
-            '15.0% effective = 15% cash. Guest passes, consults, freezes and early booking are valued at zero. ₹0.1L counted (+₹1.1k vs the ₹0.1L stream plan) · 8 buyers',
-          logic: 'Saturday is the only day with real fill.',
-          kpi: 'Door conversion.',
-          lever: 'winback',
-        },
-        {
-          name: "Credit Where It's Due",
-          tag: 'Renewal',
-          months: 'Feb',
-          audience: 'Clients with 3+ drop-ins in 60 days.',
-          mechanic:
-            '10-class pack: ₹8.5k (list price).; Last 2 drop-ins credited toward a C+C 10-class pack; A February pack is your Stronger in 30 2.0 entry',
-          economics:
-            '22.2% effective = 0% cash + 22.2% in extras (classes, days, privates, retail). Guest passes, consults, freezes and early booking are valued at zero. ₹0.2L counted (−₹1.3k vs the ₹0.2L stream plan) · 2 buyers',
-          logic: '186 regulars spent ~₹4,000 each on drop-ins, already half a pack.',
-          kpi: 'Effective ≈22%.',
-          lever: 'annual',
-        },
-      ],
+      offers: [],
       months: [
         {
           month: 'Jan',
-          event: 'New Year · Saturday squad · drop-in to pack',
-          theme: 'Start Line',
-          focus:
-            'Turn drop-ins into packs and feed Kenkere. Nothing launches this month: the work is the first drop-in, the Saturday squad and the pack conversation at the door.',
-          offers: ['First Drop-in Counts', 'Missed You at the Pop-up', "Credit Where It's Due"],
-          actions: [
-            'First Drop-in Counts: Your first class fee comes off your first pack.',
-            'Missed You at the Pop-up: Your neighbourhood class is waiting.',
-            "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
-          ],
-          why: 'Nothing to enter this month: the work is pack conversion, the Saturday squad and the door. January sells one drop-in at a time, and the pack closes at the desk.',
         },
         {
           month: 'Feb',
-          event: "The 30-day challenge · Saturday squad · Galentine's (Sat 13 Feb)",
-          theme: 'Stronger in 30 2.0',
-          focus:
-            "Run the challenge for pack holders: every February pack enters it, the Saturday squad is the welcoming floor, and Galentine's is the reason to bring someone.",
-          offers: ['Saturday Squad', 'Neighbourhood Reunion', "Credit Where It's Due"],
-          actions: [
-            'Saturday Squad: Saturdays: bring a friend free — and the pack is your challenge entry.',
-            'Neighbourhood Reunion: One Saturday a month, all the regulars.',
-            "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
-          ],
-          why: "Stronger in 30 2.0 runs 1–28 Feb and a February pack is the entry. The Saturday squad is the floor; the Galentine's class on Sat 13 Feb is the mid-challenge event.",
         },
         {
           month: 'Mar',
-          event: "International Women's Day (Mon 8 Mar)",
-          theme: 'She Moves',
-          focus: 'Purpose-led reach; Bandra reactivation; stop March trials from waiting for the anniversary.',
-          offers: ['Studio Passport', 'Move to Kenkere', 'Pack + Passport'],
-          actions: [
-            'Studio Passport: 3 stamps at the pop-ups, a free class at Kenkere.',
-            'Move to Kenkere: Closer to Kenkere House? Come to the flagship.',
-            'Pack + Passport: 10 classes here, 1 at Kenkere.',
-          ],
-          why: 'Class of 2024 Reunion at Bandra (638 lapsed launch-cohort clients). Anniversary teaser from 16 Mar.',
         },
         {
           month: 'Apr',
-          event: '9 years of Physique 57 India · first ₹1 Cr month',
-          theme: 'Cloud Nine (9th anniversary)',
-          focus:
-            "The year's best, most playful offers and the first ₹1 Cr sales month (target ₹104.5L), without the 26–31% discounts of April 2026. Caps: 20% on ≤1M products, 15% on 3M+.",
-          offers: ['First Drop-in Counts', 'Missed You at the Pop-up', "Credit Where It's Due"],
-          actions: [
-            'First Drop-in Counts: Your first class fee comes off your first pack.',
-            'Missed You at the Pop-up: Your neighbourhood class is waiting.',
-            "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
-          ],
-          why: 'Club Nine: 9 numbered annual memberships per studio at full price. Anniversary party classes in week 2. Hard close 30 Apr, 23:59.',
         },
         {
           month: 'May',
-          event: "Mother's Day (Sun 9 May)",
-          theme: 'The Afterparty',
-          focus:
-            'Retain the April cohort (target ≥55% renewal at next expiry vs 24.5% for 2026 anniversary-code buyers at Kwality); duo acquisition.',
-          offers: ['Saturday Squad', 'Neighbourhood Reunion', "Credit Where It's Due"],
-          actions: [
-            'Saturday Squad: Saturdays: bring a friend free.',
-            'Neighbourhood Reunion: One Saturday a month, all the regulars.',
-            "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
-          ],
-          why: 'Every April buyer gets the 30-day Afterparty plan: week-1 call, 8 classes in May unlocks a hosted class and a progress check.',
         },
         {
           month: 'Jun',
-          event: "Summer travel · college holidays · Father's Day (Sun 20 Jun)",
-          theme: 'Out of Office',
-          focus: 'Stop summer lapses; fill weekday 10–12 and weekend 4–7 pm (27–41% full) with students.',
-          offers: ['Studio Passport', 'Move to Kenkere', 'Pack + Passport'],
-          actions: [
-            'Studio Passport: 3 stamps at the pop-ups, a free class at Kenkere.',
-            'Move to Kenkere: Closer to Kenkere House? Come to the flagship.',
-            'Pack + Passport: 10 classes here, 1 at Kenkere.',
-          ],
-          why: 'Golden Hours launch for students and under-25s.',
         },
         {
           month: 'Jul',
-          event: 'Monsoon · Amazing Race warm-up',
-          theme: 'Monsoon I: Rain Check',
-          focus:
-            'Attendance and late cancels (Kenkere 21–30%); get people on a membership before the race starts on 1 Aug.',
-          offers: ['First Drop-in Counts', 'Missed You at the Pop-up', "Credit Where It's Due"],
-          actions: [
-            'First Drop-in Counts: Your first class fee comes off your first pack.',
-            'Missed You at the Pop-up: Your neighbourhood class is waiting.',
-            "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
-          ],
-          why: 'Race registrations open 15 Jul. Monsoon Streak leaderboard by studio.',
         },
         {
           month: 'Aug',
-          event: 'Month-long individual race · Friendship Day (Sun 1 Aug)',
-          theme: 'The Amazing Race 2.0',
-          focus:
-            'Attendance-led renewals and upgrades; bring new clients in on a Rookie leaderboard; second seasonal peak in Mumbai.',
-          offers: ['Saturday Squad', 'Neighbourhood Reunion', "Credit Where It's Due"],
-          actions: [
-            'Saturday Squad: Saturdays: bring a friend free.',
-            'Neighbourhood Reunion: One Saturday a month, all the regulars.',
-            "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
-          ],
-          why: 'The Amazing Race 2.0: every client races on their own against a studio leaderboard, 1–31 Aug. Rookie leaderboard for first-timers.',
         },
         {
           month: 'Sep',
-          event: '57 days to Diwali (2 Sep → 28 Oct)',
-          theme: 'Monsoon III: The Comeback',
-          focus: 'Reactivate before the festive season; carry race momentum into a festive countdown.',
-          offers: ['Studio Passport', 'Move to Kenkere', 'Pack + Passport'],
-          actions: [
-            'Studio Passport: 3 stamps at the pop-ups, a free class at Kenkere.',
-            'Move to Kenkere: Closer to Kenkere House? Come to the flagship.',
-            'Pack + Passport: 10 classes here, 1 at Kenkere.',
-          ],
-          why: '57 Days to Diwali countdown starts 2 Sep; Bandra reunion repeat.',
         },
         {
           month: 'Oct',
-          event: 'Diwali (Fri 29 Oct) · Dasara week in Bengaluru',
-          theme: 'Festival of Lights',
-          focus: "Gift-led revenue; protect Kenkere's Dasara trough; catch Kwality's late-October surge without codes.",
-          offers: ['First Drop-in Counts', 'Missed You at the Pop-up', "Credit Where It's Due"],
-          actions: [
-            'First Drop-in Counts: Your first class fee comes off your first pack.',
-            'Missed You at the Pop-up: Your neighbourhood class is waiting.',
-            "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
-          ],
-          why: 'Gift cards on sale from 1 Oct; candle-lit evening classes in Diwali week; limited-run format #3.',
         },
         {
           month: 'Nov',
-          event: 'Black Friday (Fri 26 Nov) → Cyber Monday (29 Nov)',
-          theme: 'Black Friday, Strong Monday',
-          focus: 'Long commitments in the softest Mumbai month.',
-          offers: ['Saturday Squad', 'Neighbourhood Reunion', "Credit Where It's Due"],
-          actions: [
-            'Saturday Squad: Saturdays: bring a friend free.',
-            'Neighbourhood Reunion: One Saturday a month, all the regulars.',
-            "Credit Where It's Due: Your last two drop-ins count toward a 10-pack.",
-          ],
-          why: 'Club Nine last seats (only those unsold in April).',
         },
         {
           month: 'Dec',
-          event: 'Year-end · pre-sell January',
-          theme: 'Wrapped',
-          focus: 'Pre-sell January and Stronger in 30 (2028) entries; renew on personal usage data.',
-          offers: ['Studio Passport', 'Move to Kenkere', 'Pack + Passport'],
-          actions: [
-            'Studio Passport: 3 stamps at the pop-ups, a free class at Kenkere.',
-            'Move to Kenkere: Closer to Kenkere House? Come to the flagship.',
-            'Pack + Passport: 10 classes here, 1 at Kenkere.',
-          ],
-          why: '"Your 2027 Wrapped": a personal year-in-review for every client, ending in a usage-based renewal recommendation.',
         },
       ],
       rhythm: [
         [
           'Newcomer journey',
-          "Offers: First Drop-in Counts, Saturday Squad, Studio Passport. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
         [
           'Lapsed journey',
-          "Offers: Missed You at the Pop-up, Neighbourhood Reunion, Move to Kenkere. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
         [
           'Renewal journey',
-          "Offers: Credit Where It's Due, Pack + Passport. Watch each offer's “What to watch” measures and rate of sale monthly.",
+          "Work the offers this month's plan picked; watch each one's success measures and rate of sale monthly.",
         ],
       ],
       scorecard: [

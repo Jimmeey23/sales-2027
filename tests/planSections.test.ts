@@ -32,13 +32,15 @@ const input = {
     theme: 'Start Line',
     objective: 'Convert January trial demand and re-up the January annuals.',
     strategy: 'Start Line — New Year.\nCommercial job: Fill the first week, then convert.',
-    notes: 'Push the lists, not a deeper discount.',
+    notes: 'Activation: New Year reset week, free form check for every member.\nPush the lists, not a deeper discount.',
     status: 'approved',
     actions: [
       { week: 1, owner: 'Studio manager', text: 'Set up the three January offers in Momence.' },
       { week: 1, owner: 'Sales lead', text: 'Brief the team on the no-stacking rule.' },
     ],
     content: {
+      kicker: 'New Year',
+      ai: { risks: ['Refunds slower than 3 days lose the January rush.'] },
       collaterals: { hiddenChannels: [], customChannels: [], byOffer: {} },
     },
   },

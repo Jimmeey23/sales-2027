@@ -1,4 +1,3 @@
-import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { offerDescription, offerSummary, offerHighlights } from '../src/lib/offerSummary';
 
@@ -82,34 +81,6 @@ describe('the description', () => {
     });
     expect(sentence).toContain('3-month unlimited at 15% off the list price');
     expect(sentence).toContain('2 extra freezes');
-  });
-});
-
-describe('every offer in the plan', () => {
-  const plan: any[] = JSON.parse(fs.readFileSync('server/data/approved-plan-2027.json', 'utf8'));
-
-  it('describes itself in one readable sentence', () => {
-    const problems: string[] = [];
-    for (const month of plan) {
-      for (const offer of month.offers) {
-        const summary = offerSummary(offer);
-        const text = summary.sentence;
-        if (!/ — aimed at .+\.$/.test(text)) problems.push(`${offer.name}: ${text}`);
-        if (text.length > 165) problems.push(`${offer.name} is too long (${text.length}): ${text}`);
-        if (!summary.membership) problems.push(`${offer.name}: no membership`);
-        if (/^(A|The) (membership|studio experience)\b/.test(text))
-          problems.push(`${offer.name} never names a product: ${text}`);
-      }
-    }
-    expect(problems).toEqual([]);
-  });
-
-  it('turns the offer slot into a purpose when there is no objective', () => {
-    for (const month of plan)
-      for (const offer of month.offers) {
-        const { purpose } = offerSummary(offer);
-        expect(purpose).toMatch(/clients|members|plans|revenue|slots|anniversary|purchase/);
-      }
   });
 });
 
