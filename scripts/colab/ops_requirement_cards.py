@@ -110,9 +110,9 @@ ROWS = [
     ('Nov', 'Guest pass cards', 'Print', 'The Glute Custody Battle', '3 per renewer', 'P2', 15, 8, 11, 4, '18 Nov'),
     ('Nov', 'Studio wallet cards', 'Print', 'Assets Before Liabilities', '₹50,000 wallet', 'P3', 4, 4, 4, 0, '18 Nov'),
     ('Nov', '"Caught you" DM template', 'Digital', 'Wanted: Dead or Deadlifting', 'From 1 Nov', 'P2', 1, 1, 1, 0, '31 Oct'),
-    ('Dec', 'Passive-aggressive message cards', 'Print', 'Gift Card Black Market', 'Choice of cards with each gift card', 'P1', 5, 4, 3, 0, '1 Dec'),
-    ('Dec', 'Gift-card wall', 'Fixture', 'Gift Card Black Market', 'In studio', 'P2', 1, 1, 1, 0, '1 Dec'),
-    ('Dec', 'Printable 1-Month gift card (WhatsApp)', 'Digital', 'Last-Minute Panic Buy', 'Sent in minutes', 'P2', 1, 0, 0, 0, '1 Dec'),
+    ('Dec', 'Passive-aggressive message cards', 'Print', 'The Class Cartel', 'Choice of cards with each gift card', 'P1', 5, 4, 3, 0, '1 Dec'),
+    ('Dec', 'Gift-card wall', 'Fixture', 'The Class Cartel', 'In studio', 'P2', 1, 1, 1, 0, '1 Dec'),
+    ('Dec', 'Printable 1-Month gift card (WhatsApp)', 'Digital', 'The Christmas Eve Extortion', 'Sent in minutes', 'P2', 1, 0, 0, 0, '1 Dec'),
     ('Dec', '12 Days of Barre-mas perk kit', 'Event', 'The Pre-Solution (12–23 Dec)', 'One daily perk for members', 'P2', 1, 1, 1, 0, '8 Dec'),
     ('Dec', 'Receipt paper rolls (year in review)', 'Consumable', 'Year in review (reuses the April printer)', 'One per active member; doubles as January send', 'P3', 6, 4, 3, 1, '15 Dec')
 ]

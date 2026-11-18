@@ -40,7 +40,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 Together the offers are planned to bring in ₹34,020, 11% of the target. The rest comes from full-price sales.
 
-### Offer 1 of 4: Santa's Witness Protection Programme
+### Offer 1 of 4: Naughty, New & Slightly Overweight
 
 - **Type:** New clients
 - **Who it's for:** Drop-in regulars and first-time pop-up clients
@@ -53,7 +53,7 @@ Together the offers are planned to bring in ₹34,020, 11% of the target. The re
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Single classes and credits are about three-quarters of pop-up revenue; packs make clients regulars and feed Kenkere House.
 
-### Offer 2 of 4: The Return of the Unfit
+### Offer 2 of 4: The Walking Red Flag
 
 - **Type:** Win-back
 - **Who it's for:** Pop-up clients who have not visited for 60+ days
@@ -65,7 +65,7 @@ Together the offers are planned to bring in ₹34,020, 11% of the target. The re
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** A small pack is the easiest yes for a lapsed drop-in client.
 
-### Offer 3 of 4: The December Retention Racket
+### Offer 3 of 4: Till Debt Do Us Part
 
 - **Type:** Renewal
 - **Who it's for:** Pack holders with 2 or fewer classes left
@@ -93,8 +93,8 @@ Together the offers are planned to bring in ₹34,020, 11% of the target. The re
 ## Week by week
 
 - **Week 1:** Launch the month's pack offer to all drop-in regulars.
-- **Week 2:** The Return of the Unfit to clients lapsed 60+ days.
-- **Week 3:** The December Retention Racket to pack holders with 2 or fewer classes left.
+- **Week 2:** The Walking Red Flag to clients lapsed 60+ days.
+- **Week 3:** Till Debt Do Us Part to pack holders with 2 or fewer classes left.
 - **Week 4:** Big City Upgrade check: who is ready for Kenkere House?
 
 ## Activation and channels

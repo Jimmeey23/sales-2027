@@ -6,7 +6,6 @@ import {
   flagSwipe,
   preGame,
   santaKnock,
-  ballDrop,
   heist,
   newbieLift,
   outOfOffice,
@@ -1270,7 +1269,7 @@ const k0 = (t: number) => Math.sin(t * 4) > 0; // Rudolph's nose blinks
 
 
 export const SEASON_SCENES: Record<number, Scene> = {
-  1: layered(layered(resolution, ballDrop), newbieLift),
+  1: layered(resolution, newbieLift),
   2: layered(valentine, flagSwipe),
   3: layered(womensDay, preGame),
   4: aprilGala, // built from scratch; the old receipts scene and gala layer are retired

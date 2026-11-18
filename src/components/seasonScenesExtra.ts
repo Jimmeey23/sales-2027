@@ -1165,52 +1165,6 @@ export const heist: Scene = {
   },
 };
 
-/* ── January: Times-Square style ball drop and a 3-2-1 countdown that lands on 2027 ── */
-export const ballDrop: Scene = {
-  init: () => ({}),
-  draw(ctx, w, h, t) {
-    const cycle = t % 8; // 0–5 s drop with countdown, 5–8 s celebrate
-    const x = w * 0.5,
-      top = h * 0.06,
-      bottom = h * 0.4;
-    ctx.strokeStyle = 'rgba(200, 210, 230, 0.5)';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(x, top - 30);
-    ctx.lineTo(x, bottom + 20);
-    ctx.stroke();
-    const p = Math.min(1, cycle / 5);
-    const y = top + (bottom - top) * p;
-    glow(ctx, x, y, 70, '180, 210, 255', 0.5);
-    for (let i = 0; i < 40; i++) {
-      const a = (i / 40) * TAU + t * 0.8;
-      const r = 22;
-      const c = ['120, 200, 255', '255, 214, 102', '255, 120, 150', '255, 255, 255'][i % 4];
-      ctx.fillStyle = `rgba(${c}, ${0.6 + 0.4 * Math.sin(t * 6 + i)})`;
-      ctx.beginPath();
-      ctx.arc(x + Math.cos(a) * r, y + Math.sin(a) * r * 0.9, 4, 0, TAU);
-      ctx.fill();
-    }
-    ctx.save();
-    ctx.textAlign = 'center';
-    if (cycle < 5) {
-      const n = Math.max(1, 5 - Math.floor(cycle));
-      const frac = cycle % 1;
-      ctx.font = `800 ${Math.round(70 + frac * 40)}px Inter, system-ui, sans-serif`;
-      ctx.fillStyle = `rgba(255, 255, 255, ${1 - frac * 0.8})`;
-      ctx.fillText(String(n), x, bottom + 110);
-    } else {
-      const k = Math.min(1, (cycle - 5) * 2);
-      ctx.font = `800 ${Math.round(60 + k * 30)}px Georgia, serif`;
-      ctx.shadowColor = 'rgba(255, 214, 102, 0.9)';
-      ctx.shadowBlur = 30;
-      ctx.fillStyle = '#ffd666';
-      ctx.fillText('2027', x, bottom + 110);
-    }
-    ctx.restore();
-  },
-};
-
 /* ── February: Red Flags, Green Flags — a dating-app card stack. A profile slides in, the bio
    types out, a giant stamp slams RED FLAG or GREEN FLAG, and the card is flung off left or
    right. Little flags pop up out of the floor like whack-a-mole. ── */

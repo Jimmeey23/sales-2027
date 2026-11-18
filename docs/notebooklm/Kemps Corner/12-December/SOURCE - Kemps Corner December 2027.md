@@ -40,7 +40,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 Together the offers are planned to bring in ₹14.5L (₹14,50,543), 41% of the target. The rest comes from full-price sales.
 
-### Offer 1 of 5: Santa's Witness Protection Programme
+### Offer 1 of 5: Naughty, New & Slightly Overweight
 
 - **Type:** New clients
 - **Who it's for:** New clients
@@ -53,7 +53,7 @@ Together the offers are planned to bring in ₹14.5L (₹14,50,543), 41% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** December is the smallest month and January the strongest for starts. The alignment consult makes the first class feel personal.
 
-### Offer 2 of 5: The Return of the Unfit
+### Offer 2 of 5: The Walking Red Flag
 
 - **Type:** Win-back
 - **Who it's for:** Clients lapsed 60+ days
@@ -66,7 +66,7 @@ Together the offers are planned to bring in ₹14.5L (₹14,50,543), 41% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Expired classes are the most common lapsed-client grievance. Restoring them costs little and gives the comeback a reason that is not a discount.
 
-### Offer 3 of 5: The December Retention Racket
+### Offer 3 of 5: Till Debt Do Us Part
 
 - **Type:** Renewal
 - **Who it's for:** Members expiring in December and January
@@ -79,7 +79,7 @@ Together the offers are planned to bring in ₹14.5L (₹14,50,543), 41% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Members leave in December because they travel. A long freeze and remote privates remove the reason.
 
-### Offer 4 of 5: Gift Card Black Market
+### Offer 4 of 5: The Class Cartel
 
 - **Type:** Revenue boost
 - **Who it's for:** Members and anyone buying gifts
@@ -92,7 +92,7 @@ Together the offers are planned to bring in ₹14.5L (₹14,50,543), 41% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Funny gift cards get given; every card is a January newcomer with classes already paid.
 
-### Offer 5 of 5: Last-Minute Panic Buy
+### Offer 5 of 5: The Christmas Eve Extortion
 
 - **Type:** Flash sale
 - **Who it's for:** Everyone
@@ -107,10 +107,10 @@ Together the offers are planned to bring in ₹14.5L (₹14,50,543), 41% of the 
 
 ## Week by week
 
-- **Week 1:** W1: pre-sell January (Santa's Witness Protection Programme).
-- **Week 2:** W2: The Return of the Unfit to the lapsed list; renew-by-20-Dec calls (The December Retention Racket).
-- **Week 3:** W3: 12 Days of Barre-mas; Gift Card Black Market.
-- **Week 4:** W4: Last-Minute Panic Buy (24 Dec); year-end close; January trial calendar opened.
+- **Week 1:** W1: pre-sell January (Naughty, New & Slightly Overweight).
+- **Week 2:** W2: The Walking Red Flag to the lapsed list; renew-by-20-Dec calls (Till Debt Do Us Part).
+- **Week 3:** W3: 12 Days of Barre-mas; The Class Cartel.
+- **Week 4:** W4: The Christmas Eve Extortion (24 Dec); year-end close; January trial calendar opened.
 
 ## Activation and channels
 

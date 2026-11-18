@@ -40,7 +40,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 Together the offers are planned to bring in ₹6.8L (₹6,78,210), 39% of the target. The rest comes from full-price sales.
 
-### Offer 1 of 4: Santa's Witness Protection Programme
+### Offer 1 of 4: Naughty, New & Slightly Overweight
 
 - **Type:** New clients
 - **Who it's for:** New clients
@@ -53,7 +53,7 @@ Together the offers are planned to bring in ₹6.8L (₹6,78,210), 39% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** December is the smallest month and January the strongest for starts. The alignment consult makes the first class feel personal.
 
-### Offer 2 of 4: The Return of the Unfit
+### Offer 2 of 4: The Walking Red Flag
 
 - **Type:** Win-back
 - **Who it's for:** Clients lapsed 60+ days
@@ -66,7 +66,7 @@ Together the offers are planned to bring in ₹6.8L (₹6,78,210), 39% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Expired classes are the most common lapsed-client grievance. Restoring them costs little and gives the comeback a reason that is not a discount.
 
-### Offer 3 of 4: The December Retention Racket
+### Offer 3 of 4: Till Debt Do Us Part
 
 - **Type:** Renewal
 - **Who it's for:** Members expiring in December and January
@@ -79,7 +79,7 @@ Together the offers are planned to bring in ₹6.8L (₹6,78,210), 39% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Members leave in December because they travel. A long freeze and remote privates remove the reason.
 
-### Offer 4 of 4: Last-Minute Panic Buy
+### Offer 4 of 4: The Christmas Eve Extortion
 
 - **Type:** Flash sale
 - **Who it's for:** Everyone
@@ -93,12 +93,12 @@ Together the offers are planned to bring in ₹6.8L (₹6,78,210), 39% of the ta
 
 ## Week by week
 
-- **Week 1:** Pre-sell January (Santa's Witness Protection Programme).
-- **Week 2:** The Return of the Unfit to the lapsed list; renew-by-20-Dec calls (The December Retention Racket).
-- **Week 3:** 12 Days of Barre-mas; Gift Card Black Market.
-- **Week 4:** Last-Minute Panic Buy (24 Dec); year-end close; January trial calendar opened.
+- **Week 1:** Pre-sell January (Naughty, New & Slightly Overweight).
+- **Week 2:** The Walking Red Flag to the lapsed list; renew-by-20-Dec calls (Till Debt Do Us Part).
+- **Week 3:** 12 Days of Barre-mas; The Class Cartel.
+- **Week 4:** The Christmas Eve Extortion (24 Dec); year-end close; January trial calendar opened.
 
 ## Activation and channels
 
 - Activation: 12 Days of Barre-mas (12–23 Dec): one daily flash perk for members (no stacking with the month's offers); passive-aggressive gift-card wall; year-in-review stats for every member.
-- Channels: WhatsApp and phone (Bandra's best-converting sources), referral cards, Instagram. Paid-website leads are qualified by phone before any trial is booked. How the offers make members commit The offers use ten mechanics so no two months feel the same. Each one rewards a behaviour that predicts renewal (attending, committing longer, bringing a friend) rather than handing out a percentage. Mechanic How it works Where it is used Why it works Earn-back The first month is paid; attendance earns part or all of it back as credit on a longer plan. The January Delulu Club, The 16-Class Hostage Situation, Sweating Through Your Dignity for Cash, My Own Sugar Daddy, Post-Breakup Revenge Tour, The Public Apology Tour, Shame-Fueled Competitive Comeback Pays for the habit, not for signing up; the cost lands only on a client who commits longer. Scaled winback The longer a client has been away, the bigger the incentive. Texting Your Toxic Ex Spends the most on the hardest-to-win, nothing on those who return anyway. Streak credit Full price now; each week of 3+ classes earns credit for the next purchase. The Glute Walk of Shame Builds the second purchase into the first. Unlock A full-price product that unlocks a better deal when a task is finished. The “Look What You Lost” Tour Finds the class the client will stay for before asking for 3 months. Countdown price The discount falls every 24 hours. Black Friday Pelvic Hostage Crisis Rewards deciding early; ends the wait-until-Monday habit. Flash window 9 minutes to 72 hours, announced with a countdown. One flash sale every month Creates urgency that a month-long offer cannot. Limited edition A product that exists for one month only, numbered. 9-Month Unlimited, 9-Class Pack Scarcity without discounting the core products. Wheel with a dare Spin; keep the prize, double it with a dare, or donate it to a friend. Recreational Gambling (For Hamstrings) Turns the prize into attendance in May, or into a referral. Referral ladder 1 bonus class when a friend tries; 7 extra days (or 2 classes on a pack) when the friend buys; a free private when two friends buy. Libido Litmus Test, Cult Recruitment & Human Sacrifice, Dad Bod Intervention; standing all year Pays members for buyers, not just for introductions. Comfort perks Extra freezes, longer validity, virtual privates, trainer consults, restored classes. Summer and December renewals, packs, The Return of the Unfit Removes the real reasons clients leave (travel, unused classes) at little cost.  Team rhythm and KPIs 	•	Daily (10-minute huddle): yesterday's sales against the daily target (workbook, Daily tab), leads called within 2 hours, trials booked, offers expiring this week. 	•	Weekly (Monday): Weekly Tracker in the workbook; conversion by associate; renewals due in the next 14 days; winback touches logged. 	•	Monthly (3rd working day): month against target by stream; offer units sold against the offer targets in this playbook; next month's offers briefed to trainers. 	•	KPIs to watch: new members per first visit (18% plan), first visits per lead (64%), renewal rate (79%), winback response (10%, to be measured), average discount, fill rate. If the studio falls behind Trigger Action Week 2 sales under 40% of the month's target Call every renewal due in the next 30 days with the month's renewal offer; push upgrades to 3-Month. Members per first visit under plan for 2 weeks Manager sits in on trial follow-ups; trials moved to weekday slots; 72-hour offer windows enforced. Leads under 80% of plan by mid-month Referral push (guest passes to every member); review the paid-ads lead quality before increasing spend. Renewal rate under plan for a month D-14 calls audited; usage calls for everyone under 25% usage; trainer check-ins at visit 4. Quarter under 95% of target Pull forward the next month's renewal offer for members expiring in the next 45 days; never add discount beyond 25%.
+- Channels: WhatsApp and phone (Bandra's best-converting sources), referral cards, Instagram. Paid-website leads are qualified by phone before any trial is booked. How the offers make members commit The offers use ten mechanics so no two months feel the same. Each one rewards a behaviour that predicts renewal (attending, committing longer, bringing a friend) rather than handing out a percentage. Mechanic How it works Where it is used Why it works Earn-back The first month is paid; attendance earns part or all of it back as credit on a longer plan. The January Delulu Club, The 16-Class Hostage Situation, Sweating Through Your Dignity for Cash, My Own Sugar Daddy, Post-Breakup Revenge Tour, The Public Apology Tour, Shame-Fueled Competitive Comeback Pays for the habit, not for signing up; the cost lands only on a client who commits longer. Scaled winback The longer a client has been away, the bigger the incentive. Texting Your Toxic Ex Spends the most on the hardest-to-win, nothing on those who return anyway. Streak credit Full price now; each week of 3+ classes earns credit for the next purchase. The Glute Walk of Shame Builds the second purchase into the first. Unlock A full-price product that unlocks a better deal when a task is finished. The “Look What You Lost” Tour Finds the class the client will stay for before asking for 3 months. Countdown price The discount falls every 24 hours. Black Friday Pelvic Hostage Crisis Rewards deciding early; ends the wait-until-Monday habit. Flash window 9 minutes to 72 hours, announced with a countdown. One flash sale every month Creates urgency that a month-long offer cannot. Limited edition A product that exists for one month only, numbered. 9-Month Unlimited, 9-Class Pack Scarcity without discounting the core products. Wheel with a dare Spin; keep the prize, double it with a dare, or donate it to a friend. Recreational Gambling (For Hamstrings) Turns the prize into attendance in May, or into a referral. Referral ladder 1 bonus class when a friend tries; 7 extra days (or 2 classes on a pack) when the friend buys; a free private when two friends buy. Libido Litmus Test, Cult Recruitment & Human Sacrifice, Dad Bod Intervention; standing all year Pays members for buyers, not just for introductions. Comfort perks Extra freezes, longer validity, virtual privates, trainer consults, restored classes. Summer and December renewals, packs, The Walking Red Flag Removes the real reasons clients leave (travel, unused classes) at little cost.  Team rhythm and KPIs 	•	Daily (10-minute huddle): yesterday's sales against the daily target (workbook, Daily tab), leads called within 2 hours, trials booked, offers expiring this week. 	•	Weekly (Monday): Weekly Tracker in the workbook; conversion by associate; renewals due in the next 14 days; winback touches logged. 	•	Monthly (3rd working day): month against target by stream; offer units sold against the offer targets in this playbook; next month's offers briefed to trainers. 	•	KPIs to watch: new members per first visit (18% plan), first visits per lead (64%), renewal rate (79%), winback response (10%, to be measured), average discount, fill rate. If the studio falls behind Trigger Action Week 2 sales under 40% of the month's target Call every renewal due in the next 30 days with the month's renewal offer; push upgrades to 3-Month. Members per first visit under plan for 2 weeks Manager sits in on trial follow-ups; trials moved to weekday slots; 72-hour offer windows enforced. Leads under 80% of plan by mid-month Referral push (guest passes to every member); review the paid-ads lead quality before increasing spend. Renewal rate under plan for a month D-14 calls audited; usage calls for everyone under 25% usage; trainer check-ins at visit 4. Quarter under 95% of target Pull forward the next month's renewal offer for members expiring in the next 45 days; never add discount beyond 25%.
