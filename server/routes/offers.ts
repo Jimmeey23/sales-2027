@@ -819,7 +819,15 @@ export default function registerOffersRoutes(app: Express) {
     const body = req.body ?? {};
     const hasNotes = 'performanceNotes' in body || 'performance_notes' in body;
     const hasAds = 'runAds' in body || 'run_ads' in body;
-    if (!hasNotes && !hasAds) throw bodyError('Nothing to save.');
+    const hasTags = 'tags' in body;
+    if (!hasNotes && !hasAds && !hasTags) throw bodyError('Nothing to save.');
+    const tags = hasTags
+      ? JSON.stringify(
+          [...new Set((Array.isArray(body.tags) ? body.tags : []).map((t: unknown) => String(t ?? '').trim().slice(0, 40)))]
+            .filter(Boolean)
+            .slice(0, 12),
+        )
+      : before.plan_tags;
     const rawNotes = 'performanceNotes' in body ? body.performanceNotes : body.performance_notes;
     const rawAds = 'runAds' in body ? body.runAds : body.run_ads;
     const notes = hasNotes
@@ -828,11 +836,9 @@ export default function registerOffersRoutes(app: Express) {
           .slice(0, 3000) || null
       : before.performance_notes;
     const runAds = hasAds ? (rawAds ? 1 : 0) : before.run_ads;
-    db.prepare('UPDATE offers SET performance_notes=?,run_ads=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(
-      notes,
-      runAds,
-      offerId,
-    );
+    db.prepare(
+      'UPDATE offers SET performance_notes=?,run_ads=?,plan_tags=?,updated_at=CURRENT_TIMESTAMP WHERE id=?',
+    ).run(notes, runAds, tags, offerId);
     const after = db.prepare('SELECT * FROM offers WHERE id=?').get(offerId) as any;
     audit({
       userId: req.user!.id,

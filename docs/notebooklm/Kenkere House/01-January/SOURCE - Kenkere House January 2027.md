@@ -79,11 +79,11 @@ Together the offers are planned to bring in ₹5.2L (₹5,23,476), 29% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Renewals cluster at the expiry date and members who leave it to the last day lapse more. A reward that grows with how early they commit moves the decision, protects price and gives the front desk a simple script: "the earlier, the better".
 
-### Offer 4 of 4: Stockholm Syndrome: Annual Pass
+### Offer 4 of 4: New Year's Regret Window
 
-- **Type:** Revenue boost
+- **Type:** Flash sale
 - **Who it's for:** Anyone: new clients, lapsed clients, or members upgrading
-- **Headline:** You'll learn to love your captors. The lighting is excellent.
+- **Headline:** 72 hours. After that, you can regret it at full price.
 - **What they get:** 3-Month Unlimited at 20% off (₹33,768 instead of ₹42,210) plus a pair of Physique 57 grip socks. Countdown clock on Instagram and at the front desk.
 - **When:** 2–4 Jan (72 hours, ends 11:59 pm on 4 Jan)
 - **Why we're running it:** Turn the New Year rush into 3-month commitments in the first 72 hours, before the January newcomer offer takes over.

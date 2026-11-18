@@ -79,11 +79,11 @@ Together the offers are planned to bring in ₹5.2L (₹5,24,234), 31% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Freezes cost nothing and stop the summer churn. The virtual private keeps them training while away, which is what brings them back in July.
 
-### Offer 4 of 4: Big Glute Energy (Unregulated)
+### Offer 4 of 4: Dad Bod Intervention
 
-- **Type:** Revenue boost
+- **Type:** Flash sale
 - **Who it's for:** Members buying for a father, partner or brother new to the studio
-- **Headline:** Your 1-Month is a phase. Six months is a personality.
+- **Headline:** He says he is "built different". Prove it.
 - **What they get:** A 4-class pack gift for him at 20% off (₹5,670). If he books his first class within 14 days, the member earns on the referral ladder (1 bonus class).
 - **When:** 19–20 Jun (Father's Day weekend, 48 hours)
 - **Why we're running it:** Open a new audience through members.

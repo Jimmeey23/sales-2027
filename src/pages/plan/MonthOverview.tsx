@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Quote, ShieldCheck, Sparkles, Target, TrendingUp, Users } from 'lucide-react';
 import { MONTHS, number } from '../../types';
+import SeasonScene from '../../components/SeasonScene';
+import MonsoonScene from '../../components/MonsoonScene';
 import type { MonthChapter, MonthStory } from '../../data/monthNarrative';
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -140,11 +142,10 @@ export default function MonthOverview({
   return (
     <section className="mo2" aria-label={`${MONTHS[month - 1]} overview`}>
       <header className="mo2-hero">
-        <div
-          className="mo2-photo"
-          style={{ backgroundImage: `url(${photo.url})`, backgroundPosition: photo.pos }}
-          aria-hidden="true"
-        />
+        {/* Same backdrop and animated props as the month's cover, instead of a photograph. */}
+        <div className={`mc-bg mc-bg-${month}`} aria-hidden="true" />
+        {month === 7 && <MonsoonScene />}
+        <SeasonScene month={month} />
         <div className="mo2-scrim" aria-hidden="true" />
         <div className="mo2-hero-inner">
           <div className="mo2-hero-copy">

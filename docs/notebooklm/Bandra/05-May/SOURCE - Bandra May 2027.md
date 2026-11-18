@@ -79,11 +79,11 @@ Together the offers are planned to bring in ₹7.7L (₹7,73,314), 43% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Between half and two-thirds of April 2026 buyers bought again by October. The ones who attend in their first 30 days are the ones worth upgrading, and the freezes answer the summer-travel objection before it is raised.
 
-### Offer 4 of 4: Humiliate Me in Private, Coach
+### Offer 4 of 4: Mother's Day Guilt Trip
 
-- **Type:** Revenue boost
+- **Type:** Flash sale
 - **Who it's for:** Members and anyone buying a 3-Month or bigger
-- **Headline:** Some things are better without an audience. Your form is one of them.
+- **Headline:** She carried you for nine months. Carry her to a barre class.
 - **What they get:** Buy a 3-Month Unlimited or bigger at the standard price (₹57,855) and get a 4-class pack gift card for your mother (or anyone who raised you), in a card she can actually frame.
 - **When:** 9 May only (24 hours)
 - **Why we're running it:** A full-price 3-Month spike plus a new client in every sale.

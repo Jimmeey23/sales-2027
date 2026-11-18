@@ -5,7 +5,6 @@ import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Play, Sparkles, X 
 import { MONTHS, MONTHS_SHORT } from '../../types';
 import { formatKeyDate, type KeyDate } from '../../data/keyDates';
 import { lakh } from './usePlanData';
-import { MechanicMini } from './AnniversaryMechanics';
 
 /* The cover that opens before a month plan: the month's focus and brief over its lead
    photograph, then the numbers that define the month — revenue split, lead requirement,
@@ -192,15 +191,6 @@ export default function MonthCover({
   });
   const lead = streams.reduce((a, b) => (b.value > a.value ? b : a), streams[0]);
 
-  // Months with their own photograph. Portrait (Jun) are shown whole over a blurred copy.
-  const OWN: Record<number, { url: string; pos: string }> = {
-    2: { url: '/p57/feb-2027.jpg', pos: '50% 30%' },
-    3: { url: '/p57/march-2027.jpg', pos: '100% 30%' },
-    5: { url: '/p57/may-2027.jpg', pos: '100% 25%' },
-    6: { url: '/p57/june-pride-2027.jpg', pos: '50% 0%' },
-  };
-  const coverPhoto = OWN[month] ?? photo;
-  const fit = month === 2 || month === 6; // zoomed out 10%, blurred copy fills the edges
   return (
     <div
       ref={root}
@@ -211,22 +201,13 @@ export default function MonthCover({
       aria-modal="true"
       aria-label={`${MONTHS[month - 1]} overview`}
     >
-      {/* The room itself: the cover is the photograph, cropped to the sheet, with the
-          type set into a scrim over its left edge. */}
-      {/* June's photograph is a portrait: shown whole on the right, over a blurred copy of
-          itself, instead of cropped to the landscape sheet. */}
-      {fit && (
-        <div className="mc-photo mc-photo-fill" style={{ backgroundImage: `url(${coverPhoto.url})` }} aria-hidden="true" />
-      )}
-      <div
-        className={`mc-photo${fit ? ' is-zoom' : ''}`}
-        style={{ backgroundImage: `url(${coverPhoto.url})`, backgroundPosition: coverPhoto.pos }}
-        aria-hidden="true"
-      />
+      {/* No photograph: each month is a plain themed backdrop, and the animated props
+          (SeasonScene / MonsoonScene) carry the theme on top of it. */}
+      <div className={`mc-bg mc-bg-${month}`} aria-hidden="true" />
       <div className="mc-scrim" aria-hidden="true" />
       {/* July is monsoon month: rain and rising floodwater behind the cover. */}
       {month === 7 && <MonsoonScene />}
-      {/* Feb, Mar, Apr, May, Jun, Aug, Oct, Nov, Dec: seasonal scenes (Valentine's, Women's Day, Pride, anniversary, heat, Azaadi kites, Diwali, Christmas). */}
+      {/* Feb, Mar, Apr, May, Jun, Aug, Oct, Nov, Dec: seasonal scenes (Valentine's, Women's Day, Pride, anniversary, heat, excuse amnesty, Diwali, Christmas). */}
       <SeasonScene month={month} />
 
       <div className="mc-scroll">
@@ -273,7 +254,7 @@ export default function MonthCover({
               <p className="mc-anniv">
                 <i aria-hidden="true" />
                 <span>
-                  <b>Nine years</b> Still Shaking · {year}
+                  <b>Nine years</b> Every rep logged. Every excuse filed. · {year}
                 </span>
               </p>
             )}
@@ -479,20 +460,6 @@ export default function MonthCover({
             )}
           </section>
 
-          {/* The anniversary month is played, not just priced: the wheel, the ticket and the
-              nine gifts sit beside the numbers they have to move, each one opening the plan. */}
-          {birthday && (
-            <section className="mc-play" aria-label="What can be played this month">
-              <span className="mc-label">
-                <Sparkles size={11} /> Play this month
-              </span>
-              <div className="am-cover-strip is-stacked">
-                <MechanicMini kind="wheel" onOpen={openPlan} />
-                <MechanicMini kind="ticket" onOpen={openPlan} />
-                <MechanicMini kind="gifts" onOpen={openPlan} />
-              </div>
-            </section>
-          )}
         </div>
 
         {/* The argument in three columns — what breaks, what we do, and the four weeks —
@@ -662,7 +629,32 @@ const SLOT_LABEL: Record<string, string> = {
 
 function CoverBrief({ text, live }: { text: string; live: Live }) {
   const points = briefPoints(text);
-  if (points.length < 2) return <p className="mc-brief">{text}</p>;
+  if (points.length < 2) {
+    // A one-line brief (e.g. "Activation: …; …; …") gets a card in the left panel: the label as the
+    // heading and each clause on its own line, instead of a bare paragraph squeezed into one grid column.
+    const m = text.trim().match(/^([A-Z][\w &'’/-]{1,40}):\s*([\s\S]+)$/);
+    const label = m ? m[1] : 'This month';
+    const items = (m ? m[2] : text)
+      .split(/;\s+|\n+/)
+      .map(x => x.trim().replace(/[.;]$/, ''))
+      .filter(Boolean);
+    return (
+      <section className="mcb-block is-rest mc-brief-card">
+        <header>
+          <span>{label}</span>
+        </header>
+        {items.length > 1 ? (
+          <ul className="mc-brief-items">
+            {items.map((x, i) => (
+              <li key={i}>{x.charAt(0).toUpperCase() + x.slice(1)}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mcb-note">{items[0] || text}</p>
+        )}
+      </section>
+    );
+  }
 
   const used = new Set<Point>();
   const take = (re: RegExp) => {

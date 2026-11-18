@@ -79,11 +79,11 @@ Together the offers are planned to bring in ₹2.6L (₹2,58,279), 30% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Members leave in December because they travel. A long freeze and remote privates remove the reason.
 
-### Offer 4 of 4: Gift Card Black Market
+### Offer 4 of 4: Last-Minute Panic Buy
 
-- **Type:** Revenue boost
+- **Type:** Flash sale
 - **Who it's for:** Everyone
-- **Headline:** Thought of you." (We did. Mostly about your posture.)
+- **Headline:** Forgot a gift? So did everyone. 12 hours to save Christmas.
 - **What they get:** 1-Month Unlimited gift card at 15% off (₹12,406), delivered by WhatsApp in minutes with a printable card.
 - **When:** 24 Dec, 9 am to 9 pm (12 hours)
 - **Why we're running it:** Capture last-minute gift buyers on the busiest gifting day.

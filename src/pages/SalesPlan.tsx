@@ -10,12 +10,13 @@ import TargetsTab from './plan/TargetsTab';
 import Playbook2027 from '../components/Playbook2027';
 const AnnualPlanner = React.lazy(() => import('./AnnualPlanner'));
 const Anniversary = React.lazy(() => import('./Anniversary'));
+const PlannedOffers = React.lazy(() => import('./plan/PlannedOffers'));
 import PlanExportDialog from '../components/PlanExportDialog';
 import OfferImportDialog from '../components/OfferImportDialog';
 import PlanImportDialog from '../components/PlanImportDialog';
 
-// Plan has three tabs: Target Breakdown, Sales Plan and Anniversary Plan. Approvals, Activations,
-// Marketing and the old Target Metrics link land on the Target Breakdown.
+// Plan has four tabs: Target Breakdown, Sales Plan, Planned offers and
+// Anniversary Plan. Approvals, Activations, Marketing and the old Target Metrics link land on the Target Breakdown.
 const LEGACY_TABS: Record<string, string> = {
   targets: 'breakdown',
   revenue: 'breakdown',
@@ -132,6 +133,11 @@ export default function SalesPlan() {
                 )}
                 <TargetsTab data={data} onSaved={reload} section="plan" />
               </>
+            )}
+            {tab === 'planned-offers' && (
+              <React.Suspense fallback={<Loading />}>
+                <PlannedOffers themes={Object.fromEntries(data.months.map(m => [m.month, m.theme]))} />
+              </React.Suspense>
             )}
             {tab === 'anniversary' && (
               <React.Suspense fallback={<Loading />}>

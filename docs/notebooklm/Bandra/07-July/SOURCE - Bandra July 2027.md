@@ -79,11 +79,11 @@ Together the offers are planned to bring in ₹9.3L (₹9,32,554), 41% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Late cancels are highest from June to September. Rewarding a clean record does more than penalties alone, and it costs nothing for members who would cancel anyway.
 
-### Offer 4 of 4: The Broke Baddie Bailout
+### Offer 4 of 4: Red Alert, Red Hot
 
-- **Type:** Revenue boost
+- **Type:** Flash sale
 - **Who it's for:** Everyone
-- **Headline:** Champagne taste, monsoon budget. Pay in three, glow in full.
+- **Headline:** The city floods. Our prices drop. You stay dry indoors.
 - **What they get:** 12-class pack at 15% off (₹16,734) plus 1 bonus class, valid 60 days longer than usual. Announced on the morning of the alert.
 - **When:** The first IMD red-alert day in July, 12 hours from 9 am
 - **Why we're running it:** Turn the worst attendance day of the monsoon into a sales day.

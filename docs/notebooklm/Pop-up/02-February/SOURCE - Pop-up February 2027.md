@@ -8,11 +8,21 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## Theme and focus
 
-**Theme:** Stronger in 30 2.0 + Valentine's
+**Theme:** Red Flags, Green Flags
 
-**Objective:** Run the members-only Stronger in 30 2.0 challenge and grow through referrals. At Pop-ups: Pair packs.
+**Objective:** Turn Valentine’s-season traffic into first memberships through a mystery-class intro; recruit through members’ love letters; move February renewals onto 3–12 month plans; let lapsed clients come back on the commitment they choose. Every reward is tied to a purchase or a visit.
 
-**Strategy:** February is a short month with a habit problem: members who do not attend in February do not renew in March. Stronger in 30 2.0 (members only, 30 days) gives every member a reason to book. Valentine's and Galentine's are the natural referral moment.
+**Strategy:** Red Flags, Green Flags.
+
+Commercial job: Turn Valentine’s-season traffic into first memberships through a mystery-class intro; recruit through members’ love letters; move February renewals onto 3–12 month plans; let lapsed clients come back on the commitment they choose. Every reward is tied to a purchase or a visit.
+
+Newcomer: Blind Date (No Catfishing) (“Two classes. You don’t know which. That’s the fun part.”). Kenkere’s VDAY50! code (38 uses, ₹2.6L given away at 50%) bought February volume at a huge cost. A booked second visit lifts trial→member from 10.8% to 43.9%, and a mystery format gets newcomers into the class they would never pick, which is usually the one that sells the membership.
+
+Referral: Love Bombing (The Healthy Kind) (“Love bombing, but it’s two free classes and zero manipulation.”). Referrals convert 41.2% at Kwality, 22.6% at Bandra, 28.3% at Kenkere and 76.1% at pop-ups, versus 3.8–5.7% for website leads. The 2026 BOGO codes (70 uses, ₹3.1L given) went mostly to existing clients; this one pays out only when a genuinely new person buys.
+
+Renewal: Put a Ring On It (“If you like it, then you should’ve put a 6-month on it.”). Members using 75%+ of their sessions renew at 82–88%, and longer plans keep them using them. The best perks sit on the longest plans; nothing is unlocked by a class count, so every renewer qualifies.
+
+Lapsed: It’s Not You, It’s Your Schedule (“It’s not you, it’s your schedule. Pick a relationship status.”). Lapsers average 2.6–3.4 visits in the first half of a membership vs 6.4 for renewers: they left because the plan did not fit the week, not because of the price. Letting them pick the commitment removes the objection without deepening the discount.
 
 ## The revenue target
 
@@ -38,67 +48,68 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹36,641, 11% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹64,202, 19% of the target. The rest comes from full-price sales.
 
-### Offer 1 of 4: Swipe Right on Squats
+### Offer 1 of 4: Blind Date (No Catfishing)
 
-- **Type:** New clients
-- **Who it's for:** Drop-in regulars and first-time pop-up clients
-- **Headline:** Your Hinge matches never showed up. This class will.
-- **What they get:** Two 8-class packs bought together, each 20% off (₹5,544).
-- **Price:** ₹5,544 (list ₹6,930)
-- **When:** All of February
-- **Why we're running it:** Move drop-in and credit buyers to packs.
-- **Target:** 4 sales at about ₹5,544 each, ₹22,176 in total
-- **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** Single classes and credits are about three-quarters of pop-up revenue; packs make clients regulars and feed Kenkere House.
+- **Type:** Mystery-class intro (credited)
+- **Who it's for:** First-time clients (phone verified).
+- **Headline:** Two classes. You don’t know which. That’s the fun part.
+- **What they get:** Mumbai: 2 mystery classes in 10 days for ₹999. The format (Barre, powerCycle or Strength Lab) and the trainer stay sealed in an envelope until you walk in; date two is booked at the desk before you leave. Kenkere: 2 mystery Barre classes (trainer and playlist sealed) for ₹709. Pop-ups: the paid trial (≈₹945), with the second class free if it is booked at the desk. Buy within 72 hours of date two and the ₹999 / ₹709 is credited against 1 Month at the standard 15% (₹16,204 / ₹11,697 net). Pop-ups: 8-class pack at 15% (₹5,891).
+- **Price:** ₹5,891
+- **When:** 1 Feb–21 Feb
+- **Why we're running it:** Turn Valentine’s-season curiosity into first memberships without a 50% code.
+- **Target:** 3 sales at about ₹5,891 each, ₹17,673 in total
+- **Rules:** One per phone number. The intro fee is credited only within 72 hours of class 2. Standard 15% only; no stacking.
+- **The data behind it:** Kenkere’s VDAY50! code (38 uses, ₹2.6L given away at 50%) bought February volume at a huge cost. A booked second visit lifts trial→member from 10.8% to 43.9%, and a mystery format gets newcomers into the class they would never pick, which is usually the one that sells the membership.
 
-### Offer 2 of 4: Ghosted? We Saved Your Spot
+### Offer 2 of 4: It’s Not You, It’s Your Schedule
 
-- **Type:** Win-back
-- **Who it's for:** Pop-up clients who have not visited for 60+ days
-- **Headline:** Your mat has been staring at the door for weeks.
-- **What they get:** 8-class pack at 14% off (₹5,960) plus 1 bonus class.
-- **Price:** ₹5,960 (list ₹6,930)
-- **When:** Every month, sent in week 2
-- **Why we're running it:** Reactivate lapsed drop-in clients.
-- **Target:** 1 sales at about ₹5,960 each, ₹5,960 in total
-- **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** A small pack is the easiest yes for a lapsed drop-in client.
+- **Type:** Pick-your-status winback
+- **Who it's for:** Lapsed 61–365 days.
+- **Headline:** It’s not you, it’s your schedule. Pick a relationship status.
+- **What they get:** Lapsed 61–365 days pick a relationship status at the standard 15%: Exclusive = 3 Months (₹49,177 / ₹35,879) + 1 extra freeze; Casual = a 12-class pack (₹16,735 / ₹11,156); It’s Complicated = 1 Month (₹17,203 / ₹12,406) + 1 free freeze for the week life gets in the way. Pop-ups: 8-class pack at 15% (₹5,891). Galentine’s class Sat 13 Feb: bring a friend free.
+- **Price:** ₹5,891
+- **When:** 1 Feb–21 Feb
+- **Why we're running it:** Bring lapsed clients back by letting them choose the commitment.
+- **Target:** 2 sales at about ₹5,891 each, ₹11,782 in total
+- **Rules:** Lapsed 61–365 days. Standard lapsed 15% only; freezes have no cash value.
+- **The data behind it:** Lapsers average 2.6–3.4 visits in the first half of a membership vs 6.4 for renewers: they left because the plan did not fit the week, not because of the price. Letting them pick the commitment removes the objection without deepening the discount.
 
-### Offer 3 of 4: Running on Empty, Babe
+### Offer 3 of 4: Put a Ring On It
 
-- **Type:** Renewal
-- **Who it's for:** Pack holders with 2 or fewer classes left
-- **Headline:** Two classes left? Do not let your streak hit zero.
-- **What they get:** Buy your next pack when 2 or fewer classes are left and get 1 bonus class (10-class pack at ₹8,505).
-- **Price:** ₹8,505 (list ₹8,505)
-- **When:** Always on
-- **Why we're running it:** Renew packs before they run out.
-- **Target:** 1 sales at about ₹8,505 each, ₹8,505 in total
-- **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** Pack holders lapse in the gap between packs.
+- **Type:** Valentine’s renewal ladder
+- **Who it's for:** Members renewing in February (any expiry date).
+- **Headline:** If you like it, then you should’ve put a 6-month on it.
+- **What they get:** Any February renewal: 3 Months at 15% (₹49,177 / ₹35,879) + a P57 mini-band “ring”; 6 Months at 15% + 1 private session (₹96,658 / ₹69,883); Annual at the standard 20% + the annual perks + your name engraved on the Wall of Commitment. Say yes at the desk and the bell rings, confetti, the class applauds. Pop-ups: 10-class pack at 10% + the mini-band (₹7,655).
+- **Price:** ₹7,655
+- **When:** 1 Feb–28 Feb
+- **Why we're running it:** Move February renewals onto 3–12 month plans with a reason to say yes on the spot.
+- **Target:** 3 sales at about ₹7,655 each, ₹22,965 in total
+- **Rules:** 3M 16.4% / 6M 19.6% effective (perks at list); annual at the standard 20%. One ring per renewal. No stacking.
+- **The data behind it:** Members using 75%+ of their sessions renew at 82–88%, and longer plans keep them using them. The best perks sit on the longest plans; nothing is unlocked by a class count, so every renewer qualifies.
 
-### Offer 4 of 4: Big City Upgrade
+### Offer 4 of 4: Love Bombing (The Healthy Kind)
 
-- **Type:** Revenue boost
-- **Who it's for:** Pop-up pack buyers
-- **Headline:** You have outgrown the pop-up. The big studio is ready for you.
-- **What they get:** Any pop-up pack buyer gets a free class at Kenkere House (worth ₹1,417.50); pack at ₹8,505.
-- **When:** Always on; 2–3 conversions to Kenkere a month
-- **Why we're running it:** Feed Kenkere House with pack-ready clients.
-- **Target:** 2 sales
-- **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** The pop-ups' strategic job is to send regulars to the flagship studio.
+- **Type:** Love-letter referral
+- **Who it's for:** Current members bringing a never-been friend.
+- **Headline:** Love bombing, but it’s two free classes and zero manipulation.
+- **What they get:** Every active member gets three printed love letters at the desk (and a WhatsApp version). Each one gives a never-been friend 2 free classes within 14 days. If the friend buys 1 Month or a 12-class pack within 72 hours of class 2: their standard 15% (₹17,203 / ₹12,406; pop-ups 8-class ₹5,891) plus P57 grip socks, and the member gets +5 days (pack: +1 class) per friend who buys, up to 15 days. Partner Barre on Sun 14 Feb counts as class 2.
+- **Price:** ₹5,891
+- **When:** 1 Feb–28 Feb
+- **Why we're running it:** Turn members into recruiters; only pay when a new person buys.
+- **Target:** 2 sales at about ₹5,891 each, ₹11,782 in total
+- **Rules:** The friend must be new to P57 (phone verified). Member reward: +5 days per buying friend, max 15. Standard 15% for the friend only.
+- **The data behind it:** Referrals convert 41.2% at Kwality, 22.6% at Bandra, 28.3% at Kenkere and 76.1% at pop-ups, versus 3.8–5.7% for website leads. The 2026 BOGO codes (70 uses, ₹3.1L given) went mostly to existing clients; this one pays out only when a genuinely new person buys.
 
 ## Week by week
 
-- **Week 1:** Launch the month's pack offer to all drop-in regulars.
-- **Week 2:** Ghosted? We Saved Your Spot to clients lapsed 60+ days.
-- **Week 3:** Running on Empty, Babe to pack holders with 2 or fewer classes left.
-- **Week 4:** Big City Upgrade check: who is ready for Kenkere House?
+- **Week 1:** Set up Blind Date (No Catfishing) in Momence (2027-02-01 to 2027-02-21); Set up Love Bombing (The Healthy Kind) in Momence (2027-02-01 to 2027-02-28); Set up Put a Ring On It in Momence (2027-02-01 to 2027-02-28); Set up It’s Not You, It’s Your Schedule in Momence (2027-02-01 to 2027-02-21); Brief the team on the 4 February offers, who each is for, the discount caps and the no-stacking rule; print the offer cards.; Launch Blind Date (No Catfishing); Launch Love Bombing (The Healthy Kind); Launch Put a Ring On It; Launch It’s Not You, It’s Your Schedule; Run Green Flag Week
+- **Week 2:** Weekly check; Run Galentine’s class (bring a friend free) (2027-02-13); Run Valentine’s Day
+- **Week 3:** Mid-month review against ₹1.8L; Run Singles Awareness Day
+- **Week 4:** Close February
 
 ## Activation and channels
 
-- Activation: Stronger in 30 2.0 (1 Feb–2 Mar, members only): pop-up classes join the network activation where the format fits.
-- Channels: In-class conversation at Copper + Cloves and Plash Pilates, partner-venue communities, front-desk (dashboard) leads, Instagram. Big City Upgrade links to Kenkere House. Galentine's referral cards in every class bag.
+- Activation: Green Flag Week: Blind Date envelopes at every desk (01 Feb); Galentine’s class (bring a friend free) (13 Feb); Valentine’s Day: Partner Barre (14 Feb); Singles Awareness Day: Hate-Squat Hour (break-up playlist class) (15 Feb).
+- Every reward is tied to a purchase or a visit, never to a class count or a leaderboard.

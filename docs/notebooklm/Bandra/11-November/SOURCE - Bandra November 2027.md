@@ -79,11 +79,11 @@ Together the offers are planned to bring in ₹4.7L (₹4,73,334), 30% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Renewing in November on a 6-Month carries the member through December and January. Guest passes turn the contract into referrals.
 
-### Offer 4 of 4: Assets Before Liabilities
+### Offer 4 of 4: Cyber Monday Ransom Note
 
-- **Type:** Revenue boost
+- **Type:** Flash sale
 - **Who it's for:** Everyone
-- **Headline:** Park your money somewhere it grows. Untaxed. Unbothered.
+- **Headline:** We have your 10-class pack. Pay within 12 hours or it goes back to full price.
 - **What they get:** 10-class pack at 18% off (₹15,929) with 6 months to use it.
 - **When:** 29 Nov, 9 am to 9 pm (12 hours)
 - **Why we're running it:** Close Black Friday weekend with a pack sale for clients not ready for 3 months.

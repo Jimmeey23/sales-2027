@@ -28,7 +28,7 @@ export const PAGE_PHOTOS: HeroPhoto[] = [
    February, the room itself for the morning after in May. */
 
 export const MONTH_COVER_PHOTOS: HeroPhoto[] = [
-  { url: '/p57/pro/p32.jpg', pos: '50% 40%' }, // January — the year opens under a weight
+  { url: '/p57/pro/n12.jpg', pos: '50% 30%' }, // January — Resolution Season: the first class of the year
   { url: '/p57/pro/p38.jpg', pos: '50% 32%' }, // February — the pair, spotted
   { url: '/p57/pro/p03.jpg', pos: '48% 50%' }, // March — she moves: white room, one body
   // April — the studio dressed for the ninth anniversary: nine candles, gold balloons,
@@ -36,11 +36,11 @@ export const MONTH_COVER_PHOTOS: HeroPhoto[] = [
   { url: '/p57/april-anniversary-2027.jpg', pos: '50% 40%' },
   { url: '/p57/pro/p20.jpg', pos: '50% 48%' }, // May — the room after, in daylight
   { url: '/p57/pro/p12.jpg', pos: '46% 34%' }, // June — cool light across the floor
-  { url: '/p57/pro/p34.jpg', pos: '50% 44%' }, // July — rows, attendance
-  { url: '/p57/pro/p39.jpg', pos: '50% 40%' }, // August — strength, the upgrade
-  { url: '/p57/pro/p31.jpg', pos: '50% 40%' }, // September — the cohort returns
-  { url: '/p57/pro/p41.jpg', pos: '48% 40%' }, // October — warm dark, the gifting window
-  { url: '/p57/pro/p02.jpg', pos: '50% 32%' }, // November — commitment
+  { url: '/p57/pro/p15.jpg', pos: '50% 50%' }, // July — Rain Check: cool blue light, the indoor stretch
+  { url: '/p57/pro/n23.jpg', pos: '50% 35%' }, // August — The Excuse Amnesty: bring the friend, no excuses
+  { url: '/p57/pro/n20.jpg', pos: '50% 30%' }, // September — Heart Month: the community
+  { url: '/p57/pro/p40.jpg', pos: '55% 35%' }, // October — Gift of Strength: warm dark, Diwali light
+  { url: '/p57/pro/p44.jpg', pos: '45% 30%' }, // November — Black Friday Hostage Crisis: red and blue strobe
   { url: '/p57/pro/p28.jpg', pos: '50% 40%' }, // December — the last month, lit
 ];
 

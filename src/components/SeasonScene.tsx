@@ -1,16 +1,40 @@
 import { useEffect, useRef } from 'react';
+import {
+  afterparty,
+  afterpartyExtra,
+  aprilGala,
+  flagSwipe,
+  preGame,
+  santaKnock,
+  ballDrop,
+  heist,
+  newbieLift,
+  outOfOffice,
+  storm,
+  blackFriday,
+  excuseAmnesty,
+  giftBoxes,
+  heartMonth,
+  hostageLights,
+  monsoonProps,
+  mothersDay,
+  resolution,
+} from './seasonScenesExtra';
 
 /* Seasonal canvases for the month covers (July's monsoon lives in MonsoonScene).
 
      2  Valentine's   hearts rising like bokeh, drifting petals, a warm rose glow
      3  Women's Day   purple/green/white ribbons, rising Venus symbols, mimosa, sparkle bursts
-     4  Anniversary   Nine Years, We Kept The Receipts: gold confetti, floating balloons, a glowing 9 and sparkles
+     4  Anniversary   We Kept The Receipts: receipts printing a nine-year record, a stamp, falling paper scraps
      6  Pride         a waving rainbow ribbon, a sweeping prism of light, rainbow hearts and confetti
      5  Midsummer     a breathing sun with counter-turning rays and lens flare, mirage, bokeh, embers, cool droplets
-     8  Azaadi        kites on strings, saffron/white/green bands of light, friendship bands
     10  Halloween     harvest moon, bats, ghosts, a dangling spider, fog, jack-o'-lanterns, lightning
     11  Diwali        a row of diyas with living flames, and fireworks over them
     12  Christmas     snow in three depths, a string of fairy lights, soft starbursts
+
+   New-theme scenes live in seasonScenesExtra: January (Resolution Season), May (The Afterparty),
+   September (Heart Month), October (Gift of Strength — Diwali gifting over the diyas) and November
+   (Black Friday Hostage Crisis) and August (The Excuse Amnesty). Halloween stays defined but are not on any 2027 cover.
 
    Each scene is drawn behind the cover's content, pauses when the tab is hidden, and shows
    one still frame for reduced motion. */
@@ -25,6 +49,7 @@ const rand = (a: number, b: number) => a + Math.random() * (b - a);
 const TAU = Math.PI * 2;
 
 function glow(ctx: Ctx, x: number, y: number, r: number, color: string, alpha: number) {
+  if (!(r > 0)) return; // a non-positive radius throws and would stop the scene
   const g = ctx.createRadialGradient(x, y, 0, x, y, r);
   g.addColorStop(0, color.replace('A', String(alpha)));
   g.addColorStop(1, color.replace('A', '0'));
@@ -214,102 +239,166 @@ const valentine: Scene = {
   },
 };
 
-/* ── April: 9th anniversary, We Kept The Receipts ───────────────────────────────── */
-const GOLDS = ['#f3dc9b', '#e6c06a', '#c9a15a', '#fff1c8', '#d9b46d'];
+/* ── April: 9th anniversary, Nine Years. We Kept The Receipts. ─────────── */
+const RECEIPT_LINES = [
+  ['PHYSIQUE 57 · ON RECORD', ''],
+  ['-------------------------', ''],
+  ['ON FILE SINCE', '14 Mar 2019'],
+  ['CLASSES TAKEN', '312'],
+  ['BOOKED, NOT ATTENDED', '41'],
+  ['LATE CANCELS', '17'],
+  ['LONGEST STREAK', '9 wks'],
+  ['LONGEST SILENCE', '6 mths'],
+  ['MOST TAKEN', 'Signature 7am'],
+  ['AVOIDED SINCE 2021', 'Cycle'],
+  ['REFERRALS ON FILE', '0'],
+  ['-------------------------', ''],
+  ['STATUS', ''],
+  ['  CERTIFIED INSUFFERABLE', ''],
+  ['-------------------------', ''],
+  ['This is not a receipt.', ''],
+  ['This is evidence.', ''],
+];
+const STAMPS = ['CERTIFIED INSUFFERABLE', 'ACCOUNT OPENED', 'FOUNDING WITNESS', 'NO RECORD FOUND', 'INSUFFERABLE, PLATINUM'];
+
 const anniversary: Scene = {
   init: (w, h) => ({
-    confetti: Array.from({ length: 150 }, () => ({
-      x: rand(0, w),
-      y: rand(-h, h),
-      vy: rand(40, 110),
-      r: rand(0, TAU),
-      vr: rand(-4, 4),
-      s: rand(4, 9),
-      c: GOLDS[(Math.random() * GOLDS.length) | 0],
-      sway: rand(0, TAU),
+    // Receipt strips feeding down from printers above the frame, each printing a record line by line.
+    strips: [0.55, 0.7].map((fx, i) => ({
+      x: w * fx,
+      width: Math.min(250, w * 0.16),
+      fed: i * 140,
+      speed: rand(16, 26),
+      tilt: rand(-0.05, 0.05),
+      offset: 0,
+      gold: i === 1,
+      // staggered so the two records are never at the same line
     })),
-    balloons: Array.from({ length: 7 }, (_, i) => ({
-      x: w * (0.5 + i * 0.075),
-      y: h + rand(0, h),
-      v: rand(22, 40),
-      r: rand(22, 34),
-      c: GOLDS[i % GOLDS.length],
-      sway: rand(0, TAU),
+    scraps: Array.from({ length: 18 }, () => ({
+      x: rand(w * 0.5, w), y: rand(-h, h), vy: rand(18, 46), r: rand(0, TAU), vr: rand(-1.6, 1.6),
+      w: rand(14, 30), h: rand(26, 54), sway: rand(0, TAU),
     })),
-    sparks: [] as any[],
+    stamp: null as any,
+    nextStamp: 1.4,
   }),
   draw(ctx, w, h, t, dt, s) {
-    // Dim the room so the photograph and the gold spotlights carry the light.
-    ctx.fillStyle = 'rgba(8, 6, 4, 0.38)';
+    // Dim the room so the paper carries the light.
+    ctx.fillStyle = 'rgba(8, 6, 4, 0.42)';
     ctx.fillRect(0, 0, w, h);
-    // A big soft "9" glowing behind the right side.
+    // A big dot-matrix "9" behind the right side, like a thermal-printed numeral.
     ctx.save();
-    ctx.font = `italic 600 ${Math.round(h * 0.62)}px Fraunces, Georgia, serif`;
+    ctx.font = `700 ${Math.round(h * 0.6)}px "IBM Plex Mono", "SFMono-Regular", Menlo, monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.shadowColor = 'rgba(243, 220, 155, 0.9)';
-    ctx.shadowBlur = 40 + Math.sin(t * 1.5) * 12;
-    const nine = ctx.createLinearGradient(0, h * 0.1, 0, h * 0.7);
-    nine.addColorStop(0, 'rgba(255, 241, 200, 0.14)');
-    nine.addColorStop(1, 'rgba(201, 161, 90, 0.05)');
-    ctx.fillStyle = nine;
-    ctx.fillText('9', w * 0.78, h * 0.36);
+    ctx.shadowColor = 'rgba(243, 220, 155, 0.6)';
+    ctx.shadowBlur = 30 + Math.sin(t * 1.2) * 8;
+    ctx.fillStyle = 'rgba(255, 241, 200, 0.07)';
+    ctx.fillText('9', w * 0.42, h * 0.42);
     ctx.restore();
-    // Balloons with strings.
-    for (const b of s.balloons) {
-      b.y -= b.v * dt;
-      const x = b.x + Math.sin(t * 0.7 + b.sway) * 14;
-      if (b.y < -b.r * 4) b.y = h + b.r * 2;
-      ctx.strokeStyle = 'rgba(255, 241, 200, 0.35)';
-      ctx.lineWidth = 1;
+
+    const lineH = 15;
+    ctx.font = `500 11px "IBM Plex Mono", "SFMono-Regular", Menlo, monospace`;
+    ctx.textBaseline = 'top';
+    for (const st of s.strips) {
+      st.fed += st.speed * dt;
+      const total = RECEIPT_LINES.length * lineH + 40;
+      if (st.fed > total + st.speed * 4) st.fed = 0;   // the record prints, holds, tears off, starts again
+      const len = Math.min(st.fed, total);
+      ctx.save();
+      ctx.globalAlpha = 0.78;
+      ctx.translate(st.x, 0);
+      ctx.rotate(st.tilt + Math.sin(t * 0.5 + st.x) * 0.008);
+      // The paper, with a soft shadow and a torn zig-zag bottom edge.
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+      ctx.shadowBlur = 18;
+      ctx.shadowOffsetY = 6;
+      const paper = ctx.createLinearGradient(-st.width / 2, 0, st.width / 2, 0);
+      paper.addColorStop(0, st.gold ? 'rgba(232, 200, 120, 0.92)' : 'rgba(236, 230, 216, 0.9)');
+      paper.addColorStop(0.5, st.gold ? 'rgba(250, 226, 160, 0.95)' : 'rgba(250, 247, 240, 0.94)');
+      paper.addColorStop(1, st.gold ? 'rgba(214, 178, 100, 0.92)' : 'rgba(226, 220, 206, 0.9)');
+      ctx.fillStyle = paper;
       ctx.beginPath();
-      ctx.moveTo(x, b.y + b.r * 1.15);
-      ctx.quadraticCurveTo(x + Math.sin(t + b.sway) * 10, b.y + b.r * 2.2, x, b.y + b.r * 3.3);
-      ctx.stroke();
-      const g = ctx.createRadialGradient(x - b.r * 0.35, b.y - b.r * 0.4, b.r * 0.1, x, b.y, b.r * 1.2);
-      g.addColorStop(0, 'rgba(255, 250, 230, 0.75)');
-      g.addColorStop(0.35, b.c);
-      g.addColorStop(1, 'rgba(120, 90, 40, 0.8)');
-      ctx.fillStyle = g;
-      ctx.globalAlpha = 0.55;
-      ctx.beginPath();
-      ctx.ellipse(x, b.y, b.r, b.r * 1.15, 0, 0, TAU);
+      ctx.moveTo(-st.width / 2, -4);
+      ctx.lineTo(st.width / 2, -4);
+      ctx.lineTo(st.width / 2, len);
+      const teeth = 12;
+      for (let k = 1; k <= teeth; k++) {
+        const x = st.width / 2 - (st.width * k) / teeth;
+        ctx.lineTo(x + st.width / teeth / 2, len + (k % 2 ? 6 : 0));
+        ctx.lineTo(x, len);
+      }
+      ctx.closePath();
       ctx.fill();
-      ctx.globalAlpha = 1;
+      ctx.shadowColor = 'transparent';
+      // The record, printed from the newest line at the slot downward.
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(-st.width / 2, 0, st.width, len);
+      ctx.clip();
+      ctx.fillStyle = 'rgba(40, 34, 28, 0.82)';
+      // Reads top to bottom, unrolling as the paper feeds.
+      for (let k = 0; k < RECEIPT_LINES.length; k++) {
+        const [label, value] = RECEIPT_LINES[(st.offset + k) % RECEIPT_LINES.length];
+        const y = 14 + k * lineH;
+        if (y > len - 12) break;
+        ctx.textAlign = 'left';
+        ctx.fillText(label, -st.width / 2 + 12, y);
+        if (value) { ctx.textAlign = 'right'; ctx.fillText(value, st.width / 2 - 12, y); }
+      }
+      ctx.restore();
+      ctx.restore();
     }
-    // Gold confetti: flat pieces that flip as they fall.
-    for (const c of s.confetti) {
+
+    // The stamp: thuds onto a receipt, holds, fades.
+    s.nextStamp -= dt;
+    if (!s.stamp && s.nextStamp <= 0) {
+      const st = s.strips[(Math.random() * s.strips.length) | 0];
+      s.stamp = { x: st.x, y: rand(h * 0.3, Math.min(st.fed, h) - 40), text: STAMPS[(Math.random() * STAMPS.length) | 0], life: 0, rot: rand(-0.35, 0.2) };
+    }
+    if (s.stamp) {
+      const sp = s.stamp;
+      sp.life += dt;
+      const inT = Math.min(sp.life / 0.18, 1);
+      const scale = 1.9 - 0.9 * (1 - Math.pow(1 - inT, 3));
+      const alpha = sp.life < 2.6 ? Math.min(1, inT * 1.2) : Math.max(0, 1 - (sp.life - 2.6) / 0.8);
+      ctx.save();
+      ctx.translate(sp.x, sp.y);
+      ctx.rotate(sp.rot);
+      ctx.scale(scale, scale);
+      ctx.globalAlpha = alpha * 0.85;
+      ctx.font = `800 15px "IBM Plex Mono", Menlo, monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const tw = ctx.measureText(sp.text).width + 22;
+      ctx.strokeStyle = sp.text === 'FOUNDING WITNESS' ? '#c9a15a' : '#b8323f';
+      ctx.fillStyle = ctx.strokeStyle;
+      ctx.lineWidth = 2.5;
+      ctx.strokeRect(-tw / 2, -15, tw, 30);
+      ctx.lineWidth = 1;
+      ctx.strokeRect(-tw / 2 + 4, -11, tw - 8, 22);
+      ctx.fillText(sp.text, 0, 1);
+      ctx.restore();
+      if (sp.life > 3.4) { s.stamp = null; s.nextStamp = rand(1.2, 2.6); }
+    }
+
+    // Torn receipt scraps drifting down, flipping as they fall.
+    for (const c of s.scraps) {
       c.y += c.vy * dt;
-      c.x += Math.sin(t * 1.2 + c.sway) * 20 * dt;
+      c.x += Math.sin(t * 0.9 + c.sway) * 16 * dt;
       c.r += c.vr * dt;
-      if (c.y > h + 10) Object.assign(c, { y: -10, x: rand(0, w) });
+      if (c.y > h + 40) Object.assign(c, { y: -40, x: rand(w * 0.5, w) });
       ctx.save();
       ctx.translate(c.x, c.y);
       ctx.rotate(c.r);
-      ctx.scale(1, Math.cos(c.r * 2));
-      ctx.fillStyle = c.c;
-      ctx.fillRect(-c.s / 2, -c.s / 4, c.s, c.s / 2);
+      ctx.scale(Math.cos(c.r * 1.7), 1);
+      ctx.globalAlpha = 0.35;
+      ctx.fillStyle = 'rgba(246, 240, 228, 1)';
+      ctx.fillRect(-c.w / 2, -c.h / 2, c.w, c.h);
+      ctx.fillStyle = 'rgba(60, 50, 40, 0.5)';
+      for (let k = 0; k < c.h / 8 - 1; k++) ctx.fillRect(-c.w / 2 + 3, -c.h / 2 + 4 + k * 7, c.w * (0.4 + ((k * 37) % 50) / 100), 1.4);
       ctx.restore();
     }
-    // Sparkles that twinkle and fade.
-    if (Math.random() < dt * 9) s.sparks.push({ x: rand(0, w), y: rand(0, h * 0.7), life: 1, r: rand(4, 10) });
-    for (let i = s.sparks.length - 1; i >= 0; i--) {
-      const p = s.sparks[i];
-      p.life -= dt * 1.2;
-      if (p.life <= 0) {
-        s.sparks.splice(i, 1);
-        continue;
-      }
-      const a = Math.sin(p.life * Math.PI);
-      ctx.strokeStyle = `rgba(255, 241, 200, ${a * 0.9})`;
-      ctx.lineWidth = 1.2;
-      ctx.beginPath();
-      ctx.moveTo(p.x - p.r * a, p.y);
-      ctx.lineTo(p.x + p.r * a, p.y);
-      ctx.moveTo(p.x, p.y - p.r * a);
-      ctx.lineTo(p.x, p.y + p.r * a);
-      ctx.stroke();
-    }
+    ctx.globalAlpha = 1;
   },
 };
 
@@ -711,106 +800,6 @@ const halloween: Scene = {
   },
 };
 
-/* ── August: Azaadi From Average ─────────────────────────────────────────
-   Friendship Day and Independence Day: kites on long strings, three slow bands of saffron,
-   white and green light, and friendship bands drifting up. */
-const KITE_COLORS = ['#f59e0b', '#f97316', '#22c55e', '#ffffff', '#ec4899', '#38bdf8'];
-const azaadi: Scene = {
-  init: (w, h) => ({
-    kites: Array.from({ length: 7 }, (_, i) => ({
-      ax: w * (0.32 + i * 0.1) + rand(-20, 20),
-      y: h * rand(0.1, 0.42),
-      s: rand(16, 30),
-      ph: rand(0, TAU),
-      c: KITE_COLORS[i % KITE_COLORS.length],
-    })),
-    bands: Array.from({ length: 16 }, () => ({ x: rand(0, w), y: rand(0, h), r: rand(6, 13), v: rand(10, 26), ph: rand(0, TAU), c: KITE_COLORS[Math.floor(rand(0, 6))] })),
-    sparks: Array.from({ length: 40 }, () => ({ x: rand(0, w), y: rand(0, h), a: rand(0, TAU), s: rand(0.6, 1.8) })),
-  }),
-  draw(ctx, w, h, t, dt, s) {
-    glow(ctx, w * 0.72, h * 0.3, Math.max(w, h) * 0.55, 'rgba(251, 191, 36, A)', 0.12);
-    // Three soft bands of light, saffron over white over green, rolling like cloth.
-    const bands: [string, number][] = [
-      ['rgba(249, 115, 22, A)', 0.52],
-      ['rgba(255, 255, 255, A)', 0.62],
-      ['rgba(34, 197, 94, A)', 0.72],
-    ];
-    for (const [c, base] of bands) {
-      ctx.fillStyle = c.replace('A', '0.10');
-      ctx.beginPath();
-      ctx.moveTo(0, h);
-      for (let x = 0; x <= w; x += 16) ctx.lineTo(x, h * base + Math.sin(x / 140 + t * 0.7 + base * 9) * h * 0.035);
-      ctx.lineTo(w, h);
-      ctx.closePath();
-      ctx.fill();
-    }
-    // Sparkles.
-    for (const p of s.sparks) {
-      const a = 0.15 + 0.35 * (0.5 + 0.5 * Math.sin(t * 2 * p.s + p.a));
-      ctx.fillStyle = `rgba(255, 244, 214, ${a})`;
-      ctx.fillRect(p.x, p.y, p.s * 1.6, p.s * 1.6);
-    }
-    // Friendship bands: small woven loops drifting upward.
-    for (const b of s.bands) {
-      b.y -= b.v * dt;
-      if (b.y < -20) Object.assign(b, { y: h + 20, x: rand(0, w) });
-      const x = b.x + Math.sin(t * 0.8 + b.ph) * 12;
-      ctx.strokeStyle = b.c;
-      ctx.globalAlpha = 0.45;
-      ctx.lineWidth = 2.4;
-      ctx.setLineDash([4, 3]);
-      ctx.beginPath();
-      ctx.ellipse(x, b.y, b.r, b.r * 0.62, Math.sin(t + b.ph) * 0.6, 0, TAU);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.globalAlpha = 1;
-    }
-    // Kites on strings from the bottom left, each tugging on its own rhythm.
-    const ox = w * 0.06;
-    const oy = h * 1.02;
-    for (const k of s.kites) {
-      const x = k.ax + Math.sin(t * 0.9 + k.ph) * 18;
-      const y = k.y + Math.cos(t * 1.3 + k.ph) * 10;
-      const tilt = Math.sin(t * 1.1 + k.ph) * 0.35;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.28)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(ox, oy);
-      ctx.quadraticCurveTo((ox + x) / 2, y + (oy - y) * 0.75, x, y + k.s);
-      ctx.stroke();
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(tilt);
-      ctx.fillStyle = k.c;
-      ctx.globalAlpha = 0.85;
-      ctx.beginPath();
-      ctx.moveTo(0, -k.s);
-      ctx.lineTo(k.s * 0.75, 0);
-      ctx.lineTo(0, k.s);
-      ctx.lineTo(-k.s * 0.75, 0);
-      ctx.closePath();
-      ctx.fill();
-      ctx.globalAlpha = 1;
-      ctx.strokeStyle = 'rgba(20, 20, 20, 0.35)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, -k.s);
-      ctx.lineTo(0, k.s);
-      ctx.moveTo(-k.s * 0.75, 0);
-      ctx.lineTo(k.s * 0.75, 0);
-      ctx.stroke();
-      // Tail.
-      ctx.strokeStyle = k.c;
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(0, k.s);
-      for (let j = 1; j <= 6; j++) ctx.lineTo(Math.sin(t * 4 + j + k.ph) * 5, k.s + j * 6);
-      ctx.stroke();
-      ctx.restore();
-    }
-  },
-};
-
 /* ── November: Diwali ─────────────────────────────────────────────────── */
 const FIRE = ['255, 196, 87', '255, 120, 80', '255, 236, 160', '250, 110, 160', '140, 210, 255'];
 const diwali: Scene = {
@@ -1078,8 +1067,8 @@ const pride: Scene = {
       }
       ctx.restore();
     };
-    const fx = w * 0.06;
-    const fy = h * 0.31;
+    const fx = w * 0.7; // flags on the right, clear of the title
+    const fy = h * 0.2;
     flag(fx, fy, Math.min(120, w * 0.09), Math.min(78, h * 0.085), RAINBOW, false);
     flag(fx + Math.min(150, w * 0.11), fy + 22, Math.min(110, w * 0.08), Math.min(70, h * 0.077), RAINBOW, true);
 
@@ -1143,6 +1132,8 @@ function layered(base: Scene, extra: Scene): Scene {
   return {
     init: (w, h) => ({ base: base.init(w, h), extra: extra.init(w, h) }),
     draw(ctx, w, h, t, dt, s) {
+      // Hand the cover root down so nested layers can shake it (thunder, Santa's knock).
+      if (s.root) (s.base.root = s.root), (s.extra.root = s.root), (s.base.canvas = s.canvas), (s.extra.canvas = s.canvas);
       base.draw(ctx, w, h, t, dt, s.base);
       ctx.save();
       extra.draw(ctx, w, h, t, dt, s.extra);
@@ -1151,109 +1142,6 @@ function layered(base: Scene, extra: Scene): Scene {
   };
 }
 
-// April: spotlights sweeping like a gala, gold fireworks, champagne bubbles, curling streamers.
-const galaExtra: Scene = {
-  init: (w, h) => ({
-    bubbles: Array.from({ length: 70 }, () => ({ x: rand(0, w), y: rand(0, h), v: rand(25, 70), r: rand(1.5, 5), ph: rand(0, TAU) })),
-    streamers: Array.from({ length: 14 }, () => ({ x: rand(0, w), y: rand(-h, 0), v: rand(50, 90), len: rand(50, 110), ph: rand(0, TAU), c: GOLDS[(Math.random() * GOLDS.length) | 0] })),
-    shells: [] as any[],
-    sparks: [] as any[],
-    next: 0.6,
-  }),
-  draw(ctx, w, h, t, dt, s) {
-    // Two spotlights crossing from the floor.
-    ctx.globalCompositeOperation = 'lighter';
-    for (const [ox, sp, ph] of [[0.18, 0.5, 0], [0.55, 0.36, 1.2], [0.88, 0.42, 2]] as const) {
-      const ang = -Math.PI / 2 + Math.sin(t * sp + ph) * 0.55;
-      const L = h * 1.3;
-      const x0 = w * ox;
-      const y0 = h + 20;
-      const g = ctx.createLinearGradient(x0, y0, x0 + Math.cos(ang) * L, y0 + Math.sin(ang) * L);
-      g.addColorStop(0, 'rgba(255, 200, 90, 0.34)');
-      g.addColorStop(0.6, 'rgba(240, 180, 70, 0.12)');
-      g.addColorStop(1, 'rgba(240, 180, 70, 0)');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.moveTo(x0, y0);
-      ctx.lineTo(x0 + Math.cos(ang - 0.12) * L, y0 + Math.sin(ang - 0.12) * L);
-      ctx.lineTo(x0 + Math.cos(ang + 0.12) * L, y0 + Math.sin(ang + 0.12) * L);
-      ctx.fill();
-      glow(ctx, x0 + Math.cos(ang) * h * 0.75, y0 + Math.sin(ang) * h * 0.75, h * 0.16, 'rgba(255, 205, 110, A)', 0.18);
-    }
-    // Gold fireworks: a shell climbs, bursts into a ring that falls as glitter.
-    s.next -= dt;
-    if (s.next <= 0) {
-      s.next = rand(0.9, 1.8);
-      s.shells.push({ x: rand(w * 0.35, w * 0.95), y: h, vy: -rand(h * 0.9, h * 1.2), top: rand(h * 0.12, h * 0.4) });
-    }
-    for (let i = s.shells.length - 1; i >= 0; i--) {
-      const sh = s.shells[i];
-      sh.y += sh.vy * dt;
-      glow(ctx, sh.x, sh.y, 10, 'rgba(255, 230, 160, A)', 0.9);
-      if (sh.y <= sh.top) {
-        const n = 46;
-        const c = GOLDS[(Math.random() * GOLDS.length) | 0];
-        for (let k = 0; k < n; k++) {
-          const a = (k / n) * TAU;
-          const v = rand(110, 170);
-          s.sparks.push({ x: sh.x, y: sh.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, c });
-        }
-        s.shells.splice(i, 1);
-      }
-    }
-    for (let i = s.sparks.length - 1; i >= 0; i--) {
-      const p = s.sparks[i];
-      p.vx *= 1 - 1.4 * dt;
-      p.vy = p.vy * (1 - 1.4 * dt) + 60 * dt;
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-      p.life -= dt * 0.6;
-      if (p.life <= 0) {
-        s.sparks.splice(i, 1);
-        continue;
-      }
-      ctx.globalAlpha = p.life * (0.6 + 0.4 * Math.sin(t * 30 + i));
-      ctx.fillStyle = p.c;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 1.8, 0, TAU);
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-    ctx.globalCompositeOperation = 'source-over';
-    // Champagne bubbles rising.
-    for (const b of s.bubbles) {
-      b.y -= b.v * dt;
-      b.x += Math.sin(t * 2 + b.ph) * 8 * dt;
-      if (b.y < -10) Object.assign(b, { y: h + 10, x: rand(0, w) });
-      ctx.strokeStyle = 'rgba(255, 241, 200, 0.5)';
-      ctx.lineWidth = 0.8;
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, b.r, 0, TAU);
-      ctx.stroke();
-      ctx.fillStyle = 'rgba(255, 255, 240, 0.6)';
-      ctx.beginPath();
-      ctx.arc(b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.25, 0, TAU);
-      ctx.fill();
-    }
-    // Curling gold streamers.
-    ctx.lineCap = 'round';
-    for (const st of s.streamers) {
-      st.y += st.v * dt;
-      if (st.y > h + st.len) Object.assign(st, { y: -st.len, x: rand(0, w) });
-      ctx.strokeStyle = st.c;
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      for (let k = 0; k <= 16; k++) {
-        const u = k / 16;
-        const x = st.x + Math.sin(u * 9 + t * 4 + st.ph) * 8;
-        const y = st.y - u * st.len;
-        if (k) ctx.lineTo(x, y);
-        else ctx.moveTo(x, y);
-      }
-      ctx.stroke();
-    }
-  },
-};
 
 // December: a lit tree, a sleigh crossing the sky, shooting stars, snow settling on the ground.
 const yuleExtra: Scene = {
@@ -1382,15 +1270,18 @@ const k0 = (t: number) => Math.sin(t * 4) > 0; // Rudolph's nose blinks
 
 
 export const SEASON_SCENES: Record<number, Scene> = {
-  2: valentine,
-  3: womensDay,
-  4: layered(anniversary, galaExtra),
-  5: heat,
-  6: pride,
-  8: azaadi,
-  10: halloween,
-  11: diwali,
-  12: layered(christmas, yuleExtra),
+  1: layered(layered(resolution, ballDrop), newbieLift),
+  2: layered(valentine, flagSwipe),
+  3: layered(womensDay, preGame),
+  4: aprilGala, // built from scratch; the old receipts scene and gala layer are retired
+  5: layered(layered(afterparty, afterpartyExtra), mothersDay),
+  6: layered(pride, outOfOffice),
+  7: storm,
+  8: excuseAmnesty,
+  9: heartMonth,
+  10: layered(diwali, giftBoxes),
+  11: layered(layered(blackFriday, hostageLights), heist),
+  12: layered(layered(christmas, yuleExtra), santaKnock),
 };
 
 export default function SeasonScene({ month }: { month: number }) {
@@ -1401,7 +1292,8 @@ export default function SeasonScene({ month }: { month: number }) {
     const canvas = ref.current;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx || !scene) return;
-    const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+    // The covers always animate: the scenes are the month's theme, and they autoplay by design.
+    const still = false;
     let w = 0;
     let h = 0;
     let state: any = null;
@@ -1423,7 +1315,14 @@ export default function SeasonScene({ month }: { month: number }) {
     };
     const draw = (dt: number) => {
       ctx.clearRect(0, 0, w, h);
-      scene.draw(ctx, w, h, t, dt, state);
+      try {
+        scene.draw(ctx, w, h, t, dt, state);
+      } catch (error) {
+        // One bad frame must never take the cover down; reset the scene and carry on.
+        console.warn('Season scene frame failed; resetting.', error);
+        ctx.restore?.();
+        state = Object.assign(scene.init(w, h), { root: canvas.parentElement, canvas });
+      }
     };
     const loop = (now: number) => {
       const dt = Math.max(0, Math.min(0.05, (now - last) / 1000)); // first frame can predate start

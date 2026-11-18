@@ -1,0 +1,66 @@
+/* Animated reference visuals for the April offers (ReceiptOfferArt). */
+.roa {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(120% 120% at 20% 0%, rgba(230, 193, 106, 0.28), transparent 60%),
+    linear-gradient(160deg, #2a1420, #180d15);
+  aspect-ratio: 2 / 1;
+  flex: none;
+}
+.roa svg { display: block; width: 100%; height: 100%; }
+.roa-mono { font: 500 8px 'IBM Plex Mono', ui-monospace, Menlo, monospace; fill: #2b2320; }
+.roa-label { font: 700 8.5px 'IBM Plex Mono', ui-monospace, Menlo, monospace; fill: #e6c16a; letter-spacing: 0.08em; }
+.roa-stamp-text { font: 800 9.5px 'IBM Plex Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.04em; }
+.roa-poster { font: 800 15px Georgia, serif; fill: #b8323f; letter-spacing: 0.2em; }
+.roa-cert { font: italic 10px Georgia, serif; fill: #6b5a3e; }
+.roa-cert-big { font: 700 13px Georgia, serif; fill: #2b2320; letter-spacing: 0.08em; }
+.roa-seal-text { font: italic 700 12px Georgia, serif; fill: #fbf7ee; }
+.roa-cal-head { font: 700 10px 'IBM Plex Mono', monospace; fill: #fff; letter-spacing: 0.1em; }
+.roa-cal-day { font: 600 34px Georgia, serif; fill: #2b2320; }
+.roa-badge-big { font: 800 17px Georgia, serif; fill: #fff; }
+.roa-badge-small { font: 700 7px 'IBM Plex Mono', monospace; fill: #fff; letter-spacing: 0.14em; }
+.roa-tag { font: 700 8px 'IBM Plex Mono', monospace; fill: #2b2320; }
+.roa-timer { font: 700 22px 'IBM Plex Mono', monospace; fill: #2b2320; }
+.roa-price { font: 700 13px 'IBM Plex Mono', monospace; fill: #f6efe2; }
+
+/* Receipt lines print one by one. */
+.roa-line { opacity: 0; animation: roa-print 0.35s ease-out forwards, roa-loop 7s 3s infinite; }
+@keyframes roa-print { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+/* The stamp drops in hard, holds, lifts, and comes back. */
+.roa-stamp { opacity: 0; transform-box: fill-box; transform-origin: center; animation: roa-stamp 5s ease-out infinite; }
+@keyframes roa-stamp {
+  0% { opacity: 0; transform: scale(2.2); }
+  8% { opacity: 0.95; transform: scale(0.94); }
+  12% { transform: scale(1); }
+  78% { opacity: 0.95; transform: scale(1); }
+  92%, 100% { opacity: 0; transform: scale(1); }
+}
+.roa-hand { transform-box: view-box; transform-origin: 226px 40px; animation: roa-spin 3s linear infinite; }
+@keyframes roa-spin { to { transform: rotate(360deg); } }
+.roa-sway { transform-box: view-box; transform-origin: 140px 14px; animation: roa-sway 4s ease-in-out infinite; }
+@keyframes roa-sway { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+.roa-swing { animation: roa-swing 3.2s ease-in-out infinite; }
+@keyframes roa-swing { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+.roa-pulse { animation: roa-pulse 1.6s ease-in-out infinite; }
+@keyframes roa-pulse { 50% { opacity: 0.35; } }
+.roa-seal { animation: roa-seal 9s linear infinite; transform-box: view-box; transform-origin: 0 0; }
+@keyframes roa-seal { to { transform: rotate(360deg); } }
+.roa-shine { animation: roa-shine 3.5s ease-in-out infinite; }
+@keyframes roa-shine { 0% { transform: translateX(-40px); } 60%, 100% { transform: translateX(200px); } }
+.roa-page { animation: roa-page 4.5s ease-in-out infinite; transform-box: fill-box; transform-origin: left center; }
+@keyframes roa-page { 0%, 30% { transform: none; opacity: 1; } 55% { transform: translateX(-26px) rotate(-8deg); opacity: 0; } 100% { opacity: 0; } }
+.roa-pop { transform-box: fill-box; transform-origin: center; animation: roa-pop 3s ease-out infinite; }
+@keyframes roa-pop { 0% { transform: scale(0.6); opacity: 0; } 15% { transform: scale(1.12); opacity: 1; } 25%, 85% { transform: scale(1); opacity: 1; } 100% { opacity: 0; } }
+.roa-ring { transform: rotate(-90deg); animation: roa-ring 6s linear infinite; }
+@keyframes roa-ring { from { stroke-dashoffset: 276; } to { stroke-dashoffset: 0; } }
+.roa-price { opacity: 0.25; animation: roa-price 6s infinite; }
+.roa-price-0 { animation-delay: 0s; }
+.roa-price-1 { animation-delay: 2s; }
+.roa-price-2 { animation-delay: 4s; fill: #e6c16a; }
+@keyframes roa-price { 0%, 30% { opacity: 1; } 34%, 100% { opacity: 0.25; } }
+@keyframes roa-loop { 0%, 90% { opacity: 1; } 95% { opacity: 0.2; } 100% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .roa *, .roa *::before { animation: none !important; opacity: 1 !important; }
+}

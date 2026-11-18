@@ -79,11 +79,11 @@ Together the offers are planned to bring in ₹3.2L (₹3,16,220), 23% of the ta
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Members who renew before Diwali on a longer plan stay through it. The November consult is a built-in reason to come back after the festival.
 
-### Offer 4 of 4: Thirty, Thirsty & Traumatized
+### Offer 4 of 4: Palpitations Pricing
 
-- **Type:** Revenue boost
+- **Type:** Flash sale
 - **Who it's for:** Everyone; World Heart Day
-- **Headline:** Thirty classes. Emotional damage included at no extra cost.
+- **Headline:** Twenty-four hours. Your heart rate is about to go up for a reason.
 - **What they get:** 3-Month Unlimited at 18% off (₹34,612) with a free heart-rate and fitness assessment at the start and the end.
 - **When:** 29 Sep only (24 hours)
 - **Why we're running it:** A one-day 3-Month spike before the festive slowdown.

@@ -142,3 +142,42 @@
 .ao-offer > p { font-size: 12.5px; }
 @media (max-width: 1100px) { .ao-hero, .ao-two { grid-template-columns: 1fr; } .ao-acts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .ao-acts, .ao-le { grid-template-columns: 1fr; } .ao-section { padding: 18px; } .ao-hero { padding: 22px; } .ao-cal li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* ── Celebration layer (We Kept The Receipts) ─────────────────────────── */
+.ao-hero > :not(.ao-celebrate) { position: relative; z-index: 1; }
+.ao-celebrate { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.ao-celebrate i { position: absolute; top: -40px; display: block; animation: ao-fall linear infinite; }
+.ao-scrap { width: 14px; height: 26px; border-radius: 1px; opacity: 0.55;
+  background: repeating-linear-gradient(180deg, #fbf7ee 0 4px, rgba(43, 35, 32, 0.35) 4px 5px, #fbf7ee 5px 7px); }
+.ao-fleck { width: 7px; height: 4px; background: #e6c16a; opacity: 0.8; border-radius: 1px; }
+.ao-fleck:nth-child(4n) { background: #fff1c8; }
+.ao-fleck:nth-child(5n) { background: #b8323f; }
+@keyframes ao-fall {
+  0% { transform: translate3d(0, -40px, 0) rotate(0deg) rotateY(0deg); }
+  50% { transform: translate3d(18px, 50vh, 0) rotate(160deg) rotateY(180deg); }
+  100% { transform: translate3d(-10px, 110vh, 0) rotate(320deg) rotateY(360deg); }
+}
+.ao-seal { position: absolute; right: -60px; bottom: -70px; width: 170px; height: 170px; opacity: 0.55; display: grid; place-items: center; }
+.ao-seal svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: ao-turn 24s linear infinite; }
+.ao-seal text { font: 600 8.6px 'IBM Plex Mono', ui-monospace, monospace; letter-spacing: 0.18em; fill: rgba(230, 193, 106, 0.75); }
+.ao-seal b { font: italic 600 54px var(--font-display, Georgia, serif); color: rgba(243, 217, 141, 0.28); }
+@keyframes ao-turn { to { transform: rotate(360deg); } }
+.ao-hero h1 { background: linear-gradient(100deg, #fbf3e2 30%, #f3d98d 45%, #fff6dc 50%, #f3d98d 55%, #fbf3e2 70%);
+  background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: ao-gleam 6s ease-in-out infinite; }
+@keyframes ao-gleam { 0%, 20% { background-position: 100% 0; } 60%, 100% { background-position: 0 0; } }
+.ao-figs > div { transition: transform 0.25s ease, border-color 0.25s ease; }
+.ao-figs > div:hover { transform: translateY(-3px); border-color: rgba(230, 193, 106, 0.6); }
+
+.ao-ticker { overflow: hidden; border-radius: 10px; background: #fbf7ee; border: 1px dashed rgba(43, 35, 32, 0.25);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.ao-ticker > div { display: flex; gap: 42px; width: max-content; padding: 9px 0; animation: ao-ticker 38s linear infinite; }
+.ao-ticker span { font: 600 11.5px 'IBM Plex Mono', ui-monospace, monospace; letter-spacing: 0.08em; color: #2b2320; white-space: nowrap; }
+.ao-ticker span::before { content: '✶'; color: #b8323f; margin-right: 12px; }
+@keyframes ao-ticker { to { transform: translateX(-50%); } }
+
+.ao-offer { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.ao-offer:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -22px rgba(74, 29, 55, 0.45); }
+@media (prefers-reduced-motion: reduce) {
+  .ao-celebrate i, .ao-seal svg, .ao-hero h1, .ao-ticker > div { animation: none; }
+}

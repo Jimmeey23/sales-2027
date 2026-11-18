@@ -79,11 +79,11 @@ Together the offers are planned to bring in ₹2L (₹2,02,242), 20% of the targ
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** March is one of the weakest months because clients hold out for anniversary deals. Platinum makes renewing in March the way to get the anniversary first, so waiting buys nothing. Early access costs nothing and the limited editions sell out faster.
 
-### Offer 4 of 4: Bandra Heiress Retainer Fee
+### Offer 4 of 4: Ides of March Panic Buy
 
-- **Type:** Revenue boost
+- **Type:** Flash sale
 - **Who it's for:** Pack buyers and members
-- **Headline:** Old money energy. New money glutes. Your trainer is on retainer.
+- **Headline:** Beware the Ides of March. Also, beware missing this.
 - **What they get:** 20-class pack at 18% off (₹20,664 instead of ₹25,200) with 9 months to use it instead of 6.
 - **When:** 15 Mar, 9 am to midnight (15 hours)
 - **Why we're running it:** A mid-month cash spike in the softest month.

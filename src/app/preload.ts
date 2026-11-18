@@ -15,6 +15,7 @@ const loaders: Record<string, () => Promise<unknown>> = {
   '/sales-plan/targets': () => import('../pages/SalesPlan'),
   '/sales-plan/activations': () => import('../pages/SalesPlan'),
   '/sales-plan/anniversary': () => import('../pages/SalesPlan'),
+  '/sales-plan/planned-offers': () => import('../pages/SalesPlan'),
   '/sales-plan/marketing': () => import('../pages/SalesPlan'),
   '/sales-plan/campaigns': () => import('../pages/SalesPlan'),
   '/offers': () => import('../pages/OfferStudio'),

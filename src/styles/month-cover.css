@@ -2721,3 +2721,50 @@
 .mw-monthcover.is-birthday .mc-photo {
   filter: brightness(0.78) saturate(1.08) contrast(1.06);
 }
+
+/* One-line month brief (e.g. the activation line) as a card in the left panel, beside the
+   lead requirement and revenue split. */
+.mw-monthcover .mcb-block.is-rest.mc-brief-card { grid-column: 1 / span 6; align-self: stretch; }
+@media (max-width: 1200px) { .mw-monthcover .mcb-block.is-rest.mc-brief-card { grid-column: 1 / -1; } }
+.mc-brief-items {
+  margin: 0; padding: 0; list-style: none;
+  display: grid; gap: 8px;
+}
+.mc-brief-items li {
+  position: relative; padding-left: 14px; font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.86);
+}
+.mc-brief-items li::before {
+  content: ''; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--mc-accent, rgba(255, 255, 255, 0.6));
+}
+
+/* ── Plain themed backdrops (replace the cover photographs) ───────────────── */
+.mw-monthcover .mc-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.mw-monthcover .mc-bg::after { /* soft grain so the flat colour does not band */
+  content: ''; position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: overlay;
+  background-image: radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px); background-size: 3px 3px;
+}
+.mc-bg-1  { background: radial-gradient(120% 90% at 80% 10%, #2a3a6e 0%, #121a36 45%, #07091a 100%); }   /* Resolution Season: midnight sky */
+.mc-bg-2  { background: radial-gradient(110% 90% at 75% 20%, #7a1f3d 0%, #3a0f22 50%, #160610 100%); }   /* Red Flags, Green Flags */
+.mc-bg-3  { background: radial-gradient(110% 90% at 75% 20%, #4b2a6b 0%, #241536 50%, #0f0918 100%); }   /* The Pre-Game: violet */
+.mc-bg-4  { background: radial-gradient(110% 90% at 75% 15%, #3b3326 0%, #1c1812 55%, #0b0907 100%); }   /* Receipts: paper and ink */
+.mc-bg-5  { background: radial-gradient(110% 90% at 70% 10%, #6b2f5e 0%, #2c1430 50%, #100714 100%); }   /* The Afterparty: club */
+.mc-bg-6  { background: radial-gradient(110% 90% at 75% 15%, #1e4a6e 0%, #1a2240 50%, #0c0d1c 100%); }   /* Pride / out of office */
+.mc-bg-7  { background: radial-gradient(110% 90% at 70% 10%, #2c4a58 0%, #15262f 55%, #081015 100%); }   /* Rain Check: monsoon slate */
+.mc-bg-8  { background: radial-gradient(110% 90% at 75% 15%, #1f4a3e 0%, #12261f 55%, #07110d 100%); }   /* The Excuse Amnesty: amnesty green */
+.mc-bg-9  { background: radial-gradient(110% 90% at 80% 30%, #6e1a2c 0%, #2e0c16 55%, #12050a 100%); }   /* Heart Month */
+.mc-bg-10 { background: radial-gradient(110% 90% at 75% 70%, #6b3a12 0%, #2d1808 55%, #120904 100%); }   /* Gift of Strength: diya glow */
+.mc-bg-11 { background: radial-gradient(110% 90% at 80% 20%, #3a0c14 0%, #160a10 55%, #050406 100%); }   /* Black Friday: blackout */
+.mc-bg-12 { background: radial-gradient(110% 90% at 80% 20%, #14412c 0%, #0b2018 55%, #050c09 100%); }   /* The Pre-Solution: pine */
+
+/* April: the canvas gala is the hero now; retire the static IX badge and ghost 9 behind the title. */
+.mw-monthcover.is-birthday .mc-nine { display: none !important; }
+.mw-monthcover.is-birthday .mc-hero::before { display: none !important; }
+.mc-bg-4 { background: radial-gradient(90% 80% at 82% 30%, #24142e 0%, #0f0a16 55%, #050308 100%) !important; }
+
+/* Month overview hero: the cover's backdrop and animated scene behind the copy. */
+.mo2-hero { position: relative; overflow: hidden; isolation: isolate; }
+.mo2-hero > .mc-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.mo2-hero > .mc-monsoon { z-index: 1; }
+.mo2-hero > .mo2-scrim { z-index: 2; }
+.mo2-hero > .mo2-hero-inner { position: relative; z-index: 3; }

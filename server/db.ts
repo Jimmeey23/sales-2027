@@ -248,6 +248,8 @@ export function initSchema() {
   `);
   const offerColumns = db.pragma('table_info(offers)') as any[];
   const planColumns = db.pragma('table_info(monthly_plans)') as any[];
+  // Free-form planning tags on an offer (JSON array of strings), set from the Planned offers cards.
+  if (!offerColumns.some(column => column.name === 'plan_tags')) db.exec('ALTER TABLE offers ADD COLUMN plan_tags TEXT');
   // NULL offer_ids = not curated yet: the plan shows that month's imported plan offers.
   if (!planColumns.some(column => column.name === 'offer_ids'))
     db.exec('ALTER TABLE monthly_plans ADD COLUMN offer_ids TEXT');
