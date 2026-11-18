@@ -38,7 +38,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹5.3L (₹5,26,192), 29% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹5.5L (₹5,48,504), 30% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: Sweating Through Your Dignity for Cash
 
@@ -85,9 +85,10 @@ Together the offers are planned to bring in ₹5.3L (₹5,26,192), 29% of the ta
 - **Who it's for:** Everyone
 - **Headline:** The city floods. Our prices drop. You stay dry indoors.
 - **What they get:** 12-class pack at 15% off (₹11,156) plus 1 bonus class, valid 60 days longer than usual. Announced on the morning of the alert.
+- **Price:** ₹11,156
 - **When:** The first IMD red-alert day in July, 12 hours from 9 am
 - **Why we're running it:** Turn the worst attendance day of the monsoon into a sales day.
-- **Target:** 2 sales
+- **Target:** 2 sales at about ₹11,156 each, ₹22,312 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Clients are home and on their phones on red-alert days. The longer validity answers the "I cannot come in this weather" objection.
 

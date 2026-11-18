@@ -38,7 +38,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹10.2L (₹10,21,139), 43% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹11.1L (₹11,13,707), 47% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: The January Delulu Club
 
@@ -85,9 +85,10 @@ Together the offers are planned to bring in ₹10.2L (₹10,21,139), 43% of the 
 - **Who it's for:** Anyone: new clients, lapsed clients, or members upgrading
 - **Headline:** 72 hours. After that, you can regret it at full price.
 - **What they get:** 3-Month Unlimited at 20% off (₹46,284 instead of ₹57,855) plus a pair of Physique 57 grip socks. Countdown clock on Instagram and at the front desk.
+- **Price:** ₹46,284 (list ₹57,855)
 - **When:** 2–4 Jan (72 hours, ends 11:59 pm on 4 Jan)
 - **Why we're running it:** Turn the New Year rush into 3-month commitments in the first 72 hours, before the January newcomer offer takes over.
-- **Target:** 2 sales
+- **Target:** 2 sales at about ₹46,284 each, ₹92,568 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** The first weekend of January has the highest intent of the year. A hard 72-hour clock creates the urgency a month-long offer cannot.
 

@@ -38,7 +38,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹3.3L (₹3,31,110), 22% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹3.4L (₹3,38,586), 22% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: The Newcomers Honey Trap
 
@@ -85,9 +85,10 @@ Together the offers are planned to bring in ₹3.3L (₹3,31,110), 22% of the ta
 - **Who it's for:** Members buying for a father, partner or brother new to the studio
 - **Headline:** He says he is "built different". Prove it.
 - **What they get:** A 4-class pack gift for him at 20% off (₹3,738). If he books his first class within 14 days, the member earns on the referral ladder (1 bonus class).
+- **Price:** ₹3,738
 - **When:** 19–20 Jun (Father's Day weekend, 48 hours)
 - **Why we're running it:** Open a new audience through members.
-- **Target:** 2 sales
+- **Target:** 2 sales at about ₹3,738 each, ₹7,476 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Men are a small share of clients; a gift from a member is the warmest way in. The member's referral reward is earned only when he shows up.
 

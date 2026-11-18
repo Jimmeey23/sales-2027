@@ -38,7 +38,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹7.7L (₹7,73,314), 43% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹8.3L (₹8,31,169), 46% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: The 16-Class Hostage Situation
 
@@ -85,9 +85,10 @@ Together the offers are planned to bring in ₹7.7L (₹7,73,314), 43% of the ta
 - **Who it's for:** Members and anyone buying a 3-Month or bigger
 - **Headline:** She carried you for nine months. Carry her to a barre class.
 - **What they get:** Buy a 3-Month Unlimited or bigger at the standard price (₹57,855) and get a 4-class pack gift card for your mother (or anyone who raised you), in a card she can actually frame.
+- **Price:** ₹57,855
 - **When:** 9 May only (24 hours)
 - **Why we're running it:** A full-price 3-Month spike plus a new client in every sale.
-- **Target:** 1 sales
+- **Target:** 1 sales at about ₹57,855 each, ₹57,855 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** The gift is a newcomer, not a discount: every card brings a new client into the studio with a buyer who already trains there.
 

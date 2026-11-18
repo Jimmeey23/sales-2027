@@ -38,7 +38,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹34,020, 11% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹51,030, 16% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: Naughty, New & Slightly Overweight
 
@@ -84,9 +84,10 @@ Together the offers are planned to bring in ₹34,020, 11% of the target. The re
 - **Who it's for:** Pop-up pack buyers
 - **Headline:** You have outgrown the pop-up. The big studio is ready for you.
 - **What they get:** Any pop-up pack buyer gets a free class at Kenkere House (worth ₹1,417.50); pack at ₹8,505.
+- **Price:** ₹8,505
 - **When:** Always on; 2–3 conversions to Kenkere a month
 - **Why we're running it:** Feed Kenkere House with pack-ready clients.
-- **Target:** 2 sales
+- **Target:** 2 sales at about ₹8,505 each, ₹17,010 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** The pop-ups' strategic job is to send regulars to the flagship studio.
 

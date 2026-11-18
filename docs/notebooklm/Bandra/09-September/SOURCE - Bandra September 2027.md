@@ -38,7 +38,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹6L (₹6,01,245), 35% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹6.5L (₹6,48,686), 37% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: My Own Sugar Daddy (Funded by Glutes)
 
@@ -85,9 +85,10 @@ Together the offers are planned to bring in ₹6L (₹6,01,245), 35% of the targ
 - **Who it's for:** Everyone; World Heart Day
 - **Headline:** Twenty-four hours. Your heart rate is about to go up for a reason.
 - **What they get:** 3-Month Unlimited at 18% off (₹47,441) with a free heart-rate and fitness assessment at the start and the end.
+- **Price:** ₹47,441
 - **When:** 29 Sep only (24 hours)
 - **Why we're running it:** A one-day 3-Month spike before the festive slowdown.
-- **Target:** 1 sales
+- **Target:** 1 sales at about ₹47,441 each, ₹47,441 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** World Heart Day is a natural reason to start a 12-week plan; the before-and-after assessment shows the result and opens the renewal conversation.
 

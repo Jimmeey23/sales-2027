@@ -79,7 +79,7 @@ Together the offers are planned to bring in ₹10.3L (₹10,33,910), 30% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** March is one of the weakest months because clients hold out for anniversary deals. Platinum makes renewing in March the way to get the anniversary first, so waiting buys nothing. Early access costs nothing and the limited editions sell out faster.
 
-### Offer 4 of 5: Bandra Heiress Retainer Fee
+### Offer 4 of 5: Kemps Corner Heiress Retainer Fee
 
 - **Type:** Revenue boost
 - **Who it's for:** Top spenders, private-session clients and members who travel; sold by invitation

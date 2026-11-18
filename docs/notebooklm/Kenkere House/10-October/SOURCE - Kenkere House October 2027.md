@@ -85,6 +85,7 @@ Together the offers are planned to bring in ₹2.7L (₹2,67,418), 20% of the ta
 - **Who it's for:** Members and anyone buying an Annual
 - **Headline:** Circling back on your team's mental health. Please see attached: barre.
 - **What they get:** Annual Unlimited at 18% off (₹1,28,117) with a gold-foil membership card, 1 private session, 4 guest passes, priority booking for the year and a Physique 57 hoodie. One day only.
+- **Price:** ₹128,117
 - **When:** Dhanteras (2 days before Diwali), 24 hours
 - **Why we're running it:** An auspicious-day Annual sale in the biggest festive buying moment.
 - **Rules:** No stacking with standing perks. Max effective discount 25%.

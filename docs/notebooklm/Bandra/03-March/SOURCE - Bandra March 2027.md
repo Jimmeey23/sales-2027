@@ -85,6 +85,7 @@ Together the offers are planned to bring in ₹4.1L (₹4,10,080), 31% of the ta
 - **Who it's for:** Pack buyers and members
 - **Headline:** Beware the Ides of March. Also, beware missing this.
 - **What they get:** 20-class pack at 18% off (₹31,857 instead of ₹38,850) with 9 months to use it instead of 6.
+- **Price:** ₹31,857 (list ₹38,850)
 - **When:** 15 Mar, 9 am to midnight (15 hours)
 - **Why we're running it:** A mid-month cash spike in the softest month.
 - **Rules:** No stacking with standing perks. Max effective discount 25%.

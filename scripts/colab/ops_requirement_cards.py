@@ -56,7 +56,7 @@ ROWS = [
     ('Feb', "Event kit: Galentine's class (décor, snacks)", 'Event', "Galentine's Bring-a-Friend class (13 Feb)", 'One class per studio', 'P3', 1, 1, 1, 0, '10 Feb'),
     ('Mar', 'Grip socks (pair)', 'Merch', 'The Situationship Starter Kit', 'Starter Kit for newcomers', 'P1', 10, 10, 8, 0, '25 Feb'),
     ('Mar', 'Printed 2-week trainer plan', 'Print', 'The Situationship Starter Kit', 'Starter Kit for newcomers', 'P1', 10, 10, 8, 0, '25 Feb'),
-    ('Mar', 'Monogrammed tote', 'Merch', 'Bandra Heiress Retainer Fee', 'With the Heiress Bundle (lead time ~3 weeks)', 'P2', 3, 0, 0, 0, '15 Feb'),
+    ('Mar', 'Monogrammed tote', 'Merch', 'Kemps Corner Heiress Retainer Fee', 'With the Heiress Bundle (lead time ~3 weeks)', 'P2', 3, 0, 0, 0, '15 Feb'),
     ('Mar', 'Guest speaker + class kit', 'Event', "International Women's Day class (8 Mar)", 'One per studio', 'P2', 1, 1, 1, 0, '1 Mar'),
     ('Mar', 'Platinum list on the anniversary wall', 'Print', 'Platinum Tier Delusion (reveal 25 Mar)', 'Names of every March renewer', 'P2', 1, 1, 1, 0, '24 Mar'),
     ('Apr', 'Thermal receipt printer', 'Equipment', 'The Receipt (all April offers)', '≈₹4,000 each; receipt engine from Momence via n8n', 'P1', 1, 1, 1, 1, '15 Mar'),
