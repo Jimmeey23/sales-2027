@@ -97,7 +97,7 @@ Together the offers are planned to bring in ₹6.5L (₹6,48,686), 37% of the ta
 - **Week 1:** Heart Check week; newcomer offer live (My Own Sugar Daddy).
 - **Week 2:** Lapsed outreach with a friend (Partners in Crime & Joint Inflammation).
 - **Week 3:** 6-Month renewals for September–November expiries (The Pre-Diwali Prenup).
-- **Week 4:** 30-class pack push (Thirty, Thirsty & Traumatized); Palpitations Pricing (29 Sep).
+- **Week 4:** 3-Month push with heart assessments (Palpitations Pricing); World Heart Day class (29 Sep).
 
 ## Activation and channels
 

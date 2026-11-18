@@ -208,7 +208,7 @@ export default function MonthWorkspace({
       .replace(/[()]/g, '')
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-|-$/g, '');
-    fetch('/explainer/manifest.json', { credentials: 'same-origin' })
+    fetch('/explainer/manifest.json', { credentials: 'same-origin', cache: 'no-cache' })
       .then(r => (r.ok ? r.json() : null))
       .then((data: any) => {
         setNarratedMonths(Array.isArray(data?.studios?.[slug]) ? data.studios[slug] : []);

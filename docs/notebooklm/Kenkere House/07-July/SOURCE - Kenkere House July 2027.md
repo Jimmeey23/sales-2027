@@ -97,7 +97,7 @@ Together the offers are planned to bring in ₹5.5L (₹5,48,504), 30% of the ta
 - **Week 1:** Sweating Through Your Dignity for Cash live; rebook policy live.
 - **Week 2:** Lapsed outreach (The Public Apology Tour); Red Alert flash on the first red-alert day.
 - **Week 3:** Renewals with the punctuality reward (Punctuality Is My Love Language).
-- **Week 4:** Instalment 3-Month push (The Broke Baddie Bailout); race sign-ups open.
+- **Week 4:** 12-class pack push on alert days (Red Alert, Red Hot); race sign-ups open.
 
 ## Activation and channels
 

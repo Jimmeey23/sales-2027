@@ -96,7 +96,7 @@ Together the offers are planned to bring in ₹8.3L (₹8,31,169), 46% of the ta
 
 - **Week 1:** No Graceful Exit Strategy to April buyers with 12+ classes; dare-card follow-ups for wheel winners.
 - **Week 2:** Mother's Day Guilt Trip (9 May); newcomer ransom notes (The 16-Class Hostage Situation).
-- **Week 3:** Privates push (Humiliate Me in Private, Coach); Look What You Lost tour stamps checked.
+- **Week 3:** Mother's Day Guilt Trip gift-card follow-ups; Look What You Lost tour stamps checked.
 - **Week 4:** Close the month; freeze set-up for members travelling in June.
 
 ## Activation and channels

@@ -9447,3 +9447,45 @@ details.membership-terms > summary {
 .mw .mo2-points.is-brief > li > span {
   color: var(--muted);
 }
+
+/* Jan–Aug recap video at the top of the Sales Plan page: collapsed by default, loads on open. */
+.ws-recap {
+  margin: 4px 0 18px;
+  border: 1px solid var(--line, rgba(0, 0, 0, 0.1));
+  border-radius: 12px;
+  background: var(--surface, transparent);
+  overflow: hidden;
+}
+.ws-recap > summary {
+  display: grid;
+  gap: 2px;
+  padding: 12px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+.ws-recap > summary::-webkit-details-marker { display: none; }
+.ws-recap > summary::after {
+  content: '▶ Play';
+  justify-self: start;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 620;
+  letter-spacing: 0.08em;
+  color: var(--accent, currentColor);
+}
+.ws-recap[open] > summary::after { content: '▼ Hide'; }
+.ws-recap-eyebrow {
+  font-size: 9.5px;
+  font-weight: 620;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.ws-recap-title { font-size: 15px; font-weight: 600; }
+.ws-recap-sub { font-size: 12.5px; color: var(--subtle); }
+.ws-recap-video {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  background: #000;
+}

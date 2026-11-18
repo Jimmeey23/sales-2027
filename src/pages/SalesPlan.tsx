@@ -92,6 +92,23 @@ export default function SalesPlan() {
           </button>
         </div>
       </header>
+      {year === 2027 && (
+        <details className="ws-recap">
+          <summary>
+            <span className="ws-recap-eyebrow">Watch · 3 min</span>
+            <span className="ws-recap-title">2027 sales plan recap: January to August</span>
+            <span className="ws-recap-sub">Theme and headline offers for each month, all studios</span>
+          </summary>
+          <video
+            className="ws-recap-video"
+            src="/explainer/video/recap-jan-aug-2027.mp4?v=20261118"
+            controls
+            playsInline
+            preload="none"
+            aria-label="2027 sales plan recap, January to August"
+          />
+        </details>
+      )}
       <PlanExportDialog open={exporting} onClose={() => setExporting(false)} defaultScope={studio ? 'studio' : 'all'} />
       <PlanImportDialog
         open={planImporting}

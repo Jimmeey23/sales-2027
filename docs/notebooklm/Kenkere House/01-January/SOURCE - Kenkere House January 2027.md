@@ -96,7 +96,7 @@ Together the offers are planned to bring in ₹5.9L (₹5,91,012), 32% of the ta
 
 - **Week 1:** New Year's Regret Window (2–4 Jan); every December lead and January trial called within 2 hours; Delulu Club launched.
 - **Week 2:** The 9 pm "u up?" texts to the lapsed list (Texting Your Toxic Ex); D-14 renewal calls for February expiries (Premature Evacuation).
-- **Week 3:** Annual pitch (Stockholm Syndrome) to 3-Month and 6-Month members; class-count check on every new member: who is on track for 16 and 20?
+- **Week 3:** Upgrade conversations with 3-Month and 6-Month members; class-count check on every new member: who is on track for 16 and 20?
 - **Week 4:** Close the month: every trial without a purchase gets a final call; members at 16+ classes get the refund call before day 30.
 
 ## Activation and channels
