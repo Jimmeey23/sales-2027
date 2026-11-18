@@ -70,7 +70,7 @@ Together the offers are planned to bring in ₹33,327, 10% of the target. The re
 - **Type:** Renewal
 - **Who it's for:** Pack holders with 2 or fewer classes left
 - **Headline:** Two classes left? Do not let your streak hit zero.
-- **What they get:** Buy your next pack when 2 or fewer classes are left and get 1 bonus class (10-class pack at ₹8,505).
+- **What they get:** Buy your next pack when 2 or fewer classes are left and get 2 bonus classes (10-class pack at ₹8,505).
 - **Price:** ₹8,505 (list ₹8,505)
 - **When:** Always on
 - **Why we're running it:** Renew packs before they run out.

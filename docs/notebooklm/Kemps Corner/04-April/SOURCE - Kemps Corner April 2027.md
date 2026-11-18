@@ -4,7 +4,7 @@
 **Month:** April 2027  
 **Plan year:** 2027. Every target here is for April 2027; "last year" means April 2026.
 
-This is the complete, approved sales plan for this studio and month. It has exactly 5 offers; there are no others.
+This is the complete, approved sales plan for this studio and month. It has exactly 7 offers; there are no others.
 
 ## Theme and focus
 
@@ -36,11 +36,11 @@ This is the complete, approved sales plan for this studio and month. It has exac
 - Renewals due this month: 177; renewals planned: 138 (78% of those due)
 - Lapsed clients to win back: 65
 
-## The offers (5)
+## The offers (7)
 
-Together the offers are planned to bring in ₹36.1L (₹36,13,055), 57% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹58.1L (₹58,11,569), 91% of the target. The rest comes from full-price sales.
 
-### Offer 1 of 5: Suspiciously Clean Record
+### Offer 1 of 7: Suspiciously Clean Record
 
 - **Type:** Newcomer
 - **Who it's for:** First-time clients, within 9 hours of their first class
@@ -53,7 +53,7 @@ Together the offers are planned to bring in ₹36.1L (₹36,13,055), 57% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** The 9-hour window is the strongest mechanic in the slot: it buys on the day the body feels best and it makes the price obviously a one-day price rather than the price. Booked-not-attended and late-cancel rows print only for clients with 100+ classes taken; newcomers get a three-line receipt and a clean slate; lapsed clients get the dates, never the skip count.
 
-### Offer 2 of 5: Last Seen Wearing Leggings
+### Offer 2 of 7: Last Seen Wearing Leggings
 
 - **Type:** Winback
 - **Who it's for:** Clients lapsed 60+ days (suppression list applied first)
@@ -66,7 +66,7 @@ Together the offers are planned to bring in ₹36.1L (₹36,13,055), 57% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** People lapse for injury, pregnancy, illness and bereavement; a mock obituary posted to someone who buried a parent is a brand problem you cannot apologise your way out of. Their own record is more personal than anything you could have posted. Suppression list applied before anything sends; lapsed clients get the dates, never the skip count.
 
-### Offer 3 of 5: Certified Insufferable
+### Offer 3 of 7: Certified Insufferable
 
 - **Type:** Renewal
 - **Who it's for:** Members renewing or upgrading in April
@@ -79,7 +79,33 @@ Together the offers are planned to bring in ₹36.1L (₹36,13,055), 57% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Structurally the best offer in the month: list price, value back, no discount. The reward tier is a lookup, not a machine to buy, fill and staff in four studios. Extras cost less than their face value, so value-back is held at 15–18%, leaving discount to pull if week three is soft. The dare card buys May attendance with April’s money.
 
-### Offer 4 of 5: Plank Or Pay
+### Offer 4 of 7: Your Future Self Is Unreliable
+
+- **Type:** Early renewal
+- **Who it's for:** Members whose membership expires May–July
+- **Headline:** Your membership ends in June. You, historically, do not.
+- **What they get:** Anyone whose membership expires in May, June or July renews during April at list price (₹57,855 for a 3-Month equivalent) and gets the full Certified Insufferable value-back plus 9 bonus days on the back of their current term. No discount — the incentive is access to anniversary terms early, and nine days.
+- **Price:** ₹57,855 (list price)
+- **When:** 5–30 Apr; the early-renewal list goes out the morning of 5 Apr
+- **Why we're running it:** Pull May–July renewals into April: every location needs more renewals than it has expiring.
+- **Target:** 24 sales at about ₹57,855 each, ₹13.9L (₹13,88,520) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** Arithmetic, not optional: roughly half the April renewal line has to be pulled forward from May–July or it doesn’t exist. Costs nothing, moves revenue into the month that needs it, and it’s a clean WhatsApp campaign off a Momence expiry query.
+
+### Offer 5 of 7: Nine Month Sentence
+
+- **Type:** Upsell
+- **Who it's for:** Members and returning clients ready for a long commitment; 99 numbered keys per city
+- **Headline:** Nine months. No parole. Good behaviour earns freezes.
+- **What they get:** The 9-Month Unlimited with numbered brass keys: ₹1,34,999 for keys 001–033, ₹1,39,999 for 034–066, ₹1,44,999 for 067–099, with a step at midnight on the 18th. Good behaviour earns freezes (9), the key is your release date, your name goes on the Lease Wall and a live key counter runs on the studio screens. Platinum holders from 30 March.
+- **Price:** ₹1,34,999 (list ₹1,71,570)
+- **When:** 30 Mar – 30 Apr; price steps at midnight 18 Apr
+- **Why we're running it:** The biggest ticket of the month: real scarcity, a rising price, nothing to buy but keys and a counter.
+- **Target:** 6 sales at about ₹1,34,999 each, ₹8.1L (₹8,09,994) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** The best mechanic in the draft, kept whole. A rising price rewards deciding early and makes every sale visible. Runs at all studios: the upsell slot no longer sits at ₹0 outside Kemps Corner.
+
+### Offer 6 of 7: Plank Or Pay
 
 - **Type:** Flash sale
 - **Who it's for:** Everyone: members, packs and newcomers
@@ -92,7 +118,7 @@ Together the offers are planned to bring in ₹36.1L (₹36,13,055), 57% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** A price you earn with your body is the most Physique 57 thing there is, and every plank at the desk is a show for whoever is waiting. The floor price sits inside the 25% spot cap and plan revenue is counted at the floor.
 
-### Offer 5 of 5: Prove It
+### Offer 7 of 7: Prove It
 
 - **Type:** Referral
 - **Who it's for:** Current members bringing a guest with no record on file (cap 3 per member)

@@ -38,18 +38,18 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹5.2L (₹5,16,702), 29% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹5.3L (₹5,26,192), 29% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: Sweating Through Your Dignity for Cash
 
 - **Type:** New clients
 - **Who it's for:** New clients, bought within 7 days of the first class
 - **Headline:** Every class after your 9th pays you. Literally.
-- **What they get:** Your first 1-Month Unlimited at 20% off (₹11,676). From your 10th class in the 30 days, every class earns ₹600 in credit, up to ₹9,000 (15 classes), spent on a 3-Month Unlimited or bigger.
-- **Price:** ₹11,676 (list ₹14,595)
+- **What they get:** Your first 1-Month Unlimited at 15% off (₹12,406). From your 10th class in the 30 days, every class earns ₹600 in credit, up to ₹9,000 (15 classes), spent on a 3-Month Unlimited or bigger.
+- **Price:** ₹12,406 (list ₹14,595)
 - **When:** 1–31 Jul
 - **Why we're running it:** Monsoon kills attendance. This pays newcomers for every class they do in the wettest month and turns the habit into a 3-Month.
-- **Target:** 13 sales at about ₹11,676 each, ₹1.5L (₹1,51,788) in total
+- **Target:** 13 sales at about ₹12,406 each, ₹1.6L (₹1,61,278) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** A per-class reward makes every extra class count, not just the finish line, and the credit can only be spent on a 3-Month or bigger.
 
@@ -69,14 +69,14 @@ Together the offers are planned to bring in ₹5.2L (₹5,16,702), 29% of the ta
 ### Offer 3 of 4: Punctuality Is My Love Language
 
 - **Type:** Renewal
-- **Who it's for:** Members expiring in July and August
+- **Who it's for:** Members expiring in July and August who attended at least 8 classes a month in their current term
 - **Headline:** Show up on time and we will show up for you.
-- **What they get:** Renew on a 3-Month at full price (₹42,210) and get 7 extra days. Members with zero late cancels and no-shows in their current term get 14 extra days and the "On Time, Every Time" water bottle instead.
+- **What they get:** Renew on a 3-Month at full price (₹42,210) and get 7 extra days, if you attended at least 8 classes a month in your current term (24 on a 3-Month). Hit that and have zero late cancels and no-shows too, and you get 14 extra days and the "On Time, Every Time" water bottle instead.
 - **Price:** ₹42,210 (list ₹42,210)
 - **When:** 1–31 Jul
 - **Why we're running it:** Cut monsoon late cancels and reward the members who show up.
 - **Target:** 6 sales at about ₹42,210 each, ₹2.5L (₹2,53,260) in total
-- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **Rules:** No stacking with standing perks. Max effective discount 25%. Attendance is checked in Momence at the desk: at least 8 attended classes per month of the current term (24 on a 3-Month, 48 on a 6-Month); late cancels and no-shows count against the 14-day tier only.
 - **The data behind it:** Late cancels are highest from June to September. Rewarding a clean record does more than penalties alone, and it costs nothing for members who would cancel anyway.
 
 ### Offer 4 of 4: Red Alert, Red Hot

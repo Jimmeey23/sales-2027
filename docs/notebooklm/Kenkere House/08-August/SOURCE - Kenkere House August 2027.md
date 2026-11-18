@@ -52,14 +52,14 @@ Upgrade: Monogamy Is Overrated (“You've been seeing one format for months. The
 
 ## The offers (6)
 
-Together the offers are planned to bring in ₹8.6L (₹8,62,871), 55% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹14.6L (₹14,61,116), 92% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 6: Dump Us Later
 
 - **Type:** Credited newcomer intro with a written break-up clause
 - **Who it's for:** First-time clients, phone verified.
 - **Headline:** Commitment issues? Flattering. Try two classes and dump us in writing if it's not love.
-- **What they get:** 2 Barre classes for ₹709, credited in full against 1 Month Unlimited at the standard 15% if bought within 72 hours (net ₹11,697). The break-up clause: any time in the first 14 days, if it is not for you, the desk converts every unused rupee into an 8-class pack with 60 days of validity. No break-up fee, no retention speech, no awkward conversation at the barre. One condition — you fill in the one-line exit card at the desk telling us exactly what we got wrong. That card is the whole price of leaving.
+- **What they get:** 2 classes in 7 days for ₹709, any format, credited in full against 1 Month Unlimited at the standard 15% if bought within 72 hours (net ₹11,697). The break-up clause: any time in the first 14 days, if it is not for you, the desk converts every unused rupee into an 8-class pack with 60 days of validity. No break-up fee, no retention speech, no awkward conversation at the barre. One condition — you fill in the one-line exit card at the desk telling us exactly what we got wrong. That card is the whole price of leaving.
 - **Price:** ₹11,697
 - **When:** 1 Aug–21 Aug
 - **Why we're running it:** Kill the commitment objection that stops August trials from buying, and harvest the real reason when someone walks.
@@ -72,11 +72,11 @@ Together the offers are planned to bring in ₹8.6L (₹8,62,871), 55% of the ta
 - **Type:** Flexible renewal with transferable freeze days
 - **Who it's for:** Members with a membership expiring in August, September or October.
 - **Headline:** Pause it. Freeze it. Abandon it for three weeks. Cancelling is the only thing we take personally.
-- **What they get:** 3 Months at the standard 15% (net ₹35,879) with 2 freeze blocks; 6 Months at 15% (net ₹69,883) with 3 freeze blocks and one private class; Annual at the standard 20% with 4 freeze blocks and the 2028 price lock from The Insufferably Smug Annual honoured if you renew inside the window. Freeze blocks are a minimum of 3 days each and can be used any time between 1 Sep and 30 Nov, for travel, work or nothing in particular — the desk does not ask. Anything you have not used by 30 Nov can be gifted as guest classes to one friend instead of expiring quietly. Renew early, in the first 10 days of August, and we add a fourth freeze block.
+- **What they get:** How it works: renew in August and pick your term. 3 Months at the standard 15% off (₹35,878) comes with 2 freeze blocks. 6 Months at 15% off (₹69,883) comes with 3 freeze blocks and 1 private class. The Annual at the standard 20% off (₹1,24,992) comes with 4 freeze blocks and the same 2028 price lock as The Insufferably Smug Annual. A freeze block pauses your membership for at least 3 days; ask the desk 48 hours ahead and use it any time from 1 Sep to 30 Nov, for any reason. Renew by 10 Aug and you get one extra block. Any block you have not used by 30 Nov turns into guest classes for one friend who has never been, valid to 31 Dec.
 - **Price:** ₹69,883
 - **When:** 1 Aug–31 Aug
 - **Why we're running it:** Protect the September-to-November renewal book before travel season breaks the habit.
-- **Target:** 15 sales at about ₹69,883 each, ₹4.5L (₹4,50,000) in total
+- **Target:** 15 sales at about ₹69,883 each, ₹10.5L (₹10,48,245) in total
 - **Rules:** 3M at 15%, 6M at 15% with the private at list value, Annual at the standard 20%. Freeze blocks are minimum 3 days, must be requested 48 hours ahead, expire 30 Nov and have no cash value. Unused blocks convert to guest classes for one named first-timer, valid to 31 Dec 2027. Early-renewal bonus applies to renewals completed by 10 Aug.
 - **The data behind it:** Members lapse between September and November, when wedding season, work trips and family travel break the habit rather than any dissatisfaction with the studio. A freeze keeps them paying and coming back instead of cancelling, and freeze days carry no cash cost, so the cash discount stays at the standard 15% and margin is untouched. Making unused freeze days giftable at the end of November turns leftover goodwill into trial traffic in the strongest selling month of the year.
 
@@ -98,7 +98,7 @@ Together the offers are planned to bring in ₹8.6L (₹8,62,871), 55% of the ta
 - **Type:** Annual with a 2028 price lock, gift classes and an installment route
 - **Who it's for:** Members and lapsed clients capable of an annual: current 3M/6M holders, annual renewals due, and anyone who has bought twice.
 - **Headline:** Lock 2027 prices for 2028, then be completely unbearable about it at brunch.
-- **What they get:** Five days only. Annual Unlimited at the standard 20% (net ₹1,24,992) and with it: your 2028 renewal price locked at 2027 rates in writing, 15 bonus days on top of the 12 months, 12 freeze days to use whenever your year goes sideways, and three transferable gift classes you can hand to whoever needs the push. Prefer not to pay in one go? The same lock and the same perks on the monthly installment route (₹10,416 / month x 12), card on file, cancel-proof for 12 months. Anyone upgrading from a live 3M or 6M gets the unused balance credited in full.
+- **What they get:** Five days only. Annual Unlimited at the standard 20% (net ₹1,24,992) and with it: your 2028 renewal price locked at 2027 rates in writing, 15 bonus days on top of the 12 months, 12 freeze days to use whenever your year goes sideways, three transferable gift classes you can hand to whoever needs the push, 48-hour priority booking all year, a 20-minute trainer progress check every quarter, and your name on the Annual Wall. Prefer not to pay in one go? The same lock and the same perks on the monthly installment route (₹10,416 / month x 12), card on file, cancel-proof for 12 months. Anyone upgrading from a live 3M or 6M gets the unused balance credited in full.
 - **Price:** ₹1,24,992
 - **When:** 13 Aug–17 Aug
 - **Why we're running it:** Sell annuals on certainty rather than depth of discount, and bank 2028 renewals inside 2027.

@@ -38,7 +38,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (5)
 
-Together the offers are planned to bring in ₹15.1L (₹15,08,038), 41% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹15.1L (₹15,08,036), 41% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 5: My Own Sugar Daddy (Funded by Glutes)
 
@@ -56,17 +56,17 @@ Together the offers are planned to bring in ₹15.1L (₹15,08,038), 41% of the 
 ### Offer 2 of 5: Partners in Crime & Joint Inflammation
 
 - **Type:** Win-back
-- **Who it's for:** Clients lapsed 60+ days, each with one friend new to the studio
-- **Headline:** Coming back alone is awkward. Coming back with an accomplice is a heist.
-- **What they get:** The returning client and their friend each buy a 1-Month Unlimited at 17% off (₹16,798 each) and each get 1 guest pass. If both renew at the end of the month, each gets a bonus class and a matching "Partners in Crime" tee.
+- **Who it's for:** Clients lapsed 60+ days
+- **Headline:** Coming back alone is awkward. Coming back with an accomplice on staff is a heist.
+- **What they get:** Come back on a 1-Month Unlimited at 17% off (₹16,798) with a named trainer as your partner in crime: a 15-minute check-in in week 1 and week 3, and 1 guest pass if you want company. Renew at the end of the month and get a bonus class and the "Partners in Crime" tee.
 - **Price:** ₹16,798 (list ₹20,239)
 - **When:** 1–30 Sep
-- **Why we're running it:** Every winback brings a newcomer: two sales from one conversation.
-- **Target:** 11 sales at about ₹16,798 each, ₹1.8L (₹1,84,780) in total
+- **Why we're running it:** Win lapsed clients back on their own, with a trainer as the accountability partner.
+- **Target:** 11 sales at about ₹16,798 each, ₹1.8L (₹1,84,778) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** Lapsed clients say they stopped because their routine or workout partner changed. A friend fixes both, and referred friends convert best of any source.
+- **The data behind it:** Lapsed clients say they stopped because their routine or workout partner changed. A named trainer who checks in twice in the first month replaces the missing partner, so the comeback does not depend on bringing a friend.
 
-### Offer 3 of 5: Pre-Diwali Damage Limitation Treaty
+### Offer 3 of 5: The Pre-Diwali Prenup
 
 - **Type:** Renewal
 - **Who it's for:** Members expiring September to November
@@ -109,7 +109,7 @@ Together the offers are planned to bring in ₹15.1L (₹15,08,038), 41% of the 
 
 - **Week 1:** W1: Heart Check week; newcomer offer live (My Own Sugar Daddy).
 - **Week 2:** W2: lapsed outreach with a friend (Partners in Crime & Joint Inflammation).
-- **Week 3:** W3: 6-Month renewals for September–November expiries (Pre-Diwali Damage Limitation Treaty).
+- **Week 3:** W3: 6-Month renewals for September–November expiries (The Pre-Diwali Prenup).
 - **Week 4:** W4: 30-class pack push (Thirty, Thirsty & Traumatized); Palpitations Pricing (29 Sep).
 
 ## Activation and channels

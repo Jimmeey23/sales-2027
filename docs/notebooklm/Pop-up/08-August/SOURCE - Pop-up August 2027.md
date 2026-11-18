@@ -68,7 +68,7 @@ Together the offers are planned to bring in ₹96,393, 25% of the target. The re
 - **Type:** Flexible renewal with transferable freeze days
 - **Who it's for:** Members with a membership expiring in August, September or October.
 - **Headline:** Pause it. Freeze it. Abandon it for three weeks. Cancelling is the only thing we take personally.
-- **What they get:** 10-class pack at the standard 15% (net ₹7,229) with 30 extra days of validity and 2 freeze blocks. Freeze blocks are a minimum of 3 days each and can be used any time between 1 Sep and 30 Nov, for travel, work or nothing in particular — the desk does not ask. Anything you have not used by 30 Nov can be gifted as guest classes to one friend instead of expiring quietly. Renew early, in the first 10 days of August, and we add a fourth freeze block.
+- **What they get:** How it works: renew in August on a 10-class pack at the standard 15% off (₹7,229). You get 30 extra days of validity and 2 freeze blocks. A freeze block pauses your pack for at least 3 days; ask the desk 48 hours ahead and use it any time from 1 Sep to 30 Nov, for any reason. Renew by 10 Aug and you get a third block. Any block you have not used by 30 Nov turns into guest classes for one friend who has never been, valid to 31 Dec.
 - **Price:** ₹7,229
 - **When:** 1 Aug–31 Aug
 - **Why we're running it:** Protect the September-to-November renewal book before travel season breaks the habit.

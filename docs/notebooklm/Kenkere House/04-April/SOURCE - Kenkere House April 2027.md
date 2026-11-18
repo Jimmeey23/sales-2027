@@ -79,20 +79,7 @@ Together the offers are planned to bring in ₹14.3L (₹14,33,300), 71% of the 
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Structurally the best offer in the month: list price, value back, no discount. The reward tier is a lookup, not a machine to buy, fill and staff in four studios. Extras cost less than their face value, so value-back is held at 15–18%, leaving discount to pull if week three is soft. The dare card buys May attendance with April’s money.
 
-### Offer 4 of 7: Nine Month Sentence
-
-- **Type:** Upsell
-- **Who it's for:** Members and returning clients ready for a long commitment; 99 numbered keys per city
-- **Headline:** Nine months. No parole. Good behaviour earns freezes.
-- **What they get:** The 9-Month Unlimited with numbered brass keys: ₹98,999 for keys 001–033, ₹1,01,999 for 034–066, ₹1,04,999 for 067–099, with a step at midnight on the 18th. Good behaviour earns freezes (9), the key is your release date, your name goes on the Lease Wall and a live key counter runs on the studio screens. Platinum holders from 30 March. Bengaluru tiers are inferred from the Mumbai ratio — confirm the 6-Month list price before this goes out.
-- **Price:** ₹98,999 (list ₹1,24,425)
-- **When:** 30 Mar – 30 Apr; price steps at midnight 18 Apr
-- **Why we're running it:** The biggest ticket of the month: real scarcity, a rising price, nothing to buy but keys and a counter.
-- **Target:** 2 sales at about ₹98,999 each, ₹2L (₹1,97,998) in total
-- **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** The best mechanic in the draft, kept whole. A rising price rewards deciding early and makes every sale visible. Runs at all studios: the upsell slot no longer sits at ₹0 outside Kemps Corner.
-
-### Offer 5 of 7: Your Future Self Is Unreliable
+### Offer 4 of 7: Your Future Self Is Unreliable
 
 - **Type:** Early renewal
 - **Who it's for:** Members whose membership expires May–July
@@ -104,6 +91,19 @@ Together the offers are planned to bring in ₹14.3L (₹14,33,300), 71% of the 
 - **Target:** 22 sales at about ₹13,136 each, ₹2.9L (₹2,88,992) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Arithmetic, not optional: roughly half the April renewal line has to be pulled forward from May–July or it doesn’t exist. Costs nothing, moves revenue into the month that needs it, and it’s a clean WhatsApp campaign off a Momence expiry query. (blended at the 1-Month renewal price: most Kenkere expiries are short plans.)
+
+### Offer 5 of 7: Nine Month Sentence
+
+- **Type:** Upsell
+- **Who it's for:** Members and returning clients ready for a long commitment; 99 numbered keys per city
+- **Headline:** Nine months. No parole. Good behaviour earns freezes.
+- **What they get:** The 9-Month Unlimited with numbered brass keys: ₹98,999 for keys 001–033, ₹1,01,999 for 034–066, ₹1,04,999 for 067–099, with a step at midnight on the 18th. Good behaviour earns freezes (9), the key is your release date, your name goes on the Lease Wall and a live key counter runs on the studio screens. Platinum holders from 30 March.
+- **Price:** ₹98,999 (list ₹1,24,425)
+- **When:** 30 Mar – 30 Apr; price steps at midnight 18 Apr
+- **Why we're running it:** The biggest ticket of the month: real scarcity, a rising price, nothing to buy but keys and a counter.
+- **Target:** 2 sales at about ₹98,999 each, ₹2L (₹1,97,998) in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%.
+- **The data behind it:** The best mechanic in the draft, kept whole. A rising price rewards deciding early and makes every sale visible. Runs at all studios: the upsell slot no longer sits at ₹0 outside Kemps Corner.
 
 ### Offer 6 of 7: Plank Or Pay
 

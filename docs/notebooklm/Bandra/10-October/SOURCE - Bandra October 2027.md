@@ -38,18 +38,18 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹6.2L (₹6,19,006), 37% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹5.9L (₹5,91,822), 35% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: Mothers I'd Like to Tuck
 
 - **Type:** New clients
 - **Who it's for:** Members buying gifts; recipients new to the studio
 - **Headline:** Nothing says "I love you" like "I booked you a 7 am class".
-- **What they get:** Buy a 1-Month Unlimited gift card at ₹20,239: the buyer gets 1 bonus class, and the recipient gets a 30-minute trainer consult when they book their first class within 14 days.
-- **Price:** ₹20,239 (list ₹20,239)
+- **What they get:** Buy a 1-Month Unlimited gift card at 5% off (₹19,227): the buyer gets 1 bonus class, and the recipient gets a 30-minute trainer consult and 7 extra days on the month when they book their first class within 14 days.
+- **Price:** ₹19,227 (list ₹20,239)
 - **When:** 1 Oct–7 Nov (Diwali is 29 Oct)
 - **Why we're running it:** Turn members into recruiters through Diwali gifting.
-- **Target:** 4 sales at about ₹20,239 each, ₹80,956 in total
+- **Target:** 4 sales at about ₹19,227 each, ₹76,908 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Every gift card is a new client arriving with a paid month already in hand. The consult gives the recipient a plan and a named trainer on day one.
 
@@ -71,11 +71,11 @@ Together the offers are planned to bring in ₹6.2L (₹6,19,006), 37% of the ta
 - **Type:** Renewal
 - **Who it's for:** Members expiring October and November
 - **Headline:** Pre-paid damage control. Use it within 14 days of the incident.
-- **What they get:** Renew on a 3-Month at 5% off (₹54,962) with a free festival-week freeze and 3 "damage control" bonus classes to use in the 14 days after Diwali.
-- **Price:** ₹54,962 (list ₹57,855)
+- **What they get:** Renew on a 3-Month at 10% off (₹52,070) with a free festival-week freeze and 4 "damage control" bonus classes to use in the 14 days after Diwali.
+- **Price:** ₹52,070 (list ₹57,855)
 - **When:** Renew by 24 Oct
 - **Why we're running it:** Protect renewals over Diwali and bring members back straight after.
-- **Target:** 8 sales at about ₹54,962 each, ₹4.4L (₹4,39,696) in total
+- **Target:** 8 sales at about ₹52,070 each, ₹4.2L (₹4,16,560) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** The bonus classes only work after the festival, so they bring members back in the first fortnight of November instead of drifting.
 
@@ -84,7 +84,7 @@ Together the offers are planned to bring in ₹6.2L (₹6,19,006), 37% of the ta
 - **Type:** Revenue boost
 - **Who it's for:** Members and anyone buying an Annual
 - **Headline:** Circling back on your team's mental health. Please see attached: barre.
-- **What they get:** Annual Unlimited at 18% off (₹1,79,949) with a gold-foil membership card. One day only.
+- **What they get:** Annual Unlimited at 18% off (₹1,79,949) with a gold-foil membership card, 1 private session, 4 guest passes, priority booking for the year and a Physique 57 hoodie. One day only.
 - **When:** Dhanteras (2 days before Diwali), 24 hours
 - **Why we're running it:** An auspicious-day Annual sale in the biggest festive buying moment.
 - **Rules:** No stacking with standing perks. Max effective discount 25%.

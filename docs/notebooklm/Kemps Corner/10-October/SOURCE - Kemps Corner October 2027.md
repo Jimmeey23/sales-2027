@@ -38,18 +38,18 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (5)
 
-Together the offers are planned to bring in ₹17.3L (₹17,30,342), 38% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹16.6L (₹16,63,399), 36% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 5: Mothers I'd Like to Tuck
 
 - **Type:** New clients
 - **Who it's for:** Members buying gifts; recipients new to the studio
 - **Headline:** Nothing says "I love you" like "I booked you a 7 am class".
-- **What they get:** Buy a 1-Month Unlimited gift card at ₹20,239: the buyer gets 1 bonus class, and the recipient gets a 30-minute trainer consult when they book their first class within 14 days.
-- **Price:** ₹20,239 (list ₹20,239)
+- **What they get:** Buy a 1-Month Unlimited gift card at 5% off (₹19,227): the buyer gets 1 bonus class, and the recipient gets a 30-minute trainer consult and 7 extra days on the month when they book their first class within 14 days.
+- **Price:** ₹19,227 (list ₹20,239)
 - **When:** 1 Oct–7 Nov (Diwali is 29 Oct)
 - **Why we're running it:** Turn members into recruiters through Diwali gifting.
-- **Target:** 9 sales at about ₹20,239 each, ₹1.8L (₹1,82,149) in total
+- **Target:** 9 sales at about ₹19,227 each, ₹1.7L (₹1,73,043) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** Every gift card is a new client arriving with a paid month already in hand. The consult gives the recipient a plan and a named trainer on day one.
 
@@ -71,11 +71,11 @@ Together the offers are planned to bring in ₹17.3L (₹17,30,342), 38% of the 
 - **Type:** Renewal
 - **Who it's for:** Members expiring October and November
 - **Headline:** Pre-paid damage control. Use it within 14 days of the incident.
-- **What they get:** Renew on a 3-Month at 5% off (₹54,962) with a free festival-week freeze and 3 "damage control" bonus classes to use in the 14 days after Diwali.
-- **Price:** ₹54,962 (list ₹57,855)
+- **What they get:** Renew on a 3-Month at 10% off (₹52,070) with a free festival-week freeze and 4 "damage control" bonus classes to use in the 14 days after Diwali.
+- **Price:** ₹52,070 (list ₹57,855)
 - **When:** Renew by 24 Oct
 - **Why we're running it:** Protect renewals over Diwali and bring members back straight after.
-- **Target:** 20 sales at about ₹54,962 each, ₹11L (₹10,99,245) in total
+- **Target:** 20 sales at about ₹52,070 each, ₹10.4L (₹10,41,400) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
 - **The data behind it:** The bonus classes only work after the festival, so they bring members back in the first fortnight of November instead of drifting.
 
@@ -84,20 +84,20 @@ Together the offers are planned to bring in ₹17.3L (₹17,30,342), 38% of the 
 - **Type:** Revenue boost
 - **Who it's for:** Companies, HR and founders buying for teams
 - **Headline:** Circling back on your team's mental health. Please see attached: barre.
-- **What they get:** 4-class packs at 15% off (₹6,024 each) for orders of 10 or more, plus a free team class (in studio or virtual) and a team leaderboard for the quarter.
-- **Price:** ₹6,024 (list ₹7,088)
+- **What they get:** Team 4-class packs for companies: 10–19 packs at 10% off (₹6,379 each), 20 or more at 15% off (₹6,025 each), plus a free team class (in studio or virtual) and a team leaderboard for the quarter. Any employee who finishes the pack and buys a 1-Month Unlimited within 7 days gets the standard 15% (₹17,203) with the pack price credited in full.
+- **Price:** ₹6,025 (list ₹7,088)
 - **When:** 1–25 Oct
-- **Why we're running it:** Bulk prepaid trials for new audiences.
-- **Target:** 12 sales at about ₹6,024 each, ₹72,292 in total
-- **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** Corporate packs bring in groups of new clients at once; the team leaderboard keeps them coming and surfaces the ones ready for a membership.
+- **Why we're running it:** Bulk prepaid trials for new audiences that convert into memberships.
+- **Target:** 12 sales at about ₹6,025 each, ₹72,300 in total
+- **Rules:** No stacking with standing perks. Max effective discount 25%. Pack credit applies once per employee, only to a 1-Month Unlimited bought within 7 days of their 4th class.
+- **The data behind it:** Corporate packs bring in groups of new clients at once. Tiering the discount rewards bigger orders, and crediting the pack against a 1-Month turns the employees who enjoy it into members instead of one-pack visitors.
 
 ### Offer 5 of 5: FOMO, Fatso
 
 - **Type:** Flash sale
 - **Who it's for:** Members and anyone buying an Annual
 - **Headline:** Buy gold, they said. We prefer a golden year.
-- **What they get:** Annual Unlimited at 18% off (₹1,79,949) with a gold-foil membership card. One day only.
+- **What they get:** Annual Unlimited at 18% off (₹1,79,949) with a gold-foil membership card, 1 private session, 4 guest passes, priority booking for the year and a Physique 57 hoodie. One day only.
 - **Price:** ₹1,79,949 (list ₹2,19,450)
 - **When:** Dhanteras (2 days before Diwali), 24 hours
 - **Why we're running it:** An auspicious-day Annual sale in the biggest festive buying moment.

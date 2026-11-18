@@ -12,7 +12,7 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 **Objective:** Pre-sell January and protect December renewals. At Kenkere House: Smallest month: pre-sell January.
 
-**Strategy:** December is softer than January at every studio. Sell January starts in December, give travellers a holiday freeze, and close the year with every expiring member contacted.
+**Strategy:** December is softer than January at every studio. Sell January starts in December, give travellers a holiday freeze and bonus days, and close the year with every expiring member contacted.
 
 ## The revenue target
 
@@ -38,64 +38,65 @@ This is the complete, approved sales plan for this studio and month. It has exac
 
 ## The offers (4)
 
-Together the offers are planned to bring in ₹2.6L (₹2,58,279), 30% of the target. The rest comes from full-price sales.
+Together the offers are planned to bring in ₹2.8L (₹2,81,337), 32% of the target. The rest comes from full-price sales.
 
 ### Offer 1 of 4: Naughty, New & Slightly Overweight
 
 - **Type:** New clients
 - **Who it's for:** New clients
-- **Headline:** He is checking it twice. Your form, that is.
-- **What they get:** First 1-Month Unlimited at 14% off (₹12,552), starting any day up to 15 January, plus a 30-minute alignment consult with a trainer before the first class.
-- **Price:** ₹12,552 (list ₹14,595)
-- **When:** 1–31 Dec; start any day up to 15 Jan
+- **Headline:** The Kenkere House Alibi — Buy 1 Month, Get 2 Weeks Free + Co-Conspirator Passes
+- **What they get:** Buy a Studio 1 Month Unlimited at full list price (₹14,595) between 1–31 Dec (activate any time up to 20 Jan) and get: +15 bonus days automatically added (a full Studio 6 Week Unlimited for the price of 1 month); 2 complimentary guest passes to bring a friend ("alibi") to any class; 1 private 30-min goal & form consult + 1 pair of P57 grip socks.
+- **Price:** ₹14,595 (list ₹14,595)
+- **When:** 1–31 Dec; activate any time up to 20 Jan
 - **Why we're running it:** Pre-sell January starts in December cash.
-- **Target:** 7 sales at about ₹12,552 each, ₹87,864 in total
+- **Target:** 6 sales at about ₹14,595 each, ₹87,570 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** December is the smallest month and January the strongest for starts. The alignment consult makes the first class feel personal.
+- **The data behind it:** Instead of a 15% discount, gives ₹10,000+ in perceived value (2 extra weeks + 2 guest passes + socks + consult), extends the start window to 20 Jan for post-holiday travellers, and turns every new buyer into a referral source.
 
 ### Offer 2 of 4: The Walking Red Flag
 
 - **Type:** Win-back
 - **Who it's for:** Clients lapsed 60+ days
-- **Headline:** All is forgiven. Even the classes you let expire.
-- **What they get:** Buy a 1-Month Unlimited (₹14,595) or bigger, or a 12-class pack or bigger, and up to 3 classes that expired unused in 2026 are restored. No questions asked.
+- **Headline:** The Clean Slate Amnesty — 100% Expired Credit Restoration + Bonus Class
+- **What they get:** Buy any Studio 1 Month Unlimited (₹14,595) or Studio 12 Class Package between 1–31 Dec and we will: restore ALL expired 2026 class credits (up to 5 classes); add +1 bonus class on the house if you purchase before 20 Dec; include a 14-day travel freeze so December holidays don't eat into your comeback.
 - **Price:** ₹14,595 (list ₹14,595)
-- **When:** 1–31 Dec; start any day up to 15 Jan
+- **When:** 1–31 Dec; bonus class if bought by 20 Dec
 - **Why we're running it:** Bank January comebacks in December, at full price.
 - **Target:** 3 sales at about ₹14,595 each, ₹43,785 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** Expired classes are the most common lapsed-client grievance. Restoring them costs little and gives the comeback a reason that is not a discount.
+- **The data behind it:** Raising the cap to 5 restored classes and adding a travel freeze removes the guilt and timing barriers stopping lapsed members from returning.
 
 ### Offer 3 of 4: Till Debt Do Us Part
 
 - **Type:** Renewal
 - **Who it's for:** Members expiring in December and January
-- **Headline:** Doctor's orders: rest. Then come back stronger.
-- **What they get:** Renew on a 3-Month or longer at full price (₹42,210 for a 3-Month) with a 21-day holiday freeze and 2 virtual privates for while you are away.
+- **Headline:** The Inner Circle Immunity Deal — 30-Day Freeze + 2 Guest Passes + Retail Credit
+- **What they get:** Renew early (by 22 Dec) on a Studio 3 Month Unlimited (₹42,210) or Studio Annual Unlimited at full price and receive: a 30-day "Wedding & Travel Immunity" freeze (split into up to two segments any time in Q1); 2 VIP bring-a-friend passes + 1 private 30-min session (in-studio or virtual); a ₹2,500 P57 retail/credit voucher (usable on grip socks, apparel or private sessions).
 - **Price:** ₹42,210 (list ₹42,210)
-- **When:** Renew by 20 Dec
+- **When:** Renew by 22 Dec
 - **Why we're running it:** Protect December renewals, the weakest renewal month.
 - **Target:** 3 sales at about ₹42,210 each, ₹1.3L (₹1,26,630) in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** Members leave in December because they travel. A long freeze and remote privates remove the reason.
+- **The data behind it:** Replaces 2 virtual privates (which bottleneck trainer schedules) with 1 private plus ₹2,500 credit and a flexible 30-day split freeze — fits the winter wedding/travel calendar while keeping trainer utilisation balanced.
 
 ### Offer 4 of 4: The Christmas Eve Extortion
 
 - **Type:** Flash sale
 - **Who it's for:** Everyone
-- **Headline:** Forgot a gift? So did everyone. 12 hours to save Christmas.
-- **What they get:** 1-Month Unlimited gift card at 15% off (₹12,406), delivered by WhatsApp in minutes with a printable card.
-- **When:** 24 Dec, 9 am to 9 pm (12 hours)
+- **Headline:** The Dec 24th Ransom Drop — 20% Off OR Full Price + VIP Bundle
+- **What they get:** 24 Dec only, 9 am – 9 pm via WhatsApp, capped at 30 cards. Option A: 20% off a Studio 1 Month Unlimited gift card (₹11,676, list ₹14,595). Option B: pay full price (₹14,595) and the recipient gets a Studio 6 Week Unlimited (15 bonus days) + 1 private class + P57 welcome kit.
+- **Price:** ₹11,676 (list ₹14,595)
+- **When:** 24 Dec, 9 am to 9 pm (12 hours); capped at 30 cards
 - **Why we're running it:** Capture last-minute gift buyers on the busiest gifting day.
-- **Target:** 2 sales
+- **Target:** 2 sales at about ₹11,676 each, ₹23,352 in total
 - **Rules:** No stacking with standing perks. Max effective discount 25%.
-- **The data behind it:** Late gift buyers want speed more than discount; instant delivery is the selling point.
+- **The data behind it:** Choice between a deeper one-day 20% discount and a generous 6-week VIP bundle captures both deal-hunters and luxury gift-givers.
 
 ## Week by week
 
 - **Week 1:** Pre-sell January (Naughty, New & Slightly Overweight).
-- **Week 2:** The Walking Red Flag to the lapsed list; renew-by-20-Dec calls (Till Debt Do Us Part).
-- **Week 3:** 12 Days of Barre-mas; The Class Cartel.
+- **Week 2:** The Walking Red Flag to the lapsed list; renew-by-22-Dec calls (Till Debt Do Us Part).
+- **Week 3:** 12 Days of Barre-mas.
 - **Week 4:** The Christmas Eve Extortion (24 Dec); year-end close; January trial calendar opened.
 
 ## Activation and channels
