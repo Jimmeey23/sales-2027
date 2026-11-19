@@ -8,14 +8,14 @@ export const POPUP_VENUES = ['Copper + Cloves', 'Plash Pilates'];
 // while staying far enough apart to be told apart at 6px (a dot in a list, a bar in a chart).
 // Every one carries white text at WCAG AA (≥4.5:1).
 export const LOCATION_COLORS: Record<string, string> = {
-  'Kemps Corner': '#17795e', // emerald — the flagship
+  'Kemps Corner': '#0b6e99', // cerulean — the flagship
   Bandra: '#2c5da8', // sapphire
   'Kenkere House': '#a3305f', // garnet — Bengaluru, warmer and newer
   'Pop-up': '#9c6316', // bronze — small, seasonal
 };
 // A lighter partner for each accent, for fills behind dark text and for map pins.
 export const LOCATION_SOFT: Record<string, string> = {
-  'Kemps Corner': '#e1f1ea',
+  'Kemps Corner': '#def0f7',
   Bandra: '#e3ebf7',
   'Kenkere House': '#f7e4ec',
   'Pop-up': '#f5ead9',
