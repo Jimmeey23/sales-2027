@@ -18,44 +18,46 @@
       "12": "/explainer/video/kemps-corner-12.mp4?v=9254bda7"
     },
     "bandra": {
-      "1": "/explainer/video/bandra-01.mp4?v=bfd48a80",
+      "1": "/explainer/video/bandra-01.mp4?v=4e91a742",
       "2": "/explainer/video/bandra-02.mp4?v=5f106632",
       "3": "/explainer/video/bandra-03.mp4?v=089fbfd1",
       "4": "/explainer/video/bandra-04.mp4?v=198cc930",
-      "5": "/explainer/video/bandra-05.mp4?v=51a9ccf9",
+      "5": "/explainer/video/bandra-05.mp4?v=fc943041",
       "6": "/explainer/video/bandra-06.mp4?v=4b47b3c9",
-      "7": "/explainer/video/bandra-07.mp4?v=d85ab7d8",
+      "7": "/explainer/video/bandra-07.mp4?v=f3b8937c",
       "8": "/explainer/video/bandra-08.mp4?v=79b222b2",
-      "9": "/explainer/video/bandra-09.mp4?v=e0a3cfd1",
+      "9": "/explainer/video/bandra-09.mp4?v=71879206",
       "10": "/explainer/video/bandra-10.mp4?v=d9fe26b9",
       "11": "/explainer/video/bandra-11.mp4?v=279a1924",
-      "12": "/explainer/video/bandra-12.mp4?v=9217c6a4"
+      "12": "/explainer/video/bandra-12.mp4?v=29e3429a"
     },
     "kenkere-house": {
-      "1": "/explainer/video/kenkere-house-01.mp4?v=48dcc22c",
+      "1": "/explainer/video/kenkere-house-01.mp4?v=bec0f3c4",
       "2": "/explainer/video/kenkere-house-02.mp4?v=6c55f441",
       "3": "/explainer/video/kenkere-house-03.mp4?v=10346f52",
       "4": "/explainer/video/kenkere-house-04.mp4?v=91c17af0",
-      "5": "/explainer/video/kenkere-house-05.mp4?v=29abc597",
+      "5": "/explainer/video/kenkere-house-05.mp4?v=0e273b62",
       "6": "/explainer/video/kenkere-house-06.mp4?v=2b25ce68",
-      "7": "/explainer/video/kenkere-house-07.mp4?v=90820ba8",
-      "9": "/explainer/video/kenkere-house-09.mp4?v=91279bfe",
-      "10": "/explainer/video/kenkere-house-10.mp4?v=8c7353a9",
-      "11": "/explainer/video/kenkere-house-11.mp4?v=d32bd76e",
-      "12": "/explainer/video/kenkere-house-12.mp4?v=91dcbcf9"
+      "7": "/explainer/video/kenkere-house-07.mp4?v=53890bf7",
+      "9": "/explainer/video/kenkere-house-09.mp4?v=56172613",
+      "10": "/explainer/video/kenkere-house-10.mp4?v=cd98d1a0",
+      "11": "/explainer/video/kenkere-house-11.mp4?v=02b1715e",
+      "12": "/explainer/video/kenkere-house-12.mp4?v=112ebaa2",
+      "8": "/explainer/video/kenkere-house-08.mp4?v=d4ddf0c5"
     },
     "pop-up": {
-      "1": "/explainer/video/pop-up-01.mp4?v=e03370e7",
-      "2": "/explainer/video/pop-up-02.mp4?v=1008a215",
-      "3": "/explainer/video/pop-up-03.mp4?v=7f0c4b31",
+      "1": "/explainer/video/pop-up-01.mp4?v=9e59694a",
+      "2": "/explainer/video/pop-up-02.mp4?v=77922da1",
+      "3": "/explainer/video/pop-up-03.mp4?v=f537dbd2",
       "4": "/explainer/video/pop-up-04.mp4?v=7e6d03c3",
-      "5": "/explainer/video/pop-up-05.mp4?v=4b647b02",
-      "6": "/explainer/video/pop-up-06.mp4?v=5ce1f229",
-      "7": "/explainer/video/pop-up-07.mp4?v=d0c61332",
-      "9": "/explainer/video/pop-up-09.mp4?v=b93c1758",
-      "10": "/explainer/video/pop-up-10.mp4?v=2bc8dd4a",
-      "11": "/explainer/video/pop-up-11.mp4?v=d4fa6024",
-      "12": "/explainer/video/pop-up-12.mp4?v=3ed17a5d"
+      "5": "/explainer/video/pop-up-05.mp4?v=4a74a9c5",
+      "6": "/explainer/video/pop-up-06.mp4?v=7d0f79cc",
+      "7": "/explainer/video/pop-up-07.mp4?v=733856c7",
+      "8": "/explainer/video/pop-up-08.mp4?v=4e709b32",
+      "9": "/explainer/video/pop-up-09.mp4?v=d0743870",
+      "10": "/explainer/video/pop-up-10.mp4?v=0a2454ff",
+      "11": "/explainer/video/pop-up-11.mp4?v=4541aefd",
+      "12": "/explainer/video/pop-up-12.mp4?v=ed0b1ebe"
     }
   }
 }

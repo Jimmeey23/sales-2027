@@ -95,13 +95,13 @@ export default function SalesPlan() {
       {year === 2027 && (
         <details className="ws-recap">
           <summary>
-            <span className="ws-recap-eyebrow">Watch · 3 min</span>
+            <span className="ws-recap-eyebrow">Watch · 14 min</span>
             <span className="ws-recap-title">2027 sales plan recap: January to August</span>
-            <span className="ws-recap-sub">Theme and headline offers for each month, all studios</span>
+            <span className="ws-recap-sub">Every month's theme and every offer, with what clients get</span>
           </summary>
           <video
             className="ws-recap-video"
-            src="/explainer/video/recap-jan-aug-2027.mp4?v=20261118"
+            src="/explainer/video/recap-jan-aug-2027.mp4?v=20261119"
             controls
             playsInline
             preload="none"
