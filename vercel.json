@@ -17,7 +17,7 @@
       "destination": "/api"
     },
     {
-      "source": "/((?!api/|assets/).*)",
+      "source": "/((?!api/|assets/|explainer/).*)",
       "destination": "/index.html"
     }
   ]

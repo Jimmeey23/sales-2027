@@ -17,6 +17,7 @@
    finished — whichever is later. A slow voice is never cut off; a fast one never leaves a
    chart half-drawn. */
 
+import { videoUrl as resolveVideo } from '../lib/videoUrl';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowRight,
@@ -78,7 +79,7 @@ export default function MonthExplainer(props: ExplainerProps) {
   if (videoUrl) {
     return (
       <div className="explainer ex-video-host" role="dialog" aria-modal="true" aria-label={`${script.title} — explainer video`}>
-        <video className="ex-video" src={videoUrl} controls autoPlay playsInline preload="auto" aria-label={script.title} />
+        <video className="ex-video" src={resolveVideo(videoUrl)} controls autoPlay playsInline preload="auto" aria-label={script.title} />
         <button type="button" className="ex-icon ex-video-close" onClick={onClose} aria-label="Close the explainer">
           <X size={17} />
         </button>

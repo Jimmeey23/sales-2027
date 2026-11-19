@@ -1,4 +1,5 @@
 import React from 'react';
+import { videoUrl } from '../lib/videoUrl';
 import { useParams } from 'react-router-dom';
 import { Download, Upload } from 'lucide-react';
 import { useApp } from '../App';
@@ -101,7 +102,7 @@ export default function SalesPlan() {
           </summary>
           <video
             className="ws-recap-video"
-            src="/explainer/video/recap-jan-aug-2027.mp4?v=20261119"
+            src={videoUrl('/explainer/video/recap-jan-aug-2027.mp4?v=20261119')}
             controls
             playsInline
             preload="none"
